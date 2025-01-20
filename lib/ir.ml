@@ -3,8 +3,8 @@ open Sexplib.Std
 type t = decl list [@@deriving sexp]
 
 and decl =
-  | NonRec of name * expr
-  | Rec of name * expr
+  | NonRec of name * name list * expr
+  | Rec of name * name list * expr
   | TypeDecl of name * typ_decl
 [@@deriving sexp]
 
@@ -23,7 +23,7 @@ and expr =
   | Var of name
 [@@deriving sexp]
 
-and case = Case of pattern * expr list [@@deriving sexp]
+and case = Case of pattern * expr [@@deriving sexp]
 and pattern = Pattern of name * name list [@@deriving sexp]
 and name = string [@@deriving sexp]
 
@@ -74,7 +74,43 @@ and decl_of_item item : decl list =
                constr_list ))
       tuple_list
   | Typedtree.Tstr_value (rec_flag, bindings) ->
-    ignore (rec_flag, bindings);
-    [ NonRec ("", Int 0) ]
+    ignore rec_flag;
+    let fun_decl =
+      List.map
+        (fun binding ->
+           let fname =
+             match binding.Typedtree.vb_pat.pat_desc with
+             | Tpat_var (name, _, _) -> Ident.name name
+             | Tpat_alias (_, name, _, _) -> Ident.name name
+             | _ -> failwith "Not implemented"
+           in
+           let args = get_args binding.Typedtree.vb_expr.exp_desc in
+           let fun_body = get_fun_body binding.Typedtree.vb_expr.exp_desc in
+           fname, args, fun_body)
+        bindings
+    in
+    (match rec_flag with
+     | Asttypes.Nonrecursive ->
+       List.map (fun (fname, args, body) -> NonRec (fname, args, body)) fun_decl
+     | Asttypes.Recursive ->
+       List.map (fun (fname, args, body) -> Rec (fname, args, body)) fun_decl)
+  | _ -> failwith "Not implemented"
+
+and get_args expr_desc =
+  match expr_desc with
+  | Texp_function (params, _) ->
+    List.map (fun param -> Ident.name param.Typedtree.fp_param) params
+  | _ -> failwith "Not implemented"
+
+and get_fun_body expr_desc =
+  match expr_desc with
+  | Typedtree.Texp_function (_, body) ->
+    (match body with
+     | Tfunction_body expr -> get_expr expr
+     | _ -> failwith "Not implemented")
+  | _ -> failwith "Not implemented"
+
+and get_expr expr =
+  match expr.exp_desc with
   | _ -> failwith "Not implemented"
 ;;
