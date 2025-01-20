@@ -44,3 +44,8 @@ let string_of_theorem t = t |> sexp_of_theorem |> Sexplib.Sexp.to_string
 let string_of_tactic t = t |> sexp_of_tactic |> Sexplib.Sexp.to_string
 let string_of_prop p = p |> sexp_of_prop |> Sexplib.Sexp.to_string
 let string_of_expr e = e |> sexp_of_expr |> Sexplib.Sexp.to_string
+
+let mk_theorem program_a program_b func_name =
+  ignore (program_a, program_b, func_name);
+  []
+;;
