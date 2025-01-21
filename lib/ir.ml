@@ -6,6 +6,7 @@ and decl =
   | NonRec of name * name list * expr
   | Rec of name * name list * expr
   | TypeDecl of name * typ_decl
+  | TypeAlias of name * name
 [@@deriving sexp]
 
 and typ_decl = (const * name list) list [@@deriving sexp]
