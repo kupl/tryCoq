@@ -13,7 +13,7 @@ and const = Constructor of name [@@deriving sexp]
 
 and expr =
   | Match of expr * case list
-  | LetIn of name * expr * expr
+  | LetIn of (name * expr) list * expr
   | IfthenElse of expr * expr * expr
   | Call of name * expr list
   | Int of int
@@ -162,6 +162,20 @@ and get_expr expr =
      | Const_char char -> String (String.make 1 char)
      | Const_string (str, _, _) -> String str
      | _ -> failwith "Not implemented")
+  | Texp_let (_, bindings, body) ->
+    LetIn
+      ( List.map
+          (fun binding ->
+             let var_name =
+               match binding.Typedtree.vb_pat.pat_desc with
+               | Tpat_var (name, _, _) -> Ident.name name
+               | Tpat_alias (_, name, _, _) -> Ident.name name
+               | _ -> failwith "Not implemented"
+             in
+             let var_body = get_expr binding.Typedtree.vb_expr in
+             var_name, var_body)
+          bindings
+      , get_expr body )
   | _ -> failwith "Not implemented"
 
 and get_pattern : type k. k Typedtree.general_pattern -> pattern =
