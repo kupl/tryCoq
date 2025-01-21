@@ -21,6 +21,7 @@ and expr =
   | Bool of bool
   | List of expr list
   | Var of name
+  | Tuple of expr list
 [@@deriving sexp]
 
 and case = Case of pattern * expr [@@deriving sexp]
@@ -28,7 +29,9 @@ and case = Case of pattern * expr [@@deriving sexp]
 and pattern =
   | Pat_Constr of name * pattern list
   | Pat_Var of name
-  | Pat_expr of expr
+  | Pat_Expr of expr
+  | Pat_Tuple of pattern list
+  | Pat_any
 [@@deriving sexp]
 
 and name = string [@@deriving sexp]
@@ -148,6 +151,17 @@ and get_expr expr =
         args
     in
     Call (fname, args')
+  | Texp_ifthenelse (cond, e1, e2_opt) ->
+    (match e2_opt with
+     | Some e2 -> IfthenElse (get_expr cond, get_expr e1, get_expr e2)
+     | None -> failwith "Not implemented")
+  | Texp_tuple expr_list -> Tuple (List.map get_expr expr_list)
+  | Texp_constant constant ->
+    (match constant with
+     | Const_int i -> Int i
+     | Const_char char -> String (String.make 1 char)
+     | Const_string (str, _, _) -> String str
+     | _ -> failwith "Not implemented")
   | _ -> failwith "Not implemented"
 
 and get_pattern : type k. k Typedtree.general_pattern -> pattern =
@@ -158,7 +172,8 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
     let name = Longident.last lident_loc.txt in
     let args' = List.map (fun arg -> get_pattern arg) args in
     Pat_Constr (name, args')
-    (* pattern thinking *)
   | Tpat_var (name, _, _) -> Pat_Var (Ident.name name)
+  | Tpat_tuple patterns -> Pat_Tuple (List.map get_pattern patterns)
+  | Tpat_any -> Pat_any
   | _ -> failwith "Not implemented"
 ;;
