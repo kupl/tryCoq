@@ -15,7 +15,7 @@ and expr =
   | Match of expr * case list
   | LetIn of name * expr * expr
   | IfthenElse of expr * expr * expr
-  | Call of t * expr list
+  | Call of name * expr list
   | Int of int
   | String of string
   | Bool of bool
@@ -24,7 +24,13 @@ and expr =
 [@@deriving sexp]
 
 and case = Case of pattern * expr [@@deriving sexp]
-and pattern = Pattern of name * name list [@@deriving sexp]
+
+and pattern =
+  | Pat_Constr of name * pattern list
+  | Pat_Var of name
+  | Pat_expr of expr
+[@@deriving sexp]
+
 and name = string [@@deriving sexp]
 
 let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
@@ -112,5 +118,47 @@ and get_fun_body expr_desc =
 
 and get_expr expr =
   match expr.exp_desc with
+  | Typedtree.Texp_match (e1, cases, _, _) ->
+    let e1' = get_expr e1 in
+    let cases' =
+      List.map
+        (fun case ->
+           let pattern = get_pattern case.Typedtree.c_lhs in
+           Case (pattern, case.Typedtree.c_rhs |> get_expr))
+        cases
+    in
+    Match (e1', cases')
+  | Texp_ident (_, lident, _) -> Var (Longident.last lident.txt)
+  | Texp_construct (lidnet_loc, _, expr_list) ->
+    let name = Longident.last lidnet_loc.txt in
+    let expr_list' = List.map get_expr expr_list in
+    Call (name, expr_list')
+  | Texp_apply (func, args) ->
+    let fname =
+      match get_expr func with
+      | Var name -> name
+      | _ -> failwith "Not implemented"
+    in
+    let args' =
+      List.map
+        (fun (_, expr) ->
+           match expr with
+           | Some expr -> get_expr expr
+           | None -> failwith "Not implemented")
+        args
+    in
+    Call (fname, args')
+  | _ -> failwith "Not implemented"
+
+and get_pattern : type k. k Typedtree.general_pattern -> pattern =
+  fun pattern ->
+  match pattern.pat_desc with
+  | Tpat_value p -> (p :> Typedtree.pattern) |> get_pattern
+  | Tpat_construct (lident_loc, _, args, _) ->
+    let name = Longident.last lident_loc.txt in
+    let args' = List.map (fun arg -> get_pattern arg) args in
+    Pat_Constr (name, args')
+    (* pattern thinking *)
+  | Tpat_var (name, _, _) -> Pat_Var (Ident.name name)
   | _ -> failwith "Not implemented"
 ;;
