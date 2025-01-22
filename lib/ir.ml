@@ -43,9 +43,9 @@ let rec pp_t t : string =
      (fun decl ->
         match decl with
         | NonRec (name, args, body) ->
-          "let rec " ^ name ^ " " ^ String.concat " " args ^ " = " ^ pp_expr body
+          "let " ^ name ^ " " ^ String.concat " " args ^ " =\n" ^ pp_expr body
         | Rec (name, args, body) ->
-          "let " ^ name ^ " " ^ String.concat " " args ^ " = " ^ pp_expr body
+          "let rec " ^ name ^ " " ^ String.concat " " args ^ " =\n" ^ pp_expr body
         | TypeDecl (name, typ_decl) -> "type " ^ name ^ " = " ^ pp_typ_decl typ_decl)
      t
    |> String.concat "\n;;\n")
