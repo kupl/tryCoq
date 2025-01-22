@@ -6,7 +6,6 @@ and decl =
   | NonRec of name * name list * expr
   | Rec of name * name list * expr
   | TypeDecl of name * typ_decl
-  | TypeAlias of name * name
 [@@deriving sexp]
 
 and typ_decl = (const * name list) list [@@deriving sexp]
@@ -38,6 +37,65 @@ and pattern =
 and name = string [@@deriving sexp]
 
 let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
+
+let rec pp_t t : string =
+  (List.map
+     (fun decl ->
+        match decl with
+        | NonRec (name, args, body) ->
+          "let rec " ^ name ^ " " ^ String.concat " " args ^ " = " ^ pp_expr body
+        | Rec (name, args, body) ->
+          "let " ^ name ^ " " ^ String.concat " " args ^ " = " ^ pp_expr body
+        | TypeDecl (name, typ_decl) -> "type " ^ name ^ " = " ^ pp_typ_decl typ_decl)
+     t
+   |> String.concat "\n;;\n")
+  ^ "\n;;"
+
+and pp_expr expr =
+  match expr with
+  | Match (e1, cases) ->
+    "match " ^ pp_expr e1 ^ " with\n| " ^ String.concat "\n| " (List.map pp_case cases)
+  | LetIn (bindings, body) ->
+    "let "
+    ^ String.concat
+        " and "
+        (List.map (fun (name, body) -> name ^ " = " ^ pp_expr body) bindings)
+    ^ " in "
+    ^ pp_expr body
+  | IfthenElse (cond, e1, e2) ->
+    "if " ^ pp_expr cond ^ " then " ^ pp_expr e1 ^ " else " ^ pp_expr e2
+  | Call (name, args) -> name ^ " (" ^ String.concat " " (List.map pp_expr args) ^ ")"
+  | Int i -> string_of_int i
+  | String s -> "\"" ^ s ^ "\""
+  | Bool b -> string_of_bool b
+  | List l -> "[" ^ String.concat "; " (List.map pp_expr l) ^ "]"
+  | Var name -> name
+  | Tuple l -> "(" ^ String.concat ", " (List.map pp_expr l) ^ ")"
+
+and pp_case case =
+  match case with
+  | Case (pattern, expr) -> pp_pattern pattern ^ " -> " ^ pp_expr expr
+
+and pp_pattern pattern =
+  match pattern with
+  | Pat_Constr (name, patterns) ->
+    name ^ " " ^ String.concat " " (List.map pp_pattern patterns)
+  | Pat_Var name -> name
+  | Pat_Expr expr -> pp_expr expr
+  | Pat_Tuple patterns -> "(" ^ String.concat ", " (List.map pp_pattern patterns) ^ ")"
+  | Pat_any -> "_"
+
+and pp_typ_decl typ_decl =
+  List.map
+    (fun (const, args) ->
+       match const with
+       | Constructor name ->
+         (match args with
+          | [] -> name
+          | _ -> name ^ " of " ^ String.concat " * " args))
+    typ_decl
+  |> String.concat " | "
+;;
 
 let rec t_of_typedtree typ_tree : t =
   let items = typ_tree.Typedtree.str_items in
