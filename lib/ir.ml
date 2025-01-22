@@ -8,8 +8,8 @@ and decl =
   | TypeDecl of name * typ_decl
 [@@deriving sexp]
 
-and typ_decl = (const * name list) list [@@deriving sexp]
-and const = Constructor of name [@@deriving sexp]
+and typ_decl = (constr * name list) list [@@deriving sexp]
+and constr = Constructor of name [@@deriving sexp]
 
 and expr =
   | Match of expr * case list
@@ -249,4 +249,93 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
   | Tpat_tuple patterns -> Pat_Tuple (List.map get_pattern patterns)
   | Tpat_any -> Pat_any
   | _ -> failwith "Not implemented"
+;;
+
+let find_decl name (decls : t) =
+  List.find
+    (fun decl ->
+       match decl with
+       | NonRec (fname, _, _) -> fname = name
+       | Rec (fname, _, _) -> fname = name
+       | TypeDecl (tname, _) -> tname = name)
+    decls
+;;
+
+let get_typ_decl decl =
+  match decl with
+  | TypeDecl (_, typ_decl) -> typ_decl
+  | _ -> failwith "It is not a type declaration"
+;;
+
+let substitute_expr pred target expr_from expr_to i =
+  let rec substitute_expr' pred target expr_from expr_to cnt =
+    if i < cnt && i <> 0
+    then target, cnt
+    else if pred target expr_from
+    then if cnt = i || i = 0 then expr_to, cnt + 1 else expr_from, cnt + 1
+    else (
+      match target with
+      | Match (e1, cases) ->
+        let e1', cnt = substitute_expr' pred e1 expr_from expr_to cnt in
+        let cases', cnt =
+          List.fold_left
+            (fun (cases, cnt) case ->
+               let (Case (pattern, expr)) = case in
+               let expr', cnt = substitute_expr' pred target expr expr_to cnt in
+               cases @ [ Case (pattern, expr') ], cnt)
+            ([], cnt)
+            cases
+        in
+        Match (e1', cases'), cnt
+      | LetIn (bindings, body) ->
+        let bindings', cnt =
+          List.fold_left
+            (fun (bindings, cnt) (name, body) ->
+               let body', cnt = substitute_expr' pred body expr_from expr_to cnt in
+               bindings @ [ name, body' ], cnt)
+            ([], cnt)
+            bindings
+        in
+        let body', cnt = substitute_expr' pred body expr_from expr_to cnt in
+        LetIn (bindings', body'), cnt
+      | IfthenElse (cond, e1, e2) ->
+        let cond', cnt = substitute_expr' pred cond expr_from expr_to cnt in
+        let e1', cnt = substitute_expr' pred e1 expr_from expr_to cnt in
+        let e2', cnt = substitute_expr' pred e2 expr_from expr_to cnt in
+        IfthenElse (cond', e1', e2'), cnt
+      | Call (name, args) ->
+        let args', cnt =
+          List.fold_left
+            (fun (args, cnt) arg ->
+               let arg', cnt = substitute_expr' pred arg expr_from expr_to cnt in
+               args @ [ arg' ], cnt)
+            ([], cnt)
+            args
+        in
+        Call (name, args'), cnt
+      | Int _ | String _ | Bool _ -> target, cnt
+      | List l ->
+        let l', cnt =
+          List.fold_left
+            (fun (l, cnt) expr ->
+               let expr', cnt = substitute_expr' pred expr expr_from expr_to cnt in
+               l @ [ expr' ], cnt)
+            ([], cnt)
+            l
+        in
+        List l', cnt
+      | Var _ -> target, cnt
+      | Tuple l ->
+        let l', cnt =
+          List.fold_left
+            (fun (l, cnt) expr ->
+               let expr', cnt = substitute_expr' pred expr expr_from expr_to cnt in
+               l @ [ expr' ], cnt)
+            ([], cnt)
+            l
+        in
+        Tuple l', cnt)
+  in
+  let result, _ = substitute_expr' pred target expr_from expr_to 1 in
+  result
 ;;

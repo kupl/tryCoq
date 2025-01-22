@@ -23,6 +23,7 @@ type theorem = tactic list * goal [@@deriving sexp]
 and tactic =
   | Intro of string
   | RewriteInAt of string * string * int
+  | RewriteReverse of string * string * int
   | Induction of string
   | Case of string
   | SimplInAt of string * string * int
@@ -60,14 +61,41 @@ let apply_eq goal =
   | _ -> failwith "The goal is not an equality"
 ;;
 
-let apply_induction name facts goal =
-  ignore name;
-  ignore facts;
-  ignore goal;
-  failwith "Not implemented"
+let apply_induction env name facts goal =
+  match goal with
+  | Forall (var, typ, goal) ->
+    if name = var
+    then (
+      let typ_name =
+        match typ with
+        | Type typ -> typ
+        | _ -> failwith "not implemented"
+      in
+      let decl =
+        try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+        | _ -> failwith "There is no such variable"
+      in
+      List.map
+        (fun (constr, arg_types) ->
+           let new_facts = [ var, Type typ_name ] in
+           (* have to implement *)
+           ignore (constr, arg_types);
+           facts @ new_facts, goal)
+        decl)
+    else failwith "Not implemented"
+  | _ -> failwith "not implemented"
 ;;
 
 let apply_rewrite facts goal fact target i =
+  ignore facts;
+  ignore goal;
+  ignore fact;
+  ignore target;
+  ignore i;
+  failwith "Not implemented"
+;;
+
+let apply_rewrite_reverse facts goal fact target i =
   ignore facts;
   ignore goal;
   ignore fact;
@@ -83,7 +111,8 @@ let apply_case name facts goal =
   failwith "Not implemented"
 ;;
 
-let apply_simpl facts goal fact target i =
+let apply_simpl env facts goal fact target i =
+  ignore env;
   ignore facts;
   ignore goal;
   ignore fact;
@@ -98,9 +127,11 @@ let apply_tactic t env tactic : t =
   match tactic with
   | Intro name -> apply_intro name facts goal :: List.tl t
   | RewriteInAt (fact, target, i) -> apply_rewrite facts goal fact target i @ List.tl t
-  | Induction name -> apply_induction name facts goal @ List.tl t
+  | RewriteReverse (fact, target, i) ->
+    apply_rewrite_reverse facts goal fact target i @ List.tl t
+  | Induction name -> apply_induction env name facts goal @ List.tl t
   | Case name -> apply_case name facts goal @ List.tl t
-  | SimplInAt (fact, target, i) -> apply_simpl facts goal fact target i :: List.tl t
+  | SimplInAt (fact, target, i) -> apply_simpl env facts goal fact target i :: List.tl t
   | Reflexivity -> apply_eq goal @ List.tl t
 ;;
 
@@ -131,6 +162,8 @@ let pp_tactic tactic =
   | Intro name -> "intro " ^ name
   | RewriteInAt (fact, goal, i) ->
     "rewrite " ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
+  | RewriteReverse (fact, goal, i) ->
+    "rewrite <-" ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
   | Induction name -> "induction " ^ name
   | Case name -> "case " ^ name
   | SimplInAt (fact, goal, i) ->
@@ -152,14 +185,40 @@ let pp_t (t : t) =
   |> String.concat "\n\n"
 ;;
 
+let substitute_var target var_from var_to i =
+  Ir.substitute_expr
+    (fun var_from after ->
+       match var_from, after with
+       | Var v1, Var v2 -> v1 = v2
+       | _ -> false)
+    target
+    var_from
+    var_to
+    i
+;;
+
 let mk_proof program_a program_b func_name =
   (* dummy *)
   let env = program_a @ program_b in
   ignore func_name;
   ignore program_a;
   ignore program_b;
-  let goal = Forall ("x", Type "nat", Forall ("y", Type "nat", Eq (Var "x", Var "x"))) in
-  List.fold_left (fun t tactic -> apply_tactic t env tactic) [ [], goal ] [ Reflexivity ]
+  let goal =
+    Forall
+      ( "x"
+      , Type "nat"
+      , Forall
+          ( "y"
+          , Type "nat"
+          , Eq
+              ( substitute_var
+                  (Call ("natadd", [ Var "x"; Var "x" ]))
+                  (Var "x")
+                  (Var "y")
+                  1
+              , Var "x" ) ) )
+  in
+  List.fold_left (fun t tactic -> apply_tactic t env tactic) [ [], goal ] []
   |> pp_t
   |> print_endline
 ;;
