@@ -336,6 +336,16 @@ let substitute_expr pred target expr_from expr_to i =
         in
         Tuple l', cnt)
   in
-  let result, _ = substitute_expr' pred target expr_from expr_to 1 in
-  result
+  substitute_expr' pred target expr_from expr_to 1
+;;
+
+let rec is_equal_expr e1 e2 =
+  match e1, e2 with
+  | Int i1, Int i2 -> i1 = i2
+  | String s1, String s2 -> s1 = s2
+  | Bool b1, Bool b2 -> b1 = b2
+  | List l1, List l2 -> List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) l1 l2
+  | Var v1, Var v2 -> v1 = v2
+  | Tuple l1, Tuple l2 -> List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) l1 l2
+  | _ -> false
 ;;
