@@ -26,7 +26,8 @@ and tactic =
   | RewriteReverse of string * string * int
   | Induction of string
   | StrongInduction of string
-  | Case of string
+  | Destruct of string
+  | Case of prop
   | SimplInAt of string * string * int
   | Reflexivity
 [@@deriving sexp]
@@ -258,7 +259,6 @@ let apply_induction env name facts goal : t =
            let inductive_case =
              match constr with
              | Ir.Constructor constr -> Ir.Call (constr, new_args)
-             (* need to be generate free variable *)
            in
            let ihs =
              List.map
@@ -271,7 +271,6 @@ let apply_induction env name facts goal : t =
                       Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
                       arg
                       0 ))
-               (* need to be substitue to above variable *)
                new_rec_args
            in
            let new_facts =
@@ -307,14 +306,6 @@ let apply_induction env name facts goal : t =
            facts @ new_facts, new_goal)
       decl
   | _ -> failwith "not implemented"
-;;
-
-let apply_strong_induction env name facts goal =
-  ignore env;
-  ignore name;
-  ignore facts;
-  ignore goal;
-  failwith "Not implemented"
 ;;
 
 let rec forall_target var_list target source =
@@ -441,12 +432,15 @@ let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
 
 let apply_rewrite_reverse facts goal fact_label target_label i =
   let source = List.assoc fact_label facts in
-  let var_list, expr_from, expr_to =
+  let cond_list, var_list, expr_from, expr_to =
     match source with
-    | Eq (lhs, rhs) -> [], rhs, lhs
-    | Forall (var_list, Eq (lhs, rhs)) -> var_list, rhs, lhs
+    | Eq (lhs, rhs) -> [], [], rhs, lhs
+    | Forall (var_list, Eq (lhs, rhs)) -> [], var_list, rhs, lhs
+    | Imply (cond_list, Eq (lhs, rhs)) -> cond_list, [], rhs, lhs
+    | Forall (var_list, Imply (cond_list, Eq (lhs, rhs))) -> cond_list, var_list, rhs, lhs
     | _ -> failwith "Not rewritable"
   in
+  (* we have to consider substitute changed variable also must be changed in cond_list *)
   match target_label with
   | "goal" ->
     let new_goal =
@@ -458,6 +452,7 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
         expr_to
         i
     in
+    let _ = cond_list in
     [ facts, new_goal ]
   | _ ->
     let target_fact = List.assoc target_label facts in
@@ -478,8 +473,16 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
     [ new_facts, goal ]
 ;;
 
-let apply_case name facts goal =
+let apply_strong_induction env name facts goal =
+  ignore env;
   ignore name;
+  ignore facts;
+  ignore goal;
+  failwith "Not implemented"
+;;
+
+let apply_case prop facts goal =
+  ignore prop;
   ignore facts;
   ignore goal;
   failwith "Not implemented"
@@ -495,6 +498,148 @@ let apply_simpl env facts goal fact target i =
   failwith "Not implemented"
 ;;
 
+let rec get_type_in_prop name prop =
+  match prop with
+  | Eq (e1, e2) ->
+    (match Ir.get_type_in_expr name e1 with
+     | Some typ -> Some typ
+     | None -> Ir.get_type_in_expr name e2)
+  | Le (e1, e2) ->
+    (match Ir.get_type_in_expr name e1 with
+     | Some typ -> Some typ
+     | None -> Ir.get_type_in_expr name e2)
+  | Lt (e1, e2) ->
+    (match Ir.get_type_in_expr name e1 with
+     | Some typ -> Some typ
+     | None -> Ir.get_type_in_expr name e2)
+  | And (p1, p2) ->
+    (match get_type_in_prop name p1 with
+     | Some typ -> Some typ
+     | None -> get_type_in_prop name p2)
+  | Or (p1, p2) ->
+    (match get_type_in_prop name p1 with
+     | Some typ -> Some typ
+     | None -> get_type_in_prop name p2)
+  | Not p -> get_type_in_prop name p
+  | Forall (var_list, p) ->
+    if List.exists (fun (name', _) -> name = name') var_list
+    then None
+    else get_type_in_prop name p
+  | Imply (cond_list, p2) ->
+    List.fold_left
+      (fun acc cond ->
+         match acc with
+         | Some _ -> acc
+         | None -> get_type_in_prop name cond)
+      None
+      (cond_list @ [ p2 ])
+  | Type typ -> Some (Ir.typ_of_string typ)
+;;
+
+let apply_destruct env name facts goal =
+  let typ_name =
+    match get_type_in_prop name goal with
+    | Some typ -> typ |> Ir.pp_typ
+    | _ -> failwith "there is no such variable"
+  in
+  let decl =
+    try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+    | _ -> failwith "There is no such type"
+  in
+  List.map
+    (fun (constr, arg_types) ->
+       let rec_args = List.filter (fun arg -> arg = typ_name) arg_types in
+       match rec_args with
+       | [] ->
+         let base_case =
+           match constr with
+           | Ir.Constructor constr ->
+             Ir.Call
+               ( constr
+               , List.map
+                   (fun arg ->
+                      { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
+                      ; Ir.typ = Ir.typ_of_string arg
+                      })
+                   arg_types )
+         in
+         let new_facts =
+           [ ( "Base" ^ string_of_int (counter ())
+             , Eq
+                 ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                 , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
+           ]
+         in
+         let new_goal =
+           substitute_expr_in_prop
+             Ir.is_equal_expr
+             (fun _ _ expr_to -> expr_to)
+             goal
+             Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+             Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+             0
+         in
+         let facts =
+           List.map
+             (fun (name, prop) ->
+                ( name
+                , substitute_expr_in_prop
+                    Ir.is_equal_expr
+                    (fun _ _ expr_to -> expr_to)
+                    prop
+                    Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                    Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+                    0 ))
+             facts
+         in
+         facts @ new_facts, new_goal
+       | _ ->
+         let new_args =
+           List.map
+             (fun arg ->
+                Ir.
+                  { desc = Var (arg ^ string_of_int (counter ()))
+                  ; typ = Ir.typ_of_string arg
+                  })
+             arg_types
+         in
+         let inductive_case =
+           match constr with
+           | Ir.Constructor constr -> Ir.Call (constr, new_args)
+         in
+         let new_facts =
+           [ ( "Inductive" ^ string_of_int (counter ())
+             , Eq
+                 ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                 , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
+           ]
+         in
+         let new_goal =
+           substitute_expr_in_prop
+             Ir.is_equal_expr
+             (fun _ _ expr_to -> expr_to)
+             goal
+             Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+             Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+             0
+         in
+         let facts =
+           List.map
+             (fun (name, prop) ->
+                ( name
+                , substitute_expr_in_prop
+                    Ir.is_equal_expr
+                    (fun _ _ expr_to -> expr_to)
+                    prop
+                    Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                    Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+                    0 ))
+             facts
+         in
+         facts @ new_facts, new_goal)
+    decl
+;;
+
 let apply_tactic t env tactic : t =
   ignore env;
   let facts, goal = List.hd t in
@@ -506,7 +651,8 @@ let apply_tactic t env tactic : t =
     apply_rewrite_reverse facts goal fact target_label i @ List.tl t
   | Induction name -> apply_induction env name facts goal @ List.tl t
   | StrongInduction name -> apply_strong_induction env name facts goal @ List.tl t
-  | Case name -> apply_case name facts goal @ List.tl t
+  | Destruct name -> apply_destruct env name facts goal @ List.tl t
+  | Case prop -> apply_case prop facts goal @ List.tl t
   | SimplInAt (fact, target, i) -> apply_simpl env facts goal fact target i :: List.tl t
   | Reflexivity -> apply_eq goal @ List.tl t
 ;;
@@ -550,7 +696,8 @@ let pp_tactic tactic =
     "rewrite <-" ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
   | Induction name -> "induction " ^ name
   | StrongInduction name -> "strong induction " ^ name
-  | Case name -> "case " ^ name
+  | Destruct name -> "destruct " ^ name
+  | Case prop -> "case " ^ pp_prop prop
   | SimplInAt (fact, goal, i) ->
     "simpl " ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
   | Reflexivity -> "reflexivity"
@@ -615,7 +762,7 @@ let mk_proof program_a program_b func_name =
                               , [ { desc = Var "n"; typ = Ir.typ_of_string "nat" } ] )
                         ; typ = Ir.typ_of_string "nat"
                         }
-                      ; { desc = Var "n"; typ = Ir.typ_of_string "nat" }
+                      ; { desc = Var "n1"; typ = Ir.typ_of_string "nat" }
                       ] )
               ; typ = Ir.typ_of_string "nat"
               }
@@ -637,7 +784,7 @@ let mk_proof program_a program_b func_name =
   List.fold_left
     (fun t tactic -> apply_tactic t env tactic)
     [ facts, goal ]
-    [ Induction "n" ]
+    [ Destruct "n1" ]
   |> pp_t
   |> print_endline
 ;;

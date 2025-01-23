@@ -80,7 +80,10 @@ and pp_expr expr =
     ^ pp_expr body
   | IfthenElse (cond, e1, e2) ->
     "if " ^ pp_expr cond ^ " then " ^ pp_expr e1 ^ " else " ^ pp_expr e2
-  | Call (name, args) -> name ^ " (" ^ String.concat " " (List.map pp_expr args) ^ ")"
+  | Call (name, args) ->
+    (match args with
+     | [] -> name
+     | _ -> name ^ " (" ^ String.concat " " (List.map pp_expr args) ^ ")")
   | Int i -> string_of_int i
   | String s -> "\"" ^ s ^ "\""
   | Bool b -> string_of_bool b
@@ -435,4 +438,67 @@ and is_equal_pattern p1 p2 =
     List.for_all2 (fun p1 p2 -> is_equal_pattern p1 p2) l1 l2
   | Pat_any, Pat_any -> true
   | _ -> false
+;;
+
+let rec get_type_in_expr name expr =
+  match expr.desc with
+  | Var var -> if var = name then Some expr.typ else None
+  | Call (_, args) ->
+    List.fold_left
+      (fun acc arg ->
+         match acc with
+         | Some _ -> acc
+         | None -> get_type_in_expr name arg)
+      None
+      args
+  | Match (e, cases) ->
+    let acc = get_type_in_expr name e in
+    List.fold_left
+      (fun acc (Case (_, e)) ->
+         match acc with
+         | Some _ -> acc
+         | None -> get_type_in_expr name e)
+      acc
+      cases
+  | LetIn (let_list, e) ->
+    let acc =
+      List.fold_left
+        (fun acc (_, e') ->
+           match acc with
+           | Some _ -> acc
+           | None -> get_type_in_expr name e')
+        None
+        let_list
+    in
+    (match acc with
+     | Some _ -> acc
+     | None -> get_type_in_expr name e)
+  | IfthenElse (e1, e2, e3) ->
+    let acc = get_type_in_expr name e1 in
+    (match acc with
+     | Some _ -> acc
+     | None ->
+       let acc = get_type_in_expr name e2 in
+       (match acc with
+        | Some _ -> acc
+        | None -> get_type_in_expr name e3))
+  | List lst ->
+    List.fold_left
+      (fun acc e ->
+         match acc with
+         | Some _ -> acc
+         | None -> get_type_in_expr name e)
+      None
+      lst
+  | Tuple lst ->
+    List.fold_left
+      (fun acc e ->
+         match acc with
+         | Some _ -> acc
+         | None -> get_type_in_expr name e)
+      None
+      lst
+  | Int _ -> Some (typ_of_string "int")
+  | Bool _ -> Some (typ_of_string "bool")
+  | String _ -> Some (typ_of_string "string")
 ;;
