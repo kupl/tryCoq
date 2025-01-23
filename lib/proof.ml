@@ -38,6 +38,29 @@ let range start stop =
   range' start []
 ;;
 
+let make_counter () =
+  let count = ref 0 in
+  fun () ->
+    incr count;
+    !count
+;;
+
+let counter = make_counter ()
+
+let partition_and_transform (pred : 'a -> bool) (transform : 'a -> 'b) (lst : 'a list)
+  : 'b list * 'b list
+  =
+  let rec aux acc1 acc2 = function
+    | [] -> List.rev acc1, List.rev acc2 (* 결과 반환 *)
+    | x :: xs ->
+      let transformed = transform x in
+      if pred x
+      then aux (transformed :: acc1) acc2 xs (* 조건 만족 -> acc1에 추가 *)
+      else aux (transformed :: acc1) (transformed :: acc2) xs
+  in
+  aux [] [] lst
+;;
+
 let substitute_expr_in_expr pred convert target expr_from expr_to i =
   Ir.substitute_expr pred convert target expr_from expr_to i
 ;;
@@ -186,11 +209,13 @@ let apply_induction env name facts goal : t =
                  ( constr
                  , List.map
                      (fun arg ->
-                        { Ir.desc = Ir.Var (arg ^ "_"); Ir.typ = Ir.typ_of_string arg })
+                        { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
+                        ; Ir.typ = Ir.typ_of_string arg
+                        })
                      arg_types )
            in
            let new_facts =
-             [ ( "asdf"
+             [ ( "Base" ^ string_of_int (counter ())
                , Eq
                    ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
                    , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
@@ -220,34 +245,38 @@ let apply_induction env name facts goal : t =
            in
            facts @ new_facts, new_goal
          | _ ->
+           let new_args, new_rec_args =
+             partition_and_transform
+               (fun arg -> List.mem arg rec_args)
+               (fun arg ->
+                  Ir.
+                    { desc = Var (arg ^ string_of_int (counter ()))
+                    ; typ = Ir.typ_of_string arg
+                    })
+               arg_types
+           in
            let inductive_case =
              match constr with
-             | Ir.Constructor constr ->
-               Ir.Call
-                 ( constr
-                 , List.map
-                     (fun arg ->
-                        Ir.{ desc = Var (arg ^ "_"); typ = Ir.typ_of_string arg })
-                     arg_types )
+             | Ir.Constructor constr -> Ir.Call (constr, new_args)
              (* need to be generate free variable *)
            in
            let ihs =
              List.map
                (fun arg ->
-                  ( "IH"
+                  ( "IH" ^ string_of_int (counter ())
                   , substitute_expr_in_prop
                       Ir.is_equal_expr
                       (fun _ _ expr_to -> expr_to)
                       goal
                       Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                      Ir.{ desc = Var (arg ^ "_"); typ = Ir.typ_of_string typ_name }
+                      arg
                       0 ))
                (* need to be substitue to above variable *)
-               rec_args
+               new_rec_args
            in
            let new_facts =
              ihs
-             @ [ ( "asdf"
+             @ [ ( "Inductive" ^ string_of_int (counter ())
                  , Eq
                      ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
                      , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
@@ -369,12 +398,15 @@ let convert_in_rewrite target expr_from expr_to =
 
 let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
   let source = List.assoc fact_label facts in
-  let var_list, expr_from, expr_to =
+  let cond_list, var_list, expr_from, expr_to =
     match source with
-    | Eq (lhs, rhs) -> [], lhs, rhs
-    | Forall (var_list, Eq (lhs, rhs)) -> var_list, lhs, rhs
+    | Eq (lhs, rhs) -> [], [], lhs, rhs
+    | Forall (var_list, Eq (lhs, rhs)) -> [], var_list, lhs, rhs
+    | Imply (cond_list, Eq (lhs, rhs)) -> cond_list, [], lhs, rhs
+    | Forall (var_list, Imply (cond_list, Eq (lhs, rhs))) -> cond_list, var_list, lhs, rhs
     | _ -> failwith "Not rewritable"
   in
+  (* we have to consider substitute changed variable also must be changed in cond_list *)
   match target_label with
   | "goal" ->
     let new_goal =
@@ -386,6 +418,7 @@ let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
         expr_to
         i
     in
+    let _ = cond_list in
     [ facts, new_goal ]
   | _ ->
     let target_fact = List.assoc target_label facts in
@@ -569,36 +602,42 @@ let mk_proof program_a program_b func_name =
     ]
   in
   let goal =
-    Eq
-      ( Ir.
-          { desc =
-              Call
-                ( "natadd"
-                , [ { desc =
-                        Call ("SUCC", [ { desc = Var "n"; typ = Ir.typ_of_string "nat" } ])
-                    ; typ = Ir.typ_of_string "nat"
-                    }
-                  ; { desc = Var "n"; typ = Ir.typ_of_string "nat" }
-                  ] )
-          ; typ = Ir.typ_of_string "nat"
-          }
-      , Ir.
-          { desc =
-              Call
-                ( "natadd"
-                , [ { desc = Var "n"; typ = Ir.typ_of_string "nat" }
-                  ; { desc =
-                        Call ("SUCC", [ { desc = Var "n"; typ = Ir.typ_of_string "nat" } ])
-                    ; typ = Ir.typ_of_string "nat"
-                    }
-                  ] )
-          ; typ = Ir.typ_of_string "nat"
-          } )
+    Forall
+      ( [ "n", Type "nat" ]
+      , Eq
+          ( Ir.
+              { desc =
+                  Call
+                    ( "natadd"
+                    , [ { desc =
+                            Call
+                              ( "SUCC"
+                              , [ { desc = Var "n"; typ = Ir.typ_of_string "nat" } ] )
+                        ; typ = Ir.typ_of_string "nat"
+                        }
+                      ; { desc = Var "n"; typ = Ir.typ_of_string "nat" }
+                      ] )
+              ; typ = Ir.typ_of_string "nat"
+              }
+          , Ir.
+              { desc =
+                  Call
+                    ( "natadd"
+                    , [ { desc = Var "n"; typ = Ir.typ_of_string "nat" }
+                      ; { desc =
+                            Call
+                              ( "SUCC"
+                              , [ { desc = Var "n"; typ = Ir.typ_of_string "nat" } ] )
+                        ; typ = Ir.typ_of_string "nat"
+                        }
+                      ] )
+              ; typ = Ir.typ_of_string "nat"
+              } ) )
   in
   List.fold_left
     (fun t tactic -> apply_tactic t env tactic)
     [ facts, goal ]
-    [ RewriteInAt ("H1", "goal", 0); Reflexivity ]
+    [ Induction "n" ]
   |> pp_t
   |> print_endline
 ;;

@@ -68,28 +68,25 @@ let rec pp_t t : string =
   ^ "\n;;"
 
 and pp_expr expr =
-  let desc =
-    match expr.desc with
-    | Match (e1, cases) ->
-      "match " ^ pp_expr e1 ^ " with\n| " ^ String.concat "\n| " (List.map pp_case cases)
-    | LetIn (bindings, body) ->
-      "let "
-      ^ String.concat
-          " and "
-          (List.map (fun (name, body) -> name ^ " = " ^ pp_expr body) bindings)
-      ^ " in "
-      ^ pp_expr body
-    | IfthenElse (cond, e1, e2) ->
-      "if " ^ pp_expr cond ^ " then " ^ pp_expr e1 ^ " else " ^ pp_expr e2
-    | Call (name, args) -> name ^ " (" ^ String.concat " " (List.map pp_expr args) ^ ")"
-    | Int i -> string_of_int i
-    | String s -> "\"" ^ s ^ "\""
-    | Bool b -> string_of_bool b
-    | List l -> "[" ^ String.concat "; " (List.map pp_expr l) ^ "]"
-    | Var name -> name
-    | Tuple l -> "(" ^ String.concat ", " (List.map pp_expr l) ^ ")"
-  in
-  "(" ^ desc ^ " : " ^ pp_typ expr.typ ^ ")"
+  match expr.desc with
+  | Match (e1, cases) ->
+    "match " ^ pp_expr e1 ^ " with\n| " ^ String.concat "\n| " (List.map pp_case cases)
+  | LetIn (bindings, body) ->
+    "let "
+    ^ String.concat
+        " and "
+        (List.map (fun (name, body) -> name ^ " = " ^ pp_expr body) bindings)
+    ^ " in "
+    ^ pp_expr body
+  | IfthenElse (cond, e1, e2) ->
+    "if " ^ pp_expr cond ^ " then " ^ pp_expr e1 ^ " else " ^ pp_expr e2
+  | Call (name, args) -> name ^ " (" ^ String.concat " " (List.map pp_expr args) ^ ")"
+  | Int i -> string_of_int i
+  | String s -> "\"" ^ s ^ "\""
+  | Bool b -> string_of_bool b
+  | List l -> "[" ^ String.concat "; " (List.map pp_expr l) ^ "]"
+  | Var name -> name
+  | Tuple l -> "(" ^ String.concat ", " (List.map pp_expr l) ^ ")"
 
 and pp_case case =
   match case with
