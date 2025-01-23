@@ -136,14 +136,35 @@ let apply_induction env name facts goal : t =
            let base_case =
              match constr with
              | Ir.Constructor constr ->
-               Ir.Call (constr, List.map (fun arg -> Ir.Var (arg ^ "_")) arg_types)
+               Ir.Call
+                 ( constr
+                 , List.map
+                     (fun arg -> { Ir.desc = Ir.Var (arg ^ "_"); Ir.typ = Tany })
+                     arg_types )
            in
-           let new_facts = [ "asdf", Eq (Var name, base_case) ] in
-           let new_goal = substitute_expr_in_prop goal (Var name) base_case 0 in
+           let new_facts =
+             [ ( "asdf"
+               , Eq
+                   ( Ir.{ desc = Var name; typ = Tany }
+                   , Ir.{ desc = base_case; typ = Tany } ) )
+             ]
+           in
+           let new_goal =
+             substitute_expr_in_prop
+               goal
+               Ir.{ desc = Var name; typ = Tany }
+               Ir.{ desc = base_case; typ = Tany }
+               0
+           in
            let facts =
              List.map
                (fun (name, prop) ->
-                  name, substitute_expr_in_prop prop (Var name) base_case 0)
+                  ( name
+                  , substitute_expr_in_prop
+                      prop
+                      Ir.{ desc = Var name; typ = Tany }
+                      Ir.{ desc = base_case; typ = Tany }
+                      0 ))
                facts
            in
            facts @ new_facts, new_goal
@@ -151,22 +172,49 @@ let apply_induction env name facts goal : t =
            let inductive_case =
              match constr with
              | Ir.Constructor constr ->
-               Ir.Call (constr, List.map (fun arg -> Ir.Var (arg ^ "_")) arg_types)
+               Ir.Call
+                 ( constr
+                 , List.map
+                     (fun arg -> Ir.{ desc = Var (arg ^ "_"); typ = Tany })
+                     arg_types )
              (* need to be generate free variable *)
            in
            let ihs =
              List.map
                (fun arg ->
-                  "IH", substitute_expr_in_prop goal (Var name) (Var (arg ^ "_")) 0)
+                  ( "IH"
+                  , substitute_expr_in_prop
+                      goal
+                      Ir.{ desc = Var name; typ = Tany }
+                      Ir.{ desc = Var (arg ^ "_"); typ = Tany }
+                      0 ))
                (* need to be substitue to above variable *)
                rec_args
            in
-           let new_facts = ihs @ [ "asdf", Eq (Var name, inductive_case) ] in
-           let new_goal = substitute_expr_in_prop goal (Var name) inductive_case 0 in
+           let new_facts =
+             ihs
+             @ [ ( "asdf"
+                 , Eq
+                     ( Ir.{ desc = Var name; typ = Tany }
+                     , Ir.{ desc = inductive_case; typ = Tany } ) )
+               ]
+           in
+           let new_goal =
+             substitute_expr_in_prop
+               goal
+               Ir.{ desc = Var name; typ = Tany }
+               Ir.{ desc = inductive_case; typ = Tany }
+               0
+           in
            let facts =
              List.map
                (fun (name, prop) ->
-                  name, substitute_expr_in_prop prop (Var name) inductive_case 0)
+                  ( name
+                  , substitute_expr_in_prop
+                      prop
+                      Ir.{ desc = Var name; typ = Tany }
+                      Ir.{ desc = inductive_case; typ = Tany }
+                      0 ))
                facts
            in
            facts @ new_facts, new_goal)
@@ -288,8 +336,17 @@ let mk_proof program_a program_b func_name =
   let goal =
     Forall
       ( [ "x", Type "nat" ]
-      , Forall ([ "y", Type "nat" ], Eq (Call ("natadd", [ Var "x"; Var "x" ]), Var "x"))
-      )
+      , Forall
+          ( [ "y", Type "nat" ]
+          , Eq
+              ( { desc =
+                    Call
+                      ( "natadd"
+                      , [ { desc = Var "x"; typ = Tany }; { desc = Var "x"; typ = Tany } ]
+                      )
+                ; typ = Tany
+                }
+              , Ir.{ desc = Var "x"; typ = Tany } ) ) )
   in
   List.fold_left
     (fun t tactic -> apply_tactic t env tactic)

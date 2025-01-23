@@ -12,6 +12,12 @@ and typ_decl = (constr * name list) list [@@deriving sexp]
 and constr = Constructor of name [@@deriving sexp]
 
 and expr =
+  { desc : expr_desc
+  ; typ : typ
+  }
+[@@deriving sexp]
+
+and expr_desc =
   | Match of expr * case list
   | LetIn of (name * expr) list * expr
   | IfthenElse of expr * expr * expr
@@ -22,6 +28,16 @@ and expr =
   | List of expr list
   | Var of name
   | Tuple of expr list
+[@@deriving sexp]
+
+and typ =
+  | Tint
+  | Tstring
+  | Tbool
+  | Tlist of typ
+  | Ttuple of typ list
+  | Talgebraic of name
+  | Tany
 [@@deriving sexp]
 
 and case = Case of pattern * expr [@@deriving sexp]
@@ -52,7 +68,7 @@ let rec pp_t t : string =
   ^ "\n;;"
 
 and pp_expr expr =
-  match expr with
+  match expr.desc with
   | Match (e1, cases) ->
     "match " ^ pp_expr e1 ^ " with\n| " ^ String.concat "\n| " (List.map pp_case cases)
   | LetIn (bindings, body) ->
@@ -179,63 +195,66 @@ and get_fun_body expr_desc =
   | _ -> failwith "Not implemented"
 
 and get_expr expr =
-  match expr.exp_desc with
-  | Typedtree.Texp_match (e1, cases, _, _) ->
-    let e1' = get_expr e1 in
-    let cases' =
-      List.map
-        (fun case ->
-           let pattern = get_pattern case.Typedtree.c_lhs in
-           Case (pattern, case.Typedtree.c_rhs |> get_expr))
-        cases
-    in
-    Match (e1', cases')
-  | Texp_ident (_, lident, _) -> Var (Longident.last lident.txt)
-  | Texp_construct (lidnet_loc, _, expr_list) ->
-    let name = Longident.last lidnet_loc.txt in
-    let expr_list' = List.map get_expr expr_list in
-    Call (name, expr_list')
-  | Texp_apply (func, args) ->
-    let fname =
-      match get_expr func with
-      | Var name -> name
-      | _ -> failwith "Not implemented"
-    in
-    let args' =
-      List.map
-        (fun (_, expr) ->
-           match expr with
-           | Some expr -> get_expr expr
-           | None -> failwith "Not implemented")
-        args
-    in
-    Call (fname, args')
-  | Texp_ifthenelse (cond, e1, e2_opt) ->
-    (match e2_opt with
-     | Some e2 -> IfthenElse (get_expr cond, get_expr e1, get_expr e2)
-     | None -> failwith "Not implemented")
-  | Texp_tuple expr_list -> Tuple (List.map get_expr expr_list)
-  | Texp_constant constant ->
-    (match constant with
-     | Const_int i -> Int i
-     | Const_char char -> String (String.make 1 char)
-     | Const_string (str, _, _) -> String str
-     | _ -> failwith "Not implemented")
-  | Texp_let (_, bindings, body) ->
-    LetIn
-      ( List.map
-          (fun binding ->
-             let var_name =
-               match binding.Typedtree.vb_pat.pat_desc with
-               | Tpat_var (name, _, _) -> Ident.name name
-               | Tpat_alias (_, name, _, _) -> Ident.name name
-               | _ -> failwith "Not implemented"
-             in
-             let var_body = get_expr binding.Typedtree.vb_expr in
-             var_name, var_body)
-          bindings
-      , get_expr body )
-  | _ -> failwith "Not implemented"
+  let desc =
+    match expr.exp_desc with
+    | Typedtree.Texp_match (e1, cases, _, _) ->
+      let e1' = get_expr e1 in
+      let cases' =
+        List.map
+          (fun case ->
+             let pattern = get_pattern case.Typedtree.c_lhs in
+             Case (pattern, case.Typedtree.c_rhs |> get_expr))
+          cases
+      in
+      Match (e1', cases')
+    | Texp_ident (_, lident, _) -> Var (Longident.last lident.txt)
+    | Texp_construct (lidnet_loc, _, expr_list) ->
+      let name = Longident.last lidnet_loc.txt in
+      let expr_list' = List.map get_expr expr_list in
+      Call (name, expr_list')
+    | Texp_apply (func, args) ->
+      let fname =
+        match (get_expr func).desc with
+        | Var name -> name
+        | _ -> failwith "Not implemented"
+      in
+      let args' =
+        List.map
+          (fun (_, expr) ->
+             match expr with
+             | Some expr -> get_expr expr
+             | None -> failwith "Not implemented")
+          args
+      in
+      Call (fname, args')
+    | Texp_ifthenelse (cond, e1, e2_opt) ->
+      (match e2_opt with
+       | Some e2 -> IfthenElse (get_expr cond, get_expr e1, get_expr e2)
+       | None -> failwith "Not implemented")
+    | Texp_tuple expr_list -> Tuple (List.map get_expr expr_list)
+    | Texp_constant constant ->
+      (match constant with
+       | Const_int i -> Int i
+       | Const_char char -> String (String.make 1 char)
+       | Const_string (str, _, _) -> String str
+       | _ -> failwith "Not implemented")
+    | Texp_let (_, bindings, body) ->
+      LetIn
+        ( List.map
+            (fun binding ->
+               let var_name =
+                 match binding.Typedtree.vb_pat.pat_desc with
+                 | Tpat_var (name, _, _) -> Ident.name name
+                 | Tpat_alias (_, name, _, _) -> Ident.name name
+                 | _ -> failwith "Not implemented"
+               in
+               let var_body = get_expr binding.Typedtree.vb_expr in
+               var_name, var_body)
+            bindings
+        , get_expr body )
+    | _ -> failwith "Not implemented"
+  in
+  { desc; typ = Tint }
 
 and get_pattern : type k. k Typedtree.general_pattern -> pattern =
   fun pattern ->
@@ -274,7 +293,7 @@ let substitute_expr pred target expr_from expr_to i =
     else if pred target expr_from
     then if cnt = i || i = 0 then expr_to, cnt + 1 else expr_from, cnt + 1
     else (
-      match target with
+      match target.desc with
       | Match (e1, cases) ->
         let e1', cnt = substitute_expr' pred e1 expr_from expr_to cnt in
         let cases', cnt =
@@ -286,7 +305,7 @@ let substitute_expr pred target expr_from expr_to i =
             ([], cnt)
             cases
         in
-        Match (e1', cases'), cnt
+        { desc = Match (e1', cases'); typ = target.typ }, cnt
       | LetIn (bindings, body) ->
         let bindings', cnt =
           List.fold_left
@@ -297,12 +316,12 @@ let substitute_expr pred target expr_from expr_to i =
             bindings
         in
         let body', cnt = substitute_expr' pred body expr_from expr_to cnt in
-        LetIn (bindings', body'), cnt
+        { desc = LetIn (bindings', body'); typ = target.typ }, cnt
       | IfthenElse (cond, e1, e2) ->
         let cond', cnt = substitute_expr' pred cond expr_from expr_to cnt in
         let e1', cnt = substitute_expr' pred e1 expr_from expr_to cnt in
         let e2', cnt = substitute_expr' pred e2 expr_from expr_to cnt in
-        IfthenElse (cond', e1', e2'), cnt
+        { desc = IfthenElse (cond', e1', e2'); typ = target.typ }, cnt
       | Call (name, args) ->
         let args', cnt =
           List.fold_left
@@ -312,7 +331,7 @@ let substitute_expr pred target expr_from expr_to i =
             ([], cnt)
             args
         in
-        Call (name, args'), cnt
+        { desc = Call (name, args'); typ = target.typ }, cnt
       | Int _ | String _ | Bool _ -> target, cnt
       | List l ->
         let l', cnt =
@@ -323,7 +342,7 @@ let substitute_expr pred target expr_from expr_to i =
             ([], cnt)
             l
         in
-        List l', cnt
+        { desc = List l'; typ = target.typ }, cnt
       | Var _ -> target, cnt
       | Tuple l ->
         let l', cnt =
@@ -334,13 +353,13 @@ let substitute_expr pred target expr_from expr_to i =
             ([], cnt)
             l
         in
-        Tuple l', cnt)
+        { desc = Tuple l'; typ = target.typ }, cnt)
   in
   substitute_expr' pred target expr_from expr_to 1
 ;;
 
 let rec is_equal_expr e1 e2 =
-  match e1, e2 with
+  match e1.desc, e2.desc with
   | Int i1, Int i2 -> i1 = i2
   | String s1, String s2 -> s1 = s2
   | Bool b1, Bool b2 -> b1 = b2
