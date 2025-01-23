@@ -139,21 +139,22 @@ let apply_induction env name facts goal : t =
                Ir.Call
                  ( constr
                  , List.map
-                     (fun arg -> { Ir.desc = Ir.Var (arg ^ "_"); Ir.typ = Tany })
+                     (fun arg ->
+                        { Ir.desc = Ir.Var (arg ^ "_"); Ir.typ = Ir.typ_of_string arg })
                      arg_types )
            in
            let new_facts =
              [ ( "asdf"
                , Eq
-                   ( Ir.{ desc = Var name; typ = Tany }
-                   , Ir.{ desc = base_case; typ = Tany } ) )
+                   ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                   , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
              ]
            in
            let new_goal =
              substitute_expr_in_prop
                goal
-               Ir.{ desc = Var name; typ = Tany }
-               Ir.{ desc = base_case; typ = Tany }
+               Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+               Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
                0
            in
            let facts =
@@ -162,8 +163,8 @@ let apply_induction env name facts goal : t =
                   ( name
                   , substitute_expr_in_prop
                       prop
-                      Ir.{ desc = Var name; typ = Tany }
-                      Ir.{ desc = base_case; typ = Tany }
+                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                      Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
                       0 ))
                facts
            in
@@ -175,7 +176,8 @@ let apply_induction env name facts goal : t =
                Ir.Call
                  ( constr
                  , List.map
-                     (fun arg -> Ir.{ desc = Var (arg ^ "_"); typ = Tany })
+                     (fun arg ->
+                        Ir.{ desc = Var (arg ^ "_"); typ = Ir.typ_of_string arg })
                      arg_types )
              (* need to be generate free variable *)
            in
@@ -185,8 +187,8 @@ let apply_induction env name facts goal : t =
                   ( "IH"
                   , substitute_expr_in_prop
                       goal
-                      Ir.{ desc = Var name; typ = Tany }
-                      Ir.{ desc = Var (arg ^ "_"); typ = Tany }
+                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                      Ir.{ desc = Var (arg ^ "_"); typ = Ir.typ_of_string typ_name }
                       0 ))
                (* need to be substitue to above variable *)
                rec_args
@@ -195,15 +197,15 @@ let apply_induction env name facts goal : t =
              ihs
              @ [ ( "asdf"
                  , Eq
-                     ( Ir.{ desc = Var name; typ = Tany }
-                     , Ir.{ desc = inductive_case; typ = Tany } ) )
+                     ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                     , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
                ]
            in
            let new_goal =
              substitute_expr_in_prop
                goal
-               Ir.{ desc = Var name; typ = Tany }
-               Ir.{ desc = inductive_case; typ = Tany }
+               Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+               Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
                0
            in
            let facts =
@@ -212,8 +214,8 @@ let apply_induction env name facts goal : t =
                   ( name
                   , substitute_expr_in_prop
                       prop
-                      Ir.{ desc = Var name; typ = Tany }
-                      Ir.{ desc = inductive_case; typ = Tany }
+                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                      Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
                       0 ))
                facts
            in
@@ -291,6 +293,7 @@ let rec pp_prop prop =
     "forall "
     ^ (List.map (fun (name, typ) -> name ^ ":" ^ pp_prop typ) var_list
        |> String.concat ". ")
+    ^ "."
     ^ pp_prop p
   | Imply (p1, p2) -> pp_prop p1 ^ " -> " ^ pp_prop p2
   | Type typ -> typ
@@ -342,11 +345,12 @@ let mk_proof program_a program_b func_name =
               ( { desc =
                     Call
                       ( "natadd"
-                      , [ { desc = Var "x"; typ = Tany }; { desc = Var "x"; typ = Tany } ]
-                      )
+                      , [ { desc = Var "x"; typ = Talgebraic "nat" }
+                        ; { desc = Var "x"; typ = Talgebraic "nat" }
+                        ] )
                 ; typ = Tany
                 }
-              , Ir.{ desc = Var "x"; typ = Tany } ) ) )
+              , Ir.{ desc = Var "x"; typ = Talgebraic "nat" } ) ) )
   in
   List.fold_left
     (fun t tactic -> apply_tactic t env tactic)

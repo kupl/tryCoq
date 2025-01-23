@@ -68,25 +68,28 @@ let rec pp_t t : string =
   ^ "\n;;"
 
 and pp_expr expr =
-  match expr.desc with
-  | Match (e1, cases) ->
-    "match " ^ pp_expr e1 ^ " with\n| " ^ String.concat "\n| " (List.map pp_case cases)
-  | LetIn (bindings, body) ->
-    "let "
-    ^ String.concat
-        " and "
-        (List.map (fun (name, body) -> name ^ " = " ^ pp_expr body) bindings)
-    ^ " in "
-    ^ pp_expr body
-  | IfthenElse (cond, e1, e2) ->
-    "if " ^ pp_expr cond ^ " then " ^ pp_expr e1 ^ " else " ^ pp_expr e2
-  | Call (name, args) -> name ^ " (" ^ String.concat " " (List.map pp_expr args) ^ ")"
-  | Int i -> string_of_int i
-  | String s -> "\"" ^ s ^ "\""
-  | Bool b -> string_of_bool b
-  | List l -> "[" ^ String.concat "; " (List.map pp_expr l) ^ "]"
-  | Var name -> name
-  | Tuple l -> "(" ^ String.concat ", " (List.map pp_expr l) ^ ")"
+  let desc =
+    match expr.desc with
+    | Match (e1, cases) ->
+      "match " ^ pp_expr e1 ^ " with\n| " ^ String.concat "\n| " (List.map pp_case cases)
+    | LetIn (bindings, body) ->
+      "let "
+      ^ String.concat
+          " and "
+          (List.map (fun (name, body) -> name ^ " = " ^ pp_expr body) bindings)
+      ^ " in "
+      ^ pp_expr body
+    | IfthenElse (cond, e1, e2) ->
+      "if " ^ pp_expr cond ^ " then " ^ pp_expr e1 ^ " else " ^ pp_expr e2
+    | Call (name, args) -> name ^ " (" ^ String.concat " " (List.map pp_expr args) ^ ")"
+    | Int i -> string_of_int i
+    | String s -> "\"" ^ s ^ "\""
+    | Bool b -> string_of_bool b
+    | List l -> "[" ^ String.concat "; " (List.map pp_expr l) ^ "]"
+    | Var name -> name
+    | Tuple l -> "(" ^ String.concat ", " (List.map pp_expr l) ^ ")"
+  in
+  "(" ^ desc ^ " : " ^ pp_typ expr.typ ^ ")"
 
 and pp_case case =
   match case with
@@ -111,6 +114,24 @@ and pp_typ_decl typ_decl =
           | _ -> name ^ " of " ^ String.concat " * " args))
     typ_decl
   |> String.concat " | "
+
+and pp_typ typ =
+  match typ with
+  | Tint -> "int"
+  | Tstring -> "string"
+  | Tbool -> "bool"
+  | Tlist t -> pp_typ t ^ " list"
+  | Ttuple l -> "(" ^ String.concat " * " (List.map pp_typ l) ^ ")"
+  | Talgebraic name -> name
+  | Tany -> "any"
+;;
+
+let typ_of_string s =
+  match s with
+  | "int" -> Tint
+  | "string" -> Tstring
+  | "bool" -> Tbool
+  | _ -> Talgebraic s
 ;;
 
 let rec t_of_typedtree typ_tree : t =
@@ -195,6 +216,7 @@ and get_fun_body expr_desc =
   | _ -> failwith "Not implemented"
 
 and get_expr expr =
+  let typ = get_type expr in
   let desc =
     match expr.exp_desc with
     | Typedtree.Texp_match (e1, cases, _, _) ->
@@ -254,7 +276,7 @@ and get_expr expr =
         , get_expr body )
     | _ -> failwith "Not implemented"
   in
-  { desc; typ = Tint }
+  { desc; typ }
 
 and get_pattern : type k. k Typedtree.general_pattern -> pattern =
   fun pattern ->
@@ -268,6 +290,18 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
   | Tpat_tuple patterns -> Pat_Tuple (List.map get_pattern patterns)
   | Tpat_any -> Pat_any
   | _ -> failwith "Not implemented"
+
+and get_type (expr : Typedtree.expression) =
+  let rec pr_type type_expr =
+    match type_expr with
+    | Types.Tvar (Some name) -> name
+    | Tconstr (path, _, _) -> path |> Path.name
+    | Tarrow (_, _, e2, _) -> e2 |> Types.get_desc |> pr_type
+    | Tpoly (_, _) -> failwith "polymorphic type"
+    | _ -> failwith "Not implemented"
+  in
+  let typ = expr.exp_type |> Types.get_desc |> pr_type in
+  typ_of_string typ
 ;;
 
 let find_decl name (decls : t) =
