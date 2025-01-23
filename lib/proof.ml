@@ -12,7 +12,7 @@ and prop =
   | Or of prop * prop
   | Not of prop
   | Forall of (string * prop) list * prop
-  | Imply of prop * prop
+  | Imply of prop list * prop
   | Type of string
 [@@deriving sexp]
 
@@ -111,8 +111,17 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
     | Forall (var_list, p) ->
       let p, cnt = substitute_expr_in_prop' pred convert p expr_from expr_to i in
       Forall (var_list, p), cnt
-    | Imply (p1, p2) ->
-      let p1, cnt = substitute_expr_in_prop' pred convert p1 expr_from expr_to i in
+    | Imply (cond_list, p2) ->
+      let cond_list, cnt =
+        List.fold_left
+          (fun (cond_list, cnt) cond ->
+             let cond, cnt =
+               substitute_expr_in_prop' pred convert cond expr_from expr_to cnt
+             in
+             cond_list @ [ cond ], cnt)
+          ([], i)
+          cond_list
+      in
       let p2, cnt =
         substitute_expr_in_prop'
           pred
@@ -122,7 +131,7 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_to
           (if i = 0 then 0 else cnt)
       in
-      Imply (p1, p2), cnt
+      Imply (cond_list, p2), cnt
     | Type typ -> Type typ, i
   in
   substitute_expr_in_prop' pred convert target expr_from expr_to i |> fst
@@ -137,7 +146,8 @@ let apply_intro name facts goal =
     in
     let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
     facts @ [ name, typ ], Forall (var_list, goal)
-  | Imply (p1, p2) -> facts @ [ name, p1 ], p2
+  | Imply (cond_list, p2) ->
+    facts @ [ name, List.hd cond_list ], Imply (List.tl cond_list, p2)
   | _ -> failwith "There is no term that can be introduced"
 ;;
 
@@ -489,7 +499,10 @@ let rec pp_prop prop =
        |> String.concat ". ")
     ^ "."
     ^ pp_prop p
-  | Imply (p1, p2) -> pp_prop p1 ^ " -> " ^ pp_prop p2
+  | Imply (cond_list, p2) ->
+    (List.map (fun cond -> pp_prop cond) cond_list |> String.concat "->")
+    ^ " -> "
+    ^ pp_prop p2
   | Type typ -> typ
 ;;
 
