@@ -320,21 +320,24 @@ let get_typ_decl decl =
   | _ -> failwith "It is not a type declaration"
 ;;
 
-let substitute_expr pred target expr_from expr_to i =
-  let rec substitute_expr' pred target expr_from expr_to cnt =
+let substitute_expr pred convert target expr_from expr_to i =
+  let rec substitute_expr' pred convert target expr_from expr_to cnt =
     if i < cnt && i <> 0
     then target, cnt
     else if pred target expr_from
-    then if cnt = i || i = 0 then expr_to, cnt + 1 else expr_from, cnt + 1
+    then
+      if cnt = i || i = 0
+      then convert target expr_from expr_to, cnt + 1
+      else expr_from, cnt + 1
     else (
       match target.desc with
       | Match (e1, cases) ->
-        let e1', cnt = substitute_expr' pred e1 expr_from expr_to cnt in
+        let e1', cnt = substitute_expr' pred convert e1 expr_from expr_to cnt in
         let cases', cnt =
           List.fold_left
             (fun (cases, cnt) case ->
                let (Case (pattern, expr)) = case in
-               let expr', cnt = substitute_expr' pred target expr expr_to cnt in
+               let expr', cnt = substitute_expr' pred convert target expr expr_to cnt in
                cases @ [ Case (pattern, expr') ], cnt)
             ([], cnt)
             cases
@@ -344,23 +347,25 @@ let substitute_expr pred target expr_from expr_to i =
         let bindings', cnt =
           List.fold_left
             (fun (bindings, cnt) (name, body) ->
-               let body', cnt = substitute_expr' pred body expr_from expr_to cnt in
+               let body', cnt =
+                 substitute_expr' pred convert body expr_from expr_to cnt
+               in
                bindings @ [ name, body' ], cnt)
             ([], cnt)
             bindings
         in
-        let body', cnt = substitute_expr' pred body expr_from expr_to cnt in
+        let body', cnt = substitute_expr' pred convert body expr_from expr_to cnt in
         { desc = LetIn (bindings', body'); typ = target.typ }, cnt
       | IfthenElse (cond, e1, e2) ->
-        let cond', cnt = substitute_expr' pred cond expr_from expr_to cnt in
-        let e1', cnt = substitute_expr' pred e1 expr_from expr_to cnt in
-        let e2', cnt = substitute_expr' pred e2 expr_from expr_to cnt in
+        let cond', cnt = substitute_expr' pred convert cond expr_from expr_to cnt in
+        let e1', cnt = substitute_expr' pred convert e1 expr_from expr_to cnt in
+        let e2', cnt = substitute_expr' pred convert e2 expr_from expr_to cnt in
         { desc = IfthenElse (cond', e1', e2'); typ = target.typ }, cnt
       | Call (name, args) ->
         let args', cnt =
           List.fold_left
             (fun (args, cnt) arg ->
-               let arg', cnt = substitute_expr' pred arg expr_from expr_to cnt in
+               let arg', cnt = substitute_expr' pred convert arg expr_from expr_to cnt in
                args @ [ arg' ], cnt)
             ([], cnt)
             args
@@ -371,7 +376,9 @@ let substitute_expr pred target expr_from expr_to i =
         let l', cnt =
           List.fold_left
             (fun (l, cnt) expr ->
-               let expr', cnt = substitute_expr' pred expr expr_from expr_to cnt in
+               let expr', cnt =
+                 substitute_expr' pred convert expr expr_from expr_to cnt
+               in
                l @ [ expr' ], cnt)
             ([], cnt)
             l
@@ -382,14 +389,16 @@ let substitute_expr pred target expr_from expr_to i =
         let l', cnt =
           List.fold_left
             (fun (l, cnt) expr ->
-               let expr', cnt = substitute_expr' pred expr expr_from expr_to cnt in
+               let expr', cnt =
+                 substitute_expr' pred convert expr expr_from expr_to cnt
+               in
                l @ [ expr' ], cnt)
             ([], cnt)
             l
         in
         { desc = Tuple l'; typ = target.typ }, cnt)
   in
-  substitute_expr' pred target expr_from expr_to 1
+  substitute_expr' pred convert target expr_from expr_to 1
 ;;
 
 let rec is_equal_expr e1 e2 =
@@ -400,5 +409,33 @@ let rec is_equal_expr e1 e2 =
   | List l1, List l2 -> List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) l1 l2
   | Var v1, Var v2 -> v1 = v2
   | Tuple l1, Tuple l2 -> List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) l1 l2
+  | Match (e1, cases1), Match (e2, cases2) ->
+    is_equal_expr e1 e2
+    && List.for_all2
+         (fun (Case (p1, e1)) (Case (p2, e2)) ->
+            is_equal_pattern p1 p2 && is_equal_expr e1 e2)
+         cases1
+         cases2
+  | LetIn (bindings1, body1), LetIn (bindings2, body2) ->
+    List.for_all2
+      (fun (name1, body1) (name2, body2) -> name1 = name2 && is_equal_expr body1 body2)
+      bindings1
+      bindings2
+    && is_equal_expr body1 body2
+  | IfthenElse (cond1, e11, e12), IfthenElse (cond2, e21, e22) ->
+    is_equal_expr cond1 cond2 && is_equal_expr e11 e21 && is_equal_expr e12 e22
+  | Call (name1, args1), Call (name2, args2) ->
+    name1 = name2 && List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) args1 args2
+  | _ -> false
+
+and is_equal_pattern p1 p2 =
+  match p1, p2 with
+  | Pat_Constr (name1, args1), Pat_Constr (name2, args2) ->
+    name1 = name2 && List.for_all2 (fun p1 p2 -> is_equal_pattern p1 p2) args1 args2
+  | Pat_Var v1, Pat_Var v2 -> v1 = v2
+  | Pat_Expr e1, Pat_Expr e2 -> is_equal_expr e1 e2
+  | Pat_Tuple l1, Pat_Tuple l2 ->
+    List.for_all2 (fun p1 p2 -> is_equal_pattern p1 p2) l1 l2
+  | Pat_any, Pat_any -> true
   | _ -> false
 ;;
