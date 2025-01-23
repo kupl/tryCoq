@@ -290,7 +290,7 @@ let rec forall_target var_list target source =
   | Ir.Call (name, args) ->
     (match target.Ir.desc with
      | Ir.Call (name', args') ->
-       name = name' && List.for_all2 (fun a b -> forall_target var_list a b) args args'
+       name = name' && List.for_all2 (fun a b -> forall_target var_list a b) args' args
      | _ -> false)
   | Ir.Match (e, cases) ->
     (match target.Ir.desc with
@@ -301,8 +301,8 @@ let rec forall_target var_list target source =
                match a, b with
                | Ir.Case (_, e1), Ir.Case (_, e2) -> forall_target var_list e1 e2)
                (* have to think pattern order.... or compatiblity *)
-            cases
             cases'
+            cases
      | _ -> false)
   | Ir.LetIn (let_list, e) ->
     let new_expr =
@@ -319,13 +319,13 @@ let rec forall_target var_list target source =
         e
         let_list
     in
-    forall_target var_list new_expr target
+    forall_target var_list target new_expr
   | Ir.IfthenElse (e1, e2, e3) ->
     (match target.Ir.desc with
      | Ir.IfthenElse (e1', e2', e3') ->
-       forall_target var_list e1 e1'
-       && forall_target var_list e2 e2'
-       && forall_target var_list e3 e3'
+       forall_target var_list e1' e1
+       && forall_target var_list e2' e2
+       && forall_target var_list e3' e3
      | _ -> false)
   | _ -> false
 ;;
@@ -585,7 +585,7 @@ let mk_proof program_a program_b func_name =
   List.fold_left
     (fun t tactic -> apply_tactic t env tactic)
     [ facts, goal ]
-    [ RewriteInAt ("H1", "goal", 0) ]
+    [ RewriteInAt ("H1", "goal", 0); Reflexivity ]
   |> pp_t
   |> print_endline
 ;;
