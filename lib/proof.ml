@@ -505,26 +505,39 @@ let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
         expr_to
         i
     in
-    let new_task =
-      List.map
-        (fun cond ->
-           List.fold_left
-             (fun cond (e1, e2) ->
-                let prop, _, _ =
-                  substitute_expr_in_prop
-                    Ir.is_equal_expr
-                    (fun _ _ expr_to -> expr_to, [])
-                    cond
-                    e1
-                    e2
-                    0
-                in
-                prop)
-             cond
-             match_list)
-        cond_list
-    in
-    [ facts, new_goal ] @ List.map (fun goal -> facts, goal) new_task
+    if
+      not
+        (List.for_all
+           (fun (e1, _) ->
+              List.exists
+                (fun (e2, _) ->
+                   match e2.Ir.desc with
+                   | Var var -> e1 = var
+                   | _ -> failwith "not implemented")
+                match_list)
+           var_list)
+    then failwith "Cannot find matched variable"
+    else (
+      let new_task =
+        List.map
+          (fun cond ->
+             List.fold_left
+               (fun cond (e1, e2) ->
+                  let prop, _, _ =
+                    substitute_expr_in_prop
+                      Ir.is_equal_expr
+                      (fun _ _ expr_to -> expr_to, [])
+                      cond
+                      e1
+                      e2
+                      0
+                  in
+                  prop)
+               cond
+               match_list)
+          cond_list
+      in
+      [ facts, new_goal ] @ List.map (fun goal -> facts, goal) new_task)
   | _ ->
     let target_fact = List.assoc target_label facts in
     let new_fact, match_list, _ =
@@ -1003,41 +1016,22 @@ let mk_proof program_a program_b func_name =
   ignore program_b;
   let facts =
     [ ( "H"
-      , Imply
-          ( [ Eq
-                ( Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
-                , Ir.{ desc = Call ("ZERO", []); typ = Ir.typ_of_string "nat" } )
-            ]
+      , Forall
+          ( [ "n", Type "nat" ]
           , Eq
-              ( Ir.
-                  { desc =
-                      Call
-                        ( "natadd"
-                        , [ Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" }
-                          ; Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
-                          ] )
-                  ; typ = Ir.typ_of_string "nat"
-                  }
-              , Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" } ) ) )
+              ( Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
+              , Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" } ) ) )
     ]
   in
   let goal =
     Eq
-      ( Ir.
-          { desc =
-              Call
-                ( "natadd"
-                , [ Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" }
-                  ; Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
-                  ] )
-          ; typ = Ir.typ_of_string "nat"
-          }
-      , Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" } )
+      ( Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
+      , Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" } )
   in
   List.fold_left
     (fun t tactic -> apply_tactic t env tactic)
     [ facts, goal ]
-    [ RewriteInAt ("H", "goal", 0) ]
+    [ RewriteInAt ("H", "goal", 0); Reflexivity ]
   |> pp_t
   |> print_endline
 ;;
