@@ -112,11 +112,11 @@ let partition_and_transform (pred : 'a -> bool) (transform : 'a -> 'b) (lst : 'a
   : 'b list * 'b list
   =
   let rec aux acc1 acc2 = function
-    | [] -> List.rev acc1, List.rev acc2 (* 결과 반환 *)
+    | [] -> List.rev acc1, List.rev acc2
     | x :: xs ->
       let transformed = transform x in
       if pred x
-      then aux (transformed :: acc1) acc2 xs (* 조건 만족 -> acc1에 추가 *)
+      then aux (transformed :: acc1) acc2 xs
       else aux (transformed :: acc1) (transformed :: acc2) xs
   in
   aux [] [] lst
@@ -455,7 +455,6 @@ let rec forall_target var_list target source =
 let convert_in_rewrite target expr_from expr_to =
   match expr_from.Ir.desc with
   | Ir.Var _ -> expr_to, [ expr_from, expr_to ]
-  (* we have to check variable in expr_to exsists in target *)
   | Ir.Call (name, args) ->
     (match target.Ir.desc with
      | Ir.Call (name', args') ->
@@ -493,7 +492,6 @@ let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
     | Forall (var_list, Imply (cond_list, Eq (lhs, rhs))) -> cond_list, var_list, lhs, rhs
     | _ -> failwith "Not rewritable"
   in
-  (* we have to consider substitute changed variable also must be changed in cond_list *)
   match target_label with
   | "goal" ->
     let new_goal, match_list, _ =
@@ -586,7 +584,6 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
     | Forall (var_list, Imply (cond_list, Eq (lhs, rhs))) -> cond_list, var_list, rhs, lhs
     | _ -> failwith "Not rewritable"
   in
-  (* we have to consider substitute changed variable also must be changed in cond_list *)
   match target_label with
   | "goal" ->
     let new_goal, match_list, _ =
