@@ -34,6 +34,19 @@ and tactic =
 
 type env = Ir.t [@@deriving sexp]
 
+let range start stop =
+  let rec range' i acc = if i = stop then acc else range' (i + 1) (i :: acc) in
+  range' start []
+;;
+
+let make_counter () =
+  let count = ref 0 in
+  fun () ->
+    incr count;
+    !count
+;;
+
+let counter = make_counter ()
 let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
 let string_of_theorem t = t |> sexp_of_theorem |> Sexplib.Sexp.to_string
 let string_of_tactic t = t |> sexp_of_tactic |> Sexplib.Sexp.to_string
@@ -53,7 +66,7 @@ let rec pp_prop prop =
     "forall "
     ^ (List.map (fun (name, typ) -> name ^ ":" ^ pp_prop typ) var_list
        |> String.concat ". ")
-    ^ "."
+    ^ ". "
     ^ pp_prop p
   | Imply (cond_list, p2) ->
     (List.map (fun cond -> pp_prop cond) cond_list |> String.concat "->")
@@ -86,27 +99,16 @@ let pp_theorem (tactics, goal) =
 
 let pp_t (t : t) =
   List.map
-    (fun (facts, goal) ->
-       (List.map pp_fact facts |> String.concat "\n")
+    (fun ((facts, goal), i) ->
+       "goal"
+       ^ string_of_int (i + 1)
+       ^ "\n"
+       ^ (List.map pp_fact facts |> String.concat "\n")
        ^ "\n---------------------------------------\n"
        ^ pp_prop goal)
-    t
+    (List.combine t (range 0 (List.length t)))
   |> String.concat "\n\n"
 ;;
-
-let range start stop =
-  let rec range' i acc = if i = stop then acc else range' (i + 1) (i :: acc) in
-  range' start []
-;;
-
-let make_counter () =
-  let count = ref 0 in
-  fun () ->
-    incr count;
-    !count
-;;
-
-let counter = make_counter ()
 
 let partition_and_transform (pred : 'a -> bool) (transform : 'a -> 'b) (lst : 'a list)
   : 'b list * 'b list
@@ -1025,10 +1027,7 @@ let mk_proof program_a program_b func_name =
       ( Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
       , Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" } )
   in
-  List.fold_left
-    (fun t tactic -> apply_tactic t env tactic)
-    [ facts, goal ]
-    [ RewriteInAt ("H", "goal", 0); Reflexivity ]
+  List.fold_left (fun t tactic -> apply_tactic t env tactic) [ facts, goal ] []
   |> pp_t
   |> print_endline
 ;;
