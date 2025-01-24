@@ -34,6 +34,66 @@ and tactic =
 
 type env = Ir.t [@@deriving sexp]
 
+let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
+let string_of_theorem t = t |> sexp_of_theorem |> Sexplib.Sexp.to_string
+let string_of_tactic t = t |> sexp_of_tactic |> Sexplib.Sexp.to_string
+let string_of_prop p = p |> sexp_of_prop |> Sexplib.Sexp.to_string
+let string_of_expr e = e |> sexp_of_expr |> Sexplib.Sexp.to_string
+let pp_expr = Ir.pp_expr
+
+let rec pp_prop prop =
+  match prop with
+  | Eq (e1, e2) -> pp_expr e1 ^ " = " ^ pp_expr e2
+  | Le (e1, e2) -> pp_expr e1 ^ " <= " ^ pp_expr e2
+  | Lt (e1, e2) -> pp_expr e1 ^ " < " ^ pp_expr e2
+  | And (p1, p2) -> pp_prop p1 ^ " /\\ " ^ pp_prop p2
+  | Or (p1, p2) -> pp_prop p1 ^ " \\/ " ^ pp_prop p2
+  | Not p -> "not " ^ pp_prop p
+  | Forall (var_list, p) ->
+    "forall "
+    ^ (List.map (fun (name, typ) -> name ^ ":" ^ pp_prop typ) var_list
+       |> String.concat ". ")
+    ^ "."
+    ^ pp_prop p
+  | Imply (cond_list, p2) ->
+    (List.map (fun cond -> pp_prop cond) cond_list |> String.concat "->")
+    ^ " -> "
+    ^ pp_prop p2
+  | Type typ -> typ
+;;
+
+let pp_fact (name, prop) = name ^ " : " ^ pp_prop prop
+
+let pp_tactic tactic =
+  match tactic with
+  | Intro name -> "intro " ^ name
+  | RewriteInAt (fact, goal, i) ->
+    "rewrite " ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
+  | RewriteReverse (fact, goal, i) ->
+    "rewrite <-" ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
+  | Induction name -> "induction " ^ name
+  | StrongInduction name -> "strong induction " ^ name
+  | Destruct name -> "destruct " ^ name
+  | Case expr -> "case " ^ Ir.pp_expr expr
+  | SimplInAt (fact, goal, i) ->
+    "simpl " ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
+  | Reflexivity -> "reflexivity"
+;;
+
+let pp_theorem (tactics, goal) =
+  (List.map pp_tactic tactics |> String.concat "\n") ^ "\n" ^ pp_prop goal
+;;
+
+let pp_t (t : t) =
+  List.map
+    (fun (facts, goal) ->
+       (List.map pp_fact facts |> String.concat "\n")
+       ^ "\n---------------------------------------\n"
+       ^ pp_prop goal)
+    t
+  |> String.concat "\n\n"
+;;
+
 let range start stop =
   let rec range' i acc = if i = stop then acc else range' (i + 1) (i :: acc) in
   range' start []
@@ -62,16 +122,18 @@ let partition_and_transform (pred : 'a -> bool) (transform : 'a -> 'b) (lst : 'a
   aux [] [] lst
 ;;
 
-let substitute_expr_in_expr pred convert target expr_from expr_to i =
-  Ir.substitute_expr pred convert target expr_from expr_to i
+let substitute_expr_in_expr pred convert target expr_from expr_to i result =
+  Ir.substitute_expr pred convert target expr_from expr_to i result
 ;;
 
 let substitute_expr_in_prop pred convert target expr_from expr_to i =
-  let rec substitute_expr_in_prop' pred convert target expr_from expr_to i =
+  let rec substitute_expr_in_prop' pred convert target expr_from expr_to i result =
     match target with
     | Eq (e1, e2) ->
-      let lhs, cnt = substitute_expr_in_expr pred convert e1 expr_from expr_to i in
-      let rhs, cnt =
+      let lhs, result, cnt =
+        substitute_expr_in_expr pred convert e1 expr_from expr_to i result
+      in
+      let rhs, result, cnt =
         substitute_expr_in_expr
           pred
           convert
@@ -79,11 +141,14 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          result
       in
-      Eq (lhs, rhs), cnt
+      Eq (lhs, rhs), result, cnt
     | Le (e1, e2) ->
-      let lhs, cnt = substitute_expr_in_expr pred convert e1 expr_from expr_to i in
-      let rhs, cnt =
+      let lhs, result, cnt =
+        substitute_expr_in_expr pred convert e1 expr_from expr_to i result
+      in
+      let rhs, result, cnt =
         substitute_expr_in_expr
           pred
           convert
@@ -91,11 +156,14 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          result
       in
-      Le (lhs, rhs), cnt
+      Le (lhs, rhs), result, cnt
     | Lt (e1, e2) ->
-      let lhs, cnt = substitute_expr_in_expr pred convert e1 expr_from expr_to i in
-      let rhs, cnt =
+      let lhs, result, cnt =
+        substitute_expr_in_expr pred convert e1 expr_from expr_to i result
+      in
+      let rhs, result, cnt =
         substitute_expr_in_expr
           pred
           convert
@@ -103,11 +171,14 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          result
       in
-      Lt (lhs, rhs), cnt
+      Lt (lhs, rhs), result, cnt
     | And (p1, p2) ->
-      let p1, cnt = substitute_expr_in_prop' pred convert p1 expr_from expr_to i in
-      let p2, cnt =
+      let p1, result, cnt =
+        substitute_expr_in_prop' pred convert p1 expr_from expr_to i result
+      in
+      let p2, result, cnt =
         substitute_expr_in_prop'
           pred
           convert
@@ -115,11 +186,14 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          result
       in
-      And (p1, p2), cnt
+      And (p1, p2), result, cnt
     | Or (p1, p2) ->
-      let p1, cnt = substitute_expr_in_prop' pred convert p1 expr_from expr_to i in
-      let p2, cnt =
+      let p1, result, cnt =
+        substitute_expr_in_prop' pred convert p1 expr_from expr_to i result
+      in
+      let p2, result, cnt =
         substitute_expr_in_prop'
           pred
           convert
@@ -127,26 +201,31 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          result
       in
-      Or (p1, p2), cnt
+      Or (p1, p2), result, cnt
     | Not p ->
-      let p, cnt = substitute_expr_in_prop' pred convert p expr_from expr_to i in
-      Not p, cnt
+      let p, result, cnt =
+        substitute_expr_in_prop' pred convert p expr_from expr_to i result
+      in
+      Not p, result, cnt
     | Forall (var_list, p) ->
-      let p, cnt = substitute_expr_in_prop' pred convert p expr_from expr_to i in
-      Forall (var_list, p), cnt
+      let p, result, cnt =
+        substitute_expr_in_prop' pred convert p expr_from expr_to i result
+      in
+      Forall (var_list, p), result, cnt
     | Imply (cond_list, p2) ->
-      let cond_list, cnt =
+      let cond_list, result, cnt =
         List.fold_left
-          (fun (cond_list, cnt) cond ->
-             let cond, cnt =
-               substitute_expr_in_prop' pred convert cond expr_from expr_to cnt
+          (fun (cond_list, result, cnt) cond ->
+             let cond, result, cnt =
+               substitute_expr_in_prop' pred convert cond expr_from expr_to cnt result
              in
-             cond_list @ [ cond ], cnt)
-          ([], i)
+             cond_list @ [ cond ], result, cnt)
+          ([], result, i)
           cond_list
       in
-      let p2, cnt =
+      let p2, result, cnt =
         substitute_expr_in_prop'
           pred
           convert
@@ -154,11 +233,12 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          result
       in
-      Imply (cond_list, p2), cnt
-    | Type typ -> Type typ, i
+      Imply (cond_list, p2), result, cnt
+    | Type typ -> Type typ, result, i
   in
-  substitute_expr_in_prop' pred convert target expr_from expr_to i |> fst
+  substitute_expr_in_prop' pred convert target expr_from expr_to i []
 ;;
 
 let apply_intro name facts goal =
@@ -222,10 +302,10 @@ let apply_induction env name facts goal : t =
                    , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
              ]
            in
-           let new_goal =
+           let new_goal, _, _ =
              substitute_expr_in_prop
                Ir.is_equal_expr
-               (fun _ _ expr_to -> expr_to)
+               (fun _ _ expr_to -> expr_to, [])
                goal
                Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
                Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
@@ -235,13 +315,16 @@ let apply_induction env name facts goal : t =
              List.map
                (fun (name, prop) ->
                   ( name
-                  , substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to)
-                      prop
-                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                      Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
-                      0 ))
+                  , let prop, _, _ =
+                      substitute_expr_in_prop
+                        Ir.is_equal_expr
+                        (fun _ _ expr_to -> expr_to, [])
+                        prop
+                        Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                        Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+                        0
+                    in
+                    prop ))
                facts
            in
            facts @ new_facts, new_goal
@@ -264,13 +347,16 @@ let apply_induction env name facts goal : t =
              List.map
                (fun arg ->
                   ( "IH" ^ string_of_int (counter ())
-                  , substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to)
-                      goal
-                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                      arg
-                      0 ))
+                  , let prop, _, _ =
+                      substitute_expr_in_prop
+                        Ir.is_equal_expr
+                        (fun _ _ expr_to -> expr_to, [])
+                        goal
+                        Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                        arg
+                        0
+                    in
+                    prop ))
                new_rec_args
            in
            let new_facts =
@@ -281,10 +367,10 @@ let apply_induction env name facts goal : t =
                      , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
                ]
            in
-           let new_goal =
+           let new_goal, _, _ =
              substitute_expr_in_prop
                Ir.is_equal_expr
-               (fun _ _ expr_to -> expr_to)
+               (fun _ _ expr_to -> expr_to, [])
                goal
                Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
                Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
@@ -294,13 +380,16 @@ let apply_induction env name facts goal : t =
              List.map
                (fun (name, prop) ->
                   ( name
-                  , substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to)
-                      prop
-                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                      Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
-                      0 ))
+                  , let prop, _, _ =
+                      substitute_expr_in_prop
+                        Ir.is_equal_expr
+                        (fun _ _ expr_to -> expr_to, [])
+                        prop
+                        Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                        Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+                        0
+                    in
+                    prop ))
                facts
            in
            facts @ new_facts, new_goal)
@@ -338,14 +427,17 @@ let rec forall_target var_list target source =
     let new_expr =
       List.fold_left
         (fun e (name, e') ->
-           substitute_expr_in_expr
-             Ir.is_equal_expr
-             (fun _ _ expr_to -> expr_to)
-             e
-             Ir.{ desc = Var name; typ = e'.typ }
-             e'
-             0
-           |> fst)
+           let exp, _, _ =
+             substitute_expr_in_expr
+               Ir.is_equal_expr
+               (fun _ _ expr_to -> expr_to, [])
+               e
+               Ir.{ desc = Var name; typ = e'.typ }
+               e'
+               0
+               []
+           in
+           exp)
         e
         let_list
     in
@@ -362,7 +454,7 @@ let rec forall_target var_list target source =
 
 let convert_in_rewrite target expr_from expr_to =
   match expr_from.Ir.desc with
-  | Ir.Var _ -> expr_to
+  | Ir.Var _ -> expr_to, [ expr_from, expr_to ]
   (* we have to check variable in expr_to exsists in target *)
   | Ir.Call (name, args) ->
     (match target.Ir.desc with
@@ -370,18 +462,22 @@ let convert_in_rewrite target expr_from expr_to =
        if name = name'
        then (
          let args = List.map2 (fun a b -> a, b) args args' in
-         List.fold_left
-           (fun expr_to (arg, arg') ->
-              substitute_expr_in_expr
-                Ir.is_equal_expr
-                (fun _ _ expr_to -> expr_to)
-                expr_to
-                arg
-                arg'
-                0
-              |> fst)
-           expr_to
-           args)
+         ( List.fold_left
+             (fun expr_to (arg, arg') ->
+                let exp, _, _ =
+                  substitute_expr_in_expr
+                    Ir.is_equal_expr
+                    (fun _ _ expr_to -> expr_to, [])
+                    expr_to
+                    arg
+                    arg'
+                    0
+                    []
+                in
+                exp)
+             expr_to
+             args
+         , args ))
        else failwith "The function name is not equal"
      | _ -> failwith "Not rewritable")
   | _ -> failwith "The source is not a variable"
@@ -400,7 +496,7 @@ let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
   (* we have to consider substitute changed variable also must be changed in cond_list *)
   match target_label with
   | "goal" ->
-    let new_goal =
+    let new_goal, match_list, _ =
       substitute_expr_in_prop
         (forall_target var_list)
         convert_in_rewrite
@@ -409,11 +505,29 @@ let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
         expr_to
         i
     in
-    let _ = cond_list in
-    [ facts, new_goal ]
+    let new_task =
+      List.map
+        (fun cond ->
+           List.fold_left
+             (fun cond (e1, e2) ->
+                let prop, _, _ =
+                  substitute_expr_in_prop
+                    Ir.is_equal_expr
+                    (fun _ _ expr_to -> expr_to, [])
+                    cond
+                    e1
+                    e2
+                    0
+                in
+                prop)
+             cond
+             match_list)
+        cond_list
+    in
+    [ facts, new_goal ] @ List.map (fun goal -> facts, goal) new_task
   | _ ->
     let target_fact = List.assoc target_label facts in
-    let new_fact =
+    let new_fact, match_list, _ =
       substitute_expr_in_prop
         (forall_target var_list)
         convert_in_rewrite
@@ -422,12 +536,31 @@ let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
         expr_to
         i
     in
-    let new_facts =
+    let fact =
       List.map
         (fun (name, prop) -> if name = target_label then name, new_fact else name, prop)
         facts
     in
-    [ new_facts, goal ]
+    let new_task =
+      List.map
+        (fun cond ->
+           List.fold_left
+             (fun cond (e1, e2) ->
+                let prop, _, _ =
+                  substitute_expr_in_prop
+                    Ir.is_equal_expr
+                    (fun _ _ expr_to -> expr_to, [])
+                    cond
+                    e1
+                    e2
+                    0
+                in
+                prop)
+             cond
+             match_list)
+        cond_list
+    in
+    [ fact, goal ] @ List.map (fun goal -> facts, goal) new_task
 ;;
 
 let apply_rewrite_reverse facts goal fact_label target_label i =
@@ -443,7 +576,7 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
   (* we have to consider substitute changed variable also must be changed in cond_list *)
   match target_label with
   | "goal" ->
-    let new_goal =
+    let new_goal, match_list, _ =
       substitute_expr_in_prop
         (forall_target var_list)
         convert_in_rewrite
@@ -452,11 +585,31 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
         expr_to
         i
     in
+    let new_facts =
+      List.map
+        (fun cond ->
+           ( "Cond" ^ string_of_int (counter ())
+           , List.fold_left
+               (fun cond (e1, e2) ->
+                  let prop, _, _ =
+                    substitute_expr_in_prop
+                      Ir.is_equal_expr
+                      (fun _ _ expr_to -> expr_to, [])
+                      cond
+                      e1
+                      e2
+                      0
+                  in
+                  prop)
+               cond
+               match_list ))
+        cond_list
+    in
     let _ = cond_list in
-    [ facts, new_goal ]
+    [ facts @ new_facts, new_goal ]
   | _ ->
     let target_fact = List.assoc target_label facts in
-    let new_fact =
+    let new_fact, match_list, _ =
       substitute_expr_in_prop
         (forall_target var_list)
         convert_in_rewrite
@@ -465,12 +618,32 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
         expr_to
         i
     in
-    let new_facts =
+    let fact =
       List.map
         (fun (name, prop) -> if name = target_label then name, new_fact else name, prop)
         facts
     in
-    [ new_facts, goal ]
+    let new_facts =
+      List.map
+        (fun cond ->
+           ( "Cond" ^ string_of_int (counter ())
+           , List.fold_left
+               (fun cond (e1, e2) ->
+                  let prop, _, _ =
+                    substitute_expr_in_prop
+                      Ir.is_equal_expr
+                      (fun _ _ expr_to -> expr_to, [])
+                      cond
+                      e1
+                      e2
+                      0
+                  in
+                  prop)
+               cond
+               match_list ))
+        cond_list
+    in
+    [ fact @ new_facts, goal ]
 ;;
 
 let apply_case expr facts goal =
@@ -482,19 +655,19 @@ let apply_case expr facts goal =
     let new_fact2 =
       "case" ^ string_of_int (counter ()), Eq (expr, Ir.{ desc = Bool false; typ = Tbool })
     in
-    let new_goal1 =
+    let new_goal1, _, _ =
       substitute_expr_in_prop
         Ir.is_equal_expr
-        (fun _ _ expr_to -> expr_to)
+        (fun _ _ expr_to -> expr_to, [])
         goal
         expr
         Ir.{ desc = Bool true; typ = Tbool }
         0
     in
-    let new_goal2 =
+    let new_goal2, _, _ =
       substitute_expr_in_prop
         Ir.is_equal_expr
-        (fun _ _ expr_to -> expr_to)
+        (fun _ _ expr_to -> expr_to, [])
         goal
         expr
         Ir.{ desc = Bool false; typ = Tbool }
@@ -544,10 +717,10 @@ let apply_strong_induction env name facts goal =
                    , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
              ]
            in
-           let new_goal =
+           let new_goal, _, _ =
              substitute_expr_in_prop
                Ir.is_equal_expr
-               (fun _ _ expr_to -> expr_to)
+               (fun _ _ expr_to -> expr_to, [])
                goal
                Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
                Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
@@ -557,13 +730,16 @@ let apply_strong_induction env name facts goal =
              List.map
                (fun (name, prop) ->
                   ( name
-                  , substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to)
-                      prop
-                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                      Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
-                      0 ))
+                  , let prop, _, _ =
+                      substitute_expr_in_prop
+                        Ir.is_equal_expr
+                        (fun _ _ expr_to -> expr_to, [])
+                        prop
+                        Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                        Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+                        0
+                    in
+                    prop ))
                facts
            in
            facts @ new_facts, new_goal
@@ -586,10 +762,10 @@ let apply_strong_induction env name facts goal =
              let precedent =
                Ir.{ desc = Var precedent_var; typ = Ir.typ_of_string typ_name }
              in
-             let consequent =
+             let consequent, _, _ =
                substitute_expr_in_prop
                  Ir.is_equal_expr
-                 (fun _ _ expr_to -> expr_to)
+                 (fun _ _ expr_to -> expr_to, [])
                  goal
                  Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
                  precedent
@@ -614,10 +790,10 @@ let apply_strong_induction env name facts goal =
                       , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
                 ]
            in
-           let new_goal =
+           let new_goal, _, _ =
              substitute_expr_in_prop
                Ir.is_equal_expr
-               (fun _ _ expr_to -> expr_to)
+               (fun _ _ expr_to -> expr_to, [])
                goal
                Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
                Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
@@ -627,13 +803,16 @@ let apply_strong_induction env name facts goal =
              List.map
                (fun (name, prop) ->
                   ( name
-                  , substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to)
-                      prop
-                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                      Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
-                      0 ))
+                  , let prop, _, _ =
+                      substitute_expr_in_prop
+                        Ir.is_equal_expr
+                        (fun _ _ expr_to -> expr_to, [])
+                        prop
+                        Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                        Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+                        0
+                    in
+                    prop ))
                facts
            in
            facts @ new_facts, new_goal)
@@ -723,10 +902,10 @@ let apply_destruct env name facts goal =
                  , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
            ]
          in
-         let new_goal =
+         let new_goal, _, _ =
            substitute_expr_in_prop
              Ir.is_equal_expr
-             (fun _ _ expr_to -> expr_to)
+             (fun _ _ expr_to -> expr_to, [])
              goal
              Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
              Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
@@ -736,13 +915,16 @@ let apply_destruct env name facts goal =
            List.map
              (fun (name, prop) ->
                 ( name
-                , substitute_expr_in_prop
-                    Ir.is_equal_expr
-                    (fun _ _ expr_to -> expr_to)
-                    prop
-                    Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                    Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
-                    0 ))
+                , let prop, _, _ =
+                    substitute_expr_in_prop
+                      Ir.is_equal_expr
+                      (fun _ _ expr_to -> expr_to, [])
+                      prop
+                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                      Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+                      0
+                  in
+                  prop ))
              facts
          in
          facts @ new_facts, new_goal
@@ -767,10 +949,10 @@ let apply_destruct env name facts goal =
                  , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
            ]
          in
-         let new_goal =
+         let new_goal, _, _ =
            substitute_expr_in_prop
              Ir.is_equal_expr
-             (fun _ _ expr_to -> expr_to)
+             (fun _ _ expr_to -> expr_to, [])
              goal
              Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
              Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
@@ -780,13 +962,16 @@ let apply_destruct env name facts goal =
            List.map
              (fun (name, prop) ->
                 ( name
-                , substitute_expr_in_prop
-                    Ir.is_equal_expr
-                    (fun _ _ expr_to -> expr_to)
-                    prop
-                    Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                    Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
-                    0 ))
+                , let prop, _, _ =
+                    substitute_expr_in_prop
+                      Ir.is_equal_expr
+                      (fun _ _ expr_to -> expr_to, [])
+                      prop
+                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                      Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+                      0
+                  in
+                  prop ))
              facts
          in
          facts @ new_facts, new_goal)
@@ -810,66 +995,6 @@ let apply_tactic t env tactic : t =
   | Reflexivity -> apply_eq goal @ List.tl t
 ;;
 
-let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
-let string_of_theorem t = t |> sexp_of_theorem |> Sexplib.Sexp.to_string
-let string_of_tactic t = t |> sexp_of_tactic |> Sexplib.Sexp.to_string
-let string_of_prop p = p |> sexp_of_prop |> Sexplib.Sexp.to_string
-let string_of_expr e = e |> sexp_of_expr |> Sexplib.Sexp.to_string
-let pp_expr = Ir.pp_expr
-
-let rec pp_prop prop =
-  match prop with
-  | Eq (e1, e2) -> pp_expr e1 ^ " = " ^ pp_expr e2
-  | Le (e1, e2) -> pp_expr e1 ^ " <= " ^ pp_expr e2
-  | Lt (e1, e2) -> pp_expr e1 ^ " < " ^ pp_expr e2
-  | And (p1, p2) -> pp_prop p1 ^ " /\\ " ^ pp_prop p2
-  | Or (p1, p2) -> pp_prop p1 ^ " \\/ " ^ pp_prop p2
-  | Not p -> "not " ^ pp_prop p
-  | Forall (var_list, p) ->
-    "forall "
-    ^ (List.map (fun (name, typ) -> name ^ ":" ^ pp_prop typ) var_list
-       |> String.concat ". ")
-    ^ "."
-    ^ pp_prop p
-  | Imply (cond_list, p2) ->
-    (List.map (fun cond -> pp_prop cond) cond_list |> String.concat "->")
-    ^ " -> "
-    ^ pp_prop p2
-  | Type typ -> typ
-;;
-
-let pp_fact (name, prop) = name ^ " : " ^ pp_prop prop
-
-let pp_tactic tactic =
-  match tactic with
-  | Intro name -> "intro " ^ name
-  | RewriteInAt (fact, goal, i) ->
-    "rewrite " ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
-  | RewriteReverse (fact, goal, i) ->
-    "rewrite <-" ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
-  | Induction name -> "induction " ^ name
-  | StrongInduction name -> "strong induction " ^ name
-  | Destruct name -> "destruct " ^ name
-  | Case expr -> "case " ^ Ir.pp_expr expr
-  | SimplInAt (fact, goal, i) ->
-    "simpl " ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
-  | Reflexivity -> "reflexivity"
-;;
-
-let pp_theorem (tactics, goal) =
-  (List.map pp_tactic tactics |> String.concat "\n") ^ "\n" ^ pp_prop goal
-;;
-
-let pp_t (t : t) =
-  List.map
-    (fun (facts, goal) ->
-       (List.map pp_fact facts |> String.concat "\n")
-       ^ "\n---------------------------------------\n"
-       ^ pp_prop goal)
-    t
-  |> String.concat "\n\n"
-;;
-
 let mk_proof program_a program_b func_name =
   (* dummy *)
   let env = program_a @ program_b in
@@ -877,67 +1002,42 @@ let mk_proof program_a program_b func_name =
   ignore program_a;
   ignore program_b;
   let facts =
-    [ ( "H1"
-      , Forall
-          ( [ "n1", Type "nat" ]
+    [ ( "H"
+      , Imply
+          ( [ Eq
+                ( Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
+                , Ir.{ desc = Call ("ZERO", []); typ = Ir.typ_of_string "nat" } )
+            ]
           , Eq
               ( Ir.
                   { desc =
                       Call
                         ( "natadd"
-                        , [ { desc = Var "n1"; typ = Ir.typ_of_string "nat" }
-                          ; { desc = Var "n"; typ = Ir.typ_of_string "nat" }
+                        , [ Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" }
+                          ; Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
                           ] )
                   ; typ = Ir.typ_of_string "nat"
                   }
-              , Ir.
-                  { desc =
-                      Call
-                        ( "natadd"
-                        , [ { desc = Var "n"; typ = Ir.typ_of_string "nat" }
-                          ; { desc = Var "n1"; typ = Ir.typ_of_string "nat" }
-                          ] )
-                  ; typ = Ir.typ_of_string "nat"
-                  } ) ) )
+              , Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" } ) ) )
     ]
   in
   let goal =
-    Forall
-      ( [ "n", Type "nat" ]
-      , Eq
-          ( Ir.
-              { desc =
-                  Call
-                    ( "natadd"
-                    , [ { desc =
-                            Call
-                              ( "SUCC"
-                              , [ { desc = Var "n"; typ = Ir.typ_of_string "nat" } ] )
-                        ; typ = Ir.typ_of_string "nat"
-                        }
-                      ; { desc = Var "n1"; typ = Ir.typ_of_string "nat" }
-                      ] )
-              ; typ = Ir.typ_of_string "nat"
-              }
-          , Ir.
-              { desc =
-                  Call
-                    ( "natadd"
-                    , [ { desc = Var "n"; typ = Ir.typ_of_string "nat" }
-                      ; { desc =
-                            Call
-                              ( "SUCC"
-                              , [ { desc = Var "n"; typ = Ir.typ_of_string "nat" } ] )
-                        ; typ = Ir.typ_of_string "nat"
-                        }
-                      ] )
-              ; typ = Ir.typ_of_string "nat"
-              } ) )
+    Eq
+      ( Ir.
+          { desc =
+              Call
+                ( "natadd"
+                , [ Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" }
+                  ; Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
+                  ] )
+          ; typ = Ir.typ_of_string "nat"
+          }
+      , Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" } )
   in
   List.fold_left
     (fun t tactic -> apply_tactic t env tactic)
     [ facts, goal ]
-    [ StrongInduction "n" ]
+    [ RewriteInAt ("H", "goal", 0) ]
   |> pp_t
   |> print_endline
 ;;
