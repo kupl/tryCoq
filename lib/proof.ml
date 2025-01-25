@@ -28,7 +28,7 @@ and tactic =
   | StrongInduction of string
   | Destruct of string
   | Case of expr
-  | SimplInAt of string * string * int
+  | SimplIn of string
   | Reflexivity
 [@@deriving sexp]
 
@@ -88,8 +88,7 @@ let pp_tactic tactic =
   | StrongInduction name -> "strong induction " ^ name
   | Destruct name -> "destruct " ^ name
   | Case expr -> "case " ^ Ir.pp_expr expr
-  | SimplInAt (fact, goal, i) ->
-    "simpl " ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
+  | SimplIn target -> "simpl in " ^ target
   | Reflexivity -> "reflexivity"
 ;;
 
@@ -832,16 +831,6 @@ let apply_strong_induction env name facts goal =
   | _ -> failwith "not implemented"
 ;;
 
-let apply_simpl env facts goal fact target i =
-  ignore env;
-  ignore facts;
-  ignore goal;
-  ignore fact;
-  ignore target;
-  ignore i;
-  failwith "Not implemented"
-;;
-
 let rec get_type_in_prop name prop =
   match prop with
   | Eq (e1, e2) ->
@@ -990,6 +979,183 @@ let apply_destruct env name facts goal =
     decl
 ;;
 
+let rec get_case_match expr pat =
+  match expr.Ir.desc, pat with
+  | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ]
+  (* we need to check type *)
+  | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
+    if constr = constr'
+    then
+      if arg_list = [] && pat_list = []
+      then
+        [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
+          , Ir.{ desc = Call (constr, []); typ = expr.typ } )
+        ]
+      else
+        List.fold_left2
+          (fun (acc, is_done) e p ->
+             if is_done
+             then [], true
+             else (
+               let next = get_case_match e p in
+               if next = [] then [], true else acc @ next, false))
+          ([], false)
+          arg_list
+          pat_list
+        |> fst
+    else []
+  | _ -> []
+;;
+
+let rec simplify_expr (env : Ir.t) expr =
+  match expr.Ir.desc with
+  | Ir.Var _ -> expr
+  | Ir.Call (name, args) ->
+    let args = List.map (simplify_expr env) args in
+    (try
+       let decl = Ir.find_decl name env in
+       let decl_args, fun_decl =
+         match decl with
+         | Ir.NonRec (_, args, e) -> args, e
+         | Ir.Rec (_, args, e) -> args, e
+         | _ -> failwith "This expression is not a function"
+       in
+       let new_expr =
+         List.fold_left2
+           (fun e name arg ->
+              let exp, _, _ =
+                substitute_expr_in_expr
+                  Ir.is_equal_expr
+                  (fun _ _ expr_to -> expr_to, [])
+                  e
+                  Ir.{ desc = Var name; typ = arg.typ }
+                  arg
+                  0
+                  []
+              in
+              exp)
+           fun_decl
+           decl_args
+           args
+       in
+       simplify_expr env new_expr
+     with
+     | _ -> Ir.{ desc = Call (name, args); typ = expr.typ })
+  | Ir.Match (e, cases) ->
+    let e = simplify_expr env e in
+    let new_expr =
+      List.fold_left
+        (fun acc case ->
+           match acc with
+           | Some _ -> acc
+           | None ->
+             (match case with
+              | Ir.Case (pat, e') ->
+                let match_list = get_case_match e pat in
+                if match_list = []
+                then acc
+                else (
+                  let new_expr =
+                    List.fold_left
+                      (fun e (e1, e2) ->
+                         let exp, _, _ =
+                           substitute_expr_in_expr
+                             Ir.is_equal_expr
+                             (fun _ _ expr_to -> expr_to, [])
+                             e
+                             e1
+                             e2
+                             0
+                             []
+                         in
+                         exp)
+                      e'
+                      match_list
+                  in
+                  Some new_expr)))
+        None
+        cases
+    in
+    new_expr |> Option.get
+  | Ir.LetIn (let_list, e) ->
+    let new_expr =
+      List.fold_left
+        (fun e (name, e') ->
+           let exp, _, _ =
+             substitute_expr_in_expr
+               Ir.is_equal_expr
+               (fun _ _ expr_to -> expr_to, [])
+               e
+               Ir.{ desc = Var name; typ = e'.typ }
+               e'
+               0
+               []
+           in
+           exp)
+        e
+        let_list
+    in
+    simplify_expr env new_expr
+  | Ir.IfthenElse (e1, e2, e3) ->
+    let e1 = simplify_expr env e1 in
+    (match e1.Ir.desc with
+     | Ir.Bool true -> simplify_expr env e2
+     | Ir.Bool false -> simplify_expr env e3
+     | _ -> Ir.{ desc = IfthenElse (e1, e2, e3); typ = e2.typ })
+  | _ -> failwith "not implemented"
+;;
+
+let rec simplify_prop env prop =
+  match prop with
+  | Eq (e1, e2) ->
+    let e1 = simplify_expr env e1 in
+    let e2 = simplify_expr env e2 in
+    Eq (e1, e2)
+  | Le (e1, e2) ->
+    let e1 = simplify_expr env e1 in
+    let e2 = simplify_expr env e2 in
+    Le (e1, e2)
+  | Lt (e1, e2) ->
+    let e1 = simplify_expr env e1 in
+    let e2 = simplify_expr env e2 in
+    Lt (e1, e2)
+  | And (p1, p2) ->
+    let p1 = simplify_prop env p1 in
+    let p2 = simplify_prop env p2 in
+    And (p1, p2)
+  | Or (p1, p2) ->
+    let p1 = simplify_prop env p1 in
+    let p2 = simplify_prop env p2 in
+    Or (p1, p2)
+  | Not p ->
+    let p = simplify_prop env p in
+    Not p
+  | Forall (var_list, p) ->
+    let p = simplify_prop env p in
+    Forall (var_list, p)
+  | Imply (cond_list, p2) ->
+    let cond_list = List.map (simplify_prop env) cond_list in
+    let p2 = simplify_prop env p2 in
+    Imply (cond_list, p2)
+  | Type typ -> Type typ
+;;
+
+let apply_simpl env facts goal target =
+  match target with
+  | "goal" ->
+    let new_goal = simplify_prop env goal in
+    facts, new_goal
+  | _ ->
+    let new_fact = List.assoc target facts in
+    let new_fact = simplify_prop env new_fact in
+    let facts =
+      List.map
+        (fun (name, prop) -> if name = target then name, new_fact else name, prop)
+        facts
+    in
+    facts, goal
+;;
+
 let apply_tactic t env tactic : t =
   ignore env;
   let facts, goal = List.hd t in
@@ -1003,7 +1169,7 @@ let apply_tactic t env tactic : t =
   | StrongInduction name -> apply_strong_induction env name facts goal @ List.tl t
   | Destruct name -> apply_destruct env name facts goal @ List.tl t
   | Case expr -> apply_case expr facts goal @ List.tl t
-  | SimplInAt (fact, target, i) -> apply_simpl env facts goal fact target i :: List.tl t
+  | SimplIn target -> apply_simpl env facts goal target :: List.tl t
   | Reflexivity -> apply_eq goal @ List.tl t
 ;;
 
@@ -1013,21 +1179,32 @@ let mk_proof program_a program_b func_name =
   ignore func_name;
   ignore program_a;
   ignore program_b;
-  let facts =
-    [ ( "H"
-      , Forall
-          ( [ "n", Type "nat" ]
-          , Eq
-              ( Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
-              , Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" } ) ) )
-    ]
-  in
+  let facts = [] in
   let goal =
-    Eq
-      ( Ir.{ desc = Var "n"; typ = Ir.typ_of_string "nat" }
-      , Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" } )
+    Forall
+      ( [ "n1", Type "nat"; "n2", Type "nat" ]
+      , Eq
+          ( Ir.
+              { desc =
+                  Call
+                    ( "natadd_ta1"
+                    , [ Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" }
+                      ; Ir.{ desc = Var "n2"; typ = Ir.typ_of_string "nat" }
+                      ] )
+              ; typ = Ir.typ_of_string "nat"
+              }
+          , Ir.
+              { desc =
+                  Call
+                    ( "natadd_ta2"
+                    , [ Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" }
+                      ; Ir.{ desc = Var "n2"; typ = Ir.typ_of_string "nat" }
+                      ] )
+              ; typ = Ir.typ_of_string "nat"
+              } ) )
   in
-  List.fold_left (fun t tactic -> apply_tactic t env tactic) [ facts, goal ] []
+  let tactics = [ Induction "n1"; SimplIn "goal" ] in
+  List.fold_left (fun t tactic -> apply_tactic t env tactic) [ facts, goal ] tactics
   |> pp_t
   |> print_endline
 ;;

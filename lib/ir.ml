@@ -342,7 +342,7 @@ let substitute_expr pred convert target expr_from expr_to i result =
             (fun (cases, cnt, result) case ->
                let (Case (pattern, expr)) = case in
                let expr', result', cnt =
-                 substitute_expr' pred convert target expr expr_to cnt result
+                 substitute_expr' pred convert expr expr_from expr_to cnt result
                in
                cases @ [ Case (pattern, expr') ], cnt, result')
             ([], cnt, result)
