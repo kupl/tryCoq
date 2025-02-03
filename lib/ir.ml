@@ -521,3 +521,53 @@ let rec get_type_in_expr name expr =
   | Bool _ -> Some (typ_of_string "bool")
   | String _ -> Some (typ_of_string "string")
 ;;
+
+module StringSet = Set.Make (String)
+
+let get_free_vars expr =
+  let rec extract_free_vars (expr : Parsetree.expression) (bound : StringSet.t)
+    : StringSet.t
+    =
+    match expr.pexp_desc with
+    | Parsetree.Pexp_ident { txt = Longident.Lident name; _ } ->
+      if StringSet.mem name bound then StringSet.empty else StringSet.singleton name
+    | Pexp_let (_, bindings, body) ->
+      let bound_vars =
+        List.fold_left
+          (fun acc vb ->
+             match vb.Parsetree.pvb_pat.ppat_desc with
+             | Ppat_var { txt = var_name; _ } -> StringSet.add var_name acc
+             | _ -> acc)
+          bound
+          bindings
+      in
+      let fv_body = extract_free_vars body bound_vars in
+      let fv_bindings =
+        List.fold_left
+          (fun acc vb ->
+             StringSet.union acc (extract_free_vars vb.Parsetree.pvb_expr bound))
+          StringSet.empty
+          bindings
+      in
+      StringSet.union fv_body fv_bindings
+    | Pexp_apply (_, args) ->
+      List.fold_left
+        (fun acc (_, e) -> StringSet.union acc (extract_free_vars e bound))
+        bound
+        args
+    | Pexp_tuple exprs | Pexp_array exprs ->
+      List.fold_left
+        (fun acc e -> StringSet.union acc (extract_free_vars e bound))
+        StringSet.empty
+        exprs
+    | Pexp_ifthenelse (e1, e2, Some e3) ->
+      StringSet.union
+        (extract_free_vars e1 bound)
+        (StringSet.union (extract_free_vars e2 bound) (extract_free_vars e3 bound))
+    | Pexp_ifthenelse (e1, e2, None) ->
+      StringSet.union (extract_free_vars e1 bound) (extract_free_vars e2 bound)
+    | Pexp_construct (_, Some e) -> extract_free_vars e bound
+    | _ -> StringSet.empty
+  in
+  extract_free_vars expr StringSet.empty |> StringSet.elements
+;;

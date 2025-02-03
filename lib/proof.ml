@@ -1309,12 +1309,14 @@ let mk_proof program_a program_b func_name =
   |> print_endline
 ;;
 
-let parse_expr parse_env s =
-  let expr = Parser.parse_expr parse_env s in
-  let expr = Ir.get_expr expr in
-  let _ = expr |> pp_expr |> print_endline in
+let parse_expr parse_env goal src =
+  let expr = src |> Lexing.from_string |> Parse.expression in
+  let free_vars = Ir.get_free_vars expr in
+  let binding =
+    List.map (fun var -> var, get_type_in_prop var goal |> Option.get) free_vars
+  in
   ignore parse_env;
-  ignore s;
+  ignore binding;
   failwith "not implemented"
 ;;
 
@@ -1324,7 +1326,8 @@ let parse_prop parse_env s =
   failwith "not implemented"
 ;;
 
-let parse_tactic parse_env s =
+let parse_tactic t parse_env s =
+  let _, goal = List.hd t in
   ignore parse_env;
   let parts = String.split_on_char ' ' s in
   let name = List.hd parts in
@@ -1348,7 +1351,7 @@ let parse_tactic parse_env s =
   | "destruct" -> Destruct (List.hd args)
   | "simpl" -> SimplIn (List.hd args)
   | "reflexivity" -> Reflexivity
-  | "case" -> Case (parse_expr parse_env (String.concat " " args))
+  | "case" -> Case (parse_expr parse_env goal (String.concat " " args))
   | "assert" -> Assert (parse_prop parse_env (String.concat " " args))
   | _ -> failwith "not implemented"
 ;;
@@ -1385,7 +1388,7 @@ let proof_top program_a program_b parse_env =
     let s = read_line () in
     print_newline ();
     let t =
-      try apply_tactic t env (parse_tactic parse_env s) with
+      try apply_tactic t env (parse_tactic t parse_env s) with
       | e ->
         Printexc.to_string e |> print_endline;
         t
