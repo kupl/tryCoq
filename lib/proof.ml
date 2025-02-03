@@ -1308,3 +1308,89 @@ let mk_proof program_a program_b func_name =
   |> pp_t
   |> print_endline
 ;;
+
+let parse_expr parse_env s =
+  let expr = Parser.parse_expr parse_env s in
+  let expr = Ir.get_expr expr in
+  let _ = expr |> pp_expr |> print_endline in
+  ignore parse_env;
+  ignore s;
+  failwith "not implemented"
+;;
+
+let parse_prop parse_env s =
+  ignore parse_env;
+  ignore s;
+  failwith "not implemented"
+;;
+
+let parse_tactic parse_env s =
+  ignore parse_env;
+  let parts = String.split_on_char ' ' s in
+  let name = List.hd parts in
+  let args = List.tl parts in
+  match name with
+  | "intro" -> Intro (List.hd args)
+  | "rewrite" ->
+    if List.nth args 0 = "<-"
+    then
+      RewriteReverse
+        ( List.nth args 1
+        , List.nth args 3
+        , if List.nth args 5 = "*" then 0 else int_of_string (List.nth args 5) )
+    else
+      RewriteInAt
+        ( List.nth args 0
+        , List.nth args 2
+        , if List.nth args 4 = "*" then 0 else int_of_string (List.nth args 4) )
+  | "induction" -> Induction (List.hd args)
+  | "strong_induction" -> StrongInduction (List.hd args)
+  | "destruct" -> Destruct (List.hd args)
+  | "simpl" -> SimplIn (List.hd args)
+  | "reflexivity" -> Reflexivity
+  | "case" -> Case (parse_expr parse_env (String.concat " " args))
+  | "assert" -> Assert (parse_prop parse_env (String.concat " " args))
+  | _ -> failwith "not implemented"
+;;
+
+let proof_top program_a program_b parse_env =
+  let goal =
+    Forall
+      ( [ "a", Type "nat"; "b", Type "nat" ]
+      , Eq
+          ( Ir.
+              { desc =
+                  Call
+                    ( "natadd_ta1"
+                    , [ Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
+                      ; Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
+                      ] )
+              ; typ = Ir.typ_of_string "nat"
+              }
+          , Ir.
+              { desc =
+                  Call
+                    ( "natadd_ta2"
+                    , [ Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
+                      ; Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
+                      ] )
+              ; typ = Ir.typ_of_string "nat"
+              } ) )
+  in
+  let env = program_a @ program_b in
+  let init = [ [], goal ] in
+  let rec loop t =
+    pp_t t |> print_endline;
+    print_newline ();
+    let s = read_line () in
+    print_newline ();
+    let t =
+      try apply_tactic t env (parse_tactic parse_env s) with
+      | e ->
+        Printexc.to_string e |> print_endline;
+        t
+    in
+    loop t
+  in
+  loop init
+;;
