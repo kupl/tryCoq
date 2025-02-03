@@ -323,7 +323,7 @@ let get_typ_decl decl =
 let substitute_expr pred convert target expr_from expr_to i result =
   let rec substitute_expr' pred convert target expr_from expr_to cnt result =
     if i < cnt && i <> 0
-    then target, [], cnt
+    then target, result, cnt
     else if pred target expr_from
     then
       if cnt = i || i = 0
@@ -379,10 +379,10 @@ let substitute_expr pred convert target expr_from expr_to i result =
         let args', cnt, result =
           List.fold_left
             (fun (args, cnt, result) arg ->
-               let arg', result, cnt =
+               let arg', result', cnt =
                  substitute_expr' pred convert arg expr_from expr_to cnt result
                in
-               args @ [ arg' ], cnt, result)
+               args @ [ arg' ], cnt, result')
             ([], cnt, result)
             args
         in
@@ -400,7 +400,7 @@ let substitute_expr pred convert target expr_from expr_to i result =
             l
         in
         { desc = List l'; typ = target.typ }, result, cnt
-      | Var _ -> target, [], cnt
+      | Var _ -> target, result, cnt
       | Tuple l ->
         let l', cnt, result =
           List.fold_left
@@ -414,7 +414,10 @@ let substitute_expr pred convert target expr_from expr_to i result =
         in
         { desc = Tuple l'; typ = target.typ }, result, cnt)
   in
-  substitute_expr' pred convert target expr_from expr_to 1 result
+  let expr, result, cnt =
+    substitute_expr' pred convert target expr_from expr_to 1 result
+  in
+  expr, result, cnt
 ;;
 
 let rec is_equal_expr e1 e2 =

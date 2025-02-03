@@ -30,12 +30,13 @@ and tactic =
   | Case of expr
   | SimplIn of string
   | Reflexivity
+  | Assert of prop
 [@@deriving sexp]
 
 type env = Ir.t [@@deriving sexp]
 
 let range start stop =
-  let rec range' i acc = if i = stop then acc else range' (i + 1) (i :: acc) in
+  let rec range' i acc = if i = stop then acc else range' (i + 1) (acc @ [ i ]) in
   range' start []
 ;;
 
@@ -90,6 +91,7 @@ let pp_tactic tactic =
   | Case expr -> "case " ^ Ir.pp_expr expr
   | SimplIn target -> "simpl in " ^ target
   | Reflexivity -> "reflexivity"
+  | Assert prop -> "assert " ^ pp_prop prop
 ;;
 
 let pp_theorem (tactics, goal) =
@@ -117,8 +119,8 @@ let partition_and_transform (pred : 'a -> bool) (transform : 'a -> 'b) (lst : 'a
     | x :: xs ->
       let transformed = transform x in
       if pred x
-      then aux (transformed :: acc1) acc2 xs
-      else aux (transformed :: acc1) (transformed :: acc2) xs
+      then aux (transformed :: acc1) (transformed :: acc2) xs
+      else aux (transformed :: acc1) acc2 xs
   in
   aux [] [] lst
 ;;
@@ -250,7 +252,8 @@ let apply_intro name facts goal =
       | _ -> failwith "there is no such variable"
     in
     let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
-    facts @ [ name, typ ], Forall (var_list, goal)
+    let new_goal = if List.is_empty var_list then goal else Forall (var_list, goal) in
+    facts @ [ name, typ ], new_goal
   | Imply (cond_list, p2) ->
     facts @ [ name, List.hd cond_list ], Imply (List.tl cond_list, p2)
   | _ -> failwith "There is no term that can be introduced"
@@ -270,6 +273,7 @@ let apply_induction env name facts goal : t =
       try List.assoc name var_list with
       | _ -> failwith "there is no such variable"
     in
+    let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
     let typ_name =
       match typ with
       | Type typ -> typ
@@ -311,6 +315,9 @@ let apply_induction env name facts goal : t =
                Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
                Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
                0
+           in
+           let new_goal =
+             if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
            in
            let facts =
              List.map
@@ -357,7 +364,7 @@ let apply_induction env name facts goal : t =
                         arg
                         0
                     in
-                    prop ))
+                    if List.is_empty var_list then prop else Forall (var_list, prop) ))
                new_rec_args
            in
            let new_facts =
@@ -376,6 +383,9 @@ let apply_induction env name facts goal : t =
                Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
                Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
                0
+           in
+           let new_goal =
+             if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
            in
            let facts =
              List.map
@@ -461,7 +471,7 @@ let convert_in_rewrite target expr_from expr_to =
      | Ir.Call (name', args') ->
        if name = name'
        then (
-         let args = List.map2 (fun a b -> a, b) args args' in
+         let args = List.combine args args' in
          ( List.fold_left
              (fun expr_to (arg, arg') ->
                 let exp, _, _ =
@@ -1156,6 +1166,13 @@ let apply_simpl env facts goal target =
     facts, goal
 ;;
 
+let apply_assert prop t =
+  let lemma_name = "lemma" ^ string_of_int (counter ()) in
+  let t = List.map (fun (facts, goal) -> facts @ [ lemma_name, prop ], goal) t in
+  let lemma = [], prop in
+  lemma :: t
+;;
+
 let apply_tactic t env tactic : t =
   ignore env;
   let facts, goal = List.hd t in
@@ -1171,6 +1188,7 @@ let apply_tactic t env tactic : t =
   | Case expr -> apply_case expr facts goal @ List.tl t
   | SimplIn target -> apply_simpl env facts goal target :: List.tl t
   | Reflexivity -> apply_eq goal @ List.tl t
+  | Assert prop -> apply_assert prop t
 ;;
 
 let mk_proof program_a program_b func_name =
@@ -1182,14 +1200,14 @@ let mk_proof program_a program_b func_name =
   let facts = [] in
   let goal =
     Forall
-      ( [ "n1", Type "nat"; "n2", Type "nat" ]
+      ( [ "a", Type "nat"; "b", Type "nat" ]
       , Eq
           ( Ir.
               { desc =
                   Call
                     ( "natadd_ta1"
-                    , [ Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" }
-                      ; Ir.{ desc = Var "n2"; typ = Ir.typ_of_string "nat" }
+                    , [ Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
+                      ; Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
                       ] )
               ; typ = Ir.typ_of_string "nat"
               }
@@ -1197,13 +1215,95 @@ let mk_proof program_a program_b func_name =
               { desc =
                   Call
                     ( "natadd_ta2"
-                    , [ Ir.{ desc = Var "n1"; typ = Ir.typ_of_string "nat" }
-                      ; Ir.{ desc = Var "n2"; typ = Ir.typ_of_string "nat" }
+                    , [ Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
+                      ; Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
                       ] )
               ; typ = Ir.typ_of_string "nat"
               } ) )
   in
-  let tactics = [ Induction "n1"; SimplIn "goal" ] in
+  let lemma =
+    Forall
+      ( [ "a", Type "nat" ]
+      , Eq
+          ( Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
+          , Ir.
+              { desc =
+                  Call
+                    ( "natadd_ta2"
+                    , [ Ir.{ desc = Call ("ZERO", []); typ = Ir.typ_of_string "nat" }
+                      ; Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
+                      ] )
+              ; typ = Ir.typ_of_string "nat"
+              } ) )
+  in
+  let lemma2 =
+    Forall
+      ( [ "a", Type "nat"; "b", Type "nat" ]
+      , Eq
+          ( Ir.
+              { desc =
+                  Call
+                    ( "natadd_ta2"
+                    , [ Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
+                      ; Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
+                      ] )
+              ; typ = Ir.typ_of_string "nat"
+              }
+          , Ir.
+              { desc =
+                  Call
+                    ( "natadd_ta2"
+                    , [ Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
+                      ; Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
+                      ] )
+              ; typ = Ir.typ_of_string "nat"
+              } ) )
+  in
+  let _ = ignore (lemma, lemma2) in
+  let tactics =
+    [ Induction "a"
+    ; SimplIn "goal"
+    ; Induction "b"
+    ; SimplIn "goal"
+    ; Reflexivity
+    ; SimplIn "goal"
+    ; RewriteReverse ("IH7", "goal", 0)
+    ; Reflexivity
+    ; SimplIn "goal"
+    ; Intro "b"
+    ; RewriteInAt ("IH3", "goal", 0)
+    ; Assert lemma2
+    ; Induction "a"
+    ; SimplIn "goal"
+    ; Induction "b"
+    ; SimplIn "goal"
+    ; Reflexivity
+    ; SimplIn "goal"
+    ; RewriteInAt ("IH16", "goal", 0)
+    ; Reflexivity
+    ; SimplIn "goal"
+    ; Induction "b"
+    ; SimplIn "goal"
+    ; Assert lemma
+    ; Induction "a"
+    ; SimplIn "goal"
+    ; Reflexivity
+    ; SimplIn "goal"
+    ; RewriteReverse ("IH25", "goal", 0)
+    ; Reflexivity
+    ; RewriteReverse ("lemma22", "goal", 0)
+    ; Reflexivity
+    ; SimplIn "goal"
+    ; RewriteReverse ("IH12", "goal", 0)
+    ; SimplIn "goal"
+    ; RewriteInAt ("IH20", "goal", 0)
+    ; RewriteInAt ("IH12", "goal", 0)
+    ; Reflexivity
+    ; RewriteInAt ("lemma9", "goal", 0)
+    ; SimplIn "goal"
+    ; Reflexivity
+    ]
+  in
   List.fold_left (fun t tactic -> apply_tactic t env tactic) [ facts, goal ] tactics
   |> pp_t
   |> print_endline
