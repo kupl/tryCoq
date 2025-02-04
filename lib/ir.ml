@@ -296,11 +296,20 @@ and get_type (expr : Typedtree.expression) =
   let rec pr_type type_expr =
     match type_expr with
     | Types.Tvar (Some name) -> name |> typ_of_string
+    | Tvar None -> Tany
     | Tconstr (path, _, _) -> path |> Path.name |> typ_of_string
     | Tarrow (_, _, e2, _) -> e2 |> Types.get_desc |> pr_type
     | Ttuple l -> Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type) l)
-    | Tpoly (_, _) -> failwith "polymorphic type"
     | _ -> failwith "Not implemented"
+    (* | Tpoly (_, _) -> failwith "polymorphic type"
+    | Tnil -> failwith "empty list"
+    | Tpackage (_, _) -> failwith "package type"
+    | Tvariant _ -> failwith "variant type"
+    | Tobject _ -> failwith "object type"
+    | Tfield _ -> failwith "field type"
+    | Tsubst _ -> failwith "subst type"
+    | Tlink _ -> failwith "link type"
+    | Tunivar _ -> failwith "univar type" *)
   in
   expr.exp_type |> Types.get_desc |> pr_type
 ;;
