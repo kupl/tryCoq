@@ -1309,26 +1309,57 @@ let mk_proof program_a program_b func_name =
   |> print_endline
 ;;
 
-let parse_expr parse_env goal src =
+let parse_expr goal src =
   let expr = src |> Lexing.from_string |> Parse.expression in
   let free_vars = Ir.get_free_vars expr in
   let binding =
     List.map (fun var -> var, get_type_in_prop var goal |> Option.get) free_vars
   in
-  ignore parse_env;
-  ignore binding;
-  failwith "not implemented"
+  Ir.ir_of_parsetree expr binding
 ;;
 
-let parse_prop parse_env s =
-  ignore parse_env;
-  ignore s;
-  failwith "not implemented"
+let rec parse_prop src binding =
+  let parts = String.split_on_char ',' src in
+  match parts with
+  | [ src ] ->
+    let parts = String.split_on_char '=' src in
+    let lhs = List.hd parts |> Lexing.from_string |> Parse.expression in
+    let rhs = List.nth parts 1 |> Lexing.from_string |> Parse.expression in
+    let lhs = Ir.ir_of_parsetree lhs binding in
+    let rhs = Ir.ir_of_parsetree rhs binding in
+    Eq (lhs, rhs)
+  | quantifer :: prop ->
+    let quantifer = String.split_on_char ' ' quantifer in
+    let quantifer = String.concat "" quantifer in
+    let quantifer = String.split_on_char '(' quantifer in
+    let quantifer = List.tl quantifer in
+    let qvars =
+      List.map
+        (fun qvar ->
+           match String.split_on_char ':' qvar with
+           | [ var; typ ] ->
+             let typ = String.split_on_char ')' typ |> List.hd in
+             var, Type typ
+           | _ -> failwith "not implemented")
+        quantifer
+    in
+    let binding =
+      List.map
+        (fun qvar ->
+           match String.split_on_char ':' qvar with
+           | [ var; typ ] ->
+             let typ = String.split_on_char ')' typ |> List.hd in
+             var, Ir.typ_of_string typ
+           | _ -> failwith "not implemented")
+        quantifer
+    in
+    let prop = String.concat " " prop in
+    Forall (qvars, parse_prop prop binding)
+  | _ -> failwith "not implemented"
 ;;
 
-let parse_tactic t parse_env s =
+let parse_tactic t s =
   let _, goal = List.hd t in
-  ignore parse_env;
   let parts = String.split_on_char ' ' s in
   let name = List.hd parts in
   let args = List.tl parts in
@@ -1351,12 +1382,12 @@ let parse_tactic t parse_env s =
   | "destruct" -> Destruct (List.hd args)
   | "simpl" -> SimplIn (List.hd args)
   | "reflexivity" -> Reflexivity
-  | "case" -> Case (parse_expr parse_env goal (String.concat " " args))
-  | "assert" -> Assert (parse_prop parse_env (String.concat " " args))
+  | "case" -> Case (parse_expr goal (String.concat " " args))
+  | "assert" -> Assert (parse_prop (String.concat " " args) [])
   | _ -> failwith "not implemented"
 ;;
 
-let proof_top program_a program_b parse_env =
+let proof_top program_a program_b =
   let goal =
     Forall
       ( [ "a", Type "nat"; "b", Type "nat" ]
@@ -1388,7 +1419,7 @@ let proof_top program_a program_b parse_env =
     let s = read_line () in
     print_newline ();
     let t =
-      try apply_tactic t env (parse_tactic t parse_env s) with
+      try apply_tactic t env (parse_tactic t s) with
       | e ->
         Printexc.to_string e |> print_endline;
         t

@@ -571,3 +571,32 @@ let get_free_vars expr =
   in
   extract_free_vars expr StringSet.empty |> StringSet.elements
 ;;
+
+let rec ir_of_parsetree parse_expr binding =
+  match parse_expr.Parsetree.pexp_desc with
+  | Pexp_ident { txt = Longident.Lident name; _ } ->
+    { desc = Var name; typ = List.assoc name binding }
+  | Pexp_apply (func, args) ->
+    (match func.pexp_desc with
+     | Pexp_ident { txt = Longident.Lident name; _ } ->
+       (* have to get function return type *)
+       { desc = Call (name, List.map (fun (_, arg) -> ir_of_parsetree arg binding) args)
+       ; typ = List.assoc name binding
+       }
+     | _ -> failwith "Not implemented")
+  | Pexp_construct ({ txt = Longident.Lident name; _ }, Some e) ->
+    (* have to get constructor return type *)
+    { desc = Call (name, [ ir_of_parsetree e binding ]); typ = List.assoc name binding }
+  | Pexp_construct ({ txt = Longident.Lident name; _ }, None) ->
+    { desc = Call (name, []); typ = List.assoc name binding }
+  | Pexp_ifthenelse (cond, e1, e2_opt) ->
+    let cond = ir_of_parsetree cond binding in
+    let e1 = ir_of_parsetree e1 binding in
+    let e2 =
+      match e2_opt with
+      | Some e2 -> ir_of_parsetree e2 binding
+      | None -> failwith "Not implemented"
+    in
+    { desc = IfthenElse (cond, e1, e2); typ = e1.typ }
+  | _ -> failwith "Not implemented"
+;;
