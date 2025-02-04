@@ -1047,6 +1047,18 @@ let rec get_case_match expr pat =
           pat_list
         |> fst
     else []
+  | Ir.Tuple arg_list, Ir.Pat_Tuple pat_list ->
+    List.fold_left2
+      (fun (acc, is_done) e p ->
+         if is_done
+         then [], true
+         else (
+           let next = get_case_match e p in
+           if next = [] then [], true else acc @ next, false))
+      ([], false)
+      arg_list
+      pat_list
+    |> fst
   | _ -> []
 ;;
 
@@ -1145,6 +1157,8 @@ let rec simplify_expr (env : Ir.t) expr =
      | Ir.Bool true -> simplify_expr env e2
      | Ir.Bool false -> simplify_expr env e3
      | _ -> Ir.{ desc = IfthenElse (e1, e2, e3); typ = e2.typ })
+  | Ir.Tuple args ->
+    Ir.{ desc = Tuple (List.map (simplify_expr env) args); typ = expr.typ }
   | _ -> failwith "not implemented"
 ;;
 

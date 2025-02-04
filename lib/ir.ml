@@ -295,14 +295,14 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
 and get_type (expr : Typedtree.expression) =
   let rec pr_type type_expr =
     match type_expr with
-    | Types.Tvar (Some name) -> name
-    | Tconstr (path, _, _) -> path |> Path.name
+    | Types.Tvar (Some name) -> name |> typ_of_string
+    | Tconstr (path, _, _) -> path |> Path.name |> typ_of_string
     | Tarrow (_, _, e2, _) -> e2 |> Types.get_desc |> pr_type
+    | Ttuple l -> Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type) l)
     | Tpoly (_, _) -> failwith "polymorphic type"
     | _ -> failwith "Not implemented"
   in
-  let typ = expr.exp_type |> Types.get_desc |> pr_type in
-  typ_of_string typ
+  expr.exp_type |> Types.get_desc |> pr_type
 ;;
 
 let find_decl name (decls : t) =
@@ -331,7 +331,7 @@ let substitute_expr pred convert target expr_from expr_to i result =
       then (
         let expr, result = convert target expr_from expr_to in
         expr, result, cnt + 1)
-      else expr_from, result, cnt + 1
+      else target, result, cnt + 1
     else (
       match target.desc with
       | Match (e1, cases) ->
