@@ -83,7 +83,8 @@ and pp_expr expr =
   | Call (name, args) ->
     (match args with
      | [] -> name
-     | _ -> name ^ " (" ^ String.concat " " (List.map pp_expr args) ^ ")")
+     | _ ->
+       name ^ " " ^ String.concat " " (List.map (fun arg -> "(" ^ pp_expr arg ^ ")") args))
   | Int i -> string_of_int i
   | String s -> "\"" ^ s ^ "\""
   | Bool b -> string_of_bool b
@@ -572,29 +573,59 @@ let get_free_vars expr =
   extract_free_vars expr StringSet.empty |> StringSet.elements
 ;;
 
-let rec ir_of_parsetree parse_expr binding =
+let search_return_type name t =
+  let decl = find_decl name t in
+  match decl with
+  | NonRec (_, _, expr) | Rec (_, _, expr) -> expr.typ
+  | _ -> failwith "This is not a function"
+;;
+
+let search_constr_type name t =
+  let typ_decl =
+    List.filter
+      (fun decl ->
+         match decl with
+         | TypeDecl _ -> true
+         | _ -> false)
+      t
+  in
+  let is_in decl = List.exists (fun (Constructor constr, _) -> constr = name) decl in
+  let decl =
+    List.find
+      (fun decl ->
+         match decl with
+         | TypeDecl (_, decl) -> is_in decl
+         | _ -> failwith "not implemented")
+      typ_decl
+  in
+  match decl with
+  | TypeDecl (name, _) -> typ_of_string name
+  | _ -> failwith "something wrong"
+;;
+
+let rec ir_of_parsetree parse_expr binding t =
   match parse_expr.Parsetree.pexp_desc with
   | Pexp_ident { txt = Longident.Lident name; _ } ->
     { desc = Var name; typ = List.assoc name binding }
   | Pexp_apply (func, args) ->
     (match func.pexp_desc with
      | Pexp_ident { txt = Longident.Lident name; _ } ->
-       (* have to get function return type *)
-       { desc = Call (name, List.map (fun (_, arg) -> ir_of_parsetree arg binding) args)
-       ; typ = List.assoc name binding
+       { desc = Call (name, List.map (fun (_, arg) -> ir_of_parsetree arg binding t) args)
+       ; typ = search_return_type name t
        }
      | _ -> failwith "Not implemented")
   | Pexp_construct ({ txt = Longident.Lident name; _ }, Some e) ->
-    (* have to get constructor return type *)
-    { desc = Call (name, [ ir_of_parsetree e binding ]); typ = List.assoc name binding }
+    { desc = Call (name, [ ir_of_parsetree e binding t ])
+    ; typ = search_constr_type name t
+    }
   | Pexp_construct ({ txt = Longident.Lident name; _ }, None) ->
-    { desc = Call (name, []); typ = List.assoc name binding }
+    { desc = Call (name, []); typ = search_constr_type name t }
   | Pexp_ifthenelse (cond, e1, e2_opt) ->
-    let cond = ir_of_parsetree cond binding in
-    let e1 = ir_of_parsetree e1 binding in
+    let cond = ir_of_parsetree cond binding t in
+    let e1 = ir_of_parsetree e1 binding t in
     let e2 =
       match e2_opt with
-      | Some e2 -> ir_of_parsetree e2 binding
+      | Some e2 -> ir_of_parsetree e2 binding t
       | None -> failwith "Not implemented"
     in
     { desc = IfthenElse (cond, e1, e2); typ = e1.typ }

@@ -463,6 +463,24 @@ let rec forall_target var_list target source =
   | _ -> false
 ;;
 
+let rec get_match_var (match_list : (expr * expr) list) =
+  List.fold_left
+    (fun acc (expr_from, expr_to) ->
+       match expr_from.Ir.desc with
+       | Ir.Var _ -> (expr_from, expr_to) :: acc
+       | Ir.Call (_, args) ->
+         (match expr_to.Ir.desc with
+          | Ir.Call (_, args') ->
+            List.fold_left
+              (fun acc (arg, arg') -> get_match_var [ arg, arg' ] @ acc)
+              acc
+              (List.combine args args')
+          | _ -> failwith "not implemented")
+       | _ -> acc)
+    []
+    match_list
+;;
+
 let convert_in_rewrite target expr_from expr_to =
   match expr_from.Ir.desc with
   | Ir.Var _ -> expr_to, [ expr_from, expr_to ]
@@ -472,6 +490,7 @@ let convert_in_rewrite target expr_from expr_to =
        if name = name'
        then (
          let args = List.combine args args' in
+         let args = get_match_var args in
          ( List.fold_left
              (fun expr_to (arg, arg') ->
                 let exp, _, _ =
@@ -522,10 +541,13 @@ let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
                 (fun (e2, _) ->
                    match e2.Ir.desc with
                    | Var var -> e1 = var
-                   | _ -> failwith "not implemented")
+                   | _ -> false)
                 match_list)
            var_list)
-    then failwith "Cannot find matched variable"
+    then (
+      match_list
+      |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b));
+      failwith "Cannot find matched variable")
     else (
       let new_task =
         List.map
@@ -606,11 +628,23 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
         expr_to
         i
     in
-    let new_facts =
-      List.map
-        (fun cond ->
-           ( "Cond" ^ string_of_int (counter ())
-           , List.fold_left
+    if
+      not
+        (List.for_all
+           (fun (e1, _) ->
+              List.exists
+                (fun (e2, _) ->
+                   match e2.Ir.desc with
+                   | Var var -> e1 = var
+                   | _ -> false)
+                match_list)
+           var_list)
+    then failwith "Cannot find matched variable"
+    else (
+      let new_task =
+        List.map
+          (fun cond ->
+             List.fold_left
                (fun cond (e1, e2) ->
                   let prop, _, _ =
                     substitute_expr_in_prop
@@ -623,11 +657,10 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
                   in
                   prop)
                cond
-               match_list ))
-        cond_list
-    in
-    let _ = cond_list in
-    [ facts @ new_facts, new_goal ]
+               match_list)
+          cond_list
+      in
+      [ facts, new_goal ] @ List.map (fun goal -> facts, goal) new_task)
   | _ ->
     let target_fact = List.assoc target_label facts in
     let new_fact, match_list, _ =
@@ -1174,159 +1207,43 @@ let apply_assert prop t =
 ;;
 
 let apply_tactic t env tactic : t =
-  ignore env;
-  let facts, goal = List.hd t in
   match tactic with
-  | Intro name -> apply_intro name facts goal :: List.tl t
-  | RewriteInAt (fact, target_label, i) ->
-    apply_rewrite facts goal fact target_label i @ List.tl t
-  | RewriteReverse (fact, target_label, i) ->
-    apply_rewrite_reverse facts goal fact target_label i @ List.tl t
-  | Induction name -> apply_induction env name facts goal @ List.tl t
-  | StrongInduction name -> apply_strong_induction env name facts goal @ List.tl t
-  | Destruct name -> apply_destruct env name facts goal @ List.tl t
-  | Case expr -> apply_case expr facts goal @ List.tl t
-  | SimplIn target -> apply_simpl env facts goal target :: List.tl t
-  | Reflexivity -> apply_eq goal @ List.tl t
   | Assert prop -> apply_assert prop t
+  | _ ->
+    let facts, goal = List.hd t in
+    (match tactic with
+     | Intro name -> apply_intro name facts goal :: List.tl t
+     | RewriteInAt (fact, target_label, i) ->
+       apply_rewrite facts goal fact target_label i @ List.tl t
+     | RewriteReverse (fact, target_label, i) ->
+       apply_rewrite_reverse facts goal fact target_label i @ List.tl t
+     | Induction name -> apply_induction env name facts goal @ List.tl t
+     | StrongInduction name -> apply_strong_induction env name facts goal @ List.tl t
+     | Destruct name -> apply_destruct env name facts goal @ List.tl t
+     | Case expr -> apply_case expr facts goal @ List.tl t
+     | SimplIn target -> apply_simpl env facts goal target :: List.tl t
+     | Reflexivity -> apply_eq goal @ List.tl t
+     | _ -> failwith "not implemented")
 ;;
 
-let mk_proof program_a program_b func_name =
-  (* dummy *)
-  let env = program_a @ program_b in
-  ignore func_name;
-  ignore program_a;
-  ignore program_b;
-  let facts = [] in
-  let goal =
-    Forall
-      ( [ "a", Type "nat"; "b", Type "nat" ]
-      , Eq
-          ( Ir.
-              { desc =
-                  Call
-                    ( "natadd_ta1"
-                    , [ Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
-                      ; Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
-                      ] )
-              ; typ = Ir.typ_of_string "nat"
-              }
-          , Ir.
-              { desc =
-                  Call
-                    ( "natadd_ta2"
-                    , [ Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
-                      ; Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
-                      ] )
-              ; typ = Ir.typ_of_string "nat"
-              } ) )
-  in
-  let lemma =
-    Forall
-      ( [ "a", Type "nat" ]
-      , Eq
-          ( Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
-          , Ir.
-              { desc =
-                  Call
-                    ( "natadd_ta2"
-                    , [ Ir.{ desc = Call ("ZERO", []); typ = Ir.typ_of_string "nat" }
-                      ; Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
-                      ] )
-              ; typ = Ir.typ_of_string "nat"
-              } ) )
-  in
-  let lemma2 =
-    Forall
-      ( [ "a", Type "nat"; "b", Type "nat" ]
-      , Eq
-          ( Ir.
-              { desc =
-                  Call
-                    ( "natadd_ta2"
-                    , [ Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
-                      ; Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
-                      ] )
-              ; typ = Ir.typ_of_string "nat"
-              }
-          , Ir.
-              { desc =
-                  Call
-                    ( "natadd_ta2"
-                    , [ Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
-                      ; Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
-                      ] )
-              ; typ = Ir.typ_of_string "nat"
-              } ) )
-  in
-  let _ = ignore (lemma, lemma2) in
-  let tactics =
-    [ Induction "a"
-    ; SimplIn "goal"
-    ; Induction "b"
-    ; SimplIn "goal"
-    ; Reflexivity
-    ; SimplIn "goal"
-    ; RewriteReverse ("IH7", "goal", 0)
-    ; Reflexivity
-    ; SimplIn "goal"
-    ; Intro "b"
-    ; RewriteInAt ("IH3", "goal", 0)
-    ; Assert lemma2
-    ; Induction "a"
-    ; SimplIn "goal"
-    ; Induction "b"
-    ; SimplIn "goal"
-    ; Reflexivity
-    ; SimplIn "goal"
-    ; RewriteInAt ("IH16", "goal", 0)
-    ; Reflexivity
-    ; SimplIn "goal"
-    ; Induction "b"
-    ; SimplIn "goal"
-    ; Assert lemma
-    ; Induction "a"
-    ; SimplIn "goal"
-    ; Reflexivity
-    ; SimplIn "goal"
-    ; RewriteReverse ("IH25", "goal", 0)
-    ; Reflexivity
-    ; RewriteReverse ("lemma22", "goal", 0)
-    ; Reflexivity
-    ; SimplIn "goal"
-    ; RewriteReverse ("IH12", "goal", 0)
-    ; SimplIn "goal"
-    ; RewriteInAt ("IH20", "goal", 0)
-    ; RewriteInAt ("IH12", "goal", 0)
-    ; Reflexivity
-    ; RewriteInAt ("lemma9", "goal", 0)
-    ; SimplIn "goal"
-    ; Reflexivity
-    ]
-  in
-  List.fold_left (fun t tactic -> apply_tactic t env tactic) [ facts, goal ] tactics
-  |> pp_t
-  |> print_endline
-;;
-
-let parse_expr goal src =
+let parse_expr goal src decls =
   let expr = src |> Lexing.from_string |> Parse.expression in
   let free_vars = Ir.get_free_vars expr in
   let binding =
     List.map (fun var -> var, get_type_in_prop var goal |> Option.get) free_vars
   in
-  Ir.ir_of_parsetree expr binding
+  Ir.ir_of_parsetree expr binding decls
 ;;
 
-let rec parse_prop src binding =
+let rec parse_prop src binding decls =
   let parts = String.split_on_char ',' src in
   match parts with
   | [ src ] ->
     let parts = String.split_on_char '=' src in
     let lhs = List.hd parts |> Lexing.from_string |> Parse.expression in
     let rhs = List.nth parts 1 |> Lexing.from_string |> Parse.expression in
-    let lhs = Ir.ir_of_parsetree lhs binding in
-    let rhs = Ir.ir_of_parsetree rhs binding in
+    let lhs = Ir.ir_of_parsetree lhs binding decls in
+    let rhs = Ir.ir_of_parsetree rhs binding decls in
     Eq (lhs, rhs)
   | quantifer :: prop ->
     let quantifer = String.split_on_char ' ' quantifer in
@@ -1352,14 +1269,14 @@ let rec parse_prop src binding =
              var, Ir.typ_of_string typ
            | _ -> failwith "not implemented")
         quantifer
+      @ binding
     in
     let prop = String.concat " " prop in
-    Forall (qvars, parse_prop prop binding)
+    Forall (qvars, parse_prop prop binding decls)
   | _ -> failwith "not implemented"
 ;;
 
-let parse_tactic t s =
-  let _, goal = List.hd t in
+let parse_tactic t s decls =
   let parts = String.split_on_char ' ' s in
   let name = List.hd parts in
   let args = List.tl parts in
@@ -1380,50 +1297,50 @@ let parse_tactic t s =
   | "induction" -> Induction (List.hd args)
   | "strong_induction" -> StrongInduction (List.hd args)
   | "destruct" -> Destruct (List.hd args)
-  | "simpl" -> SimplIn (List.hd args)
+  | "simpl" ->
+    (match args with
+     | [ hd ] -> SimplIn hd
+     | [] -> SimplIn "goal"
+     | _ -> failwith "not implemented")
   | "reflexivity" -> Reflexivity
-  | "case" -> Case (parse_expr goal (String.concat " " args))
-  | "assert" -> Assert (parse_prop (String.concat " " args) [])
+  | "case" ->
+    let _, goal = List.hd t in
+    Case (parse_expr goal (String.concat " " args) decls)
+  | "assert" -> Assert (parse_prop (String.concat " " args) [] decls)
   | _ -> failwith "not implemented"
 ;;
 
 let proof_top program_a program_b =
-  let goal =
-    Forall
-      ( [ "a", Type "nat"; "b", Type "nat" ]
-      , Eq
-          ( Ir.
-              { desc =
-                  Call
-                    ( "natadd_ta1"
-                    , [ Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
-                      ; Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
-                      ] )
-              ; typ = Ir.typ_of_string "nat"
-              }
-          , Ir.
-              { desc =
-                  Call
-                    ( "natadd_ta2"
-                    , [ Ir.{ desc = Var "a"; typ = Ir.typ_of_string "nat" }
-                      ; Ir.{ desc = Var "b"; typ = Ir.typ_of_string "nat" }
-                      ] )
-              ; typ = Ir.typ_of_string "nat"
-              } ) )
-  in
   let env = program_a @ program_b in
-  let init = [ [], goal ] in
+  let init = [] in
+  (* let fact =
+    [ ( "lemma"
+      , parse_prop
+          "forall (d:nat), SUCC (natadd_ta3 nat8 d) = natadd_ta3 nat8 (SUCC d)"
+          [ "nat8", Ir.typ_of_string "nat" ]
+          env )
+    ]
+  in
+  let goal =
+    parse_prop
+      "forall (e:nat), SUCC (natadd_ta3 nat8 (SUCC e)) = natadd_ta3 nat8 (SUCC (SUCC e))"
+      [ "nat8", Ir.typ_of_string "nat" ]
+      env
+  in
+  let init = [ fact, goal ] in *)
   let rec loop t =
     pp_t t |> print_endline;
     print_newline ();
+    print_string ">>> ";
     let s = read_line () in
     print_newline ();
     let t =
-      try apply_tactic t env (parse_tactic t s) with
-      | e ->
-        Printexc.to_string e |> print_endline;
+      try apply_tactic t env (parse_tactic t s env) with
+      | exn ->
+        print_endline (Printexc.to_string exn);
         t
     in
+    (* let t = apply_tactic t env (parse_tactic t s env) in *)
     loop t
   in
   loop init
