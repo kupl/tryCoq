@@ -81,10 +81,15 @@ and pp_expr expr =
   | IfthenElse (cond, e1, e2) ->
     "if " ^ pp_expr cond ^ " then " ^ pp_expr e1 ^ " else " ^ pp_expr e2
   | Call (name, args) ->
-    (match args with
-     | [] -> name
-     | _ ->
-       name ^ " " ^ String.concat " " (List.map (fun arg -> "(" ^ pp_expr arg ^ ")") args))
+    if name = "::"
+    then pp_expr (List.hd args) ^ "::" ^ pp_expr (List.hd (List.tl args))
+    else (
+      match args with
+      | [] -> name
+      | _ ->
+        name
+        ^ " "
+        ^ String.concat " " (List.map (fun arg -> "(" ^ pp_expr arg ^ ")") args))
   | Int i -> string_of_int i
   | String s -> "\"" ^ s ^ "\""
   | Bool b -> string_of_bool b
@@ -297,13 +302,14 @@ and get_type (expr : Typedtree.expression) =
     match type_expr with
     | Types.Tvar (Some name) -> name |> typ_of_string
     | Tvar None -> Tany
-    | Tconstr (path, arg_typ, _) -> let name = path |> Path.name in
-     (match name with
-      | "int" -> Tint
-      | "string" -> Tstring
-      | "bool" -> Tbool
-      | "list" -> Tlist (List.hd arg_typ |> Types.get_desc |> pr_type)
-      | _ -> typ_of_string name)
+    | Tconstr (path, arg_typ, _) ->
+      let name = path |> Path.name in
+      (match name with
+       | "int" -> Tint
+       | "string" -> Tstring
+       | "bool" -> Tbool
+       | "list" -> Tlist (List.hd arg_typ |> Types.get_desc |> pr_type)
+       | _ -> typ_of_string name)
     | Tarrow (_, _, e2, _) -> e2 |> Types.get_desc |> pr_type
     | Ttuple l -> Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type) l)
     | _ -> failwith "Not implemented"

@@ -274,138 +274,197 @@ let apply_induction env name facts goal : t =
       | _ -> failwith "there is no such variable"
     in
     let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
-    let typ_name =
+    let arg_type_name, typ_name =
       match typ with
-      | Type typ -> typ |> Ir.pp_typ
+      | Type typ ->
+        (match typ with
+         | Tlist t -> Some (t |> Ir.pp_typ), "list"
+         | _ -> None, typ |> Ir.pp_typ)
       | _ -> failwith "not implemented"
     in
-    let decl =
-      (* 'a list cannot be founded in env *)
-      try Ir.find_decl typ_name env |> Ir.get_typ_decl with
-      | _ -> failwith "There is no such type"
-    in
-    List.map
-      (fun (constr, arg_types) ->
-         let rec_args = List.filter (fun arg -> arg = typ_name) arg_types in
-         match rec_args with
-         | [] ->
-           let base_case =
-             match constr with
-             | Ir.Constructor constr ->
-               Ir.Call
-                 ( constr
-                 , List.map
-                     (fun arg ->
-                        { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
-                        ; Ir.typ = Ir.typ_of_string arg
-                        })
-                     arg_types )
-           in
-           let new_facts =
-             [ ( "Base" ^ string_of_int (counter ())
-               , Eq
-                   ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                   , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
-             ]
-           in
-           let new_goal, _, _ =
-             substitute_expr_in_prop
-               Ir.is_equal_expr
-               (fun _ _ expr_to -> expr_to, [])
-               goal
-               Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-               Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
-               0
-           in
-           let new_goal =
-             if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
-           in
-           let facts =
-             List.map
-               (fun (name, prop) ->
-                  ( name
-                  , let prop, _, _ =
-                      substitute_expr_in_prop
-                        Ir.is_equal_expr
-                        (fun _ _ expr_to -> expr_to, [])
-                        prop
-                        Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                        Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
-                        0
-                    in
-                    prop ))
-               facts
-           in
-           facts @ new_facts, new_goal
-         | _ ->
-           let new_args, new_rec_args =
-             partition_and_transform
-               (fun arg -> List.mem arg rec_args)
-               (fun arg ->
-                  Ir.
-                    { desc = Var (arg ^ string_of_int (counter ()))
-                    ; typ = Ir.typ_of_string arg
-                    })
-               arg_types
-           in
-           let inductive_case =
-             match constr with
-             | Ir.Constructor constr -> Ir.Call (constr, new_args)
-           in
-           let ihs =
-             List.map
-               (fun arg ->
-                  ( "IH" ^ string_of_int (counter ())
-                  , let prop, _, _ =
-                      substitute_expr_in_prop
-                        Ir.is_equal_expr
-                        (fun _ _ expr_to -> expr_to, [])
-                        goal
-                        Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                        arg
-                        0
-                    in
-                    if List.is_empty var_list then prop else Forall (var_list, prop) ))
-               new_rec_args
-           in
-           let new_facts =
-             ihs
-             @ [ ( "Inductive" ^ string_of_int (counter ())
+    let is_list = Option.is_some arg_type_name in
+    if is_list
+    then (
+      let arg_type_name = Option.get arg_type_name in
+      let base_fact =
+        [ ( "Base" ^ string_of_int (counter ())
+          , Eq
+              ( Ir.{ desc = Var name; typ = Ir.Tlist (Ir.typ_of_string arg_type_name) }
+              , Ir.
+                  { desc = Call ("[]", [])
+                  ; typ = Ir.Tlist (Ir.typ_of_string arg_type_name)
+                  } ) )
+        ]
+      in
+      let base_goal, _, _ =
+        substitute_expr_in_prop
+          Ir.is_equal_expr
+          (fun _ _ expr_to -> expr_to, [])
+          goal
+          Ir.{ desc = Var name; typ = Ir.Tlist (Ir.typ_of_string arg_type_name) }
+          Ir.{ desc = Call ("[]", []); typ = Ir.Tlist (Ir.typ_of_string arg_type_name) }
+          0
+      in
+      let base_case = facts @ base_fact, base_goal in
+      let new_expr =
+        Ir.
+          { desc =
+              Call
+                ( "::"
+                , [ { desc = Var (name ^ "_hd"); typ = Ir.typ_of_string arg_type_name }
+                  ; { desc = Var (name ^ "_tl")
+                    ; typ = Ir.Tlist (Ir.typ_of_string arg_type_name)
+                    }
+                  ] )
+          ; typ = Ir.Tlist (Ir.typ_of_string arg_type_name)
+          }
+      in
+      let inductive_fact =
+        [ ( "Inductive" ^ string_of_int (counter ())
+          , Eq
+              ( Ir.{ desc = Var name; typ = Ir.Tlist (Ir.typ_of_string arg_type_name) }
+              , new_expr ) )
+        ]
+      in
+      let inductive_goal, _, _ =
+        substitute_expr_in_prop
+          Ir.is_equal_expr
+          (fun _ _ expr_to -> expr_to, [])
+          goal
+          Ir.{ desc = Var name; typ = Ir.Tlist (Ir.typ_of_string arg_type_name) }
+          new_expr
+          0
+      in
+      let inductive_case = facts @ inductive_fact, inductive_goal in
+      [ base_case; inductive_case ])
+    else (
+      let decl =
+        (* 'a list cannot be founded in env *)
+        try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+        | _ -> failwith "There is no such type"
+      in
+      List.map
+        (fun (constr, arg_types) ->
+           let rec_args = List.filter (fun arg -> arg = typ_name) arg_types in
+           match rec_args with
+           | [] ->
+             let base_case =
+               match constr with
+               | Ir.Constructor constr ->
+                 Ir.Call
+                   ( constr
+                   , List.map
+                       (fun arg ->
+                          { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
+                          ; Ir.typ = Ir.typ_of_string arg
+                          })
+                       arg_types )
+             in
+             let new_facts =
+               [ ( "Base" ^ string_of_int (counter ())
                  , Eq
                      ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                     , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
+                     , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
                ]
-           in
-           let new_goal, _, _ =
-             substitute_expr_in_prop
-               Ir.is_equal_expr
-               (fun _ _ expr_to -> expr_to, [])
-               goal
-               Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-               Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
-               0
-           in
-           let new_goal =
-             if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
-           in
-           let facts =
-             List.map
-               (fun (name, prop) ->
-                  ( name
-                  , let prop, _, _ =
-                      substitute_expr_in_prop
-                        Ir.is_equal_expr
-                        (fun _ _ expr_to -> expr_to, [])
-                        prop
-                        Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                        Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
-                        0
-                    in
-                    prop ))
-               facts
-           in
-           facts @ new_facts, new_goal)
-      decl
+             in
+             let new_goal, _, _ =
+               substitute_expr_in_prop
+                 Ir.is_equal_expr
+                 (fun _ _ expr_to -> expr_to, [])
+                 goal
+                 Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                 Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+                 0
+             in
+             let new_goal =
+               if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
+             in
+             let facts =
+               List.map
+                 (fun (name, prop) ->
+                    ( name
+                    , let prop, _, _ =
+                        substitute_expr_in_prop
+                          Ir.is_equal_expr
+                          (fun _ _ expr_to -> expr_to, [])
+                          prop
+                          Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                          Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+                          0
+                      in
+                      prop ))
+                 facts
+             in
+             facts @ new_facts, new_goal
+           | _ ->
+             let new_args, new_rec_args =
+               partition_and_transform
+                 (fun arg -> List.mem arg rec_args)
+                 (fun arg ->
+                    Ir.
+                      { desc = Var (arg ^ string_of_int (counter ()))
+                      ; typ = Ir.typ_of_string arg
+                      })
+                 arg_types
+             in
+             let inductive_case =
+               match constr with
+               | Ir.Constructor constr -> Ir.Call (constr, new_args)
+             in
+             let ihs =
+               List.map
+                 (fun arg ->
+                    ( "IH" ^ string_of_int (counter ())
+                    , let prop, _, _ =
+                        substitute_expr_in_prop
+                          Ir.is_equal_expr
+                          (fun _ _ expr_to -> expr_to, [])
+                          goal
+                          Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                          arg
+                          0
+                      in
+                      if List.is_empty var_list then prop else Forall (var_list, prop) ))
+                 new_rec_args
+             in
+             let new_facts =
+               ihs
+               @ [ ( "Inductive" ^ string_of_int (counter ())
+                   , Eq
+                       ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                       , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
+                 ]
+             in
+             let new_goal, _, _ =
+               substitute_expr_in_prop
+                 Ir.is_equal_expr
+                 (fun _ _ expr_to -> expr_to, [])
+                 goal
+                 Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                 Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+                 0
+             in
+             let new_goal =
+               if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
+             in
+             let facts =
+               List.map
+                 (fun (name, prop) ->
+                    ( name
+                    , let prop, _, _ =
+                        substitute_expr_in_prop
+                          Ir.is_equal_expr
+                          (fun _ _ expr_to -> expr_to, [])
+                          prop
+                          Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                          Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+                          0
+                      in
+                      prop ))
+                 facts
+             in
+             facts @ new_facts, new_goal)
+        decl)
   | _ -> failwith "not implemented"
 ;;
 
@@ -910,7 +969,7 @@ let rec get_type_in_prop name prop =
          | None -> get_type_in_prop name cond)
       None
       (cond_list @ [ p2 ])
-  | Type typ -> Some (typ)
+  | Type typ -> Some typ
 ;;
 
 let apply_destruct env name facts goal =
@@ -1263,27 +1322,22 @@ let rec parse_prop src binding decls =
   | quantifier :: prop ->
     let quantifier = String.split_on_char '(' quantifier in
     let quantifier = List.tl quantifier in
-    let quantifier = List.map (fun str -> str |> String.split_on_char ')' |> List.hd) quantifier in
-    let qvars = List.map (fun qvar -> match String.split_on_char ':' qvar with
-    | [var;typ] -> (match String.split_on_char ' ' typ with
-      | [typ] -> var, Type (Ir.typ_of_string typ)
-      | typ::_-> var, Type (Ir.Tlist (Ir.typ_of_string typ))
-      | _ -> failwith "not asdf")
-    | _ -> failwith "not implemented") quantifier in
-    (* let quantifier = String.split_on_char ' ' quantifier in
-    let quantifier = String.concat "" quantifier in
-    let quantifier = String.split_on_char '(' quantifier in
-    let quantifier = List.tl quantifier in
+    let quantifier =
+      List.map (fun str -> str |> String.split_on_char ')' |> List.hd) quantifier
+    in
     let qvars =
       List.map
         (fun qvar ->
            match String.split_on_char ':' qvar with
+           (* blank after clone make bug  *)
            | [ var; typ ] ->
-             let typ = String.split_on_char ')' typ |> List.hd in
-             var, Type typ
+             (match String.split_on_char ' ' typ with
+              | [ typ ] -> var, Type (Ir.typ_of_string typ)
+              | typ :: _ -> var, Type (Ir.Tlist (Ir.typ_of_string typ))
+              | _ -> failwith "not asdf")
            | _ -> failwith "not implemented")
         quantifier
-    in *)
+    in
     let binding =
       List.map
         (fun qvar ->
