@@ -13,7 +13,7 @@ and prop =
   | Not of prop
   | Forall of (string * prop) list * prop
   | Imply of prop list * prop
-  | Type of string
+  | Type of Ir.typ
 [@@deriving sexp]
 
 and expr = Ir.expr [@@deriving sexp]
@@ -73,7 +73,7 @@ let rec pp_prop prop =
     (List.map (fun cond -> pp_prop cond) cond_list |> String.concat "->")
     ^ " -> "
     ^ pp_prop p2
-  | Type typ -> typ
+  | Type typ -> Ir.pp_typ typ
 ;;
 
 let pp_fact (name, prop) = name ^ " : " ^ pp_prop prop
@@ -276,10 +276,11 @@ let apply_induction env name facts goal : t =
     let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
     let typ_name =
       match typ with
-      | Type typ -> typ
+      | Type typ -> typ |> Ir.pp_typ
       | _ -> failwith "not implemented"
     in
     let decl =
+      (* 'a list cannot be founded in env *)
       try Ir.find_decl typ_name env |> Ir.get_typ_decl with
       | _ -> failwith "There is no such type"
     in
@@ -740,7 +741,7 @@ let apply_strong_induction env name facts goal =
     in
     let typ_name =
       match typ with
-      | Type typ -> typ
+      | Type typ -> typ |> Ir.pp_typ
       | _ -> failwith "not implemented"
     in
     let decl =
@@ -827,7 +828,7 @@ let apply_strong_induction env name facts goal =
              in
              ( "SIH" ^ string_of_int (counter ())
              , Forall
-                 ( [ precedent_var, Type typ_name ]
+                 ( [ precedent_var, Type (Ir.typ_of_string typ_name) ]
                  , Imply
                      ( [ Lt
                            ( precedent
@@ -909,7 +910,7 @@ let rec get_type_in_prop name prop =
          | None -> get_type_in_prop name cond)
       None
       (cond_list @ [ p2 ])
-  | Type typ -> Some (Ir.typ_of_string typ)
+  | Type typ -> Some (typ)
 ;;
 
 let apply_destruct env name facts goal =
@@ -1259,11 +1260,20 @@ let rec parse_prop src binding decls =
     let lhs = Ir.ir_of_parsetree lhs binding decls in
     let rhs = Ir.ir_of_parsetree rhs binding decls in
     Eq (lhs, rhs)
-  | quantifer :: prop ->
-    let quantifer = String.split_on_char ' ' quantifer in
-    let quantifer = String.concat "" quantifer in
-    let quantifer = String.split_on_char '(' quantifer in
-    let quantifer = List.tl quantifer in
+  | quantifier :: prop ->
+    let quantifier = String.split_on_char '(' quantifier in
+    let quantifier = List.tl quantifier in
+    let quantifier = List.map (fun str -> str |> String.split_on_char ')' |> List.hd) quantifier in
+    let qvars = List.map (fun qvar -> match String.split_on_char ':' qvar with
+    | [var;typ] -> (match String.split_on_char ' ' typ with
+      | [typ] -> var, Type (Ir.typ_of_string typ)
+      | typ::_-> var, Type (Ir.Tlist (Ir.typ_of_string typ))
+      | _ -> failwith "not asdf")
+    | _ -> failwith "not implemented") quantifier in
+    (* let quantifier = String.split_on_char ' ' quantifier in
+    let quantifier = String.concat "" quantifier in
+    let quantifier = String.split_on_char '(' quantifier in
+    let quantifier = List.tl quantifier in
     let qvars =
       List.map
         (fun qvar ->
@@ -1272,8 +1282,8 @@ let rec parse_prop src binding decls =
              let typ = String.split_on_char ')' typ |> List.hd in
              var, Type typ
            | _ -> failwith "not implemented")
-        quantifer
-    in
+        quantifier
+    in *)
     let binding =
       List.map
         (fun qvar ->
@@ -1282,7 +1292,7 @@ let rec parse_prop src binding decls =
              let typ = String.split_on_char ')' typ |> List.hd in
              var, Ir.typ_of_string typ
            | _ -> failwith "not implemented")
-        quantifer
+        quantifier
       @ binding
     in
     let prop = String.concat " " prop in
@@ -1348,13 +1358,13 @@ let proof_top program_a program_b =
     print_string ">>> ";
     let s = read_line () in
     print_newline ();
-    let t =
+    (* let t =
       try apply_tactic t env (parse_tactic t s env) with
       | exn ->
         print_endline (Printexc.to_string exn);
         t
-    in
-    (* let t = apply_tactic t env (parse_tactic t s env) in *)
+    in *)
+    let t = apply_tactic t env (parse_tactic t s env) in
     loop t
   in
   loop init
