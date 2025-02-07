@@ -1128,8 +1128,8 @@ let rec simplify_expr (env : Ir.t) expr =
   | Ir.Call (name, args) ->
     let args = List.map (simplify_expr env) args in
     (try
-       let decl = Ir.find_decl name env in
        let decl_args, fun_decl =
+         let decl = Ir.find_decl name env in
          match decl with
          | Ir.NonRec (_, args, e) -> args, e
          | Ir.Rec (_, args, e) -> args, e
@@ -1155,7 +1155,9 @@ let rec simplify_expr (env : Ir.t) expr =
        in
        simplify_expr env new_expr
      with
-     | _ -> Ir.{ desc = Call (name, args); typ = expr.typ })
+     | exn ->
+       print_endline (Printexc.to_string exn);
+       Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (e, cases) ->
     let e = simplify_expr env e in
     let new_expr =
@@ -1166,6 +1168,10 @@ let rec simplify_expr (env : Ir.t) expr =
            | None ->
              (match case with
               | Ir.Case (pat, e') ->
+                let _ = e |> Ir.sexp_of_expr |> Sexplib.Sexp.to_string |> print_endline in
+                let _ =
+                  pat |> Ir.sexp_of_pattern |> Sexplib.Sexp.to_string |> print_endline
+                in
                 let match_list = get_case_match e pat in
                 if match_list = []
                 then acc
@@ -1329,7 +1335,7 @@ let rec parse_prop src binding decls =
       List.map
         (fun qvar ->
            match String.split_on_char ':' qvar with
-           (* blank after clone make bug  *)
+           (* blank after colone make bug  *)
            | [ var; typ ] ->
              (match String.split_on_char ' ' typ with
               | [ typ ] -> var, Type (Ir.typ_of_string typ)
@@ -1391,21 +1397,6 @@ let parse_tactic t s decls =
 let proof_top program_a program_b =
   let env = program_a @ program_b in
   let init = [] in
-  (* let fact =
-    [ ( "lemma"
-      , parse_prop
-          "forall (d:nat), SUCC (natadd_ta3 nat8 d) = natadd_ta3 nat8 (SUCC d)"
-          [ "nat8", Ir.typ_of_string "nat" ]
-          env )
-    ]
-  in
-  let goal =
-    parse_prop
-      "forall (e:nat), SUCC (natadd_ta3 nat8 (SUCC e)) = natadd_ta3 nat8 (SUCC (SUCC e))"
-      [ "nat8", Ir.typ_of_string "nat" ]
-      env
-  in
-  let init = [ fact, goal ] in *)
   let rec loop t =
     pp_t t |> print_endline;
     print_newline ();
