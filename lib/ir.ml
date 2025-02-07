@@ -315,6 +315,7 @@ and get_type (expr : Typedtree.expression) =
        | "list" -> Tlist (List.hd arg_typ |> Types.get_desc |> pr_type)
        | _ -> typ_of_string name)
     | Tarrow (_, _, e2, _) -> e2 |> Types.get_desc |> pr_type
+    (* asdf *)
     (* have to fix this point *)
     | Ttuple l -> Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type) l)
     | _ -> failwith "Not implemented"
