@@ -53,6 +53,18 @@ and pattern =
 
 and name = string [@@deriving sexp]
 
+let nth_tale n lst =
+  let rec nth_tale' n lst acc =
+    if n = 0
+    then List.rev acc
+    else (
+      match lst with
+      | [] -> failwith "n is too big"
+      | hd :: tl -> nth_tale' (n - 1) tl (hd :: acc))
+  in
+  nth_tale' n lst []
+;;
+
 let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
 
 let rec pp_t t : string =
@@ -304,23 +316,31 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
 and get_type (expr : Typedtree.expression) =
   let rec pr_type type_expr =
     match type_expr with
-    | Types.Tvar (Some name) -> name |> typ_of_string
-    | Tvar None -> Tany
+    | Types.Tvar (Some name) -> [ name |> typ_of_string ]
+    | Tvar None -> [ Tany ]
     | Tconstr (path, arg_typ, _) ->
       let name = path |> Path.name in
       (match name with
-       | "int" -> Tint
-       | "string" -> Tstring
-       | "bool" -> Tbool
-       | "list" -> Tlist (List.hd arg_typ |> Types.get_desc |> pr_type)
-       | _ -> typ_of_string name)
-    | Tarrow (_, _, e2, _) -> e2 |> Types.get_desc |> pr_type
-    (* asdf *)
-    (* have to fix this point *)
-    | Ttuple l -> Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type) l)
+       | "int" -> [ Tint ]
+       | "string" -> [ Tstring ]
+       | "bool" -> [ Tbool ]
+       | "list" -> [ Tlist (List.hd arg_typ |> Types.get_desc |> pr_type |> List.hd) ]
+       | _ -> [ typ_of_string name ])
+    | Tarrow (_, e1, e2, _) ->
+      let typ_list = e1 |> Types.get_desc |> pr_type in
+      let arg_num =
+        match expr.exp_desc with
+        | Texp_apply (_, args) -> List.length args
+        | _ -> 0
+      in
+      let typ_list = nth_tale arg_num typ_list in
+      let e2' = e2 |> Types.get_desc |> pr_type in
+      Tarrow typ_list :: e2'
+    | Ttuple l ->
+      [ Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type |> List.hd) l) ]
     | _ -> failwith "Not implemented"
   in
-  expr.exp_type |> Types.get_desc |> pr_type
+  expr.exp_type |> Types.get_desc |> pr_type |> List.hd
 ;;
 
 let find_decl name (decls : t) =
