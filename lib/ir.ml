@@ -38,6 +38,7 @@ and typ =
   | Ttuple of typ list
   | Talgebraic of name
   | Tany
+  | Tarrow of typ list
 [@@deriving sexp]
 
 and case = Case of pattern * expr [@@deriving sexp]
@@ -130,6 +131,7 @@ and pp_typ typ =
   | Ttuple l -> "(" ^ String.concat " * " (List.map pp_typ l) ^ ")"
   | Talgebraic name -> name
   | Tany -> "any"
+  | Tarrow l -> String.concat " -> " (List.map pp_typ l)
 ;;
 
 let typ_of_string s =
@@ -235,7 +237,9 @@ and get_expr expr =
           cases
       in
       Match (e1', cases')
-    | Texp_ident (_, lident, _) -> Var (Longident.last lident.txt)
+    | Texp_ident (_, lident, _) ->
+      let name = Longident.last lident.txt in
+      Var name
     | Texp_construct (lidnet_loc, _, expr_list) ->
       let name = Longident.last lidnet_loc.txt in
       let expr_list' = List.map get_expr expr_list in
@@ -311,6 +315,7 @@ and get_type (expr : Typedtree.expression) =
        | "list" -> Tlist (List.hd arg_typ |> Types.get_desc |> pr_type)
        | _ -> typ_of_string name)
     | Tarrow (_, _, e2, _) -> e2 |> Types.get_desc |> pr_type
+    (* have to fix this point *)
     | Ttuple l -> Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type) l)
     | _ -> failwith "Not implemented"
   in
