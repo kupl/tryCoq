@@ -1315,6 +1315,21 @@ let parse_expr goal src decls =
   Ir.ir_of_parsetree expr binding decls
 ;;
 
+let parse_forall_vars str =
+  (* (변수명 : 타입) 또는 (변수명:타입)을 인식하는 정규식 *)
+  let var_regex = Str.regexp "(\\([^:]+\\) *: *\\([^\\)]+\\))" in
+  let rec extract acc pos =
+    try
+      ignore (Str.search_forward var_regex str pos);
+      let var = Str.matched_group 1 str in
+      let typ = Str.matched_group 2 str in
+      extract ((var, typ) :: acc) (Str.match_end ())
+    with
+    | Not_found -> List.rev acc
+  in
+  extract [] 0
+;;
+
 let rec parse_prop src binding decls =
   let parts = String.split_on_char ',' src in
   match parts with
@@ -1326,7 +1341,8 @@ let rec parse_prop src binding decls =
     let rhs = Ir.ir_of_parsetree rhs binding decls in
     Eq (lhs, rhs)
   | quantifier :: prop ->
-    let quantifier = String.split_on_char '(' quantifier in
+    let binding = parse_forall_vars quantifier in
+    (* let quantifier = String.split_on_char '(' quantifier in
     let quantifier = List.tl quantifier in
     let quantifier =
       List.map (fun str -> str |> String.split_on_char ')' |> List.hd) quantifier
@@ -1354,7 +1370,7 @@ let rec parse_prop src binding decls =
            | _ -> failwith "not implemented")
         quantifier
       @ binding
-    in
+    in *)
     let prop = String.concat " " prop in
     Forall (qvars, parse_prop prop binding decls)
   | _ -> failwith "not implemented"
