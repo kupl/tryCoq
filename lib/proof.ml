@@ -1163,10 +1163,6 @@ let rec simplify_expr (env : Ir.t) expr =
            | None ->
              (match case with
               | Ir.Case (pat, e') ->
-                let _ = e |> Ir.sexp_of_expr |> Sexplib.Sexp.to_string |> print_endline in
-                let _ =
-                  pat |> Ir.sexp_of_pattern |> Sexplib.Sexp.to_string |> print_endline
-                in
                 let match_list = get_case_match e pat in
                 if match_list = []
                 then acc
@@ -1311,13 +1307,12 @@ let parse_expr goal src decls =
 ;;
 
 let parse_forall_vars str =
-  (* (변수명 : 타입) 또는 (변수명:타입)을 인식하는 정규식 *)
-  let var_regex = Str.regexp "(\\([^:]+\\) *: *\\([^\\)]+\\))" in
+  let var_regex = Str.regexp "( *\\([^:()]+\\) *: *\\([^()]+\\) *)" in
   let rec extract acc pos =
     try
       ignore (Str.search_forward var_regex str pos);
-      let var = Str.matched_group 1 str in
-      let typ = Str.matched_group 2 str in
+      let var = String.trim (Str.matched_group 1 str) in
+      let typ = String.trim (Str.matched_group 2 str) in
       extract ((var, typ) :: acc) (Str.match_end ())
     with
     | Not_found -> List.rev acc

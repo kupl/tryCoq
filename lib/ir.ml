@@ -154,7 +154,7 @@ let rec parse_typ (s : string) : typ =
   | "bool" -> Tbool
   | _ ->
     if Str.string_match (Str.regexp "\\(.*\\) list$") s 0
-    then Tlist (parse_typ (Str.matched_group 1 s))
+    then Tlist (parse_typ (String.trim (Str.matched_group 1 s)))
     else if String.contains s '*'
     then (
       let parts = List.map String.trim (Str.split (Str.regexp " *\\* *") s) in
