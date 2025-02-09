@@ -146,12 +146,26 @@ and pp_typ typ =
   | Tarrow l -> String.concat " -> " (List.map pp_typ l)
 ;;
 
-let typ_of_string s =
+let rec parse_typ (s : string) : typ =
+  let s = String.trim s in
   match s with
   | "int" -> Tint
   | "string" -> Tstring
   | "bool" -> Tbool
-  | _ -> Talgebraic s
+  | _ ->
+    if Str.string_match (Str.regexp "\\(.*\\) list$") s 0
+    then Tlist (parse_typ (Str.matched_group 1 s))
+    else if String.contains s '*'
+    then (
+      let parts = List.map String.trim (Str.split (Str.regexp " *\\* *") s) in
+      Ttuple (List.map parse_typ parts))
+    else if String.contains s '-' && String.contains s '>'
+    then (
+      let parts = List.map String.trim (Str.split (Str.regexp " *-> *") s) in
+      Tarrow (List.map parse_typ parts))
+    else if Str.string_match (Str.regexp "[a-zA-Z_][a-zA-Z0-9_]*") s 0
+    then Talgebraic s
+    else Tany
 ;;
 
 let rec t_of_typedtree typ_tree : t =
@@ -316,16 +330,13 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
 and get_type (expr : Typedtree.expression) =
   let rec pr_type type_expr =
     match type_expr with
-    | Types.Tvar (Some name) -> [ name |> typ_of_string ]
+    | Types.Tvar (Some name) -> [ name |> parse_typ ]
     | Tvar None -> [ Tany ]
     | Tconstr (path, arg_typ, _) ->
       let name = path |> Path.name in
       (match name with
-       | "int" -> [ Tint ]
-       | "string" -> [ Tstring ]
-       | "bool" -> [ Tbool ]
        | "list" -> [ Tlist (List.hd arg_typ |> Types.get_desc |> pr_type |> List.hd) ]
-       | _ -> [ typ_of_string name ])
+       | _ -> [ parse_typ name ])
     | Tarrow (_, e1, e2, _) ->
       let typ_list = e1 |> Types.get_desc |> pr_type in
       let arg_num =
@@ -556,9 +567,9 @@ let rec get_type_in_expr name expr =
          | None -> get_type_in_expr name e)
       None
       lst
-  | Int _ -> Some (typ_of_string "int")
-  | Bool _ -> Some (typ_of_string "bool")
-  | String _ -> Some (typ_of_string "string")
+  | Int _ -> Some Tint
+  | Bool _ -> Some Tbool
+  | String _ -> Some Tstring
 ;;
 
 module StringSet = Set.Make (String)
@@ -637,7 +648,7 @@ let search_constr_type name t =
       typ_decl
   in
   match decl with
-  | TypeDecl (name, _) -> typ_of_string name
+  | TypeDecl (name, _) -> parse_typ name
   | _ -> failwith "something wrong"
 ;;
 
