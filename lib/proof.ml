@@ -1419,3 +1419,7 @@ let proof_top program_a program_b =
   in
   loop init
 ;;
+
+(*we have to test below:
+assert (forall pred: int -> bool) (lst1: int list) (lst2: int list), (reverse lst1 []) @ filter_ta1 pred lst2 = reverse (loop pred lst2 lst1) []
+*)
