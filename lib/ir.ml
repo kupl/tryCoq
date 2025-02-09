@@ -53,6 +53,18 @@ and pattern =
 
 and name = string [@@deriving sexp]
 
+let nth_tale n lst =
+  let rec nth_tale' n lst acc =
+    if n = 0
+    then List.rev acc
+    else (
+      match lst with
+      | [] -> failwith "n is too big"
+      | hd :: tl -> nth_tale' (n - 1) tl (hd :: acc))
+  in
+  nth_tale' n lst []
+;;
+
 let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
 
 let rec pp_t t : string =
@@ -134,12 +146,26 @@ and pp_typ typ =
   | Tarrow l -> String.concat " -> " (List.map pp_typ l)
 ;;
 
-let typ_of_string s =
+let rec parse_typ (s : string) : typ =
+  let s = String.trim s in
   match s with
   | "int" -> Tint
   | "string" -> Tstring
   | "bool" -> Tbool
-  | _ -> Talgebraic s
+  | _ ->
+    if Str.string_match (Str.regexp "\\(.*\\) list$") s 0
+    then Tlist (parse_typ (String.trim (Str.matched_group 1 s)))
+    else if String.contains s '*'
+    then (
+      let parts = List.map String.trim (Str.split (Str.regexp " *\\* *") s) in
+      Ttuple (List.map parse_typ parts))
+    else if String.contains s '-' && String.contains s '>'
+    then (
+      let parts = List.map String.trim (Str.split (Str.regexp " *-> *") s) in
+      Tarrow (List.map parse_typ parts))
+    else if Str.string_match (Str.regexp "[a-zA-Z_][a-zA-Z0-9_]*") s 0
+    then Talgebraic s
+    else Tany
 ;;
 
 let rec t_of_typedtree typ_tree : t =
@@ -304,22 +330,28 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
 and get_type (expr : Typedtree.expression) =
   let rec pr_type type_expr =
     match type_expr with
-    | Types.Tvar (Some name) -> name |> typ_of_string
-    | Tvar None -> Tany
+    | Types.Tvar (Some name) -> [ name |> parse_typ ]
+    | Tvar None -> [ Tany ]
     | Tconstr (path, arg_typ, _) ->
       let name = path |> Path.name in
       (match name with
-       | "int" -> Tint
-       | "string" -> Tstring
-       | "bool" -> Tbool
-       | "list" -> Tlist (List.hd arg_typ |> Types.get_desc |> pr_type)
-       | _ -> typ_of_string name)
-    | Tarrow (_, _, e2, _) -> e2 |> Types.get_desc |> pr_type
-    (* have to fix this point *)
-    | Ttuple l -> Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type) l)
+       | "list" -> [ Tlist (List.hd arg_typ |> Types.get_desc |> pr_type |> List.hd) ]
+       | _ -> [ parse_typ name ])
+    | Tarrow (_, e1, e2, _) ->
+      let typ_list = e1 |> Types.get_desc |> pr_type in
+      let arg_num =
+        match expr.exp_desc with
+        | Texp_apply (_, args) -> List.length args
+        | _ -> 0
+      in
+      let typ_list = nth_tale arg_num typ_list in
+      let e2' = e2 |> Types.get_desc |> pr_type in
+      Tarrow typ_list :: e2'
+    | Ttuple l ->
+      [ Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type |> List.hd) l) ]
     | _ -> failwith "Not implemented"
   in
-  expr.exp_type |> Types.get_desc |> pr_type
+  expr.exp_type |> Types.get_desc |> pr_type |> List.hd
 ;;
 
 let find_decl name (decls : t) =
@@ -535,9 +567,9 @@ let rec get_type_in_expr name expr =
          | None -> get_type_in_expr name e)
       None
       lst
-  | Int _ -> Some (typ_of_string "int")
-  | Bool _ -> Some (typ_of_string "bool")
-  | String _ -> Some (typ_of_string "string")
+  | Int _ -> Some Tint
+  | Bool _ -> Some Tbool
+  | String _ -> Some Tstring
 ;;
 
 module StringSet = Set.Make (String)
@@ -616,7 +648,7 @@ let search_constr_type name t =
       typ_decl
   in
   match decl with
-  | TypeDecl (name, _) -> typ_of_string name
+  | TypeDecl (name, _) -> parse_typ name
   | _ -> failwith "something wrong"
 ;;
 

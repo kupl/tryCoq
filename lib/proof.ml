@@ -289,11 +289,9 @@ let apply_induction env name facts goal : t =
       let base_fact =
         [ ( "Base" ^ string_of_int (counter ())
           , Eq
-              ( Ir.{ desc = Var name; typ = Ir.Tlist (Ir.typ_of_string arg_type_name) }
-              , Ir.
-                  { desc = Call ("[]", [])
-                  ; typ = Ir.Tlist (Ir.typ_of_string arg_type_name)
-                  } ) )
+              ( Ir.{ desc = Var name; typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
+              , Ir.{ desc = Call ("[]", []); typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
+              ) )
         ]
       in
       let base_goal, _, _ =
@@ -301,8 +299,8 @@ let apply_induction env name facts goal : t =
           Ir.is_equal_expr
           (fun _ _ expr_to -> expr_to, [])
           goal
-          Ir.{ desc = Var name; typ = Ir.Tlist (Ir.typ_of_string arg_type_name) }
-          Ir.{ desc = Call ("[]", []); typ = Ir.Tlist (Ir.typ_of_string arg_type_name) }
+          Ir.{ desc = Var name; typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
+          Ir.{ desc = Call ("[]", []); typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
           0
       in
       let base_case = facts @ base_fact, base_goal in
@@ -311,18 +309,18 @@ let apply_induction env name facts goal : t =
           { desc =
               Call
                 ( "::"
-                , [ { desc = Var (name ^ "_hd"); typ = Ir.typ_of_string arg_type_name }
+                , [ { desc = Var (name ^ "_hd"); typ = Ir.parse_typ arg_type_name }
                   ; { desc = Var (name ^ "_tl")
-                    ; typ = Ir.Tlist (Ir.typ_of_string arg_type_name)
+                    ; typ = Ir.Tlist (Ir.parse_typ arg_type_name)
                     }
                   ] )
-          ; typ = Ir.Tlist (Ir.typ_of_string arg_type_name)
+          ; typ = Ir.Tlist (Ir.parse_typ arg_type_name)
           }
       in
       let inductive_fact =
         [ ( "Inductive" ^ string_of_int (counter ())
           , Eq
-              ( Ir.{ desc = Var name; typ = Ir.Tlist (Ir.typ_of_string arg_type_name) }
+              ( Ir.{ desc = Var name; typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
               , new_expr ) )
         ]
       in
@@ -331,7 +329,7 @@ let apply_induction env name facts goal : t =
           Ir.is_equal_expr
           (fun _ _ expr_to -> expr_to, [])
           goal
-          Ir.{ desc = Var name; typ = Ir.Tlist (Ir.typ_of_string arg_type_name) }
+          Ir.{ desc = Var name; typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
           new_expr
           0
       in
@@ -356,15 +354,15 @@ let apply_induction env name facts goal : t =
                    , List.map
                        (fun arg ->
                           { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
-                          ; Ir.typ = Ir.typ_of_string arg
+                          ; Ir.typ = Ir.parse_typ arg
                           })
                        arg_types )
              in
              let new_facts =
                [ ( "Base" ^ string_of_int (counter ())
                  , Eq
-                     ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                     , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
+                     ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                     , Ir.{ desc = base_case; typ = Ir.parse_typ typ_name } ) )
                ]
              in
              let new_goal, _, _ =
@@ -372,8 +370,8 @@ let apply_induction env name facts goal : t =
                  Ir.is_equal_expr
                  (fun _ _ expr_to -> expr_to, [])
                  goal
-                 Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                 Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+                 Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                 Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
                  0
              in
              let new_goal =
@@ -388,8 +386,8 @@ let apply_induction env name facts goal : t =
                           Ir.is_equal_expr
                           (fun _ _ expr_to -> expr_to, [])
                           prop
-                          Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                          Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+                          Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                          Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
                           0
                       in
                       prop ))
@@ -403,7 +401,7 @@ let apply_induction env name facts goal : t =
                  (fun arg ->
                     Ir.
                       { desc = Var (arg ^ string_of_int (counter ()))
-                      ; typ = Ir.typ_of_string arg
+                      ; typ = Ir.parse_typ arg
                       })
                  arg_types
              in
@@ -420,7 +418,7 @@ let apply_induction env name facts goal : t =
                           Ir.is_equal_expr
                           (fun _ _ expr_to -> expr_to, [])
                           goal
-                          Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                          Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
                           arg
                           0
                       in
@@ -431,8 +429,8 @@ let apply_induction env name facts goal : t =
                ihs
                @ [ ( "Inductive" ^ string_of_int (counter ())
                    , Eq
-                       ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                       , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
+                       ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                       , Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name } ) )
                  ]
              in
              let new_goal, _, _ =
@@ -440,8 +438,8 @@ let apply_induction env name facts goal : t =
                  Ir.is_equal_expr
                  (fun _ _ expr_to -> expr_to, [])
                  goal
-                 Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                 Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+                 Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                 Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
                  0
              in
              let new_goal =
@@ -456,8 +454,8 @@ let apply_induction env name facts goal : t =
                           Ir.is_equal_expr
                           (fun _ _ expr_to -> expr_to, [])
                           prop
-                          Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                          Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+                          Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                          Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
                           0
                       in
                       prop ))
@@ -820,15 +818,15 @@ let apply_strong_induction env name facts goal =
                  , List.map
                      (fun arg ->
                         { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
-                        ; Ir.typ = Ir.typ_of_string arg
+                        ; Ir.typ = Ir.parse_typ arg
                         })
                      arg_types )
            in
            let new_facts =
              [ ( "Base" ^ string_of_int (counter ())
                , Eq
-                   ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                   , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
+                   ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                   , Ir.{ desc = base_case; typ = Ir.parse_typ typ_name } ) )
              ]
            in
            let new_goal, _, _ =
@@ -836,8 +834,8 @@ let apply_strong_induction env name facts goal =
                Ir.is_equal_expr
                (fun _ _ expr_to -> expr_to, [])
                goal
-               Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-               Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+               Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+               Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
                0
            in
            let facts =
@@ -849,8 +847,8 @@ let apply_strong_induction env name facts goal =
                         Ir.is_equal_expr
                         (fun _ _ expr_to -> expr_to, [])
                         prop
-                        Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                        Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+                        Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                        Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
                         0
                     in
                     prop ))
@@ -863,7 +861,7 @@ let apply_strong_induction env name facts goal =
                (fun arg ->
                   Ir.
                     { desc = Var (arg ^ string_of_int (counter ()))
-                    ; typ = Ir.typ_of_string arg
+                    ; typ = Ir.parse_typ arg
                     })
                arg_types
            in
@@ -874,25 +872,24 @@ let apply_strong_induction env name facts goal =
            let ihs =
              let precedent_var = typ_name ^ string_of_int (counter ()) in
              let precedent =
-               Ir.{ desc = Var precedent_var; typ = Ir.typ_of_string typ_name }
+               Ir.{ desc = Var precedent_var; typ = Ir.parse_typ typ_name }
              in
              let consequent, _, _ =
                substitute_expr_in_prop
                  Ir.is_equal_expr
                  (fun _ _ expr_to -> expr_to, [])
                  goal
-                 Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
+                 Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
                  precedent
                  0
              in
              ( "SIH" ^ string_of_int (counter ())
              , Forall
-                 ( [ precedent_var, Type (Ir.typ_of_string typ_name) ]
+                 ( [ precedent_var, Type (Ir.parse_typ typ_name) ]
                  , Imply
                      ( [ Lt
                            ( precedent
-                           , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
-                           )
+                           , Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name } )
                        ]
                      , consequent ) ) )
            in
@@ -900,8 +897,8 @@ let apply_strong_induction env name facts goal =
              ihs
              :: [ ( "Inductive" ^ string_of_int (counter ())
                   , Eq
-                      ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                      , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
+                      ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                      , Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name } ) )
                 ]
            in
            let new_goal, _, _ =
@@ -909,8 +906,8 @@ let apply_strong_induction env name facts goal =
                Ir.is_equal_expr
                (fun _ _ expr_to -> expr_to, [])
                goal
-               Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-               Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+               Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+               Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
                0
            in
            let facts =
@@ -922,8 +919,8 @@ let apply_strong_induction env name facts goal =
                         Ir.is_equal_expr
                         (fun _ _ expr_to -> expr_to, [])
                         prop
-                        Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                        Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+                        Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                        Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
                         0
                     in
                     prop ))
@@ -995,15 +992,15 @@ let apply_destruct env name facts goal =
                , List.map
                    (fun arg ->
                       { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
-                      ; Ir.typ = Ir.typ_of_string arg
+                      ; Ir.typ = Ir.parse_typ arg
                       })
                    arg_types )
          in
          let new_facts =
            [ ( "Base" ^ string_of_int (counter ())
              , Eq
-                 ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                 , Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name } ) )
+                 ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                 , Ir.{ desc = base_case; typ = Ir.parse_typ typ_name } ) )
            ]
          in
          let new_goal, _, _ =
@@ -1011,8 +1008,8 @@ let apply_destruct env name facts goal =
              Ir.is_equal_expr
              (fun _ _ expr_to -> expr_to, [])
              goal
-             Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-             Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+             Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+             Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
              0
          in
          let facts =
@@ -1024,8 +1021,8 @@ let apply_destruct env name facts goal =
                       Ir.is_equal_expr
                       (fun _ _ expr_to -> expr_to, [])
                       prop
-                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                      Ir.{ desc = base_case; typ = Ir.typ_of_string typ_name }
+                      Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                      Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
                       0
                   in
                   prop ))
@@ -1038,7 +1035,7 @@ let apply_destruct env name facts goal =
              (fun arg ->
                 Ir.
                   { desc = Var (arg ^ string_of_int (counter ()))
-                  ; typ = Ir.typ_of_string arg
+                  ; typ = Ir.parse_typ arg
                   })
              arg_types
          in
@@ -1049,8 +1046,8 @@ let apply_destruct env name facts goal =
          let new_facts =
            [ ( "Inductive" ^ string_of_int (counter ())
              , Eq
-                 ( Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                 , Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name } ) )
+                 ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                 , Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name } ) )
            ]
          in
          let new_goal, _, _ =
@@ -1058,8 +1055,8 @@ let apply_destruct env name facts goal =
              Ir.is_equal_expr
              (fun _ _ expr_to -> expr_to, [])
              goal
-             Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-             Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+             Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+             Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
              0
          in
          let facts =
@@ -1071,8 +1068,8 @@ let apply_destruct env name facts goal =
                       Ir.is_equal_expr
                       (fun _ _ expr_to -> expr_to, [])
                       prop
-                      Ir.{ desc = Var name; typ = Ir.typ_of_string typ_name }
-                      Ir.{ desc = inductive_case; typ = Ir.typ_of_string typ_name }
+                      Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                      Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
                       0
                   in
                   prop ))
@@ -1155,9 +1152,7 @@ let rec simplify_expr (env : Ir.t) expr =
        in
        simplify_expr env new_expr
      with
-     | exn ->
-       print_endline (Printexc.to_string exn);
-       Ir.{ desc = Call (name, args); typ = expr.typ })
+     | _ -> Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (e, cases) ->
     let e = simplify_expr env e in
     let new_expr =
@@ -1168,10 +1163,6 @@ let rec simplify_expr (env : Ir.t) expr =
            | None ->
              (match case with
               | Ir.Case (pat, e') ->
-                let _ = e |> Ir.sexp_of_expr |> Sexplib.Sexp.to_string |> print_endline in
-                let _ =
-                  pat |> Ir.sexp_of_pattern |> Sexplib.Sexp.to_string |> print_endline
-                in
                 let match_list = get_case_match e pat in
                 if match_list = []
                 then acc
@@ -1315,6 +1306,20 @@ let parse_expr goal src decls =
   Ir.ir_of_parsetree expr binding decls
 ;;
 
+let parse_forall_vars str =
+  let var_regex = Str.regexp "( *\\([^:()]+\\) *: *\\([^()]+\\) *)" in
+  let rec extract acc pos =
+    try
+      ignore (Str.search_forward var_regex str pos);
+      let var = String.trim (Str.matched_group 1 str) in
+      let typ = String.trim (Str.matched_group 2 str) in
+      extract ((var, typ) :: acc) (Str.match_end ())
+    with
+    | Not_found -> List.rev acc
+  in
+  extract [] 0
+;;
+
 let rec parse_prop src binding decls =
   let parts = String.split_on_char ',' src in
   match parts with
@@ -1326,35 +1331,9 @@ let rec parse_prop src binding decls =
     let rhs = Ir.ir_of_parsetree rhs binding decls in
     Eq (lhs, rhs)
   | quantifier :: prop ->
-    let quantifier = String.split_on_char '(' quantifier in
-    let quantifier = List.tl quantifier in
-    let quantifier =
-      List.map (fun str -> str |> String.split_on_char ')' |> List.hd) quantifier
-    in
-    let qvars =
-      List.map
-        (fun qvar ->
-           match String.split_on_char ':' qvar with
-           (* blank after colone make bug  *)
-           | [ var; typ ] ->
-             (match String.split_on_char ' ' typ with
-              | [ typ ] -> var, Type (Ir.typ_of_string typ)
-              | typ :: _ -> var, Type (Ir.Tlist (Ir.typ_of_string typ))
-              | _ -> failwith "not asdf")
-           | _ -> failwith "not implemented")
-        quantifier
-    in
-    let binding =
-      List.map
-        (fun qvar ->
-           match String.split_on_char ':' qvar with
-           | [ var; typ ] ->
-             let typ = String.split_on_char ')' typ |> List.hd in
-             var, Ir.typ_of_string typ
-           | _ -> failwith "not implemented")
-        quantifier
-      @ binding
-    in
+    let binding = parse_forall_vars quantifier in
+    let binding = List.map (fun (var, typ) -> var, Ir.parse_typ typ) binding in
+    let qvars = List.map (fun (var, typ) -> var, Type typ) binding in
     let prop = String.concat " " prop in
     Forall (qvars, parse_prop prop binding decls)
   | _ -> failwith "not implemented"
