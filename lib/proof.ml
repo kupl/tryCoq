@@ -320,11 +320,22 @@ let apply_induction env name facts goal : t =
           ; typ = Ir.Tlist (Ir.parse_typ arg_type_name)
           }
       in
+      let ih, _, _ =
+        substitute_expr_in_prop
+          Ir.is_equal_expr
+          (fun _ _ expr_to -> expr_to, [])
+          goal
+          Ir.{ desc = Var name; typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
+          Ir.{ desc = Var (name ^ "_tl"); typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
+          0
+      in
+      let ih = "IH" ^ string_of_int (counter ()), ih in
       let inductive_fact =
         [ ( "Inductive" ^ string_of_int (counter ())
           , Eq
               ( Ir.{ desc = Var name; typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
               , new_expr ) )
+        ; ih
         ]
       in
       let inductive_goal, _, _ =
