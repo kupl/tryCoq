@@ -303,6 +303,9 @@ let apply_induction env name facts goal : t =
           Ir.{ desc = Call ("[]", []); typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
           0
       in
+      let base_goal =
+        if List.is_empty var_list then base_goal else Forall (var_list, base_goal)
+      in
       let base_case = facts @ base_fact, base_goal in
       let new_expr =
         Ir.
@@ -332,6 +335,11 @@ let apply_induction env name facts goal : t =
           Ir.{ desc = Var name; typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
           new_expr
           0
+      in
+      let inductive_goal =
+        if List.is_empty var_list
+        then inductive_goal
+        else Forall (var_list, inductive_goal)
       in
       let inductive_case = facts @ inductive_fact, inductive_goal in
       [ base_case; inductive_case ])
@@ -1216,7 +1224,7 @@ let rec simplify_expr (env : Ir.t) expr =
      | _ -> Ir.{ desc = IfthenElse (e1, e2, e3); typ = e2.typ })
   | Ir.Tuple args ->
     Ir.{ desc = Tuple (List.map (simplify_expr env) args); typ = expr.typ }
-  | _ -> failwith "not implemented"
+  | _ -> expr
 ;;
 
 let rec simplify_prop env prop =
@@ -1303,7 +1311,14 @@ let parse_expr goal src decls =
   let binding =
     List.map (fun var -> var, get_type_in_prop var goal |> Option.get) free_vars
   in
-  Ir.ir_of_parsetree expr binding decls
+  let _ =
+    List.iter
+      (fun (var, typ) -> Printf.printf "%s |> %s\n" var (typ |> Ir.pp_typ))
+      binding
+  in
+  let expr = Ir.ir_of_parsetree expr binding decls in
+  let _ = expr |> sexp_of_expr |> Sexplib.Sexp.to_string |> print_endline in
+  expr
 ;;
 
 let parse_forall_vars str =
@@ -1339,8 +1354,8 @@ let rec parse_prop src binding decls =
   | _ -> failwith "not implemented"
 ;;
 
-let parse_tactic t s decls =
-  let parts = String.split_on_char ' ' s in
+let parse_tactic t src decls =
+  let parts = String.split_on_char ' ' src in
   let name = List.hd parts in
   let args = List.tl parts in
   match name with

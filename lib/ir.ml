@@ -53,16 +53,13 @@ and pattern =
 
 and name = string [@@deriving sexp]
 
-let nth_tale n lst =
-  let rec nth_tale' n lst acc =
-    if n = 0
-    then List.rev acc
-    else (
-      match lst with
-      | [] -> failwith "n is too big"
-      | hd :: tl -> nth_tale' (n - 1) tl (hd :: acc))
-  in
-  nth_tale' n lst []
+let rec nth_tale n lst =
+  if n = 0
+  then lst
+  else (
+    match lst with
+    | [] -> failwith "n is too big"
+    | _ :: tl -> nth_tale (n - 1) tl)
 ;;
 
 let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
@@ -600,10 +597,11 @@ let get_free_vars expr =
           bindings
       in
       StringSet.union fv_body fv_bindings
-    | Pexp_apply (_, args) ->
+    | Pexp_apply (fname, args) ->
+      let new_bound = extract_free_vars fname bound in
       List.fold_left
         (fun acc (_, e) -> StringSet.union acc (extract_free_vars e bound))
-        bound
+        new_bound
         args
     | Pexp_tuple exprs | Pexp_array exprs ->
       List.fold_left
@@ -659,8 +657,25 @@ let rec ir_of_parsetree parse_expr binding t =
   | Pexp_apply (func, args) ->
     (match func.pexp_desc with
      | Pexp_ident { txt = Longident.Lident name; _ } ->
+       let typ =
+         if List.mem_assoc name binding
+         then (
+           let arg_num = List.length args in
+           let fun_type = List.assoc name binding in
+           match fun_type with
+           | Tarrow l ->
+             let _ = l |> List.iter (fun i -> i |> pp_typ |> print_endline) in
+             let _ = string_of_int arg_num |> print_endline in
+             let typ_list = nth_tale arg_num l in
+             let _ = typ_list |> List.iter (fun i -> i |> pp_typ |> print_endline) in
+             (match typ_list with
+              | [ hd ] -> hd
+              | _ -> Tarrow typ_list)
+           | _ -> failwith "this is not function")
+         else search_return_type name t
+       in
        { desc = Call (name, List.map (fun (_, arg) -> ir_of_parsetree arg binding t) args)
-       ; typ = search_return_type name t
+       ; typ
        }
      | _ -> failwith "Not implemented")
   | Pexp_construct ({ txt = Longident.Lident name; _ }, Some e) ->
