@@ -312,6 +312,10 @@ let apply_induction env name facts goal : t =
         if List.is_empty var_list then base_goal else Forall (var_list, base_goal)
       in
       let base_case = facts @ base_fact, base_goal in
+      let hd_name = name ^ "_hd" in
+      let hd_typ = Ir.parse_typ arg_type_name in
+      let tl_name = name ^ "_tl" in
+      let tl_typ = Ir.Tlist (Ir.parse_typ arg_type_name) in
       let new_expr =
         Ir.
           { desc =
@@ -319,12 +323,8 @@ let apply_induction env name facts goal : t =
                 ( "::"
                 , [ { desc =
                         Tuple
-                          [ { desc = Var (name ^ "_hd")
-                            ; typ = Ir.parse_typ arg_type_name
-                            }
-                          ; { desc = Var (name ^ "_tl")
-                            ; typ = Ir.Tlist (Ir.parse_typ arg_type_name)
-                            }
+                          [ { desc = Var hd_name; typ = hd_typ }
+                          ; { desc = Var tl_name; typ = tl_typ }
                           ]
                     ; typ =
                         Ttuple
@@ -348,7 +348,9 @@ let apply_induction env name facts goal : t =
       let ih = if List.is_empty var_list then ih else Forall (var_list, ih) in
       let ih = "IH" ^ string_of_int (counter ()), ih in
       let inductive_fact =
-        [ ( "Inductive" ^ string_of_int (counter ())
+        [ hd_name, Type hd_typ
+        ; tl_name, Type tl_typ
+        ; ( "Inductive" ^ string_of_int (counter ())
           , Eq
               ( Ir.{ desc = Var name; typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
               , new_expr ) )
@@ -380,6 +382,11 @@ let apply_induction env name facts goal : t =
       List.map
         (fun (constr, arg_types) ->
            let rec_args = List.filter (fun arg -> arg = typ_name) arg_types in
+           let arg_bind =
+             List.map
+               (fun arg -> arg ^ string_of_int (counter ()), Ir.parse_typ arg)
+               arg_types
+           in
            match rec_args with
            | [] ->
              let base_case =
@@ -387,12 +394,7 @@ let apply_induction env name facts goal : t =
                | Ir.Constructor constr ->
                  Ir.Call
                    ( constr
-                   , List.map
-                       (fun arg ->
-                          { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
-                          ; Ir.typ = Ir.parse_typ arg
-                          })
-                       arg_types )
+                   , List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind )
              in
              let new_facts =
                [ ( "Base" ^ string_of_int (counter ())
@@ -429,7 +431,8 @@ let apply_induction env name facts goal : t =
                       prop ))
                  facts
              in
-             facts @ new_facts, new_goal
+             let typ_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
+             typ_facts @ facts @ new_facts, new_goal
            | _ ->
              let new_args, new_rec_args =
                partition_and_transform
@@ -497,7 +500,16 @@ let apply_induction env name facts goal : t =
                       prop ))
                  facts
              in
-             facts @ new_facts, new_goal)
+             let typ_facts =
+               List.map
+                 (fun exp ->
+                    ( (match exp.Ir.desc with
+                       | Var name -> name
+                       | _ -> failwith "dead point")
+                    , Type exp.Ir.typ ))
+                 new_args
+             in
+             typ_facts @ facts @ new_facts, new_goal)
         decl)
   | _ -> failwith "not implemented"
 ;;
@@ -1432,23 +1444,7 @@ let parse_tactic t src decls =
 
 let proof_top program_a program_b =
   let env = Ir.initial_env @ program_a @ program_b in
-  let fact =
-    ( "lemma"
-    , parse_prop
-        "forall (a:int) (lst:int list) (lst3:int list), (lst3 @ (a :: lst)) = (lst3 @ \
-         ((a :: []) @ lst))"
-        []
-        env )
-  in
-  let goal =
-    parse_prop
-      "forall (pred: int -> bool) (lst1: int list) (lst2_hd : int) (lst2_tl: int list), \
-       (reverse lst1 []) @ (lst2_hd :: filter_ta1 pred lst2_tl) = (reverse lst1 (lst2_hd \
-       :: []) @ filter_ta1 pred lst2_tl)"
-      []
-      env
-  in
-  let init = [ [ fact ], goal ] in
+  let init = [] in
   let rec loop t =
     pp_t t |> print_endline;
     print_newline ();
