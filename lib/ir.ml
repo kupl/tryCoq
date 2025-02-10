@@ -62,18 +62,23 @@ let initial_env =
               ( { desc = Var "l1"; typ = Tlist Tany }
               , [ Case (Pat_Constr ("[]", []), { desc = Var "l2"; typ = Tlist Tany })
                 ; Case
-                    ( Pat_Constr ("::", [ Pat_Var "hd"; Pat_Var "tl" ])
+                    ( Pat_Constr ("::", [ Pat_Tuple [ Pat_Var "hd"; Pat_Var "tl" ] ])
                     , { desc =
                           Call
                             ( "::"
-                            , [ { desc = Var "hd"; typ = Tany }
-                              ; { desc =
-                                    Call
-                                      ( "@"
-                                      , [ { desc = Var "tl"; typ = Tlist Tany }
-                                        ; { desc = Var "l2"; typ = Tlist Tany }
-                                        ] )
-                                ; typ = Tlist Tany
+                            , [ { desc =
+                                    Tuple
+                                      [ { desc = Var "hd"; typ = Tany }
+                                      ; { desc =
+                                            Call
+                                              ( "@"
+                                              , [ { desc = Var "tl"; typ = Tlist Tany }
+                                                ; { desc = Var "l2"; typ = Tlist Tany }
+                                                ] )
+                                        ; typ = Tlist Tany
+                                        }
+                                      ]
+                                ; typ = Ttuple [ Tany; Tlist Tany ]
                                 }
                               ] )
                       ; typ = Tlist Tany
@@ -123,8 +128,20 @@ and pp_expr expr =
     "if " ^ pp_expr cond ^ " then " ^ pp_expr e1 ^ " else " ^ pp_expr e2
   | Call (name, args) ->
     (match name with
-     | "::" | "@" ->
-       pp_expr (List.hd args) ^ " " ^ name ^ " " ^ pp_expr (List.hd (List.tl args))
+     | "::" ->
+       let args = List.hd args in
+       (match args.desc with
+        | Tuple l ->
+          "(" ^ pp_expr (List.hd l) ^ " :: " ^ pp_expr (List.hd (List.tl l)) ^ ")"
+        | _ -> failwith "This is not list")
+     | "@" ->
+       "("
+       ^ pp_expr (List.hd args)
+       ^ " "
+       ^ name
+       ^ " "
+       ^ pp_expr (List.hd (List.tl args))
+       ^ ")"
      | _ ->
        (match args with
         | [] -> name
@@ -298,7 +315,15 @@ and get_expr expr =
     | Texp_construct (lidnet_loc, _, expr_list) ->
       let name = Longident.last lidnet_loc.txt in
       let expr_list' = List.map get_expr expr_list in
-      Call (name, expr_list')
+      if name = "::"
+      then
+        Call
+          ( name
+          , [ { desc = Tuple expr_list'
+              ; typ = Ttuple (List.map (fun e -> e.typ) expr_list')
+              }
+            ] )
+      else Call (name, expr_list')
     | Texp_apply (func, args) ->
       let fname =
         match (get_expr func).desc with
@@ -350,7 +375,9 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
   | Tpat_construct (lident_loc, _, args, _) ->
     let name = Longident.last lident_loc.txt in
     let args' = List.map (fun arg -> get_pattern arg) args in
-    Pat_Constr (name, args')
+    if name = "::"
+    then Pat_Constr (name, [ Pat_Tuple args' ])
+    else Pat_Constr (name, args')
   | Tpat_var (name, _, _) -> Pat_Var (Ident.name name)
   | Tpat_tuple patterns -> Pat_Tuple (List.map get_pattern patterns)
   | Tpat_any -> Pat_any
@@ -735,5 +762,18 @@ let rec ir_of_parsetree parse_expr binding t =
       | None -> failwith "Not implemented"
     in
     { desc = IfthenElse (cond, e1, e2); typ = e1.typ }
+  | Pexp_tuple l ->
+    let component = List.map (fun e -> ir_of_parsetree e binding t) l in
+    { desc = Tuple component; typ = Ttuple (List.map (fun e -> e.typ) component) }
   | _ -> failwith "Not implemented"
+;;
+
+let rec is_typ_contained typ1 typ2 =
+  match typ1, typ2 with
+  | Tint, Tint | Tstring, Tstring | Tbool, Tbool | _, Tany | Tany, _ -> true
+  | Tlist t1, Tlist t2 -> is_typ_contained t1 t2
+  | Ttuple l1, Ttuple l2 -> List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) l1 l2
+  | Talgebraic name1, Talgebraic name2 -> name1 = name2
+  | Tarrow l1, Tarrow l2 -> List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) l1 l2
+  | _ -> false
 ;;

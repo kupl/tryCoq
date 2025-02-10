@@ -261,7 +261,8 @@ let apply_intro name facts goal =
 
 let rec apply_eq goal =
   match goal with
-  | Eq (e1, e2) -> if e1 = e2 then [] else failwith "LHS and RHS are not equal"
+  | Eq (e1, e2) ->
+    if Ir.is_equal_expr e1 e2 then [] else failwith "LHS and RHS are not equal"
   | Forall (_, goal) -> apply_eq goal
   | _ -> failwith "The goal is not an equality"
 ;;
@@ -312,9 +313,20 @@ let apply_induction env name facts goal : t =
           { desc =
               Call
                 ( "::"
-                , [ { desc = Var (name ^ "_hd"); typ = Ir.parse_typ arg_type_name }
-                  ; { desc = Var (name ^ "_tl")
-                    ; typ = Ir.Tlist (Ir.parse_typ arg_type_name)
+                , [ { desc =
+                        Tuple
+                          [ { desc = Var (name ^ "_hd")
+                            ; typ = Ir.parse_typ arg_type_name
+                            }
+                          ; { desc = Var (name ^ "_tl")
+                            ; typ = Ir.Tlist (Ir.parse_typ arg_type_name)
+                            }
+                          ]
+                    ; typ =
+                        Ttuple
+                          [ Ir.parse_typ arg_type_name
+                          ; Ir.Tlist (Ir.parse_typ arg_type_name)
+                          ]
                     }
                   ] )
           ; typ = Ir.Tlist (Ir.parse_typ arg_type_name)
@@ -329,6 +341,7 @@ let apply_induction env name facts goal : t =
           Ir.{ desc = Var (name ^ "_tl"); typ = Ir.Tlist (Ir.parse_typ arg_type_name) }
           0
       in
+      let ih = if List.is_empty var_list then ih else Forall (var_list, ih) in
       let ih = "IH" ^ string_of_int (counter ()), ih in
       let inductive_fact =
         [ ( "Inductive" ^ string_of_int (counter ())
@@ -492,7 +505,7 @@ let rec forall_target var_list target source =
     if List.mem_assoc var var_list
     then (
       let target_typ = target.Ir.typ in
-      lhs_typ = target_typ)
+      Ir.is_typ_contained lhs_typ target_typ)
     else Ir.is_equal_expr source target
   | Ir.Call (name, args) ->
     (match target.Ir.desc with
@@ -536,6 +549,11 @@ let rec forall_target var_list target source =
        forall_target var_list e1' e1
        && forall_target var_list e2' e2
        && forall_target var_list e3' e3
+     | _ -> false)
+  | Ir.Tuple exprs ->
+    (match target.Ir.desc with
+     | Ir.Tuple exprs' ->
+       List.for_all2 (fun a b -> forall_target var_list a b) exprs exprs'
      | _ -> false)
   | _ -> false
 ;;
@@ -1171,7 +1189,10 @@ let rec simplify_expr (env : Ir.t) expr =
        in
        simplify_expr env new_expr
      with
-     | _ -> Ir.{ desc = Call (name, args); typ = expr.typ })
+     | exn ->
+       ignore exn;
+       (* print_endline (Printexc.to_string exn); *)
+       Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (e, cases) ->
     let e = simplify_expr env e in
     let new_expr =
@@ -1322,11 +1343,6 @@ let parse_expr goal src decls =
   let binding =
     List.map (fun var -> var, get_type_in_prop var goal |> Option.get) free_vars
   in
-  let _ =
-    List.iter
-      (fun (var, typ) -> Printf.printf "%s |> %s\n" var (typ |> Ir.pp_typ))
-      binding
-  in
   Ir.ir_of_parsetree expr binding decls
 ;;
 
@@ -1419,5 +1435,9 @@ let proof_top program_a program_b =
 ;;
 
 (*we have to test below:
-assert (forall pred: int -> bool) (lst1: int list) (lst2: int list), (reverse lst1 []) @ filter_ta1 pred lst2 = reverse (loop pred lst2 lst1) []
+assert forall (pred: int -> bool) (lst1: int list) (lst2: int list), (reverse lst1 []) @ filter_ta1 pred lst2 = reverse (loop pred lst2 lst1) []
+
+assert forall (a:int) (lst:int list) (lst1: int list), (reverse lst1 []) @ (a :: lst) = (reverse lst1 []) @ (a::[]) @ lst
+
+assert forall (a:int) (b:int list) (pred:int -> bool), filter_ta1 pred (a::b) = b
 *)
