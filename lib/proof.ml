@@ -1207,7 +1207,7 @@ let rec simplify_expr (env : Ir.t) expr =
         None
         cases
     in
-    new_expr |> Option.get
+    new_expr |> Option.get |> simplify_expr env
   | Ir.LetIn (let_list, e) ->
     let new_expr =
       List.fold_left
@@ -1327,9 +1327,7 @@ let parse_expr goal src decls =
       (fun (var, typ) -> Printf.printf "%s |> %s\n" var (typ |> Ir.pp_typ))
       binding
   in
-  let expr = Ir.ir_of_parsetree expr binding decls in
-  let _ = expr |> sexp_of_expr |> Sexplib.Sexp.to_string |> print_endline in
-  expr
+  Ir.ir_of_parsetree expr binding decls
 ;;
 
 let parse_forall_vars str =
@@ -1400,7 +1398,7 @@ let parse_tactic t src decls =
 ;;
 
 let proof_top program_a program_b =
-  let env = program_a @ program_b in
+  let env = Ir.initial_env @ program_a @ program_b in
   let init = [] in
   let rec loop t =
     pp_t t |> print_endline;
@@ -1408,14 +1406,18 @@ let proof_top program_a program_b =
     print_string ">>> ";
     let s = read_line () in
     print_newline ();
-    (* let t =
+    let t =
       try apply_tactic t env (parse_tactic t s env) with
       | exn ->
         print_endline (Printexc.to_string exn);
         t
-    in *)
-    let t = apply_tactic t env (parse_tactic t s env) in
+    in
+    (* let t = apply_tactic t env (parse_tactic t s env) in *)
     loop t
   in
   loop init
 ;;
+
+(*we have to test below:
+assert (forall pred: int -> bool) (lst1: int list) (lst2: int list), (reverse lst1 []) @ filter_ta1 pred lst2 = reverse (loop pred lst2 lst1) []
+*)

@@ -53,6 +53,37 @@ and pattern =
 
 and name = string [@@deriving sexp]
 
+let initial_env =
+  [ Rec
+      ( "@"
+      , [ "l1"; "l2" ]
+      , { desc =
+            Match
+              ( { desc = Var "l1"; typ = Tlist Tany }
+              , [ Case (Pat_Constr ("[]", []), { desc = Var "l2"; typ = Tlist Tany })
+                ; Case
+                    ( Pat_Constr ("::", [ Pat_Var "hd"; Pat_Var "tl" ])
+                    , { desc =
+                          Call
+                            ( "::"
+                            , [ { desc = Var "hd"; typ = Tany }
+                              ; { desc =
+                                    Call
+                                      ( "@"
+                                      , [ { desc = Var "tl"; typ = Tlist Tany }
+                                        ; { desc = Var "l2"; typ = Tlist Tany }
+                                        ] )
+                                ; typ = Tlist Tany
+                                }
+                              ] )
+                      ; typ = Tlist Tany
+                      } )
+                ] )
+        ; typ = Tlist Tany
+        } )
+  ]
+;;
+
 let rec nth_tale n lst =
   if n = 0
   then lst
@@ -91,15 +122,16 @@ and pp_expr expr =
   | IfthenElse (cond, e1, e2) ->
     "if " ^ pp_expr cond ^ " then " ^ pp_expr e1 ^ " else " ^ pp_expr e2
   | Call (name, args) ->
-    if name = "::"
-    then pp_expr (List.hd args) ^ "::" ^ pp_expr (List.hd (List.tl args))
-    else (
-      match args with
-      | [] -> name
-      | _ ->
-        name
-        ^ " "
-        ^ String.concat " " (List.map (fun arg -> "(" ^ pp_expr arg ^ ")") args))
+    (match name with
+     | "::" | "@" ->
+       pp_expr (List.hd args) ^ " " ^ name ^ " " ^ pp_expr (List.hd (List.tl args))
+     | _ ->
+       (match args with
+        | [] -> name
+        | _ ->
+          name
+          ^ " "
+          ^ String.concat " " (List.map (fun arg -> "(" ^ pp_expr arg ^ ")") args)))
   | Int i -> string_of_int i
   | String s -> "\"" ^ s ^ "\""
   | Bool b -> string_of_bool b
@@ -327,28 +359,36 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
 and get_type (expr : Typedtree.expression) =
   let rec pr_type type_expr =
     match type_expr with
-    | Types.Tvar (Some name) -> [ name |> parse_typ ]
-    | Tvar None -> [ Tany ]
+    | Types.Tvar (Some name) -> name |> parse_typ
+    | Tvar None -> Tany
     | Tconstr (path, arg_typ, _) ->
       let name = path |> Path.name in
       (match name with
-       | "list" -> [ Tlist (List.hd arg_typ |> Types.get_desc |> pr_type |> List.hd) ]
-       | _ -> [ parse_typ name ])
+       | "list" -> Tlist (List.hd arg_typ |> Types.get_desc |> pr_type)
+       | _ -> parse_typ name)
     | Tarrow (_, e1, e2, _) ->
-      let typ_list = e1 |> Types.get_desc |> pr_type in
       let arg_num =
         match expr.exp_desc with
         | Texp_apply (_, args) -> List.length args
         | _ -> 0
       in
-      let typ_list = nth_tale arg_num typ_list in
       let e2' = e2 |> Types.get_desc |> pr_type in
-      Tarrow typ_list :: e2'
-    | Ttuple l ->
-      [ Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type |> List.hd) l) ]
+      let arg_typ = e1 |> Types.get_desc |> pr_type in
+      (match arg_typ with
+       | Tarrow l ->
+         let l = nth_tale arg_num l in
+         (match l with
+          | [] -> e2'
+          | _ -> Tarrow (l @ [ e2' ]))
+       | _ ->
+         (match arg_num with
+          | 1 -> e2'
+          | 0 -> Tarrow [ arg_typ; e2' ]
+          | _ -> failwith "argument number not mathcing"))
+    | Ttuple l -> Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type) l)
     | _ -> failwith "Not implemented"
   in
-  expr.exp_type |> Types.get_desc |> pr_type |> List.hd
+  expr.exp_type |> Types.get_desc |> pr_type
 ;;
 
 let find_decl name (decls : t) =
@@ -664,10 +704,7 @@ let rec ir_of_parsetree parse_expr binding t =
            let fun_type = List.assoc name binding in
            match fun_type with
            | Tarrow l ->
-             let _ = l |> List.iter (fun i -> i |> pp_typ |> print_endline) in
-             let _ = string_of_int arg_num |> print_endline in
              let typ_list = nth_tale arg_num l in
-             let _ = typ_list |> List.iter (fun i -> i |> pp_typ |> print_endline) in
              (match typ_list with
               | [ hd ] -> hd
               | _ -> Tarrow typ_list)
@@ -679,11 +716,16 @@ let rec ir_of_parsetree parse_expr binding t =
        }
      | _ -> failwith "Not implemented")
   | Pexp_construct ({ txt = Longident.Lident name; _ }, Some e) ->
-    { desc = Call (name, [ ir_of_parsetree e binding t ])
-    ; typ = search_constr_type name t
-    }
+    (match name with
+     | "::" -> { desc = Call ("::", [ ir_of_parsetree e binding t ]); typ = Tlist Tany }
+     | _ ->
+       { desc = Call (name, [ ir_of_parsetree e binding t ])
+       ; typ = search_constr_type name t
+       })
   | Pexp_construct ({ txt = Longident.Lident name; _ }, None) ->
-    { desc = Call (name, []); typ = search_constr_type name t }
+    (match name with
+     | "[]" -> { desc = Call ("[]", []); typ = Tlist Tany }
+     | _ -> { desc = Call (name, []); typ = search_constr_type name t })
   | Pexp_ifthenelse (cond, e1, e2_opt) ->
     let cond = ir_of_parsetree cond binding t in
     let e1 = ir_of_parsetree e1 binding t in
