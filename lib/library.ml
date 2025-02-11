@@ -1,11 +1,19 @@
-let initial_env =
-  [ (* Ir.Rec
+let list =
+  [ Ir.TypeDecl
+      ( "list"
+      , [ Tany ]
+      , [ Constructor "nil", []
+        ; Constructor "Cons", [ Tany; Talgebraic ("list", [ Tany ]) ]
+        ] )
+  ; Ir.Rec
       ( "@"
       , [ "l1"; "l2" ]
       , { desc =
             Match
-              ( { desc = Var "l1"; typ = Tlist Tany }
-              , [ Case (Pat_Constr ("[]", []), { desc = Var "l2"; typ = Tlist Tany })
+              ( { desc = Var "l1"; typ = Talgebraic ("list", [ Tany ]) }
+              , [ Case
+                    ( Pat_Constr ("[]", [])
+                    , { desc = Var "l2"; typ = Talgebraic ("list", [ Tany ]) } )
                 ; Case
                     ( Pat_Constr ("::", [ Pat_Tuple [ Pat_Var "hd"; Pat_Var "tl" ] ])
                     , { desc =
@@ -17,22 +25,29 @@ let initial_env =
                                       ; { desc =
                                             Call
                                               ( "@"
-                                              , [ { desc = Var "tl"; typ = Tlist Tany }
-                                                ; { desc = Var "l2"; typ = Tlist Tany }
+                                              , [ { desc = Var "tl"
+                                                  ; typ = Talgebraic ("list", [ Tany ])
+                                                  }
+                                                ; { desc = Var "l2"
+                                                  ; typ = Talgebraic ("list", [ Tany ])
+                                                  }
                                                 ] )
-                                        ; typ = Tlist Tany
+                                        ; typ = Talgebraic ("list", [ Tany ])
                                         }
                                       ]
-                                ; typ = Ttuple [ Tany; Tlist Tany ]
+                                ; typ = Ttuple [ Tany; Talgebraic ("list", [ Tany ]) ]
                                 }
                               ] )
-                      ; typ = Tlist Tany
+                      ; typ = Talgebraic ("list", [ Tany ])
                       } )
                 ] )
-        ; typ = Tlist Tany
+        ; typ = Talgebraic ("list", [ Tany ])
         } )
-  ;  *)
-    Ir.TypeDecl ("bool", [], [ Constructor "true", []; Constructor "false", [] ])
+  ]
+;;
+
+let bool =
+  [ Ir.TypeDecl ("bool", [], [ Constructor "true", []; Constructor "false", [] ])
   ; Ir.NonRec
       ( "not"
       , [ "b" ]
@@ -50,3 +65,5 @@ let initial_env =
         } )
   ]
 ;;
+
+let initial_env = [ list; bool ]

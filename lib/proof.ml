@@ -292,19 +292,38 @@ let apply_induction env name facts goal : t =
       | Type typ -> typ
       | _ -> failwith "not implemented"
     in
-    let typ_args, decl =
-      (* 'a list cannot be founded in env *)
+    let typ_args, (origin_args, decl) =
       match typ with
-      | Ir.Talgebraic (typ_name, typ_list) -> typ_list, Ir.find_decl typ_name env
+      | Ir.Talgebraic (typ_name, typ_list) ->
+        ( typ_list
+        , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+           | _ -> failwith ("cannot found such type : " ^ typ_name)) )
       | _ -> failwith "This type is not algebraic"
     in
-    (* 25/02/11 pm6:00 *)
+    let typ_match = List.combine origin_args typ_args in
+    let decl =
+      List.map
+        (fun (constr, arg_types) ->
+           ( constr
+           , List.map
+               (fun arg ->
+                  try List.assoc arg typ_match with
+                  | _ ->
+                    if arg = typ
+                    then arg
+                    else failwith ("cannot found such argument : " ^ Ir.pp_typ arg))
+               arg_types ))
+        decl
+    in
     List.map
       (fun (constr, arg_types) ->
-         let rec_args = List.filter (fun arg -> arg = typ_name) arg_types in
+         let rec_args = List.filter (fun arg -> typ = arg) arg_types in
          let arg_bind =
            List.map
-             (fun arg -> arg ^ string_of_int (counter ()), Ir.parse_typ arg)
+             (fun arg ->
+                ( (String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
+                  ^ string_of_int (counter ())
+                , arg ))
              arg_types
          in
          match rec_args with
@@ -318,9 +337,7 @@ let apply_induction env name facts goal : t =
            in
            let new_facts =
              [ ( "Base" ^ string_of_int (counter ())
-               , Eq
-                   ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                   , Ir.{ desc = base_case; typ = Ir.parse_typ typ_name } ) )
+               , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = base_case; typ }) )
              ]
            in
            let new_goal, _, _ =
@@ -328,8 +345,8 @@ let apply_induction env name facts goal : t =
                Ir.is_equal_expr
                (fun _ _ expr_to -> expr_to, [])
                goal
-               Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-               Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
+               Ir.{ desc = Var name; typ }
+               Ir.{ desc = base_case; typ }
                0
            in
            let new_goal =
@@ -344,8 +361,8 @@ let apply_induction env name facts goal : t =
                         Ir.is_equal_expr
                         (fun _ _ expr_to -> expr_to, [])
                         prop
-                        Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                        Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
+                        Ir.{ desc = Var name; typ }
+                        Ir.{ desc = base_case; typ }
                         0
                     in
                     prop ))
@@ -359,8 +376,11 @@ let apply_induction env name facts goal : t =
                (fun arg -> List.mem arg rec_args)
                (fun arg ->
                   Ir.
-                    { desc = Var (arg ^ string_of_int (counter ()))
-                    ; typ = Ir.parse_typ arg
+                    { desc =
+                        Var
+                          ((String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
+                           ^ string_of_int (counter ()))
+                    ; typ
                     })
                arg_types
            in
@@ -377,7 +397,7 @@ let apply_induction env name facts goal : t =
                         Ir.is_equal_expr
                         (fun _ _ expr_to -> expr_to, [])
                         goal
-                        Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                        Ir.{ desc = Var name; typ }
                         arg
                         0
                     in
@@ -387,9 +407,7 @@ let apply_induction env name facts goal : t =
            let new_facts =
              ihs
              @ [ ( "Inductive" ^ string_of_int (counter ())
-                 , Eq
-                     ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                     , Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name } ) )
+                 , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
                ]
            in
            let new_goal, _, _ =
@@ -397,8 +415,8 @@ let apply_induction env name facts goal : t =
                Ir.is_equal_expr
                (fun _ _ expr_to -> expr_to, [])
                goal
-               Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-               Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
+               Ir.{ desc = Var name; typ }
+               Ir.{ desc = inductive_case; typ }
                0
            in
            let new_goal =
@@ -413,8 +431,8 @@ let apply_induction env name facts goal : t =
                         Ir.is_equal_expr
                         (fun _ _ expr_to -> expr_to, [])
                         prop
-                        Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                        Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
+                        Ir.{ desc = Var name; typ }
+                        Ir.{ desc = inductive_case; typ }
                         0
                     in
                     prop ))
@@ -738,22 +756,50 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
 let apply_strong_induction env name facts goal =
   match goal with
   | Forall (var_list, goal) ->
+    let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
     let typ =
       try List.assoc name var_list with
       | _ -> failwith "there is no such variable"
     in
-    let typ_name =
+    let typ =
       match typ with
-      | Type typ -> typ |> Ir.pp_typ
+      | Type typ -> typ
       | _ -> failwith "not implemented"
     in
-    let typ_args, decl =
-      try Ir.find_decl typ_name env |> Ir.get_typ_decl with
-      | _ -> failwith "There is no such type"
+    let typ_args, (origin_args, decl) =
+      match typ with
+      | Ir.Talgebraic (typ_name, typ_list) ->
+        ( typ_list
+        , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+           | _ -> failwith ("cannot found such type : " ^ typ_name)) )
+      | _ -> failwith "This type is not algebraic"
+    in
+    let typ_match = List.combine origin_args typ_args in
+    let decl =
+      List.map
+        (fun (constr, arg_types) ->
+           ( constr
+           , List.map
+               (fun arg ->
+                  try List.assoc arg typ_match with
+                  | _ ->
+                    if arg = typ
+                    then arg
+                    else failwith ("cannot found such argument : " ^ Ir.pp_typ arg))
+               arg_types ))
+        decl
     in
     List.map
       (fun (constr, arg_types) ->
-         let rec_args = List.filter (fun arg -> arg = typ_name) arg_types in
+         let rec_args = List.filter (fun arg -> arg = typ) arg_types in
+         let arg_bind =
+           List.map
+             (fun arg ->
+                ( (String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
+                  ^ string_of_int (counter ())
+                , arg ))
+             arg_types
+         in
          match rec_args with
          | [] ->
            let base_case =
@@ -761,18 +807,12 @@ let apply_strong_induction env name facts goal =
              | Ir.Constructor constr ->
                Ir.Call
                  ( constr
-                 , List.map
-                     (fun arg ->
-                        { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
-                        ; Ir.typ = Ir.parse_typ arg
-                        })
-                     arg_types )
+                 , List.map (fun (name, typ) -> Ir.{ desc = Ir.Var name; typ }) arg_bind
+                 )
            in
            let new_facts =
              [ ( "Base" ^ string_of_int (counter ())
-               , Eq
-                   ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                   , Ir.{ desc = base_case; typ = Ir.parse_typ typ_name } ) )
+               , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = base_case; typ }) )
              ]
            in
            let new_goal, _, _ =
@@ -780,9 +820,12 @@ let apply_strong_induction env name facts goal =
                Ir.is_equal_expr
                (fun _ _ expr_to -> expr_to, [])
                goal
-               Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-               Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
+               Ir.{ desc = Var name; typ }
+               Ir.{ desc = base_case; typ }
                0
+           in
+           let new_goal =
+             if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
            in
            let facts =
              List.map
@@ -793,8 +836,8 @@ let apply_strong_induction env name facts goal =
                         Ir.is_equal_expr
                         (fun _ _ expr_to -> expr_to, [])
                         prop
-                        Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                        Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
+                        Ir.{ desc = Var name; typ }
+                        Ir.{ desc = base_case; typ }
                         0
                     in
                     prop ))
@@ -802,12 +845,16 @@ let apply_strong_induction env name facts goal =
            in
            facts @ new_facts, new_goal
          | _ ->
-           let new_args =
-             List.map
+           let new_args, _ =
+             partition_and_transform
+               (fun arg -> List.mem arg rec_args)
                (fun arg ->
                   Ir.
-                    { desc = Var (arg ^ string_of_int (counter ()))
-                    ; typ = Ir.parse_typ arg
+                    { desc =
+                        Var
+                          ((String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
+                           ^ string_of_int (counter ()))
+                    ; typ
                     })
                arg_types
            in
@@ -816,35 +863,31 @@ let apply_strong_induction env name facts goal =
              | Ir.Constructor constr -> Ir.Call (constr, new_args)
            in
            let ihs =
-             let precedent_var = typ_name ^ string_of_int (counter ()) in
-             let precedent =
-               Ir.{ desc = Var precedent_var; typ = Ir.parse_typ typ_name }
+             let precedent_var =
+               (String.get (typ |> Ir.pp_typ) 1 |> Char.escaped)
+               ^ string_of_int (counter ())
              in
+             let precedent = Ir.{ desc = Var precedent_var; typ } in
              let consequent, _, _ =
                substitute_expr_in_prop
                  Ir.is_equal_expr
                  (fun _ _ expr_to -> expr_to, [])
                  goal
-                 Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                 Ir.{ desc = Var name; typ }
                  precedent
                  0
              in
              ( "SIH" ^ string_of_int (counter ())
              , Forall
-                 ( [ precedent_var, Type (Ir.parse_typ typ_name) ]
+                 ( [ precedent_var, Type typ ]
                  , Imply
-                     ( [ Lt
-                           ( precedent
-                           , Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name } )
-                       ]
-                     , consequent ) ) )
+                     ([ Lt (precedent, Ir.{ desc = inductive_case; typ }) ], consequent)
+                 ) )
            in
            let new_facts =
              ihs
              :: [ ( "Inductive" ^ string_of_int (counter ())
-                  , Eq
-                      ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                      , Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name } ) )
+                  , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
                 ]
            in
            let new_goal, _, _ =
@@ -852,9 +895,12 @@ let apply_strong_induction env name facts goal =
                Ir.is_equal_expr
                (fun _ _ expr_to -> expr_to, [])
                goal
-               Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-               Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
+               Ir.{ desc = Var name; typ }
+               Ir.{ desc = inductive_case; typ }
                0
+           in
+           let new_goal =
+             if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
            in
            let facts =
              List.map
@@ -865,8 +911,8 @@ let apply_strong_induction env name facts goal =
                         Ir.is_equal_expr
                         (fun _ _ expr_to -> expr_to, [])
                         prop
-                        Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                        Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
+                        Ir.{ desc = Var name; typ }
+                        Ir.{ desc = inductive_case; typ }
                         0
                     in
                     prop ))
@@ -1111,18 +1157,45 @@ let apply_assert prop t =
 ;;
 
 let apply_destruct env name facts goal =
-  let typ_name =
+  let typ =
     match get_type_in_prop name goal with
-    | Some typ -> typ |> Ir.pp_typ
+    | Some typ -> typ
     | _ -> failwith ("there is no such variable : " ^ name)
   in
-  let typ_args, decl =
-    try Ir.find_decl typ_name env |> Ir.get_typ_decl with
-    | _ -> failwith ("There is no such type : " ^ typ_name)
+  let typ_args, (origin_args, decl) =
+    match typ with
+    | Ir.Talgebraic (typ_name, typ_list) ->
+      ( typ_list
+      , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+         | _ -> failwith ("cannot found such type : " ^ typ_name)) )
+    | _ -> failwith "This type is not algebraic"
+  in
+  let typ_match = List.combine origin_args typ_args in
+  let decl =
+    List.map
+      (fun (constr, arg_types) ->
+         ( constr
+         , List.map
+             (fun arg ->
+                try List.assoc arg typ_match with
+                | _ ->
+                  if arg = typ
+                  then arg
+                  else failwith ("cannot found such argument : " ^ Ir.pp_typ arg))
+             arg_types ))
+      decl
   in
   List.map
     (fun (constr, arg_types) ->
-       let rec_args = List.filter (fun arg -> arg = typ_name) arg_types in
+       let rec_args = List.filter (fun arg -> arg = typ) arg_types in
+       let arg_bind =
+         List.map
+           (fun arg ->
+              ( (String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
+                ^ string_of_int (counter ())
+              , arg ))
+           arg_types
+       in
        match rec_args with
        | [] ->
          let base_case =
@@ -1130,18 +1203,11 @@ let apply_destruct env name facts goal =
            | Ir.Constructor constr ->
              Ir.Call
                ( constr
-               , List.map
-                   (fun arg ->
-                      { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
-                      ; Ir.typ = Ir.parse_typ arg
-                      })
-                   arg_types )
+               , List.map (fun (name, typ) -> Ir.{ desc = Ir.Var name; typ }) arg_bind )
          in
          let new_facts =
-           [ ( "Base" ^ string_of_int (counter ())
-             , Eq
-                 ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                 , Ir.{ desc = base_case; typ = Ir.parse_typ typ_name } ) )
+           [ ( "Dest" ^ string_of_int (counter ())
+             , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = base_case; typ }) )
            ]
          in
          let new_goal, _, _ =
@@ -1149,8 +1215,8 @@ let apply_destruct env name facts goal =
              Ir.is_equal_expr
              (fun _ _ expr_to -> expr_to, [])
              goal
-             Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-             Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
+             Ir.{ desc = Var name; typ }
+             Ir.{ desc = base_case; typ }
              0
          in
          let facts =
@@ -1162,8 +1228,8 @@ let apply_destruct env name facts goal =
                       Ir.is_equal_expr
                       (fun _ _ expr_to -> expr_to, [])
                       prop
-                      Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                      Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
+                      Ir.{ desc = Var name; typ }
+                      Ir.{ desc = base_case; typ }
                       0
                   in
                   prop ))
@@ -1171,12 +1237,16 @@ let apply_destruct env name facts goal =
          in
          facts @ new_facts, new_goal
        | _ ->
-         let new_args =
-           List.map
+         let new_args, _ =
+           partition_and_transform
+             (fun arg -> List.mem arg rec_args)
              (fun arg ->
                 Ir.
-                  { desc = Var (arg ^ string_of_int (counter ()))
-                  ; typ = Ir.parse_typ arg
+                  { desc =
+                      Var
+                        ((String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
+                         ^ string_of_int (counter ()))
+                  ; typ
                   })
              arg_types
          in
@@ -1186,9 +1256,7 @@ let apply_destruct env name facts goal =
          in
          let new_facts =
            [ ( "Inductive" ^ string_of_int (counter ())
-             , Eq
-                 ( Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                 , Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name } ) )
+             , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
            ]
          in
          let new_goal, _, _ =
@@ -1196,8 +1264,8 @@ let apply_destruct env name facts goal =
              Ir.is_equal_expr
              (fun _ _ expr_to -> expr_to, [])
              goal
-             Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-             Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
+             Ir.{ desc = Var name; typ }
+             Ir.{ desc = inductive_case; typ }
              0
          in
          let facts =
@@ -1209,8 +1277,8 @@ let apply_destruct env name facts goal =
                       Ir.is_equal_expr
                       (fun _ _ expr_to -> expr_to, [])
                       prop
-                      Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                      Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
+                      Ir.{ desc = Var name; typ }
+                      Ir.{ desc = inductive_case; typ }
                       0
                   in
                   prop ))
@@ -1221,28 +1289,51 @@ let apply_destruct env name facts goal =
 ;;
 
 let apply_case env expr facts goal =
-  let typ_name = expr.Ir.typ |> Ir.pp_typ in
-  let typ_args, decl = Ir.find_decl typ_name env |> Ir.get_typ_decl in
+  let typ = expr.Ir.typ in
+  let typ_args, (origin_args, decl) =
+    match typ with
+    | Ir.Talgebraic (typ_name, typ_list) ->
+      ( typ_list
+      , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+         | _ -> failwith ("cannot found such type : " ^ typ_name)) )
+    | _ -> failwith "This type is not algebraic"
+  in
+  let typ_match = List.combine origin_args typ_args in
+  let decl =
+    List.map
+      (fun (constr, arg_types) ->
+         ( constr
+         , List.map
+             (fun arg ->
+                try List.assoc arg typ_match with
+                | _ ->
+                  if arg = typ
+                  then arg
+                  else failwith ("cannot found such argument : " ^ Ir.pp_typ arg))
+             arg_types ))
+      decl
+  in
   List.map
     (fun (constr, arg_types) ->
-       let rec_args = List.filter (fun arg -> arg = typ_name) arg_types in
+       let rec_args = List.filter (fun arg -> arg = typ) arg_types in
+       let arg_bind =
+         List.map
+           (fun arg ->
+              ( (String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
+                ^ string_of_int (counter ())
+              , arg ))
+           arg_types
+       in
        match rec_args with
        | [] ->
          let base_case =
            match constr with
            | Ir.Constructor constr ->
              Ir.Call
-               ( constr
-               , List.map
-                   (fun arg ->
-                      { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
-                      ; Ir.typ = Ir.parse_typ arg
-                      })
-                   arg_types )
+               (constr, List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind)
          in
          let new_facts =
-           [ ( "Base" ^ string_of_int (counter ())
-             , Eq (expr, Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }) )
+           [ "Case" ^ string_of_int (counter ()), Eq (expr, Ir.{ desc = base_case; typ })
            ]
          in
          let new_goal, _, _ =
@@ -1251,7 +1342,7 @@ let apply_case env expr facts goal =
              (fun _ _ expr_to -> expr_to, [])
              goal
              expr
-             Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
+             Ir.{ desc = base_case; typ }
              0
          in
          let facts =
@@ -1263,8 +1354,8 @@ let apply_case env expr facts goal =
                       Ir.is_equal_expr
                       (fun _ _ expr_to -> expr_to, [])
                       prop
-                      Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                      Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
+                      Ir.{ desc = Var name; typ }
+                      Ir.{ desc = base_case; typ }
                       0
                   in
                   prop ))
@@ -1272,12 +1363,16 @@ let apply_case env expr facts goal =
          in
          facts @ new_facts, new_goal
        | _ ->
-         let new_args =
-           List.map
+         let new_args, _ =
+           partition_and_transform
+             (fun arg -> List.mem arg rec_args)
              (fun arg ->
                 Ir.
-                  { desc = Var (arg ^ string_of_int (counter ()))
-                  ; typ = Ir.parse_typ arg
+                  { desc =
+                      Var
+                        ((String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
+                         ^ string_of_int (counter ()))
+                  ; typ
                   })
              arg_types
          in
@@ -1287,7 +1382,7 @@ let apply_case env expr facts goal =
          in
          let new_facts =
            [ ( "Inductive" ^ string_of_int (counter ())
-             , Eq (expr, Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }) )
+             , Eq (expr, Ir.{ desc = inductive_case; typ }) )
            ]
          in
          let new_goal, _, _ =
@@ -1296,7 +1391,7 @@ let apply_case env expr facts goal =
              (fun _ _ expr_to -> expr_to, [])
              goal
              expr
-             Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
+             Ir.{ desc = inductive_case; typ }
              0
          in
          let facts =
@@ -1308,8 +1403,8 @@ let apply_case env expr facts goal =
                       Ir.is_equal_expr
                       (fun _ _ expr_to -> expr_to, [])
                       prop
-                      Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
-                      Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
+                      Ir.{ desc = Var name; typ }
+                      Ir.{ desc = inductive_case; typ }
                       0
                   in
                   prop ))
