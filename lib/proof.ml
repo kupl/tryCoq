@@ -298,6 +298,7 @@ let apply_induction env name facts goal : t =
       | Ir.Talgebraic (typ_name, typ_list) -> typ_list, Ir.find_decl typ_name env
       | _ -> failwith "This type is not algebraic"
     in
+    (* 25/02/11 pm6:00 *)
     List.map
       (fun (constr, arg_types) ->
          let rec_args = List.filter (fun arg -> arg = typ_name) arg_types in
