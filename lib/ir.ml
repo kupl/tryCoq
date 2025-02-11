@@ -586,14 +586,20 @@ and is_equal_pattern p1 p2 =
 let rec get_type_in_expr name expr =
   match expr.desc with
   | Var var -> if var = name then Some expr.typ else None
-  | Call (_, args) ->
-    List.fold_left
-      (fun acc arg ->
-         match acc with
-         | Some _ -> acc
-         | None -> get_type_in_expr name arg)
-      None
-      args
+  | Call (fname, args) ->
+    if fname = name
+    then Some expr.typ
+    else (
+      let result =
+        List.fold_left
+          (fun acc arg ->
+             match acc with
+             | Some _ -> acc
+             | None -> get_type_in_expr name arg)
+          None
+          args
+      in
+      result)
   | Match (e, cases) ->
     let acc = get_type_in_expr name e in
     List.fold_left
@@ -641,9 +647,7 @@ let rec get_type_in_expr name expr =
          | None -> get_type_in_expr name e)
       None
       lst
-  | Int _ -> Some Tint
-  | Bool _ -> Some Tbool
-  | String _ -> Some Tstring
+  | Int _ | Bool _ | String _ -> None
 ;;
 
 module StringSet = Set.Make (String)
@@ -701,7 +705,7 @@ let search_return_type name t =
   let decl = find_decl name t in
   match decl with
   | NonRec (_, _, expr) | Rec (_, _, expr) -> expr.typ
-  | _ -> failwith "This is not a function"
+  | _ -> failwith ("This is not a function :" ^ name)
 ;;
 
 let search_constr_type name t =
@@ -745,7 +749,7 @@ let rec ir_of_parsetree parse_expr binding t =
              (match typ_list with
               | [ hd ] -> hd
               | _ -> Tarrow typ_list)
-           | _ -> failwith "this is not function")
+           | _ -> fun_type)
          else search_return_type name t
        in
        { desc = Call (name, List.map (fun (_, arg) -> ir_of_parsetree arg binding t) args)
