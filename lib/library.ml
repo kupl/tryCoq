@@ -2,8 +2,8 @@ let list =
   [ Ir.TypeDecl
       ( "list"
       , [ Tany ]
-      , [ Constructor "nil", []
-        ; Constructor "Cons", [ Tany; Talgebraic ("list", [ Tany ]) ]
+      , [ Constructor "[]", []
+        ; Constructor "::", [ Tany; Talgebraic ("list", [ Tany ]) ]
         ] )
   ; Ir.Rec
       ( "@"
@@ -66,4 +66,4 @@ let bool =
   ]
 ;;
 
-let initial_env = [ list; bool ]
+let initial_env = list @ bool

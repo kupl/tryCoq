@@ -304,15 +304,7 @@ let apply_induction env name facts goal : t =
     let decl =
       List.map
         (fun (constr, arg_types) ->
-           ( constr
-           , List.map
-               (fun arg ->
-                  try List.assoc arg typ_match with
-                  | _ ->
-                    if arg = typ
-                    then arg
-                    else failwith ("cannot found such argument : " ^ Ir.pp_typ arg))
-               arg_types ))
+           constr, List.map (fun arg -> Ir.substitute_typ arg typ_match) arg_types)
         decl
     in
     List.map
@@ -320,10 +312,7 @@ let apply_induction env name facts goal : t =
          let rec_args = List.filter (fun arg -> typ = arg) arg_types in
          let arg_bind =
            List.map
-             (fun arg ->
-                ( (String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
-                  ^ string_of_int (counter ())
-                , arg ))
+             (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (counter ()), arg)
              arg_types
          in
          match rec_args with
@@ -376,11 +365,8 @@ let apply_induction env name facts goal : t =
                (fun arg -> List.mem arg rec_args)
                (fun arg ->
                   Ir.
-                    { desc =
-                        Var
-                          ((String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
-                           ^ string_of_int (counter ()))
-                    ; typ
+                    { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (counter ()))
+                    ; typ = arg
                     })
                arg_types
            in
@@ -778,15 +764,7 @@ let apply_strong_induction env name facts goal =
     let decl =
       List.map
         (fun (constr, arg_types) ->
-           ( constr
-           , List.map
-               (fun arg ->
-                  try List.assoc arg typ_match with
-                  | _ ->
-                    if arg = typ
-                    then arg
-                    else failwith ("cannot found such argument : " ^ Ir.pp_typ arg))
-               arg_types ))
+           constr, List.map (fun arg -> Ir.substitute_typ arg typ_match) arg_types)
         decl
     in
     List.map
@@ -794,10 +772,7 @@ let apply_strong_induction env name facts goal =
          let rec_args = List.filter (fun arg -> arg = typ) arg_types in
          let arg_bind =
            List.map
-             (fun arg ->
-                ( (String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
-                  ^ string_of_int (counter ())
-                , arg ))
+             (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (counter ()), arg)
              arg_types
          in
          match rec_args with
@@ -850,11 +825,8 @@ let apply_strong_induction env name facts goal =
                (fun arg -> List.mem arg rec_args)
                (fun arg ->
                   Ir.
-                    { desc =
-                        Var
-                          ((String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
-                           ^ string_of_int (counter ()))
-                    ; typ
+                    { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (counter ()))
+                    ; typ = arg
                     })
                arg_types
            in
@@ -863,10 +835,7 @@ let apply_strong_induction env name facts goal =
              | Ir.Constructor constr -> Ir.Call (constr, new_args)
            in
            let ihs =
-             let precedent_var =
-               (String.get (typ |> Ir.pp_typ) 1 |> Char.escaped)
-               ^ string_of_int (counter ())
-             in
+             let precedent_var = (typ |> Ir.var_of_typ) ^ string_of_int (counter ()) in
              let precedent = Ir.{ desc = Var precedent_var; typ } in
              let consequent, _, _ =
                substitute_expr_in_prop
@@ -1073,7 +1042,7 @@ let rec simplify_expr (env : Ir.t) expr =
         None
         cases
     in
-    new_expr |> Option.get |> simplify_expr env
+    new_expr |> Option.value ~default:expr
   | Ir.LetIn (let_list, e) ->
     let new_expr =
       List.fold_left
@@ -1174,15 +1143,7 @@ let apply_destruct env name facts goal =
   let decl =
     List.map
       (fun (constr, arg_types) ->
-         ( constr
-         , List.map
-             (fun arg ->
-                try List.assoc arg typ_match with
-                | _ ->
-                  if arg = typ
-                  then arg
-                  else failwith ("cannot found such argument : " ^ Ir.pp_typ arg))
-             arg_types ))
+         constr, List.map (fun arg -> Ir.substitute_typ arg typ_match) arg_types)
       decl
   in
   List.map
@@ -1190,10 +1151,7 @@ let apply_destruct env name facts goal =
        let rec_args = List.filter (fun arg -> arg = typ) arg_types in
        let arg_bind =
          List.map
-           (fun arg ->
-              ( (String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
-                ^ string_of_int (counter ())
-              , arg ))
+           (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (counter ()), arg)
            arg_types
        in
        match rec_args with
@@ -1242,11 +1200,8 @@ let apply_destruct env name facts goal =
              (fun arg -> List.mem arg rec_args)
              (fun arg ->
                 Ir.
-                  { desc =
-                      Var
-                        ((String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
-                         ^ string_of_int (counter ()))
-                  ; typ
+                  { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (counter ()))
+                  ; typ = arg
                   })
              arg_types
          in
@@ -1302,15 +1257,7 @@ let apply_case env expr facts goal =
   let decl =
     List.map
       (fun (constr, arg_types) ->
-         ( constr
-         , List.map
-             (fun arg ->
-                try List.assoc arg typ_match with
-                | _ ->
-                  if arg = typ
-                  then arg
-                  else failwith ("cannot found such argument : " ^ Ir.pp_typ arg))
-             arg_types ))
+         constr, List.map (fun arg -> Ir.substitute_typ arg typ_match) arg_types)
       decl
   in
   List.map
@@ -1318,10 +1265,7 @@ let apply_case env expr facts goal =
        let rec_args = List.filter (fun arg -> arg = typ) arg_types in
        let arg_bind =
          List.map
-           (fun arg ->
-              ( (String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
-                ^ string_of_int (counter ())
-              , arg ))
+           (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (counter ()), arg)
            arg_types
        in
        match rec_args with
@@ -1368,11 +1312,8 @@ let apply_case env expr facts goal =
              (fun arg -> List.mem arg rec_args)
              (fun arg ->
                 Ir.
-                  { desc =
-                      Var
-                        ((String.get (arg |> Ir.pp_typ) 1 |> Char.escaped)
-                         ^ string_of_int (counter ()))
-                  ; typ
+                  { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (counter ()))
+                  ; typ = arg
                   })
              arg_types
          in
@@ -1439,6 +1380,7 @@ let parse_expr goal src decls =
   let free_vars = Ir.get_free_vars expr in
   let binding =
     List.map (fun var -> var, get_type_in_prop var goal |> Option.get) free_vars
+    (* OPtion.get raise failure in pred int5 *)
   in
   Ir.ir_of_parsetree expr binding decls
 ;;
@@ -1469,7 +1411,13 @@ let rec parse_prop src binding decls =
     Eq (lhs, rhs)
   | quantifier :: prop ->
     let binding = parse_forall_vars quantifier in
+    let _ = List.iter (fun (_, typ) -> typ |> print_endline) binding in
     let binding = List.map (fun (var, typ) -> var, Ir.parse_typ typ) binding in
+    let _ =
+      List.iter
+        (fun (_, typ) -> typ |> Ir.sexp_of_typ |> Sexplib.Sexp.to_string |> print_endline)
+        binding
+    in
     let qvars = List.map (fun (var, typ) -> var, Type typ) binding in
     let prop = String.concat " " prop in
     Forall (qvars, parse_prop prop binding decls)

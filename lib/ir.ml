@@ -77,7 +77,12 @@ let rec pp_t t : string =
 and pp_expr expr =
   match expr.desc with
   | Match (e1, cases) ->
-    "match " ^ pp_expr e1 ^ " with\n| " ^ String.concat "\n| " (List.map pp_case cases)
+    (match e1.typ, cases with
+     | ( Talgebraic ("bool", [])
+       , [ Case (Pat_Constr ("true", []), e2); Case (Pat_Constr ("false", []), e3) ] ) ->
+       "if " ^ pp_expr e1 ^ " then " ^ pp_expr e2 ^ " else " ^ pp_expr e3
+     | _ ->
+       "match " ^ pp_expr e1 ^ " with\n| " ^ String.concat "\n| " (List.map pp_case cases))
   | LetIn (bindings, body) ->
     "let "
     ^ String.concat
@@ -88,11 +93,7 @@ and pp_expr expr =
   | Call (name, args) ->
     (match name with
      | "::" ->
-       let args = List.hd args in
-       (match args.desc with
-        | Tuple l ->
-          "(" ^ pp_expr (List.hd l) ^ " :: " ^ pp_expr (List.hd (List.tl l)) ^ ")"
-        | _ -> failwith "This is not list")
+       "(" ^ pp_expr (List.hd args) ^ " :: " ^ pp_expr (List.hd (List.tl args)) ^ ")"
      | "@" ->
        "("
        ^ pp_expr (List.hd args)
@@ -142,31 +143,49 @@ and pp_typ typ =
   | Tint -> "int"
   | Tstring -> "string"
   | Ttuple l -> "(" ^ String.concat " * " (List.map pp_typ l) ^ ")"
-  | Talgebraic (name, args) -> String.concat " " (List.map pp_typ args) ^ name
+  | Talgebraic (name, args) ->
+    String.concat " " (List.map pp_typ args)
+    ^ (if List.is_empty args then "" else " ")
+    ^ name
   | Tany -> "any"
   | Tarrow l -> String.concat " -> " (List.map pp_typ l)
 ;;
 
+let var_of_typ typ =
+  match typ with
+  | Tint -> "int"
+  | Tstring -> "string"
+  | Ttuple l -> "(" ^ String.concat "*" (List.map pp_typ l) ^ ")"
+  | Talgebraic (name, args) ->
+    String.concat "_" (List.map pp_typ args)
+    ^ (if List.is_empty args then "" else "_")
+    ^ name
+  | Tany -> "any"
+  | Tarrow l -> String.concat "->" (List.map pp_typ l)
+;;
+
 let rec parse_typ (s : string) : typ =
   let s = String.trim s in
-  match s with
-  | "int" -> Tint
-  | "string" -> Tstring
-  | _ ->
-    if Str.string_match (Str.regexp "\\(.*\\) list$") s 0
-    then failwith "list is not supported yet"
-    else if String.contains s '*'
-    then (
-      let parts = List.map String.trim (Str.split (Str.regexp " *\\* *") s) in
-      Ttuple (List.map parse_typ parts))
-    else if String.contains s '-' && String.contains s '>'
-    then (
-      let parts = List.map String.trim (Str.split (Str.regexp " *-> *") s) in
-      Tarrow (List.map parse_typ parts))
-    else if Str.string_match (Str.regexp "[a-zA-Z_][a-zA-Z0-9_]*") s 0
-    then Talgebraic (s, [])
-    (* have to handle *)
-    else Tany
+  if String.contains s '-' && String.contains s '>'
+  then (
+    (* 가장 바깥쪽의 "->" 연산자를 기준으로 나눔 *)
+    let parts = Str.split (Str.regexp " *-> *") s in
+    Tarrow (List.map parse_typ parts))
+  else if String.contains s '(' && String.contains s ')'
+  then (
+    (* 괄호가 있는 경우, 괄호 내부를 재귀적으로 파싱 *)
+    let s = String.sub s 1 (String.length s - 2) in
+    parse_typ s)
+  else (
+    (* 공백을 기준으로 왼쪽에서 오른쪽으로 타입 인자 적용 *)
+    let parts = Str.split (Str.regexp " +") s in
+    match parts with
+    | [] -> failwith "Invalid type"
+    | base :: args ->
+      List.fold_left
+        (fun acc arg -> Talgebraic (arg, [ acc ]))
+        (Talgebraic (base, []))
+        args)
 ;;
 
 let rec t_of_typedtree typ_tree : t =
@@ -281,15 +300,7 @@ and get_expr expr =
     | Texp_construct (lidnet_loc, _, expr_list) ->
       let name = Longident.last lidnet_loc.txt in
       let expr_list' = List.map get_expr expr_list in
-      if name = "::"
-      then
-        Call
-          ( name
-          , [ { desc = Tuple expr_list'
-              ; typ = Ttuple (List.map (fun e -> e.typ) expr_list')
-              }
-            ] )
-      else Call (name, expr_list')
+      Call (name, expr_list')
     | Texp_apply (func, args) ->
       let fname =
         match (get_expr func).desc with
@@ -348,9 +359,7 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
   | Tpat_construct (lident_loc, _, args, _) ->
     let name = Longident.last lident_loc.txt in
     let args' = List.map (fun arg -> get_pattern arg) args in
-    if name = "::"
-    then Pat_Constr (name, [ Pat_Tuple args' ])
-    else Pat_Constr (name, args')
+    Pat_Constr (name, args')
   | Tpat_var (name, _, _) -> Pat_Var (Ident.name name)
   | Tpat_tuple patterns -> Pat_Tuple (List.map get_pattern patterns)
   | Tpat_any -> Pat_any
@@ -363,11 +372,7 @@ and get_type (expr : Typedtree.expression) =
     | Tvar None -> Tany
     | Tconstr (path, arg_typ, _) ->
       let name = path |> Path.name in
-      (match name with
-       | "list" ->
-         ignore arg_typ;
-         failwith "list is not supported yet"
-       | _ -> parse_typ name)
+      Talgebraic (name, List.map (fun arg -> arg |> Types.get_desc |> pr_type) arg_typ)
     | Tarrow (_, e1, e2, _) ->
       let arg_num =
         match expr.exp_desc with
@@ -678,16 +683,11 @@ let rec ir_of_parsetree parse_expr binding t =
        }
      | _ -> failwith "Not implemented")
   | Pexp_construct ({ txt = Longident.Lident name; _ }, Some e) ->
-    (match name with
-     | "::" -> failwith "list is not supported yet"
-     | _ ->
-       { desc = Call (name, [ ir_of_parsetree e binding t ])
-       ; typ = search_constr_type name t
-       })
+    { desc = Call (name, [ ir_of_parsetree e binding t ])
+    ; typ = search_constr_type name t
+    }
   | Pexp_construct ({ txt = Longident.Lident name; _ }, None) ->
-    (match name with
-     | "[]" -> failwith "list is not supported yet"
-     | _ -> { desc = Call (name, []); typ = search_constr_type name t })
+    { desc = Call (name, []); typ = search_constr_type name t }
   | Pexp_ifthenelse (cond, e1, e2_opt) ->
     let cond = ir_of_parsetree cond binding t in
     let e1 = ir_of_parsetree e1 binding t in
@@ -706,6 +706,14 @@ let rec ir_of_parsetree parse_expr binding t =
     let component = List.map (fun e -> ir_of_parsetree e binding t) l in
     { desc = Tuple component; typ = Ttuple (List.map (fun e -> e.typ) component) }
   | _ -> failwith "Not implemented"
+;;
+
+let rec substitute_typ typ binding =
+  match typ with
+  | Tany -> List.assoc Tany binding
+  | Talgebraic (name, typ_list) ->
+    Talgebraic (name, List.map (fun typ -> substitute_typ typ binding) typ_list)
+  | _ -> typ
 ;;
 
 let rec is_typ_contained typ1 typ2 =
