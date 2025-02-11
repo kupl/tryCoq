@@ -56,7 +56,7 @@ let string_of_expr e = e |> sexp_of_expr |> Sexplib.Sexp.to_string
 let pp_expr = Ir.pp_expr
 
 let rec pp_prop prop =
-  (* let pp_expr = fun a -> sexp_of_expr a |> Sexplib.Sexp.to_string in *)
+  let pp_expr = fun a -> sexp_of_expr a |> Sexplib.Sexp.to_string in
   match prop with
   | Eq (e1, e2) -> pp_expr e1 ^ " = " ^ pp_expr e2
   | Le (e1, e2) -> pp_expr e1 ^ " <= " ^ pp_expr e2
@@ -99,17 +99,25 @@ let pp_theorem (tactics, goal) =
   (List.map pp_tactic tactics |> String.concat "\n") ^ "\n" ^ pp_prop goal
 ;;
 
-let pp_t (t : t) =
-  List.map
-    (fun ((facts, goal), i) ->
-       "goal"
-       ^ string_of_int (i + 1)
-       ^ "\n"
-       ^ (List.map pp_fact facts |> String.concat "\n")
-       ^ "\n---------------------------------------\n"
-       ^ pp_prop goal)
-    (List.combine t (range 0 (List.length t)))
-  |> String.concat "\n\n"
+let pp_t ?(all : bool = false) (t : t) =
+  if List.is_empty t
+  then "No goal"
+  else (
+    let print_goal ((facts, goal), i) =
+      "goal"
+      ^ string_of_int (i + 1)
+      ^ "\n"
+      ^ (List.map pp_fact facts |> String.concat "\n")
+      ^ "\n---------------------------------------\n"
+      ^ pp_prop goal
+    in
+    (match all with
+     | true -> List.map print_goal (List.combine t (range 0 (List.length t)))
+     | false ->
+       [ print_goal (List.hd t, 0)
+       ; (List.length t - 1 |> string_of_int) ^ " goal(s) more..."
+       ])
+    |> String.concat "\n\n")
 ;;
 
 let partition_and_transform (pred : 'a -> bool) (transform : 'a -> 'b) (lst : 'a list)
@@ -1076,8 +1084,8 @@ let rec simplify_expr (env : Ir.t) expr =
        simplify_expr env new_expr
      with
      | exn ->
-       (* ignore exn; *)
-       print_endline (Printexc.to_string exn);
+       ignore exn;
+       (* print_endline (Printexc.to_string exn); *)
        Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (e, cases) ->
     let e = simplify_expr env e in
@@ -1207,11 +1215,11 @@ let apply_destruct env name facts goal =
   let typ_name =
     match get_type_in_prop name goal with
     | Some typ -> typ |> Ir.pp_typ
-    | _ -> failwith "there is no such variable"
+    | _ -> failwith ("there is no such variable : " ^ name)
   in
   let decl =
     try Ir.find_decl typ_name env |> Ir.get_typ_decl with
-    | _ -> failwith "There is no such type"
+    | _ -> failwith ("There is no such type : " ^ typ_name)
   in
   List.map
     (fun (constr, arg_types) ->
@@ -1442,27 +1450,36 @@ let parse_tactic t src decls =
   | _ -> failwith "not implemented"
 ;;
 
+type debug_tactic = All
+
 let proof_top program_a program_b =
   let env = Ir.initial_env @ program_a @ program_b in
   let init = [] in
-  let rec loop t =
-    pp_t t |> print_endline;
+  let rec loop ?(debug_tactic : debug_tactic option = None) t =
+    print_newline ();
+    pp_t
+      ~all:
+        (Option.map (fun tactic -> tactic = All) debug_tactic
+         |> Option.value ~default:false)
+      t
+    |> print_endline;
     print_newline ();
     print_string ">>> ";
-    let s = read_line () in
-    print_newline ();
-    (* let t =
-      try apply_tactic t env (parse_tactic t s env) with
-      | exn ->
-        print_endline (Printexc.to_string exn);
-        t
-    in *)
-    let t = apply_tactic t env (parse_tactic t s env) in
-    loop t
+    match read_line () with
+    | "all" -> loop ~debug_tactic:(Some All) t
+    | s ->
+      let t =
+        try apply_tactic t env (parse_tactic t s env) with
+        | exn ->
+          print_endline (Printexc.to_string exn);
+          t
+      in
+      (* let t = apply_tactic t env (parse_tactic t s env) in *)
+      loop t
   in
   loop init
 ;;
 
 (*
-   assert forall (form:formula), eval_ta1 (Not form) = not (eval_ta1 form)
+   assert forall (form:formula), eval_ta1 form = eval form
 *)
