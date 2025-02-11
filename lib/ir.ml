@@ -20,20 +20,17 @@ and expr =
 and expr_desc =
   | Match of expr * case list
   | LetIn of (name * expr) list * expr
-  | IfthenElse of expr * expr * expr
   | Call of name * expr list
+  | Var of name
   | Int of int
   | String of string
-  | Bool of bool
   | List of expr list
-  | Var of name
   | Tuple of expr list
 [@@deriving sexp]
 
 and typ =
   | Tint
   | Tstring
-  | Tbool
   | Tlist of typ
   | Ttuple of typ list
   | Talgebraic of name
@@ -86,15 +83,21 @@ let initial_env =
                 ] )
         ; typ = Tlist Tany
         } )
+  ; TypeDecl ("bool", [ Constructor "true", []; Constructor "false", [] ])
   ; NonRec
       ( "not"
       , [ "b" ]
       , { desc =
-            IfthenElse
-              ( { desc = Var "b"; typ = Tbool }
-              , { desc = Bool false; typ = Tbool }
-              , { desc = Bool true; typ = Tbool } )
-        ; typ = Tbool
+            Match
+              ( { desc = Var "b"; typ = Talgebraic "bool" }
+              , [ Case
+                    ( Pat_Constr ("true", [])
+                    , { desc = Call ("false", []); typ = Talgebraic "bool" } )
+                ; Case
+                    ( Pat_Constr ("false", [])
+                    , { desc = Call ("true", []); typ = Talgebraic "bool" } )
+                ] )
+        ; typ = Talgebraic "bool"
         } )
   ]
 ;;
@@ -134,8 +137,6 @@ and pp_expr expr =
         (List.map (fun (name, body) -> name ^ " = " ^ pp_expr body) bindings)
     ^ " in "
     ^ pp_expr body
-  | IfthenElse (cond, e1, e2) ->
-    "if " ^ pp_expr cond ^ " then " ^ pp_expr e1 ^ " else " ^ pp_expr e2
   | Call (name, args) ->
     (match name with
      | "::" ->
@@ -161,7 +162,6 @@ and pp_expr expr =
           ^ String.concat " " (List.map (fun arg -> "(" ^ pp_expr arg ^ ")") args)))
   | Int i -> string_of_int i
   | String s -> "\"" ^ s ^ "\""
-  | Bool b -> string_of_bool b
   | List l -> "[" ^ String.concat "; " (List.map pp_expr l) ^ "]"
   | Var name -> name
   | Tuple l -> "(" ^ String.concat ", " (List.map pp_expr l) ^ ")"
@@ -194,7 +194,6 @@ and pp_typ typ =
   match typ with
   | Tint -> "int"
   | Tstring -> "string"
-  | Tbool -> "bool"
   | Tlist t -> pp_typ t ^ " list"
   | Ttuple l -> "(" ^ String.concat " * " (List.map pp_typ l) ^ ")"
   | Talgebraic name -> name
@@ -207,7 +206,6 @@ let rec parse_typ (s : string) : typ =
   match s with
   | "int" -> Tint
   | "string" -> Tstring
-  | "bool" -> Tbool
   | _ ->
     if Str.string_match (Str.regexp "\\(.*\\) list$") s 0
     then Tlist (parse_typ (String.trim (Str.matched_group 1 s)))
@@ -351,7 +349,14 @@ and get_expr expr =
       Call (fname, args')
     | Texp_ifthenelse (cond, e1, e2_opt) ->
       (match e2_opt with
-       | Some e2 -> IfthenElse (get_expr cond, get_expr e1, get_expr e2)
+       | Some e2 ->
+         let cond = get_expr cond in
+         let e1 = get_expr e1 in
+         let e2 = get_expr e2 in
+         Match
+           ( cond
+           , [ Case (Pat_Constr ("true", []), e1); Case (Pat_Constr ("false", []), e2) ]
+           )
        | None -> failwith "Not implemented")
     | Texp_tuple expr_list -> Tuple (List.map get_expr expr_list)
     | Texp_constant constant ->
@@ -488,17 +493,6 @@ let substitute_expr pred convert target expr_from expr_to i result =
           substitute_expr' pred convert body expr_from expr_to cnt result
         in
         { desc = LetIn (bindings', body'); typ = target.typ }, result, cnt
-      | IfthenElse (cond, e1, e2) ->
-        let cond', result, cnt =
-          substitute_expr' pred convert cond expr_from expr_to cnt result
-        in
-        let e1', result, cnt =
-          substitute_expr' pred convert e1 expr_from expr_to cnt result
-        in
-        let e2', result, cnt =
-          substitute_expr' pred convert e2 expr_from expr_to cnt result
-        in
-        { desc = IfthenElse (cond', e1', e2'); typ = target.typ }, result, cnt
       | Call (name, args) ->
         let args', cnt, result =
           List.fold_left
@@ -511,7 +505,7 @@ let substitute_expr pred convert target expr_from expr_to i result =
             args
         in
         { desc = Call (name, args'); typ = target.typ }, result, cnt
-      | Int _ | String _ | Bool _ -> target, result, cnt
+      | Int _ | String _ -> target, result, cnt
       | List l ->
         let l', cnt, result =
           List.fold_left
@@ -548,7 +542,6 @@ let rec is_equal_expr e1 e2 =
   match e1.desc, e2.desc with
   | Int i1, Int i2 -> i1 = i2
   | String s1, String s2 -> s1 = s2
-  | Bool b1, Bool b2 -> b1 = b2
   | List l1, List l2 -> List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) l1 l2
   | Var v1, Var v2 -> v1 = v2
   | Tuple l1, Tuple l2 -> List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) l1 l2
@@ -565,8 +558,6 @@ let rec is_equal_expr e1 e2 =
       bindings1
       bindings2
     && is_equal_expr body1 body2
-  | IfthenElse (cond1, e11, e12), IfthenElse (cond2, e21, e22) ->
-    is_equal_expr cond1 cond2 && is_equal_expr e11 e21 && is_equal_expr e12 e22
   | Call (name1, args1), Call (name2, args2) ->
     name1 = name2 && List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) args1 args2
   | _ -> false
@@ -622,15 +613,6 @@ let rec get_type_in_expr name expr =
     (match acc with
      | Some _ -> acc
      | None -> get_type_in_expr name e)
-  | IfthenElse (e1, e2, e3) ->
-    let acc = get_type_in_expr name e1 in
-    (match acc with
-     | Some _ -> acc
-     | None ->
-       let acc = get_type_in_expr name e2 in
-       (match acc with
-        | Some _ -> acc
-        | None -> get_type_in_expr name e3))
   | List lst ->
     List.fold_left
       (fun acc e ->
@@ -647,7 +629,7 @@ let rec get_type_in_expr name expr =
          | None -> get_type_in_expr name e)
       None
       lst
-  | Int _ | Bool _ | String _ -> None
+  | Int _ | String _ -> None
 ;;
 
 module StringSet = Set.Make (String)
@@ -775,7 +757,12 @@ let rec ir_of_parsetree parse_expr binding t =
       | Some e2 -> ir_of_parsetree e2 binding t
       | None -> failwith "Not implemented"
     in
-    { desc = IfthenElse (cond, e1, e2); typ = e1.typ }
+    { desc =
+        Match
+          ( cond
+          , [ Case (Pat_Constr ("true", []), e1); Case (Pat_Constr ("false", []), e2) ] )
+    ; typ = e1.typ
+    }
   | Pexp_tuple l ->
     let component = List.map (fun e -> ir_of_parsetree e binding t) l in
     { desc = Tuple component; typ = Ttuple (List.map (fun e -> e.typ) component) }
@@ -784,7 +771,7 @@ let rec ir_of_parsetree parse_expr binding t =
 
 let rec is_typ_contained typ1 typ2 =
   match typ1, typ2 with
-  | Tint, Tint | Tstring, Tstring | Tbool, Tbool | _, Tany | Tany, _ -> true
+  | Tint, Tint | Tstring, Tstring | _, Tany | Tany, _ -> true
   | Tlist t1, Tlist t2 -> is_typ_contained t1 t2
   | Ttuple l1, Ttuple l2 -> List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) l1 l2
   | Talgebraic name1, Talgebraic name2 -> name1 = name2

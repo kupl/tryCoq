@@ -56,7 +56,7 @@ let string_of_expr e = e |> sexp_of_expr |> Sexplib.Sexp.to_string
 let pp_expr = Ir.pp_expr
 
 let rec pp_prop prop =
-  let pp_expr = fun a -> sexp_of_expr a |> Sexplib.Sexp.to_string in
+  (* let pp_expr = fun a -> sexp_of_expr a |> Sexplib.Sexp.to_string in *)
   match prop with
   | Eq (e1, e2) -> pp_expr e1 ^ " = " ^ pp_expr e2
   | Le (e1, e2) -> pp_expr e1 ^ " <= " ^ pp_expr e2
@@ -570,13 +570,6 @@ let rec forall_target var_list target source =
         let_list
     in
     forall_target var_list target new_expr
-  | Ir.IfthenElse (e1, e2, e3) ->
-    (match target.Ir.desc with
-     | Ir.IfthenElse (e1', e2', e3') ->
-       forall_target var_list e1' e1
-       && forall_target var_list e2' e2
-       && forall_target var_list e3' e3
-     | _ -> false)
   | Ir.Tuple exprs ->
     (match target.Ir.desc with
      | Ir.Tuple exprs' ->
@@ -1142,12 +1135,6 @@ let rec simplify_expr (env : Ir.t) expr =
         let_list
     in
     simplify_expr env new_expr
-  | Ir.IfthenElse (e1, e2, e3) ->
-    let e1 = simplify_expr env e1 in
-    (match e1.Ir.desc with
-     | Ir.Bool true -> simplify_expr env e2
-     | Ir.Bool false -> simplify_expr env e3
-     | _ -> Ir.{ desc = IfthenElse (e1, e2, e3); typ = e2.typ })
   | Ir.Tuple args ->
     Ir.{ desc = Tuple (List.map (simplify_expr env) args); typ = expr.typ }
   | _ -> expr
@@ -1322,36 +1309,102 @@ let apply_destruct env name facts goal =
 ;;
 
 let apply_case env expr facts goal =
-  match expr.Ir.typ with
-  | Tbool ->
-    let new_fact1 =
-      "case" ^ string_of_int (counter ()), Eq (expr, Ir.{ desc = Bool true; typ = Tbool })
-    in
-    let new_fact2 =
-      "case" ^ string_of_int (counter ()), Eq (expr, Ir.{ desc = Bool false; typ = Tbool })
-    in
-    let new_goal1, _, _ =
-      substitute_expr_in_prop
-        Ir.is_equal_expr
-        (fun _ _ expr_to -> expr_to, [])
-        goal
-        expr
-        Ir.{ desc = Bool true; typ = Tbool }
-        0
-    in
-    let new_goal2, _, _ =
-      substitute_expr_in_prop
-        Ir.is_equal_expr
-        (fun _ _ expr_to -> expr_to, [])
-        goal
-        expr
-        Ir.{ desc = Bool false; typ = Tbool }
-        0
-    in
-    [ facts @ [ new_fact1 ], new_goal1 |> simplify_prop env
-    ; facts @ [ new_fact2 ], new_goal2 |> simplify_prop env
-    ]
-  | _ -> failwith "This expression is not bool type"
+  let typ_name = expr.Ir.typ |> Ir.pp_typ in
+  let decl = Ir.find_decl typ_name env |> Ir.get_typ_decl in
+  List.map
+    (fun (constr, arg_types) ->
+       let rec_args = List.filter (fun arg -> arg = typ_name) arg_types in
+       match rec_args with
+       | [] ->
+         let base_case =
+           match constr with
+           | Ir.Constructor constr ->
+             Ir.Call
+               ( constr
+               , List.map
+                   (fun arg ->
+                      { Ir.desc = Ir.Var (arg ^ string_of_int (counter ()))
+                      ; Ir.typ = Ir.parse_typ arg
+                      })
+                   arg_types )
+         in
+         let new_facts =
+           [ ( "Base" ^ string_of_int (counter ())
+             , Eq (expr, Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }) )
+           ]
+         in
+         let new_goal, _, _ =
+           substitute_expr_in_prop
+             Ir.is_equal_expr
+             (fun _ _ expr_to -> expr_to, [])
+             goal
+             expr
+             Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
+             0
+         in
+         let facts =
+           List.map
+             (fun (name, prop) ->
+                ( name
+                , let prop, _, _ =
+                    substitute_expr_in_prop
+                      Ir.is_equal_expr
+                      (fun _ _ expr_to -> expr_to, [])
+                      prop
+                      Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                      Ir.{ desc = base_case; typ = Ir.parse_typ typ_name }
+                      0
+                  in
+                  prop ))
+             facts
+         in
+         facts @ new_facts, new_goal
+       | _ ->
+         let new_args =
+           List.map
+             (fun arg ->
+                Ir.
+                  { desc = Var (arg ^ string_of_int (counter ()))
+                  ; typ = Ir.parse_typ arg
+                  })
+             arg_types
+         in
+         let inductive_case =
+           match constr with
+           | Ir.Constructor constr -> Ir.Call (constr, new_args)
+         in
+         let new_facts =
+           [ ( "Inductive" ^ string_of_int (counter ())
+             , Eq (expr, Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }) )
+           ]
+         in
+         let new_goal, _, _ =
+           substitute_expr_in_prop
+             Ir.is_equal_expr
+             (fun _ _ expr_to -> expr_to, [])
+             goal
+             expr
+             Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
+             0
+         in
+         let facts =
+           List.map
+             (fun (name, prop) ->
+                ( name
+                , let prop, _, _ =
+                    substitute_expr_in_prop
+                      Ir.is_equal_expr
+                      (fun _ _ expr_to -> expr_to, [])
+                      prop
+                      Ir.{ desc = Var name; typ = Ir.parse_typ typ_name }
+                      Ir.{ desc = inductive_case; typ = Ir.parse_typ typ_name }
+                      0
+                  in
+                  prop ))
+             facts
+         in
+         facts @ new_facts, new_goal)
+    decl
 ;;
 
 let apply_tactic t env tactic : t =
@@ -1417,6 +1470,7 @@ let rec parse_prop src binding decls =
 ;;
 
 let parse_tactic t src decls =
+  ignore t;
   let parts = String.split_on_char ' ' src in
   let name = List.hd parts in
   let args = List.tl parts in
@@ -1447,7 +1501,7 @@ let parse_tactic t src decls =
     let _, goal = List.hd t in
     Case (parse_expr goal (String.concat " " args) decls)
   | "assert" -> Assert (parse_prop (String.concat " " args) [] decls)
-  | _ -> failwith "not implemented"
+  | _ -> failwith "wrong tactic"
 ;;
 
 type debug_tactic = All
