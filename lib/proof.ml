@@ -1076,8 +1076,8 @@ let rec simplify_expr (env : Ir.t) expr =
        simplify_expr env new_expr
      with
      | exn ->
-       ignore exn;
-       (* print_endline (Printexc.to_string exn); *)
+       (* ignore exn; *)
+       print_endline (Printexc.to_string exn);
        Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (e, cases) ->
     let e = simplify_expr env e in
@@ -1451,14 +1451,18 @@ let proof_top program_a program_b =
     print_string ">>> ";
     let s = read_line () in
     print_newline ();
-    let t =
+    (* let t =
       try apply_tactic t env (parse_tactic t s env) with
       | exn ->
         print_endline (Printexc.to_string exn);
         t
-    in
-    (* let t = apply_tactic t env (parse_tactic t s env) in *)
+    in *)
+    let t = apply_tactic t env (parse_tactic t s env) in
     loop t
   in
   loop init
 ;;
+
+(*
+   assert forall (form:formula), eval_ta1 (Not form) = not (eval_ta1 form)
+*)

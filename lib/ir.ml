@@ -86,6 +86,16 @@ let initial_env =
                 ] )
         ; typ = Tlist Tany
         } )
+  ; NonRec
+      ( "not"
+      , [ "b" ]
+      , { desc =
+            IfthenElse
+              ( { desc = Var "b"; typ = Tbool }
+              , { desc = Bool false; typ = Tbool }
+              , { desc = Bool true; typ = Tbool } )
+        ; typ = Tbool
+        } )
   ]
 ;;
 
