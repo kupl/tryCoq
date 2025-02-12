@@ -117,8 +117,6 @@ and pp_expr expr =
     ^ pp_expr body
   | Call (name, args) ->
     (match name with
-     | "::" ->
-       "(" ^ pp_expr (List.hd args) ^ " :: " ^ pp_expr (List.hd (List.tl args)) ^ ")"
      | "@" ->
        "("
        ^ pp_expr (List.hd args)
@@ -386,6 +384,12 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
   | Tpat_value p -> (p :> Typedtree.pattern) |> get_pattern
   | Tpat_construct (lident_loc, _, args, _) ->
     let name = Longident.last lident_loc.txt in
+    let name =
+      match name with
+      | "::" -> "Cons"
+      | "[]" -> "Nil"
+      | _ -> name
+    in
     let args' = List.map (fun arg -> get_pattern arg) args in
     Pat_Constr (name, args')
   | Tpat_var (name, _, _) -> Pat_Var (Ident.name name)

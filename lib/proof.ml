@@ -938,25 +938,27 @@ let rec get_case_match expr pat =
   (* we need to check type *)
   | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
     if constr = constr'
-    then (
-      let _ = constr |> print_endline in
+    then
       if arg_list = [] && pat_list = []
       then
         [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
           , Ir.{ desc = Call (constr, []); typ = expr.typ } )
         ]
-      else
-        List.fold_left2
-          (fun (acc, is_done) e p ->
-             if is_done
-             then [], true
-             else (
-               let next = get_case_match e p in
-               if next = [] then [], true else acc @ next, false))
-          ([], false)
-          arg_list
-          pat_list
-        |> fst)
+      else (
+        let result =
+          List.fold_left2
+            (fun (acc, is_done) e p ->
+               if is_done
+               then [], true
+               else (
+                 let next = get_case_match e p in
+                 if next = [] then [], true else acc @ next, false))
+            ([], false)
+            arg_list
+            pat_list
+          |> fst
+        in
+        result)
     else []
   | Ir.Tuple arg_list, Ir.Pat_Tuple pat_list ->
     List.fold_left2
