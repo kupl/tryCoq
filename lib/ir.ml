@@ -27,7 +27,6 @@ and expr_desc =
 
 and typ =
   | Tstring
-  | Ttuple of typ list
   | Talgebraic of name * typ list
   | Tany
   | Tarrow of typ list
@@ -168,7 +167,6 @@ and pp_typ_decl typ_decl =
 and pp_typ typ =
   match typ with
   | Tstring -> "string"
-  | Ttuple l -> "(" ^ String.concat " * " (List.map pp_typ l) ^ ")"
   | Talgebraic (name, args) ->
     String.concat " " (List.map pp_typ args)
     ^ (if List.is_empty args then "" else " ")
@@ -180,7 +178,6 @@ and pp_typ typ =
 let var_of_typ typ =
   match typ with
   | Tstring -> "string"
-  | Ttuple l -> "(" ^ String.concat "*" (List.map pp_typ l) ^ ")"
   | Talgebraic (name, args) ->
     String.concat "_" (List.map pp_typ args)
     ^ (if List.is_empty args then "" else "_")
@@ -433,7 +430,7 @@ and get_type (expr : Typedtree.expression) =
           | 1 -> e2'
           | 0 -> Tarrow [ arg_typ; e2' ]
           | _ -> failwith "argument number not mathcing"))
-    | Ttuple l -> Ttuple (List.map (fun e -> e |> Types.get_desc |> pr_type) l)
+    | Ttuple _ -> failwith "tuple is not implemented yet"
     | _ -> failwith "Not implemented"
   in
   expr.exp_type |> Types.get_desc |> pr_type
@@ -763,7 +760,6 @@ let rec substitute_typ typ binding =
 let rec is_typ_contained typ1 typ2 =
   match typ1, typ2 with
   | Tstring, Tstring | _, Tany | Tany, _ -> true
-  | Ttuple l1, Ttuple l2 -> List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) l1 l2
   | Talgebraic (name1, lst1), Talgebraic (name2, lst2) ->
     name1 = name2 && List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) lst1 lst2
   | Tarrow l1, Tarrow l2 -> List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) l1 l2
