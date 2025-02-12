@@ -678,7 +678,10 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
                    | _ -> false)
                 match_list)
            var_list)
-    then failwith "Cannot find matched variable"
+    then (
+      match_list
+      |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b));
+      failwith "Cannot find matched variable")
     else (
       let new_task =
         List.map
@@ -716,27 +719,26 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
         (fun (name, prop) -> if name = target_label then name, new_fact else name, prop)
         facts
     in
-    let new_facts =
+    let new_task =
       List.map
         (fun cond ->
-           ( "Cond" ^ string_of_int (counter ())
-           , List.fold_left
-               (fun cond (e1, e2) ->
-                  let prop, _, _ =
-                    substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to, [])
-                      cond
-                      e1
-                      e2
-                      0
-                  in
-                  prop)
-               cond
-               match_list ))
+           List.fold_left
+             (fun cond (e1, e2) ->
+                let prop, _, _ =
+                  substitute_expr_in_prop
+                    Ir.is_equal_expr
+                    (fun _ _ expr_to -> expr_to, [])
+                    cond
+                    e1
+                    e2
+                    0
+                in
+                prop)
+             cond
+             match_list)
         cond_list
     in
-    [ fact @ new_facts, goal ]
+    [ fact, goal ] @ List.map (fun goal -> facts, goal) new_task
 ;;
 
 let apply_strong_induction env name facts goal =
@@ -936,7 +938,8 @@ let rec get_case_match expr pat =
   (* we need to check type *)
   | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
     if constr = constr'
-    then
+    then (
+      let _ = constr |> print_endline in
       if arg_list = [] && pat_list = []
       then
         [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
@@ -953,7 +956,7 @@ let rec get_case_match expr pat =
           ([], false)
           arg_list
           pat_list
-        |> fst
+        |> fst)
     else []
   | Ir.Tuple arg_list, Ir.Pat_Tuple pat_list ->
     List.fold_left2
@@ -1411,13 +1414,7 @@ let rec parse_prop src binding decls =
     Eq (lhs, rhs)
   | quantifier :: prop ->
     let binding = parse_forall_vars quantifier in
-    let _ = List.iter (fun (_, typ) -> typ |> print_endline) binding in
     let binding = List.map (fun (var, typ) -> var, Ir.parse_typ typ) binding in
-    let _ =
-      List.iter
-        (fun (_, typ) -> typ |> Ir.sexp_of_typ |> Sexplib.Sexp.to_string |> print_endline)
-        binding
-    in
     let qvars = List.map (fun (var, typ) -> var, Type typ) binding in
     let prop = String.concat " " prop in
     Forall (qvars, parse_prop prop binding decls)
@@ -1461,8 +1458,7 @@ let parse_tactic t src decls =
 
 type debug_tactic = All
 
-let proof_top program_a program_b =
-  let env = Library.initial_env @ program_a @ program_b in
+let proof_top env =
   let init = [] in
   let rec loop ?(debug_tactic : debug_tactic option = None) t =
     print_newline ();

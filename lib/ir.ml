@@ -23,12 +23,10 @@ and expr_desc =
   | Call of name * expr list
   | Var of name
   | Tuple of expr list
-  | Int of int
   | String of string
 [@@deriving sexp]
 
 and typ =
-  | Tint
   | Tstring
   | Ttuple of typ list
   | Talgebraic of name * typ list
@@ -55,6 +53,30 @@ let rec nth_tale n lst =
     match lst with
     | [] -> failwith "n is too big"
     | _ :: tl -> nth_tale (n - 1) tl)
+;;
+
+let rec expr_of_nat (n : int) : expr_desc =
+  if n < 0
+  then failwith "n should not be negative"
+  else if n = 0
+  then Call ("Z", [])
+  else
+    Call
+      ( "S"
+      , [ { desc =
+              Call
+                ("S", [ { desc = expr_of_nat (n - 1); typ = Talgebraic ("natural", []) } ])
+          ; typ = Talgebraic ("natural", [])
+          }
+        ] )
+;;
+
+let expr_of_int (i : int) : expr_desc =
+  if i = 0
+  then Call ("Zero", [])
+  else if i > 0
+  then Call ("Pos", [ { desc = expr_of_nat i; typ = Talgebraic ("natural", []) } ])
+  else Call ("Neg", [ { desc = expr_of_nat (-i); typ = Talgebraic ("natural", []) } ])
 ;;
 
 let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
@@ -112,7 +134,6 @@ and pp_expr expr =
           name
           ^ " "
           ^ String.concat " " (List.map (fun arg -> "(" ^ pp_expr arg ^ ")") args)))
-  | Int i -> string_of_int i
   | String s -> "\"" ^ s ^ "\""
   | Var name -> name
   | Tuple l -> "(" ^ String.concat ", " (List.map pp_expr l) ^ ")"
@@ -143,7 +164,6 @@ and pp_typ_decl typ_decl =
 
 and pp_typ typ =
   match typ with
-  | Tint -> "int"
   | Tstring -> "string"
   | Ttuple l -> "(" ^ String.concat " * " (List.map pp_typ l) ^ ")"
   | Talgebraic (name, args) ->
@@ -156,7 +176,6 @@ and pp_typ typ =
 
 let var_of_typ typ =
   match typ with
-  | Tint -> "int"
   | Tstring -> "string"
   | Ttuple l -> "(" ^ String.concat "*" (List.map pp_typ l) ^ ")"
   | Talgebraic (name, args) ->
@@ -302,6 +321,12 @@ and get_expr expr =
       Var name
     | Texp_construct (lidnet_loc, _, expr_list) ->
       let name = Longident.last lidnet_loc.txt in
+      let name =
+        match name with
+        | "::" -> "Cons"
+        | "[]" -> "Nil"
+        | _ -> name
+      in
       let expr_list' = List.map get_expr expr_list in
       Call (name, expr_list')
     | Texp_apply (func, args) ->
@@ -333,7 +358,7 @@ and get_expr expr =
     | Texp_tuple expr_list -> Tuple (List.map get_expr expr_list)
     | Texp_constant constant ->
       (match constant with
-       | Const_int i -> Int i
+       | Const_int i -> expr_of_int i
        | Const_char char -> String (String.make 1 char)
        | Const_string (str, _, _) -> String str
        | _ -> failwith "Not implemented")
@@ -473,7 +498,7 @@ let substitute_expr pred convert target expr_from expr_to i result =
             args
         in
         { desc = Call (name, args'); typ = target.typ }, result, cnt
-      | Int _ | String _ -> target, result, cnt
+      | String _ -> target, result, cnt
       | Var _ -> target, result, cnt
       | Tuple l ->
         let l', cnt, result =
@@ -496,7 +521,6 @@ let substitute_expr pred convert target expr_from expr_to i result =
 
 let rec is_equal_expr e1 e2 =
   match e1.desc, e2.desc with
-  | Int i1, Int i2 -> i1 = i2
   | String s1, String s2 -> s1 = s2
   | Var v1, Var v2 -> v1 = v2
   | Tuple l1, Tuple l2 -> List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) l1 l2
@@ -576,7 +600,7 @@ let rec get_type_in_expr name expr =
          | None -> get_type_in_expr name e)
       None
       lst
-  | Int _ | String _ -> None
+  | String _ -> None
 ;;
 
 module StringSet = Set.Make (String)
@@ -686,6 +710,12 @@ let rec ir_of_parsetree parse_expr binding t =
        }
      | _ -> failwith "Not implemented")
   | Pexp_construct ({ txt = Longident.Lident name; _ }, Some e) ->
+    let name =
+      match name with
+      | "::" -> "Cons"
+      | "[]" -> "Nil"
+      | _ -> name
+    in
     (match e.Parsetree.pexp_desc with
      | Pexp_tuple l ->
        { desc = Call (name, List.map (fun e -> ir_of_parsetree e binding t) l)
@@ -727,7 +757,7 @@ let rec substitute_typ typ binding =
 
 let rec is_typ_contained typ1 typ2 =
   match typ1, typ2 with
-  | Tint, Tint | Tstring, Tstring | _, Tany | Tany, _ -> true
+  | Tstring, Tstring | _, Tany | Tany, _ -> true
   | Ttuple l1, Ttuple l2 -> List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) l1 l2
   | Talgebraic (name1, lst1), Talgebraic (name2, lst2) ->
     name1 = name2 && List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) lst1 lst2

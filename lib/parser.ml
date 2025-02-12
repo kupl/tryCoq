@@ -1,14 +1,11 @@
 type t = Typedtree.structure
 
-let init_env =
+let parse src =
   let _ = Compmisc.init_path () in
-  Compmisc.initial_env ()
-;;
-
-let parse src env =
+  let env = Compmisc.initial_env () in
   let ocaml_ast = src |> Lexing.from_string |> Parse.implementation in
-  let typed_tree, _, _, _, new_env = Typemod.type_structure env ocaml_ast in
-  typed_tree, new_env
+  let typed_tree, _, _, _, _ = Typemod.type_structure env ocaml_ast in
+  typed_tree
 ;;
 
 let parse_expr (env : Env.t) (src : string) : Typedtree.expression =

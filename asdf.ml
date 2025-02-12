@@ -1,3 +1,1 @@
-type 'a asdf =
-  | Nil
-  | Cons of 'a * 'a asdf
+let a, b = if true then 1, 2 else 3, 4
