@@ -82,7 +82,10 @@ and pp_expr expr =
        , [ Case (Pat_Constr ("true", []), e2); Case (Pat_Constr ("false", []), e3) ] ) ->
        "if " ^ pp_expr e1 ^ " then " ^ pp_expr e2 ^ " else " ^ pp_expr e3
      | _ ->
-       "match " ^ pp_expr e1 ^ " with\n| " ^ String.concat "\n| " (List.map pp_case cases))
+       "match ("
+       ^ pp_expr e1
+       ^ ") with\n| "
+       ^ String.concat "\n| " (List.map pp_case cases))
   | LetIn (bindings, body) ->
     "let "
     ^ String.concat
@@ -683,9 +686,15 @@ let rec ir_of_parsetree parse_expr binding t =
        }
      | _ -> failwith "Not implemented")
   | Pexp_construct ({ txt = Longident.Lident name; _ }, Some e) ->
-    { desc = Call (name, [ ir_of_parsetree e binding t ])
-    ; typ = search_constr_type name t
-    }
+    (match e.Parsetree.pexp_desc with
+     | Pexp_tuple l ->
+       { desc = Call (name, List.map (fun e -> ir_of_parsetree e binding t) l)
+       ; typ = search_constr_type name t
+       }
+     | _ ->
+       { desc = Call (name, [ ir_of_parsetree e binding t ])
+       ; typ = search_constr_type name t
+       })
   | Pexp_construct ({ txt = Longident.Lident name; _ }, None) ->
     { desc = Call (name, []); typ = search_constr_type name t }
   | Pexp_ifthenelse (cond, e1, e2_opt) ->

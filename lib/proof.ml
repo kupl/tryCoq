@@ -1042,7 +1042,7 @@ let rec simplify_expr (env : Ir.t) expr =
         None
         cases
     in
-    new_expr |> Option.value ~default:expr
+    new_expr |> Option.get
   | Ir.LetIn (let_list, e) ->
     let new_expr =
       List.fold_left
