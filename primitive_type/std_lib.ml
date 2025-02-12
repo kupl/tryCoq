@@ -5,8 +5,8 @@ type 'a list =
 type bool =
   | true
   | false
-(*
-   type natural =
+
+type natural =
   | Z
   | S of natural
 
@@ -79,4 +79,4 @@ let ( - ) i1 i2 =
      | false -> Neg (sub n1' n2'))
   | Pos n1', Neg n2' -> Pos (add n1' n2')
   | Neg n1', Pos n2' -> Neg (add n1' n2')
-;; *)
+;;

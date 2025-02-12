@@ -455,10 +455,10 @@ let rec forall_target var_list target source =
        in
        result
      | _ -> false)
-  | Ir.Match (e, cases) ->
+  | Ir.Match (match_list1, cases) ->
     (match target.Ir.desc with
-     | Ir.Match (e', cases') ->
-       forall_target var_list e e'
+     | Ir.Match (match_list2, cases') ->
+       List.for_all2 (forall_target var_list) match_list1 match_list2
        && List.for_all2
             (fun a b ->
                match a, b with
@@ -486,11 +486,6 @@ let rec forall_target var_list target source =
         let_list
     in
     forall_target var_list target new_expr
-  | Ir.Tuple exprs ->
-    (match target.Ir.desc with
-     | Ir.Tuple exprs' ->
-       List.for_all2 (fun a b -> forall_target var_list a b) exprs' exprs
-     | _ -> false)
   | _ -> false
 ;;
 
@@ -506,14 +501,6 @@ let rec get_match_var (match_list : (expr * expr) list) =
               (fun acc (arg, arg') -> get_match_var [ arg, arg' ] @ acc)
               acc
               (List.combine args args')
-          | _ -> failwith "not implemented")
-       | Ir.Tuple exprs ->
-         (match expr_to.Ir.desc with
-          | Ir.Tuple exprs' ->
-            List.fold_left
-              (fun acc (arg, arg') -> get_match_var [ arg, arg' ] @ acc)
-              acc
-              (List.combine exprs exprs')
           | _ -> failwith "not implemented")
        | _ -> acc)
     []
@@ -932,47 +919,52 @@ let rec get_type_in_prop name prop =
   | Type typ -> Some typ
 ;;
 
-let rec get_case_match expr pat =
-  match expr.Ir.desc, pat with
-  | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ]
-  (* we need to check type *)
-  | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
-    if constr = constr'
-    then
-      if arg_list = [] && pat_list = []
-      then
-        [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
-          , Ir.{ desc = Call (constr, []); typ = expr.typ } )
-        ]
-      else (
-        let result =
-          List.fold_left2
-            (fun (acc, is_done) e p ->
-               if is_done
-               then [], true
-               else (
-                 let next = get_case_match e p in
-                 if next = [] then [], true else acc @ next, false))
-            ([], false)
-            arg_list
-            pat_list
-          |> fst
-        in
-        result)
-    else []
-  | Ir.Tuple arg_list, Ir.Pat_Tuple pat_list ->
-    List.fold_left2
-      (fun (acc, is_done) e p ->
-         if is_done
-         then [], true
+let rec get_case_match expr_list pat =
+  match expr_list with
+  | [ expr ] ->
+    (match expr.Ir.desc, pat with
+     | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ]
+     (* we need to check type *)
+     | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
+       if constr = constr'
+       then
+         if arg_list = [] && pat_list = []
+         then
+           [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
+             , Ir.{ desc = Call (constr, []); typ = expr.typ } )
+           ]
          else (
-           let next = get_case_match e p in
-           if next = [] then [], true else acc @ next, false))
-      ([], false)
-      arg_list
-      pat_list
-    |> fst
-  | _ -> []
+           let result =
+             List.fold_left2
+               (fun (acc, is_done) e p ->
+                  if is_done
+                  then [], true
+                  else (
+                    let next = get_case_match [ e ] p in
+                    if next = [] then [], true else acc @ next, false))
+               ([], false)
+               arg_list
+               pat_list
+             |> fst
+           in
+           result)
+       else []
+     | _ -> [])
+  | _ ->
+    (match pat with
+     | Ir.Pat_Tuple l ->
+       List.fold_left2
+         (fun (is_done, acc) e pat ->
+            if is_done
+            then true, []
+            else (
+              let result = get_case_match [ e ] pat in
+              if result = [] then true, [] else false, acc @ result))
+         (false, [])
+         expr_list
+         l
+       |> snd
+     | _ -> failwith "patter matching is ill-formed")
 ;;
 
 let rec simplify_expr (env : Ir.t) expr =
@@ -1012,8 +1004,8 @@ let rec simplify_expr (env : Ir.t) expr =
        ignore exn;
        (* print_endline (Printexc.to_string exn); *)
        Ir.{ desc = Call (name, args); typ = expr.typ })
-  | Ir.Match (e, cases) ->
-    let e = simplify_expr env e in
+  | Ir.Match (match_list, cases) ->
+    let match_list = List.map (simplify_expr env) match_list in
     let new_expr =
       List.fold_left
         (fun acc case ->
@@ -1022,8 +1014,8 @@ let rec simplify_expr (env : Ir.t) expr =
            | None ->
              (match case with
               | Ir.Case (pat, e') ->
-                let match_list = get_case_match e pat in
-                if match_list = []
+                let expr_match_list = get_case_match match_list pat in
+                if expr_match_list = []
                 then acc
                 else (
                   let new_expr =
@@ -1041,7 +1033,7 @@ let rec simplify_expr (env : Ir.t) expr =
                          in
                          exp)
                       e'
-                      match_list
+                      expr_match_list
                   in
                   Some new_expr)))
         None
@@ -1067,8 +1059,6 @@ let rec simplify_expr (env : Ir.t) expr =
         let_list
     in
     simplify_expr env new_expr
-  | Ir.Tuple args ->
-    Ir.{ desc = Tuple (List.map (simplify_expr env) args); typ = expr.typ }
   | _ -> expr
 ;;
 
@@ -1385,7 +1375,6 @@ let parse_expr goal src decls =
   let free_vars = Ir.get_free_vars expr in
   let binding =
     List.map (fun var -> var, get_type_in_prop var goal |> Option.get) free_vars
-    (* OPtion.get raise failure in pred int5 *)
   in
   Ir.ir_of_parsetree expr binding decls
 ;;

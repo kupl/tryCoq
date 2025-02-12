@@ -18,11 +18,10 @@ and expr =
 [@@deriving sexp]
 
 and expr_desc =
-  | Match of expr * case list
+  | Match of expr list * case list
   | LetIn of (name * expr) list * expr
   | Call of name * expr list
   | Var of name
-  | Tuple of expr list
   | String of string
 [@@deriving sexp]
 
@@ -98,14 +97,21 @@ let rec pp_t t : string =
 
 and pp_expr expr =
   match expr.desc with
-  | Match (e1, cases) ->
-    (match e1.typ, cases with
-     | ( Talgebraic ("bool", [])
-       , [ Case (Pat_Constr ("true", []), e2); Case (Pat_Constr ("false", []), e3) ] ) ->
-       "if " ^ pp_expr e1 ^ " then " ^ pp_expr e2 ^ " else " ^ pp_expr e3
+  | Match (match_list, cases) ->
+    (match match_list with
+     | [ e1 ] ->
+       (match e1.typ, cases with
+        | ( Talgebraic ("bool", [])
+          , [ Case (Pat_Constr ("true", []), e2); Case (Pat_Constr ("false", []), e3) ] )
+          -> "if " ^ pp_expr e1 ^ " then " ^ pp_expr e2 ^ " else " ^ pp_expr e3
+        | _ ->
+          "match ("
+          ^ pp_expr e1
+          ^ ") with\n| "
+          ^ String.concat "\n| " (List.map pp_case cases))
      | _ ->
        "match ("
-       ^ pp_expr e1
+       ^ String.concat ", " (List.map pp_expr match_list)
        ^ ") with\n| "
        ^ String.concat "\n| " (List.map pp_case cases))
   | LetIn (bindings, body) ->
@@ -134,7 +140,6 @@ and pp_expr expr =
           ^ String.concat " " (List.map (fun arg -> "(" ^ pp_expr arg ^ ")") args)))
   | String s -> "\"" ^ s ^ "\""
   | Var name -> name
-  | Tuple l -> "(" ^ String.concat ", " (List.map pp_expr l) ^ ")"
 
 and pp_case case =
   match case with
@@ -305,7 +310,11 @@ and get_expr expr =
   let desc =
     match expr.exp_desc with
     | Typedtree.Texp_match (e1, cases, _, _) ->
-      let e1' = get_expr e1 in
+      let match_list =
+        match e1.exp_desc with
+        | Texp_tuple l -> List.map get_expr l
+        | _ -> [ get_expr e1 ]
+      in
       let cases' =
         List.map
           (fun case ->
@@ -313,7 +322,7 @@ and get_expr expr =
              Case (pattern, case.Typedtree.c_rhs |> get_expr))
           cases
       in
-      Match (e1', cases')
+      Match (match_list, cases')
     | Texp_ident (_, lident, _) ->
       let name = Longident.last lident.txt in
       Var name
@@ -349,11 +358,11 @@ and get_expr expr =
          let e1 = get_expr e1 in
          let e2 = get_expr e2 in
          Match
-           ( cond
+           ( [ cond ]
            , [ Case (Pat_Constr ("true", []), e1); Case (Pat_Constr ("false", []), e2) ]
            )
        | None -> failwith "Not implemented")
-    | Texp_tuple expr_list -> Tuple (List.map get_expr expr_list)
+    | Texp_tuple _ -> failwith "tuple not implemented"
     | Texp_constant constant ->
       (match constant with
        | Const_int i -> expr_of_int i
@@ -459,9 +468,16 @@ let substitute_expr pred convert target expr_from expr_to i result =
       else target, result, cnt + 1
     else (
       match target.desc with
-      | Match (e1, cases) ->
-        let e1', result, cnt =
-          substitute_expr' pred convert e1 expr_from expr_to cnt result
+      | Match (match_list, cases) ->
+        let match_list, cnt, result =
+          List.fold_left
+            (fun (after_list, cnt, result) match_expr ->
+               let new_expr, result, cnt =
+                 substitute_expr' pred convert match_expr expr_from expr_to cnt result
+               in
+               after_list @ [ new_expr ], cnt, result)
+            ([], cnt, result)
+            match_list
         in
         let cases', cnt, result =
           List.fold_left
@@ -474,7 +490,7 @@ let substitute_expr pred convert target expr_from expr_to i result =
             ([], cnt, result)
             cases
         in
-        { desc = Match (e1', cases'); typ = target.typ }, result, cnt
+        { desc = Match (match_list, cases'); typ = target.typ }, result, cnt
       | LetIn (bindings, body) ->
         let bindings', cnt, result =
           List.fold_left
@@ -503,19 +519,7 @@ let substitute_expr pred convert target expr_from expr_to i result =
         in
         { desc = Call (name, args'); typ = target.typ }, result, cnt
       | String _ -> target, result, cnt
-      | Var _ -> target, result, cnt
-      | Tuple l ->
-        let l', cnt, result =
-          List.fold_left
-            (fun (l, cnt, result) expr ->
-               let expr', result, cnt =
-                 substitute_expr' pred convert expr expr_from expr_to cnt result
-               in
-               l @ [ expr' ], cnt, result)
-            ([], cnt, result)
-            l
-        in
-        { desc = Tuple l'; typ = target.typ }, result, cnt)
+      | Var _ -> target, result, cnt)
   in
   let expr, result, cnt =
     substitute_expr' pred convert target expr_from expr_to 1 result
@@ -527,9 +531,8 @@ let rec is_equal_expr e1 e2 =
   match e1.desc, e2.desc with
   | String s1, String s2 -> s1 = s2
   | Var v1, Var v2 -> v1 = v2
-  | Tuple l1, Tuple l2 -> List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) l1 l2
-  | Match (e1, cases1), Match (e2, cases2) ->
-    is_equal_expr e1 e2
+  | Match (match_list1, cases1), Match (match_list2, cases2) ->
+    List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) match_list1 match_list2
     && List.for_all2
          (fun (Case (p1, e1)) (Case (p2, e2)) ->
             is_equal_pattern p1 p2 && is_equal_expr e1 e2)
@@ -574,8 +577,16 @@ let rec get_type_in_expr name expr =
           args
       in
       result)
-  | Match (e, cases) ->
-    let acc = get_type_in_expr name e in
+  | Match (match_list, cases) ->
+    let acc =
+      List.fold_left
+        (fun acc e ->
+           match acc with
+           | Some _ -> acc
+           | None -> get_type_in_expr name e)
+        None
+        match_list
+    in
     List.fold_left
       (fun acc (Case (_, e)) ->
          match acc with
@@ -596,14 +607,6 @@ let rec get_type_in_expr name expr =
     (match acc with
      | Some _ -> acc
      | None -> get_type_in_expr name e)
-  | Tuple lst ->
-    List.fold_left
-      (fun acc e ->
-         match acc with
-         | Some _ -> acc
-         | None -> get_type_in_expr name e)
-      None
-      lst
   | String _ -> None
 ;;
 
@@ -741,13 +744,11 @@ let rec ir_of_parsetree parse_expr binding t =
     in
     { desc =
         Match
-          ( cond
+          ( [ cond ]
           , [ Case (Pat_Constr ("true", []), e1); Case (Pat_Constr ("false", []), e2) ] )
     ; typ = e1.typ
     }
-  | Pexp_tuple l ->
-    let component = List.map (fun e -> ir_of_parsetree e binding t) l in
-    { desc = Tuple component; typ = Ttuple (List.map (fun e -> e.typ) component) }
+  | Pexp_tuple _ -> failwith "tuple is not implemented"
   | _ -> failwith "Not implemented"
 ;;
 
