@@ -777,3 +777,9 @@ let rec is_typ_contained typ1 typ2 =
   | Tarrow l1, Tarrow l2 -> List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) l1 l2
   | _ -> false
 ;;
+
+let absolute_neq e1 e2 =
+  match e1.desc, e2.desc with
+  | Call ("true", []), Call ("false", []) -> true
+  | _ -> false
+;;

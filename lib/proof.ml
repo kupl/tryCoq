@@ -31,6 +31,7 @@ and tactic =
   | SimplIn of string
   | Reflexivity
   | Assert of prop
+  | Discriminate
 [@@deriving sexp]
 
 type env = Ir.t [@@deriving sexp]
@@ -93,6 +94,7 @@ let pp_tactic tactic =
   | SimplIn target -> "simpl in " ^ target
   | Reflexivity -> "reflexivity"
   | Assert prop -> "assert " ^ pp_prop prop
+  | Discriminate -> "discriminate"
 ;;
 
 let pp_theorem (tactics, goal) =
@@ -1350,6 +1352,21 @@ let apply_case env expr facts goal =
     decl
 ;;
 
+let apply_desrciminate env facts =
+  if
+    List.exists
+      (fun (_, prop) ->
+         match prop with
+         | Eq (e1, e2) ->
+           let e1 = simplify_expr env e1 in
+           let e2 = simplify_expr env e2 in
+           Ir.absolute_neq e1 e2
+         | _ -> false)
+      facts
+  then []
+  else failwith "Cannot Discriminate"
+;;
+
 let apply_tactic t env tactic : t =
   match tactic with
   | Assert prop -> apply_assert prop t
@@ -1367,6 +1384,7 @@ let apply_tactic t env tactic : t =
      | Case expr -> apply_case env expr facts goal @ List.tl t
      | SimplIn target -> apply_simpl env facts goal target :: List.tl t
      | Reflexivity -> apply_eq goal @ List.tl t
+     | Discriminate -> apply_desrciminate env facts @ List.tl t
      | _ -> failwith "not implemented")
 ;;
 
@@ -1444,6 +1462,7 @@ let parse_tactic t src decls =
     let _, goal = List.hd t in
     Case (parse_expr goal (String.concat " " args) decls)
   | "assert" -> Assert (parse_prop (String.concat " " args) [] decls)
+  | "discriminate" -> Discriminate
   | _ -> failwith "wrong tactic"
 ;;
 
