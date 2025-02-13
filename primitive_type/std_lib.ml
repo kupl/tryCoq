@@ -109,3 +109,29 @@ let rec mem x l =
      | true -> true
      | false -> mem x tl)
 ;;
+
+let rec filter pred lst =
+  match lst with
+  | Nil -> Nil
+  | Cons (hd, tl) ->
+    (match pred hd with
+     | true -> Cons (hd, filter pred tl)
+     | false -> filter pred tl)
+;;
+
+let rec for_all pred lst =
+  match lst with
+  | Nil -> true
+  | Cons (hd, tl) ->
+    (match pred hd with
+     | true -> for_all pred tl
+     | false -> false)
+;;
+
+let rec rev_aux acc lst =
+  match lst with
+  | Nil -> acc
+  | Cons (hd, tl) -> rev_aux (Cons (hd, acc)) tl
+;;
+
+let rec rev lst = rev_aux Nil lst
