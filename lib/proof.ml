@@ -1,6 +1,9 @@
 open Sexplib.Std
 
-type t = (fact list * goal) list [@@deriving sexp]
+type t = lemma_stack * conjecture list [@@deriving sexp]
+and lemma_stack = theorem list [@@deriving sexp]
+and conjecture = state list * goal [@@deriving sexp]
+and state = fact list * goal [@@deriving sexp]
 and fact = string * prop [@@deriving sexp]
 and goal = prop [@@deriving sexp]
 
@@ -17,8 +20,7 @@ and prop =
 [@@deriving sexp]
 
 and expr = Ir.expr [@@deriving sexp]
-
-type theorem = tactic list * goal [@@deriving sexp]
+and theorem = tactic list * string * goal [@@deriving sexp]
 
 and tactic =
   | Intro of string
@@ -36,6 +38,12 @@ and tactic =
 
 type env = Ir.t [@@deriving sexp]
 
+type debug_tactic =
+  | AllLemma
+  | AllConj
+  | AllState
+[@@deriving sexp]
+
 let range start stop =
   let rec range' i acc = if i = stop then acc else range' (i + 1) (acc @ [ i ]) in
   range' start []
@@ -49,7 +57,7 @@ let make_counter () =
 ;;
 
 let counter = make_counter ()
-let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
+let string_of_state state = state |> sexp_of_state |> Sexplib.Sexp.to_string
 let string_of_theorem t = t |> sexp_of_theorem |> Sexplib.Sexp.to_string
 let string_of_tactic t = t |> sexp_of_tactic |> Sexplib.Sexp.to_string
 let string_of_prop p = p |> sexp_of_prop |> Sexplib.Sexp.to_string
@@ -97,29 +105,70 @@ let pp_tactic tactic =
   | Discriminate -> "discriminate"
 ;;
 
-let pp_theorem (tactics, goal) =
-  (List.map pp_tactic tactics |> String.concat "\n") ^ "\n" ^ pp_prop goal
+let pp_theorem (tactics, name, goal) =
+  "Theorem "
+  ^ name
+  ^ " : \n"
+  ^ pp_prop goal
+  ^ "Proof.\n"
+  ^ (List.map pp_tactic tactics |> String.concat "\n")
+  ^ "\nQed.\n"
 ;;
 
-let pp_t ?(all : bool = false) (t : t) =
-  if List.is_empty t
+let pp_lemma_stack (stack : lemma_stack) =
+  List.map (fun (_, name, goal) -> name ^ " : " ^ pp_prop goal) stack
+  |> String.concat "\n\n"
+;;
+
+let pp_conjecture ?(all : bool = false) (conj : conjecture) =
+  let state_list, conj_goal = conj in
+  if List.is_empty state_list
   then "No goal"
   else (
     let print_goal ((facts, goal), i) =
-      "goal"
-      ^ string_of_int (i + 1)
+      string_of_int (i + 1)
+      ^ (match i with
+         | 0 -> "st"
+         | 1 -> "nd"
+         | 2 -> "rd"
+         | _ -> "th")
+      ^ " goal of"
+      ^ " : "
+      ^ pp_prop conj_goal
       ^ "\n"
       ^ (List.map pp_fact facts |> String.concat "\n")
       ^ "\n---------------------------------------\n"
       ^ pp_prop goal
     in
     (match all with
-     | true -> List.map print_goal (List.combine t (range 0 (List.length t)))
+     | true ->
+       List.map print_goal (List.combine state_list (range 0 (List.length state_list)))
      | false ->
-       [ print_goal (List.hd t, 0)
-       ; (List.length t - 1 |> string_of_int) ^ " goal(s) more..."
+       [ print_goal (List.hd state_list, 0)
+       ; (List.length state_list - 1 |> string_of_int) ^ " goal(s) more..."
        ])
     |> String.concat "\n\n")
+;;
+
+let pp_t ?(debug_tactic : debug_tactic option = None) (t : t) =
+  let all_lemma, all_conjecture, all_state =
+    match debug_tactic with
+    | Some AllLemma -> true, false, false
+    | Some AllConj -> false, true, true
+    | Some AllState -> false, false, true
+    | None -> false, false, false
+  in
+  let lemma_stack, conjecture_list = t in
+  (if all_lemma then "Lemma stack : \n" ^ pp_lemma_stack lemma_stack else "")
+  ^ "\n\n"
+  ^
+  if all_conjecture
+  then (
+    let str_conj = List.map (fun conj -> pp_conjecture ~all:true conj) conjecture_list in
+    String.concat "\n\n" str_conj)
+  else if List.is_empty conjecture_list
+  then "No conjecture"
+  else pp_conjecture ~all:all_state (List.hd conjecture_list)
 ;;
 
 let partition_and_transform (pred : 'a -> bool) (transform : 'a -> 'b) (lst : 'a list)
@@ -255,7 +304,8 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
   substitute_expr_in_prop' pred convert target expr_from expr_to i []
 ;;
 
-let apply_intro name facts goal =
+let apply_intro name state : state =
+  let facts, goal = state in
   match goal with
   | Forall (var_list, goal) ->
     if name = "*"
@@ -281,7 +331,8 @@ let rec apply_eq goal =
   | _ -> failwith "The goal is not an equality"
 ;;
 
-let apply_induction env name facts goal : t =
+let apply_induction env name state : state list =
+  let facts, goal = state in
   match goal with
   | Forall (var_list, goal) ->
     let typ =
@@ -539,7 +590,8 @@ let convert_in_rewrite target expr_from expr_to =
   | _ -> failwith "The source is not a variable"
 ;;
 
-let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
+let apply_rewrite state fact_label target_label i : state list =
+  let facts, goal = state in
   let source = List.assoc fact_label facts in
   let cond_list, var_list, expr_from, expr_to =
     match source with
@@ -634,7 +686,8 @@ let apply_rewrite (facts : fact list) (goal : goal) fact_label target_label i =
     [ fact, goal ] @ List.map (fun goal -> facts, goal) new_task
 ;;
 
-let apply_rewrite_reverse facts goal fact_label target_label i =
+let apply_rewrite_reverse state fact_label target_label i : state list =
+  let facts, goal = state in
   let source = List.assoc fact_label facts in
   let cond_list, var_list, expr_from, expr_to =
     match source with
@@ -729,7 +782,8 @@ let apply_rewrite_reverse facts goal fact_label target_label i =
     [ fact, goal ] @ List.map (fun goal -> facts, goal) new_task
 ;;
 
-let apply_strong_induction env name facts goal =
+let apply_strong_induction env name state : state list =
+  let facts, goal = state in
   match goal with
   | Forall (var_list, goal) ->
     let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
@@ -1099,7 +1153,8 @@ let rec simplify_prop env prop =
   | Type typ -> Type typ
 ;;
 
-let apply_simpl env facts goal target =
+let apply_simpl env state target : state =
+  let facts, goal = state in
   match target with
   | "goal" ->
     let new_goal = simplify_prop env goal in
@@ -1115,14 +1170,14 @@ let apply_simpl env facts goal target =
     facts, goal
 ;;
 
-let apply_assert prop t =
-  let lemma_name = "lemma" ^ string_of_int (counter ()) in
-  let t = List.map (fun (facts, goal) -> facts @ [ lemma_name, prop ], goal) t in
-  let lemma = [], prop in
-  lemma :: t
+let apply_assert prop t : t =
+  let conj = [ [], prop ], prop in
+  let lemma_stack, conj_list = t in
+  lemma_stack, conj :: conj_list
 ;;
 
-let apply_destruct env name facts goal =
+let apply_destruct env name state : state list =
+  let facts, goal = state in
   let typ =
     match get_type_in_prop name goal with
     | Some typ -> typ
@@ -1240,7 +1295,8 @@ let apply_destruct env name facts goal =
     decl
 ;;
 
-let apply_case env expr facts goal =
+let apply_case env expr state : state list =
+  let facts, goal = state in
   let typ = expr.Ir.typ in
   let typ_args, (origin_args, decl) =
     match typ with
@@ -1352,7 +1408,7 @@ let apply_case env expr facts goal =
     decl
 ;;
 
-let apply_desrciminate env facts =
+let apply_desrciminate env facts : state list =
   if
     List.exists
       (fun (_, prop) ->
@@ -1367,24 +1423,61 @@ let apply_desrciminate env facts =
   else failwith "Cannot Discriminate"
 ;;
 
-let apply_tactic t env tactic : t =
+let apply_tactic (t : t) env tactic : t =
+  let lemma_stack, conj_list = t in
   match tactic with
   | Assert prop -> apply_assert prop t
   | _ ->
-    let facts, goal = List.hd t in
+    let fisrt_conj = List.hd conj_list in
+    let state_list, conj_goal = fisrt_conj in
+    let first_state = List.hd state_list in
+    let facts, goal = first_state in
     (match tactic with
-     | Intro name -> apply_intro name facts goal :: List.tl t
+     | Intro name ->
+       ( lemma_stack
+       , (apply_intro name first_state :: List.tl state_list, goal) :: List.tl conj_list )
      | RewriteInAt (fact, target_label, i) ->
-       apply_rewrite facts goal fact target_label i @ List.tl t
+       ( lemma_stack
+       , (apply_rewrite first_state fact target_label i @ List.tl state_list, goal)
+         :: List.tl conj_list )
      | RewriteReverse (fact, target_label, i) ->
-       apply_rewrite_reverse facts goal fact target_label i @ List.tl t
-     | Induction name -> apply_induction env name facts goal @ List.tl t
-     | StrongInduction name -> apply_strong_induction env name facts goal @ List.tl t
-     | Destruct name -> apply_destruct env name facts goal @ List.tl t
-     | Case expr -> apply_case env expr facts goal @ List.tl t
-     | SimplIn target -> apply_simpl env facts goal target :: List.tl t
-     | Reflexivity -> apply_eq goal @ List.tl t
-     | Discriminate -> apply_desrciminate env facts @ List.tl t
+       ( lemma_stack
+       , (apply_rewrite_reverse first_state fact target_label i @ List.tl state_list, goal)
+         :: List.tl conj_list )
+     | Induction name ->
+       ( lemma_stack
+       , (apply_induction env name first_state @ List.tl state_list, goal)
+         :: List.tl conj_list )
+     | StrongInduction name ->
+       ( lemma_stack
+       , (apply_strong_induction env name first_state @ List.tl state_list, goal)
+         :: List.tl conj_list )
+     | Destruct name ->
+       ( lemma_stack
+       , (apply_destruct env name first_state @ List.tl state_list, goal)
+         :: List.tl conj_list )
+     | Case expr ->
+       ( lemma_stack
+       , (apply_case env expr first_state @ List.tl state_list, goal) :: List.tl conj_list
+       )
+     | SimplIn target ->
+       ( lemma_stack
+       , (apply_simpl env first_state target :: List.tl state_list, goal)
+         :: List.tl conj_list )
+     | Reflexivity ->
+       let result = apply_eq goal in
+       (match result with
+        | [] ->
+          ( lemma_stack @ [ [], "lemma" ^ string_of_int (counter ()), conj_goal ]
+          , List.tl conj_list )
+        | _ -> failwith "not implemented")
+     | Discriminate ->
+       let result = apply_desrciminate env facts in
+       (match result with
+        | [] ->
+          ( lemma_stack @ [ [], "lemma" ^ string_of_int (counter ()), conj_goal ]
+          , List.tl conj_list )
+        | _ -> failwith "not implemented")
      | _ -> failwith "not implemented")
 ;;
 
@@ -1430,8 +1523,7 @@ let rec parse_prop src binding decls =
   | _ -> failwith "not implemented"
 ;;
 
-let parse_tactic t src decls =
-  ignore t;
+let parse_tactic (t : t) src decls =
   let parts = String.split_on_char ' ' src in
   let name = List.hd parts in
   let args = List.tl parts in
@@ -1459,29 +1551,24 @@ let parse_tactic t src decls =
      | _ -> failwith "not implemented")
   | "reflexivity" -> Reflexivity
   | "case" ->
-    let _, goal = List.hd t in
+    let goal = t |> snd |> List.hd |> snd in
     Case (parse_expr goal (String.concat " " args) decls)
   | "assert" -> Assert (parse_prop (String.concat " " args) [] decls)
   | "discriminate" -> Discriminate
   | _ -> failwith "wrong tactic"
 ;;
 
-type debug_tactic = All
-
 let proof_top env =
-  let init = [] in
+  let init = [], [] in
   let rec loop ?(debug_tactic : debug_tactic option = None) t =
     print_newline ();
-    pp_t
-      ~all:
-        (Option.map (fun tactic -> tactic = All) debug_tactic
-         |> Option.value ~default:false)
-      t
-    |> print_endline;
+    pp_t ~debug_tactic t |> print_endline;
     print_newline ();
     print_string ">>> ";
     match read_line () with
-    | "all" -> loop ~debug_tactic:(Some All) t
+    | "allstate" -> loop ~debug_tactic:(Some AllState) t
+    | "alllemma" -> loop ~debug_tactic:(Some AllLemma) t
+    | "allconj" -> loop ~debug_tactic:(Some AllConj) t
     | s ->
       let t =
         try apply_tactic t env (parse_tactic t s env) with
@@ -1494,7 +1581,3 @@ let proof_top env =
   in
   loop init
 ;;
-
-(*
-   assert forall (form:formula), eval_ta1 form = eval form
-*)
