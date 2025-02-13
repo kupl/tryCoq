@@ -95,6 +95,22 @@ let ( - ) i1 i2 =
   | Neg n1', Pos n2' -> Neg (add n1' n2')
 ;;
 
+let ( < ) i1 i2 =
+  match i1, i2 with
+  | Zero, Pos _ -> true
+  | Zero, _ -> false
+  | Neg _, Zero -> true
+  | _, Zero -> false
+  | Pos n1', Pos n2' -> less_than n1' n2'
+  | Neg n1', Neg n2' -> less_than n2' n1'
+  | Pos n1', Neg n2' -> false
+  | Neg n1', Pos n2' -> true
+;;
+
+let ( > ) i1 i2 = i2 < i1
+let ( >= ) i1 i2 = not (i1 < i2)
+let ( <= ) i1 i2 = not (i1 > i2)
+
 let rec ( @ ) l1 l2 =
   match l1 with
   | Nil -> l2
@@ -135,3 +151,9 @@ let rec rev_aux acc lst =
 ;;
 
 let rec rev lst = rev_aux Nil lst
+
+let rec fold_left f acc lst =
+  match lst with
+  | Nil -> acc
+  | Cons (hd, tl) -> fold_left f (f acc hd) tl
+;;
