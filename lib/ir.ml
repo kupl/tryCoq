@@ -219,9 +219,15 @@ let rec parse_typ (s : string) : typ =
     match parts with
     | [] -> failwith "Invalid type"
     | base :: args ->
+      let acc = if String.get base 0 = '\'' then Tany else Talgebraic (base, []) in
       List.fold_left
-        (fun acc arg -> Talgebraic (arg, [ acc ]))
-        (Talgebraic (base, []))
+        (fun acc arg ->
+           if String.get arg 0 = '\''
+           then (
+             let _ = failwith "asdf " in
+             Tany)
+           else Talgebraic (arg, [ acc ]))
+        acc
         args)
 ;;
 
