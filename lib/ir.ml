@@ -22,11 +22,9 @@ and expr_desc =
   | LetIn of (name * expr) list * expr
   | Call of name * expr list
   | Var of name
-  | String of string
 [@@deriving sexp]
 
 and typ =
-  | Tstring
   | Talgebraic of name * typ list
   | Tany
   | Tarrow of typ list
@@ -75,6 +73,26 @@ let expr_of_int (i : int) : expr_desc =
   else if i > 0
   then Call ("Pos", [ { desc = expr_of_nat i; typ = Talgebraic ("natural", []) } ])
   else Call ("Neg", [ { desc = expr_of_nat (-i); typ = Talgebraic ("natural", []) } ])
+;;
+
+let char_of_ascii i = Char.chr i
+let ascii_of_char ch = Char.code ch
+
+let expr_of_string string =
+  let char_list =
+    List.init (String.length string) (fun i -> String.get string i |> ascii_of_char)
+  in
+  let char_list =
+    List.fold_right
+      (fun c acc ->
+         { desc =
+             Call ("::", [ { desc = expr_of_int c; typ = Talgebraic ("int", []) }; acc ])
+         ; typ = Talgebraic ("list", [ Talgebraic ("int", []) ])
+         })
+      char_list
+      { desc = Call ("[]", []); typ = Talgebraic ("list", [ Talgebraic ("int", []) ]) }
+  in
+  Call ("string", [ char_list ])
 ;;
 
 let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
@@ -137,7 +155,6 @@ and pp_expr expr =
           name
           ^ " "
           ^ String.concat " " (List.map (fun arg -> "(" ^ pp_expr arg ^ ")") args)))
-  | String s -> "\"" ^ s ^ "\""
   | Var name -> name
 
 and pp_case case =
@@ -166,7 +183,6 @@ and pp_typ_decl typ_decl =
 
 and pp_typ typ =
   match typ with
-  | Tstring -> "string"
   | Talgebraic (name, args) ->
     String.concat " " (List.map pp_typ args)
     ^ (if List.is_empty args then "" else " ")
@@ -177,7 +193,6 @@ and pp_typ typ =
 
 let var_of_typ typ =
   match typ with
-  | Tstring -> "string"
   | Talgebraic (name, args) ->
     String.concat "_" (List.map pp_typ args)
     ^ (if List.is_empty args then "" else "_")
@@ -363,8 +378,8 @@ and get_expr expr =
     | Texp_constant constant ->
       (match constant with
        | Const_int i -> expr_of_int i
-       | Const_char char -> String (String.make 1 char)
-       | Const_string (str, _, _) -> String str
+       | Const_char char -> expr_of_string (String.make 1 char)
+       | Const_string (str, _, _) -> expr_of_string str
        | _ -> failwith "Not implemented")
     | Texp_let (_, bindings, body) ->
       LetIn
@@ -515,7 +530,6 @@ let substitute_expr pred convert target expr_from expr_to i result =
             args
         in
         { desc = Call (name, args'); typ = target.typ }, result, cnt
-      | String _ -> target, result, cnt
       | Var _ -> target, result, cnt)
   in
   let expr, result, cnt =
@@ -526,7 +540,6 @@ let substitute_expr pred convert target expr_from expr_to i result =
 
 let rec is_equal_expr e1 e2 =
   match e1.desc, e2.desc with
-  | String s1, String s2 -> s1 = s2
   | Var v1, Var v2 -> v1 = v2
   | Match (match_list1, cases1), Match (match_list2, cases2) ->
     List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) match_list1 match_list2
@@ -604,7 +617,6 @@ let rec get_type_in_expr name expr =
     (match acc with
      | Some _ -> acc
      | None -> get_type_in_expr name e)
-  | String _ -> None
 ;;
 
 module StringSet = Set.Make (String)
@@ -759,7 +771,7 @@ let rec substitute_typ typ binding =
 
 let rec is_typ_contained typ1 typ2 =
   match typ1, typ2 with
-  | Tstring, Tstring | _, Tany | Tany, _ -> true
+  | _, Tany | Tany, _ -> true
   | Talgebraic (name1, lst1), Talgebraic (name2, lst2) ->
     name1 = name2 && List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) lst1 lst2
   | Tarrow l1, Tarrow l2 -> List.for_all2 (fun t1 t2 -> is_typ_contained t1 t2) l1 l2

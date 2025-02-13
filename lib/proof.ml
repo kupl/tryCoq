@@ -486,7 +486,6 @@ let rec forall_target var_list target source =
         let_list
     in
     forall_target var_list target new_expr
-  | _ -> false
 ;;
 
 let rec get_match_var (match_list : (expr * expr) list) =
@@ -964,7 +963,7 @@ let rec get_case_match expr_list pat =
          expr_list
          l
        |> snd
-     | _ -> failwith "patter matching is ill-formed")
+     | _ -> failwith "pattern matching is ill-formed")
 ;;
 
 let rec simplify_expr (env : Ir.t) expr =
@@ -1039,7 +1038,9 @@ let rec simplify_expr (env : Ir.t) expr =
         None
         cases
     in
-    new_expr |> Option.get
+    let new_expr = new_expr |> Option.get in
+    (try simplify_expr env new_expr with
+     | _ -> new_expr)
   | Ir.LetIn (let_list, e) ->
     let new_expr =
       List.fold_left
@@ -1059,7 +1060,6 @@ let rec simplify_expr (env : Ir.t) expr =
         let_list
     in
     simplify_expr env new_expr
-  | _ -> expr
 ;;
 
 let rec simplify_prop env prop =
