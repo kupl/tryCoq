@@ -168,7 +168,11 @@ let pp_t ?(debug_tactic : debug_tactic option = None) (t : t) =
     String.concat "\n\n" str_conj)
   else if List.is_empty conjecture_list
   then "No conjecture"
-  else pp_conjecture ~all:all_state (List.hd conjecture_list)
+  else
+    pp_conjecture ~all:all_state (List.hd conjecture_list)
+    ^ "\n\n"
+    ^ (List.length conjecture_list - 1 |> string_of_int)
+    ^ " conjecture(s) more..."
 ;;
 
 let partition_and_transform (pred : 'a -> bool) (transform : 'a -> 'b) (lst : 'a list)
@@ -590,9 +594,10 @@ let convert_in_rewrite target expr_from expr_to =
   | _ -> failwith "The source is not a variable"
 ;;
 
-let apply_rewrite state fact_label target_label i : state list =
+let apply_rewrite lemma_stack state fact_label target_label i : state list =
   let facts, goal = state in
-  let source = List.assoc fact_label facts in
+  let lemma_list = List.map (fun (_, name, prop) -> name, prop) lemma_stack in
+  let source = List.assoc fact_label (facts @ lemma_list) in
   let cond_list, var_list, expr_from, expr_to =
     match source with
     | Eq (lhs, rhs) -> [], [], lhs, rhs
@@ -686,9 +691,10 @@ let apply_rewrite state fact_label target_label i : state list =
     [ fact, goal ] @ List.map (fun goal -> facts, goal) new_task
 ;;
 
-let apply_rewrite_reverse state fact_label target_label i : state list =
+let apply_rewrite_reverse lemma_stack state fact_label target_label i : state list =
   let facts, goal = state in
-  let source = List.assoc fact_label facts in
+  let lemma_list = List.map (fun (_, name, prop) -> name, prop) lemma_stack in
+  let source = List.assoc fact_label (facts @ lemma_list) in
   let cond_list, var_list, expr_from, expr_to =
     match source with
     | Eq (lhs, rhs) -> [], [], rhs, lhs
@@ -1431,53 +1437,60 @@ let apply_tactic (t : t) env tactic : t =
     let fisrt_conj = List.hd conj_list in
     let state_list, conj_goal = fisrt_conj in
     let first_state = List.hd state_list in
-    let facts, goal = first_state in
     (match tactic with
      | Intro name ->
        ( lemma_stack
-       , (apply_intro name first_state :: List.tl state_list, goal) :: List.tl conj_list )
+       , (apply_intro name first_state :: List.tl state_list, conj_goal)
+         :: List.tl conj_list )
      | RewriteInAt (fact, target_label, i) ->
        ( lemma_stack
-       , (apply_rewrite first_state fact target_label i @ List.tl state_list, goal)
+       , ( apply_rewrite lemma_stack first_state fact target_label i @ List.tl state_list
+         , conj_goal )
          :: List.tl conj_list )
      | RewriteReverse (fact, target_label, i) ->
        ( lemma_stack
-       , (apply_rewrite_reverse first_state fact target_label i @ List.tl state_list, goal)
+       , ( apply_rewrite_reverse lemma_stack first_state fact target_label i
+           @ List.tl state_list
+         , conj_goal )
          :: List.tl conj_list )
      | Induction name ->
        ( lemma_stack
-       , (apply_induction env name first_state @ List.tl state_list, goal)
+       , (apply_induction env name first_state @ List.tl state_list, conj_goal)
          :: List.tl conj_list )
      | StrongInduction name ->
        ( lemma_stack
-       , (apply_strong_induction env name first_state @ List.tl state_list, goal)
+       , (apply_strong_induction env name first_state @ List.tl state_list, conj_goal)
          :: List.tl conj_list )
      | Destruct name ->
        ( lemma_stack
-       , (apply_destruct env name first_state @ List.tl state_list, goal)
+       , (apply_destruct env name first_state @ List.tl state_list, conj_goal)
          :: List.tl conj_list )
      | Case expr ->
        ( lemma_stack
-       , (apply_case env expr first_state @ List.tl state_list, goal) :: List.tl conj_list
-       )
+       , (apply_case env expr first_state @ List.tl state_list, conj_goal)
+         :: List.tl conj_list )
      | SimplIn target ->
        ( lemma_stack
-       , (apply_simpl env first_state target :: List.tl state_list, goal)
+       , (apply_simpl env first_state target :: List.tl state_list, conj_goal)
          :: List.tl conj_list )
      | Reflexivity ->
-       let result = apply_eq goal in
-       (match result with
+       let _, goal = first_state in
+       let _ = apply_eq goal in
+       let remain_states = List.tl state_list in
+       (match remain_states with
         | [] ->
           ( lemma_stack @ [ [], "lemma" ^ string_of_int (counter ()), conj_goal ]
           , List.tl conj_list )
-        | _ -> failwith "not implemented")
+        | _ -> lemma_stack, (remain_states, conj_goal) :: List.tl conj_list)
      | Discriminate ->
-       let result = apply_desrciminate env facts in
-       (match result with
+       let facts, _ = first_state in
+       let _ = apply_desrciminate env facts in
+       let remain_states = List.tl state_list in
+       (match remain_states with
         | [] ->
           ( lemma_stack @ [ [], "lemma" ^ string_of_int (counter ()), conj_goal ]
           , List.tl conj_list )
-        | _ -> failwith "not implemented")
+        | _ -> lemma_stack, (remain_states, conj_goal) :: List.tl conj_list)
      | _ -> failwith "not implemented")
 ;;
 
