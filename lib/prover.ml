@@ -396,10 +396,7 @@ let prune_rank_worklist env t candidates statelist =
   worklist
 ;;
 
-let is_stuck env worklist =
-  ignore env;
-  worklist = []
-;;
+let is_stuck worklist = worklist = []
 
 let take_best_work worklist =
   let priority = List.map (fun (_, _, r) -> r) worklist in
@@ -410,18 +407,21 @@ let take_best_work worklist =
 
 let rec progress env worklist statelist =
   let work = take_best_work worklist in
-  let t, tactic, r = work in
+  let t, tactic, _ = work in
   let prev_worklist = List.filter (fun w -> w <> work) worklist in
   let _ = print_endline "=================================================" in
   let _ = print_endline ("Progress: " ^ string_of_int (synth_counter ())) in
   let _ = Proof.pp_t t |> print_endline in
-  let _ = print_endline (">>> " ^ Proof.pp_tactic tactic ^ " : " ^ string_of_int r) in
+  let _ = print_endline (">>> " ^ Proof.pp_tactic tactic) in
   let next_t = Proof.apply_tactic t env tactic in
-  let _ = Proof.pp_t next_t |> print_endline in
-  let statelist = next_t :: statelist in
-  let tactic_list = mk_candidates next_t in
-  let worklist = prune_rank_worklist env next_t tactic_list statelist in
-  if is_stuck env worklist
-  then next_t
-  else progress env (prev_worklist @ worklist) statelist
+  match next_t with
+  | _, [] -> []
+  | _, _ ->
+    let _ = Proof.pp_t next_t |> print_endline in
+    let statelist = next_t :: statelist in
+    let tactic_list = mk_candidates next_t in
+    let worklist = prune_rank_worklist env next_t tactic_list statelist in
+    if is_stuck worklist
+    then statelist
+    else progress env (prev_worklist @ worklist) statelist
 ;;

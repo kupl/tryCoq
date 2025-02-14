@@ -1084,6 +1084,9 @@ let rec simplify_expr (env : Ir.t) expr =
        Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (match_list, cases) ->
     let match_list = List.map (simplify_expr env) match_list in
+    let cases =
+      List.map (fun (Ir.Case (pat, e)) -> Ir.Case (pat, simplify_expr env e)) cases
+    in
     let new_expr =
       List.fold_left
         (fun acc case ->
