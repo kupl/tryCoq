@@ -1058,7 +1058,7 @@ let rec simplify_expr (env : Ir.t) expr =
          | Ir.Rec (_, args, e) -> args, e
          | _ -> failwith "This expression is not a function"
        in
-       let new_expr =
+       let fun_body =
          List.fold_left2
            (fun e name arg ->
               let exp, _, _ =
@@ -1076,7 +1076,10 @@ let rec simplify_expr (env : Ir.t) expr =
            decl_args
            args
        in
-       simplify_expr env new_expr
+       let new_expr = simplify_expr env fun_body in
+       if new_expr = fun_body
+       then Ir.{ desc = Call (name, args); typ = expr.typ }
+       else new_expr
      with
      | exn ->
        ignore exn;
@@ -1117,9 +1120,9 @@ let rec simplify_expr (env : Ir.t) expr =
         None
         cases
     in
-    let new_expr = new_expr |> Option.get in
-    (try simplify_expr env new_expr with
-     | _ -> new_expr)
+    (match new_expr with
+     | None -> Ir.{ desc = Match (match_list, cases); typ = expr.typ }
+     | Some e -> simplify_expr env e)
   | Ir.LetIn (let_list, e) ->
     let new_expr =
       List.fold_left
