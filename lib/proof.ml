@@ -24,16 +24,16 @@ and theorem = tactic list * string * goal [@@deriving sexp]
 
 and tactic =
   | Intro of string
-  | RewriteInAt of string * string * int
-  | RewriteReverse of string * string * int
   | Induction of string
   | StrongInduction of string
+  | SimplIn of string
+  | RewriteInAt of string * string * int
+  | RewriteReverse of string * string * int
   | Destruct of string
   | Case of expr
-  | SimplIn of string
   | Reflexivity
-  | Assert of prop
   | Discriminate
+  | Assert of prop
 [@@deriving sexp]
 
 type env = Ir.t [@@deriving sexp]
@@ -43,6 +43,33 @@ type debug_tactic =
   | AllConj
   | AllState
 [@@deriving sexp]
+
+let mk_intro name = Intro name
+let mk_induction name = Induction name
+let mk_strong_induction name = StrongInduction name
+let mk_simpl_in target = SimplIn target
+let mk_rewrite_in_at fact goal i = RewriteInAt (fact, goal, i)
+let mk_rewrite_reverse fact goal i = RewriteReverse (fact, goal, i)
+let mk_destruct name = Destruct name
+let mk_case expr = Case expr
+let mk_reflexivity = Reflexivity
+let mk_discriminate = Discriminate
+let mk_assert prop = Assert prop
+
+let get_lemma_stack (t : t) =
+  let lemma_stack, _ = t in
+  lemma_stack
+;;
+
+let get_conj_list (t : t) =
+  let _, conj_list = t in
+  conj_list
+;;
+
+let get_first_state (t : t) =
+  let conj_list = get_conj_list t in
+  List.hd conj_list |> fst |> List.hd
+;;
 
 let range start stop =
   let rec range' i acc = if i = stop then acc else range' (i + 1) (acc @ [ i ]) in
@@ -94,7 +121,7 @@ let pp_tactic tactic =
   | RewriteInAt (fact, goal, i) ->
     "rewrite " ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
   | RewriteReverse (fact, goal, i) ->
-    "rewrite <-" ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
+    "rewrite <- " ^ fact ^ " in " ^ goal ^ " at " ^ string_of_int i
   | Induction name -> "induction " ^ name
   | StrongInduction name -> "strong induction " ^ name
   | Destruct name -> "destruct " ^ name
@@ -381,11 +408,6 @@ let apply_induction env name state : state list =
                  ( constr
                  , List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind )
            in
-           let new_facts =
-             [ ( "Base" ^ string_of_int (counter ())
-               , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = base_case; typ }) )
-             ]
-           in
            let new_goal, _, _ =
              substitute_expr_in_prop
                Ir.is_equal_expr
@@ -415,7 +437,7 @@ let apply_induction env name state : state list =
                facts
            in
            let typ_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
-           typ_facts @ facts @ new_facts, new_goal
+           typ_facts @ facts, new_goal
          | _ ->
            let new_args, new_rec_args =
              partition_and_transform
@@ -835,11 +857,6 @@ let apply_strong_induction env name state : state list =
                  , List.map (fun (name, typ) -> Ir.{ desc = Ir.Var name; typ }) arg_bind
                  )
            in
-           let new_facts =
-             [ ( "Base" ^ string_of_int (counter ())
-               , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = base_case; typ }) )
-             ]
-           in
            let new_goal, _, _ =
              substitute_expr_in_prop
                Ir.is_equal_expr
@@ -868,7 +885,7 @@ let apply_strong_induction env name state : state list =
                     prop ))
                facts
            in
-           facts @ new_facts, new_goal
+           facts, new_goal
          | _ ->
            let new_args, _ =
              partition_and_transform
@@ -1041,7 +1058,7 @@ let rec simplify_expr (env : Ir.t) expr =
          | Ir.Rec (_, args, e) -> args, e
          | _ -> failwith "This expression is not a function"
        in
-       let new_expr =
+       let fun_body =
          List.fold_left2
            (fun e name arg ->
               let exp, _, _ =
@@ -1059,7 +1076,10 @@ let rec simplify_expr (env : Ir.t) expr =
            decl_args
            args
        in
-       simplify_expr env new_expr
+       let new_expr = simplify_expr env fun_body in
+       if new_expr = fun_body
+       then Ir.{ desc = Call (name, args); typ = expr.typ }
+       else new_expr
      with
      | exn ->
        ignore exn;
@@ -1100,9 +1120,9 @@ let rec simplify_expr (env : Ir.t) expr =
         None
         cases
     in
-    let new_expr = new_expr |> Option.get in
-    (try simplify_expr env new_expr with
-     | _ -> new_expr)
+    (match new_expr with
+     | None -> Ir.{ desc = Match (match_list, cases); typ = expr.typ }
+     | Some e -> simplify_expr env e)
   | Ir.LetIn (let_list, e) ->
     let new_expr =
       List.fold_left
@@ -1594,3 +1614,5 @@ let proof_top env =
   in
   loop init
 ;;
+
+let empty_t : t = [], []
