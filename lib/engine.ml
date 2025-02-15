@@ -11,6 +11,7 @@ let proof_top std_lib program_a program_b =
 
 let rec loop env worklist statelist =
   let stuck_list, result = Prover.progress env worklist statelist in
+  let _ = failwith "asdf" in
   match result with
   | Some _ -> [], result
   | None ->
