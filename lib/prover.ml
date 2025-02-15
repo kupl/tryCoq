@@ -415,13 +415,13 @@ let rec progress env worklist statelist =
   let _ = print_endline (">>> " ^ Proof.pp_tactic tactic) in
   let next_t = Proof.apply_tactic t env tactic in
   match next_t with
-  | _, [] -> []
+  | _, [] -> [], Some next_t
   | _, _ ->
     let _ = Proof.pp_t next_t |> print_endline in
     let statelist = next_t :: statelist in
     let tactic_list = mk_candidates next_t in
     let worklist = prune_rank_worklist env next_t tactic_list statelist in
     if is_stuck worklist
-    then statelist
+    then statelist, None
     else progress env (prev_worklist @ worklist) statelist
 ;;
