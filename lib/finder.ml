@@ -29,6 +29,58 @@ let find_common_subterm_in_prop (goal : Proof.goal) : expr list =
   | _ -> []
 ;;
 
+let rec coellect_var_in_pattern (pattern : Ir.pattern) : string list =
+  match pattern with
+  | Ir.Pat_Var name -> [ name ]
+  | Ir.Pat_Constr (_, pat_list) ->
+    List.map coellect_var_in_pattern pat_list |> List.concat
+  | Ir.Pat_Tuple pat_list -> List.map coellect_var_in_pattern pat_list |> List.concat
+  | _ -> []
+;;
+
+let rec collect_free_var_in_expr (expr : expr) (binding : string list)
+  : (string * Proof.prop) list
+  =
+  match expr.desc with
+  | Var name -> if List.mem name binding then [] else [ name, Proof.Type expr.typ ]
+  | Match (match_list, case_list) ->
+    let var_in_match =
+      List.map (fun e -> collect_free_var_in_expr e binding) match_list |> List.concat
+    in
+    let var_in_case =
+      List.map
+        (fun case ->
+           match case with
+           | Ir.Case (pat, e) ->
+             let new_bind = coellect_var_in_pattern pat in
+             collect_free_var_in_expr e (binding @ new_bind))
+        case_list
+      |> List.concat
+    in
+    var_in_match @ var_in_case
+  | LetIn (assign, e) ->
+    let var_in_assign =
+      List.map (fun (_, body) -> collect_free_var_in_expr body binding) assign
+      |> List.concat
+    in
+    let new_bind = List.map (fun (name, _) -> name) assign in
+    var_in_assign @ collect_free_var_in_expr e (binding @ new_bind)
+  | Call (_, args) ->
+    List.map (fun e -> collect_free_var_in_expr e binding) args |> List.concat
+;;
+
+let rec collect_free_var_in_prop (goal : Proof.prop) (binding : string list)
+  : (string * Proof.prop) list
+  =
+  match goal with
+  | Forall (var_list, prop) ->
+    let new_bind = List.map fst var_list in
+    collect_free_var_in_prop prop (binding @ new_bind)
+  | Eq (lhs, rhs) ->
+    collect_free_var_in_expr lhs binding @ collect_free_var_in_expr rhs binding
+  | _ -> []
+;;
+
 let naive_generalize (goal : Proof.goal) : lemma list =
   let common_subterm = find_common_subterm_in_prop goal in
   let new_qvars =
@@ -51,7 +103,7 @@ let naive_generalize (goal : Proof.goal) : lemma list =
       common_subterm
       new_qvars
   in
-  let qvars = List.map (fun (var_name, typ) -> var_name, Proof.Type typ) new_qvars in
+  let qvars = collect_free_var_in_prop new_goal [] in
   if List.is_empty qvars then [] else [ Forall (qvars, new_goal) ]
 ;;
 

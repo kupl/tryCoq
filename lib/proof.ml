@@ -1,6 +1,6 @@
 open Sexplib.Std
 
-type t = lemma_stack * conjecture list [@@deriving sexp]
+type t = lemma_stack * conjecture list * tactic list [@@deriving sexp]
 and lemma_stack = theorem list [@@deriving sexp]
 and conjecture = state list * goal [@@deriving sexp]
 and state = fact list * goal [@@deriving sexp]
@@ -57,13 +57,18 @@ let mk_discriminate = Discriminate
 let mk_assert prop = Assert prop
 
 let get_lemma_stack (t : t) =
-  let lemma_stack, _ = t in
+  let lemma_stack, _, _ = t in
   lemma_stack
 ;;
 
 let get_conj_list (t : t) =
-  let _, conj_list = t in
+  let _, conj_list, _ = t in
   conj_list
+;;
+
+let get_tactic_history (t : t) =
+  let _, _, tactic_list = t in
+  tactic_list
 ;;
 
 let get_first_state (t : t) =
@@ -185,7 +190,7 @@ let pp_t ?(debug_tactic : debug_tactic option = None) (t : t) =
     | Some AllState -> false, false, true
     | None -> false, false, false
   in
-  let lemma_stack, conjecture_list = t in
+  let lemma_stack, conjecture_list, _ = t in
   (if all_lemma then "Lemma stack : \n" ^ pp_lemma_stack lemma_stack else "")
   ^ "\n\n"
   ^
@@ -1198,8 +1203,8 @@ let apply_simpl env state target : state =
 
 let apply_assert prop t : t =
   let conj = [ [], prop ], prop in
-  let lemma_stack, conj_list = t in
-  lemma_stack, conj :: conj_list
+  let lemma_stack, conj_list, tactic_list = t in
+  lemma_stack, conj :: conj_list, tactic_list @ [ mk_assert prop ]
 ;;
 
 let apply_destruct env name state : state list =
@@ -1450,7 +1455,7 @@ let apply_desrciminate env facts : state list =
 ;;
 
 let apply_tactic (t : t) env tactic : t =
-  let lemma_stack, conj_list = t in
+  let lemma_stack, conj_list, tactic_list = t in
   match tactic with
   | Assert prop -> apply_assert prop t
   | _ ->
@@ -1461,38 +1466,46 @@ let apply_tactic (t : t) env tactic : t =
      | Intro name ->
        ( lemma_stack
        , (apply_intro name first_state :: List.tl state_list, conj_goal)
-         :: List.tl conj_list )
+         :: List.tl conj_list
+       , tactic_list @ [ tactic ] )
      | RewriteInAt (fact, target_label, i) ->
        ( lemma_stack
        , ( apply_rewrite lemma_stack first_state fact target_label i @ List.tl state_list
          , conj_goal )
-         :: List.tl conj_list )
+         :: List.tl conj_list
+       , tactic_list @ [ tactic ] )
      | RewriteReverse (fact, target_label, i) ->
        ( lemma_stack
        , ( apply_rewrite_reverse lemma_stack first_state fact target_label i
            @ List.tl state_list
          , conj_goal )
-         :: List.tl conj_list )
+         :: List.tl conj_list
+       , tactic_list @ [ tactic ] )
      | Induction name ->
        ( lemma_stack
        , (apply_induction env name first_state @ List.tl state_list, conj_goal)
-         :: List.tl conj_list )
+         :: List.tl conj_list
+       , tactic_list @ [ tactic ] )
      | StrongInduction name ->
        ( lemma_stack
        , (apply_strong_induction env name first_state @ List.tl state_list, conj_goal)
-         :: List.tl conj_list )
+         :: List.tl conj_list
+       , tactic_list @ [ tactic ] )
      | Destruct name ->
        ( lemma_stack
        , (apply_destruct env name first_state @ List.tl state_list, conj_goal)
-         :: List.tl conj_list )
+         :: List.tl conj_list
+       , tactic_list @ [ tactic ] )
      | Case expr ->
        ( lemma_stack
        , (apply_case env expr first_state @ List.tl state_list, conj_goal)
-         :: List.tl conj_list )
+         :: List.tl conj_list
+       , tactic_list @ [ tactic ] )
      | SimplIn target ->
        ( lemma_stack
        , (apply_simpl env first_state target :: List.tl state_list, conj_goal)
-         :: List.tl conj_list )
+         :: List.tl conj_list
+       , tactic_list @ [ tactic ] )
      | Reflexivity ->
        let _, goal = first_state in
        let _ = apply_eq goal in
@@ -1500,8 +1513,12 @@ let apply_tactic (t : t) env tactic : t =
        (match remain_states with
         | [] ->
           ( lemma_stack @ [ [], "lemma" ^ string_of_int (counter ()), conj_goal ]
-          , List.tl conj_list )
-        | _ -> lemma_stack, (remain_states, conj_goal) :: List.tl conj_list)
+          , List.tl conj_list
+          , tactic_list @ [ tactic ] )
+        | _ ->
+          ( lemma_stack
+          , (remain_states, conj_goal) :: List.tl conj_list
+          , tactic_list @ [ tactic ] ))
      | Discriminate ->
        let facts, _ = first_state in
        let _ = apply_desrciminate env facts in
@@ -1509,8 +1526,12 @@ let apply_tactic (t : t) env tactic : t =
        (match remain_states with
         | [] ->
           ( lemma_stack @ [ [], "lemma" ^ string_of_int (counter ()), conj_goal ]
-          , List.tl conj_list )
-        | _ -> lemma_stack, (remain_states, conj_goal) :: List.tl conj_list)
+          , List.tl conj_list
+          , tactic_list @ [ tactic ] )
+        | _ ->
+          ( lemma_stack
+          , (remain_states, conj_goal) :: List.tl conj_list
+          , tactic_list @ [ tactic ] ))
      | _ -> failwith "not implemented")
 ;;
 
@@ -1579,12 +1600,13 @@ let parse_tactic (t : t) src decls =
   | "destruct" -> Destruct (List.hd args)
   | "simpl" ->
     (match args with
-     | [ hd ] -> SimplIn hd
+     | _ :: [ hd ] -> SimplIn hd
      | [] -> SimplIn "goal"
      | _ -> failwith "not implemented")
   | "reflexivity" -> Reflexivity
   | "case" ->
-    let goal = t |> snd |> List.hd |> snd in
+    let state = get_first_state t in
+    let goal = state |> snd in
     Case (parse_expr goal (String.concat " " args) decls)
   | "assert" -> Assert (parse_prop (String.concat " " args) [] decls)
   | "discriminate" -> Discriminate
@@ -1592,7 +1614,7 @@ let parse_tactic (t : t) src decls =
 ;;
 
 let proof_top env =
-  let init = [], [] in
+  let init = [], [], [] in
   let rec loop ?(debug_tactic : debug_tactic option = None) t =
     print_newline ();
     pp_t ~debug_tactic t |> print_endline;
@@ -1615,4 +1637,4 @@ let proof_top env =
   loop init
 ;;
 
-let empty_t : t = [], []
+let empty_t : t = [], [], []
