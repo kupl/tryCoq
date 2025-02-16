@@ -104,6 +104,9 @@ let naive_generalize (goal : Proof.goal) : lemma list =
       new_qvars
   in
   let qvars = collect_free_var_in_prop new_goal [] in
+  let qvars =
+    List.fold_left (fun acc var -> if List.mem var acc then acc else var :: acc) [] qvars
+  in
   if List.is_empty qvars then [] else [ Forall (qvars, new_goal) ]
 ;;
 

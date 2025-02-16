@@ -590,9 +590,20 @@ let rec get_match_var (match_list : (expr * expr) list) =
     match_list
 ;;
 
-let convert_in_rewrite target expr_from expr_to =
+let convert_in_rewrite (target : expr) expr_from expr_to =
   match expr_from.Ir.desc with
-  | Ir.Var _ -> expr_to, [ expr_from, expr_to ]
+  | Ir.Var _ ->
+    let new_expr, _, _ =
+      substitute_expr_in_expr
+        Ir.is_equal_expr
+        (fun _ _ expr_to -> expr_to, [])
+        expr_to
+        expr_from
+        target
+        0
+        []
+    in
+    new_expr, [ expr_from, target ]
   | Ir.Call (name, args) ->
     (match target.Ir.desc with
      | Ir.Call (name', args') ->
