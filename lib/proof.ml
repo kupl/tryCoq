@@ -53,7 +53,6 @@ let create_t ?(proof = [], [], []) ?(counter = 0) () = { proof; counter }
 
 let get_counter t =
   t.counter <- t.counter + 1;
-  t.counter |> string_of_int |> print_endline;
   t.counter
 ;;
 
