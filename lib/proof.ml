@@ -25,7 +25,7 @@ and prop =
 [@@deriving sexp]
 
 and expr = Ir.expr [@@deriving sexp]
-and theorem = tactic list * string * goal [@@deriving sexp]
+and theorem = string * goal [@@deriving sexp]
 
 and tactic =
   | Intro of string
@@ -152,8 +152,7 @@ let pp_theorem (tactics, name, goal) =
 ;;
 
 let pp_lemma_stack (stack : lemma_stack) =
-  List.map (fun (_, name, goal) -> name ^ " : " ^ pp_prop goal) stack
-  |> String.concat "\n\n"
+  List.map (fun (name, goal) -> name ^ " : " ^ pp_prop goal) stack |> String.concat "\n\n"
 ;;
 
 let pp_conjecture ?(all : bool = false) (conj : conjecture) =
@@ -638,7 +637,7 @@ let convert_in_rewrite (target : expr) expr_from expr_to =
 
 let apply_rewrite lemma_stack state fact_label target_label i : state list =
   let facts, goal = state in
-  let lemma_list = List.map (fun (_, name, prop) -> name, prop) lemma_stack in
+  let lemma_list = List.map (fun (name, prop) -> name, prop) lemma_stack in
   let source = List.assoc fact_label (facts @ lemma_list) in
   let cond_list, var_list, expr_from, expr_to =
     match source with
@@ -735,7 +734,7 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
 
 let apply_rewrite_reverse lemma_stack state fact_label target_label i : state list =
   let facts, goal = state in
-  let lemma_list = List.map (fun (_, name, prop) -> name, prop) lemma_stack in
+  let lemma_list = List.map (fun (name, prop) -> name, prop) lemma_stack in
   let source = List.assoc fact_label (facts @ lemma_list) in
   let cond_list, var_list, expr_from, expr_to =
     match source with
@@ -1529,7 +1528,7 @@ let apply_tactic (t : t) env tactic : t =
         let remain_states = List.tl state_list in
         (match remain_states with
          | [] ->
-           ( lemma_stack @ [ [], "lemma" ^ string_of_int (get_counter t), conj_goal ]
+           ( lemma_stack @ [ "lemma" ^ string_of_int (get_counter t), conj_goal ]
            , List.tl conj_list
            , tactic_list @ [ tactic ] )
          | _ ->
@@ -1542,7 +1541,7 @@ let apply_tactic (t : t) env tactic : t =
         let remain_states = List.tl state_list in
         (match remain_states with
          | [] ->
-           ( lemma_stack @ [ [], "lemma" ^ string_of_int (get_counter t), conj_goal ]
+           ( lemma_stack @ [ "lemma" ^ string_of_int (get_counter t), conj_goal ]
            , List.tl conj_list
            , tactic_list @ [ tactic ] )
          | _ ->
