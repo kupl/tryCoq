@@ -145,8 +145,10 @@ let is_valid env t tactic : bool =
 ;;
 
 let is_duplicated env t tactic state_list =
-  let next_t = Proof.apply_tactic t env tactic in
-  List.exists (fun t -> t = next_t) state_list
+  let next_lemma, next_conj, _ = Proof.apply_tactic t env tactic in
+  List.exists
+    (fun (lemma_stack, conj_list, _) -> next_lemma = lemma_stack && next_conj = conj_list)
+    state_list
 ;;
 
 let is_rewrite_good prev_t new_t =
@@ -206,7 +208,10 @@ let rank_tactic env t tactic : int option =
     if is_decreasing_var env state var_name then Some 1 else None
   | Proof.SimplIn _ -> Some 1
   | Proof.RewriteInAt (src, target, _) | Proof.RewriteReverse (src, target, _) ->
-    if src = target
+    if
+      src = target
+      || String.starts_with ~prefix:"Inductive" src
+      || String.starts_with ~prefix:"Inductive" target
     then None
     else (
       let new_t = Proof.apply_tactic t env tactic in
@@ -335,7 +340,7 @@ let mk_candidates t =
   let non_qvar_list = collect_non_qvar_in_prop goal in
   let fact_name_list = collect_fact_name state in
   let lemma_name_list = collect_lemma_name lemma_stack in
-  let intro_list = List.map (fun v -> Proof.mk_intro v) non_qvar_list in
+  let intro_list = List.map (fun v -> Proof.mk_intro v) qvar_list in
   let induction_list = List.map (fun v -> Proof.mk_induction v) qvar_list in
   let strong_induction_list = List.map (fun v -> Proof.mk_strong_induction v) qvar_list in
   let simpl_in_list =
@@ -405,23 +410,26 @@ let take_best_work worklist =
   best_worklist
 ;;
 
-let rec progress env worklist statelist =
-  let work = take_best_work worklist in
-  let t, tactic, _ = work in
-  let prev_worklist = List.filter (fun w -> w <> work) worklist in
-  let _ = print_endline "=================================================" in
-  let _ = print_endline ("Progress: " ^ string_of_int (synth_counter ())) in
-  let _ = Proof.pp_t t |> print_endline in
-  let _ = print_endline (">>> " ^ Proof.pp_tactic tactic) in
-  let next_t = Proof.apply_tactic t env tactic in
-  match next_t with
-  | _, [] -> []
-  | _, _ ->
-    let _ = Proof.pp_t next_t |> print_endline in
-    let statelist = next_t :: statelist in
-    let tactic_list = mk_candidates next_t in
-    let worklist = prune_rank_worklist env next_t tactic_list statelist in
-    if is_stuck worklist
-    then statelist
-    else progress env (prev_worklist @ worklist) statelist
+let rec progress env worklist statelist stuck_point =
+  match worklist with
+  | [] -> stuck_point, None
+  | _ ->
+    let work = take_best_work worklist in
+    let t, tactic, _ = work in
+    let prev_worklist = List.filter (fun w -> w <> work) worklist in
+    let _ = print_endline "=================================================" in
+    let _ = print_endline ("Progress: " ^ string_of_int (synth_counter ())) in
+    let _ = Proof.pp_t t |> print_endline in
+    let _ = print_endline (">>> " ^ Proof.pp_tactic tactic) in
+    let next_t = Proof.apply_tactic t env tactic in
+    (match next_t with
+     | _, [], proof -> [], Some proof
+     | _ ->
+       let _ = Proof.pp_t next_t |> print_endline in
+       let statelist = next_t :: statelist in
+       let tactic_list = mk_candidates next_t in
+       let worklist = prune_rank_worklist env next_t tactic_list statelist in
+       if is_stuck worklist
+       then progress env prev_worklist statelist (next_t :: stuck_point)
+       else progress env (prev_worklist @ worklist) statelist stuck_point)
 ;;
