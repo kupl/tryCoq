@@ -144,10 +144,11 @@ let is_valid env t tactic : bool =
   | _ -> false
 ;;
 
-let is_duplicated env t tactic state_list =
-  let next_lemma, next_conj, _ = Proof.apply_tactic t env tactic in
+let is_duplicated env t tactic (state_list : t list) =
+  let Proof.{ proof = next_lemma, next_conj, _; _ } = Proof.apply_tactic t env tactic in
   List.exists
-    (fun (lemma_stack, conj_list, _) -> next_lemma = lemma_stack && next_conj = conj_list)
+    (fun Proof.{ proof = lemma_stack, conj_list, _; _ } ->
+       next_lemma = lemma_stack && next_conj = conj_list)
     state_list
 ;;
 
@@ -383,17 +384,21 @@ let mk_candidates t =
   @ [ Proof.mk_reflexivity; Proof.mk_discriminate ]
 ;;
 
-let prune_rank_worklist env t candidates statelist =
-  let candidates = List.filter (fun c -> is_valid env t c) candidates in
+let prune_rank_worklist env t candidates (statelist : t list) =
   let candidates =
-    List.filter (fun c -> not (is_duplicated env t c statelist)) candidates
+    let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
+    candidates
+    |> List.filter (fun c -> is_valid env t c)
+    |> List.filter (fun c -> not (is_duplicated env t c statelist))
   in
   let worklist =
     List.fold_left
-      (fun acc c ->
-         let rank = rank_tactic env t c in
+      (fun acc tactic ->
+         let rank = rank_tactic env t tactic in
          match rank with
-         | Some r -> acc @ [ t, c, r ]
+         | Some priority ->
+           let t = Proof.create_t ~proof:t.proof ~counter:t.counter () in
+           acc @ [ t, tactic, priority ]
          | None -> acc)
       []
       candidates
@@ -403,7 +408,7 @@ let prune_rank_worklist env t candidates statelist =
 
 let is_stuck worklist = worklist = []
 
-let take_best_work worklist =
+let take_best_work (worklist : (t * tactic * int) list) =
   let priority = List.map (fun (_, _, r) -> r) worklist in
   let min_priority = List.fold_left min max_int priority in
   let best_worklist = List.find (fun (_, _, r) -> r = min_priority) worklist in
@@ -422,7 +427,7 @@ let rec progress env worklist statelist stuck_point =
     let _ = Proof.pp_t t |> print_endline in
     let _ = print_endline (">>> " ^ Proof.pp_tactic tactic) in
     let next_t = Proof.apply_tactic t env tactic in
-    (match next_t with
+    (match next_t.proof with
      | _, [], proof -> [], Some proof
      | _ ->
        let _ = Proof.pp_t next_t |> print_endline in

@@ -1,6 +1,11 @@
 open Sexplib.Std
 
-type t = lemma_stack * conjecture list * tactic list [@@deriving sexp]
+type t =
+  { proof : lemma_stack * conjecture list * tactic list
+  ; mutable counter : int
+  }
+[@@deriving sexp]
+
 and lemma_stack = theorem list [@@deriving sexp]
 and conjecture = state list * goal [@@deriving sexp]
 and state = fact list * goal [@@deriving sexp]
@@ -44,6 +49,14 @@ type debug_tactic =
   | AllState
 [@@deriving sexp]
 
+let create_t ?(proof = [], [], []) ?(counter = 0) () = { proof; counter }
+
+let get_counter t =
+  t.counter <- t.counter + 1;
+  t.counter |> string_of_int |> print_endline;
+  t.counter
+;;
+
 let mk_intro name = Intro name
 let mk_induction name = Induction name
 let mk_strong_induction name = StrongInduction name
@@ -57,17 +70,17 @@ let mk_discriminate = Discriminate
 let mk_assert prop = Assert prop
 
 let get_lemma_stack (t : t) =
-  let lemma_stack, _, _ = t in
+  let lemma_stack, _, _ = t.proof in
   lemma_stack
 ;;
 
 let get_conj_list (t : t) =
-  let _, conj_list, _ = t in
+  let _, conj_list, _ = t.proof in
   conj_list
 ;;
 
 let get_tactic_history (t : t) =
-  let _, _, tactic_list = t in
+  let _, _, tactic_list = t.proof in
   tactic_list
 ;;
 
@@ -81,14 +94,6 @@ let range start stop =
   range' start []
 ;;
 
-let make_counter () =
-  let count = ref 0 in
-  fun () ->
-    incr count;
-    !count
-;;
-
-let counter = make_counter ()
 let string_of_state state = state |> sexp_of_state |> Sexplib.Sexp.to_string
 let string_of_theorem t = t |> sexp_of_theorem |> Sexplib.Sexp.to_string
 let string_of_tactic t = t |> sexp_of_tactic |> Sexplib.Sexp.to_string
@@ -190,7 +195,7 @@ let pp_t ?(debug_tactic : debug_tactic option = None) (t : t) =
     | Some AllState -> false, false, true
     | None -> false, false, false
   in
-  let lemma_stack, conjecture_list, _ = t in
+  let lemma_stack, conjecture_list, _ = t.proof in
   (if all_lemma then "Lemma stack : \n" ^ pp_lemma_stack lemma_stack else "")
   ^ "\n\n"
   ^
@@ -367,7 +372,7 @@ let rec apply_eq goal =
   | _ -> failwith "The goal is not an equality"
 ;;
 
-let apply_induction env name state : state list =
+let apply_induction env name state t : state list =
   let facts, goal = state in
   match goal with
   | Forall (var_list, goal) ->
@@ -401,7 +406,7 @@ let apply_induction env name state : state list =
          let rec_args = List.filter (fun arg -> typ = arg) arg_types in
          let arg_bind =
            List.map
-             (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (counter ()), arg)
+             (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (get_counter t), arg)
              arg_types
          in
          match rec_args with
@@ -449,7 +454,7 @@ let apply_induction env name state : state list =
                (fun arg -> List.mem arg rec_args)
                (fun arg ->
                   Ir.
-                    { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (counter ()))
+                    { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (get_counter t))
                     ; typ = arg
                     })
                arg_types
@@ -461,7 +466,7 @@ let apply_induction env name state : state list =
            let ihs =
              List.map
                (fun arg ->
-                  ( "IH" ^ string_of_int (counter ())
+                  ( "IH" ^ string_of_int (get_counter t)
                   , let prop, _, _ =
                       substitute_expr_in_prop
                         Ir.is_equal_expr
@@ -476,7 +481,7 @@ let apply_induction env name state : state list =
            in
            let new_facts =
              ihs
-             @ [ ( "Inductive" ^ string_of_int (counter ())
+             @ [ ( "Inductive" ^ string_of_int (get_counter t)
                  , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
                ]
            in
@@ -826,7 +831,7 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
     [ fact, goal ] @ List.map (fun goal -> facts, goal) new_task
 ;;
 
-let apply_strong_induction env name state : state list =
+let apply_strong_induction env name state t : state list =
   let facts, goal = state in
   match goal with
   | Forall (var_list, goal) ->
@@ -860,7 +865,7 @@ let apply_strong_induction env name state : state list =
          let rec_args = List.filter (fun arg -> arg = typ) arg_types in
          let arg_bind =
            List.map
-             (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (counter ()), arg)
+             (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (get_counter t), arg)
              arg_types
          in
          match rec_args with
@@ -908,7 +913,7 @@ let apply_strong_induction env name state : state list =
                (fun arg -> List.mem arg rec_args)
                (fun arg ->
                   Ir.
-                    { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (counter ()))
+                    { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (get_counter t))
                     ; typ = arg
                     })
                arg_types
@@ -918,7 +923,7 @@ let apply_strong_induction env name state : state list =
              | Ir.Constructor constr -> Ir.Call (constr, new_args)
            in
            let ihs =
-             let precedent_var = (typ |> Ir.var_of_typ) ^ string_of_int (counter ()) in
+             let precedent_var = (typ |> Ir.var_of_typ) ^ string_of_int (get_counter t) in
              let precedent = Ir.{ desc = Var precedent_var; typ } in
              let consequent, _, _ =
                substitute_expr_in_prop
@@ -929,7 +934,7 @@ let apply_strong_induction env name state : state list =
                  precedent
                  0
              in
-             ( "SIH" ^ string_of_int (counter ())
+             ( "SIH" ^ string_of_int (get_counter t)
              , Forall
                  ( [ precedent_var, Type typ ]
                  , Imply
@@ -938,7 +943,7 @@ let apply_strong_induction env name state : state list =
            in
            let new_facts =
              ihs
-             :: [ ( "Inductive" ^ string_of_int (counter ())
+             :: [ ( "Inductive" ^ string_of_int (get_counter t)
                   , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
                 ]
            in
@@ -1214,11 +1219,11 @@ let apply_simpl env state target : state =
 
 let apply_assert prop t : t =
   let conj = [ [], prop ], prop in
-  let lemma_stack, conj_list, tactic_list = t in
-  lemma_stack, conj :: conj_list, tactic_list @ [ mk_assert prop ]
+  let lemma_stack, conj_list, tactic_list = t.proof in
+  { t with proof = lemma_stack, conj :: conj_list, tactic_list @ [ mk_assert prop ] }
 ;;
 
-let apply_destruct env name state : state list =
+let apply_destruct env name state t : state list =
   let facts, goal = state in
   let typ =
     match get_type_in_prop name goal with
@@ -1245,7 +1250,7 @@ let apply_destruct env name state : state list =
        let rec_args = List.filter (fun arg -> arg = typ) arg_types in
        let arg_bind =
          List.map
-           (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (counter ()), arg)
+           (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (get_counter t), arg)
            arg_types
        in
        match rec_args with
@@ -1258,7 +1263,7 @@ let apply_destruct env name state : state list =
                , List.map (fun (name, typ) -> Ir.{ desc = Ir.Var name; typ }) arg_bind )
          in
          let new_facts =
-           [ ( "Dest" ^ string_of_int (counter ())
+           [ ( "Dest" ^ string_of_int (get_counter t)
              , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = base_case; typ }) )
            ]
          in
@@ -1294,7 +1299,7 @@ let apply_destruct env name state : state list =
              (fun arg -> List.mem arg rec_args)
              (fun arg ->
                 Ir.
-                  { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (counter ()))
+                  { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (get_counter t))
                   ; typ = arg
                   })
              arg_types
@@ -1304,7 +1309,7 @@ let apply_destruct env name state : state list =
            | Ir.Constructor constr -> Ir.Call (constr, new_args)
          in
          let new_facts =
-           [ ( "Inductive" ^ string_of_int (counter ())
+           [ ( "Inductive" ^ string_of_int (get_counter t)
              , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
            ]
          in
@@ -1337,7 +1342,7 @@ let apply_destruct env name state : state list =
     decl
 ;;
 
-let apply_case env expr state : state list =
+let apply_case env expr state t : state list =
   let facts, goal = state in
   let typ = expr.Ir.typ in
   let typ_args, (origin_args, decl) =
@@ -1360,7 +1365,7 @@ let apply_case env expr state : state list =
        let rec_args = List.filter (fun arg -> arg = typ) arg_types in
        let arg_bind =
          List.map
-           (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (counter ()), arg)
+           (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (get_counter t), arg)
            arg_types
        in
        match rec_args with
@@ -1372,7 +1377,8 @@ let apply_case env expr state : state list =
                (constr, List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind)
          in
          let new_facts =
-           [ "Case" ^ string_of_int (counter ()), Eq (expr, Ir.{ desc = base_case; typ })
+           [ ( "Case" ^ string_of_int (get_counter t)
+             , Eq (expr, Ir.{ desc = base_case; typ }) )
            ]
          in
          let new_goal, _, _ =
@@ -1407,7 +1413,7 @@ let apply_case env expr state : state list =
              (fun arg -> List.mem arg rec_args)
              (fun arg ->
                 Ir.
-                  { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (counter ()))
+                  { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (get_counter t))
                   ; typ = arg
                   })
              arg_types
@@ -1417,7 +1423,7 @@ let apply_case env expr state : state list =
            | Ir.Constructor constr -> Ir.Call (constr, new_args)
          in
          let new_facts =
-           [ ( "Inductive" ^ string_of_int (counter ())
+           [ ( "Inductive" ^ string_of_int (get_counter t)
              , Eq (expr, Ir.{ desc = inductive_case; typ }) )
            ]
          in
@@ -1466,84 +1472,87 @@ let apply_desrciminate env facts : state list =
 ;;
 
 let apply_tactic (t : t) env tactic : t =
-  let lemma_stack, conj_list, tactic_list = t in
+  let lemma_stack, conj_list, tactic_list = t.proof in
   match tactic with
   | Assert prop -> apply_assert prop t
   | _ ->
     let fisrt_conj = List.hd conj_list in
     let state_list, conj_goal = fisrt_conj in
     let first_state = List.hd state_list in
-    (match tactic with
-     | Intro name ->
-       ( lemma_stack
-       , (apply_intro name first_state :: List.tl state_list, conj_goal)
-         :: List.tl conj_list
-       , tactic_list @ [ tactic ] )
-     | RewriteInAt (fact, target_label, i) ->
-       ( lemma_stack
-       , ( apply_rewrite lemma_stack first_state fact target_label i @ List.tl state_list
-         , conj_goal )
-         :: List.tl conj_list
-       , tactic_list @ [ tactic ] )
-     | RewriteReverse (fact, target_label, i) ->
-       ( lemma_stack
-       , ( apply_rewrite_reverse lemma_stack first_state fact target_label i
-           @ List.tl state_list
-         , conj_goal )
-         :: List.tl conj_list
-       , tactic_list @ [ tactic ] )
-     | Induction name ->
-       ( lemma_stack
-       , (apply_induction env name first_state @ List.tl state_list, conj_goal)
-         :: List.tl conj_list
-       , tactic_list @ [ tactic ] )
-     | StrongInduction name ->
-       ( lemma_stack
-       , (apply_strong_induction env name first_state @ List.tl state_list, conj_goal)
-         :: List.tl conj_list
-       , tactic_list @ [ tactic ] )
-     | Destruct name ->
-       ( lemma_stack
-       , (apply_destruct env name first_state @ List.tl state_list, conj_goal)
-         :: List.tl conj_list
-       , tactic_list @ [ tactic ] )
-     | Case expr ->
-       ( lemma_stack
-       , (apply_case env expr first_state @ List.tl state_list, conj_goal)
-         :: List.tl conj_list
-       , tactic_list @ [ tactic ] )
-     | SimplIn target ->
-       ( lemma_stack
-       , (apply_simpl env first_state target :: List.tl state_list, conj_goal)
-         :: List.tl conj_list
-       , tactic_list @ [ tactic ] )
-     | Reflexivity ->
-       let _, goal = first_state in
-       let _ = apply_eq goal in
-       let remain_states = List.tl state_list in
-       (match remain_states with
-        | [] ->
-          ( lemma_stack @ [ [], "lemma" ^ string_of_int (counter ()), conj_goal ]
-          , List.tl conj_list
-          , tactic_list @ [ tactic ] )
-        | _ ->
-          ( lemma_stack
-          , (remain_states, conj_goal) :: List.tl conj_list
-          , tactic_list @ [ tactic ] ))
-     | Discriminate ->
-       let facts, _ = first_state in
-       let _ = apply_desrciminate env facts in
-       let remain_states = List.tl state_list in
-       (match remain_states with
-        | [] ->
-          ( lemma_stack @ [ [], "lemma" ^ string_of_int (counter ()), conj_goal ]
-          , List.tl conj_list
-          , tactic_list @ [ tactic ] )
-        | _ ->
-          ( lemma_stack
-          , (remain_states, conj_goal) :: List.tl conj_list
-          , tactic_list @ [ tactic ] ))
-     | _ -> failwith "not implemented")
+    let proof =
+      match tactic with
+      | Intro name ->
+        ( lemma_stack
+        , (apply_intro name first_state :: List.tl state_list, conj_goal)
+          :: List.tl conj_list
+        , tactic_list @ [ tactic ] )
+      | RewriteInAt (fact, target_label, i) ->
+        ( lemma_stack
+        , ( apply_rewrite lemma_stack first_state fact target_label i @ List.tl state_list
+          , conj_goal )
+          :: List.tl conj_list
+        , tactic_list @ [ tactic ] )
+      | RewriteReverse (fact, target_label, i) ->
+        ( lemma_stack
+        , ( apply_rewrite_reverse lemma_stack first_state fact target_label i
+            @ List.tl state_list
+          , conj_goal )
+          :: List.tl conj_list
+        , tactic_list @ [ tactic ] )
+      | Induction name ->
+        ( lemma_stack
+        , (apply_induction env name first_state t @ List.tl state_list, conj_goal)
+          :: List.tl conj_list
+        , tactic_list @ [ tactic ] )
+      | StrongInduction name ->
+        ( lemma_stack
+        , (apply_strong_induction env name first_state t @ List.tl state_list, conj_goal)
+          :: List.tl conj_list
+        , tactic_list @ [ tactic ] )
+      | Destruct name ->
+        ( lemma_stack
+        , (apply_destruct env name first_state t @ List.tl state_list, conj_goal)
+          :: List.tl conj_list
+        , tactic_list @ [ tactic ] )
+      | Case expr ->
+        ( lemma_stack
+        , (apply_case env expr first_state t @ List.tl state_list, conj_goal)
+          :: List.tl conj_list
+        , tactic_list @ [ tactic ] )
+      | SimplIn target ->
+        ( lemma_stack
+        , (apply_simpl env first_state target :: List.tl state_list, conj_goal)
+          :: List.tl conj_list
+        , tactic_list @ [ tactic ] )
+      | Reflexivity ->
+        let _, goal = first_state in
+        let _ = apply_eq goal in
+        let remain_states = List.tl state_list in
+        (match remain_states with
+         | [] ->
+           ( lemma_stack @ [ [], "lemma" ^ string_of_int (get_counter t), conj_goal ]
+           , List.tl conj_list
+           , tactic_list @ [ tactic ] )
+         | _ ->
+           ( lemma_stack
+           , (remain_states, conj_goal) :: List.tl conj_list
+           , tactic_list @ [ tactic ] ))
+      | Discriminate ->
+        let facts, _ = first_state in
+        let _ = apply_desrciminate env facts in
+        let remain_states = List.tl state_list in
+        (match remain_states with
+         | [] ->
+           ( lemma_stack @ [ [], "lemma" ^ string_of_int (get_counter t), conj_goal ]
+           , List.tl conj_list
+           , tactic_list @ [ tactic ] )
+         | _ ->
+           ( lemma_stack
+           , (remain_states, conj_goal) :: List.tl conj_list
+           , tactic_list @ [ tactic ] ))
+      | _ -> failwith "not implemented"
+    in
+    { t with proof }
 ;;
 
 let parse_expr goal src decls =
@@ -1625,7 +1634,7 @@ let parse_tactic (t : t) src decls =
 ;;
 
 let proof_top env =
-  let init = [], [], [] in
+  let init = create_t () in
   let rec loop ?(debug_tactic : debug_tactic option = None) t =
     print_newline ();
     pp_t ~debug_tactic t |> print_endline;
@@ -1647,5 +1656,3 @@ let proof_top env =
   in
   loop init
 ;;
-
-let empty_t : t = [], [], []
