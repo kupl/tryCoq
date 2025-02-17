@@ -9,8 +9,8 @@ let proof_top std_lib program_a program_b =
   Proof.proof_top env
 ;;
 
-let rec loop env worklist statelist =
-  let stuck_list, proof = Prover.progress env worklist statelist in
+let rec loop env worklist =
+  let stuck_list, proof = Prover.progress env worklist [] [] in
   match proof with
   | Some _ -> [], proof
   | None ->
@@ -21,7 +21,7 @@ let rec loop env worklist statelist =
       let new_worklist =
         List.map (fun (t, goal) -> t, Proof.mk_assert goal, 0) lemma_list
       in
-      loop env new_worklist stuck_list)
+      loop env new_worklist)
 ;;
 
 let proof_auto std_lib program_a program_b goal =
@@ -33,7 +33,7 @@ let proof_auto std_lib program_a program_b goal =
   let program_b = program_b |> Ir.t_of_typedtree in
   let env = std_lib @ program_a @ program_b in
   let goal = Proof.parse_tactic Proof.empty_t goal env in
-  match loop env [ Proof.empty_t, goal, 0 ] [] with
+  match loop env [ Proof.empty_t, goal, 0 ] with
   | _, Some proof ->
     print_endline "Proof Success";
     print_endline "Proof";

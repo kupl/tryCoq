@@ -410,10 +410,10 @@ let take_best_work worklist =
   best_worklist
 ;;
 
-let rec progress env worklist statelist =
-  if is_stuck worklist
-  then statelist, None
-  else (
+let rec progress env worklist statelist stuck_point =
+  match worklist with
+  | [] -> stuck_point, None
+  | _ ->
     let work = take_best_work worklist in
     let t, tactic, _ = work in
     let prev_worklist = List.filter (fun w -> w <> work) worklist in
@@ -422,12 +422,14 @@ let rec progress env worklist statelist =
     let _ = Proof.pp_t t |> print_endline in
     let _ = print_endline (">>> " ^ Proof.pp_tactic tactic) in
     let next_t = Proof.apply_tactic t env tactic in
-    match next_t with
-    | _, [], proof -> [], Some proof
-    | _, _, _ ->
-      let _ = Proof.pp_t next_t |> print_endline in
-      let statelist = next_t :: statelist in
-      let tactic_list = mk_candidates next_t in
-      let worklist = prune_rank_worklist env next_t tactic_list statelist in
-      progress env (prev_worklist @ worklist) statelist)
+    (match next_t with
+     | _, [], proof -> [], Some proof
+     | _ ->
+       let _ = Proof.pp_t next_t |> print_endline in
+       let statelist = next_t :: statelist in
+       let tactic_list = mk_candidates next_t in
+       let worklist = prune_rank_worklist env next_t tactic_list statelist in
+       if is_stuck worklist
+       then progress env prev_worklist statelist (next_t :: stuck_point)
+       else progress env (prev_worklist @ worklist) statelist stuck_point)
 ;;
