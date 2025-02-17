@@ -80,7 +80,10 @@ let get_decreasing_arg_index env fname =
 
 let rec get_nth_arg_in_expr fname i expr =
   match expr.Ir.desc with
-  | Ir.Call (name, args) -> if name = fname then [ List.nth args i ] else []
+  | Ir.Call (name, args) ->
+    if name = fname
+    then [ List.nth args i ]
+    else List.fold_left (fun acc exp -> acc @ get_nth_arg_in_expr fname i exp) [] args
   | Ir.Var _ -> []
   | Ir.LetIn (assign_list, body) ->
     List.fold_left
@@ -480,12 +483,14 @@ let rec progress env worklist statelist stuck_point =
   | [] -> stuck_point, None
   | _ ->
     let work = take_best_work worklist in
-    let t, tactic, _ = work in
+    let t, tactic, r = work in
     let prev_worklist = List.filter (fun w -> w <> work) worklist in
     let _ = print_endline "=================================================" in
     let _ = print_endline ("Progress: " ^ string_of_int (synth_counter ())) in
     let _ = Proof.pp_t t |> print_endline in
-    let _ = print_endline (">>> " ^ Proof.pp_tactic tactic) in
+    let _ =
+      print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
+    in
     let next_t = Proof.apply_tactic t env tactic in
     (match next_t.proof with
      | _, [], proof -> [], Some proof
