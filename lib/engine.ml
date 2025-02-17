@@ -32,8 +32,9 @@ let proof_auto std_lib program_a program_b goal =
   let program_a = program_a |> Ir.t_of_typedtree in
   let program_b = program_b |> Ir.t_of_typedtree in
   let env = std_lib @ program_a @ program_b in
-  let goal = Proof.parse_tactic Proof.empty_t goal env in
-  match loop env [ Proof.empty_t, goal, 0 ] with
+  let init_t = Proof.create_t () in
+  let goal = Proof.parse_tactic init_t goal env in
+  match loop env [ init_t, goal, 0 ] with
   | _, Some proof ->
     print_endline "Proof Success";
     print_endline "Proof";
