@@ -391,10 +391,6 @@ let prune_rank_worklist env t candidates (statelist : t list) =
     |> List.filter (fun c -> is_valid env t c)
     |> List.filter (fun c -> not (is_duplicated env t c statelist))
   in
-  (* let candidates = List.filter (fun c -> is_valid env t c) candidates in
-  let candidates =
-    List.filter (fun c -> not (is_duplicated env t c statelist)) candidates
-  in *)
   let worklist =
     List.fold_left
       (fun acc tactic ->
