@@ -16,7 +16,7 @@ let rec loop env worklist =
   | Some _ -> [], proof
   | None ->
     let lemma_list = Finder.make_lemmas env stuck_list in
-    let _ = print_endline "Lemma List" in
+    let _ = print_endline ("Lemma List : " ^ string_of_int (List.length lemma_list)) in
     let _ =
       List.iter
         (fun (t, lemma) ->
