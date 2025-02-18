@@ -3,6 +3,7 @@ type env = Proof.env
 type state = Proof.state
 type lemma_stack = Proof.lemma_stack
 type tactic = Proof.tactic
+type expr = Proof.expr
 
 let make_synth_counter () =
   let count = ref 0 in
@@ -79,7 +80,10 @@ let get_decreasing_arg_index env fname =
 
 let rec get_nth_arg_in_expr fname i expr =
   match expr.Ir.desc with
-  | Ir.Call (name, args) -> if name = fname then [ List.nth args i ] else []
+  | Ir.Call (name, args) ->
+    if name = fname
+    then [ List.nth args i ]
+    else List.fold_left (fun acc exp -> acc @ get_nth_arg_in_expr fname i exp) [] args
   | Ir.Var _ -> []
   | Ir.LetIn (assign_list, body) ->
     List.fold_left
@@ -152,9 +156,65 @@ let is_duplicated env t tactic (state_list : t list) =
     state_list
 ;;
 
-let is_rewrite_good prev_t new_t =
-  ignore (prev_t, new_t);
-  true
+let cost_insert = 1
+let cost_delete = 1
+let cost_substitute = 1
+
+let edit_distance str1 str2 =
+  let len1 = String.length str1 in
+  let len2 = String.length str2 in
+  let dp = Array.make_matrix (len1 + 1) (len2 + 1) 0 in
+  (* 초기화 *)
+  for i = 0 to len1 do
+    dp.(i).(0) <- i
+  done;
+  for j = 0 to len2 do
+    dp.(0).(j) <- j
+  done;
+  (* DP 테이블 채우기 *)
+  for i = 1 to len1 do
+    for j = 1 to len2 do
+      if str1.[i - 1] = str2.[j - 1]
+      then dp.(i).(j) <- dp.(i - 1).(j - 1) (* 같으면 교체가 필요 없음 *)
+      else
+        dp.(i).(j)
+        <- min
+             (dp.(i - 1).(j) + 1) (* 삭제 *)
+             (min (dp.(i).(j - 1) + 1) (* 삽입 *) (dp.(i - 1).(j - 1) + 1))
+        (* 교체 *)
+    done
+  done;
+  dp.(len1).(len2)
+;;
+
+let get_difference expr1 expr2 = edit_distance (Proof.pp_expr expr1) (Proof.pp_expr expr2)
+
+let is_more_similar prop1 prop2 =
+  let lhs1, rhs1 =
+    match prop1 with
+    | Proof.Forall (_, Eq (lhs, rhs)) -> lhs, rhs
+    | Proof.Eq (lhs, rhs) -> lhs, rhs
+    | _ -> failwith "Not an equation"
+  in
+  let lhs2, rhs2 =
+    match prop2 with
+    | Proof.Forall (_, Eq (lhs, rhs)) -> lhs, rhs
+    | Proof.Eq (lhs, rhs) -> lhs, rhs
+    | _ -> failwith "Not an equation"
+  in
+  let prev_difference = get_difference lhs1 rhs1 in
+  let next_difference = get_difference lhs2 rhs2 in
+  prev_difference > next_difference
+;;
+
+let how_good_rewrite (prev_t : t) (new_t : t) : int option =
+  let prev_state = Proof.get_first_state prev_t in
+  let new_state = Proof.get_first_state new_t in
+  let _, prev_goal = prev_state in
+  let _, new_goal = new_state in
+  match is_more_similar prev_goal new_goal with
+  | true -> Some 1
+  | false -> None
 ;;
 
 let rec is_if_then_else_in_expr src expr =
@@ -216,7 +276,7 @@ let rank_tactic env t tactic : int option =
     then None
     else (
       let new_t = Proof.apply_tactic t env tactic in
-      if is_rewrite_good t new_t then Some 1 else None)
+      how_good_rewrite t new_t)
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
     let _, goal = state in
@@ -229,18 +289,21 @@ let rank_tactic env t tactic : int option =
 let rec collect_expr_in_expr expr =
   match expr.Ir.desc with
   | Ir.Call (_, args) ->
-    List.fold_left (fun acc arg -> acc @ collect_expr_in_expr arg) [] args
+    List.fold_left (fun acc arg -> acc @ collect_expr_in_expr arg) [ expr ] args
   | Ir.Var _ -> [ expr ]
   | Ir.LetIn (assign_list, body) ->
-    List.fold_left (fun acc (_, exp) -> acc @ collect_expr_in_expr exp) [] assign_list
+    List.fold_left
+      (fun acc (_, exp) -> acc @ collect_expr_in_expr exp)
+      [ expr ]
+      assign_list
     @ collect_expr_in_expr body
   | Ir.Match (match_list, case_list) ->
-    List.fold_left (fun acc exp -> acc @ collect_expr_in_expr exp) [] match_list
+    List.fold_left (fun acc exp -> acc @ collect_expr_in_expr exp) [ expr ] match_list
     @ List.fold_left
         (fun acc case ->
            match case with
            | Ir.Case (_, exp) -> acc @ collect_expr_in_expr exp)
-        []
+        [ expr ]
         case_list
 ;;
 
@@ -328,7 +391,7 @@ let collect_fact_name (state : state) =
 ;;
 
 let collect_lemma_name (lemma_stack : lemma_stack) =
-  List.fold_left (fun acc (_, name, _) -> acc @ [ name ]) [] lemma_stack
+  List.fold_left (fun acc (name, _) -> acc @ [ name ]) [] lemma_stack
 ;;
 
 let mk_candidates t =
@@ -394,7 +457,10 @@ let prune_rank_worklist env t candidates (statelist : t list) =
   let worklist =
     List.fold_left
       (fun acc tactic ->
-         let rank = rank_tactic env t tactic in
+         let rank =
+           let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
+           rank_tactic env t tactic
+         in
          match rank with
          | Some priority ->
            let t = Proof.create_t ~proof:t.proof ~counter:t.counter () in
@@ -420,12 +486,14 @@ let rec progress env worklist statelist stuck_point =
   | [] -> stuck_point, None
   | _ ->
     let work = take_best_work worklist in
-    let t, tactic, _ = work in
+    let t, tactic, r = work in
     let prev_worklist = List.filter (fun w -> w <> work) worklist in
     let _ = print_endline "=================================================" in
     let _ = print_endline ("Progress: " ^ string_of_int (synth_counter ())) in
     let _ = Proof.pp_t t |> print_endline in
-    let _ = print_endline (">>> " ^ Proof.pp_tactic tactic) in
+    let _ =
+      print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
+    in
     let next_t = Proof.apply_tactic t env tactic in
     (match next_t.proof with
      | _, [], proof -> [], Some proof

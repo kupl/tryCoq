@@ -35,25 +35,25 @@ let rec ( || ) b1 b2 =
   | false -> b2
 ;;
 
-let rec add n1 n2 =
+let rec natural_add n1 n2 =
   match n1 with
   | Z -> n2
-  | S n1' -> S (add n1' n2)
+  | S n1' -> S (natural_add n1' n2)
 ;;
 
-let rec sub n1 n2 =
+let rec natural_sub n1 n2 =
   match n2 with
   | Z -> n1
   | S n2' ->
     (match n1 with
      | Z -> Z
-     | S n1' -> sub n1' n2')
+     | S n1' -> natural_sub n1' n2')
 ;;
 
-let rec mul n1 n2 =
+let rec natural_mul n1 n2 =
   match n1 with
   | Z -> Z
-  | S n1' -> add n2 (mul n1' n2)
+  | S n1' -> natural_add n2 (natural_mul n1' n2)
 ;;
 
 let rec less_than n1 n2 =
@@ -67,16 +67,16 @@ let ( + ) i1 i2 =
   match i1, i2 with
   | Zero, _ -> i2
   | _, Zero -> i1
-  | Pos n1', Pos n2' -> Pos (add n1' n2')
-  | Neg n1', Neg n2' -> Neg (add n1' n2')
+  | Pos n1', Pos n2' -> Pos (natural_add n1' n2')
+  | Neg n1', Neg n2' -> Neg (natural_add n1' n2')
   | Pos n1', Neg n2' ->
     (match less_than n1' n2' with
-     | true -> Neg (sub n2' n1')
-     | false -> Pos (sub n1' n2'))
+     | true -> Neg (natural_sub n2' n1')
+     | false -> Pos (natural_sub n1' n2'))
   | Neg n1', Pos n2' ->
     (match less_than n1' n2' with
-     | true -> Pos (sub n2' n1')
-     | false -> Neg (sub n1' n2'))
+     | true -> Pos (natural_sub n2' n1')
+     | false -> Neg (natural_sub n1' n2'))
 ;;
 
 let ( - ) i1 i2 =
@@ -85,14 +85,14 @@ let ( - ) i1 i2 =
   | _, Zero -> i1
   | Pos n1', Pos n2' ->
     (match less_than n1' n2' with
-     | true -> Neg (sub n2' n1')
-     | false -> Pos (sub n1' n2'))
+     | true -> Neg (natural_sub n2' n1')
+     | false -> Pos (natural_sub n1' n2'))
   | Neg n1', Neg n2' ->
     (match less_than n1' n2' with
-     | true -> Pos (sub n2' n1')
-     | false -> Neg (sub n1' n2'))
-  | Pos n1', Neg n2' -> Pos (add n1' n2')
-  | Neg n1', Pos n2' -> Neg (add n1' n2')
+     | true -> Pos (natural_sub n2' n1')
+     | false -> Neg (natural_sub n1' n2'))
+  | Pos n1', Neg n2' -> Pos (natural_add n1' n2')
+  | Neg n1', Pos n2' -> Neg (natural_add n1' n2')
 ;;
 
 let ( < ) i1 i2 =

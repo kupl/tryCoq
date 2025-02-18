@@ -47,6 +47,7 @@ type debug_tactic =
   | AllLemma
   | AllConj
   | AllState
+  | AllTactic
 [@@deriving sexp]
 
 let create_t ?(proof = [], [], []) ?(counter = 0) () = { proof; counter }
@@ -186,16 +187,20 @@ let pp_conjecture ?(all : bool = false) (conj : conjecture) =
 ;;
 
 let pp_t ?(debug_tactic : debug_tactic option = None) (t : t) =
-  let all_lemma, all_conjecture, all_state =
+  let all_lemma, all_conjecture, all_state, all_tactic =
     match debug_tactic with
-    | Some AllLemma -> true, false, false
-    | Some AllConj -> false, true, true
-    | Some AllState -> false, false, true
-    | None -> false, false, false
+    | Some AllLemma -> true, false, false, false
+    | Some AllConj -> false, true, true, false
+    | Some AllState -> false, false, true, false
+    | Some AllTactic -> false, false, false, true
+    | None -> false, false, false, false
   in
-  let lemma_stack, conjecture_list, _ = t.proof in
+  let lemma_stack, conjecture_list, tactics = t.proof in
   (if all_lemma then "Lemma stack : \n" ^ pp_lemma_stack lemma_stack else "")
   ^ "\n\n"
+  ^ (if all_tactic
+     then "Proof\n" ^ (List.map pp_tactic tactics |> String.concat "\n") ^ "\nQed\n"
+     else "")
   ^
   if all_conjecture
   then (
@@ -1046,6 +1051,8 @@ let rec get_case_match expr_list pat =
            in
            result)
        else []
+     | _, Pat_any -> [ Ir.{ desc = Var "dummy"; typ = expr.typ }, expr ]
+     (* any must return something *)
      | _ -> [])
   | _ ->
     (match pat with
@@ -1102,8 +1109,17 @@ let rec simplify_expr (env : Ir.t) expr =
      with
      | exn ->
        ignore exn;
-       (* print_endline (Printexc.to_string exn); *)
-       Ir.{ desc = Call (name, args); typ = expr.typ })
+       if name = "="
+       then (
+         match args with
+         | [ e1; e2 ] ->
+           let e1 = simplify_expr env e1 in
+           let e2 = simplify_expr env e2 in
+           if e1 = e2 then Ir.{ desc = Call ("true", []); typ = expr.typ } else expr
+         | _ -> expr)
+       else
+         (* print_endline (Printexc.to_string exn); *)
+         Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (match_list, cases) ->
     let match_list = List.map (simplify_expr env) match_list in
     let new_expr =
@@ -1642,6 +1658,7 @@ let proof_top env =
     | "allstate" -> loop ~debug_tactic:(Some AllState) t
     | "alllemma" -> loop ~debug_tactic:(Some AllLemma) t
     | "allconj" -> loop ~debug_tactic:(Some AllConj) t
+    | "alltactic" -> loop ~debug_tactic:(Some AllTactic) t
     | s ->
       let t =
         try apply_tactic t env (parse_tactic t s env) with

@@ -5,6 +5,7 @@ let proof_top std_lib program_a program_b =
   let std_lib = std_lib |> Ir.t_of_typedtree in
   let program_a = program_a |> Ir.t_of_typedtree in
   let program_b = program_b |> Ir.t_of_typedtree in
+  (* let _ = program_b |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in *)
   let env = std_lib @ program_a @ program_b in
   Proof.proof_top env
 ;;
@@ -15,6 +16,16 @@ let rec loop env worklist =
   | Some _ -> [], proof
   | None ->
     let lemma_list = Finder.make_lemmas env stuck_list in
+    let _ = print_endline "Lemma List" in
+    let _ =
+      List.iter
+        (fun (t, lemma) ->
+           let _, goal = Proof.get_first_state t in
+           let _ = print_endline "Goal and Lemma" in
+           Proof.pp_prop goal |> print_endline;
+           Proof.pp_prop lemma |> print_endline)
+        lemma_list
+    in
     if List.is_empty lemma_list
     then failwith "lemma does not exists"
     else (
