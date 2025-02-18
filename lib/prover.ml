@@ -289,18 +289,21 @@ let rank_tactic env t tactic : int option =
 let rec collect_expr_in_expr expr =
   match expr.Ir.desc with
   | Ir.Call (_, args) ->
-    List.fold_left (fun acc arg -> acc @ collect_expr_in_expr arg) [] args
+    List.fold_left (fun acc arg -> acc @ collect_expr_in_expr arg) [ expr ] args
   | Ir.Var _ -> [ expr ]
   | Ir.LetIn (assign_list, body) ->
-    List.fold_left (fun acc (_, exp) -> acc @ collect_expr_in_expr exp) [] assign_list
+    List.fold_left
+      (fun acc (_, exp) -> acc @ collect_expr_in_expr exp)
+      [ expr ]
+      assign_list
     @ collect_expr_in_expr body
   | Ir.Match (match_list, case_list) ->
-    List.fold_left (fun acc exp -> acc @ collect_expr_in_expr exp) [] match_list
+    List.fold_left (fun acc exp -> acc @ collect_expr_in_expr exp) [ expr ] match_list
     @ List.fold_left
         (fun acc case ->
            match case with
            | Ir.Case (_, exp) -> acc @ collect_expr_in_expr exp)
-        []
+        [ expr ]
         case_list
 ;;
 
