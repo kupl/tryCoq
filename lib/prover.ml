@@ -194,13 +194,13 @@ let is_more_similar prop1 prop2 =
     match prop1 with
     | Proof.Forall (_, Eq (lhs, rhs)) -> lhs, rhs
     | Proof.Eq (lhs, rhs) -> lhs, rhs
-    | _ -> failwith "Not an equation"
+    | _ -> failwith ("Not an equation : " ^ Proof.pp_prop prop1)
   in
   let lhs2, rhs2 =
     match prop2 with
     | Proof.Forall (_, Eq (lhs, rhs)) -> lhs, rhs
     | Proof.Eq (lhs, rhs) -> lhs, rhs
-    | _ -> failwith "Not an equation"
+    | _ -> failwith ("Not an equation : " ^ Proof.pp_prop prop2)
   in
   let prev_difference = get_difference lhs1 rhs1 in
   let next_difference = get_difference lhs2 rhs2 in
