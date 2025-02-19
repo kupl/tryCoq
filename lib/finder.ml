@@ -140,6 +140,21 @@ let make_lemmas (env : env) (t_list : t list) : (t * lemma) list =
       t_list
     |> List.concat
   in
+  let lemmas =
+    List.fold_left
+      (fun acc (t, lemma) ->
+         let lemma_stack = Proof.get_lemma_stack t in
+         if
+           List.exists
+             (fun (t', lemma') ->
+                let lemma_stack' = Proof.get_lemma_stack t' in
+                lemma_stack' = lemma_stack && lemma = lemma')
+             acc
+         then acc
+         else (t, lemma) :: acc)
+      []
+      lemmas
+  in
   let _ = lemmas |> List.iter (fun (_, lemma) -> Proof.pp_prop lemma |> print_endline) in
   lemmas
 ;;
