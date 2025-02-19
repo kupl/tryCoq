@@ -1077,11 +1077,11 @@ let rec simplify_expr (env : Ir.t) expr =
   | Ir.Call (name, args) ->
     let args = List.map (simplify_expr env) args in
     (try
-       let decl_args, fun_decl =
+       let decl_args, fun_decl, rec_flag =
          let decl = Ir.find_decl name env in
          match decl with
-         | Ir.NonRec (_, args, e) -> args, e
-         | Ir.Rec (_, args, e) -> args, e
+         | Ir.NonRec (_, args, e) -> args, e, false
+         | Ir.Rec (_, args, e) -> args, e, true
          | _ -> failwith "This expression is not a function"
        in
        let fun_body =
@@ -1103,7 +1103,7 @@ let rec simplify_expr (env : Ir.t) expr =
            args
        in
        let new_expr = simplify_expr env fun_body in
-       if new_expr = fun_body
+       if new_expr = fun_body && rec_flag
        then Ir.{ desc = Call (name, args); typ = expr.typ }
        else new_expr
      with

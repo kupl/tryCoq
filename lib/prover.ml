@@ -225,7 +225,7 @@ let rec is_if_then_else_in_expr src expr =
        (match e1.typ, case_list with
         | ( Talgebraic ("bool", [])
           , [ Ir.Case (Pat_Constr ("true", []), _); Case (Pat_Constr ("false", []), _) ] )
-          -> true
+          -> src = e1
         | _ ->
           List.exists (fun exp -> is_if_then_else_in_expr src exp) match_list
           || List.exists
@@ -266,8 +266,11 @@ let rank_tactic env t tactic : int option =
   match tactic with
   | Proof.Intro var_name -> if is_decreasing_var env state var_name then None else Some 1
   | Proof.Induction var_name ->
-    if is_decreasing_var env state var_name then Some 1 else None
-  | Proof.SimplIn _ -> Some 1
+    if is_decreasing_var env state var_name then Some 0 else None
+  | Proof.SimplIn target ->
+    (match target with
+     | "goal" -> Some 0
+     | _ -> Some 1)
   | Proof.RewriteInAt (src, target, _) | Proof.RewriteReverse (src, target, _) ->
     if
       src = target
@@ -282,7 +285,7 @@ let rank_tactic env t tactic : int option =
     let _, goal = state in
     if is_if_then_else_in_prop expr goal then Some 1 else None
   | Proof.Reflexivity -> Some 0
-  | Proof.Discriminate -> Some 1
+  | Proof.Discriminate -> Some 0
   | _ -> None
 ;;
 

@@ -82,50 +82,58 @@ let rec collect_free_var_in_prop (goal : Proof.prop) (binding : string list)
 ;;
 
 let naive_generalize (goal : Proof.goal) t : lemma list =
-  let just_generalize_var = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
-  let just_generalize_new_goal = Proof.Forall (just_generalize_var, goal) in
-  let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
-  let common_subterm = find_common_subterm_in_prop goal in
-  let common_subterm = List.sort_uniq compare common_subterm in
-  let _ = "Common Subterm" |> print_endline in
-  let _ = List.iter (fun a -> Proof.pp_expr a |> print_endline) common_subterm in
-  let new_qvars =
-    List.map
-      (fun expr ->
-         Ir.
-           { desc = Var (var_of_typ expr.typ ^ string_of_int (Proof.get_counter t))
-           ; typ = expr.typ
-           })
-      common_subterm
+  let trivial =
+    match goal with
+    | Proof.Forall (_, Eq (lhs, rhs)) | Proof.Eq (lhs, rhs) -> lhs = rhs
+    | _ -> false
   in
-  let new_goals =
-    List.map2
-      (fun subterm var ->
-         let new_goal, _, _ =
-           Proof.substitute_expr_in_prop
-             Ir.is_equal_expr
-             (fun _ _ expr_to -> expr_to, [])
-             goal
-             subterm
-             var
-             0
-         in
-         new_goal)
-      common_subterm
-      new_qvars
-  in
-  let qvars =
-    List.map
-      (fun new_goal -> collect_free_var_in_prop new_goal [] |> List.sort_uniq compare)
-      new_goals
-  in
-  just_generalize_new_goal
-  :: List.fold_left2
-       (fun acc qvars new_goal ->
-          if List.is_empty qvars then acc else Proof.Forall (qvars, new_goal) :: acc)
-       []
-       qvars
-       new_goals
+  match trivial with
+  | true -> []
+  | _ ->
+    let just_generalize_var =
+      collect_free_var_in_prop goal [] |> List.sort_uniq compare
+    in
+    let just_generalize_new_goal = Proof.Forall (just_generalize_var, goal) in
+    let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
+    let common_subterm = find_common_subterm_in_prop goal in
+    let common_subterm = List.sort_uniq compare common_subterm in
+    let new_qvars =
+      List.map
+        (fun expr ->
+           Ir.
+             { desc = Var (var_of_typ expr.typ ^ string_of_int (Proof.get_counter t))
+             ; typ = expr.typ
+             })
+        common_subterm
+    in
+    let new_goals =
+      List.map2
+        (fun subterm var ->
+           let new_goal, _, _ =
+             Proof.substitute_expr_in_prop
+               Ir.is_equal_expr
+               (fun _ _ expr_to -> expr_to, [])
+               goal
+               subterm
+               var
+               0
+           in
+           new_goal)
+        common_subterm
+        new_qvars
+    in
+    let qvars =
+      List.map
+        (fun new_goal -> collect_free_var_in_prop new_goal [] |> List.sort_uniq compare)
+        new_goals
+    in
+    just_generalize_new_goal
+    :: List.fold_left2
+         (fun acc qvars new_goal ->
+            if List.is_empty qvars then acc else Proof.Forall (qvars, new_goal) :: acc)
+         []
+         qvars
+         new_goals
 ;;
 
 let make_lemmas (env : env) (t_list : t list) : (t * lemma) list =
