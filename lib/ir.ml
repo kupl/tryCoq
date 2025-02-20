@@ -433,14 +433,20 @@ and get_type (expr : Typedtree.expression) =
       let name = path |> Path.name in
       Talgebraic (name, List.map (fun arg -> arg |> Types.get_desc |> pr_type) arg_typ)
     | Tarrow (_, e1, e2, _) ->
-      let arg_num =
+      (* let arg_num =
         match expr.exp_desc with
         | Texp_apply (_, args) -> List.length args
         | _ -> 0
-      in
+      in *)
       let e2' = e2 |> Types.get_desc |> pr_type in
       let arg_typ = e1 |> Types.get_desc |> pr_type in
-      (match arg_typ with
+      let new_typ =
+        match e2' with
+        | Tarrow l -> Tarrow (arg_typ :: l)
+        | _ -> Tarrow [ arg_typ; e2' ]
+      in
+      new_typ
+      (* (match arg_typ with
        | Tarrow l ->
          let l = nth_tale arg_num l in
          (match l with
@@ -450,7 +456,7 @@ and get_type (expr : Typedtree.expression) =
          (match arg_num with
           | 1 -> e2'
           | 0 -> Tarrow [ arg_typ; e2' ]
-          | _ -> failwith "argument number not mathcing"))
+          | _ -> failwith "argument number not mathcing")) *)
     | Ttuple _ -> failwith "tuple is not implemented yet"
     | _ -> failwith "Not implemented"
   in
