@@ -128,34 +128,34 @@ let rec mem x l =
      | false -> mem x tl)
 ;;
 
-let rec filter pred lst =
-  match lst with
+let rec filter predicate list =
+  match list with
   | Nil -> Nil
   | Cons (hd, tl) ->
-    (match pred hd with
-     | true -> Cons (hd, filter pred tl)
-     | false -> filter pred tl)
+    (match predicate hd with
+     | true -> Cons (hd, filter predicate tl)
+     | false -> filter predicate tl)
 ;;
 
-let rec for_all pred lst =
-  match lst with
+let rec for_all predicate list =
+  match list with
   | Nil -> true
   | Cons (hd, tl) ->
-    (match pred hd with
-     | true -> for_all pred tl
+    (match predicate hd with
+     | true -> for_all predicate tl
      | false -> false)
 ;;
 
-let rec rev_aux acc lst =
-  match lst with
+let rec rev_aux acc list =
+  match list with
   | Nil -> acc
   | Cons (hd, tl) -> rev_aux (Cons (hd, acc)) tl
 ;;
 
-let rec rev lst = rev_aux Nil lst
+let rec rev list = rev_aux Nil list
 
-let rec fold_left f acc lst =
-  match lst with
+let rec fold_left f acc list =
+  match list with
   | Nil -> acc
   | Cons (hd, tl) -> fold_left f (f acc hd) tl
 ;;

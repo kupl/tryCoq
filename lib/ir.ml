@@ -140,7 +140,7 @@ and pp_expr expr =
     ^ pp_expr body
   | Call (name, args) ->
     (match name with
-     | "@" ->
+     | "@" | "=" ->
        "("
        ^ pp_expr (List.hd args)
        ^ " "
@@ -446,17 +446,6 @@ and get_type (expr : Typedtree.expression) =
         | _ -> Tarrow [ arg_typ; e2' ]
       in
       new_typ
-      (* (match arg_typ with
-       | Tarrow l ->
-         let l = nth_tale arg_num l in
-         (match l with
-          | [] -> e2'
-          | _ -> Tarrow (l @ [ e2' ]))
-       | _ ->
-         (match arg_num with
-          | 1 -> e2'
-          | 0 -> Tarrow [ arg_typ; e2' ]
-          | _ -> failwith "argument number not mathcing")) *)
     | Ttuple _ -> failwith "tuple is not implemented yet"
     | _ -> failwith "Not implemented"
   in
