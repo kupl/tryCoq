@@ -283,7 +283,7 @@ let rank_tactic env t tactic : int option =
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
     let _, goal = state in
-    if is_if_then_else_in_prop expr goal then Some 1 else None
+    if is_if_then_else_in_prop expr goal then Some 2 else None
   | Proof.Reflexivity -> Some 0
   | Proof.Discriminate -> Some 0
   | _ -> None
