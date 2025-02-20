@@ -1209,6 +1209,7 @@ let rec simplify_expr (env : Ir.t) expr =
          Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (match_list, cases) ->
     let match_list = List.map (simplify_expr env) match_list in
+    let _ = match_list |> List.iter (fun a -> a |> pp_expr |> print_endline) in
     let new_expr =
       List.fold_left
         (fun acc case ->
@@ -1491,6 +1492,7 @@ let apply_case env expr state t : state list =
              Ir.{ desc = base_case; typ }
              0
          in
+         let new_goal = new_goal |> simplify_prop env in
          let facts =
            List.map
              (fun (name, prop) ->
@@ -1537,6 +1539,7 @@ let apply_case env expr state t : state list =
              Ir.{ desc = inductive_case; typ }
              0
          in
+         let new_goal = new_goal |> simplify_prop env in
          let facts =
            List.map
              (fun (name, prop) ->
