@@ -81,7 +81,8 @@ let rec collect_free_var_in_prop (goal : Proof.prop) (binding : string list)
   | _ -> []
 ;;
 
-let naive_generalize (goal : Proof.goal) t : lemma list =
+let naive_generalize env (goal : Proof.goal) t : lemma list =
+  let goal = Proof.simplify_prop env goal in
   let trivial =
     match goal with
     | Proof.Forall (_, Eq (lhs, rhs)) | Proof.Eq (lhs, rhs) -> lhs = rhs
@@ -141,13 +142,12 @@ let naive_generalize (goal : Proof.goal) t : lemma list =
 ;;
 
 let make_lemmas (env : env) (t_list : t list) : (t * lemma) list =
-  ignore env;
   let lemmas =
     List.map
       (fun t ->
          let state = Proof.get_first_state t in
          let _, goal = state in
-         let lemmas = naive_generalize goal t in
+         let lemmas = naive_generalize env goal t in
          List.map (fun lemma -> t, lemma) lemmas)
       t_list
     |> List.concat
@@ -160,10 +160,11 @@ let make_lemmas (env : env) (t_list : t list) : (t * lemma) list =
            List.exists
              (fun (t', lemma') ->
                 let lemma_stack' = Proof.get_lemma_stack t' in
-                lemma_stack' = lemma_stack && lemma = lemma')
+                lemma_stack' = lemma_stack
+                && Proof.simplify_prop env lemma = Proof.simplify_prop env lemma')
              acc
          then acc
-         else (t, lemma) :: acc)
+         else (t, Proof.simplify_prop env lemma) :: acc)
       []
       lemmas
   in
