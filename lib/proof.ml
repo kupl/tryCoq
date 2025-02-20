@@ -50,6 +50,13 @@ type debug_tactic =
   | AllTactic
 [@@deriving sexp]
 
+let counter = ref 0
+
+let get_global_cnt () =
+  counter := !counter + 1;
+  !counter
+;;
+
 let create_t ?(proof = [], [], []) ?(counter = 0) () = { proof; counter }
 
 let get_counter t =
@@ -674,10 +681,43 @@ let convert_in_rewrite (target : expr) expr_from expr_to =
   | _ -> failwith "The source is not a variable"
 ;;
 
+let rename_prop prop =
+  match prop with
+  | Forall (var_list, prop) ->
+    let new_var_list =
+      List.map (fun (_, typ) -> "arg" ^ string_of_int (get_global_cnt ()), typ) var_list
+    in
+    let new_prop =
+      List.fold_left2
+        (fun prop (old_var, _) (var, typ) ->
+           let typ =
+             match typ with
+             | Type typ -> typ
+             | _ -> failwith "not implemented"
+           in
+           let prop, _, _ =
+             substitute_expr_in_prop
+               Ir.is_equal_expr
+               (fun _ _ expr_to -> expr_to, [])
+               prop
+               Ir.{ desc = Var old_var; typ }
+               Ir.{ desc = Var var; typ }
+               0
+           in
+           prop)
+        prop
+        var_list
+        new_var_list
+    in
+    Forall (new_var_list, new_prop)
+  | _ -> prop
+;;
+
 let apply_rewrite lemma_stack state fact_label target_label i : state list =
   let facts, goal = state in
   let lemma_list = List.map (fun (name, prop) -> name, prop) lemma_stack in
   let source = List.assoc fact_label (facts @ lemma_list) in
+  let source = rename_prop source in
   let cond_list, var_list, expr_from, expr_to =
     match source with
     | Eq (lhs, rhs) -> [], [], lhs, rhs
@@ -775,6 +815,7 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
   let facts, goal = state in
   let lemma_list = List.map (fun (name, prop) -> name, prop) lemma_stack in
   let source = List.assoc fact_label (facts @ lemma_list) in
+  let source = rename_prop source in
   let cond_list, var_list, expr_from, expr_to =
     match source with
     | Eq (lhs, rhs) -> [], [], rhs, lhs
