@@ -568,6 +568,7 @@ let rec is_equal_expr e1 e2 =
     && is_equal_expr body1 body2
   | Call (name1, args1), Call (name2, args2) ->
     name1 = name2 && List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) args1 args2
+  | Var v1, Call (v2, _) | Call (v1, _), Var v2 -> v1 = v2
   | _ -> false
 
 and is_equal_pattern p1 p2 =

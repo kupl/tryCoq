@@ -1146,6 +1146,18 @@ let rec get_case_match expr_list pat =
      | _ -> failwith "pattern matching is ill-formed")
 ;;
 
+let convert_in_simpl (target : expr) expr_from expr_to : expr * 'a list =
+  ignore expr_from;
+  match target.Ir.desc with
+  | Call (_, args) ->
+    (match expr_to.Ir.desc with
+     | Call (new_name, new_args) ->
+       Ir.{ desc = Call (new_name, new_args @ args); typ = target.typ }, []
+     | Var new_name -> Ir.{ desc = Call (new_name, args); typ = target.typ }, []
+     | _ -> expr_to, [])
+  | _ -> expr_to, []
+;;
+
 let rec simplify_expr (env : Ir.t) expr =
   match expr.Ir.desc with
   | Ir.Var _ -> expr
@@ -1165,7 +1177,7 @@ let rec simplify_expr (env : Ir.t) expr =
               let exp, _, _ =
                 substitute_expr_in_expr
                   Ir.is_equal_expr
-                  (fun _ _ expr_to -> expr_to, [])
+                  convert_in_simpl
                   e
                   Ir.{ desc = Var name; typ = arg.typ }
                   arg
@@ -1215,7 +1227,7 @@ let rec simplify_expr (env : Ir.t) expr =
                          let exp, _, _ =
                            substitute_expr_in_expr
                              Ir.is_equal_expr
-                             (fun _ _ expr_to -> expr_to, [])
+                             convert_in_simpl
                              e
                              e1
                              e2
@@ -1240,7 +1252,7 @@ let rec simplify_expr (env : Ir.t) expr =
            let exp, _, _ =
              substitute_expr_in_expr
                Ir.is_equal_expr
-               (fun _ _ expr_to -> expr_to, [])
+               convert_in_simpl
                e
                Ir.{ desc = Var name; typ = e'.typ }
                e'
