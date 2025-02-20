@@ -2,6 +2,8 @@ type 'a list =
   | Nil
   | Cons of 'a * 'a list
 
+type ('a, 'b) tuple2 = Tuple2 of 'a * 'b
+
 type bool =
   | true
   | false
