@@ -6,7 +6,7 @@ let proof_top std_lib program_a program_b =
   let program_a = program_a |> Ir.t_of_typedtree in
   let program_b = program_b |> Ir.t_of_typedtree in
   (* let _ = std_lib |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in *)
-  (* let _ = program_b |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in *)
+  let _ = program_b |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in
   let env = std_lib @ program_a @ program_b in
   Proof.proof_top env
 ;;

@@ -25,6 +25,48 @@ let not b =
   | false -> true
 ;;
 
+let bool_eq b1 b2 =
+  match b1, b2 with
+  | true, true -> true
+  | false, false -> true
+  | _, _ -> false
+;;
+
+let rec natural_eq n1 n2 =
+  match n1, n2 with
+  | Z, Z -> true
+  | S n1', S n2' -> natural_eq n1' n2'
+  | Z, S _ -> false
+  | S _, Z -> false
+;;
+
+let rec int_eq i1 i2 =
+  match i1, i2 with
+  | Zero, Zero -> true
+  | Pos n1', Pos n2' -> natural_eq n1' n2'
+  | Neg n1', Neg n2' -> natural_eq n1' n2'
+  | Zero, Pos Z -> true
+  | Zero, Neg Z -> true
+  | Pos Z, Zero -> true
+  | Neg Z, Zero -> true
+  | _, _ -> false
+;;
+
+let rec list_eq l1 l2 =
+  match l1, l2 with
+  | Nil, Nil -> true
+  | Cons (hd1, tl1), Cons (hd2, tl2) ->
+    (match hd1 = hd2 with
+     | true -> list_eq tl1 tl2
+     | false -> false)
+  | _, _ -> false
+;;
+
+let rec string_eq s1 s2 =
+  match s1, s2 with
+  | String l1, String l2 -> list_eq l1 l2
+;;
+
 let rec ( && ) b1 b2 =
   match b1 with
   | true -> b2
