@@ -56,15 +56,7 @@ let rec expr_of_nat (n : int) : expr_desc =
   then failwith "n should not be negative"
   else if n = 0
   then Call ("Z", [])
-  else
-    Call
-      ( "S"
-      , [ { desc =
-              Call
-                ("S", [ { desc = expr_of_nat (n - 1); typ = Talgebraic ("natural", []) } ])
-          ; typ = Talgebraic ("natural", [])
-          }
-        ] )
+  else Call ("S", [ { desc = expr_of_nat (n - 1); typ = Talgebraic ("natural", []) } ])
 ;;
 
 let expr_of_int (i : int) : expr_desc =
@@ -360,6 +352,16 @@ and get_expr expr =
         | Var name -> name
         | _ -> failwith "Not implemented"
       in
+      let fname =
+        match fname with
+        | "=" ->
+          let typ = args |> List.hd |> snd |> Option.get |> get_type in
+          (match typ with
+           | Talgebraic (typ_name, _) -> typ_name ^ "_eq"
+           | Tany -> "any_eq"
+           | Tarrow _ -> failwith "function '=' does not support arrow type")
+        | _ -> fname
+      in
       let args' =
         List.map
           (fun (_, expr) ->
@@ -520,6 +522,15 @@ let substitute_expr pred convert target expr_from expr_to i result =
         in
         { desc = LetIn (bindings', body'); typ = target.typ }, result, cnt
       | Call (name, args) ->
+        let name =
+          match name with
+          | "any_eq" ->
+            let typ = (List.hd args).typ in
+            (match typ with
+             | Talgebraic (name, _) -> name ^ "_eq"
+             | _ -> name)
+          | _ -> name
+        in
         let args', cnt, result =
           List.fold_left
             (fun (args, cnt, result) arg ->
@@ -785,4 +796,28 @@ let absolute_neq e1 e2 =
   | Call ("true", []), Call ("false", []) -> true
   | Call ("false", []), Call ("true", []) -> true
   | _ -> false
+;;
+
+let collect_constructor t =
+  let typ_decl =
+    List.filter
+      (fun decl ->
+         match decl with
+         | TypeDecl _ -> true
+         | _ -> false)
+      t
+  in
+  List.fold_left
+    (fun acc decl ->
+       match decl with
+       | TypeDecl (_, _, decl) ->
+         List.fold_left (fun acc (Constructor constr, _) -> constr :: acc) acc decl
+       | _ -> failwith "not implemented")
+    []
+    typ_decl
+;;
+
+let is_constructor name t =
+  let constr_list = collect_constructor t in
+  List.exists (fun constr -> constr = name) constr_list
 ;;

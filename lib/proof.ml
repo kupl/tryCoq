@@ -1096,54 +1096,69 @@ let rec get_type_in_prop name prop =
   | Type typ -> Some typ
 ;;
 
-let rec get_case_match expr_list pat =
-  match expr_list with
-  | [ expr ] ->
-    (match expr.Ir.desc, pat with
-     | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ]
-     (* we need to check type *)
-     | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
-       if constr = constr'
-       then
-         if arg_list = [] && pat_list = []
+let get_case_match env expr_list pat =
+  let rec get_case_match' env expr_list pat =
+    match expr_list with
+    | [ expr ] ->
+      (match expr.Ir.desc, pat with
+       | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ], false
+       (* we need to check type *)
+       | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
+         if constr = constr'
          then
-           [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
-             , Ir.{ desc = Call (constr, []); typ = expr.typ } )
-           ]
-         else (
-           let result =
-             List.fold_left2
-               (fun (acc, is_done) e p ->
-                  if is_done
-                  then [], true
-                  else (
-                    let next = get_case_match [ e ] p in
-                    if next = [] then [], true else acc @ next, false))
-               ([], false)
-               arg_list
-               pat_list
-             |> fst
-           in
-           result)
-       else []
-     | _, Pat_any -> [ Ir.{ desc = Var "dummy"; typ = expr.typ }, expr ]
-     (* any must return something *)
-     | _ -> [])
-  | _ ->
-    (match pat with
-     | Ir.Pat_Tuple l ->
-       List.fold_left2
-         (fun (is_done, acc) e pat ->
-            if is_done
-            then true, []
-            else (
-              let result = get_case_match [ e ] pat in
-              if result = [] then true, [] else false, acc @ result))
-         (false, [])
-         expr_list
-         l
-       |> snd
-     | _ -> failwith "pattern matching is ill-formed")
+           if arg_list = [] && pat_list = []
+           then
+             ( [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
+                 , Ir.{ desc = Call (constr, []); typ = expr.typ } )
+               ]
+             , false )
+           else (
+             let result, ambiguity, _ =
+               List.fold_left2
+                 (fun (acc, ambiguity, is_done) e p ->
+                    if is_done || ambiguity
+                    then [], ambiguity, true
+                    else (
+                      let next, new_ambiguity = get_case_match' env [ e ] p in
+                      if new_ambiguity
+                      then [], true, true
+                      else if next = []
+                      then [], false, true
+                      else acc @ next, false, false))
+                 ([], false, false)
+                 arg_list
+                 pat_list
+             in
+             result, ambiguity)
+         else if Ir.is_constructor constr env
+         then [], false
+         else [], true
+       | _, Pat_any -> [ Ir.{ desc = Var "dummy"; typ = expr.typ }, expr ], false
+       (* any must return something *)
+       | _ -> [], true)
+    | _ ->
+      (match pat with
+       | Ir.Pat_Tuple l ->
+         let result, ambiguity, _ =
+           List.fold_left2
+             (fun (acc, ambiguity, is_done) e p ->
+                if is_done || ambiguity
+                then [], ambiguity, true
+                else (
+                  let next, new_ambiguity = get_case_match' env [ e ] p in
+                  if new_ambiguity
+                  then [], true, true
+                  else if next = []
+                  then [], false, true
+                  else acc @ next, false, false))
+             ([], false, false)
+             expr_list
+             l
+         in
+         result, ambiguity
+       | _ -> failwith "pattern matching is ill-formed")
+  in
+  get_case_match' env expr_list pat
 ;;
 
 let convert_in_simpl (target : expr) expr_from expr_to : expr * 'a list =
@@ -1196,52 +1211,46 @@ let rec simplify_expr (env : Ir.t) expr =
      with
      | exn ->
        ignore exn;
-       if name = "="
-       then (
-         match args with
-         | [ e1; e2 ] ->
-           if e1 = e2
-           then Ir.{ desc = Call ("true", []); typ = expr.typ }
-           else if Ir.absolute_neq e1 e2
-           then Ir.{ desc = Call ("false", []); typ = expr.typ }
-           else Ir.{ desc = Call (name, args); typ = expr.typ }
-         | _ -> expr)
-       else
-         (* print_endline (Printexc.to_string exn); *)
-         Ir.{ desc = Call (name, args); typ = expr.typ })
+       (* print_endline (Printexc.to_string exn); *)
+       Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (match_list, cases) ->
     let match_list = List.map (simplify_expr env) match_list in
-    let new_expr =
+    let new_expr, _ =
       List.fold_left
-        (fun acc case ->
+        (fun (acc, is_ambiguous) case ->
            match acc with
-           | Some _ -> acc
+           | Some _ -> acc, is_ambiguous
            | None ->
-             (match case with
-              | Ir.Case (pat, e') ->
-                let expr_match_list = get_case_match match_list pat in
-                if expr_match_list = []
-                then acc
-                else (
-                  let new_expr =
-                    List.fold_left
-                      (fun e (e1, e2) ->
-                         let exp, _, _ =
-                           substitute_expr_in_expr
-                             Ir.is_equal_expr
-                             convert_in_simpl
-                             e
-                             e1
-                             e2
-                             0
-                             []
-                         in
-                         exp)
-                      e'
-                      expr_match_list
-                  in
-                  Some new_expr)))
-        None
+             if is_ambiguous
+             then None, is_ambiguous
+             else (
+               match case with
+               | Ir.Case (pat, e') ->
+                 let expr_match_list, is_ambiguous = get_case_match env match_list pat in
+                 if expr_match_list = []
+                 then None, is_ambiguous
+                 else if is_ambiguous
+                 then None, is_ambiguous
+                 else (
+                   let new_expr =
+                     List.fold_left
+                       (fun e (e1, e2) ->
+                          let exp, _, _ =
+                            substitute_expr_in_expr
+                              Ir.is_equal_expr
+                              convert_in_simpl
+                              e
+                              e1
+                              e2
+                              0
+                              []
+                          in
+                          exp)
+                       e'
+                       expr_match_list
+                   in
+                   Some new_expr, is_ambiguous)))
+        (None, false)
         cases
     in
     (match new_expr with
