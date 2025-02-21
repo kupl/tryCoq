@@ -783,5 +783,6 @@ let rec is_typ_contained typ1 typ2 =
 let absolute_neq e1 e2 =
   match e1.desc, e2.desc with
   | Call ("true", []), Call ("false", []) -> true
+  | Call ("false", []), Call ("true", []) -> true
   | _ -> false
 ;;

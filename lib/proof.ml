@@ -1200,16 +1200,17 @@ let rec simplify_expr (env : Ir.t) expr =
        then (
          match args with
          | [ e1; e2 ] ->
-           let e1 = simplify_expr env e1 in
-           let e2 = simplify_expr env e2 in
-           if e1 = e2 then Ir.{ desc = Call ("true", []); typ = expr.typ } else expr
+           if e1 = e2
+           then Ir.{ desc = Call ("true", []); typ = expr.typ }
+           else if Ir.absolute_neq e1 e2
+           then Ir.{ desc = Call ("false", []); typ = expr.typ }
+           else Ir.{ desc = Call (name, args); typ = expr.typ }
          | _ -> expr)
        else
          (* print_endline (Printexc.to_string exn); *)
          Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (match_list, cases) ->
     let match_list = List.map (simplify_expr env) match_list in
-    let _ = match_list |> List.iter (fun a -> a |> pp_expr |> print_endline) in
     let new_expr =
       List.fold_left
         (fun acc case ->
