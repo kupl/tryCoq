@@ -5,6 +5,32 @@ type lemma_stack = Proof.lemma_stack
 type tactic = Proof.tactic
 type expr = Proof.expr
 
+module WorkList = CCHeap.Make_from_compare (struct
+    type t = Proof.t * tactic * int
+
+    let compare (t1, _, r1) (t2, _, r2) =
+      if r1 = r2
+      then (
+        let conj_list1 = Proof.get_conj_list t1 in
+        let conj_list2 = Proof.get_conj_list t2 in
+        let len1 = List.length conj_list1 in
+        let len2 = List.length conj_list2 in
+        if len1 = len2
+        then (
+          let goals1 = Proof.get_goal_list t1 in
+          let goals2 = Proof.get_goal_list t2 in
+          compare goals1 goals2)
+        else compare len1 len2)
+      else compare r1 r2
+    ;;
+  end)
+
+module ProofSet = CCSet.Make (struct
+    type t = Proof.t
+
+    let compare = compare
+  end)
+
 let make_synth_counter () =
   let count = ref 0 in
   fun () ->
@@ -148,9 +174,9 @@ let is_valid env t tactic : bool =
   | _ -> false
 ;;
 
-let is_duplicated env t tactic (state_list : t list) =
+let is_duplicated env t tactic state_list =
   let Proof.{ proof = next_lemma, next_conj, _; _ } = Proof.apply_tactic t env tactic in
-  List.exists
+  ProofSet.exists
     (fun Proof.{ proof = lemma_stack, conj_list, _; _ } ->
        next_lemma = lemma_stack && next_conj = conj_list)
     state_list
@@ -450,7 +476,7 @@ let mk_candidates t =
   @ [ Proof.mk_reflexivity; Proof.mk_discriminate ]
 ;;
 
-let prune_rank_worklist env t candidates (statelist : t list) =
+let prune_rank_worklist env t candidates statelist =
   let candidates =
     let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
     candidates
@@ -472,25 +498,21 @@ let prune_rank_worklist env t candidates (statelist : t list) =
       []
       candidates
   in
-  worklist
+  WorkList.of_list worklist
 ;;
 
-let is_stuck worklist = worklist = []
+let is_stuck worklist = WorkList.is_empty worklist
 
-let take_best_work (worklist : (t * tactic * int) list) =
-  let priority = List.map (fun (_, _, r) -> r) worklist in
-  let min_priority = List.fold_left min max_int priority in
-  let best_worklist = List.find (fun (_, _, r) -> r = min_priority) worklist in
-  best_worklist
-;;
-
-let rec progress env worklist statelist stuck_point =
-  match worklist with
-  | [] -> stuck_point, None
+(* worklist : priority queue
+  stastelist : Set
+  stuck_point : Set
+*)
+let rec progress env worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
+  match WorkList.is_empty worklist with
+  | true -> stuck_point, None
   | _ ->
-    let work = take_best_work worklist in
+    let prev_worklist, work = WorkList.take_exn worklist in
     let t, tactic, r = work in
-    let prev_worklist = List.filter (fun w -> w <> work) worklist in
     let _ = print_endline "=================================================" in
     let _ = print_endline ("Progress: " ^ string_of_int (synth_counter ())) in
     let _ = Proof.pp_t t |> print_endline in
@@ -499,13 +521,13 @@ let rec progress env worklist statelist stuck_point =
     in
     let next_t = Proof.apply_tactic t env tactic in
     (match next_t.proof with
-     | _, [], proof -> [], Some proof
+     | _, [], proof -> ProofSet.empty, Some proof
      | _ ->
        let _ = Proof.pp_t next_t |> print_endline in
-       let statelist = next_t :: statelist in
+       let statelist = ProofSet.add next_t statelist in
        let tactic_list = mk_candidates next_t in
        let worklist = prune_rank_worklist env next_t tactic_list statelist in
        if is_stuck worklist
-       then progress env prev_worklist statelist (next_t :: stuck_point)
-       else progress env (prev_worklist @ worklist) statelist stuck_point)
+       then progress env prev_worklist statelist (ProofSet.add next_t stuck_point)
+       else progress env (WorkList.merge prev_worklist worklist) statelist stuck_point)
 ;;

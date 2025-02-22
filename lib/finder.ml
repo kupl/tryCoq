@@ -141,7 +141,7 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
         new_goals
 ;;
 
-let make_lemmas (env : env) (t_list : t list) : (t * lemma) list =
+let make_lemmas (env : env) (stcuk_list : Prover.ProofSet.t) : (t * lemma) list =
   let lemmas =
     List.map
       (fun t ->
@@ -149,7 +149,7 @@ let make_lemmas (env : env) (t_list : t list) : (t * lemma) list =
          let _, goal = state in
          let lemmas = naive_generalize env goal t in
          List.map (fun lemma -> t, lemma) lemmas)
-      t_list
+      (Prover.ProofSet.to_list stcuk_list)
     |> List.concat
   in
   let lemmas =

@@ -96,6 +96,11 @@ let get_first_state (t : t) =
   List.hd conj_list |> fst |> List.hd
 ;;
 
+let get_goal_list (t : t) =
+  let conj_list = get_conj_list t in
+  List.map snd conj_list
+;;
+
 let range start stop =
   let rec range' i acc = if i = stop then acc else range' (i + 1) (acc @ [ i ]) in
   range' start []

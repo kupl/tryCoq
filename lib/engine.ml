@@ -12,7 +12,7 @@ let proof_top std_lib program_a program_b =
 ;;
 
 let rec loop env worklist =
-  let stuck_list, proof = Prover.progress env worklist [] [] in
+  let stuck_list, proof = Prover.(progress env worklist ProofSet.empty ProofSet.empty) in
   match proof with
   | Some _ -> [], proof
   | None ->
@@ -32,6 +32,7 @@ let rec loop env worklist =
     else (
       let new_worklist =
         List.map (fun (t, goal) -> t, Proof.mk_assert goal, 0) lemma_list
+        |> Prover.WorkList.of_list
       in
       loop env new_worklist)
 ;;
@@ -46,7 +47,8 @@ let proof_auto std_lib program_a program_b goal =
   let env = std_lib @ program_a @ program_b in
   let init_t = Proof.create_t () in
   let goal = Proof.parse_tactic init_t goal env in
-  match loop env [ init_t, goal, 0 ] with
+  let worklist = Prover.WorkList.of_list [ init_t, goal, 0 ] in
+  match loop env worklist with
   | _, Some proof ->
     print_endline "Proof Success";
     print_endline "Proof";
