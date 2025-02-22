@@ -44,8 +44,10 @@ let rec collect_fname_in_expr env expr =
   match expr.Ir.desc with
   | Ir.Call (name, args) ->
     (try
-       let _ = Ir.find_decl name env in
-       [ name ]
+       let decl = Ir.find_decl name env in
+       match decl with
+       | Ir.Rec _ -> [ name ]
+       | _ -> []
      with
      | _ -> List.fold_left (fun acc arg -> acc @ collect_fname_in_expr env arg) [] args)
   | Ir.Var _ -> []
@@ -286,7 +288,7 @@ let rec is_if_then_else_in_prop src goal =
   | _ -> false
 ;;
 
-let rank_tactic env t tactic : int option =
+let rank_tactic env t tactic stateset : int option =
   (* this function be executed after is_valid, is_duplicated *)
   let state = Proof.get_first_state t in
   match tactic with
@@ -296,7 +298,7 @@ let rank_tactic env t tactic : int option =
   | Proof.SimplIn target ->
     (match target with
      | "goal" -> Some 0
-     | _ -> Some 1)
+     | _ -> Some 0)
   | Proof.RewriteInAt (src, target, _) | Proof.RewriteReverse (src, target, _) ->
     if
       src = target
@@ -309,7 +311,12 @@ let rank_tactic env t tactic : int option =
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
     let _, goal = state in
-    if is_if_then_else_in_prop expr goal then Some 2 else None
+    let simpl = Proof.SimplIn "goal" in
+    if not (is_duplicated env t simpl stateset)
+    then None
+    else if is_if_then_else_in_prop expr goal
+    then Some 2
+    else None
   | Proof.Reflexivity -> Some 0
   | Proof.Discriminate -> Some 0
   | _ -> None
@@ -488,7 +495,7 @@ let prune_rank_worklist env t candidates statelist =
       (fun acc tactic ->
          let rank =
            let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
-           rank_tactic env t tactic
+           rank_tactic env t tactic statelist
          in
          match rank with
          | Some priority ->

@@ -1493,38 +1493,38 @@ let apply_case env expr state t : state list =
              Ir.Call
                (constr, List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind)
          in
-         let new_facts =
-           [ ( "Case" ^ string_of_int (get_counter t)
-             , Eq (expr, Ir.{ desc = base_case; typ }) )
-           ]
-         in
-         let new_goal, _, _ =
-           substitute_expr_in_prop
-             Ir.is_equal_expr
-             (fun _ _ expr_to -> expr_to, [])
-             goal
-             expr
-             Ir.{ desc = base_case; typ }
-             0
-         in
-         let new_goal = new_goal |> simplify_prop env in
-         let facts =
-           List.map
-             (fun (name, prop) ->
-                ( name
-                , let prop, _, _ =
-                    substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to, [])
-                      prop
-                      Ir.{ desc = Var name; typ }
-                      Ir.{ desc = base_case; typ }
-                      0
-                  in
-                  prop ))
-             facts
-         in
-         facts @ new_facts, new_goal
+         let case_eq = Eq (expr, Ir.{ desc = base_case; typ }) in
+         let new_facts = [ "Case" ^ string_of_int (get_counter t), case_eq ] in
+         if List.exists (fun (_, prop) -> prop = case_eq) facts
+         then failwith "Duplicated Fact"
+         else (
+           let new_goal, _, _ =
+             substitute_expr_in_prop
+               Ir.is_equal_expr
+               (fun _ _ expr_to -> expr_to, [])
+               goal
+               expr
+               Ir.{ desc = base_case; typ }
+               0
+           in
+           let new_goal = new_goal |> simplify_prop env in
+           let facts =
+             List.map
+               (fun (name, prop) ->
+                  ( name
+                  , let prop, _, _ =
+                      substitute_expr_in_prop
+                        Ir.is_equal_expr
+                        (fun _ _ expr_to -> expr_to, [])
+                        prop
+                        Ir.{ desc = Var name; typ }
+                        Ir.{ desc = base_case; typ }
+                        0
+                    in
+                    prop ))
+               facts
+           in
+           facts @ new_facts, new_goal)
        | _ ->
          let new_args, _ =
            partition_and_transform

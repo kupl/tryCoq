@@ -40,7 +40,7 @@ let rec natural_eq n1 n2 =
   | S _, Z -> false
 ;;
 
-let rec int_eq i1 i2 =
+let int_eq i1 i2 =
   match i1, i2 with
   | Zero, Zero -> true
   | Pos n1', Pos n2' -> natural_eq n1' n2'
@@ -62,18 +62,18 @@ let rec list_eq l1 l2 =
   | _, _ -> false
 ;;
 
-let rec string_eq s1 s2 =
+let string_eq s1 s2 =
   match s1, s2 with
   | String l1, String l2 -> list_eq l1 l2
 ;;
 
-let rec ( && ) b1 b2 =
+let ( && ) b1 b2 =
   match b1 with
   | true -> b2
   | false -> false
 ;;
 
-let rec ( || ) b1 b2 =
+let ( || ) b1 b2 =
   match b1 with
   | true -> true
   | false -> b2

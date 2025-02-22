@@ -141,7 +141,8 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
         new_goals
 ;;
 
-let make_lemmas (env : env) (stcuk_list : Prover.ProofSet.t) : (t * lemma) list =
+let make_lemmas (env : env) (stcuk_list : Prover.ProofSet.t) lemma_list : (t * lemma) list
+  =
   let lemmas =
     List.map
       (fun t ->
@@ -166,6 +167,12 @@ let make_lemmas (env : env) (stcuk_list : Prover.ProofSet.t) : (t * lemma) list 
          then acc
          else (t, Proof.simplify_prop env lemma) :: acc)
       []
+      lemmas
+  in
+  let lemmas =
+    List.filter
+      (fun (_, lemma) ->
+         not (List.exists (fun (_, old_lemma) -> old_lemma = lemma) lemma_list))
       lemmas
   in
   let _ = lemmas |> List.iter (fun (_, lemma) -> Proof.pp_prop lemma |> print_endline) in
