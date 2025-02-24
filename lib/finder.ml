@@ -85,7 +85,8 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
   let goal = Proof.simplify_prop env goal in
   let trivial =
     match goal with
-    | Proof.Forall (_, Eq (lhs, rhs)) | Proof.Eq (lhs, rhs) -> lhs = rhs
+    | Proof.Forall (_, _) -> true
+    | Proof.Eq (lhs, rhs) -> lhs = rhs
     | _ -> false
   in
   match trivial with
