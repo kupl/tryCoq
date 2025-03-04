@@ -375,7 +375,8 @@ let apply_intro name state : state =
       let new_goal = if List.is_empty var_list then goal else Forall (var_list, goal) in
       facts @ [ name, typ ], new_goal)
   | Imply (cond_list, p2) ->
-    facts @ [ name, List.hd cond_list ], Imply (List.tl cond_list, p2)
+    ( facts @ [ name, List.hd cond_list ]
+    , if List.is_empty (List.tl cond_list) then p2 else Imply (List.tl cond_list, p2) )
   | _ -> failwith "There is no term that can be introduced"
 ;;
 

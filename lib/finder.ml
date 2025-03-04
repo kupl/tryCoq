@@ -81,26 +81,48 @@ let rec collect_free_var_in_prop (goal : Proof.prop) (binding : string list)
   | _ -> []
 ;;
 
+let is_concerned fact binding =
+  let free_vars = collect_free_var_in_prop fact [] in
+  match fact with
+  | Proof.Type _ -> false
+  | _ -> List.for_all (fun (name, _) -> List.mem name binding) free_vars
+;;
+
 let naive_generalize env (goal : Proof.goal) t : lemma list =
   let goal = Proof.simplify_prop env goal in
   let trivial =
     match goal with
     | Proof.Forall (_, _) -> true
     | Proof.Eq (lhs, rhs) -> lhs = rhs
+    | Proof.Imply (_, Forall (_, _)) -> true
+    | Proof.Imply (_, Eq (lhs, rhs)) -> lhs = rhs
     | _ -> false
   in
   match trivial with
   | true -> []
   | _ ->
+    let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
     let just_generalize_var =
       collect_free_var_in_prop goal [] |> List.sort_uniq compare
     in
+    let facts = Proof.get_first_state t |> fst in
+    let facts =
+      List.filter
+        (fun (name, _) -> if String.starts_with ~prefix:"IH" name then false else true)
+        facts
+    in
+    let facts = List.map snd facts in
+    let facts =
+      List.filter (fun fact -> is_concerned fact (List.map fst just_generalize_var)) facts
+    in
+    let facts = List.map Proof.rename_prop facts in
     let just_generalize_new_goal =
       if List.is_empty just_generalize_var
       then []
-      else [ Proof.Forall (just_generalize_var, goal) ]
+      else if List.is_empty facts
+      then [ Proof.Forall (just_generalize_var, goal) ]
+      else [ Proof.Forall (just_generalize_var, Proof.Imply (facts, goal)) ]
     in
-    let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
     let common_subterm = find_common_subterm_in_prop goal in
     let common_subterm = List.sort_uniq compare common_subterm in
     let new_qvars =
@@ -111,6 +133,25 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
              ; typ = expr.typ
              })
         common_subterm
+    in
+    let new_facts_list =
+      List.map2
+        (fun subterm var ->
+           List.map
+             (fun fact ->
+                let new_fact, _, _ =
+                  Proof.substitute_expr_in_prop
+                    Ir.is_equal_expr
+                    (fun _ _ expr_to -> expr_to, [])
+                    fact
+                    subterm
+                    var
+                    0
+                in
+                new_fact)
+             facts)
+        common_subterm
+        new_qvars
     in
     let new_goals =
       List.map2
@@ -133,13 +174,25 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
         (fun new_goal -> collect_free_var_in_prop new_goal [] |> List.sort_uniq compare)
         new_goals
     in
+    let new_facts_list =
+      List.map2
+        (fun facts qvars ->
+           List.filter (fun fact -> is_concerned fact (List.map fst qvars)) facts)
+        new_facts_list
+        qvars_list
+    in
+    let new_state = List.combine new_facts_list new_goals in
     just_generalize_new_goal
     @ List.fold_left2
-        (fun acc qvars new_goal ->
-           if List.is_empty qvars then acc else Proof.Forall (qvars, new_goal) :: acc)
+        (fun acc qvars (new_facts, new_goal) ->
+           if List.is_empty qvars
+           then acc
+           else if List.is_empty new_facts
+           then Proof.Forall (qvars, new_goal) :: acc
+           else Proof.Forall (qvars, Proof.Imply (new_facts, new_goal)) :: acc)
         []
         qvars_list
-        new_goals
+        new_state
 ;;
 
 let make_lemmas (env : env) (stcuk_list : Prover.ProofSet.t) lemma_list : (t * lemma) list

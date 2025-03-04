@@ -57,14 +57,15 @@ let rec collect_fname_in_expr env expr =
       []
       assign_list
     @ collect_fname_in_expr env body
-  | Ir.Match (match_list, case_list) ->
-    List.fold_left (fun acc exp -> acc @ collect_fname_in_expr env exp) [] match_list
-    @ List.fold_left
-        (fun acc case ->
-           match case with
-           | Ir.Case (_, exp) -> acc @ collect_fname_in_expr env exp)
-        []
-        case_list
+  | Ir.Match (_, case_list) ->
+    (* List.fold_left (fun acc exp -> acc @ collect_fname_in_expr env exp) [] match_list
+    @  *)
+    List.fold_left
+      (fun acc case ->
+         match case with
+         | Ir.Case (_, exp) -> acc @ collect_fname_in_expr env exp)
+      []
+      case_list
 ;;
 
 let rec collect_fname_in_prop env goal =
@@ -217,19 +218,17 @@ let edit_distance str1 str2 =
 
 let get_difference expr1 expr2 = edit_distance (Proof.pp_expr expr1) (Proof.pp_expr expr2)
 
+let rec get_both_hand prop =
+  match prop with
+  | Proof.Eq (lhs, rhs) -> lhs, rhs
+  | Proof.Forall (_, prop) -> get_both_hand prop
+  | Proof.Imply (_, prop) -> get_both_hand prop
+  | _ -> failwith ("Not an equation : " ^ Proof.pp_prop prop)
+;;
+
 let is_more_similar prop1 prop2 =
-  let lhs1, rhs1 =
-    match prop1 with
-    | Proof.Forall (_, Eq (lhs, rhs)) -> lhs, rhs
-    | Proof.Eq (lhs, rhs) -> lhs, rhs
-    | _ -> failwith ("Not an equation : " ^ Proof.pp_prop prop1)
-  in
-  let lhs2, rhs2 =
-    match prop2 with
-    | Proof.Forall (_, Eq (lhs, rhs)) -> lhs, rhs
-    | Proof.Eq (lhs, rhs) -> lhs, rhs
-    | _ -> failwith ("Not an equation : " ^ Proof.pp_prop prop2)
-  in
+  let lhs1, rhs1 = get_both_hand prop1 in
+  let lhs2, rhs2 = get_both_hand prop2 in
   let prev_difference = get_difference lhs1 rhs1 in
   let next_difference = get_difference lhs2 rhs2 in
   prev_difference > next_difference
@@ -441,6 +440,12 @@ let mk_candidates t =
   let fact_name_list = collect_fact_name state in
   let lemma_name_list = collect_lemma_name lemma_stack in
   let intro_list = List.map (fun v -> Proof.mk_intro v) qvar_list in
+  let intro_list =
+    match goal with
+    | Proof.Imply (_, _) ->
+      intro_list @ [ Proof.mk_intro ("Cond" ^ string_of_int (Proof.get_global_cnt ())) ]
+    | _ -> intro_list
+  in
   let induction_list = List.map (fun v -> Proof.mk_induction v) qvar_list in
   let strong_induction_list = List.map (fun v -> Proof.mk_strong_induction v) qvar_list in
   let simpl_in_list =
