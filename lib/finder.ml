@@ -88,7 +88,73 @@ let is_concerned fact binding =
   | _ -> List.for_all (fun (name, _) -> List.mem name binding) free_vars
 ;;
 
+let symbolic_execution env t : state list list =
+  let state = Proof.get_first_state t in
+  let facts, goal = state in
+  ignore facts;
+  ignore goal;
+  let base_hypothesis = [] in
+  let rec symbolic_execution_by_depth env t depth (acc : state list) : state list list =
+    if depth = 0
+    then [ acc ]
+    else (
+      let state = Proof.get_first_state t in
+      let lemma_stack = Proof.get_lemma_stack t in
+      let _, goal = state in
+      let dummy_goal = Proof.Type Ir.Tany in
+      let new_conj = [ state ], dummy_goal in
+      let new_t =
+        Proof.(create_t ~proof:(lemma_stack, [ new_conj ], []) ~counter:t.counter ())
+      in
+      let vars = collect_free_var_in_prop goal [] in
+      let vars = List.map fst vars in
+      let vars = List.filter (fun var -> Prover.is_decreasing_var env state var) vars in
+      let destruct_tactic = Proof.Destruct (List.hd vars) in
+      let new_t = Proof.apply_tactic new_t env destruct_tactic in
+      let new_states, _ = Proof.get_conj_list new_t |> List.hd in
+      let new_t_list =
+        List.map
+          (fun state ->
+             Proof.(create_t ~proof:(lemma_stack, [ [ state ], dummy_goal ], []))
+               ~counter:t.counter
+               ())
+          new_states
+      in
+      let new_t_list =
+        List.fold_left
+          (fun acc t ->
+             match Prover.progress_single_thread env t with
+             | Some t -> t :: acc
+             | None -> acc)
+          []
+          new_t_list
+      in
+      let new_states = List.map (fun t -> Proof.get_first_state t) new_t_list in
+      let new_accs = List.map (fun state -> state :: acc) new_states in
+      let result =
+        List.map2
+          (fun t new_acc -> symbolic_execution_by_depth env t (depth - 1) new_acc)
+          new_t_list
+          new_accs
+      in
+      List.concat result)
+  in
+  symbolic_execution_by_depth env t 3 base_hypothesis
+;;
+
 let naive_generalize env (goal : Proof.goal) t : lemma list =
+  let states_list = symbolic_execution env t in
+  let _ =
+    List.iter
+      (fun states ->
+         List.iter
+           (fun state ->
+              let _, goal = state in
+              Proof.pp_prop goal |> print_endline)
+           states)
+      states_list
+  in
+  let _ = failwith "asdf" in
   let goal = Proof.simplify_prop env goal in
   let trivial =
     match goal with

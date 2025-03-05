@@ -543,3 +543,23 @@ let rec progress env worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t
        then progress env prev_worklist statelist (ProofSet.add next_t stuck_point)
        else progress env (WorkList.merge prev_worklist worklist) statelist stuck_point)
 ;;
+
+let progress_single_thread env t =
+  let statelist = ProofSet.empty in
+  let rec progress_single_thread env t (statelist : ProofSet.t) =
+    let tactic_list = mk_candidates t in
+    let worklist = prune_rank_worklist env t tactic_list statelist in
+    match WorkList.is_empty worklist with
+    | true -> Some t
+    | _ ->
+      let _, work = WorkList.take_exn worklist in
+      let t, tactic, _ = work in
+      let next_t = Proof.apply_tactic t env tactic in
+      (match next_t.proof with
+       | _, [], _ -> None
+       | _ ->
+         let statelist = ProofSet.add next_t statelist in
+         progress_single_thread env next_t statelist)
+  in
+  progress_single_thread env t statelist
+;;
