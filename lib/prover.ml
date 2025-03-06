@@ -291,13 +291,16 @@ let rank_tactic env t tactic stateset : int option =
   (* this function be executed after is_valid, is_duplicated *)
   let state = Proof.get_first_state t in
   match tactic with
-  | Proof.Intro var_name -> if is_decreasing_var env state var_name then None else Some 1
+  | Proof.Intro var_name ->
+    let simpl = Proof.SimplIn "goal" in
+    if not (is_duplicated env t simpl stateset)
+    then None
+    else if is_decreasing_var env state var_name
+    then None
+    else Some 1
   | Proof.Induction var_name ->
     if is_decreasing_var env state var_name then Some 0 else None
-  | Proof.SimplIn target ->
-    (match target with
-     | "goal" -> Some 0
-     | _ -> Some 0)
+  | Proof.SimplIn _ -> Some 0
   | Proof.RewriteInAt (src, target, _) | Proof.RewriteReverse (src, target, _) ->
     if
       src = target
