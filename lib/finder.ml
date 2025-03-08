@@ -146,24 +146,28 @@ let symbolic_execution env t : state list list =
     else (
       let state = Proof.get_first_state t in
       let lemma_stack = Proof.get_lemma_stack t in
-      let _, goal = state in
-      let dummy_goal = Proof.Type Ir.Tany in
-      let new_conj = [ state ], dummy_goal in
-      let new_t =
-        Proof.(
-          create_t
-            ~proof:(lemma_stack, [ new_conj ], Proof.get_tactic_history t)
-            ~counter:t.counter
-            ())
-      in
+      let facts, goal = state in
       let vars = collect_free_var_in_prop goal [] in
-      let vars = List.map fst vars in
-      let vars = List.filter (fun var -> Prover.is_decreasing_var env state var) vars in
+      let vars =
+        List.filter (fun (var, _) -> Prover.is_decreasing_var env state var) vars
+      in
       if List.is_empty vars
       then [ acc ]
       else (
-        let destruct_tactic = Proof.Destruct (List.hd vars) in
-        let new_t = Proof.apply_tactic new_t env destruct_tactic in
+        let new_goal = Proof.Forall ([ List.hd vars ], goal) in
+        let facts = filtering_concerned_fact facts goal in
+        let dummy_goal = Proof.Type Ir.Tany in
+        let new_conj = [ facts, new_goal ], dummy_goal in
+        let new_t =
+          Proof.(
+            create_t
+              ~proof:(lemma_stack, [ new_conj ], Proof.get_tactic_history t)
+              ~counter:t.counter
+              ())
+        in
+        let vars = List.map fst vars in
+        let induction_tactic = Proof.Induction (List.hd vars) in
+        let new_t = Proof.apply_tactic new_t env induction_tactic in
         let new_t_list = progress_with_split env new_t in
         let new_states =
           List.map
@@ -185,24 +189,6 @@ let symbolic_execution env t : state list list =
 ;;
 
 let naive_generalize env (goal : Proof.goal) t : lemma list =
-  let _ = Proof.pp_prop goal |> print_endline in
-  let _ = print_endline "symbolic execution -------------------" in
-  let states_list = symbolic_execution env t in
-  let _ =
-    List.iter
-      (fun states ->
-         List.iter
-           (fun state ->
-              let facts, goal = state in
-              let facts = filtering_concerned_fact facts goal in
-              List.iter (fun (_, fact) -> Proof.pp_prop fact |> print_endline) facts;
-              print_endline "==============";
-              Proof.pp_prop goal |> print_endline)
-           states;
-         print_endline "-------------------")
-      states_list
-  in
-  (* let _ = failwith "asdf" in *)
   let goal = Proof.simplify_prop env goal in
   let trivial =
     match goal with
@@ -215,6 +201,24 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
   match trivial with
   | true -> []
   | _ ->
+    let _ = Proof.pp_prop goal |> print_endline in
+    let _ = print_endline "symbolic execution -------------------" in
+    let states_list = symbolic_execution env t in
+    let _ =
+      List.iter
+        (fun states ->
+           List.iter
+             (fun state ->
+                let facts, goal = state in
+                let facts = filtering_concerned_fact facts goal in
+                List.iter (fun (_, fact) -> Proof.pp_prop fact |> print_endline) facts;
+                print_endline "==============";
+                Proof.pp_prop goal |> print_endline)
+             states;
+           print_endline "-------------------")
+        states_list
+    in
+    (* let _ = failwith "asdf" in *)
     let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
     let just_generalize_var =
       collect_free_var_in_prop goal [] |> List.sort_uniq compare
