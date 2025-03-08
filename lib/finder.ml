@@ -134,12 +134,16 @@ let filtering_concerned_fact facts goal =
   facts
 ;;
 
+let pattern_recognition state_list : lemma =
+  ignore state_list;
+  Proof.Forall ([], Proof.Type Ir.Tany)
+;;
+
 let symbolic_execution env t : state list list =
   let state = Proof.get_first_state t in
   let facts, goal = state in
-  ignore facts;
-  ignore goal;
-  let base_hypothesis = [] in
+  let facts = filtering_concerned_fact facts goal in
+  let base_hypothesis = [ facts, goal ] in
   let rec symbolic_execution_by_depth env t depth (acc : state list) : state list list =
     if depth = 0
     then [ acc ]
@@ -155,7 +159,7 @@ let symbolic_execution env t : state list list =
       then [ acc ]
       else (
         let new_goal = Proof.Forall ([ List.hd vars ], goal) in
-        let facts = filtering_concerned_fact facts goal in
+        let facts = filtering_concerned_fact facts new_goal in
         let dummy_goal = Proof.Type Ir.Tany in
         let new_conj = [ facts, new_goal ], dummy_goal in
         let new_t =
@@ -201,24 +205,14 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
   match trivial with
   | true -> []
   | _ ->
-    let _ = Proof.pp_prop goal |> print_endline in
-    let _ = print_endline "symbolic execution -------------------" in
-    let states_list = symbolic_execution env t in
+    let _ = print_endline "*******" in
     let _ =
-      List.iter
-        (fun states ->
-           List.iter
-             (fun state ->
-                let facts, goal = state in
-                let facts = filtering_concerned_fact facts goal in
-                List.iter (fun (_, fact) -> Proof.pp_prop fact |> print_endline) facts;
-                print_endline "==============";
-                Proof.pp_prop goal |> print_endline)
-             states;
-           print_endline "-------------------")
-        states_list
+      symbolic_execution env t
+      |> List.iter (fun state_list ->
+        let _ = print_endline "state_list" in
+        state_list |> List.iter (fun (_, goal) -> Proof.pp_prop goal |> print_endline))
     in
-    (* let _ = failwith "asdf" in *)
+    let _ = print_endline "*******" in
     let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
     let just_generalize_var =
       collect_free_var_in_prop goal [] |> List.sort_uniq compare
@@ -306,7 +300,7 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
         new_state
 ;;
 
-let make_lemmas (env : env) (stcuk_list : Prover.ProofSet.t) lemma_list : (t * lemma) list
+let make_lemmas (env : env) (stuck_list : Prover.ProofSet.t) lemma_list : (t * lemma) list
   =
   let lemmas =
     List.map
@@ -315,7 +309,7 @@ let make_lemmas (env : env) (stcuk_list : Prover.ProofSet.t) lemma_list : (t * l
          let _, goal = state in
          let lemmas = naive_generalize env goal t in
          List.map (fun lemma -> t, lemma) lemmas)
-      (Prover.ProofSet.to_list stcuk_list)
+      (Prover.ProofSet.to_list stuck_list)
     |> List.concat
   in
   let lemmas =
