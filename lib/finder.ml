@@ -134,6 +134,11 @@ let filtering_concerned_fact facts goal =
   facts
 ;;
 
+let catch_recursive_pattern expr_list =
+  ignore expr_list;
+  failwith "TODO"
+;;
+
 let pattern_recognition state_list : lemma =
   ignore state_list;
   Proof.Forall ([], Proof.Type Ir.Tany)
