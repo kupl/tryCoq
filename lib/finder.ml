@@ -5,6 +5,11 @@ type lemma_stack = Proof.lemma_stack
 type lemma = Proof.goal
 type expr = Proof.expr
 
+type indexing_expr =
+  { expr : expr
+  ; index : int
+  }
+
 let is_duplicated (env : env) (t : t) (lemma : lemma) : bool =
   ignore (env, t, lemma);
   failwith "TODO"
@@ -132,6 +137,12 @@ let filtering_concerned_fact facts goal =
     List.filter (fun (_, fact) -> is_concerned fact (List.map fst free_var)) facts
   in
   facts
+;;
+
+let find_larget_common_subtree expr1 expr2 =
+  ignore expr1;
+  ignore expr2;
+  failwith "TODO"
 ;;
 
 let catch_recursive_pattern expr_list =
