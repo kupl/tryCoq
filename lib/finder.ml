@@ -1,9 +1,37 @@
+open Sexplib.Std
+
 type t = Proof.t
 type env = Proof.env
 type state = Proof.state
 type lemma_stack = Proof.lemma_stack
 type lemma = Proof.goal
 type expr = Proof.expr
+
+type subtree =
+  { desc : sub_desc
+  ; typ : Ir.typ
+  }
+[@@deriving sexp]
+
+and sub_desc =
+  | Sub_Var of string
+  | Sub_Call of string * subtree option list
+[@@deriving sexp]
+
+let rec pp_subtree (subtree : subtree) : string =
+  match subtree.desc with
+  | Sub_Var name -> name
+  | Sub_Call (name, args) ->
+    let args =
+      List.map
+        (fun arg ->
+           match arg with
+           | Some arg -> pp_subtree arg
+           | None -> "_")
+        args
+    in
+    name ^ "(" ^ String.concat ", " args ^ ")"
+;;
 
 let is_duplicated (env : env) (t : t) (lemma : lemma) : bool =
   ignore (env, t, lemma);
@@ -134,20 +162,124 @@ let filtering_concerned_fact facts goal =
   facts
 ;;
 
+let rec find_all_subtree expr =
+  let rec find_all_subtree_from_root expr =
+    match expr.Ir.desc with
+    | Var name -> [ { desc = Sub_Var name; typ = expr.typ } ]
+    | Call (name, args) ->
+      if List.is_empty args
+      then [ { desc = Sub_Call (name, []); typ = expr.typ } ]
+      else (
+        let args_subtree = List.map (fun arg -> find_all_subtree_from_root arg) args in
+        let args_cand =
+          List.fold_left
+            (fun acc nth_arg_cand ->
+               List.map
+                 (fun pre_args ->
+                    List.map (fun arg -> pre_args @ [ Some arg ]) nth_arg_cand
+                    @ [ pre_args @ [ None ] ])
+                 acc
+               |> List.concat)
+            ((args_subtree |> List.hd |> List.map (fun arg -> [ Some arg ]))
+             @ [ [ None ] ])
+            (args_subtree |> List.tl)
+        in
+        List.map (fun args -> { desc = Sub_Call (name, args); typ = expr.typ }) args_cand)
+    | _ -> []
+  in
+  let root_subtree = find_all_subtree_from_root expr in
+  let sub_subtree =
+    match expr.Ir.desc with
+    | Var _ -> find_all_subtree_from_root expr
+    | Call (_, args) -> List.map (fun arg -> find_all_subtree arg) args |> List.concat
+    | _ -> []
+  in
+  root_subtree @ sub_subtree |> List.sort_uniq compare
+;;
+
+let subtree_height subtree =
+  let rec subtree_height_from_root subtree =
+    match subtree.desc with
+    | Sub_Var _ -> 1
+    | Sub_Call (_, args) ->
+      List.map
+        (fun arg ->
+           match arg with
+           | Some arg -> subtree_height_from_root arg
+           | None -> 0)
+        args
+      |> List.fold_left max 0
+      |> ( + ) 1
+  in
+  subtree_height_from_root subtree
+;;
+
 let find_larget_common_subtree expr1 expr2 =
-  ignore expr1;
-  ignore expr2;
-  failwith "TODO"
+  let subtree_list1 = find_all_subtree expr1 in
+  let subtree_list2 = find_all_subtree expr2 in
+  let common_subtree =
+    List.filter (fun subtree -> List.mem subtree subtree_list2) subtree_list1
+  in
+  let largest_common_subtree =
+    List.fold_left
+      (fun max subtree ->
+         if subtree_height max > subtree_height subtree then max else subtree)
+      (List.hd common_subtree)
+      (List.tl common_subtree)
+    (* None is less than Var *)
+  in
+  largest_common_subtree
+;;
+
+let rec is_included subtree1 subtree2 =
+  match subtree2.desc with
+  | Sub_Var _ -> subtree1 = subtree2
+  | Sub_Call (_, args) ->
+    subtree1 = subtree2
+    || List.exists
+         (fun arg ->
+            match arg with
+            | Some arg -> is_included subtree1 arg
+            | None -> true
+            (* have to check type *))
+         args
 ;;
 
 let catch_recursive_pattern expr_list =
-  ignore expr_list;
-  failwith "TODO"
+  let range = Proof.range 0 (List.length expr_list - 1) in
+  let common_subtree_list =
+    List.map
+      (fun i ->
+         let expr1 = List.nth expr_list i in
+         let expr2 = List.nth expr_list (i + 1) in
+         find_larget_common_subtree expr1 expr2)
+      range
+  in
+  let range = Proof.range 0 (List.length common_subtree_list - 1) in
+  if
+    List.exists
+      (fun i ->
+         let subtree1 = List.nth common_subtree_list i in
+         let subtree2 = List.nth common_subtree_list (i + 1) in
+         not (is_included subtree1 subtree2))
+      range
+  then []
+  else common_subtree_list
 ;;
 
 let pattern_recognition state_list : lemma =
-  ignore state_list;
-  Proof.Forall ([], Proof.Type Ir.Tany)
+  let goals = List.map snd state_list in
+  let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
+  let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
+  let lhs_common_subtree = catch_recursive_pattern lhs_list in
+  let rhs_common_subtree = catch_recursive_pattern rhs_list in
+  let _ =
+    lhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+  in
+  let _ =
+    rhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+  in
+  Proof.Type Ir.Tany
 ;;
 
 let symbolic_execution env t : state list list =
@@ -221,7 +353,11 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
       symbolic_execution env t
       |> List.iter (fun state_list ->
         let _ = print_endline "state_list" in
-        state_list |> List.iter (fun (_, goal) -> Proof.pp_prop goal |> print_endline))
+        let _ =
+          state_list |> List.iter (fun (_, goal) -> Proof.pp_prop goal |> print_endline)
+        in
+        let _ = state_list |> pattern_recognition in
+        ())
     in
     let _ = print_endline "*******" in
     let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in

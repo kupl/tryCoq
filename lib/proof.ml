@@ -64,6 +64,22 @@ let get_counter t =
   t.counter
 ;;
 
+let rec get_lhs prop =
+  match prop with
+  | Eq (lhs, _) -> lhs
+  | Forall (_, prop) -> get_lhs prop
+  | Imply (_, prop) -> get_lhs prop
+  | _ -> failwith "The goal is not an equality"
+;;
+
+let rec get_rhs prop =
+  match prop with
+  | Eq (_, rhs) -> rhs
+  | Forall (_, prop) -> get_rhs prop
+  | Imply (_, prop) -> get_rhs prop
+  | _ -> failwith "The goal is not an equality"
+;;
+
 let mk_intro name = Intro name
 let mk_induction name = Induction name
 let mk_strong_induction name = StrongInduction name
