@@ -5,11 +5,6 @@ type lemma_stack = Proof.lemma_stack
 type lemma = Proof.goal
 type expr = Proof.expr
 
-type indexing_expr =
-  { expr : expr
-  ; index : int
-  }
-
 let is_duplicated (env : env) (t : t) (lemma : lemma) : bool =
   ignore (env, t, lemma);
   failwith "TODO"
