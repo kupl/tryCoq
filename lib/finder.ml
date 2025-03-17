@@ -312,6 +312,7 @@ let pattern_recognition state_list : lemma option =
              (List.nth rhs_common_subtree (i + 1)))
         range
     in
+    (* now we have to make mk_lhs/mk_rhs *)
     let _ = print_endline "lhs_common_subtree" in
     let _ =
       lhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
