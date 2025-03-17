@@ -103,6 +103,17 @@ let rec collect_free_var_in_prop (goal : Proof.prop) (binding : string list)
   | _ -> []
 ;;
 
+let rec collect_free_var_in_subtree (subtree : subtree) (binding : string list)
+  : (string * Proof.prop) list
+  =
+  match subtree.desc with
+  | Some (Sub_Var name) ->
+    if List.mem name binding then [] else [ name, Proof.Type subtree.typ ]
+  | Some (Sub_Call (_, args)) ->
+    List.map (fun arg -> collect_free_var_in_subtree arg binding) args |> List.concat
+  | None -> []
+;;
+
 let is_concerned fact binding =
   let free_vars = collect_free_var_in_prop fact [] in
   match fact with
@@ -285,16 +296,80 @@ let difference_of_subtree subtree1 subtree2 =
   difference_of_subtree subtree1 subtree2
 ;;
 
-let pattern_recognition state_list : lemma option =
+let expr_of_subtree subtree =
+  let rec expr_of_subtree subtree =
+    match subtree.desc with
+    | Some (Sub_Call (name, args)) ->
+      let args = List.map (fun arg -> expr_of_subtree arg) args in
+      Ir.{ desc = Call (name, args); typ = subtree.typ }
+    | Some (Sub_Var name) -> Ir.{ desc = Var name; typ = subtree.typ }
+    | None -> failwith "subtree is not proper"
+  in
+  expr_of_subtree subtree
+;;
+
+let rec convert_diff_to_expr fun_name increase_arg base_args diff =
+  match diff.desc with
+  | Some (Sub_Call (name, args)) ->
+    let args =
+      List.map (fun arg -> convert_diff_to_expr fun_name increase_arg base_args arg) args
+    in
+    Ir.{ desc = Call (name, args); typ = diff.typ }
+  | Some (Sub_Var _) -> Ir.{ desc = Var "hd"; typ = diff.typ }
+  | None ->
+    let increase_arg = Ir.{ increase_arg with desc = Var "tl" } in
+    Ir.{ desc = Call (fun_name, increase_arg :: base_args); typ = diff.typ }
+;;
+
+let decl_of_subtree_difference fun_name base_case subtree_differnce =
+  let increase_typ = collect_free_var_in_subtree (List.hd subtree_differnce) [] in
+  let increase_typ =
+    match increase_typ |> List.hd |> snd with
+    | Proof.Type typ -> typ
+    | _ -> failwith "not implemented"
+  in
+  let base_case_var = collect_free_var_in_subtree base_case [] in
+  let base_case_var_expr =
+    List.map
+      (fun (name, typ) ->
+         match typ with
+         | Proof.Type typ -> Ir.{ desc = Var name; typ }
+         | _ -> failwith "not implemented")
+      base_case_var
+  in
+  let base_case_var = List.map fst base_case_var in
+  let increase_arg =
+    Ir.{ desc = Var "lst"; typ = Ir.Talgebraic ("list", [ increase_typ ]) }
+  in
+  let base_pattern = Ir.Case (Pat_Constr ("Nil", []), expr_of_subtree base_case) in
+  let inductive_expr =
+    convert_diff_to_expr
+      fun_name
+      increase_arg
+      base_case_var_expr
+      (List.hd subtree_differnce)
+  in
+  let inductive_pattern =
+    Ir.Case (Pat_Constr ("Cons", [ Pat_Var "hd"; Pat_Var "tl" ]), inductive_expr)
+  in
+  let fun_body =
+    Ir.
+      { desc = Match ([ increase_arg ], [ base_pattern; inductive_pattern ])
+      ; typ = Ir.Tany
+      }
+  in
+  Ir.Rec (fun_name, "lst" :: base_case_var, fun_body)
+;;
+
+let pattern_recognition state_list : env option * lemma option =
   let goals = List.map snd state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
   let lhs_common_subtree = catch_recursive_pattern lhs_list in
   let rhs_common_subtree = catch_recursive_pattern rhs_list in
   if List.is_empty lhs_common_subtree || List.is_empty rhs_common_subtree
-  then None
+  then None, None
   else (
-    (* have to find increasing argument *)
     let range = Proof.range 0 (List.length lhs_common_subtree - 1) in
     let lhs_increase_subtree =
       List.map
@@ -312,26 +387,22 @@ let pattern_recognition state_list : lemma option =
              (List.nth rhs_common_subtree (i + 1)))
         range
     in
-    (* now we have to make mk_lhs/mk_rhs *)
-    let _ = print_endline "lhs_common_subtree" in
-    let _ =
-      lhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+    let mk_lhs =
+      decl_of_subtree_difference
+        "mk_lhs"
+        (List.hd lhs_common_subtree)
+        lhs_increase_subtree
     in
-    let _ = print_endline "lhs_increase_subtree" in
-    let _ =
-      lhs_increase_subtree
-      |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+    let mk_rhs =
+      decl_of_subtree_difference
+        "mk_rhs"
+        (List.hd rhs_common_subtree)
+        rhs_increase_subtree
     in
-    let _ = print_endline "rhs_common_subtree" in
-    let _ =
-      rhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
-    in
-    let _ = print_endline "rhs_increase_subtree" in
-    let _ =
-      rhs_increase_subtree
-      |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
-    in
-    Some (Proof.Type Ir.Tany))
+    let _ = Ir.pp_t [ mk_lhs; mk_rhs ] |> print_endline in
+    let _ = failwith "asdf" in
+    let env = Some [ mk_lhs; mk_rhs ] in
+    env, Some (Proof.Type Ir.Tany))
 ;;
 
 let symbolic_execution env t : state list list =
@@ -408,7 +479,6 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
         let _ =
           state_list |> List.iter (fun (_, goal) -> Proof.pp_prop goal |> print_endline)
         in
-        let _ = print_endline "recursive subtree" in
         let _ = state_list |> pattern_recognition in
         ())
     in
