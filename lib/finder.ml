@@ -268,6 +268,23 @@ let catch_recursive_pattern expr_list =
     else common_subtree_list)
 ;;
 
+let difference_of_subtree subtree1 subtree2 =
+  (* subtree2 - subtree1 *)
+  let rec difference_of_subtree subtree1 subtree2 =
+    match subtree2.desc with
+    | Some (Sub_Call (name, args)) ->
+      if subtree1 = subtree2
+      then { desc = None; typ = subtree2.typ }
+      else (
+        let new_args = List.map (fun arg -> difference_of_subtree subtree1 arg) args in
+        { desc = Some (Sub_Call (name, new_args)); typ = subtree2.typ })
+    | Some (Sub_Var _) ->
+      if subtree1 = subtree2 then { desc = None; typ = subtree2.typ } else subtree2
+    | None -> subtree2
+  in
+  difference_of_subtree subtree1 subtree2
+;;
+
 let pattern_recognition state_list : lemma option =
   let goals = List.map snd state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
@@ -278,13 +295,40 @@ let pattern_recognition state_list : lemma option =
   then None
   else (
     (* have to find increasing argument *)
+    let range = Proof.range 0 (List.length lhs_common_subtree - 1) in
+    let lhs_increase_subtree =
+      List.map
+        (fun i ->
+           difference_of_subtree
+             (List.nth lhs_common_subtree i)
+             (List.nth lhs_common_subtree (i + 1)))
+        range
+    in
+    let rhs_increase_subtree =
+      List.map
+        (fun i ->
+           difference_of_subtree
+             (List.nth rhs_common_subtree i)
+             (List.nth rhs_common_subtree (i + 1)))
+        range
+    in
     let _ = print_endline "lhs_common_subtree" in
     let _ =
       lhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
     in
+    let _ = print_endline "lhs_increase_subtree" in
+    let _ =
+      lhs_increase_subtree
+      |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+    in
     let _ = print_endline "rhs_common_subtree" in
     let _ =
       rhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+    in
+    let _ = print_endline "rhs_increase_subtree" in
+    let _ =
+      rhs_increase_subtree
+      |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
     in
     Some (Proof.Type Ir.Tany))
 ;;
@@ -339,7 +383,7 @@ let symbolic_execution env t : state list list =
         in
         List.concat result))
   in
-  symbolic_execution_by_depth env t 2 base_hypothesis
+  symbolic_execution_by_depth env t 3 base_hypothesis
 ;;
 
 let naive_generalize env (goal : Proof.goal) t : lemma list =
