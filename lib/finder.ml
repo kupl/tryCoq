@@ -308,6 +308,18 @@ let expr_of_subtree subtree =
   expr_of_subtree subtree
 ;;
 
+let subtree_of_expr expr =
+  let rec subtree_of_expr expr =
+    match expr.Ir.desc with
+    | Var name -> { desc = Some (Sub_Var name); typ = expr.typ }
+    | Call (name, args) ->
+      let args = List.map (fun arg -> subtree_of_expr arg) args in
+      { desc = Some (Sub_Call (name, args)); typ = expr.typ }
+    | _ -> { desc = None; typ = expr.typ }
+  in
+  subtree_of_expr expr
+;;
+
 let rec convert_diff_to_expr fun_name increase_arg base_args diff =
   match diff.desc with
   | Some (Sub_Call (name, args)) ->
@@ -319,6 +331,15 @@ let rec convert_diff_to_expr fun_name increase_arg base_args diff =
   | None ->
     let increase_arg = Ir.{ increase_arg with desc = Var "tl" } in
     Ir.{ desc = Call (fun_name, increase_arg :: base_args); typ = diff.typ }
+;;
+
+let rec fill_subtreewith_expr subtree expr : expr =
+  match subtree.desc with
+  | Some (Sub_Call (name, args)) ->
+    let args = List.map (fun arg -> fill_subtreewith_expr arg expr) args in
+    Ir.{ desc = Call (name, args); typ = subtree.typ }
+  | Some (Sub_Var _) -> Ir.{ desc = expr.desc; typ = expr.typ }
+  | None -> expr
 ;;
 
 let decl_of_subtree_difference fun_name base_case subtree_differnce =
@@ -387,22 +408,56 @@ let pattern_recognition state_list : env option * lemma option =
              (List.nth rhs_common_subtree (i + 1)))
         range
     in
-    let mk_lhs =
-      decl_of_subtree_difference
-        "mk_lhs"
+    let lhs_base_case = List.hd lhs_common_subtree in
+    let lhs_free_vars = collect_free_var_in_subtree lhs_base_case [] in
+    let lhs_free_vars_with_typ =
+      List.map
+        (fun (name, typ) ->
+           match typ with
+           | Proof.Type typ -> Ir.{ desc = Var name; typ }
+           | _ -> failwith "not implemented")
+        lhs_free_vars
+    in
+    let rhs_base_case = List.hd rhs_common_subtree in
+    let rhs_free_vars = collect_free_var_in_subtree rhs_base_case [] in
+    let rhs_free_vars_with_typ =
+      List.map
+        (fun (name, typ) ->
+           match typ with
+           | Proof.Type typ -> Ir.{ desc = Var name; typ }
+           | _ -> failwith "not implemented")
+        rhs_free_vars
+    in
+    let mk_lhs = decl_of_subtree_difference "mk_lhs" lhs_base_case lhs_increase_subtree in
+    let mk_rhs = decl_of_subtree_difference "mk_rhs" rhs_base_case rhs_increase_subtree in
+    let increase_typ = lhs_free_vars_with_typ |> List.hd |> Ir.(fun x -> x.typ) in
+    let increase_arg =
+      Ir.{ desc = Var "lst"; typ = Ir.Talgebraic ("list", [ increase_typ ]) }
+    in
+    let new_lhs =
+      Ir.{ desc = Call ("mk_lhs", increase_arg :: lhs_free_vars_with_typ); typ = Ir.Tany }
+    in
+    let new_rhs =
+      Ir.{ desc = Call ("mk_rhs", increase_arg :: rhs_free_vars_with_typ); typ = Ir.Tany }
+    in
+    let lhs_head =
+      difference_of_subtree
         (List.hd lhs_common_subtree)
-        lhs_increase_subtree
+        (List.hd lhs_list |> subtree_of_expr)
     in
-    let mk_rhs =
-      decl_of_subtree_difference
-        "mk_rhs"
+    let rhs_head =
+      difference_of_subtree
         (List.hd rhs_common_subtree)
-        rhs_increase_subtree
+        (List.hd rhs_list |> subtree_of_expr)
     in
-    let _ = Ir.pp_t [ mk_lhs; mk_rhs ] |> print_endline in
-    let _ = failwith "asdf" in
+    let lhs = fill_subtreewith_expr lhs_head new_lhs in
+    let rhs = fill_subtreewith_expr rhs_head new_rhs in
+    (* why lambda is gone *)
+    let goal = Proof.Eq (lhs, rhs) in
+    let free_vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
+    let goal = Proof.Forall (free_vars, goal) in
     let env = Some [ mk_lhs; mk_rhs ] in
-    env, Some (Proof.Type Ir.Tany))
+    env, Some goal)
 ;;
 
 let symbolic_execution env t : state list list =
@@ -479,7 +534,13 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
         let _ =
           state_list |> List.iter (fun (_, goal) -> Proof.pp_prop goal |> print_endline)
         in
-        let _ = state_list |> pattern_recognition in
+        let _ =
+          match state_list |> pattern_recognition with
+          | Some env, Some goal ->
+            Ir.pp_t env |> print_endline;
+            Proof.pp_prop goal |> print_endline
+          | _ -> failwith "no"
+        in
         ())
     in
     let _ = print_endline "*******" in

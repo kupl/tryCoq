@@ -146,7 +146,6 @@ sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (stri
 sub_check_ta1 (lambda19) (Cons (string18) (Cons (string4) (Nil))) = sub_check (lambda19) (Cons (string18) (Cons (string4) (Nil)))
 sub_check_ta1 (lambda35) (Cons (string34) (Cons (string18) (Cons (string4) (Nil)))) = sub_check (lambda35) (Cons (string34) (Cons (string18) (Cons (string4) (Nil))))
 sub_check_ta1 (lambda51) (Cons (string50) (Cons (string34) (Cons (string18) (Cons (string4) (Nil))))) = sub_check (lambda51) (Cons (string50) (Cons (string34) (Cons (string18) (Cons (string4) (Nil)))))
-recursive subtree
 let rec mk_lhs lst string4 =
 match (lst) with
 | Nil  -> Cons (string4) (Nil)
@@ -157,3 +156,25 @@ match (lst) with
 | Nil  -> Cons (string4) (Nil)
 | Cons hd tl -> Cons (hd) (mk_rhs (tl) (string4))
 ;;
+forall (lst:string list) (string4:string), sub_check_ta1 (mk_lhs (lst) (string4)) (mk_lhs (lst) (string4)) = sub_check (mk_rhs (lst) (string4)) (mk_rhs (lst) (string4))
+state_list
+sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+sub_check_ta1 (lambda19) (Cons (string18) (Cons (string4) (Nil))) = sub_check (lambda19) (Cons (string18) (Cons (string4) (Nil)))
+sub_check_ta1 (lambda35) (Cons (string34) (Cons (string18) (Cons (string4) (Nil)))) = sub_check (lambda35) (Cons (string34) (Cons (string18) (Cons (string4) (Nil))))
+sub_check_ta1 (lambda51) (Cons (string50) (Cons (string34) (Cons (string18) (Cons (string4) (Nil))))) = sub_check_ta1 (lambda51) (Cons (string34) (Cons (string18) (Cons (string4) (Nil))))
+let rec mk_lhs lst string4 =
+match (lst) with
+| Nil  -> Cons (string4) (Nil)
+| Cons hd tl -> Cons (hd) (mk_lhs (tl) (string4))
+;;
+let rec mk_rhs lst string4 =
+match (lst) with
+| Nil  -> Cons (string4) (Nil)
+| Cons hd tl -> Cons (hd) (mk_rhs (tl) (string4))
+;;
+forall (lst:string list) (string4:string), sub_check_ta1 (mk_lhs (lst) (string4)) (mk_lhs (lst) (string4)) = sub_check (mk_rhs (lst) (string4)) (mk_rhs (lst) (string4))
+state_list
+sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+sub_check_ta1 (lambda19) (Cons (string18) (Cons (string4) (Nil))) = sub_check (lambda19) (Cons (string18) (Cons (string4) (Nil)))
+sub_check_ta1 (lambda35) (Cons (string34) (Cons (string18) (Cons (string4) (Nil)))) = sub_check_ta1 (lambda35) (Cons (string18) (Cons (string4) (Nil)))
+sub_check_ta1 (lambda51) (Cons (string50) (Cons (string34) (Cons (string18) (Cons (string4) (Nil))))) = sub_check_ta1 (lambda51) (Cons (string50) (Cons (string18) (Cons (string4) (Nil))))
