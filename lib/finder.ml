@@ -338,7 +338,7 @@ let rec fill_subtreewith_expr subtree expr : expr =
   | Some (Sub_Call (name, args)) ->
     let args = List.map (fun arg -> fill_subtreewith_expr arg expr) args in
     Ir.{ desc = Call (name, args); typ = subtree.typ }
-  | Some (Sub_Var _) -> Ir.{ desc = expr.desc; typ = expr.typ }
+  | Some (Sub_Var name) -> Ir.{ desc = Var name; typ = subtree.typ }
   | None -> expr
 ;;
 
@@ -513,6 +513,19 @@ let symbolic_execution env t : state list list =
   symbolic_execution_by_depth env t 3 base_hypothesis
 ;;
 
+let advanced_generalize env goal t : (env option * lemma) list =
+  ignore (env, goal, t);
+  let execution_list = symbolic_execution env t in
+  let env_lemma_pairs = List.map pattern_recognition execution_list in
+  let env_lemma_pairs =
+    List.filter (fun (_, lemma) -> Option.is_some lemma) env_lemma_pairs
+  in
+  let env_lemma_pairs =
+    List.map (fun (env, lemma) -> env, Option.get lemma) env_lemma_pairs
+  in
+  env_lemma_pairs
+;;
+
 let naive_generalize env (goal : Proof.goal) t : lemma list =
   let goal = Proof.simplify_prop env goal in
   let trivial =
@@ -533,13 +546,6 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
         let _ = print_endline "state_list" in
         let _ =
           state_list |> List.iter (fun (_, goal) -> Proof.pp_prop goal |> print_endline)
-        in
-        let _ =
-          match state_list |> pattern_recognition with
-          | Some env, Some goal ->
-            Ir.pp_t env |> print_endline;
-            Proof.pp_prop goal |> print_endline
-          | _ -> failwith "no"
         in
         ())
     in
@@ -639,6 +645,7 @@ let make_lemmas (env : env) (stuck_list : Prover.ProofSet.t) lemma_list : (t * l
          let state = Proof.get_first_state t in
          let _, goal = state in
          let lemmas = naive_generalize env goal t in
+         (* convert this part to take env *)
          List.map (fun lemma -> t, lemma) lemmas)
       (Prover.ProofSet.to_list stuck_list)
     |> List.concat
