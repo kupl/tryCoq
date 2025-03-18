@@ -169,16 +169,16 @@ let is_decreasing_var env (state : state) var_name =
     fname_list
 ;;
 
-let is_valid env t tactic : bool =
+let is_valid t tactic : bool =
   try
-    let _ = Proof.apply_tactic t env tactic in
+    let _ = Proof.apply_tactic t tactic in
     true
   with
   | _ -> false
 ;;
 
-let is_duplicated env t tactic state_list =
-  let Proof.{ proof = next_lemma, next_conj, _; _ } = Proof.apply_tactic t env tactic in
+let is_duplicated t tactic state_list =
+  let Proof.{ proof = next_lemma, next_conj, _; _ } = Proof.apply_tactic t tactic in
   ProofSet.exists
     (fun Proof.{ proof = lemma_stack, conj_list, _; _ } ->
        next_lemma = lemma_stack && next_conj = conj_list)
@@ -287,13 +287,14 @@ let rec is_if_then_else_in_prop src goal =
   | _ -> false
 ;;
 
-let rank_tactic env t tactic stateset : int option =
+let rank_tactic t tactic stateset : int option =
   (* this function be executed after is_valid, is_duplicated *)
+  let env = t.Proof.env in
   let state = Proof.get_first_state t in
   match tactic with
   | Proof.Intro var_name ->
     let simpl = Proof.SimplIn "goal" in
-    if not (is_duplicated env t simpl stateset)
+    if not (is_duplicated t simpl stateset)
     then None
     else if is_decreasing_var env state var_name
     then None
@@ -308,13 +309,13 @@ let rank_tactic env t tactic stateset : int option =
       || String.starts_with ~prefix:"Inductive" target
     then None
     else (
-      let new_t = Proof.apply_tactic t env tactic in
+      let new_t = Proof.apply_tactic t tactic in
       how_good_rewrite t new_t)
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
     let _, goal = state in
     let simpl = Proof.SimplIn "goal" in
-    if not (is_duplicated env t simpl stateset)
+    if not (is_duplicated t simpl stateset)
     then None
     else if is_if_then_else_in_prop expr goal
     then Some 2
@@ -491,23 +492,23 @@ let mk_candidates t =
   @ [ Proof.mk_reflexivity; Proof.mk_discriminate ]
 ;;
 
-let prune_rank_worklist env t candidates statelist =
+let prune_rank_worklist t candidates statelist =
   let candidates =
-    let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
+    let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
     candidates
-    |> List.filter (fun c -> is_valid env t c)
-    |> List.filter (fun c -> not (is_duplicated env t c statelist))
+    |> List.filter (fun c -> is_valid t c)
+    |> List.filter (fun c -> not (is_duplicated t c statelist))
   in
   let worklist =
     List.fold_left
       (fun acc tactic ->
          let rank =
-           let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
-           rank_tactic env t tactic statelist
+           let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
+           rank_tactic t tactic statelist
          in
          match rank with
          | Some priority ->
-           let t = Proof.create_t ~proof:t.proof ~counter:t.counter () in
+           let t = Proof.create_t t.env ~proof:t.proof ~counter:t.counter () in
            acc @ [ t, tactic, priority ]
          | None -> acc)
       []
@@ -522,7 +523,7 @@ let is_stuck worklist = WorkList.is_empty worklist
   stastelist : Set
   stuck_point : Set
 *)
-let rec progress env worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
+let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
   match WorkList.is_empty worklist with
   | true -> stuck_point, None
   | _ ->
@@ -534,35 +535,35 @@ let rec progress env worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t
     let _ =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
     in
-    let next_t = Proof.apply_tactic t env tactic in
+    let next_t = Proof.apply_tactic t tactic in
     (match next_t.proof with
      | _, [], proof -> ProofSet.empty, Some proof
      | _ ->
        let _ = Proof.pp_t next_t |> print_endline in
        let statelist = ProofSet.add next_t statelist in
        let tactic_list = mk_candidates next_t in
-       let worklist = prune_rank_worklist env next_t tactic_list statelist in
+       let worklist = prune_rank_worklist next_t tactic_list statelist in
        if is_stuck worklist
-       then progress env prev_worklist statelist (ProofSet.add next_t stuck_point)
-       else progress env (WorkList.merge prev_worklist worklist) statelist stuck_point)
+       then progress prev_worklist statelist (ProofSet.add next_t stuck_point)
+       else progress (WorkList.merge prev_worklist worklist) statelist stuck_point)
 ;;
 
-let progress_single_thread env t =
+let progress_single_thread t =
   let statelist = ProofSet.empty in
-  let rec progress_single_thread env t (statelist : ProofSet.t) =
+  let rec progress_single_thread t (statelist : ProofSet.t) =
     let tactic_list = mk_candidates t in
-    let worklist = prune_rank_worklist env t tactic_list statelist in
+    let worklist = prune_rank_worklist t tactic_list statelist in
     match WorkList.is_empty worklist with
     | true -> Some t
     | _ ->
       let _, work = WorkList.take_exn worklist in
       let t, tactic, _ = work in
-      let next_t = Proof.apply_tactic t env tactic in
+      let next_t = Proof.apply_tactic t tactic in
       (match next_t.proof with
        | _, [], _ -> None
        | _ ->
          let statelist = ProofSet.add next_t statelist in
-         progress_single_thread env next_t statelist)
+         progress_single_thread next_t statelist)
   in
-  progress_single_thread env t statelist
+  progress_single_thread t statelist
 ;;

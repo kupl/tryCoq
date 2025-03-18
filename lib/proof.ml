@@ -1,7 +1,8 @@
 open Sexplib.Std
 
 type t =
-  { proof : lemma_stack * conjecture list * tactic list
+  { env : Ir.t
+  ; proof : lemma_stack * conjecture list * tactic list
   ; mutable counter : int
   }
 [@@deriving sexp]
@@ -57,7 +58,7 @@ let get_global_cnt () =
   !counter
 ;;
 
-let create_t ?(proof = [], [], []) ?(counter = 0) () = { proof; counter }
+let create_t env ?(proof = [], [], []) ?(counter = 0) () = { env; proof; counter }
 
 let get_counter t =
   t.counter <- t.counter + 1;
@@ -404,7 +405,8 @@ let rec apply_eq goal =
   | _ -> failwith "The goal is not an equality"
 ;;
 
-let apply_induction env name state t : state list =
+let apply_induction name state t : state list =
+  let env = t.env in
   let facts, goal = state in
   match goal with
   | Forall (var_list, goal) ->
@@ -931,7 +933,8 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
     [ fact, goal ] @ List.map (fun goal -> facts, goal) new_task
 ;;
 
-let apply_strong_induction env name state t : state list =
+let apply_strong_induction name state t : state list =
+  let env = t.env in
   let facts, goal = state in
   match goal with
   | Forall (var_list, goal) ->
@@ -1357,7 +1360,8 @@ let apply_assert prop t : t =
   { t with proof = lemma_stack, conj :: conj_list, tactic_list @ [ mk_assert prop ] }
 ;;
 
-let apply_destruct env name state t : state list =
+let apply_destruct name state t : state list =
+  let env = t.env in
   let facts, goal = state in
   let typ =
     match get_type_in_prop name goal with
@@ -1476,7 +1480,8 @@ let apply_destruct env name state t : state list =
     decl
 ;;
 
-let apply_case env expr state t : state list =
+let apply_case expr state t : state list =
+  let env = t.env in
   let facts, goal = state in
   let typ = expr.Ir.typ in
   let typ_args, (origin_args, decl) =
@@ -1607,7 +1612,8 @@ let apply_desrciminate env facts : state list =
   else failwith "Cannot Discriminate"
 ;;
 
-let apply_tactic (t : t) env tactic : t =
+let apply_tactic (t : t) tactic : t =
+  let env = t.env in
   let lemma_stack, conj_list, tactic_list = t.proof in
   match tactic with
   | Assert prop -> apply_assert prop t
@@ -1637,22 +1643,22 @@ let apply_tactic (t : t) env tactic : t =
         , tactic_list @ [ tactic ] )
       | Induction name ->
         ( lemma_stack
-        , (apply_induction env name first_state t @ List.tl state_list, conj_goal)
+        , (apply_induction name first_state t @ List.tl state_list, conj_goal)
           :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | StrongInduction name ->
         ( lemma_stack
-        , (apply_strong_induction env name first_state t @ List.tl state_list, conj_goal)
+        , (apply_strong_induction name first_state t @ List.tl state_list, conj_goal)
           :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | Destruct name ->
         ( lemma_stack
-        , (apply_destruct env name first_state t @ List.tl state_list, conj_goal)
+        , (apply_destruct name first_state t @ List.tl state_list, conj_goal)
           :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | Case expr ->
         ( lemma_stack
-        , (apply_case env expr first_state t @ List.tl state_list, conj_goal)
+        , (apply_case expr first_state t @ List.tl state_list, conj_goal)
           :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | SimplIn target ->
@@ -1733,7 +1739,8 @@ let rec parse_prop src binding decls =
   | _ -> failwith "not implemented"
 ;;
 
-let parse_tactic (t : t) src decls =
+let parse_tactic (t : t) src =
+  let env = t.env in
   let parts = String.split_on_char ' ' src in
   let name = List.hd parts in
   let args = List.tl parts in
@@ -1763,14 +1770,14 @@ let parse_tactic (t : t) src decls =
   | "case" ->
     let state = get_first_state t in
     let goal = state |> snd in
-    Case (parse_expr goal (String.concat " " args) decls)
-  | "assert" -> Assert (parse_prop (String.concat " " args) [] decls)
+    Case (parse_expr goal (String.concat " " args) env)
+  | "assert" -> Assert (parse_prop (String.concat " " args) [] env)
   | "discriminate" -> Discriminate
   | _ -> failwith "wrong tactic"
 ;;
 
 let proof_top env =
-  let init = create_t () in
+  let init = create_t env () in
   let rec loop ?(debug_tactic : debug_tactic option = None) t =
     print_newline ();
     pp_t ~debug_tactic t |> print_endline;
@@ -1783,7 +1790,7 @@ let proof_top env =
     | "alltactic" -> loop ~debug_tactic:(Some AllTactic) t
     | s ->
       let t =
-        try apply_tactic t env (parse_tactic t s env) with
+        try apply_tactic t (parse_tactic t s) with
         | exn ->
           print_endline (Printexc.to_string exn);
           t

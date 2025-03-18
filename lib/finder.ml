@@ -27,8 +27,8 @@ let rec pp_subtree (subtree : subtree) : string =
   | None -> "_"
 ;;
 
-let is_duplicated (env : env) (t : t) (lemma : lemma) : bool =
-  ignore (env, t, lemma);
+let is_duplicated (t : t) (lemma : lemma) : bool =
+  ignore (t, lemma);
   failwith "TODO"
 ;;
 
@@ -130,21 +130,22 @@ let split_t t : t list =
        let dummy_goal = Proof.Type Ir.Tany in
        Proof.(
          create_t
+           t.env
            ~proof:(lemma_stack, [ [ state ], dummy_goal ], tactics)
            ~counter:t.counter
            ()))
     states
 ;;
 
-let progress_with_split env t : t list =
+let progress_with_split t : t list =
   let t_list = split_t t in
   List.fold_left
     (fun acc t ->
-       match Prover.progress_single_thread env t with
+       match Prover.progress_single_thread t with
        | Some t ->
          List.fold_left
            (fun acc t ->
-              match Prover.progress_single_thread env t with
+              match Prover.progress_single_thread t with
               | Some t -> t :: acc
               | _ -> acc)
            acc
@@ -460,12 +461,13 @@ let pattern_recognition state_list : env option * lemma option =
     env, Some goal)
 ;;
 
-let symbolic_execution env t : state list list =
+let symbolic_execution t : state list list =
   let state = Proof.get_first_state t in
   let facts, goal = state in
   let facts = filtering_concerned_fact facts goal in
   let base_hypothesis = [ facts, goal ] in
-  let rec symbolic_execution_by_depth env t depth (acc : state list) : state list list =
+  let rec symbolic_execution_by_depth t depth (acc : state list) : state list list =
+    let env = t.Proof.env in
     if depth = 0
     then [ acc ]
     else (
@@ -486,14 +488,15 @@ let symbolic_execution env t : state list list =
         let new_t =
           Proof.(
             create_t
+              t.env
               ~proof:(lemma_stack, [ new_conj ], Proof.get_tactic_history t)
               ~counter:t.counter
               ())
         in
         let vars = List.map fst vars in
         let induction_tactic = Proof.Induction (List.hd vars) in
-        let new_t = Proof.apply_tactic new_t env induction_tactic in
-        let new_t_list = progress_with_split env new_t in
+        let new_t = Proof.apply_tactic new_t induction_tactic in
+        let new_t_list = progress_with_split new_t in
         let new_states =
           List.map
             (fun t ->
@@ -504,29 +507,36 @@ let symbolic_execution env t : state list list =
         let new_accs = List.map (fun state -> acc @ [ state ]) new_states in
         let result =
           List.map2
-            (fun t new_acc -> symbolic_execution_by_depth env t (depth - 1) new_acc)
+            (fun t new_acc -> symbolic_execution_by_depth t (depth - 1) new_acc)
             new_t_list
             new_accs
         in
         List.concat result))
   in
-  symbolic_execution_by_depth env t 3 base_hypothesis
+  symbolic_execution_by_depth t 3 base_hypothesis
 ;;
 
-let advanced_generalize env goal t : (env option * lemma) list =
-  ignore (env, goal, t);
-  let execution_list = symbolic_execution env t in
+let advanced_generalize goal t : (t * lemma) list =
+  ignore (goal, t);
+  let execution_list = symbolic_execution t in
   let env_lemma_pairs = List.map pattern_recognition execution_list in
   let env_lemma_pairs =
     List.filter (fun (_, lemma) -> Option.is_some lemma) env_lemma_pairs
   in
   let env_lemma_pairs =
-    List.map (fun (env, lemma) -> env, Option.get lemma) env_lemma_pairs
+    List.map
+      (fun (new_env, lemma) ->
+         ( (match new_env with
+            | Some new_env -> { t with env = t.env @ new_env }
+            | None -> t)
+         , Option.get lemma ))
+      env_lemma_pairs
   in
   env_lemma_pairs
 ;;
 
-let naive_generalize env (goal : Proof.goal) t : lemma list =
+let naive_generalize (goal : Proof.goal) t : lemma list =
+  let env = t.Proof.env in
   let goal = Proof.simplify_prop env goal in
   let trivial =
     match goal with
@@ -541,7 +551,7 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
   | _ ->
     let _ = print_endline "*******" in
     let _ =
-      symbolic_execution env t
+      symbolic_execution t
       |> List.iter (fun state_list ->
         let _ = print_endline "state_list" in
         let _ =
@@ -550,7 +560,7 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
         ())
     in
     let _ = print_endline "*******" in
-    let t = Proof.(create_t ~proof:t.proof ~counter:t.counter ()) in
+    let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
     let just_generalize_var =
       collect_free_var_in_prop goal [] |> List.sort_uniq compare
     in
@@ -637,14 +647,13 @@ let naive_generalize env (goal : Proof.goal) t : lemma list =
         new_state
 ;;
 
-let make_lemmas (env : env) (stuck_list : Prover.ProofSet.t) lemma_list : (t * lemma) list
-  =
+let make_lemmas (stuck_list : Prover.ProofSet.t) lemma_list : (t * lemma) list =
   let lemmas =
     List.map
       (fun t ->
          let state = Proof.get_first_state t in
          let _, goal = state in
-         let lemmas = naive_generalize env goal t in
+         let lemmas = naive_generalize goal t in
          (* convert this part to take env *)
          List.map (fun lemma -> t, lemma) lemmas)
       (Prover.ProofSet.to_list stuck_list)
@@ -659,10 +668,48 @@ let make_lemmas (env : env) (stuck_list : Prover.ProofSet.t) lemma_list : (t * l
              (fun (t', lemma') ->
                 let lemma_stack' = Proof.get_lemma_stack t' in
                 lemma_stack' = lemma_stack
-                && Proof.simplify_prop env lemma = Proof.simplify_prop env lemma')
+                && Proof.simplify_prop t'.env lemma = Proof.simplify_prop t'.env lemma')
              acc
          then acc
-         else (t, Proof.simplify_prop env lemma) :: acc)
+         else (t, Proof.simplify_prop t.env lemma) :: acc)
+      []
+      lemmas
+  in
+  let lemmas =
+    List.filter
+      (fun (_, lemma) ->
+         not (List.exists (fun (_, old_lemma) -> old_lemma = lemma) lemma_list))
+      lemmas
+  in
+  let _ = lemmas |> List.iter (fun (_, lemma) -> Proof.pp_prop lemma |> print_endline) in
+  lemmas
+;;
+
+let make_lemmas_by_advanced_generalize (stuck_list : Prover.ProofSet.t) lemma_list
+  : (t * lemma) list
+  =
+  let lemmas =
+    List.map
+      (fun t ->
+         let state = Proof.get_first_state t in
+         let _, goal = state in
+         advanced_generalize goal t)
+      (Prover.ProofSet.to_list stuck_list)
+    |> List.concat
+  in
+  let lemmas =
+    List.fold_left
+      (fun acc (t, lemma) ->
+         let lemma_stack = Proof.get_lemma_stack t in
+         if
+           List.exists
+             (fun (t', lemma') ->
+                let lemma_stack' = Proof.get_lemma_stack t' in
+                lemma_stack' = lemma_stack
+                && Proof.simplify_prop t'.env lemma = Proof.simplify_prop t'.env lemma')
+             acc
+         then acc
+         else (t, Proof.simplify_prop t.env lemma) :: acc)
       []
       lemmas
   in
