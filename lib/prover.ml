@@ -43,13 +43,13 @@ let synth_counter = make_synth_counter ()
 let rec collect_fname_in_expr env expr =
   match expr.Ir.desc with
   | Ir.Call (name, args) ->
-    (try
-       let decl = Ir.find_decl name env in
-       match decl with
-       | Ir.Rec _ -> [ name ]
-       | _ -> []
-     with
-     | _ -> List.fold_left (fun acc arg -> acc @ collect_fname_in_expr env arg) [] args)
+    let decl = Ir.find_decl name env in
+    let acc =
+      match decl with
+      | Some (Ir.Rec _) -> [ name ]
+      | _ -> []
+    in
+    List.fold_left (fun acc arg -> acc @ collect_fname_in_expr env arg) acc args
   | Ir.Var _ -> []
   | Ir.LetIn (assign_list, body) ->
     List.fold_left
@@ -82,7 +82,7 @@ let rec collect_fname_in_prop env goal =
 ;;
 
 let get_decreasing_arg_index env fname =
-  let fun_decl = Ir.find_decl fname env in
+  let fun_decl = Ir.find_decl fname env |> Option.get in
   let args, fun_expr =
     match fun_decl with
     | Ir.NonRec (_, args, fun_expr) -> args, fun_expr

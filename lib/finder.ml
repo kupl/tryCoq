@@ -250,6 +250,8 @@ let is_proper_subset subtree1 subtree2 =
 ;;
 
 let catch_recursive_pattern expr_list =
+  let _ = print_endline "mmmmmmmmmmmmmmmmmm" in
+  let _ = expr_list |> List.iter (fun expr -> Proof.pp_expr expr |> print_endline) in
   let range = Proof.range 0 (List.length expr_list - 1) in
   let common_subtree_list, _ =
     List.fold_left
@@ -383,15 +385,42 @@ let decl_of_subtree_difference fun_name base_case subtree_differnce =
   Ir.Rec (fun_name, "lst" :: base_case_var, fun_body)
 ;;
 
-let pattern_recognition state_list : env option * lemma option =
+let pattern_recognition ihs state_list : env * lemma option =
+  let _ = print_endline "ihs" in
+  let _ = ihs |> List.iter (fun (_, fact) -> Proof.pp_prop fact |> print_endline) in
+  let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
+  let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in
   let goals = List.map snd state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
-  let lhs_common_subtree = catch_recursive_pattern lhs_list in
-  let rhs_common_subtree = catch_recursive_pattern rhs_list in
-  if List.is_empty lhs_common_subtree || List.is_empty rhs_common_subtree
-  then None, None
+  let lhs_common_subtree_cand =
+    List.map (fun lhs -> catch_recursive_pattern (lhs :: lhs_list)) first_lhs
+    @ [ catch_recursive_pattern lhs_list ]
+  in
+  let rhs_common_subtree_cand =
+    List.map (fun rhs -> catch_recursive_pattern (rhs :: rhs_list)) first_rhs
+    @ [ catch_recursive_pattern lhs_list ]
+  in
+  let lhs_common_subtree =
+    List.fold_left
+      (fun acc subtree_list ->
+         if List.length acc > List.length subtree_list then acc else subtree_list)
+      (List.hd lhs_common_subtree_cand)
+      (List.tl lhs_common_subtree_cand)
+  in
+  let rhs_common_subtree =
+    List.fold_left
+      (fun acc subtree_list ->
+         if List.length acc > List.length subtree_list then acc else subtree_list)
+      (List.hd rhs_common_subtree_cand)
+      (List.tl rhs_common_subtree_cand)
+  in
+  if
+    List.length lhs_common_subtree <> List.length rhs_common_subtree
+    || List.is_empty lhs_common_subtree
+  then [], None
   else (
+    let _ = if List.length rhs_common_subtree = 1 then failwith "asdf" in
     let range = Proof.range 0 (List.length lhs_common_subtree - 1) in
     let lhs_increase_subtree =
       List.map
@@ -436,10 +465,16 @@ let pattern_recognition state_list : env option * lemma option =
       Ir.{ desc = Var "lst"; typ = Ir.Talgebraic ("list", [ increase_typ ]) }
     in
     let new_lhs =
-      Ir.{ desc = Call ("mk_lhs", increase_arg :: lhs_free_vars_with_typ); typ = Ir.Tany }
+      Ir.
+        { desc = Call ("mk_lhs", increase_arg :: lhs_free_vars_with_typ)
+        ; typ = (lhs_common_subtree |> List.hd).typ
+        }
     in
     let new_rhs =
-      Ir.{ desc = Call ("mk_rhs", increase_arg :: rhs_free_vars_with_typ); typ = Ir.Tany }
+      Ir.
+        { desc = Call ("mk_rhs", increase_arg :: rhs_free_vars_with_typ)
+        ; typ = (rhs_common_subtree |> List.hd).typ
+        }
     in
     let lhs_head =
       difference_of_subtree
@@ -457,7 +492,7 @@ let pattern_recognition state_list : env option * lemma option =
     let goal = Proof.Eq (lhs, rhs) in
     let free_vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
     let goal = Proof.Forall (free_vars, goal) in
-    let env = Some [ mk_lhs; mk_rhs ] in
+    let env = [ mk_lhs; mk_rhs ] in
     env, Some goal)
 ;;
 
@@ -513,23 +548,25 @@ let symbolic_execution t : state list list =
         in
         List.concat result))
   in
-  symbolic_execution_by_depth t 3 base_hypothesis
+  let result = symbolic_execution_by_depth t 3 base_hypothesis in
+  List.filter (fun state_list -> List.length state_list > 3) result
 ;;
 
 let advanced_generalize goal t : (t * lemma) list =
   ignore (goal, t);
+  let first_state = Proof.get_first_state t in
+  let facts, _ = first_state in
+  let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
   let execution_list = symbolic_execution t in
-  let env_lemma_pairs = List.map pattern_recognition execution_list in
+  let env_lemma_pairs =
+    List.map (fun state_list -> pattern_recognition ihs state_list) execution_list
+  in
   let env_lemma_pairs =
     List.filter (fun (_, lemma) -> Option.is_some lemma) env_lemma_pairs
   in
   let env_lemma_pairs =
     List.map
-      (fun (new_env, lemma) ->
-         ( (match new_env with
-            | Some new_env -> { t with env = t.env @ new_env }
-            | None -> t)
-         , Option.get lemma ))
+      (fun (new_env, lemma) -> { t with env = t.env @ new_env }, Option.get lemma)
       env_lemma_pairs
   in
   env_lemma_pairs
@@ -719,6 +756,5 @@ let make_lemmas_by_advanced_generalize (stuck_list : Prover.ProofSet.t) lemma_li
          not (List.exists (fun (_, old_lemma) -> old_lemma = lemma) lemma_list))
       lemmas
   in
-  let _ = lemmas |> List.iter (fun (_, lemma) -> Proof.pp_prop lemma |> print_endline) in
   lemmas
 ;;

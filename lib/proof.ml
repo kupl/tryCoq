@@ -119,7 +119,7 @@ let get_goal_list (t : t) =
 ;;
 
 let range start stop =
-  let rec range' i acc = if i = stop then acc else range' (i + 1) (acc @ [ i ]) in
+  let rec range' i acc = if i >= stop then acc else range' (i + 1) (acc @ [ i ]) in
   range' start []
 ;;
 
@@ -424,7 +424,8 @@ let apply_induction name state t : state list =
       match typ with
       | Ir.Talgebraic (typ_name, typ_list) ->
         ( typ_list
-        , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+        , (match Ir.find_decl typ_name env with
+           | Some decl -> decl |> Ir.get_typ_decl
            | _ -> failwith ("cannot found such type : " ^ typ_name)) )
       | _ -> failwith "This type is not algebraic"
     in
@@ -952,7 +953,8 @@ let apply_strong_induction name state t : state list =
       match typ with
       | Ir.Talgebraic (typ_name, typ_list) ->
         ( typ_list
-        , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+        , (match Ir.find_decl typ_name env with
+           | Some decl -> decl |> Ir.get_typ_decl
            | _ -> failwith ("cannot found such type : " ^ typ_name)) )
       | _ -> failwith "This type is not algebraic"
     in
@@ -1207,8 +1209,8 @@ let rec simplify_expr (env : Ir.t) expr =
        let decl_args, fun_decl, rec_flag =
          let decl = Ir.find_decl name env in
          match decl with
-         | Ir.NonRec (_, args, e) -> args, e, false
-         | Ir.Rec (_, args, e) -> args, e, true
+         | Some (Ir.NonRec (_, args, e)) -> args, e, false
+         | Some (Ir.Rec (_, args, e)) -> args, e, true
          | _ -> failwith "This expression is not a function"
        in
        let fun_body =
@@ -1372,7 +1374,8 @@ let apply_destruct name state t : state list =
     match typ with
     | Ir.Talgebraic (typ_name, typ_list) ->
       ( typ_list
-      , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+      , (match Ir.find_decl typ_name env with
+         | Some decl -> decl |> Ir.get_typ_decl
          | _ -> failwith ("cannot found such type : " ^ typ_name)) )
     | _ -> failwith "This type is not algebraic"
   in
@@ -1488,7 +1491,8 @@ let apply_case expr state t : state list =
     match typ with
     | Ir.Talgebraic (typ_name, typ_list) ->
       ( typ_list
-      , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+      , (match Ir.find_decl typ_name env with
+         | Some decl -> decl |> Ir.get_typ_decl
          | _ -> failwith ("cannot found such type : " ^ typ_name)) )
     | _ -> failwith "This type is not algebraic"
   in

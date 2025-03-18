@@ -455,7 +455,7 @@ and get_type (expr : Typedtree.expression) =
 ;;
 
 let find_decl name (decls : t) =
-  List.find
+  List.find_opt
     (fun decl ->
        match decl with
        | NonRec (fname, _, _) -> fname = name
@@ -686,7 +686,7 @@ let get_free_vars expr =
 let search_return_type name t =
   let decl = find_decl name t in
   match decl with
-  | NonRec (_, _, expr) | Rec (_, _, expr) -> expr.typ
+  | Some (NonRec (_, _, expr)) | Some (Rec (_, _, expr)) -> expr.typ
   | _ -> failwith ("This is not a function :" ^ name)
 ;;
 

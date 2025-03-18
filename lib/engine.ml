@@ -76,7 +76,7 @@ let proof_auto std_lib program_a program_b goal =
   let init_t = Proof.create_t env () in
   let goal = Proof.parse_tactic init_t goal in
   let worklist = Prover.WorkList.of_list [ init_t, goal, 0 ] in
-  match loop worklist [] with
+  match loop_advanced worklist [] with
   | _, Some proof ->
     print_endline "Proof Success";
     print_endline "Proof";
