@@ -11,7 +11,8 @@ let proof_top std_lib program_a program_b =
   Proof.proof_top env
 ;;
 
-let rec loop worklist old_lemma_list =
+(*
+   let rec loop worklist old_lemma_list =
   let stuck_list, proof = Prover.(progress worklist ProofSet.empty ProofSet.empty) in
   match proof with
   | Some _ -> [], proof
@@ -35,6 +36,12 @@ let rec loop worklist old_lemma_list =
         |> Prover.WorkList.of_list
       in
       loop new_worklist (lemma_list @ old_lemma_list))
+;; *)
+let rec split_tale lst =
+  match lst with
+  | [ tl ] -> [], tl
+  | hd :: tl -> hd :: fst (split_tale tl), snd (split_tale tl)
+  | _ -> failwith "length has to be greater than 1"
 ;;
 
 let rec loop_advanced worklist old_lemma_list =
@@ -48,18 +55,28 @@ let rec loop_advanced worklist old_lemma_list =
     let _ = print_endline ("Lemma List : " ^ string_of_int (List.length lemma_list)) in
     let _ =
       List.iter
-        (fun (t, lemma) ->
+        (fun (t, lemma_list) ->
            let _, goal = Proof.get_first_state t in
            let _ = print_endline "Goal and Lemma" in
            Proof.pp_prop goal |> print_endline;
-           Proof.pp_prop lemma |> print_endline)
+           lemma_list |> List.iter (fun lemma -> lemma |> Proof.pp_prop |> print_endline))
         lemma_list
     in
     if List.is_empty lemma_list
     then failwith "lemma does not exists"
     else (
       let new_worklist =
-        List.map (fun (t, goal) -> t, Proof.mk_assert goal, 0) lemma_list
+        List.map
+          (fun (t, assert_list) ->
+             let heads, tl = split_tale assert_list in
+             let new_t =
+               List.fold_left
+                 (fun (acc : Proof.t) lpmis_lemma -> Proof.apply_assert lpmis_lemma acc)
+                 t
+                 heads
+             in
+             new_t, Proof.mk_assert tl, 0)
+          lemma_list
         |> Prover.WorkList.of_list
       in
       loop_advanced new_worklist (lemma_list @ old_lemma_list))
