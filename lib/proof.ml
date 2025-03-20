@@ -1339,7 +1339,9 @@ let rec simplify_prop env prop =
   | Type typ -> Type typ
 ;;
 
-let apply_simpl env state target : state =
+let apply_simpl t target : state =
+  let env = t.env in
+  let state = get_first_state t in
   let facts, goal = state in
   match target with
   | "goal" ->
@@ -1667,8 +1669,7 @@ let apply_tactic (t : t) tactic : t =
         , tactic_list @ [ tactic ] )
       | SimplIn target ->
         ( lemma_stack
-        , (apply_simpl env first_state target :: List.tl state_list, conj_goal)
-          :: List.tl conj_list
+        , (apply_simpl t target :: List.tl state_list, conj_goal) :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | Reflexivity ->
         let _, goal = first_state in

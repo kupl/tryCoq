@@ -71,7 +71,10 @@ let rec loop_advanced worklist old_lemma_list =
              let heads, tl = split_tale assert_list in
              let new_t =
                List.fold_left
-                 (fun (acc : Proof.t) lpmis_lemma -> Proof.apply_assert lpmis_lemma acc)
+                 (fun (acc : Proof.t) unsimpl_lemma ->
+                    let acc = Proof.apply_assert unsimpl_lemma acc in
+                    let acc = Proof.apply_tactic acc (Proof.SimplIn "goal") in
+                    Proof.apply_tactic acc Proof.Reflexivity)
                  t
                  heads
              in

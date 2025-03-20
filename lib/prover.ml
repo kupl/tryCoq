@@ -169,6 +169,27 @@ let is_decreasing_var env (state : state) var_name =
     fname_list
 ;;
 
+let is_mk (state : state) var_name =
+  let _, goal = state in
+  let lhs = Proof.get_lhs goal in
+  let rhs = Proof.get_rhs goal in
+  let rec is_mk_arg expr =
+    match expr.Ir.desc with
+    | Ir.Call (name, args) ->
+      if String.starts_with ~prefix:"mk" name
+      then
+        List.exists
+          (fun arg ->
+             match arg.Ir.desc with
+             | Ir.Var var -> var = var_name
+             | _ -> false)
+          args
+      else List.exists is_mk_arg args
+    | _ -> false
+  in
+  is_mk_arg lhs || is_mk_arg rhs
+;;
+
 let is_valid t tactic : bool =
   try
     let _ = Proof.apply_tactic t tactic in
@@ -296,13 +317,20 @@ let rank_tactic t tactic stateset : int option =
     let simpl = Proof.SimplIn "goal" in
     if not (is_duplicated t simpl stateset)
     then None
+    else if is_mk state var_name
+    then Some 1
     else if is_decreasing_var env state var_name
     then None
     else Some 1
   | Proof.Induction var_name ->
-    if is_decreasing_var env state var_name then Some 0 else None
+    if not (is_decreasing_var env state var_name)
+    then None
+    else if is_mk state var_name
+    then Some 2
+    else Some 0
   | Proof.SimplIn _ -> Some 0
   | Proof.RewriteInAt (src, target, _) | Proof.RewriteReverse (src, target, _) ->
+    (* s0 :: mk_lhs lst s <-> s0 :: mk_rhs lst s 에서는 edit distance가 증가함... *)
     if
       src = target
       || String.starts_with ~prefix:"Inductive" src

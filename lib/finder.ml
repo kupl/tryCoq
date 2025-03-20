@@ -386,11 +386,45 @@ let decl_of_subtree_difference fun_name base_case subtree_differnce =
 ;;
 
 let helper_function_lemma (decl : Ir.decl) : lemma list =
-  ignore decl;
-  []
+  match decl with
+  | Ir.Rec (fname, args, body) ->
+    (match body.desc with
+     | Match (match_list, case_list) ->
+       List.map
+         (fun case ->
+            match match_list, case with
+            | [ match_var ], Ir.Case (pat, expr) ->
+              (* Have to fill type *)
+              let new_arg = Ir.{ desc = Ir.expr_of_pattern pat; typ = match_var.typ } in
+              let free_vars = collect_free_var_in_expr expr [] in
+              let result =
+                Proof.Forall
+                  ( free_vars
+                  , Proof.Eq
+                      ( Ir.
+                          { desc =
+                              Call
+                                ( fname
+                                , new_arg
+                                  :: List.map
+                                       (fun arg ->
+                                          let typ =
+                                            match List.assoc arg free_vars with
+                                            | Proof.Type typ -> typ
+                                            | _ -> failwith "not implemented"
+                                          in
+                                          Ir.{ desc = Var arg; typ })
+                                       (List.tl args) )
+                          ; typ = Ir.Tany
+                          }
+                      , expr ) )
+              in
+              result
+            | _ -> failwith "not implemented")
+         case_list
+     | _ -> failwith "not implemented")
+  | _ -> failwith "this function is not recursive"
 ;;
-
-(* TODO *)
 
 let pattern_recognition ihs state_list : env * lemma list =
   let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
@@ -498,7 +532,7 @@ let pattern_recognition ihs state_list : env * lemma list =
     let free_vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
     let goal = Proof.Forall (free_vars, goal) in
     let env = [ mk_lhs; mk_rhs ] in
-    env, (goal :: rhs_lemma) @ lhs_lemma)
+    env, rhs_lemma @ lhs_lemma @ [ goal ])
 ;;
 
 let symbolic_execution t : state list list =
@@ -595,7 +629,7 @@ let make_lemmas_by_advanced_generalize (stuck_list : Prover.ProofSet.t) lemma_li
                    = List.map (Proof.simplify_prop t'.env) lemma_list')
              acc
          then acc
-         else (t, List.map (Proof.simplify_prop t.env) lemma_list) :: acc)
+         else (t, lemma_list) :: acc)
       []
       lemmas
   in
