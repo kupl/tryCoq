@@ -394,7 +394,6 @@ let helper_function_lemma (decl : Ir.decl) : lemma list =
          (fun case ->
             match match_list, case with
             | [ match_var ], Ir.Case (pat, expr) ->
-              (* Have to fill type *)
               let new_arg = Ir.{ desc = Ir.expr_of_pattern pat; typ = match_var.typ } in
               let free_vars = collect_free_var_in_expr expr [] in
               let result =
@@ -496,6 +495,7 @@ let pattern_recognition ihs state_list : env * lemma list =
            | _ -> failwith "not implemented")
         rhs_free_vars
     in
+    (* have to add index for mk function *)
     let mk_lhs = decl_of_subtree_difference "mk_lhs" lhs_base_case lhs_increase_subtree in
     let mk_rhs = decl_of_subtree_difference "mk_rhs" rhs_base_case rhs_increase_subtree in
     let lhs_lemma = helper_function_lemma mk_lhs in

@@ -206,6 +206,24 @@ let is_duplicated t tactic state_list =
     state_list
 ;;
 
+let is_rewritable ?(is_lhs : bool = true) t tactic =
+  let fact, goal = Proof.get_first_state t in
+  let side = if is_lhs then Proof.get_lhs goal else Proof.get_rhs goal in
+  let new_goal =
+    Proof.Eq
+      (side, Ir.{ desc = Var "never_matched"; Ir.typ = Talgebraic ("never_matched", []) })
+  in
+  let lemma_stack, _, tactic_list = t.proof in
+  let new_t =
+    Proof.
+      { env = t.env
+      ; proof = lemma_stack, [ [ fact, new_goal ], new_goal ], tactic_list
+      ; counter = t.counter
+      }
+  in
+  is_valid new_t tactic
+;;
+
 let cost_insert = 1
 let cost_delete = 1
 let cost_substitute = 1
@@ -336,6 +354,10 @@ let rank_tactic t tactic stateset : int option =
       || String.starts_with ~prefix:"Inductive" src
       || String.starts_with ~prefix:"Inductive" target
     then None
+    else if String.starts_with ~prefix:"lhs" src
+    then if is_rewritable ~is_lhs:true t tactic then Some 2 else None
+    else if String.starts_with ~prefix:"rhs" src
+    then if is_rewritable ~is_lhs:false t tactic then Some 2 else None
     else (
       let new_t = Proof.apply_tactic t tactic in
       how_good_rewrite t new_t)

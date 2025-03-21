@@ -70,13 +70,27 @@ let rec loop_advanced worklist old_lemma_list =
           (fun (t, assert_list) ->
              let heads, tl = split_tale assert_list in
              let new_t =
-               List.fold_left
-                 (fun (acc : Proof.t) unsimpl_lemma ->
-                    let acc = Proof.apply_assert unsimpl_lemma acc in
-                    let acc = Proof.apply_tactic acc (Proof.SimplIn "goal") in
-                    Proof.apply_tactic acc Proof.Reflexivity)
-                 t
-                 heads
+               match heads with
+               | [ lhs1; lhs2; rhs1; rhs2 ] ->
+                 let new_t = Proof.apply_assert lhs1 t in
+                 let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                 let new_t =
+                   Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
+                 in
+                 let new_t = Proof.apply_assert lhs2 new_t in
+                 let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                 let new_t =
+                   Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
+                 in
+                 let new_t = Proof.apply_assert rhs1 new_t in
+                 let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                 let new_t =
+                   Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
+                 in
+                 let new_t = Proof.apply_assert rhs2 new_t in
+                 let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                 Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
+               | _ -> failwith "length has to be 4"
              in
              new_t, Proof.mk_assert tl, 0)
           lemma_list

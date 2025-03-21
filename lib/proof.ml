@@ -1618,7 +1618,7 @@ let apply_desrciminate env facts : state list =
   else failwith "Cannot Discriminate"
 ;;
 
-let apply_tactic (t : t) tactic : t =
+let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
   let env = t.env in
   let lemma_stack, conj_list, tactic_list = t.proof in
   match tactic with
@@ -1677,7 +1677,15 @@ let apply_tactic (t : t) tactic : t =
         let remain_states = List.tl state_list in
         (match remain_states with
          | [] ->
-           ( lemma_stack @ [ "lemma" ^ string_of_int (get_counter t), conj_goal ]
+           ( lemma_stack
+             @ [ ( (match is_lhs with
+                    | Some true -> "lhs_"
+                    | Some false -> "rhs_"
+                    | _ -> "")
+                   ^ "lemma"
+                   ^ string_of_int (get_counter t)
+                 , conj_goal )
+               ]
            , List.tl conj_list
            , tactic_list @ [ tactic ] )
          | _ ->
