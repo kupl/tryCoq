@@ -414,7 +414,7 @@ let helper_function_lemma (decl : Ir.decl) : lemma list =
                                           in
                                           Ir.{ desc = Var arg; typ })
                                        (List.tl args) )
-                          ; typ = Ir.Tany
+                          ; typ = expr.typ
                           }
                       , expr ) )
               in

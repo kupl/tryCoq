@@ -9,19 +9,13 @@ module WorkList = CCHeap.Make_from_compare (struct
     type t = Proof.t * tactic * int
 
     let compare (t1, _, r1) (t2, _, r2) =
-      if r1 = r2
-      then (
-        let conj_list1 = Proof.get_conj_list t1 in
-        let conj_list2 = Proof.get_conj_list t2 in
-        let len1 = List.length conj_list1 in
-        let len2 = List.length conj_list2 in
-        if len1 = len2
-        then (
-          let goals1 = Proof.get_goal_list t1 in
-          let goals2 = Proof.get_goal_list t2 in
-          compare goals1 goals2)
-        else compare len1 len2)
-      else compare r1 r2
+      let conjs1 = Proof.get_conj_list t1 |> List.length in
+      let conjs2 = Proof.get_conj_list t2 |> List.length in
+      let goals1 = Proof.get_goal_list t1 |> List.length in
+      let goals2 = Proof.get_goal_list t2 |> List.length in
+      if conjs1 = conjs2
+      then if r1 = r2 then compare goals1 goals2 else compare r1 r2
+      else compare conjs1 conjs2
     ;;
   end)
 
@@ -206,24 +200,6 @@ let is_duplicated t tactic state_list =
     state_list
 ;;
 
-let is_rewritable ?(is_lhs : bool = true) t tactic =
-  let fact, goal = Proof.get_first_state t in
-  let side = if is_lhs then Proof.get_lhs goal else Proof.get_rhs goal in
-  let new_goal =
-    Proof.Eq
-      (side, Ir.{ desc = Var "never_matched"; Ir.typ = Talgebraic ("never_matched", []) })
-  in
-  let lemma_stack, _, tactic_list = t.proof in
-  let new_t =
-    Proof.
-      { env = t.env
-      ; proof = lemma_stack, [ [ fact, new_goal ], new_goal ], tactic_list
-      ; counter = t.counter
-      }
-  in
-  is_valid new_t tactic
-;;
-
 let cost_insert = 1
 let cost_delete = 1
 let cost_substitute = 1
@@ -346,18 +322,34 @@ let rank_tactic t tactic stateset : int option =
     else if is_mk state var_name
     then Some 2
     else Some 0
-  | Proof.SimplIn _ -> Some 0
-  | Proof.RewriteInAt (src, target, _) | Proof.RewriteReverse (src, target, _) ->
+  | Proof.SimplIn "goal" -> Some 0
+  | Proof.SimplIn _ -> None
+  | Proof.RewriteInAt (src, target, _) ->
     (* s0 :: mk_lhs lst s <-> s0 :: mk_rhs lst s 에서는 edit distance가 증가함... *)
     if
       src = target
       || String.starts_with ~prefix:"Inductive" src
       || String.starts_with ~prefix:"Inductive" target
+      || String.starts_with ~prefix:"Case" src
+      || String.starts_with ~prefix:"Cse" target
+      || String.starts_with ~prefix:"IH" target
     then None
-    else if String.starts_with ~prefix:"lhs" src
-    then if is_rewritable ~is_lhs:true t tactic then Some 2 else None
-    else if String.starts_with ~prefix:"rhs" src
-    then if is_rewritable ~is_lhs:false t tactic then Some 2 else None
+    else if String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
+    then None
+    else (
+      let new_t = Proof.apply_tactic t tactic in
+      how_good_rewrite t new_t)
+  | Proof.RewriteReverse (src, target, i) ->
+    if
+      src = target
+      || String.starts_with ~prefix:"Inductive" src
+      || String.starts_with ~prefix:"Inductive" target
+      || String.starts_with ~prefix:"Case" src
+      || String.starts_with ~prefix:"Cse" target
+      || String.starts_with ~prefix:"IH" target
+    then None
+    else if String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
+    then if i = 0 then None else Some 2
     else (
       let new_t = Proof.apply_tactic t tactic in
       how_good_rewrite t new_t)
