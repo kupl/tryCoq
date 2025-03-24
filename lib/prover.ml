@@ -482,6 +482,17 @@ let rec is_if_then_else_in_prop src goal =
   | _ -> false
 ;;
 
+let useless_rewrite tactic =
+  match tactic with
+  | Proof.RewriteInAt (src, target, _) | Proof.RewriteReverse (src, target, _) ->
+    String.starts_with ~prefix:"Inductive" src
+    || String.starts_with ~prefix:"Inductive" target
+    || String.starts_with ~prefix:"Case" src
+    || String.starts_with ~prefix:"Case" target
+    || String.starts_with ~prefix:"IH" target
+  | _ -> false
+;;
+
 let rank_tactic t candidates tactic stateset : int option =
   let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
   (* this function be executed after is_valid, is_duplicated *)
@@ -505,51 +516,19 @@ let rank_tactic t candidates tactic stateset : int option =
     else Some 0
   | Proof.SimplIn "goal" -> Some 0
   | Proof.SimplIn _ -> None
-  | Proof.RewriteInAt (src, target, _) ->
-    (* s0 :: mk_lhs lst s <-> s0 :: mk_rhs lst s 에서는 edit distance가 증가함... *)
+  | Proof.RewriteInAt (src, _, _) ->
     if
-      src = target
-      || String.starts_with ~prefix:"Inductive" src
-      || String.starts_with ~prefix:"Inductive" target
-      || String.starts_with ~prefix:"Case" src
-      || String.starts_with ~prefix:"Case" target
-      || String.starts_with ~prefix:"IH" target
-    then None
-    else if String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
+      String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
+      (* have to make lhs_lemma only convert lhs.... *)
     then None
     else (
       let new_t = Proof.apply_tactic t tactic in
+      let _, goal = Proof.get_first_state t in
+      let _, new_goal = Proof.get_first_state new_t in
       let new_candidate = mk_candidates new_t in
       let new_candidate = List.filter (fun c -> is_valid new_t c) new_candidate in
       let new_candidate =
         List.filter (fun c -> not (is_duplicated new_t c stateset)) new_candidate
-      in
-      if candidates = new_candidate then None else Some 2)
-  | Proof.RewriteReverse (src, target, i) ->
-    if
-      src = target
-      || String.starts_with ~prefix:"Inductive" src
-      || String.starts_with ~prefix:"Inductive" target
-      || String.starts_with ~prefix:"Case" src
-      || String.starts_with ~prefix:"Case" target
-      || String.starts_with ~prefix:"IH" target
-    then None
-    else if String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
-    then if i = 0 then None else Some 2
-    else (
-      let new_t = Proof.apply_tactic t tactic in
-      let new_candidate = mk_candidates new_t in
-      let new_candidate = List.filter (fun c -> is_valid new_t c) new_candidate in
-      let new_candidate =
-        List.filter (fun c -> not (is_duplicated new_t c stateset)) new_candidate
-      in
-      let new_candidate =
-        List.filter
-          (fun c ->
-             match c with
-             | Proof.RewriteReverse _ | Proof.RewriteInAt _ -> true
-             | _ -> false)
-          new_candidate
       in
       let candidates =
         List.filter
@@ -559,17 +538,51 @@ let rank_tactic t candidates tactic stateset : int option =
              | _ -> false)
           candidates
       in
+      let new_candidate = List.filter (fun c -> not (useless_rewrite c)) new_candidate in
       if candidates = new_candidate
       then None
+      else if is_more_similar goal new_goal
+      then Some 1
+      else Some 2)
+  | Proof.RewriteReverse (src, _, i) ->
+    if
+      (String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src)
+      && i = 0
+    then None
+    else (
+      let new_t = Proof.apply_tactic t tactic in
+      let _, goal = Proof.get_first_state t in
+      let _, new_goal = Proof.get_first_state new_t in
+      let lhs = Proof.get_lhs goal in
+      let rhs = Proof.get_rhs goal in
+      let new_lhs = Proof.get_lhs new_goal in
+      let new_rhs = Proof.get_rhs new_goal in
+      if
+        (new_lhs <> lhs && String.starts_with ~prefix:"rhs" src)
+        || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
+      then None
       else (
-        let _ = Proof.pp_t t |> print_endline in
-        let _ = Proof.pp_tactic tactic |> print_endline in
-        let _ = List.iter (fun c -> print_endline (Proof.pp_tactic c)) new_candidate in
-        let _ = print_endline "=====================" in
-        let _ = List.iter (fun c -> print_endline (Proof.pp_tactic c)) candidates in
-        let _ = failwith "asdf" in
-        (* this heuristic does not work.... *)
-        Some 2))
+        let new_candidate = mk_candidates new_t in
+        let new_candidate = List.filter (fun c -> is_valid new_t c) new_candidate in
+        let new_candidate =
+          List.filter (fun c -> not (is_duplicated new_t c stateset)) new_candidate
+        in
+        let new_candidate =
+          List.filter
+            (fun c ->
+               match c with
+               | Proof.RewriteReverse _ | Proof.RewriteInAt _ -> true
+               | _ -> false)
+            new_candidate
+        in
+        let new_candidate =
+          List.filter (fun c -> not (useless_rewrite c)) new_candidate
+        in
+        if candidates = new_candidate
+        then None
+        else if is_more_similar goal new_goal
+        then Some 1
+        else Some 2))
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
     let _, goal = state in
@@ -614,6 +627,7 @@ let prune_rank_worklist t candidates statelist =
     candidates
     |> List.filter (fun c -> is_valid t c)
     |> List.filter (fun c -> not (is_duplicated t c statelist))
+    |> List.filter (fun c -> not (useless_rewrite c))
   in
   let worklist = rank_tactics t candidates statelist in
   WorkList.of_list worklist

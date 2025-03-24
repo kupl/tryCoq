@@ -532,7 +532,7 @@ let pattern_recognition ihs state_list : env * lemma list =
     let free_vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
     let goal = Proof.Forall (free_vars, goal) in
     let env = [ mk_lhs; mk_rhs ] in
-    env, rhs_lemma @ lhs_lemma @ [ goal ])
+    env, lhs_lemma @ rhs_lemma @ [ goal ])
 ;;
 
 let symbolic_execution t : state list list =
