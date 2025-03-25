@@ -272,31 +272,34 @@ let catch_recursive_pattern expr_list =
       ([], false)
       range
   in
-  let common_subtree_cand_list =
-    List.fold_left
-      (fun acc subtree_cand ->
-         List.map
-           (fun cand -> List.map (fun scenario -> scenario @ [ cand ]) acc)
-           subtree_cand
-         |> List.concat)
-      [ common_subtree_list |> List.hd ]
-      (common_subtree_list |> List.tl)
-  in
-  let common_subtree_cand_list =
-    List.filter
-      (fun subtree_list ->
-         let range = Proof.range 0 (List.length subtree_list - 1) in
-         List.for_all
-           (fun i ->
-              let subtree1 = List.nth subtree_list i in
-              let subtree2 = List.nth subtree_list (i + 1) in
-              is_proper_subset subtree1 subtree2)
-           range)
-      common_subtree_cand_list
-  in
-  if List.is_empty common_subtree_cand_list
+  if List.is_empty common_subtree_list
   then []
-  else common_subtree_cand_list |> List.hd
+  else (
+    let common_subtree_cand_list =
+      List.fold_left
+        (fun acc subtree_cand ->
+           List.map
+             (fun cand -> List.map (fun scenario -> scenario @ [ cand ]) acc)
+             subtree_cand
+           |> List.concat)
+        [ common_subtree_list |> List.hd ]
+        (common_subtree_list |> List.tl)
+    in
+    let common_subtree_cand_list =
+      List.filter
+        (fun subtree_list ->
+           let range = Proof.range 0 (List.length subtree_list - 1) in
+           List.for_all
+             (fun i ->
+                let subtree1 = List.nth subtree_list i in
+                let subtree2 = List.nth subtree_list (i + 1) in
+                is_proper_subset subtree1 subtree2)
+             range)
+        common_subtree_cand_list
+    in
+    if List.is_empty common_subtree_cand_list
+    then []
+    else common_subtree_cand_list |> List.hd)
 ;;
 
 let difference_of_subtree subtree1 subtree2 =

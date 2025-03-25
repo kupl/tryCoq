@@ -482,6 +482,36 @@ let rec is_if_then_else_in_prop src goal =
   | _ -> false
 ;;
 
+let rec is_case_match_in_expr src expr =
+  match expr.Ir.desc with
+  | Ir.Match (match_list, case_list) ->
+    (match match_list with
+     | [ e1 ] -> e1 = src
+     | _ ->
+       List.exists (fun exp -> is_case_match_in_expr src exp) match_list
+       || List.exists
+            (fun case ->
+               match case with
+               | Ir.Case (_, exp) -> is_case_match_in_expr src exp)
+            case_list)
+  | Ir.LetIn (assign_list, body) ->
+    List.exists (fun (_, exp) -> is_case_match_in_expr src exp) assign_list
+    || is_case_match_in_expr src body
+  | Ir.Call (_, args) -> List.exists (fun arg -> is_case_match_in_expr src arg) args
+  | Ir.Var _ -> false
+;;
+
+let rec is_case_match src goal =
+  match goal with
+  | Proof.Eq (lhs, rhs) | Proof.Le (lhs, rhs) | Proof.Lt (lhs, rhs) ->
+    is_case_match_in_expr src lhs || is_case_match_in_expr src rhs
+  | Proof.Or (lhs, rhs) -> is_case_match src lhs || is_case_match src rhs
+  | Proof.Not prop -> is_case_match src prop
+  | Proof.Imply (cond_list, prop) ->
+    List.exists (fun cond -> is_case_match src cond) cond_list || is_case_match src prop
+  | _ -> false
+;;
+
 let useless_rewrite tactic =
   match tactic with
   | Proof.RewriteInAt (src, target, _) | Proof.RewriteReverse (src, target, _) ->
@@ -604,10 +634,13 @@ let rank_tactic t candidates tactic stateset : int option =
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
     let _, goal = state in
+    let new_t = Proof.apply_tactic t tactic in
     let simpl = Proof.SimplIn "goal" in
     if not (is_duplicated t simpl stateset)
     then None
     else if is_if_then_else_in_prop expr goal
+    then Some 2
+    else if is_case_match expr goal && not (is_duplicated new_t simpl stateset)
     then Some 2
     else None
   | Proof.Reflexivity -> Some 0
