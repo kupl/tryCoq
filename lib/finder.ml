@@ -225,18 +225,23 @@ let find_larget_common_subtree expr1 expr2 =
     List.filter (fun subtree -> List.mem subtree subtree_list2) subtree_list1
   in
   if List.is_empty common_subtree (* when meet match or letin expression *)
-  then None
+  then []
   else (
     let largest_common_subtree =
       List.fold_left
-        (fun max subtree ->
+        (fun acc subtree ->
+           let max = List.hd acc in
            let height_of_max = number_of_vertices max in
            let height_of_subtree = number_of_vertices subtree in
-           if height_of_max > height_of_subtree then max else subtree)
-        (List.hd common_subtree)
+           if height_of_max > height_of_subtree
+           then acc
+           else if height_of_max = height_of_subtree
+           then subtree :: acc
+           else [ subtree ])
+        [ List.hd common_subtree ]
         (List.tl common_subtree)
     in
-    Some largest_common_subtree)
+    largest_common_subtree)
 ;;
 
 let is_proper_subset subtree1 subtree2 =
@@ -262,24 +267,36 @@ let catch_recursive_pattern expr_list =
            let expr1 = List.nth expr_list i in
            let expr2 = List.nth expr_list (i + 1) in
            match find_larget_common_subtree expr1 expr2 with
-           | Some subtree -> acc @ [ subtree ], false
-           | _ -> [], true))
+           | [] -> [], true
+           | subtree -> acc @ [ subtree ], false))
       ([], false)
       range
   in
-  if List.is_empty common_subtree_list
+  let common_subtree_cand_list =
+    List.fold_left
+      (fun acc subtree_cand ->
+         List.map
+           (fun cand -> List.map (fun scenario -> scenario @ [ cand ]) acc)
+           subtree_cand
+         |> List.concat)
+      [ common_subtree_list |> List.hd ]
+      (common_subtree_list |> List.tl)
+  in
+  let common_subtree_cand_list =
+    List.filter
+      (fun subtree_list ->
+         let range = Proof.range 0 (List.length subtree_list - 1) in
+         List.for_all
+           (fun i ->
+              let subtree1 = List.nth subtree_list i in
+              let subtree2 = List.nth subtree_list (i + 1) in
+              is_proper_subset subtree1 subtree2)
+           range)
+      common_subtree_cand_list
+  in
+  if List.is_empty common_subtree_cand_list
   then []
-  else (
-    let range = Proof.range 0 (List.length common_subtree_list - 1) in
-    if
-      List.exists
-        (fun i ->
-           let subtree1 = List.nth common_subtree_list i in
-           let subtree2 = List.nth common_subtree_list (i + 1) in
-           not (is_proper_subset subtree1 subtree2))
-        range
-    then []
-    else common_subtree_list)
+  else common_subtree_cand_list |> List.hd
 ;;
 
 let difference_of_subtree subtree1 subtree2 =

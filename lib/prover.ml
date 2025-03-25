@@ -539,6 +539,15 @@ let rank_tactic t candidates tactic stateset : int option =
           candidates
       in
       let new_candidate = List.filter (fun c -> not (useless_rewrite c)) new_candidate in
+      let candidates =
+        List.filter
+          (fun c ->
+             match c with
+             | Proof.RewriteInAt _ | Proof.RewriteReverse _ -> true
+             | _ -> false)
+          candidates
+      in
+      let candidates = List.filter (fun c -> not (useless_rewrite c)) candidates in
       if candidates = new_candidate
       then None
       else if is_more_similar goal new_goal
@@ -578,6 +587,15 @@ let rank_tactic t candidates tactic stateset : int option =
         let new_candidate =
           List.filter (fun c -> not (useless_rewrite c)) new_candidate
         in
+        let candidates =
+          List.filter
+            (fun c ->
+               match c with
+               | Proof.RewriteInAt _ | Proof.RewriteReverse _ -> true
+               | _ -> false)
+            candidates
+        in
+        let candidates = List.filter (fun c -> not (useless_rewrite c)) candidates in
         if candidates = new_candidate
         then None
         else if is_more_similar goal new_goal
