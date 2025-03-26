@@ -45,9 +45,9 @@ let rec split_tale lst =
 ;;
 
 let rec loop_advanced worklist old_lemma_list =
-  let stuck_list, proof = Prover.(progress worklist ProofSet.empty ProofSet.empty) in
+  let stuck_list, proof, env = Prover.(progress worklist ProofSet.empty ProofSet.empty) in
   match proof with
-  | Some _ -> [], proof
+  | Some _ -> [], proof, env
   | None ->
     let lemma_list =
       Finder.make_lemmas_by_advanced_generalize stuck_list old_lemma_list
@@ -111,10 +111,19 @@ let proof_auto std_lib program_a program_b goal =
   let goal = Proof.parse_tactic init_t goal in
   let worklist = Prover.WorkList.of_list [ init_t, goal, 0 ] in
   match loop_advanced worklist [] with
-  | _, Some proof ->
+  | _, Some proof, env ->
     print_endline "Proof Success";
+    print_endline "Helper Functions";
+    Ir.pp_t
+      (List.filter
+         (fun decl ->
+            match decl with
+            | Ir.TypeDecl _ -> false
+            | _ -> String.starts_with ~prefix:"mk" (Ir.get_fun_name decl))
+         env)
+    |> print_endline;
     print_endline "Proof";
     List.iter print_endline (List.map Proof.pp_tactic proof);
     print_endline "Qed"
-  | _, None -> print_endline "Fail"
+  | _, None, _ -> print_endline "Fail"
 ;;

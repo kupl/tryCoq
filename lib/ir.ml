@@ -42,6 +42,12 @@ and pattern =
 
 and name = string [@@deriving sexp]
 
+let get_fun_name decl =
+  match decl with
+  | Rec (name, _, _) | NonRec (name, _, _) -> name
+  | _ -> failwith "t is no function"
+;;
+
 let rec nth_tale n lst =
   if n = 0
   then lst

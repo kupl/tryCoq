@@ -686,13 +686,9 @@ let prune_rank_worklist t candidates statelist =
 
 let is_stuck worklist = WorkList.is_empty worklist
 
-(* worklist : priority queue
-  stastelist : Set
-  stuck_point : Set
-*)
 let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
   match WorkList.is_empty worklist with
-  | true -> stuck_point, None
+  | true -> stuck_point, None, []
   | _ ->
     let prev_worklist, work = WorkList.take_exn worklist in
     let t, tactic, r = work in
@@ -704,7 +700,7 @@ let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
     in
     let next_t = Proof.apply_tactic t tactic in
     (match next_t.proof with
-     | _, [], proof -> ProofSet.empty, Some proof
+     | _, [], proof -> ProofSet.empty, Some proof, next_t.env
      | _ ->
        let _ = Proof.pp_t next_t |> print_endline in
        let statelist = ProofSet.add next_t statelist in
