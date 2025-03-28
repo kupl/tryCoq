@@ -229,19 +229,18 @@ let is_proper_subset subtree1 subtree2 =
 ;;
 
 let rec is_strict_large subtree1 subtree2 =
-  let is_matched subtree1 subtree2 =
+  let rec is_matched subtree1 subtree2 =
     match subtree1.desc, subtree2.desc with
     | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
-      name1 = name2 && List.length args1 = List.length args2
-    | Some (Sub_Var var1), Some (Sub_Var var2) -> var1 = var2
+      (name1 = name2 && List.for_all2 is_matched args1 args2)
+      || List.exists (fun arg -> is_matched subtree1 arg) args2
     | None, _ -> true
-    | _, _ -> false
+    | _, _ -> subtree1 = subtree2
   in
   (* here *)
   match subtree1.desc, subtree2.desc with
   | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
-    (name1 = name2
-     && List.for_all2 (fun arg1 arg2 -> arg1.desc = None || arg1 = arg2) args1 args2)
+    (name1 = name2 && List.for_all2 is_matched args1 args2)
     || List.exists (fun arg -> is_strict_large subtree1 arg) args2
   | _, Some (Sub_Call (_, args)) ->
     List.exists (fun arg -> is_strict_large subtree1 arg) args
@@ -270,11 +269,6 @@ let find_larget_common_subtree expr1 expr2 =
            else subtree :: subtree_list)
         []
         common_subtree
-    in
-    let _ = print_endline "largest_common_subtree-----------" in
-    let _ =
-      largest_common_subtree
-      |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
     in
     largest_common_subtree)
 ;;
@@ -307,8 +301,14 @@ let catch_recursive_pattern expr_list =
              (fun cand -> List.map (fun scenario -> scenario @ [ cand ]) acc)
              subtree_cand
            |> List.concat)
-        [ common_subtree_list |> List.hd ]
+        (List.hd common_subtree_list |> List.map (fun subtree -> [ subtree ]))
         (common_subtree_list |> List.tl)
+    in
+    let _ =
+      common_subtree_cand_list
+      |> List.iter (fun subtree_list ->
+        let _ = print_endline "common_subtree_cand_list----------" in
+        subtree_list |> List.iter (fun subtree -> pp_subtree subtree |> print_endline))
     in
     let common_subtree_cand_list =
       List.filter
@@ -324,7 +324,12 @@ let catch_recursive_pattern expr_list =
     in
     if List.is_empty common_subtree_cand_list
     then []
-    else common_subtree_cand_list |> List.hd)
+    else
+      List.fold_left
+        (fun acc subtree_list ->
+           if List.length acc > List.length subtree_list then acc else subtree_list)
+        (List.hd common_subtree_cand_list)
+        (List.tl common_subtree_cand_list))
 ;;
 
 let difference_of_subtree subtree1 subtree2 =
@@ -482,7 +487,7 @@ let pattern_recognition ihs state_list : env * lemma list =
   in
   let rhs_common_subtree_cand =
     List.map (fun rhs -> catch_recursive_pattern (rhs :: rhs_list)) first_rhs
-    @ [ catch_recursive_pattern lhs_list ]
+    @ [ catch_recursive_pattern rhs_list ]
   in
   let lhs_common_subtree =
     List.fold_left
@@ -498,6 +503,13 @@ let pattern_recognition ihs state_list : env * lemma list =
       (List.hd rhs_common_subtree_cand)
       (List.tl rhs_common_subtree_cand)
   in
+  let _ =
+    lhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+  in
+  let _ =
+    rhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+  in
+  let _ = failwith "asdf" in
   if
     List.length lhs_common_subtree <> List.length rhs_common_subtree
     || List.is_empty lhs_common_subtree

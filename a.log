@@ -34,10 +34,7 @@ forall (l:lambda), check_ta1 (l) = check (l)
 1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
 
 ---------------------------------------
-forall (l:lambda), sub_check_ta1 (l) (Nil) = match (l) with
-| V na -> false
-| P st k -> sub_check (k) (Cons (st) (Nil))
-| C me1 me2 -> && (sub_check (me1) (Nil)) (sub_check (me2) (Nil))
+forall (l:lambda), sub_check_ta1 (l) (Nil) = check_ (l) (Nil) (Nil)
 
 0 goal(s) more...
 
@@ -49,10 +46,7 @@ Progress: 3
 1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
 
 ---------------------------------------
-forall (l:lambda), sub_check_ta1 (l) (Nil) = match (l) with
-| V na -> false
-| P st k -> sub_check (k) (Cons (st) (Nil))
-| C me1 me2 -> && (sub_check (me1) (Nil)) (sub_check (me2) (Nil))
+forall (l:lambda), sub_check_ta1 (l) (Nil) = check_ (l) (Nil) (Nil)
 
 0 goal(s) more...
 
@@ -63,10 +57,7 @@ forall (l:lambda), sub_check_ta1 (l) (Nil) = match (l) with
 1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
 string1 : string
 ---------------------------------------
-sub_check_ta1 (V (string1)) (Nil) = match (V (string1)) with
-| V na -> false
-| P st k -> sub_check (k) (Cons (st) (Nil))
-| C me1 me2 -> && (sub_check (me1) (Nil)) (sub_check (me2) (Nil))
+sub_check_ta1 (V (string1)) (Nil) = check_ (V (string1)) (Nil) (Nil)
 
 2 goal(s) more...
 
@@ -78,10 +69,7 @@ Progress: 4
 1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
 string1 : string
 ---------------------------------------
-sub_check_ta1 (V (string1)) (Nil) = match (V (string1)) with
-| V na -> false
-| P st k -> sub_check (k) (Cons (st) (Nil))
-| C me1 me2 -> && (sub_check (me1) (Nil)) (sub_check (me2) (Nil))
+sub_check_ta1 (V (string1)) (Nil) = check_ (V (string1)) (Nil) (Nil)
 
 2 goal(s) more...
 
@@ -115,16 +103,10 @@ false = false
 1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
 string4 : string
 lambda5 : lambda
-IH6 : sub_check_ta1 (lambda5) (Nil) = match (lambda5) with
-| V na -> false
-| P st k -> sub_check (k) (Cons (st) (Nil))
-| C me1 me2 -> && (sub_check (me1) (Nil)) (sub_check (me2) (Nil))
+IH6 : sub_check_ta1 (lambda5) (Nil) = check_ (lambda5) (Nil) (Nil)
 Inductive7 : l = P (string4) (lambda5)
 ---------------------------------------
-sub_check_ta1 (P (string4) (lambda5)) (Nil) = match (P (string4) (lambda5)) with
-| V na -> false
-| P st k -> sub_check (k) (Cons (st) (Nil))
-| C me1 me2 -> && (sub_check (me1) (Nil)) (sub_check (me2) (Nil))
+sub_check_ta1 (P (string4) (lambda5)) (Nil) = check_ (P (string4) (lambda5)) (Nil) (Nil)
 
 1 goal(s) more...
 
@@ -136,16 +118,10 @@ Progress: 6
 1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
 string4 : string
 lambda5 : lambda
-IH6 : sub_check_ta1 (lambda5) (Nil) = match (lambda5) with
-| V na -> false
-| P st k -> sub_check (k) (Cons (st) (Nil))
-| C me1 me2 -> && (sub_check (me1) (Nil)) (sub_check (me2) (Nil))
+IH6 : sub_check_ta1 (lambda5) (Nil) = check_ (lambda5) (Nil) (Nil)
 Inductive7 : l = P (string4) (lambda5)
 ---------------------------------------
-sub_check_ta1 (P (string4) (lambda5)) (Nil) = match (P (string4) (lambda5)) with
-| V na -> false
-| P st k -> sub_check (k) (Cons (st) (Nil))
-| C me1 me2 -> && (sub_check (me1) (Nil)) (sub_check (me2) (Nil))
+sub_check_ta1 (P (string4) (lambda5)) (Nil) = check_ (P (string4) (lambda5)) (Nil) (Nil)
 
 1 goal(s) more...
 
@@ -156,13 +132,10 @@ sub_check_ta1 (P (string4) (lambda5)) (Nil) = match (P (string4) (lambda5)) with
 1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
 string4 : string
 lambda5 : lambda
-IH6 : sub_check_ta1 (lambda5) (Nil) = match (lambda5) with
-| V na -> false
-| P st k -> sub_check (k) (Cons (st) (Nil))
-| C me1 me2 -> && (sub_check (me1) (Nil)) (sub_check (me2) (Nil))
+IH6 : sub_check_ta1 (lambda5) (Nil) = check_ (lambda5) (Nil) (Nil)
 Inductive7 : l = P (string4) (lambda5)
 ---------------------------------------
-sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = check_ (lambda5) (Cons (string4) (Nil)) (Nil)
 
 1 goal(s) more...
 
@@ -172,99 +145,211 @@ sub_check_ta1 (lambda5) (Cons (string4) (Nil))
 sub_check_ta1 (lambda19) (Cons (string18) (Cons (string4) (Nil)))
 sub_check_ta1 (lambda33) (Cons (string32) (Cons (string18) (Cons (string4) (Nil))))
 sub_check_ta1 (lambda47) (Cons (string46) (Cons (string32) (Cons (string18) (Cons (string4) (Nil)))))
-largest_common_subtree-----------
+common_subtree_cand_list----------
 sub_check_ta1(_, Cons(_, _))
-Cons(string4, Nil())
-largest_common_subtree-----------
 sub_check_ta1(_, Cons(_, Cons(_, _)))
+sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
+common_subtree_cand_list----------
+Cons(string4, Nil())
+sub_check_ta1(_, Cons(_, Cons(_, _)))
+sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
+common_subtree_cand_list----------
 sub_check_ta1(_, Cons(_, _))
 Cons(string18, Cons(string4, Nil()))
-Cons(string18, Cons(string4, _))
-Cons(string18, Cons(_, Nil()))
-Cons(string18, Cons(_, _))
-largest_common_subtree-----------
 sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
-sub_check_ta1(_, Cons(_, Cons(_, _)))
+common_subtree_cand_list----------
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
+common_subtree_cand_list----------
 sub_check_ta1(_, Cons(_, _))
+sub_check_ta1(_, Cons(_, Cons(_, _)))
 Cons(string32, Cons(string18, Cons(string4, Nil())))
-Cons(string32, Cons(string18, Cons(string4, _)))
-Cons(string32, Cons(string18, Cons(_, Nil())))
-Cons(string32, Cons(string18, Cons(_, _)))
-Cons(string32, Cons(string18, _))
-Cons(string32, Cons(_, Cons(string4, Nil())))
-Cons(string32, Cons(_, Cons(string4, _)))
-Cons(string32, Cons(_, Cons(_, Nil())))
-Cons(string32, Cons(_, Cons(_, _)))
-Cons(string32, Cons(_, _))
+common_subtree_cand_list----------
+Cons(string4, Nil())
+sub_check_ta1(_, Cons(_, Cons(_, _)))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+sub_check_ta1(_, Cons(_, _))
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
 mmmmmmmmmmmmmmmmmm
 sub_check_ta1 (lambda5) (Nil)
 sub_check_ta1 (lambda5) (Cons (string4) (Nil))
 sub_check_ta1 (lambda19) (Cons (string18) (Cons (string4) (Nil)))
 sub_check_ta1 (lambda33) (Cons (string32) (Cons (string18) (Cons (string4) (Nil))))
 sub_check_ta1 (lambda47) (Cons (string46) (Cons (string32) (Cons (string18) (Cons (string4) (Nil)))))
-largest_common_subtree-----------
+common_subtree_cand_list----------
 sub_check_ta1(lambda5, _)
+sub_check_ta1(_, Cons(_, _))
+sub_check_ta1(_, Cons(_, Cons(_, _)))
+sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
+common_subtree_cand_list----------
 Nil()
-largest_common_subtree-----------
 sub_check_ta1(_, Cons(_, _))
-Cons(string4, Nil())
-largest_common_subtree-----------
 sub_check_ta1(_, Cons(_, Cons(_, _)))
+sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
+common_subtree_cand_list----------
+sub_check_ta1(lambda5, _)
+Cons(string4, Nil())
+sub_check_ta1(_, Cons(_, Cons(_, _)))
+sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
+common_subtree_cand_list----------
+Nil()
+Cons(string4, Nil())
+sub_check_ta1(_, Cons(_, Cons(_, _)))
+sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
+common_subtree_cand_list----------
+sub_check_ta1(lambda5, _)
 sub_check_ta1(_, Cons(_, _))
 Cons(string18, Cons(string4, Nil()))
-Cons(string18, Cons(string4, _))
-Cons(string18, Cons(_, Nil()))
-Cons(string18, Cons(_, _))
-largest_common_subtree-----------
 sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
-sub_check_ta1(_, Cons(_, Cons(_, _)))
-sub_check_ta1(_, Cons(_, _))
-Cons(string32, Cons(string18, Cons(string4, Nil())))
-Cons(string32, Cons(string18, Cons(string4, _)))
-Cons(string32, Cons(string18, Cons(_, Nil())))
-Cons(string32, Cons(string18, Cons(_, _)))
-Cons(string32, Cons(string18, _))
-Cons(string32, Cons(_, Cons(string4, Nil())))
-Cons(string32, Cons(_, Cons(string4, _)))
-Cons(string32, Cons(_, Cons(_, Nil())))
-Cons(string32, Cons(_, Cons(_, _)))
-Cons(string32, Cons(_, _))
-mmmmmmmmmmmmmmmmmm
-sub_check_ta1 (lambda5) (Cons (string4) (Nil))
-sub_check_ta1 (lambda19) (Cons (string18) (Cons (string4) (Nil)))
-sub_check_ta1 (lambda33) (Cons (string32) (Cons (string18) (Cons (string4) (Nil))))
-sub_check_ta1 (lambda47) (Cons (string46) (Cons (string32) (Cons (string18) (Cons (string4) (Nil)))))
-largest_common_subtree-----------
-sub_check_ta1(_, Cons(_, _))
-Cons(string4, Nil())
-largest_common_subtree-----------
-sub_check_ta1(_, Cons(_, Cons(_, _)))
+common_subtree_cand_list----------
+Nil()
 sub_check_ta1(_, Cons(_, _))
 Cons(string18, Cons(string4, Nil()))
-Cons(string18, Cons(string4, _))
-Cons(string18, Cons(_, Nil()))
-Cons(string18, Cons(_, _))
-largest_common_subtree-----------
 sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
-sub_check_ta1(_, Cons(_, Cons(_, _)))
+common_subtree_cand_list----------
+sub_check_ta1(lambda5, _)
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
+common_subtree_cand_list----------
+Nil()
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+sub_check_ta1(_, Cons(_, Cons(_, Cons(_, _))))
+common_subtree_cand_list----------
+sub_check_ta1(lambda5, _)
 sub_check_ta1(_, Cons(_, _))
+sub_check_ta1(_, Cons(_, Cons(_, _)))
 Cons(string32, Cons(string18, Cons(string4, Nil())))
-Cons(string32, Cons(string18, Cons(string4, _)))
-Cons(string32, Cons(string18, Cons(_, Nil())))
-Cons(string32, Cons(string18, Cons(_, _)))
-Cons(string32, Cons(string18, _))
-Cons(string32, Cons(_, Cons(string4, Nil())))
-Cons(string32, Cons(_, Cons(string4, _)))
-Cons(string32, Cons(_, Cons(_, Nil())))
-Cons(string32, Cons(_, Cons(_, _)))
-Cons(string32, Cons(_, _))
+common_subtree_cand_list----------
+Nil()
+sub_check_ta1(_, Cons(_, _))
+sub_check_ta1(_, Cons(_, Cons(_, _)))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+sub_check_ta1(lambda5, _)
+Cons(string4, Nil())
+sub_check_ta1(_, Cons(_, Cons(_, _)))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+Nil()
+Cons(string4, Nil())
+sub_check_ta1(_, Cons(_, Cons(_, _)))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+sub_check_ta1(lambda5, _)
+sub_check_ta1(_, Cons(_, _))
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+Nil()
+sub_check_ta1(_, Cons(_, _))
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+sub_check_ta1(lambda5, _)
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+Nil()
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
 mmmmmmmmmmmmmmmmmm
-match (lambda5) with
-| V na -> false
-| P st k -> sub_check (k) (Cons (st) (Nil))
-| C me1 me2 -> && (sub_check (me1) (Nil)) (sub_check (me2) (Nil))
-sub_check (lambda5) (Cons (string4) (Nil))
-sub_check (lambda19) (Cons (string18) (Cons (string4) (Nil)))
-sub_check (lambda33) (Cons (string32) (Cons (string18) (Cons (string4) (Nil))))
-sub_check (lambda47) (Cons (string46) (Cons (string32) (Cons (string18) (Cons (string4) (Nil)))))
-Lemma List : 0
+check_ (lambda5) (Cons (string4) (Nil)) (Nil)
+check_ (lambda19) (Cons (string18) (Cons (string4) (Nil))) (Nil)
+check_ (lambda33) (Cons (string32) (Cons (string18) (Cons (string4) (Nil)))) (Nil)
+check_ (lambda47) (Cons (string46) (Cons (string32) (Cons (string18) (Cons (string4) (Nil))))) (Nil)
+common_subtree_cand_list----------
+check_(_, Cons(_, _), Nil())
+check_(_, Cons(_, Cons(_, _)), Nil())
+check_(_, Cons(_, Cons(_, Cons(_, _))), Nil())
+common_subtree_cand_list----------
+Cons(string4, Nil())
+check_(_, Cons(_, Cons(_, _)), Nil())
+check_(_, Cons(_, Cons(_, Cons(_, _))), Nil())
+common_subtree_cand_list----------
+check_(_, Cons(_, _), Nil())
+Cons(string18, Cons(string4, Nil()))
+check_(_, Cons(_, Cons(_, Cons(_, _))), Nil())
+common_subtree_cand_list----------
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+check_(_, Cons(_, Cons(_, Cons(_, _))), Nil())
+common_subtree_cand_list----------
+check_(_, Cons(_, _), Nil())
+check_(_, Cons(_, Cons(_, _)), Nil())
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+Cons(string4, Nil())
+check_(_, Cons(_, Cons(_, _)), Nil())
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+check_(_, Cons(_, _), Nil())
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+mmmmmmmmmmmmmmmmmm
+check_ (lambda5) (Nil) (Nil)
+check_ (lambda5) (Cons (string4) (Nil)) (Nil)
+check_ (lambda19) (Cons (string18) (Cons (string4) (Nil))) (Nil)
+check_ (lambda33) (Cons (string32) (Cons (string18) (Cons (string4) (Nil)))) (Nil)
+check_ (lambda47) (Cons (string46) (Cons (string32) (Cons (string18) (Cons (string4) (Nil))))) (Nil)
+common_subtree_cand_list----------
+check_(lambda5, _, Nil())
+check_(_, Cons(_, _), Nil())
+check_(_, Cons(_, Cons(_, _)), Nil())
+check_(_, Cons(_, Cons(_, Cons(_, _))), Nil())
+common_subtree_cand_list----------
+check_(lambda5, _, Nil())
+Cons(string4, Nil())
+check_(_, Cons(_, Cons(_, _)), Nil())
+check_(_, Cons(_, Cons(_, Cons(_, _))), Nil())
+common_subtree_cand_list----------
+check_(lambda5, _, Nil())
+check_(_, Cons(_, _), Nil())
+Cons(string18, Cons(string4, Nil()))
+check_(_, Cons(_, Cons(_, Cons(_, _))), Nil())
+common_subtree_cand_list----------
+check_(lambda5, _, Nil())
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+check_(_, Cons(_, Cons(_, Cons(_, _))), Nil())
+common_subtree_cand_list----------
+check_(lambda5, _, Nil())
+check_(_, Cons(_, _), Nil())
+check_(_, Cons(_, Cons(_, _)), Nil())
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+check_(lambda5, _, Nil())
+Cons(string4, Nil())
+check_(_, Cons(_, Cons(_, _)), Nil())
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+check_(lambda5, _, Nil())
+check_(_, Cons(_, _), Nil())
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+common_subtree_cand_list----------
+check_(lambda5, _, Nil())
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+Nil()
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
+Cons(string4, Nil())
+Cons(string18, Cons(string4, Nil()))
+Cons(string32, Cons(string18, Cons(string4, Nil())))
