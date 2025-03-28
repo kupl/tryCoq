@@ -218,6 +218,38 @@ let number_of_vertices subtree =
   number_of_vertices_from_root subtree
 ;;
 
+let is_proper_subset subtree1 subtree2 =
+  let rec is_proper_subset subtree1 subtree2 =
+    match subtree2.desc with
+    | Some (Sub_Call (_, args)) ->
+      subtree1 = subtree2 || List.exists (fun arg -> is_proper_subset subtree1 arg) args
+    | _ -> subtree1 = subtree2
+  in
+  if subtree1 = subtree2 then false else is_proper_subset subtree1 subtree2
+;;
+
+let rec is_strict_large subtree1 subtree2 =
+  let is_matched subtree1 subtree2 =
+    match subtree1.desc, subtree2.desc with
+    | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
+      name1 = name2 && List.length args1 = List.length args2
+    | Some (Sub_Var var1), Some (Sub_Var var2) -> var1 = var2
+    | None, _ -> true
+    | _, _ -> false
+  in
+  (* here *)
+  match subtree1.desc, subtree2.desc with
+  | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
+    (name1 = name2
+     && List.for_all2 (fun arg1 arg2 -> arg1.desc = None || arg1 = arg2) args1 args2)
+    || List.exists (fun arg -> is_strict_large subtree1 arg) args2
+  | _, Some (Sub_Call (_, args)) ->
+    List.exists (fun arg -> is_strict_large subtree1 arg) args
+  | Some (Sub_Var var1), Some (Sub_Var var2) -> var1 = var2
+  | None, _ -> true
+  | _, _ -> false
+;;
+
 let find_larget_common_subtree expr1 expr2 =
   let subtree_list1 = find_all_subtree expr1 in
   let subtree_list2 = find_all_subtree expr2 in
@@ -230,28 +262,21 @@ let find_larget_common_subtree expr1 expr2 =
     let largest_common_subtree =
       List.fold_left
         (fun acc subtree ->
-           let max = List.hd acc in
-           let height_of_max = number_of_vertices max in
-           let height_of_subtree = number_of_vertices subtree in
-           if height_of_max > height_of_subtree
-           then acc
-           else if height_of_max = height_of_subtree
-           then subtree :: acc
-           else [ subtree ])
-        [ List.hd common_subtree ]
-        (List.tl common_subtree)
+           let subtree_list =
+             List.filter (fun subtree2 -> not (is_strict_large subtree2 subtree)) acc
+           in
+           if List.exists (fun subtree2 -> is_strict_large subtree subtree2) subtree_list
+           then subtree_list
+           else subtree :: subtree_list)
+        []
+        common_subtree
+    in
+    let _ = print_endline "largest_common_subtree-----------" in
+    let _ =
+      largest_common_subtree
+      |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
     in
     largest_common_subtree)
-;;
-
-let is_proper_subset subtree1 subtree2 =
-  let rec is_proper_subset subtree1 subtree2 =
-    match subtree2.desc with
-    | Some (Sub_Call (_, args)) ->
-      subtree1 = subtree2 || List.exists (fun arg -> is_proper_subset subtree1 arg) args
-    | _ -> subtree1 = subtree2
-  in
-  if subtree1 = subtree2 then false else is_proper_subset subtree1 subtree2
 ;;
 
 let catch_recursive_pattern expr_list =
