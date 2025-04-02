@@ -1,7 +1,8 @@
 open Sexplib.Std
 
 type t =
-  { proof : lemma_stack * conjecture list * tactic list
+  { env : Ir.t
+  ; proof : lemma_stack * conjecture list * tactic list
   ; mutable counter : int
   }
 [@@deriving sexp]
@@ -57,11 +58,27 @@ let get_global_cnt () =
   !counter
 ;;
 
-let create_t ?(proof = [], [], []) ?(counter = 0) () = { proof; counter }
+let create_t env ?(proof = [], [], []) ?(counter = 0) () = { env; proof; counter }
 
 let get_counter t =
   t.counter <- t.counter + 1;
   t.counter
+;;
+
+let rec get_lhs prop =
+  match prop with
+  | Eq (lhs, _) -> lhs
+  | Forall (_, prop) -> get_lhs prop
+  | Imply (_, prop) -> get_lhs prop
+  | _ -> failwith "The goal is not an equality"
+;;
+
+let rec get_rhs prop =
+  match prop with
+  | Eq (_, rhs) -> rhs
+  | Forall (_, prop) -> get_rhs prop
+  | Imply (_, prop) -> get_rhs prop
+  | _ -> failwith "The goal is not an equality"
 ;;
 
 let mk_intro name = Intro name
@@ -102,7 +119,7 @@ let get_goal_list (t : t) =
 ;;
 
 let range start stop =
-  let rec range' i acc = if i = stop then acc else range' (i + 1) (acc @ [ i ]) in
+  let rec range' i acc = if i >= stop then acc else range' (i + 1) (acc @ [ i ]) in
   range' start []
 ;;
 
@@ -375,7 +392,8 @@ let apply_intro name state : state =
       let new_goal = if List.is_empty var_list then goal else Forall (var_list, goal) in
       facts @ [ name, typ ], new_goal)
   | Imply (cond_list, p2) ->
-    facts @ [ name, List.hd cond_list ], Imply (List.tl cond_list, p2)
+    ( facts @ [ name, List.hd cond_list ]
+    , if List.is_empty (List.tl cond_list) then p2 else Imply (List.tl cond_list, p2) )
   | _ -> failwith "There is no term that can be introduced"
 ;;
 
@@ -387,7 +405,8 @@ let rec apply_eq goal =
   | _ -> failwith "The goal is not an equality"
 ;;
 
-let apply_induction env name state t : state list =
+let apply_induction name state t : state list =
+  let env = t.env in
   let facts, goal = state in
   match goal with
   | Forall (var_list, goal) ->
@@ -405,7 +424,8 @@ let apply_induction env name state t : state list =
       match typ with
       | Ir.Talgebraic (typ_name, typ_list) ->
         ( typ_list
-        , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+        , (match Ir.find_decl typ_name env with
+           | Some decl -> decl |> Ir.get_typ_decl
            | _ -> failwith ("cannot found such type : " ^ typ_name)) )
       | _ -> failwith "This type is not algebraic"
     in
@@ -914,7 +934,8 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
     [ fact, goal ] @ List.map (fun goal -> facts, goal) new_task
 ;;
 
-let apply_strong_induction env name state t : state list =
+let apply_strong_induction name state t : state list =
+  let env = t.env in
   let facts, goal = state in
   match goal with
   | Forall (var_list, goal) ->
@@ -932,7 +953,8 @@ let apply_strong_induction env name state t : state list =
       match typ with
       | Ir.Talgebraic (typ_name, typ_list) ->
         ( typ_list
-        , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+        , (match Ir.find_decl typ_name env with
+           | Some decl -> decl |> Ir.get_typ_decl
            | _ -> failwith ("cannot found such type : " ^ typ_name)) )
       | _ -> failwith "This type is not algebraic"
     in
@@ -1187,8 +1209,8 @@ let rec simplify_expr (env : Ir.t) expr =
        let decl_args, fun_decl, rec_flag =
          let decl = Ir.find_decl name env in
          match decl with
-         | Ir.NonRec (_, args, e) -> args, e, false
-         | Ir.Rec (_, args, e) -> args, e, true
+         | Some (Ir.NonRec (_, args, e)) -> args, e, false
+         | Some (Ir.Rec (_, args, e)) -> args, e, true
          | _ -> failwith "This expression is not a function"
        in
        let fun_body =
@@ -1317,7 +1339,9 @@ let rec simplify_prop env prop =
   | Type typ -> Type typ
 ;;
 
-let apply_simpl env state target : state =
+let apply_simpl t target : state =
+  let env = t.env in
+  let state = get_first_state t in
   let facts, goal = state in
   match target with
   | "goal" ->
@@ -1340,7 +1364,8 @@ let apply_assert prop t : t =
   { t with proof = lemma_stack, conj :: conj_list, tactic_list @ [ mk_assert prop ] }
 ;;
 
-let apply_destruct env name state t : state list =
+let apply_destruct name state t : state list =
+  let env = t.env in
   let facts, goal = state in
   let typ =
     match get_type_in_prop name goal with
@@ -1351,7 +1376,8 @@ let apply_destruct env name state t : state list =
     match typ with
     | Ir.Talgebraic (typ_name, typ_list) ->
       ( typ_list
-      , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+      , (match Ir.find_decl typ_name env with
+         | Some decl -> decl |> Ir.get_typ_decl
          | _ -> failwith ("cannot found such type : " ^ typ_name)) )
     | _ -> failwith "This type is not algebraic"
   in
@@ -1459,14 +1485,16 @@ let apply_destruct env name state t : state list =
     decl
 ;;
 
-let apply_case env expr state t : state list =
+let apply_case expr state t : state list =
+  let env = t.env in
   let facts, goal = state in
   let typ = expr.Ir.typ in
   let typ_args, (origin_args, decl) =
     match typ with
     | Ir.Talgebraic (typ_name, typ_list) ->
       ( typ_list
-      , (try Ir.find_decl typ_name env |> Ir.get_typ_decl with
+      , (match Ir.find_decl typ_name env with
+         | Some decl -> decl |> Ir.get_typ_decl
          | _ -> failwith ("cannot found such type : " ^ typ_name)) )
     | _ -> failwith "This type is not algebraic"
   in
@@ -1590,7 +1618,8 @@ let apply_desrciminate env facts : state list =
   else failwith "Cannot Discriminate"
 ;;
 
-let apply_tactic (t : t) env tactic : t =
+let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
+  let env = t.env in
   let lemma_stack, conj_list, tactic_list = t.proof in
   match tactic with
   | Assert prop -> apply_assert prop t
@@ -1620,28 +1649,27 @@ let apply_tactic (t : t) env tactic : t =
         , tactic_list @ [ tactic ] )
       | Induction name ->
         ( lemma_stack
-        , (apply_induction env name first_state t @ List.tl state_list, conj_goal)
+        , (apply_induction name first_state t @ List.tl state_list, conj_goal)
           :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | StrongInduction name ->
         ( lemma_stack
-        , (apply_strong_induction env name first_state t @ List.tl state_list, conj_goal)
+        , (apply_strong_induction name first_state t @ List.tl state_list, conj_goal)
           :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | Destruct name ->
         ( lemma_stack
-        , (apply_destruct env name first_state t @ List.tl state_list, conj_goal)
+        , (apply_destruct name first_state t @ List.tl state_list, conj_goal)
           :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | Case expr ->
         ( lemma_stack
-        , (apply_case env expr first_state t @ List.tl state_list, conj_goal)
+        , (apply_case expr first_state t @ List.tl state_list, conj_goal)
           :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | SimplIn target ->
         ( lemma_stack
-        , (apply_simpl env first_state target :: List.tl state_list, conj_goal)
-          :: List.tl conj_list
+        , (apply_simpl t target :: List.tl state_list, conj_goal) :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | Reflexivity ->
         let _, goal = first_state in
@@ -1649,7 +1677,15 @@ let apply_tactic (t : t) env tactic : t =
         let remain_states = List.tl state_list in
         (match remain_states with
          | [] ->
-           ( lemma_stack @ [ "lemma" ^ string_of_int (get_counter t), conj_goal ]
+           ( lemma_stack
+             @ [ ( (match is_lhs with
+                    | Some true -> "lhs_"
+                    | Some false -> "rhs_"
+                    | _ -> "")
+                   ^ "lemma"
+                   ^ string_of_int (get_counter t)
+                 , conj_goal )
+               ]
            , List.tl conj_list
            , tactic_list @ [ tactic ] )
          | _ ->
@@ -1716,7 +1752,8 @@ let rec parse_prop src binding decls =
   | _ -> failwith "not implemented"
 ;;
 
-let parse_tactic (t : t) src decls =
+let parse_tactic (t : t) src =
+  let env = t.env in
   let parts = String.split_on_char ' ' src in
   let name = List.hd parts in
   let args = List.tl parts in
@@ -1746,14 +1783,14 @@ let parse_tactic (t : t) src decls =
   | "case" ->
     let state = get_first_state t in
     let goal = state |> snd in
-    Case (parse_expr goal (String.concat " " args) decls)
-  | "assert" -> Assert (parse_prop (String.concat " " args) [] decls)
+    Case (parse_expr goal (String.concat " " args) env)
+  | "assert" -> Assert (parse_prop (String.concat " " args) [] env)
   | "discriminate" -> Discriminate
   | _ -> failwith "wrong tactic"
 ;;
 
 let proof_top env =
-  let init = create_t () in
+  let init = create_t env () in
   let rec loop ?(debug_tactic : debug_tactic option = None) t =
     print_newline ();
     pp_t ~debug_tactic t |> print_endline;
@@ -1766,7 +1803,7 @@ let proof_top env =
     | "alltactic" -> loop ~debug_tactic:(Some AllTactic) t
     | s ->
       let t =
-        try apply_tactic t env (parse_tactic t s env) with
+        try apply_tactic t (parse_tactic t s) with
         | exn ->
           print_endline (Printexc.to_string exn);
           t

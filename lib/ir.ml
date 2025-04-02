@@ -42,6 +42,12 @@ and pattern =
 
 and name = string [@@deriving sexp]
 
+let get_fun_name decl =
+  match decl with
+  | Rec (name, _, _) | NonRec (name, _, _) -> name
+  | _ -> failwith "t is no function"
+;;
+
 let rec nth_tale n lst =
   if n = 0
   then lst
@@ -65,6 +71,17 @@ let expr_of_int (i : int) : expr_desc =
   else if i > 0
   then Call ("Pos", [ { desc = expr_of_nat i; typ = Talgebraic ("natural", []) } ])
   else Call ("Neg", [ { desc = expr_of_nat (-i); typ = Talgebraic ("natural", []) } ])
+;;
+
+let rec expr_of_pattern pattern =
+  match pattern with
+  | Pat_Constr (name, patterns) ->
+    Call
+      ( name
+      , List.map (fun pattern -> { desc = expr_of_pattern pattern; typ = Tany }) patterns
+      )
+  | Pat_Var name -> Var name
+  | _ -> failwith "Not implemented"
 ;;
 
 let char_of_ascii i = Char.chr i
@@ -455,7 +472,7 @@ and get_type (expr : Typedtree.expression) =
 ;;
 
 let find_decl name (decls : t) =
-  List.find
+  List.find_opt
     (fun decl ->
        match decl with
        | NonRec (fname, _, _) -> fname = name
@@ -708,7 +725,7 @@ let get_free_vars expr =
 let search_return_type name t =
   let decl = find_decl name t in
   match decl with
-  | NonRec (_, _, expr) | Rec (_, _, expr) -> expr.typ
+  | Some (NonRec (_, _, expr)) | Some (Rec (_, _, expr)) -> expr.typ
   | _ -> failwith ("This is not a function :" ^ name)
 ;;
 
