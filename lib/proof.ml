@@ -1218,7 +1218,7 @@ let rec simplify_expr (env : Ir.t) expr =
            (fun e name arg ->
               let exp, _, _ =
                 substitute_expr_in_expr
-                  Ir.is_equal_expr
+                  Ir.is_equal_expr_partrial_fun
                   convert_in_simpl
                   e
                   Ir.{ desc = Var name; typ = arg.typ }
@@ -1264,7 +1264,7 @@ let rec simplify_expr (env : Ir.t) expr =
                        (fun e (e1, e2) ->
                           let exp, _, _ =
                             substitute_expr_in_expr
-                              Ir.is_equal_expr
+                              Ir.is_equal_expr_partrial_fun
                               convert_in_simpl
                               e
                               e1
@@ -1289,7 +1289,7 @@ let rec simplify_expr (env : Ir.t) expr =
         (fun e (name, e') ->
            let exp, _, _ =
              substitute_expr_in_expr
-               Ir.is_equal_expr
+               Ir.is_equal_expr_partrial_fun
                convert_in_simpl
                e
                Ir.{ desc = Var name; typ = e'.typ }

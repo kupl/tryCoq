@@ -585,6 +585,28 @@ let rec is_equal_expr e1 e2 =
     && is_equal_expr body1 body2
   | Call (name1, args1), Call (name2, args2) ->
     name1 = name2 && List.for_all2 (fun e1 e2 -> is_equal_expr e1 e2) args1 args2
+  | _ -> false
+
+and is_equal_expr_partrial_fun e1 e2 =
+  match e1.desc, e2.desc with
+  | Var v1, Var v2 -> v1 = v2
+  | Match (match_list1, cases1), Match (match_list2, cases2) ->
+    List.for_all2 (fun e1 e2 -> is_equal_expr_partrial_fun e1 e2) match_list1 match_list2
+    && List.for_all2
+         (fun (Case (p1, e1)) (Case (p2, e2)) ->
+            is_equal_pattern p1 p2 && is_equal_expr_partrial_fun e1 e2)
+         cases1
+         cases2
+  | LetIn (bindings1, body1), LetIn (bindings2, body2) ->
+    List.for_all2
+      (fun (name1, body1) (name2, body2) ->
+         name1 = name2 && is_equal_expr_partrial_fun body1 body2)
+      bindings1
+      bindings2
+    && is_equal_expr_partrial_fun body1 body2
+  | Call (name1, args1), Call (name2, args2) ->
+    name1 = name2
+    && List.for_all2 (fun e1 e2 -> is_equal_expr_partrial_fun e1 e2) args1 args2
   | Var v1, Call (v2, _) | Call (v1, _), Var v2 -> v1 = v2
   | _ -> false
 
