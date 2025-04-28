@@ -1,5 +1,17 @@
 open Sexplib.Std
 
+type graph = Egraph.L.op Egraph.Egraph.t
+
+let graph_of_sexp sexp =
+  ignore sexp;
+  failwith "dummy"
+;;
+
+let sexp_of_graph graph =
+  ignore graph;
+  failwith "dummy"
+;;
+
 type t =
   { env : Ir.t
   ; proof : lemma_stack * conjecture list * tactic list
@@ -9,7 +21,7 @@ type t =
 
 and lemma_stack = theorem list [@@deriving sexp]
 and conjecture = state list * goal [@@deriving sexp]
-and state = fact list * goal [@@deriving sexp]
+and state = fact list * goal * graph [@@deriving sexp]
 and fact = string * prop [@@deriving sexp]
 and goal = prop [@@deriving sexp]
 
@@ -50,6 +62,11 @@ type debug_tactic =
   | AllState
   | AllTactic
 [@@deriving sexp]
+
+let graph_of_prop prop =
+  ignore prop;
+  failwith "not implemented yet"
+;;
 
 let counter = ref 0
 
@@ -123,7 +140,6 @@ let range start stop =
   range' start []
 ;;
 
-let string_of_state state = state |> sexp_of_state |> Sexplib.Sexp.to_string
 let string_of_theorem t = t |> sexp_of_theorem |> Sexplib.Sexp.to_string
 let string_of_tactic t = t |> sexp_of_tactic |> Sexplib.Sexp.to_string
 let string_of_prop p = p |> sexp_of_prop |> Sexplib.Sexp.to_string
@@ -190,7 +206,7 @@ let pp_conjecture ?(all : bool = false) (conj : conjecture) =
   if List.is_empty state_list
   then "No goal"
   else (
-    let print_goal ((facts, goal), i) =
+    let print_goal ((facts, goal, _), i) =
       string_of_int (i + 1)
       ^ (match i with
          | 0 -> "st"
@@ -378,11 +394,11 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
 ;;
 
 let apply_intro name state : state =
-  let facts, goal = state in
+  let facts, goal, _ = state in
   match goal with
   | Forall (var_list, goal) ->
     if name = "*"
-    then facts @ var_list, goal
+    then facts @ var_list, goal, graph_of_prop goal
     else (
       let typ =
         try List.assoc name var_list with
@@ -390,10 +406,12 @@ let apply_intro name state : state =
       in
       let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
       let new_goal = if List.is_empty var_list then goal else Forall (var_list, goal) in
-      facts @ [ name, typ ], new_goal)
+      facts @ [ name, typ ], new_goal, graph_of_prop new_goal)
   | Imply (cond_list, p2) ->
-    ( facts @ [ name, List.hd cond_list ]
-    , if List.is_empty (List.tl cond_list) then p2 else Imply (List.tl cond_list, p2) )
+    let new_goal =
+      if List.is_empty (List.tl cond_list) then p2 else Imply (List.tl cond_list, p2)
+    in
+    facts @ [ name, List.hd cond_list ], new_goal, graph_of_prop new_goal
   | _ -> failwith "There is no term that can be introduced"
 ;;
 
@@ -407,7 +425,7 @@ let rec apply_eq goal =
 
 let apply_induction name state t : state list =
   let env = t.env in
-  let facts, goal = state in
+  let facts, goal, _ = state in
   match goal with
   | Forall (var_list, goal) ->
     let typ =
@@ -482,7 +500,7 @@ let apply_induction name state t : state list =
                facts
            in
            let typ_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
-           typ_facts @ facts, new_goal
+           typ_facts @ facts, new_goal, graph_of_prop new_goal
          | _ ->
            let new_args, new_rec_args =
              partition_and_transform
@@ -557,7 +575,7 @@ let apply_induction name state t : state list =
                   , Type exp.Ir.typ ))
                new_args
            in
-           typ_facts @ facts @ new_facts, new_goal)
+           typ_facts @ facts @ new_facts, new_goal, graph_of_prop new_goal)
       decl
   | _ -> failwith "not implemented"
 ;;
@@ -739,7 +757,7 @@ let rename_prop prop =
 ;;
 
 let apply_rewrite lemma_stack state fact_label target_label i : state list =
-  let facts, goal = state in
+  let facts, goal, _ = state in
   let lemma_list = List.map (fun (name, prop) -> name, prop) lemma_stack in
   let source = List.assoc fact_label (facts @ lemma_list) in
   let source = rename_prop source in
@@ -837,7 +855,7 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
 ;;
 
 let apply_rewrite_reverse lemma_stack state fact_label target_label i : state list =
-  let facts, goal = state in
+  let facts, goal, _ = state in
   let lemma_list = List.map (fun (name, prop) -> name, prop) lemma_stack in
   let source = List.assoc fact_label (facts @ lemma_list) in
   let source = rename_prop source in
@@ -936,7 +954,7 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
 
 let apply_strong_induction name state t : state list =
   let env = t.env in
-  let facts, goal = state in
+  let facts, goal, _ = state in
   match goal with
   | Forall (var_list, goal) ->
     let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
@@ -1011,7 +1029,7 @@ let apply_strong_induction name state t : state list =
                     prop ))
                facts
            in
-           facts, new_goal
+           facts, new_goal, graph_of_prop new_goal
          | _ ->
            let new_args, _ =
              partition_and_transform
@@ -1080,7 +1098,7 @@ let apply_strong_induction name state t : state list =
                     prop ))
                facts
            in
-           facts @ new_facts, new_goal)
+           facts @ new_facts, new_goal, graph_of_prop new_goal)
       decl
   | _ -> failwith "not implemented"
 ;;
@@ -1342,7 +1360,7 @@ let rec simplify_prop env prop =
 let apply_simpl t target : state =
   let env = t.env in
   let state = get_first_state t in
-  let facts, goal = state in
+  let facts, goal, _ = state in
   match target with
   | "goal" ->
     let new_goal = simplify_prop env goal in
@@ -1435,7 +1453,7 @@ let apply_destruct name state t : state list =
                   prop ))
              facts
          in
-         facts @ new_facts, new_goal
+         facts @ new_facts, new_goal, graph_of_prop new_goal
        | _ ->
          let new_args, _ =
            partition_and_transform
@@ -1481,13 +1499,13 @@ let apply_destruct name state t : state list =
                   prop ))
              facts
          in
-         facts @ new_facts, new_goal)
+         facts @ new_facts, new_goal, graph_of_prop new_goal)
     decl
 ;;
 
 let apply_case expr state t : state list =
   let env = t.env in
-  let facts, goal = state in
+  let facts, goal, _ = state in
   let typ = expr.Ir.typ in
   let typ_args, (origin_args, decl) =
     match typ with
@@ -1552,7 +1570,7 @@ let apply_case expr state t : state list =
                     prop ))
                facts
            in
-           facts @ new_facts, new_goal)
+           facts @ new_facts, new_goal, graph_of_prop new_goal)
        | _ ->
          let new_args, _ =
            partition_and_transform
@@ -1599,7 +1617,7 @@ let apply_case expr state t : state list =
                   prop ))
              facts
          in
-         facts @ new_facts, new_goal)
+         facts @ new_facts, new_goal, graph_of_prop new_goal)
     decl
 ;;
 
@@ -1672,7 +1690,7 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
         , (apply_simpl t target :: List.tl state_list, conj_goal) :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | Reflexivity ->
-        let _, goal = first_state in
+        let _, goal, _ = first_state in
         let _ = apply_eq goal in
         let remain_states = List.tl state_list in
         (match remain_states with
@@ -1693,7 +1711,7 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
            , (remain_states, conj_goal) :: List.tl conj_list
            , tactic_list @ [ tactic ] ))
       | Discriminate ->
-        let facts, _ = first_state in
+        let facts, _, _ = first_state in
         let _ = apply_desrciminate env facts in
         let remain_states = List.tl state_list in
         (match remain_states with
@@ -1782,7 +1800,7 @@ let parse_tactic (t : t) src =
   | "reflexivity" -> Reflexivity
   | "case" ->
     let state = get_first_state t in
-    let goal = state |> snd in
+    let _, goal, _ = state in
     Case (parse_expr goal (String.concat " " args) env)
   | "assert" -> Assert (parse_prop (String.concat " " args) [] env)
   | "discriminate" -> Discriminate

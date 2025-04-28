@@ -175,7 +175,7 @@ struct
   ;;
 end
 
-module Egraph = Ego.Generic.Make (L) (A) (MA)
+module Egraph = Ego.Generic.Make (L) (A) (MA) [@@deriving sexp]
 
 let rec l_of_expr : Ir.expr -> L.t =
   fun expr ->

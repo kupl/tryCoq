@@ -4,6 +4,7 @@ type state = Proof.state
 type lemma_stack = Proof.lemma_stack
 type tactic = Proof.tactic
 type expr = Proof.expr
+type graph = Egraph.L.op Egraph.Egraph.t
 
 module WorkList = CCHeap.Make_from_compare (struct
     type t = Proof.t * tactic * int
