@@ -56,7 +56,7 @@ let rec loop_advanced worklist old_lemma_list =
     let _ =
       List.iter
         (fun (t, lemma_list) ->
-           let _, goal = Proof.get_first_state t in
+           let _, goal, _ = Proof.get_first_state t in
            let _ = print_endline "Goal and Lemma" in
            Proof.pp_prop goal |> print_endline;
            lemma_list |> List.iter (fun lemma -> lemma |> Proof.pp_prop |> print_endline))

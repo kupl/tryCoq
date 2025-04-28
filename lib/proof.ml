@@ -1,6 +1,6 @@
 open Sexplib.Std
 
-type graph = Egraph.L.op Egraph.Egraph.t
+type graph = Ego.Generic.rw Egraph.Egraph.t
 
 let graph_of_sexp sexp =
   ignore sexp;
@@ -63,11 +63,6 @@ type debug_tactic =
   | AllTactic
 [@@deriving sexp]
 
-let graph_of_prop prop =
-  ignore prop;
-  failwith "not implemented yet"
-;;
-
 let counter = ref 0
 
 let get_global_cnt () =
@@ -96,6 +91,19 @@ let rec get_rhs prop =
   | Forall (_, prop) -> get_rhs prop
   | Imply (_, prop) -> get_rhs prop
   | _ -> failwith "The goal is not an equality"
+;;
+
+let node_of_expr expr = Egraph.l_of_expr expr
+
+let graph_of_prop prop =
+  let graph = Egraph.Egraph.init () in
+  let lhs = get_lhs prop in
+  let rhs = get_rhs prop in
+  let lhs = node_of_expr lhs in
+  let rhs = node_of_expr rhs in
+  let _ = Egraph.Egraph.add_node graph lhs in
+  let _ = Egraph.Egraph.add_node graph rhs in
+  graph
 ;;
 
 let mk_intro name = Intro name
@@ -756,8 +764,48 @@ let rename_prop prop =
   | _ -> prop
 ;;
 
+let update_egraph graph from into match_list =
+  let from =
+    List.fold_left
+      (fun acc (expr1, expr2) ->
+         let new_expr, _, _ =
+           substitute_expr_in_expr
+             Ir.is_equal_expr
+             (fun _ _ expr_to -> expr_to, [])
+             acc
+             expr1
+             expr2
+             0
+             []
+         in
+         new_expr)
+      from
+      match_list
+  in
+  let into =
+    List.fold_left
+      (fun acc (expr1, expr2) ->
+         let new_expr, _, _ =
+           substitute_expr_in_expr
+             Ir.is_equal_expr
+             (fun _ _ expr_to -> expr_to, [])
+             acc
+             expr1
+             expr2
+             0
+             []
+         in
+         new_expr)
+      into
+      match_list
+  in
+  let _ = Egraph.Egraph.add_node graph (from |> Egraph.l_of_expr) in
+  let _ = Egraph.Egraph.add_node graph (into |> Egraph.l_of_expr) in
+  graph
+;;
+
 let apply_rewrite lemma_stack state fact_label target_label i : state list =
-  let facts, goal, _ = state in
+  let facts, goal, graph = state in
   let lemma_list = List.map (fun (name, prop) -> name, prop) lemma_stack in
   let source = List.assoc fact_label (facts @ lemma_list) in
   let source = rename_prop source in
@@ -796,6 +844,7 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
       |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b));
       failwith "Cannot find matched variable")
     else (
+      let new_graph = update_egraph graph expr_from expr_to match_list in
       let new_task =
         List.map
           (fun cond ->
@@ -815,7 +864,8 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
                match_list)
           cond_list
       in
-      [ facts, new_goal ] @ List.map (fun goal -> facts, goal) new_task)
+      [ facts, new_goal, new_graph ]
+      @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task)
   | _ ->
     let target_fact = List.assoc target_label facts in
     let new_fact, match_list, _ =
@@ -832,6 +882,7 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
         (fun (name, prop) -> if name = target_label then name, new_fact else name, prop)
         facts
     in
+    let new_graph = update_egraph graph expr_from expr_to match_list in
     let new_task =
       List.map
         (fun cond ->
@@ -851,11 +902,12 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
              match_list)
         cond_list
     in
-    [ fact, goal ] @ List.map (fun goal -> facts, goal) new_task
+    [ fact, goal, new_graph ]
+    @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task
 ;;
 
 let apply_rewrite_reverse lemma_stack state fact_label target_label i : state list =
-  let facts, goal, _ = state in
+  let facts, goal, graph = state in
   let lemma_list = List.map (fun (name, prop) -> name, prop) lemma_stack in
   let source = List.assoc fact_label (facts @ lemma_list) in
   let source = rename_prop source in
@@ -894,6 +946,7 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
       |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b));
       failwith "Cannot find matched variable")
     else (
+      let new_graph = update_egraph graph expr_from expr_to match_list in
       let new_task =
         List.map
           (fun cond ->
@@ -913,7 +966,8 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
                match_list)
           cond_list
       in
-      [ facts, new_goal ] @ List.map (fun goal -> facts, goal) new_task)
+      [ facts, new_goal, new_graph ]
+      @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task)
   | _ ->
     let target_fact = List.assoc target_label facts in
     let new_fact, match_list, _ =
@@ -930,6 +984,7 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
         (fun (name, prop) -> if name = target_label then name, new_fact else name, prop)
         facts
     in
+    let new_graph = update_egraph graph expr_from expr_to match_list in
     let new_task =
       List.map
         (fun cond ->
@@ -949,7 +1004,8 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
              match_list)
         cond_list
     in
-    [ fact, goal ] @ List.map (fun goal -> facts, goal) new_task
+    [ fact, goal, new_graph ]
+    @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task
 ;;
 
 let apply_strong_induction name state t : state list =
@@ -1364,7 +1420,7 @@ let apply_simpl t target : state =
   match target with
   | "goal" ->
     let new_goal = simplify_prop env goal in
-    facts, new_goal
+    facts, new_goal, graph_of_prop new_goal
   | _ ->
     let new_fact = List.assoc target facts in
     let new_fact = simplify_prop env new_fact in
@@ -1373,18 +1429,18 @@ let apply_simpl t target : state =
         (fun (name, prop) -> if name = target then name, new_fact else name, prop)
         facts
     in
-    facts, goal
+    facts, goal, graph_of_prop goal
 ;;
 
 let apply_assert prop t : t =
-  let conj = [ [], prop ], prop in
+  let conj = [ [], prop, graph_of_prop prop ], prop in
   let lemma_stack, conj_list, tactic_list = t.proof in
   { t with proof = lemma_stack, conj :: conj_list, tactic_list @ [ mk_assert prop ] }
 ;;
 
 let apply_destruct name state t : state list =
   let env = t.env in
-  let facts, goal = state in
+  let facts, goal, _ = state in
   let typ =
     match get_type_in_prop name goal with
     | Some typ -> typ

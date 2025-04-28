@@ -478,7 +478,7 @@ let helper_function_lemma (decl : Ir.decl) : lemma list =
 let pattern_recognition ihs state_list : env * lemma list =
   let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
   let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in
-  let goals = List.map snd state_list in
+  let goals = List.map (fun (_, goal, _) -> goal) state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
   let lhs_common_subtree_cand =
@@ -594,9 +594,9 @@ let pattern_recognition ihs state_list : env * lemma list =
 
 let symbolic_execution t : state list list =
   let state = Proof.get_first_state t in
-  let facts, goal = state in
+  let facts, goal, _ = state in
   let facts = filtering_concerned_fact facts goal in
-  let base_hypothesis = [ facts, goal ] in
+  let base_hypothesis = [ facts, goal, Proof.graph_of_prop goal ] in
   let rec symbolic_execution_by_depth t depth (acc : state list) : state list list =
     let env = t.Proof.env in
     if depth = 0
@@ -604,7 +604,7 @@ let symbolic_execution t : state list list =
     else (
       let state = Proof.get_first_state t in
       let lemma_stack = Proof.get_lemma_stack t in
-      let facts, goal = state in
+      let facts, goal, _ = state in
       let vars = collect_free_var_in_prop goal [] in
       let vars =
         List.filter (fun (var, _) -> Prover.is_decreasing_var env state var) vars
@@ -615,7 +615,7 @@ let symbolic_execution t : state list list =
         let new_goal = Proof.Forall ([ List.hd vars ], goal) in
         let facts = filtering_concerned_fact facts new_goal in
         let dummy_goal = Proof.Type Ir.Tany in
-        let new_conj = [ facts, new_goal ], dummy_goal in
+        let new_conj = [ facts, new_goal, Proof.graph_of_prop new_goal ], dummy_goal in
         let new_t =
           Proof.(
             create_t
@@ -650,7 +650,7 @@ let symbolic_execution t : state list list =
 
 let advanced_generalize t : (t * lemma list) list =
   let first_state = Proof.get_first_state t in
-  let facts, _ = first_state in
+  let facts, _, _ = first_state in
   let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
   let execution_list = symbolic_execution t in
   let env_lemma_pairs =

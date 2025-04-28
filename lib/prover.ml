@@ -159,7 +159,7 @@ let rec get_nth_arg_in_prop fname i prop =
 ;;
 
 let is_decreasing_var env (state : state) var_name =
-  let _, goal = state in
+  let _, goal, _ = state in
   let fname_list = collect_fname_in_prop env goal in
   List.exists
     (fun fname ->
@@ -178,7 +178,7 @@ let is_decreasing_var env (state : state) var_name =
 ;;
 
 let is_mk (state : state) var_name =
-  let _, goal = state in
+  let _, goal, _ = state in
   let lhs = Proof.get_lhs goal in
   let rhs = Proof.get_rhs goal in
   let rec is_mk_arg expr =
@@ -308,7 +308,7 @@ let collect_non_qvar_in_prop prop =
 ;;
 
 let collect_fact_name (state : state) =
-  let fact_list, _ = state in
+  let fact_list, _, _ = state in
   List.fold_left
     (fun acc (name, fact) ->
        match fact with
@@ -325,7 +325,7 @@ let collect_lemma_name (lemma_stack : lemma_stack) =
 let mk_candidates t =
   let lemma_stack = Proof.get_lemma_stack t in
   let state = Proof.get_first_state t in
-  let _, goal = state in
+  let _, goal, _ = state in
   let number_list = [ 0; 1; 2; 3 ] in
   let expr_list = collect_expr_in_prop goal in
   let qvar_list = collect_qvar_in_prop goal in
@@ -433,8 +433,8 @@ let is_more_similar prop1 prop2 =
 let how_good_rewrite (prev_t : t) (new_t : t) : int option =
   let prev_state = Proof.get_first_state prev_t in
   let new_state = Proof.get_first_state new_t in
-  let _, prev_goal = prev_state in
-  let _, new_goal = new_state in
+  let _, prev_goal, _ = prev_state in
+  let _, new_goal, _ = new_state in
   match is_more_similar prev_goal new_goal with
   | true -> Some 1
   | false -> None
@@ -554,8 +554,8 @@ let rank_tactic t candidates tactic stateset : int option =
     then None
     else (
       let new_t = Proof.apply_tactic t tactic in
-      let _, goal = Proof.get_first_state t in
-      let _, new_goal = Proof.get_first_state new_t in
+      let _, goal, _ = Proof.get_first_state t in
+      let _, new_goal, _ = Proof.get_first_state new_t in
       let new_candidate = mk_candidates new_t in
       let new_candidate = List.filter (fun c -> is_valid new_t c) new_candidate in
       let new_candidate =
@@ -591,8 +591,8 @@ let rank_tactic t candidates tactic stateset : int option =
     then None
     else (
       let new_t = Proof.apply_tactic t tactic in
-      let _, goal = Proof.get_first_state t in
-      let _, new_goal = Proof.get_first_state new_t in
+      let _, goal, _ = Proof.get_first_state t in
+      let _, new_goal, _ = Proof.get_first_state new_t in
       let lhs = Proof.get_lhs goal in
       let rhs = Proof.get_rhs goal in
       let new_lhs = Proof.get_lhs new_goal in
@@ -634,7 +634,7 @@ let rank_tactic t candidates tactic stateset : int option =
         else Some 2))
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
-    let _, goal = state in
+    let _, goal, _ = state in
     let new_t = Proof.apply_tactic t tactic in
     let simpl = Proof.SimplIn "goal" in
     if not (is_duplicated t simpl stateset)
