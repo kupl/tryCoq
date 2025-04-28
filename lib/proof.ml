@@ -844,6 +844,7 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
       |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b));
       failwith "Cannot find matched variable")
     else (
+      (* have to deep copy egraph *)
       let new_graph = update_egraph graph expr_from expr_to match_list in
       let new_task =
         List.map
