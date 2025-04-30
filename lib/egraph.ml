@@ -218,12 +218,21 @@ let copy graph =
   let version = graph.Ego.Generic.version in
   let analysis = graph.Ego.Generic.analysis in
   let uf = graph.Ego.Generic.uf in
+  (* let limit = uf.limit in
+  let content = uf.content in *)
   let class_data = graph.Ego.Generic.class_data in
+  let class_data = Ego.Id.Map.copy class_data in
   let hash_cons = graph.Ego.Generic.hash_cons in
   let hash_cons = Hashtbl.copy hash_cons in
   let pending = graph.Ego.Generic.pending in
   let pending = CCVector.copy pending in
   let pending_analysis = graph.Ego.Generic.pending_analysis in
   let pending_analysis = CCVector.copy pending_analysis in
-  Ego.Generic.{ version; analysis; uf; class_data; hash_cons; pending; pending_analysis }
+  let new_graph =
+    Ego.Generic.
+      { version; analysis; uf; class_data; hash_cons; pending; pending_analysis }
+  in
+  (* let odot = Egraph.to_dot new_graph in
+  let _ = Odot.print_file "graph.dot" odot in *)
+  new_graph
 ;;
