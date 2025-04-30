@@ -213,3 +213,17 @@ let op_of_string str =
     L.LetInOp (names, Ir.expr_of_sexp (Sexplib.Sexp.of_string body))
   | _ -> failwith ("don't know: " ^ str)
 ;;
+
+let copy graph =
+  let version = graph.Ego.Generic.version in
+  let analysis = graph.Ego.Generic.analysis in
+  let uf = graph.Ego.Generic.uf in
+  let class_data = graph.Ego.Generic.class_data in
+  let hash_cons = graph.Ego.Generic.hash_cons in
+  let hash_cons = Hashtbl.copy hash_cons in
+  let pending = graph.Ego.Generic.pending in
+  let pending = CCVector.copy pending in
+  let pending_analysis = graph.Ego.Generic.pending_analysis in
+  let pending_analysis = CCVector.copy pending_analysis in
+  Ego.Generic.{ version; analysis; uf; class_data; hash_cons; pending; pending_analysis }
+;;

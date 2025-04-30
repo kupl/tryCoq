@@ -765,6 +765,7 @@ let rename_prop prop =
 ;;
 
 let update_egraph graph from into match_list =
+  let graph = Egraph.copy graph in
   let from =
     List.fold_left
       (fun acc (expr1, expr2) ->

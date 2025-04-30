@@ -1,4 +1,4 @@
-(** Ego is an extensible egraph library for OCaml. The interface to
+(* * Ego is an extensible egraph library for OCaml. The interface to
    Ego is loosely based on the Rust's egg library and reimplements
    their EClass analysis in pure OCaml.
 
@@ -24,10 +24,12 @@ module Id : sig
   type t = private int
   (** An abstract datatype used to represent equivalence classes in
       {!Ego}. *)
-
+  type store = {
+    mutable limit: int;
+    content : Id.elem Id.Map.t
+  }
+  module Map : Hashtbl.S with type key = t
 end
-
-
 
 module Basic: sig
 
@@ -197,9 +199,23 @@ module Generic : sig
 
       You may want to check out the {{:../../index.html} quick start
       guide}. *)
+      type ('node, 'data) eclass = {
+        mutable id : Id.t;
+        nodes : 'node CCVector.vector;
+        mutable data : 'data;
+        parents : ('node * Id.t) CCVector.vector;
+      }
 
+    type ('node, 'analysis, 'data, 'permission) egraph = {
+        mutable version : int;
+        analysis : 'analysis;
+        uf : Id.store;
+        class_data : ('node, 'data) eclass Id.Map.t;
+        hash_cons : ('node, Id.t) Hashtbl.t;
+        pending : ('node * Id.t) CCVector.vector;
+        pending_analysis : ('node * Id.t) CCVector.vector;
+    }
 
-  type ('node, 'analysis, 'data, 'permission) egraph
   (** A generic representation of an EGraph, parameterised over the
       language term types ['node], analysis state ['analysis] and data
       ['data] and read permissions ['permission]. *)

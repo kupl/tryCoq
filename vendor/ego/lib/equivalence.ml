@@ -12,7 +12,7 @@ module Make  = functor () -> struct
   and store = {
     mutable limit: int;
     content: elem IntMap.t
-  } 
+  }
 
   type t = elem_ref
 
