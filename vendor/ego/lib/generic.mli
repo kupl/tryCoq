@@ -1,6 +1,20 @@
 open Language
 
-type ('node, 'analysis, 'data, 'permission) egraph
+type ('node, 'data) eclass = {
+  mutable id : Id.t;
+  nodes : 'node CCVector.vector;
+  mutable data : 'data;
+  parents : ('node * Id.t) CCVector.vector;
+}
+type ('node, 'analysis, 'data, 'permission) egraph = {
+  mutable version : int;
+  analysis : 'analysis;
+  uf : Id.store;
+  class_data : ('node, 'data) eclass Id.Map.t;
+  hash_cons : ('node, Id.t) Hashtbl.t;
+  pending : ('node * Id.t) CCVector.vector;
+  pending_analysis : ('node * Id.t) CCVector.vector;
+}
 
 module MakePrinter : functor (L : LANGUAGE) (A : ANALYSIS) -> sig
   (* val pp : Format.formatter -> (Id.t L.shape, A.t, A.data, 'b) egraph -> unit *)
