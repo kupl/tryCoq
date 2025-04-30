@@ -184,6 +184,9 @@ let rec l_of_expr : Ir.expr -> L.t =
     let args = List.map l_of_expr args in
     L.Mk (L.Call (name, args))
   | Ir.Var name -> L.Mk (L.Var name)
+  | Ir.Match (match_list, case_list) ->
+    let match_list = List.map l_of_expr match_list in
+    L.Mk (L.Match (match_list, case_list))
   | _ -> failwith "not implemented yet"
 ;;
 
