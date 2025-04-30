@@ -218,8 +218,10 @@ let copy graph =
   let version = graph.Ego.Generic.version in
   let analysis = graph.Ego.Generic.analysis in
   let uf = graph.Ego.Generic.uf in
-  (* let limit = uf.limit in
-  let content = uf.content in *)
+  let limit = uf.limit in
+  let content : Ego.Id.elem Ego.Id.Map.t = uf.content in
+  let new_content = Ego.Id.Map.copy content in
+  let uf = Ego.Id.{ limit; content = new_content } in
   let class_data = graph.Ego.Generic.class_data in
   let class_data = Ego.Id.Map.copy class_data in
   let hash_cons = graph.Ego.Generic.hash_cons in
@@ -232,7 +234,5 @@ let copy graph =
     Ego.Generic.
       { version; analysis; uf; class_data; hash_cons; pending; pending_analysis }
   in
-  (* let odot = Egraph.to_dot new_graph in
-  let _ = Odot.print_file "graph.dot" odot in *)
   new_graph
 ;;

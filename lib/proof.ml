@@ -765,7 +765,7 @@ let rename_prop prop =
 ;;
 
 let update_egraph graph from into match_list =
-  let graph = Egraph.copy graph in
+  let new_graph = Egraph.copy graph in
   let from =
     List.fold_left
       (fun acc (expr1, expr2) ->
@@ -800,8 +800,11 @@ let update_egraph graph from into match_list =
       into
       match_list
   in
-  let _ = Egraph.Egraph.add_node graph (from |> Egraph.l_of_expr) in
-  let _ = Egraph.Egraph.add_node graph (into |> Egraph.l_of_expr) in
+  let id1 = Egraph.Egraph.add_node new_graph (from |> Egraph.l_of_expr) in
+  let id2 = Egraph.Egraph.add_node new_graph (into |> Egraph.l_of_expr) in
+  if Egraph.Egraph.class_equal new_graph id1 id2
+  then failwith "The two nodes are already in the same class"
+  else Egraph.Egraph.merge new_graph id1 id2;
   graph
 ;;
 

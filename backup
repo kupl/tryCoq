@@ -22,13 +22,18 @@ module Id : sig
 
 
   type t = private int
+  type elem =
+    | Root of int
+    | Link of elem_ref
+  and elem_ref = int
   (** An abstract datatype used to represent equivalence classes in
       {!Ego}. *)
-  type store = {
+  and store = {
     mutable limit: int;
     content : Id.elem Id.Map.t
   }
   module Map : Hashtbl.S with type key = t
+   
 end
 
 module Basic: sig
