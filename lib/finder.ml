@@ -273,7 +273,49 @@ let find_larget_common_subtree expr1 expr2 =
     largest_common_subtree)
 ;;
 
-let catch_recursive_pattern expr_list =
+let new_catch_recursive_pattern env expr_list =
+  let rec get_parent source expr =
+    match expr.Ir.desc with
+    | Call (_, args) ->
+      if List.exists (fun arg -> arg = source) args
+      then Some expr
+      else
+        List.fold_left
+          (fun (acc, is_done) arg ->
+             if is_done
+             then acc, true
+             else (
+               match get_parent source arg with
+               | Some exp -> Some exp, true
+               | _ -> None, false))
+          (None, false)
+          args
+        |> fst
+    | _ -> None
+  in
+  let catch_diff expr1 expr2 =
+    let vars1 = collect_free_var_in_expr expr1 [] in
+    let vars2 = collect_free_var_in_expr expr2 [] in
+    let new_vars = List.filter (fun var -> not (List.mem var vars1)) vars2 in
+    let new_vars =
+      List.filter
+        (fun var ->
+           not
+             (Prover.is_decreasing_var
+                env
+                ([], Proof.Eq (expr1, expr1), Egraph.Egraph.init ())
+                (fst var)))
+        new_vars
+    in
+    new_vars
+  in
+  ignore catch_diff;
+  ignore expr_list;
+  failwith "TODO"
+;;
+
+let catch_recursive_pattern env expr_list =
+  ignore env;
   let _ = print_endline "mmmmmmmmmmmmmmmmmm" in
   let _ = expr_list |> List.iter (fun expr -> Proof.pp_expr expr |> print_endline) in
   let range = Proof.range 0 (List.length expr_list - 1) in
@@ -475,19 +517,19 @@ let helper_function_lemma (decl : Ir.decl) : lemma list =
   | _ -> failwith "this function is not recursive"
 ;;
 
-let pattern_recognition ihs state_list : env * lemma list =
+let pattern_recognition env ihs state_list : env * lemma list =
   let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
   let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in
   let goals = List.map (fun (_, goal, _) -> goal) state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
   let lhs_common_subtree_cand =
-    List.map (fun lhs -> catch_recursive_pattern (lhs :: lhs_list)) first_lhs
-    @ [ catch_recursive_pattern lhs_list ]
+    List.map (fun lhs -> catch_recursive_pattern env (lhs :: lhs_list)) first_lhs
+    @ [ catch_recursive_pattern env lhs_list ]
   in
   let rhs_common_subtree_cand =
-    List.map (fun rhs -> catch_recursive_pattern (rhs :: rhs_list)) first_rhs
-    @ [ catch_recursive_pattern rhs_list ]
+    List.map (fun rhs -> catch_recursive_pattern env (rhs :: rhs_list)) first_rhs
+    @ [ catch_recursive_pattern env rhs_list ]
   in
   let lhs_common_subtree =
     List.fold_left
@@ -654,7 +696,7 @@ let advanced_generalize t : (t * lemma list) list =
   let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
   let execution_list = symbolic_execution t in
   let env_lemma_pairs =
-    List.map (fun state_list -> pattern_recognition ihs state_list) execution_list
+    List.map (fun state_list -> pattern_recognition t.env ihs state_list) execution_list
   in
   let env_lemma_pairs =
     List.filter (fun (_, lemma) -> not (List.is_empty lemma)) env_lemma_pairs
