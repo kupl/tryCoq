@@ -106,6 +106,14 @@ let graph_of_prop prop =
   graph
 ;;
 
+let remove_graph conjecture_list =
+  List.map
+    (fun conj ->
+       let state_list, total_goal = conj in
+       List.map (fun (fact_list, goal, _) -> fact_list, goal) state_list, total_goal)
+    conjecture_list
+;;
+
 let mk_intro name = Intro name
 let mk_induction name = Induction name
 let mk_strong_induction name = StrongInduction name

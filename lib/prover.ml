@@ -210,7 +210,8 @@ let is_duplicated t tactic state_list =
   let Proof.{ proof = next_lemma, next_conj, _; _ } = Proof.apply_tactic t tactic in
   ProofSet.exists
     (fun Proof.{ proof = lemma_stack, conj_list, _; _ } ->
-       next_lemma = lemma_stack && next_conj = conj_list)
+       next_lemma = lemma_stack
+       && Proof.remove_graph next_conj = Proof.remove_graph conj_list)
     state_list
 ;;
 
