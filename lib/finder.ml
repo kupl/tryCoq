@@ -36,6 +36,23 @@ let rec pp_subtree (subtree : subtree) : string =
   | None -> "_"
 ;;
 
+let difference_of_subtree subtree1 subtree2 =
+  (* subtree2 - subtree1 *)
+  let rec difference_of_subtree subtree1 subtree2 =
+    match subtree2.desc with
+    | Some (Sub_Call (name, args)) ->
+      if subtree1 = subtree2
+      then { desc = None; typ = subtree2.typ }
+      else (
+        let new_args = List.map (fun arg -> difference_of_subtree subtree1 arg) args in
+        { desc = Some (Sub_Call (name, new_args)); typ = subtree2.typ })
+    | Some (Sub_Var _) ->
+      if subtree1 = subtree2 then { desc = None; typ = subtree2.typ } else subtree2
+    | None -> subtree2
+  in
+  difference_of_subtree subtree1 subtree2
+;;
+
 let is_duplicated (t : t) (lemma : lemma) : bool =
   ignore (t, lemma);
   failwith "TODO"
@@ -361,7 +378,8 @@ let new_catch_recursive_pattern env expr_list =
           args2
         |> fst
       else None
-    | _ -> failwith "not implemented"
+    | _ -> None
+    (* have to correct here *)
   in
   let remove_lower lower expr =
     match expr.desc with
@@ -389,7 +407,7 @@ let new_catch_recursive_pattern env expr_list =
          not
            (Prover.is_decreasing_var
               env
-              ([], Proof.Eq (first, first), Egraph.Egraph.init ())
+              ([], Proof.Eq (second, second), Egraph.Egraph.init ())
               (fst var)))
       new_vars
   in
@@ -403,8 +421,11 @@ let new_catch_recursive_pattern env expr_list =
       }
   in
   let parent = get_parent new_var second in
-  let lower = get_lower (parent |> Option.get) second in
+  let lower = get_lower new_var (parent |> Option.get) in
   let upper = get_upper (parent |> Option.get) second in
+  let _ = parent |> Option.get |> Ir.pp_expr |> print_endline in
+  let _ = lower |> pp_subtree |> print_endline in
+  let _ = upper |> pp_subtree |> print_endline in
   let recursive_expr_list =
     List.map
       (fun expr ->
@@ -414,8 +435,7 @@ let new_catch_recursive_pattern env expr_list =
          | None -> failwith "cannot find recursive expr")
       expr_list
   in
-  ignore expr_list;
-  failwith "TODO"
+  recursive_expr_list |> List.tl
 ;;
 
 let catch_recursive_pattern env expr_list =
@@ -476,23 +496,6 @@ let catch_recursive_pattern env expr_list =
            if List.length acc > List.length subtree_list then acc else subtree_list)
         (List.hd common_subtree_cand_list)
         (List.tl common_subtree_cand_list))
-;;
-
-let difference_of_subtree subtree1 subtree2 =
-  (* subtree2 - subtree1 *)
-  let rec difference_of_subtree subtree1 subtree2 =
-    match subtree2.desc with
-    | Some (Sub_Call (name, args)) ->
-      if subtree1 = subtree2
-      then { desc = None; typ = subtree2.typ }
-      else (
-        let new_args = List.map (fun arg -> difference_of_subtree subtree1 arg) args in
-        { desc = Some (Sub_Call (name, new_args)); typ = subtree2.typ })
-    | Some (Sub_Var _) ->
-      if subtree1 = subtree2 then { desc = None; typ = subtree2.typ } else subtree2
-    | None -> subtree2
-  in
-  difference_of_subtree subtree1 subtree2
 ;;
 
 let expr_of_subtree subtree =
@@ -622,12 +625,12 @@ let helper_function_lemma (decl : Ir.decl) : lemma list =
 ;;
 
 let pattern_recognition env ihs state_list : env * lemma list =
-  let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
-  let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in
+  (* let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
+  let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in *)
   let goals = List.map (fun (_, goal, _) -> goal) state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
-  let lhs_common_subtree_cand =
+  (* let lhs_common_subtree_cand =
     List.map (fun lhs -> catch_recursive_pattern env (lhs :: lhs_list)) first_lhs
     @ [ catch_recursive_pattern env lhs_list ]
   in
@@ -649,6 +652,11 @@ let pattern_recognition env ihs state_list : env * lemma list =
       (List.hd rhs_common_subtree_cand)
       (List.tl rhs_common_subtree_cand)
   in
+  let _ = ignore lhs_common_subtree in
+  let _ = ignore rhs_common_subtree in *)
+  ignore ihs;
+  let lhs_common_subtree = new_catch_recursive_pattern env lhs_list in
+  let rhs_common_subtree = new_catch_recursive_pattern env rhs_list in
   let _ =
     lhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
   in
