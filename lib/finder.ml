@@ -18,6 +18,15 @@ and sub_desc =
   | Sub_Call of string * subtree list
 [@@deriving sexp]
 
+let rec to_sub expr =
+  match expr.Ir.desc with
+  | Var name -> { desc = Some (Sub_Var name); typ = expr.typ }
+  | Call (name, args) ->
+    let args = List.map to_sub args in
+    { desc = Some (Sub_Call (name, args)); typ = expr.typ }
+  | _ -> failwith "not implemented"
+;;
+
 let rec pp_subtree (subtree : subtree) : string =
   match subtree.desc with
   | Some (Sub_Var name) -> name
@@ -293,23 +302,118 @@ let new_catch_recursive_pattern env expr_list =
         |> fst
     | _ -> None
   in
-  let catch_diff expr1 expr2 =
-    let vars1 = collect_free_var_in_expr expr1 [] in
-    let vars2 = collect_free_var_in_expr expr2 [] in
-    let new_vars = List.filter (fun var -> not (List.mem var vars1)) vars2 in
-    let new_vars =
-      List.filter
-        (fun var ->
-           not
-             (Prover.is_decreasing_var
-                env
-                ([], Proof.Eq (expr1, expr1), Egraph.Egraph.init ())
-                (fst var)))
-        new_vars
-    in
-    new_vars
+  let get_lower (source : expr) parent =
+    match parent.Ir.desc with
+    | Call (name, args) ->
+      { desc =
+          Some
+            (Sub_Call
+               ( name
+               , List.map
+                   (fun arg ->
+                      if arg = source
+                      then { desc = None; typ = arg.typ }
+                      else arg |> to_sub)
+                   args ))
+      ; typ = parent.typ
+      }
+    | _ -> failwith "not implemented"
   in
-  ignore catch_diff;
+  let rec get_upper source expr =
+    match expr.Ir.desc with
+    | Call (name, args) ->
+      if List.exists (fun arg -> arg = source) args
+      then
+        { desc =
+            Some
+              (Sub_Call
+                 ( name
+                 , List.map
+                     (fun arg ->
+                        if arg = source
+                        then { desc = None; typ = expr.typ }
+                        else arg |> to_sub)
+                     args ))
+        ; typ = expr.typ
+        }
+      else
+        { desc = Some (Sub_Call (name, List.map (fun arg -> get_upper source arg) args))
+        ; typ = expr.typ
+        }
+    | _ -> expr |> to_sub
+  in
+  let rec remove_upper new_var upper expr =
+    match expr.desc, upper.desc with
+    | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
+      if name1 = name2
+      then
+        List.fold_left2
+          (fun (acc, is_done) arg1 arg2 ->
+             if is_done
+             then acc, true
+             else if arg1 = arg2 || arg2 = new_var
+             then acc, false
+             else if arg2.desc = None
+             then Some arg1, true
+             else remove_upper new_var arg1 arg2, true)
+          (None, false)
+          args1
+          args2
+        |> fst
+      else None
+    | _ -> failwith "not implemented"
+  in
+  let remove_lower lower expr =
+    match expr.desc with
+    | Some (Sub_Call (name, args)) ->
+      { desc =
+          Some
+            (Sub_Call
+               ( name
+               , List.map
+                   (fun arg ->
+                      if arg = lower then { desc = None; typ = arg.typ } else arg)
+                   args ))
+      ; typ = expr.typ
+      }
+    | _ -> failwith "not implemented"
+  in
+  let first = List.hd expr_list in
+  let second = List.hd (List.tl expr_list) in
+  let first_vars = collect_free_var_in_expr first [] in
+  let second_vars = collect_free_var_in_expr second [] in
+  let new_vars = List.filter (fun var -> not (List.mem var first_vars)) second_vars in
+  let new_vars =
+    List.filter
+      (fun var ->
+         not
+           (Prover.is_decreasing_var
+              env
+              ([], Proof.Eq (first, first), Egraph.Egraph.init ())
+              (fst var)))
+      new_vars
+  in
+  let new_var =
+    Ir.
+      { desc = Var (List.hd new_vars |> fst)
+      ; typ =
+          (match List.hd new_vars |> snd with
+           | Type typ -> typ
+           | _ -> failwith "not implemented")
+      }
+  in
+  let parent = get_parent new_var second in
+  let lower = get_lower (parent |> Option.get) second in
+  let upper = get_upper (parent |> Option.get) second in
+  let recursive_expr_list =
+    List.map
+      (fun expr ->
+         let expr = expr |> to_sub in
+         match remove_upper (new_var |> to_sub) upper expr with
+         | Some subtree -> subtree |> remove_lower lower
+         | None -> failwith "cannot find recursive expr")
+      expr_list
+  in
   ignore expr_list;
   failwith "TODO"
 ;;
