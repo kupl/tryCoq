@@ -24,7 +24,7 @@ let rec to_sub expr =
   | Call (name, args) ->
     let args = List.map to_sub args in
     { desc = Some (Sub_Call (name, args)); typ = expr.typ }
-  | _ -> failwith "not implemented"
+  | _ -> { desc = None; typ = Tany }
 ;;
 
 let rec pp_subtree (subtree : subtree) : string =
@@ -359,7 +359,7 @@ let new_catch_recursive_pattern env expr_list =
         }
     | _ -> expr |> to_sub
   in
-  let rec remove_upper new_var upper expr =
+  let rec remove_upper decreasing_vars upper expr =
     match expr.desc, upper.desc with
     | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
       if name1 = name2
@@ -368,11 +368,13 @@ let new_catch_recursive_pattern env expr_list =
           (fun (acc, is_done) arg1 arg2 ->
              if is_done
              then acc, true
-             else if arg1 = arg2 || arg2 = new_var
+             else if
+               arg1 = arg2
+               || List.exists (fun var -> arg2 = (var |> to_sub)) decreasing_vars
              then acc, false
              else if arg2.desc = None
              then Some arg1, true
-             else remove_upper new_var arg1 arg2, true)
+             else remove_upper decreasing_vars arg1 arg2, true)
           (None, false)
           args1
           args2
@@ -401,41 +403,61 @@ let new_catch_recursive_pattern env expr_list =
   let first_vars = collect_free_var_in_expr first [] in
   let second_vars = collect_free_var_in_expr second [] in
   let new_vars = List.filter (fun var -> not (List.mem var first_vars)) second_vars in
-  let new_vars =
-    List.filter
-      (fun var ->
-         not
-           (Prover.is_decreasing_var
-              env
-              ([], Proof.Eq (second, second), Egraph.Egraph.init ())
-              (fst var)))
+  let decreasing_vars, new_vars =
+    List.fold_left
+      (fun (decreasing_var, new_vars) var ->
+         if
+           Prover.is_decreasing_var
+             env
+             ([], Proof.Eq (second, second), Egraph.Egraph.init ())
+             (fst var)
+         then var :: decreasing_var, new_vars
+         else decreasing_var, var :: new_vars)
+      ([], [])
       new_vars
   in
-  let new_var =
-    Ir.
-      { desc = Var (List.hd new_vars |> fst)
-      ; typ =
-          (match List.hd new_vars |> snd with
-           | Type typ -> typ
-           | _ -> failwith "not implemented")
-      }
-  in
-  let parent = get_parent new_var second in
-  let lower = get_lower new_var (parent |> Option.get) in
-  let upper = get_upper (parent |> Option.get) second in
-  let _ = parent |> Option.get |> Ir.pp_expr |> print_endline in
-  let _ = lower |> pp_subtree |> print_endline in
-  let _ = upper |> pp_subtree |> print_endline in
-  let recursive_expr_list =
-    List.map
-      (fun expr ->
-         let expr = expr |> to_sub in
-         match remove_upper (new_var |> to_sub) upper expr with
-         | Some subtree -> subtree |> remove_lower lower
-         | None -> failwith "cannot find recursive expr")
-      expr_list
-  in
-  recursive_expr_list |> List.tl
+  if List.is_empty new_vars
+  then []
+  else (
+    let new_var =
+      Ir.
+        { desc = Var (List.hd new_vars |> fst)
+        ; typ =
+            (match List.hd new_vars |> snd with
+             | Type typ -> typ
+             | _ -> failwith "not implemented")
+        }
+    in
+    let decreasing_vars =
+      List.map
+        (fun (var, typ) ->
+           Ir.
+             { desc = Var var
+             ; typ =
+                 (match typ with
+                  | Proof.Type typ -> typ
+                  | _ -> failwith "this must be type")
+             })
+        decreasing_vars
+    in
+    let parent = get_parent new_var second in
+    let lower = get_lower new_var (parent |> Option.get) in
+    let upper = get_upper (parent |> Option.get) second in
+    let recursive_expr_list =
+      List.map
+        (fun expr ->
+           let expr = expr |> to_sub in
+           match remove_upper decreasing_vars upper expr with
+           | Some subtree -> subtree |> remove_lower lower
+           | None -> { desc = None; typ = Tany })
+        expr_list
+    in
+    if
+      List.exists
+        (fun subtree -> Option.is_none subtree.desc)
+        (List.tl recursive_expr_list)
+    then []
+    else recursive_expr_list)
 ;;
 
 let catch_recursive_pattern env expr_list =
@@ -657,13 +679,6 @@ let pattern_recognition env ihs state_list : env * lemma list =
   ignore ihs;
   let lhs_common_subtree = new_catch_recursive_pattern env lhs_list in
   let rhs_common_subtree = new_catch_recursive_pattern env rhs_list in
-  let _ =
-    lhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
-  in
-  let _ =
-    rhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
-  in
-  let _ = failwith "asdf" in
   if
     List.length lhs_common_subtree <> List.length rhs_common_subtree
     || List.is_empty lhs_common_subtree
@@ -686,64 +701,86 @@ let pattern_recognition env ihs state_list : env * lemma list =
              (List.nth rhs_common_subtree (i + 1)))
         range
     in
-    let lhs_base_case = List.hd lhs_common_subtree in
-    let lhs_free_vars = collect_free_var_in_subtree lhs_base_case [] in
-    let lhs_free_vars_with_typ =
-      List.map
-        (fun (name, typ) ->
-           match typ with
-           | Proof.Type typ -> Ir.{ desc = Var name; typ }
-           | _ -> failwith "not implemented")
-        lhs_free_vars
-    in
-    let rhs_base_case = List.hd rhs_common_subtree in
-    let rhs_free_vars = collect_free_var_in_subtree rhs_base_case [] in
-    let rhs_free_vars_with_typ =
-      List.map
-        (fun (name, typ) ->
-           match typ with
-           | Proof.Type typ -> Ir.{ desc = Var name; typ }
-           | _ -> failwith "not implemented")
-        rhs_free_vars
-    in
-    (* have to add index for mk function *)
-    let mk_lhs = decl_of_subtree_difference "mk_lhs" lhs_base_case lhs_increase_subtree in
-    let mk_rhs = decl_of_subtree_difference "mk_rhs" rhs_base_case rhs_increase_subtree in
-    let lhs_lemma = helper_function_lemma mk_lhs in
-    let rhs_lemma = helper_function_lemma mk_rhs in
-    let increase_typ = lhs_free_vars_with_typ |> List.hd |> Ir.(fun x -> x.typ) in
-    let increase_arg =
-      Ir.{ desc = Var "lst"; typ = Ir.Talgebraic ("list", [ increase_typ ]) }
-    in
-    let new_lhs =
-      Ir.
-        { desc = Call ("mk_lhs", increase_arg :: lhs_free_vars_with_typ)
-        ; typ = (lhs_common_subtree |> List.hd).typ
-        }
-    in
-    let new_rhs =
-      Ir.
-        { desc = Call ("mk_rhs", increase_arg :: rhs_free_vars_with_typ)
-        ; typ = (rhs_common_subtree |> List.hd).typ
-        }
-    in
-    let lhs_head =
-      difference_of_subtree
-        (List.hd lhs_common_subtree)
-        (List.hd lhs_list |> subtree_of_expr)
-    in
-    let rhs_head =
-      difference_of_subtree
-        (List.hd rhs_common_subtree)
-        (List.hd rhs_list |> subtree_of_expr)
-    in
-    let lhs = fill_subtreewith_expr lhs_head new_lhs in
-    let rhs = fill_subtreewith_expr rhs_head new_rhs in
-    let goal = Proof.Eq (lhs, rhs) in
-    let free_vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
-    let goal = Proof.Forall (free_vars, goal) in
-    let env = [ mk_lhs; mk_rhs ] in
-    env, lhs_lemma @ rhs_lemma @ [ goal ])
+    let range = Proof.range 0 (List.length lhs_increase_subtree - 1) in
+    if
+      List.exists
+        (fun i ->
+           is_proper_subset
+             (List.nth lhs_increase_subtree i)
+             (List.nth lhs_increase_subtree (i + 1)))
+        range
+      || List.exists
+           (fun i ->
+              is_proper_subset
+                (List.nth rhs_increase_subtree i)
+                (List.nth rhs_increase_subtree (i + 1)))
+           range
+      || List.exists (fun subtree -> Option.is_none subtree.desc) lhs_increase_subtree
+      || List.exists (fun subtree -> Option.is_none subtree.desc) rhs_increase_subtree
+    then [], []
+    else (
+      let lhs_base_case = List.hd lhs_common_subtree in
+      let lhs_free_vars = collect_free_var_in_subtree lhs_base_case [] in
+      let lhs_free_vars_with_typ =
+        List.map
+          (fun (name, typ) ->
+             match typ with
+             | Proof.Type typ -> Ir.{ desc = Var name; typ }
+             | _ -> failwith "not implemented")
+          lhs_free_vars
+      in
+      let rhs_base_case = List.hd rhs_common_subtree in
+      let rhs_free_vars = collect_free_var_in_subtree rhs_base_case [] in
+      let rhs_free_vars_with_typ =
+        List.map
+          (fun (name, typ) ->
+             match typ with
+             | Proof.Type typ -> Ir.{ desc = Var name; typ }
+             | _ -> failwith "not implemented")
+          rhs_free_vars
+      in
+      (* have to add index for mk function *)
+      let mk_lhs =
+        decl_of_subtree_difference "mk_lhs" lhs_base_case lhs_increase_subtree
+      in
+      let mk_rhs =
+        decl_of_subtree_difference "mk_rhs" rhs_base_case rhs_increase_subtree
+      in
+      let lhs_lemma = helper_function_lemma mk_lhs in
+      let rhs_lemma = helper_function_lemma mk_rhs in
+      let increase_typ = lhs_free_vars_with_typ |> List.hd |> Ir.(fun x -> x.typ) in
+      let increase_arg =
+        Ir.{ desc = Var "lst"; typ = Ir.Talgebraic ("list", [ increase_typ ]) }
+      in
+      let new_lhs =
+        Ir.
+          { desc = Call ("mk_lhs", increase_arg :: lhs_free_vars_with_typ)
+          ; typ = (lhs_common_subtree |> List.hd).typ
+          }
+      in
+      let new_rhs =
+        Ir.
+          { desc = Call ("mk_rhs", increase_arg :: rhs_free_vars_with_typ)
+          ; typ = (rhs_common_subtree |> List.hd).typ
+          }
+      in
+      let lhs_head =
+        difference_of_subtree
+          (List.hd lhs_common_subtree)
+          (List.hd lhs_list |> subtree_of_expr)
+      in
+      let rhs_head =
+        difference_of_subtree
+          (List.hd rhs_common_subtree)
+          (List.hd rhs_list |> subtree_of_expr)
+      in
+      let lhs = fill_subtreewith_expr lhs_head new_lhs in
+      let rhs = fill_subtreewith_expr rhs_head new_rhs in
+      let goal = Proof.Eq (lhs, rhs) in
+      let free_vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
+      let goal = Proof.Forall (free_vars, goal) in
+      let env = [ mk_lhs; mk_rhs ] in
+      env, lhs_lemma @ rhs_lemma @ [ goal ]))
 ;;
 
 let symbolic_execution t : state list list =
