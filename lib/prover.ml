@@ -526,6 +526,7 @@ let useless_rewrite tactic =
 ;;
 
 let rank_tactic t candidates tactic stateset : int option =
+  ignore candidates;
   let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
   (* this function be executed after is_valid, is_duplicated *)
   let env = t.Proof.env in
@@ -557,34 +558,7 @@ let rank_tactic t candidates tactic stateset : int option =
       let new_t = Proof.apply_tactic t tactic in
       let _, goal, _ = Proof.get_first_state t in
       let _, new_goal, _ = Proof.get_first_state new_t in
-      let new_candidate = mk_candidates new_t in
-      let new_candidate = List.filter (fun c -> is_valid new_t c) new_candidate in
-      let new_candidate =
-        List.filter (fun c -> not (is_duplicated new_t c stateset)) new_candidate
-      in
-      let candidates =
-        List.filter
-          (fun c ->
-             match c with
-             | Proof.RewriteReverse _ | Proof.RewriteInAt _ -> true
-             | _ -> false)
-          candidates
-      in
-      let new_candidate = List.filter (fun c -> not (useless_rewrite c)) new_candidate in
-      let candidates =
-        List.filter
-          (fun c ->
-             match c with
-             | Proof.RewriteInAt _ | Proof.RewriteReverse _ -> true
-             | _ -> false)
-          candidates
-      in
-      let candidates = List.filter (fun c -> not (useless_rewrite c)) candidates in
-      if candidates = new_candidate
-      then None
-      else if is_more_similar goal new_goal
-      then Some 1
-      else Some 2)
+      if is_more_similar goal new_goal then Some 1 else Some 2)
   | Proof.RewriteReverse (src, _, i) ->
     if
       (String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src)
@@ -602,37 +576,9 @@ let rank_tactic t candidates tactic stateset : int option =
         (new_lhs <> lhs && String.starts_with ~prefix:"rhs" src)
         || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
       then None
-      else (
-        let new_candidate = mk_candidates new_t in
-        let new_candidate = List.filter (fun c -> is_valid new_t c) new_candidate in
-        let new_candidate =
-          List.filter (fun c -> not (is_duplicated new_t c stateset)) new_candidate
-        in
-        let new_candidate =
-          List.filter
-            (fun c ->
-               match c with
-               | Proof.RewriteReverse _ | Proof.RewriteInAt _ -> true
-               | _ -> false)
-            new_candidate
-        in
-        let new_candidate =
-          List.filter (fun c -> not (useless_rewrite c)) new_candidate
-        in
-        let candidates =
-          List.filter
-            (fun c ->
-               match c with
-               | Proof.RewriteInAt _ | Proof.RewriteReverse _ -> true
-               | _ -> false)
-            candidates
-        in
-        let candidates = List.filter (fun c -> not (useless_rewrite c)) candidates in
-        if candidates = new_candidate
-        then None
-        else if is_more_similar goal new_goal
-        then Some 1
-        else Some 2))
+      else if is_more_similar goal new_goal
+      then Some 1
+      else Some 2)
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
     let _, goal, _ = state in
@@ -695,7 +641,15 @@ let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
     let prev_worklist, work = WorkList.take_exn worklist in
     let t, tactic, r = work in
     let _ = print_endline "=================================================" in
-    let _ = print_endline ("Progress: " ^ string_of_int (synth_counter ())) in
+    let i = synth_counter () in
+    let _ = print_endline ("Progress: " ^ string_of_int i) in
+    let _ =
+      if i = 334
+      then (
+        let goal = Proof.get_goal_list t |> List.hd in
+        Proof.sexp_of_goal goal |> Sexplib.Sexp.to_string |> print_endline;
+        failwith "asdf")
+    in
     let _ = Proof.pp_t t |> print_endline in
     let _ =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
