@@ -643,13 +643,6 @@ let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
     let _ = print_endline "=================================================" in
     let i = synth_counter () in
     let _ = print_endline ("Progress: " ^ string_of_int i) in
-    let _ =
-      if i = 334
-      then (
-        let goal = Proof.get_goal_list t |> List.hd in
-        Proof.sexp_of_goal goal |> Sexplib.Sexp.to_string |> print_endline;
-        failwith "asdf")
-    in
     let _ = Proof.pp_t t |> print_endline in
     let _ =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
