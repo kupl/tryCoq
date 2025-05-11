@@ -48,6 +48,36 @@ let rec split pred lst =
 
 let synth_counter = make_synth_counter ()
 
+let rec is_sub_list lst1 lst2 =
+  match lst1, lst2 with
+  | hd1 :: tl1, hd2 :: tl2 -> if hd1 = hd2 then is_sub_list tl1 tl2 else false
+  | [], _ -> true
+  | _, [] -> false
+;;
+
+let is_sub_t t1 t2 =
+  let is_sub_conj conj1 conj2 =
+    let state_list1, goal1 = conj1 in
+    let state_list2, goal2 = conj2 in
+    goal1 = goal2 && is_sub_list state_list1 state_list2
+  in
+  let conjs1 = Proof.get_conj_list t1 in
+  let conjs2 = Proof.get_conj_list t2 in
+  let first_conj1 = List.hd conjs1 in
+  let first_conj2 = List.hd conjs2 in
+  let tl_conjs1 = List.tl conjs1 in
+  let tl_conjs2 = List.tl conjs2 in
+  (* reflexivity로 conjecture를 끝냈는지 state를 끝냈는지 확인해야함 *)
+  tl_conjs1 = tl_conjs2 && is_sub_conj first_conj1 first_conj2
+;;
+
+let deduplicate_worklist worklist t =
+  let worklist =
+    WorkList.filter (fun (proof_t, _, _) -> not (is_sub_t proof_t t)) worklist
+  in
+  worklist
+;;
+
 let rec collect_fname_in_expr env expr =
   match expr.Ir.desc with
   | Ir.Call (name, args) ->
@@ -652,6 +682,12 @@ let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
      | _, [], proof -> ProofSet.empty, Some proof, next_t.env
      | _ ->
        let _ = Proof.pp_t next_t |> print_endline in
+       let prev_worklist =
+         match tactic with
+         | Proof.Reflexivity | Proof.Discriminate ->
+           deduplicate_worklist prev_worklist next_t
+         | _ -> prev_worklist
+       in
        let statelist = ProofSet.add next_t statelist in
        let tactic_list = mk_candidates next_t in
        let worklist = prune_rank_worklist next_t tactic_list statelist in
