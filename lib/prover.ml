@@ -56,25 +56,22 @@ let rec is_sub_list lst1 lst2 =
 ;;
 
 let is_sub_t t1 t2 =
-  let is_sub_conj conj1 conj2 =
-    let state_list1, goal1 = conj1 in
-    let state_list2, goal2 = conj2 in
-    goal1 = goal2 && is_sub_list state_list1 state_list2
-  in
   let conjs1 = Proof.get_conj_list t1 in
   let conjs2 = Proof.get_conj_list t2 in
-  let first_conj1 = List.hd conjs1 in
-  let first_conj2 = List.hd conjs2 in
-  let tl_conjs1 = List.tl conjs1 in
-  let tl_conjs2 = List.tl conjs2 in
-  (* reflexivity로 conjecture를 끝냈는지 state를 끝냈는지 확인해야함 *)
-  tl_conjs1 = tl_conjs2 && is_sub_conj first_conj1 first_conj2
+  let state_list1 = List.map fst conjs1 |> List.concat in
+  let state_list2 = List.map fst conjs2 |> List.concat in
+  let state_list1 = List.map (fun (fact_list, goal, _) -> fact_list, goal) state_list1 in
+  let state_list2 = List.map (fun (fact_list, goal, _) -> fact_list, goal) state_list2 in
+  is_sub_list (List.rev state_list1) (List.rev state_list2)
 ;;
 
 let deduplicate_worklist worklist t =
+  let len1 = WorkList.size worklist in
   let worklist =
-    WorkList.filter (fun (proof_t, _, _) -> not (is_sub_t proof_t t)) worklist
+    WorkList.filter (fun (proof_t, _, _) -> not (is_sub_t t proof_t)) worklist
   in
+  let len2 = WorkList.size worklist in
+  let _ = print_endline ("Deduplication: " ^ string_of_int (len1 - len2)) in
   worklist
 ;;
 
