@@ -586,26 +586,21 @@ let rank_tactic t candidates tactic stateset : int option =
       let _, goal, _ = Proof.get_first_state t in
       let _, new_goal, _ = Proof.get_first_state new_t in
       if is_more_similar goal new_goal then Some 1 else Some 2)
-  | Proof.RewriteReverse (src, _, i) ->
+  | Proof.RewriteReverse (src, _, _) ->
+    let new_t = Proof.apply_tactic t tactic in
+    let _, goal, _ = Proof.get_first_state t in
+    let _, new_goal, _ = Proof.get_first_state new_t in
+    let lhs = Proof.get_lhs goal in
+    let rhs = Proof.get_rhs goal in
+    let new_lhs = Proof.get_lhs new_goal in
+    let new_rhs = Proof.get_rhs new_goal in
     if
-      (String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src)
-      && i = 0
+      (new_lhs <> lhs && String.starts_with ~prefix:"rhs" src)
+      || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
     then None
-    else (
-      let new_t = Proof.apply_tactic t tactic in
-      let _, goal, _ = Proof.get_first_state t in
-      let _, new_goal, _ = Proof.get_first_state new_t in
-      let lhs = Proof.get_lhs goal in
-      let rhs = Proof.get_rhs goal in
-      let new_lhs = Proof.get_lhs new_goal in
-      let new_rhs = Proof.get_rhs new_goal in
-      if
-        (new_lhs <> lhs && String.starts_with ~prefix:"rhs" src)
-        || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
-      then None
-      else if is_more_similar goal new_goal
-      then Some 1
-      else Some 2)
+    else if is_more_similar goal new_goal
+    then Some 1
+    else Some 2
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
     let _, goal, _ = state in
@@ -654,6 +649,21 @@ let prune_rank_worklist t candidates statelist =
     |> List.filter (fun c -> is_valid t c)
     |> List.filter (fun c -> not (is_duplicated t c statelist))
     |> List.filter (fun c -> not (useless_rewrite c))
+    |> List.fold_left
+         (fun (tactics, state_list) tactic ->
+            let Proof.{ proof = next_lemmas, next_conjs, _; _ } =
+              Proof.apply_tactic t tactic
+            in
+            if
+              List.exists
+                (fun (lemmas, conjs) ->
+                   lemmas = next_lemmas
+                   && Proof.remove_graph conjs = Proof.remove_graph next_conjs)
+                state_list
+            then tactics, state_list
+            else tactics @ [ tactic ], (next_lemmas, next_conjs) :: state_list)
+         ([], [])
+    |> fst
   in
   let worklist = rank_tactics t candidates statelist in
   WorkList.of_list worklist
