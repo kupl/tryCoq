@@ -677,30 +677,37 @@ let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
   | _ ->
     let prev_worklist, work = WorkList.take_exn worklist in
     let t, tactic, r = work in
-    let _ = print_endline "=================================================" in
-    let i = synth_counter () in
-    let _ = print_endline ("Progress: " ^ string_of_int i) in
-    let _ = Proof.pp_t t |> print_endline in
-    let _ =
-      print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
-    in
-    let next_t = Proof.apply_tactic t tactic in
-    (match next_t.proof with
-     | _, [], proof -> ProofSet.empty, Some proof, next_t.env
-     | _ ->
-       let _ = Proof.pp_t next_t |> print_endline in
-       let prev_worklist =
-         match tactic with
-         | Proof.Reflexivity | Proof.Discriminate ->
-           deduplicate_worklist prev_worklist next_t
-         | _ -> prev_worklist
-       in
-       let statelist = ProofSet.add next_t statelist in
-       let tactic_list = mk_candidates next_t in
-       let worklist = prune_rank_worklist next_t tactic_list statelist in
-       if is_stuck worklist
-       then progress prev_worklist statelist (ProofSet.add next_t stuck_point)
-       else progress (WorkList.merge prev_worklist worklist) statelist stuck_point)
+    (* we have to consider can stuck *)
+    if
+      let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
+      is_duplicated t tactic statelist
+    then progress prev_worklist statelist stuck_point
+    else (
+      let _ = print_endline "=================================================" in
+      let i = synth_counter () in
+      let _ = print_endline ("Progress: " ^ string_of_int i) in
+      let _ = Proof.pp_t t |> print_endline in
+      let _ =
+        print_endline
+          (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
+      in
+      let next_t = Proof.apply_tactic t tactic in
+      match next_t.proof with
+      | _, [], proof -> ProofSet.empty, Some proof, next_t.env
+      | _ ->
+        let _ = Proof.pp_t next_t |> print_endline in
+        let prev_worklist =
+          match tactic with
+          | Proof.Reflexivity | Proof.Discriminate ->
+            deduplicate_worklist prev_worklist next_t
+          | _ -> prev_worklist
+        in
+        let statelist = ProofSet.add next_t statelist in
+        let tactic_list = mk_candidates next_t in
+        let worklist = prune_rank_worklist next_t tactic_list statelist in
+        if is_stuck worklist
+        then progress prev_worklist statelist (ProofSet.add next_t stuck_point)
+        else progress (WorkList.merge prev_worklist worklist) statelist stuck_point)
 ;;
 
 let progress_single_thread t =
