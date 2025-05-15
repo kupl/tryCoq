@@ -660,7 +660,7 @@ let prune_rank_worklist_update_state_list t candidates statelist =
 
 let is_stuck worklist = WorkList.is_empty worklist
 
-let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
+(* let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
   match WorkList.is_empty worklist with
   | true -> stuck_point, None, []
   | _ ->
@@ -691,7 +691,7 @@ let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
        if is_stuck worklist
        then progress prev_worklist statelist (ProofSet.add next_t stuck_point)
        else progress (WorkList.merge prev_worklist worklist) statelist stuck_point)
-;;
+;; *)
 
 let progress_single_thread t =
   let statelist = ProofSet.empty in

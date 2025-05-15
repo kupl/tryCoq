@@ -858,12 +858,8 @@ let advanced_generalize t : (t * lemma list) list =
   env_lemma_pairs
 ;;
 
-let make_lemmas_by_advanced_generalize (stuck_list : Prover.ProofSet.t) lemma_list
-  : (t * lemma list) list
-  =
-  let lemmas =
-    List.map advanced_generalize (Prover.ProofSet.to_list stuck_list) |> List.concat
-  in
+let make_lemmas_by_advanced_generalize (t : t) lemma_list : (t * lemma list) list =
+  let lemmas = advanced_generalize t in
   let lemmas =
     List.fold_left
       (fun (acc : (t * lemma list) list) (t, lemma_list) ->
