@@ -58,6 +58,7 @@ let rec progress worklist statelist old_lemma_list =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
     in
     let next_t = Proof.apply_tactic t tactic in
+    let _ = Proof.pp_t next_t |> print_endline in
     (match next_t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof, next_t.env
      | _ ->

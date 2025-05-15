@@ -1,0 +1,3096 @@
+Choose the proof type :
+1) Interactive Mode 	 2) Auto Mode
+Enter the goal : =================================================
+Progress: 1
+
+
+No conjecture
+>>> assert forall (l:lambda), check_ta1 (l) = check (l)(rank : 0)
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+
+---------------------------------------
+forall (l:lambda), check_ta1 (l) = check (l)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 2
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+
+---------------------------------------
+forall (l:lambda), check_ta1 (l) = check (l)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+
+---------------------------------------
+forall (l:lambda), sub_check_ta1 (l) (Nil) = match (l) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 3
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+
+---------------------------------------
+forall (l:lambda), sub_check_ta1 (l) (Nil) = match (l) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> induction l(rank : 0)
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+string1 : string
+---------------------------------------
+sub_check_ta1 (V (string1)) (Nil) = match (V (string1)) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 4
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+string1 : string
+---------------------------------------
+sub_check_ta1 (V (string1)) (Nil) = match (V (string1)) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+string1 : string
+---------------------------------------
+false = false
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 5
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+string1 : string
+---------------------------------------
+false = false
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+string4 : string
+lambda5 : lambda
+IH6 : sub_check_ta1 (lambda5) (Nil) = match (lambda5) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+Inductive7 : l = P (string4) (lambda5)
+---------------------------------------
+sub_check_ta1 (P (string4) (lambda5)) (Nil) = match (P (string4) (lambda5)) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 0
+=================================================
+Progress: 6
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+string4 : string
+lambda5 : lambda
+IH6 : sub_check_ta1 (lambda5) (Nil) = match (lambda5) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+Inductive7 : l = P (string4) (lambda5)
+---------------------------------------
+sub_check_ta1 (P (string4) (lambda5)) (Nil) = match (P (string4) (lambda5)) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+string4 : string
+lambda5 : lambda
+IH6 : sub_check_ta1 (lambda5) (Nil) = match (lambda5) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+Inductive7 : l = P (string4) (lambda5)
+---------------------------------------
+sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Lemma List : 1
+Goal and Lemma
+sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+forall (string4:string), mk_lhs (Nil) (string4) = Cons (string4) (Nil)
+forall (hd:string) (tl:string list) (string4:string), mk_lhs (Cons (hd) (tl)) (string4) = Cons (hd) (mk_lhs (tl) (string4))
+forall (string4:string), mk_rhs (Nil) (string4) = Cons (string4) (Nil)
+forall (hd:string) (tl:string list) (string4:string), mk_rhs (Cons (hd) (tl)) (string4) = Cons (hd) (mk_rhs (tl) (string4))
+forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+=================================================
+Progress: 7
+
+
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+string4 : string
+lambda5 : lambda
+IH6 : sub_check_ta1 (lambda5) (Nil) = match (lambda5) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+Inductive7 : l = P (string4) (lambda5)
+---------------------------------------
+sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 8
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+---------------------------------------
+forall (lst:string list) (string4:string), sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 9
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+---------------------------------------
+forall (lst:string list) (string4:string), sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+---------------------------------------
+forall (lst:string list) (string4:string), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 10
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda) (lst:string list), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 11
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda) (lst:string list), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+forall (lst:string list), sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 12
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+forall (lst:string list), sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+forall (lst:string list), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 13
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+---------------------------------------
+forall (lst:string list) (string4:string), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+forall (lst:string list), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 14
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+---------------------------------------
+forall (lst:string list) (string4:string), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro lst(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+---------------------------------------
+forall (string4:string), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 15
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro lst(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+lst : string list
+---------------------------------------
+forall (lambda5:lambda) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 16
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+lst : string list
+---------------------------------------
+forall (lambda5:lambda) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 17
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+---------------------------------------
+forall (string4:string), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 18
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+forall (lst:string list), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro lst(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+lst : string list
+---------------------------------------
+is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 19
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+---------------------------------------
+forall (string4:string), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+string4 : string
+---------------------------------------
+is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 20
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+lst : string list
+---------------------------------------
+forall (lambda5:lambda) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+lst : string list
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 21
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+lst : string list
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 22
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+string4 : string
+---------------------------------------
+is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 23
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+---------------------------------------
+forall (string4:string), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+lst : string list
+string4 : string
+---------------------------------------
+is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 24
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+forall (lst:string list), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro lst(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+lst : string list
+---------------------------------------
+is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 25
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda) (lst:string list), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro lst(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+lst : string list
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 26
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+lst : string list
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+lst : string list
+---------------------------------------
+sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 27
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+lst : string list
+---------------------------------------
+sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+lst : string list
+---------------------------------------
+is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 28
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda) (lst:string list), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lst(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (mk_lhs (Nil) (string4)) = sub_check (lambda5) (mk_rhs (Nil) (string4))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 29
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (mk_lhs (Nil) (string4)) = sub_check (lambda5) (mk_rhs (Nil) (string4))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 30
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (mk_lhs (Nil) (string4)) = sub_check (lambda5) (mk_rhs (Nil) (string4))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 31
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (Cons (string4) (Nil)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 32
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 33
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (Cons (string4) (Nil)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 34
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+forall (lst:string list), sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lst(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string19)) (mk_lhs (Nil) (string4)) = sub_check (V (string19)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 35
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string19)) (mk_lhs (Nil) (string4)) = sub_check (V (string19)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string19) = if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 36
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2)(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case39 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 37
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case39 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case40 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+=================================================
+Progress: 38
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case40 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (mk_lhs (Nil) (string4)) = sub_check (lambda29) (mk_rhs (Nil) (string4))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (P (string28) (lambda29)) (mk_lhs (Nil) (string4)) = sub_check (P (string28) (lambda29)) (mk_rhs (Nil) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 3
+=================================================
+Progress: 39
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (mk_lhs (Nil) (string4)) = sub_check (lambda29) (mk_rhs (Nil) (string4))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (P (string28) (lambda29)) (mk_lhs (Nil) (string4)) = sub_check (P (string28) (lambda29)) (mk_rhs (Nil) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (mk_lhs (Nil) (string4)) = sub_check (lambda29) (mk_rhs (Nil) (string4))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (lambda29) (Cons (string28) (Cons (string4) (Nil))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 40
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+forall (lst:string list), is_mem_ta1 (mk_lhs (lst) (string4)) (string19) = mem (string19) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lst(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+is_mem_ta1 (mk_lhs (Nil) (string4)) (string19) = mem (string19) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 41
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+is_mem_ta1 (mk_lhs (Nil) (string4)) (string19) = mem (string19) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string19) = if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 42
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (Cons (string4) (Nil)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- lhs_lemma15 in goal at 1(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 43
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- rhs_lemma17 in goal at 0(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 44
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2)(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case39 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 45
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case39 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case40 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+=================================================
+Progress: 46
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case40 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (P (string28) (lambda29)) (Cons (string4) (Nil)) = sub_check (P (string28) (lambda29)) (Cons (string4) (Nil))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 3
+=================================================
+Progress: 47
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (P (string28) (lambda29)) (Cons (string4) (Nil)) = sub_check (P (string28) (lambda29)) (Cons (string4) (Nil))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (lambda29) (Cons (string28) (Cons (string4) (Nil))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 48
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string19) = if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2)(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+Case39 : match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 49
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+Case39 : match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+Case40 : match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+=================================================
+Progress: 50
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+Case40 : match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+sub_check_ta1 (V (string19)) (mk_lhs (Cons (string35) (string_list36)) (string4)) = sub_check (V (string19)) (mk_rhs (Cons (string35) (string_list36)) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 3
+=================================================
+Progress: 51
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+sub_check_ta1 (V (string19)) (mk_lhs (Cons (string35) (string_list36)) (string4)) = sub_check (V (string19)) (mk_rhs (Cons (string35) (string_list36)) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (mk_rhs (string_list36) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 52
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lst(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (Nil) (string4)) = sub_check (lambda5) (mk_rhs (Nil) (string4))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 53
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (Nil) (string4)) = sub_check (lambda5) (mk_rhs (Nil) (string4))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (string4:string), sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 54
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (Nil) (string4)) = sub_check (lambda5) (mk_rhs (Nil) (string4))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 55
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (string4:string), sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string25)) (Cons (string4) (Nil)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 56
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 57
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string25)) (Cons (string4) (Nil)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 58
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+
+---------------------------------------
+forall (lambda5:lambda) (string4:string), sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 59
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (Cons (string4) (Nil)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 60
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (Cons (string4) (Nil)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 61
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 62
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 63
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+---------------------------------------
+forall (lst:string list) (string4:string), sub_check_ta1 (V (string19)) (mk_lhs (lst) (string4)) = sub_check (V (string19)) (mk_rhs (lst) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lst(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string19)) (mk_lhs (Nil) (string4)) = sub_check (V (string19)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 64
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string19)) (mk_lhs (Nil) (string4)) = sub_check (V (string19)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+---------------------------------------
+forall (string4:string), if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string19) = if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 65
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+---------------------------------------
+forall (string4:string), if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string19) = if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string19) = if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 66
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (mk_rhs (string_list36) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2)(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+Case41 : match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 67
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+Case41 : match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+Case42 : match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = mem (string19) (mk_rhs (string_list36) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+Lemma List : 0
+=================================================
+Progress: 68
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (mk_rhs (string_list36) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2)(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+Case41 : match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 69
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (Cons (string4) (Nil)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- lhs_lemma15 in goal at 1(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (mk_lhs (Nil) (string4)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 70
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string4 : string
+---------------------------------------
+forall (lambda5:lambda), sub_check_ta1 (lambda5) (mk_lhs (Nil) (string4)) = sub_check (lambda5) (Cons (string4) (Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lambda5(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 71
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 72
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- rhs_lemma17 in goal at 0(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 73
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string25)) (Cons (string4) (Nil)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- lhs_lemma15 in goal at 1(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 74
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- rhs_lemma17 in goal at 0(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 75
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 76
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+---------------------------------------
+forall (string4:string), sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 77
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (Cons (string4) (Nil)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- lhs_lemma15 in goal at 1(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 78
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (Cons (string4) (Nil))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- rhs_lemma17 in goal at 0(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+sub_check_ta1 (V (string25)) (mk_lhs (Nil) (string4)) = sub_check (V (string25)) (mk_rhs (Nil) (string4))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 79
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2)(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case39 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 80
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case39 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case40 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+=================================================
+Progress: 81
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case40 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+IH30 : forall (string4:string), sub_check_ta1 (lambda29) (mk_lhs (Nil) (string4)) = sub_check (lambda29) (mk_rhs (Nil) (string4))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (P (string28) (lambda29)) (mk_lhs (Nil) (string4)) = sub_check (P (string28) (lambda29)) (mk_rhs (Nil) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 3
+=================================================
+Progress: 82
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+IH30 : forall (string4:string), sub_check_ta1 (lambda29) (mk_lhs (Nil) (string4)) = sub_check (lambda29) (mk_rhs (Nil) (string4))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (P (string28) (lambda29)) (mk_lhs (Nil) (string4)) = sub_check (P (string28) (lambda29)) (mk_rhs (Nil) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+IH30 : forall (string4:string), sub_check_ta1 (lambda29) (mk_lhs (Nil) (string4)) = sub_check (lambda29) (mk_rhs (Nil) (string4))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (lambda29) (Cons (string28) (Cons (string4) (Nil))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 83
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+IH30 : forall (string4:string), sub_check_ta1 (lambda29) (mk_lhs (Nil) (string4)) = sub_check (lambda29) (mk_rhs (Nil) (string4))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (lambda29) (Cons (string28) (Cons (string4) (Nil))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+IH30 : forall (string4:string), sub_check_ta1 (lambda29) (mk_lhs (Nil) (string4)) = sub_check (lambda29) (mk_rhs (Nil) (string4))
+Inductive31 : lambda5 = P (string28) (lambda29)
+string4 : string
+---------------------------------------
+sub_check_ta1 (lambda29) (Cons (string28) (Cons (string4) (Nil))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 84
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+---------------------------------------
+if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string25) = if match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string25) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2)(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case39 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 85
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case39 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case40 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+=================================================
+Progress: 86
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string25 : string
+string4 : string
+Case40 : match (string4, string25) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+IH30 : forall (string4:string), sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (P (string28) (lambda29)) (Cons (string4) (Nil)) = sub_check (P (string28) (lambda29)) (Cons (string4) (Nil))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 3
+=================================================
+Progress: 87
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+IH30 : forall (string4:string), sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (P (string28) (lambda29)) (Cons (string4) (Nil)) = sub_check (P (string28) (lambda29)) (Cons (string4) (Nil))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+IH30 : forall (string4:string), sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (lambda29) (Cons (string28) (Cons (string4) (Nil))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 88
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+IH30 : forall (string4:string), sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (lambda29) (Cons (string28) (Cons (string4) (Nil))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+IH30 : forall (string4:string), sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+string4 : string
+---------------------------------------
+sub_check_ta1 (lambda29) (Cons (string28) (Cons (string4) (Nil))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 89
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (mk_rhs (string_list36) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2)(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+Case41 : match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 90
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (mk_rhs (string_list36) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2)(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : sub_check_ta1 (V (string19)) (mk_lhs (string_list36) (string4)) = sub_check (V (string19)) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+Case41 : match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 91
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (P (string28) (lambda29)) (Cons (string4) (Nil)) = sub_check (P (string28) (lambda29)) (Cons (string4) (Nil))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- lhs_lemma15 in goal at 1(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (P (string28) (lambda29)) (mk_lhs (Nil) (string4)) = sub_check (P (string28) (lambda29)) (Cons (string4) (Nil))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 92
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (P (string28) (lambda29)) (mk_lhs (Nil) (string4)) = sub_check (P (string28) (lambda29)) (Cons (string4) (Nil))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- rhs_lemma17 in goal at 0(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (P (string28) (lambda29)) (mk_lhs (Nil) (string4)) = sub_check (P (string28) (lambda29)) (mk_rhs (Nil) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Lemma List : 0
+=================================================
+Progress: 93
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+---------------------------------------
+if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (Nil) (string19) = if match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (Nil)
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2)(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+Case39 : match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 94
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+Case39 : match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = true
+---------------------------------------
+true = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+Case40 : match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+=================================================
+Progress: 95
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string19 : string
+string4 : string
+Case40 : match (string4, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) = false
+---------------------------------------
+false = false
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = mem (string19) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+is_mem_ta1 (mk_lhs (Cons (string35) (string_list36)) (string4)) (string19) = mem (string19) (mk_rhs (Cons (string35) (string_list36)) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 3
+=================================================
+Progress: 96
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = mem (string19) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+is_mem_ta1 (mk_lhs (Cons (string35) (string_list36)) (string4)) (string19) = mem (string19) (mk_rhs (Cons (string35) (string_list36)) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = mem (string19) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (mk_rhs (string_list36) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 97
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = mem (string19) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else mem (string19) (mk_rhs (string_list36) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- IH37 in goal at 0(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = mem (string19) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 98
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string35 : string
+string_list36 : string list
+string19 : string
+string4 : string
+IH37 : is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = mem (string19) (mk_rhs (string_list36) (string4))
+Inductive38 : lst = Cons (string35) (string_list36)
+---------------------------------------
+if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19) = if match (string35, string19) with
+| (String l1, String l2) -> list_eq (l1) (l2) then true else is_mem_ta1 (mk_lhs (string_list36) (string4)) (string19)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+---------------------------------------
+forall (lst:string list) (string4:string), sub_check_ta1 (P (string22) (lambda23)) (mk_lhs (lst) (string4)) = sub_check (P (string22) (lambda23)) (mk_rhs (lst) (string4))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 10
+=================================================
+Progress: 99
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+---------------------------------------
+forall (lst:string list) (string4:string), sub_check_ta1 (P (string22) (lambda23)) (mk_lhs (lst) (string4)) = sub_check (P (string22) (lambda23)) (mk_rhs (lst) (string4))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+---------------------------------------
+forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (lst) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (lst) (string4)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 100
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+---------------------------------------
+forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (lst) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (lst) (string4)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+string4 : string
+---------------------------------------
+forall (lst:string list), sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (lst) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (lst) (string4)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 101
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+---------------------------------------
+forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (lst) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (lst) (string4)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro lst(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+lst : string list
+---------------------------------------
+forall (string4:string), sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (lst) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (lst) (string4)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 102
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+string4 : string
+---------------------------------------
+forall (lst:string list), sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (lst) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (lst) (string4)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro lst(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+string4 : string
+lst : string list
+---------------------------------------
+sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (lst) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (lst) (string4)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 103
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+lst : string list
+---------------------------------------
+forall (string4:string), sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (lst) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (lst) (string4)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+lst : string list
+string4 : string
+---------------------------------------
+sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (lst) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (lst) (string4)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 104
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+---------------------------------------
+forall (lst:string list) (string4:string), sub_check_ta1 (P (string22) (lambda23)) (mk_lhs (lst) (string4)) = sub_check (P (string22) (lambda23)) (mk_rhs (lst) (string4))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lst(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (P (string22) (lambda23)) (mk_lhs (Nil) (string4)) = sub_check (P (string22) (lambda23)) (mk_rhs (Nil) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 105
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (P (string22) (lambda23)) (mk_lhs (Nil) (string4)) = sub_check (P (string22) (lambda23)) (mk_rhs (Nil) (string4))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (lambda23) (Cons (string22) (Cons (string4) (Nil))) = sub_check (lambda23) (Cons (string22) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 106
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+---------------------------------------
+forall (string4:string), sub_check_ta1 (lambda23) (Cons (string22) (Cons (string4) (Nil))) = sub_check (lambda23) (Cons (string22) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro string4(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+string4 : string
+---------------------------------------
+sub_check_ta1 (lambda23) (Cons (string22) (Cons (string4) (Nil))) = sub_check (lambda23) (Cons (string22) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 107
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (lambda29) (Cons (string28) (Cons (string4) (Nil))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- lhs_lemma15 in goal at 1(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (lambda29) (Cons (string28) (mk_lhs (Nil) (string4))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 108
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (lambda29) (Cons (string28) (mk_lhs (Nil) (string4))) = sub_check (lambda29) (Cons (string28) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- rhs_lemma17 in goal at 0(rank : 1)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string28 : string
+lambda29 : lambda
+string4 : string
+IH30 : sub_check_ta1 (lambda29) (Cons (string4) (Nil)) = sub_check (lambda29) (Cons (string4) (Nil))
+Inductive31 : lambda5 = P (string28) (lambda29)
+---------------------------------------
+sub_check_ta1 (lambda29) (Cons (string28) (mk_lhs (Nil) (string4))) = sub_check (lambda29) (Cons (string28) (mk_rhs (Nil) (string4)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 109
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+string4 : string
+---------------------------------------
+forall (lst:string list), sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (lst) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (lst) (string4)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction lst(rank : 2)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+string4 : string
+---------------------------------------
+sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (Nil) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (Nil) (string4)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 110
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+string4 : string
+---------------------------------------
+sub_check_ta1 (lambda23) (Cons (string22) (mk_lhs (Nil) (string4))) = sub_check (lambda23) (Cons (string22) (mk_rhs (Nil) (string4)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (lambda5:lambda) (lst:string list) (string4:string), sub_check_ta1 (lambda5) (mk_lhs (lst) (string4)) = sub_check (lambda5) (mk_rhs (lst) (string4))
+string22 : string
+lambda23 : lambda
+IH24 : forall (lst:string list) (string4:string), sub_check_ta1 (lambda23) (mk_lhs (lst) (string4)) = sub_check (lambda23) (mk_rhs (lst) (string4))
+Inductive25 : lambda5 = P (string22) (lambda23)
+string4 : string
+---------------------------------------
+sub_check_ta1 (lambda23) (Cons (string22) (Cons (string4) (Nil))) = sub_check (lambda23) (Cons (string22) (Cons (string4) (Nil)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
