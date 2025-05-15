@@ -40,7 +40,7 @@ and pattern =
   | Pat_any
 [@@deriving sexp]
 
-and name = string [@@deriving sexp]
+and name = string [@@deriving sexp, eq, ord]
 
 let get_fun_name decl =
   match decl with

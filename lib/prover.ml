@@ -4,6 +4,7 @@ type state = Proof.state
 type lemma_stack = Proof.lemma_stack
 type tactic = Proof.tactic
 type expr = Proof.expr
+type graph = Egraph.L.op Egraph.Egraph.t
 
 module WorkList = CCHeap.Make_from_compare (struct
     type t = Proof.t * tactic * int
@@ -46,6 +47,33 @@ let rec split pred lst =
 ;;
 
 let synth_counter = make_synth_counter ()
+
+let rec is_sub_list lst1 lst2 =
+  match lst1, lst2 with
+  | hd1 :: tl1, hd2 :: tl2 -> if hd1 = hd2 then is_sub_list tl1 tl2 else false
+  | [], _ -> true
+  | _, [] -> false
+;;
+
+let is_sub_t t1 t2 =
+  let conjs1 = Proof.get_conj_list t1 in
+  let conjs2 = Proof.get_conj_list t2 in
+  let state_list1 = List.map fst conjs1 |> List.concat in
+  let state_list2 = List.map fst conjs2 |> List.concat in
+  let state_list1 = List.map (fun (fact_list, goal, _) -> fact_list, goal) state_list1 in
+  let state_list2 = List.map (fun (fact_list, goal, _) -> fact_list, goal) state_list2 in
+  is_sub_list (List.rev state_list1) (List.rev state_list2)
+;;
+
+let deduplicate_worklist worklist t =
+  let len1 = WorkList.size worklist in
+  let worklist =
+    WorkList.filter (fun (proof_t, _, _) -> not (is_sub_t t proof_t)) worklist
+  in
+  let len2 = WorkList.size worklist in
+  let _ = print_endline ("Deduplication: " ^ string_of_int (len1 - len2)) in
+  worklist
+;;
 
 let rec collect_fname_in_expr env expr =
   match expr.Ir.desc with
@@ -158,7 +186,7 @@ let rec get_nth_arg_in_prop fname i prop =
 ;;
 
 let is_decreasing_var env (state : state) var_name =
-  let _, goal = state in
+  let _, goal, _ = state in
   let fname_list = collect_fname_in_prop env goal in
   List.exists
     (fun fname ->
@@ -177,7 +205,7 @@ let is_decreasing_var env (state : state) var_name =
 ;;
 
 let is_mk (state : state) var_name =
-  let _, goal = state in
+  let _, goal, _ = state in
   let lhs = Proof.get_lhs goal in
   let rhs = Proof.get_rhs goal in
   let rec is_mk_arg expr =
@@ -209,7 +237,8 @@ let is_duplicated t tactic state_list =
   let Proof.{ proof = next_lemma, next_conj, _; _ } = Proof.apply_tactic t tactic in
   ProofSet.exists
     (fun Proof.{ proof = lemma_stack, conj_list, _; _ } ->
-       next_lemma = lemma_stack && next_conj = conj_list)
+       next_lemma = lemma_stack
+       && Proof.remove_graph next_conj = Proof.remove_graph conj_list)
     state_list
 ;;
 
@@ -307,7 +336,7 @@ let collect_non_qvar_in_prop prop =
 ;;
 
 let collect_fact_name (state : state) =
-  let fact_list, _ = state in
+  let fact_list, _, _ = state in
   List.fold_left
     (fun acc (name, fact) ->
        match fact with
@@ -324,7 +353,7 @@ let collect_lemma_name (lemma_stack : lemma_stack) =
 let mk_candidates t =
   let lemma_stack = Proof.get_lemma_stack t in
   let state = Proof.get_first_state t in
-  let _, goal = state in
+  let _, goal, _ = state in
   let number_list = [ 0; 1; 2; 3 ] in
   let expr_list = collect_expr_in_prop goal in
   let qvar_list = collect_qvar_in_prop goal in
@@ -432,8 +461,8 @@ let is_more_similar prop1 prop2 =
 let how_good_rewrite (prev_t : t) (new_t : t) : int option =
   let prev_state = Proof.get_first_state prev_t in
   let new_state = Proof.get_first_state new_t in
-  let _, prev_goal = prev_state in
-  let _, new_goal = new_state in
+  let _, prev_goal, _ = prev_state in
+  let _, new_goal, _ = new_state in
   match is_more_similar prev_goal new_goal with
   | true -> Some 1
   | false -> None
@@ -530,8 +559,7 @@ let rank_tactic t candidates tactic stateset : int option =
   let state = Proof.get_first_state t in
   match tactic with
   | Proof.Intro var_name ->
-    let simpl = Proof.SimplIn "goal" in
-    if not (is_duplicated t simpl stateset)
+    if List.exists (fun cand -> cand = Proof.SimplIn "goal") candidates
     then None
     else if is_mk state var_name
     then Some 1
@@ -553,94 +581,34 @@ let rank_tactic t candidates tactic stateset : int option =
     then None
     else (
       let new_t = Proof.apply_tactic t tactic in
-      let _, goal = Proof.get_first_state t in
-      let _, new_goal = Proof.get_first_state new_t in
-      let new_candidate = mk_candidates new_t in
-      let new_candidate = List.filter (fun c -> is_valid new_t c) new_candidate in
-      let new_candidate =
-        List.filter (fun c -> not (is_duplicated new_t c stateset)) new_candidate
-      in
-      let candidates =
-        List.filter
-          (fun c ->
-             match c with
-             | Proof.RewriteReverse _ | Proof.RewriteInAt _ -> true
-             | _ -> false)
-          candidates
-      in
-      let new_candidate = List.filter (fun c -> not (useless_rewrite c)) new_candidate in
-      let candidates =
-        List.filter
-          (fun c ->
-             match c with
-             | Proof.RewriteInAt _ | Proof.RewriteReverse _ -> true
-             | _ -> false)
-          candidates
-      in
-      let candidates = List.filter (fun c -> not (useless_rewrite c)) candidates in
-      if candidates = new_candidate
-      then None
-      else if is_more_similar goal new_goal
-      then Some 1
-      else Some 2)
-  | Proof.RewriteReverse (src, _, i) ->
+      let _, goal, _ = Proof.get_first_state t in
+      let _, new_goal, _ = Proof.get_first_state new_t in
+      if is_more_similar goal new_goal then Some 1 else Some 2)
+  | Proof.RewriteReverse (src, _, _) ->
+    let new_t = Proof.apply_tactic t tactic in
+    let _, goal, _ = Proof.get_first_state t in
+    let _, new_goal, _ = Proof.get_first_state new_t in
+    let lhs = Proof.get_lhs goal in
+    let rhs = Proof.get_rhs goal in
+    let new_lhs = Proof.get_lhs new_goal in
+    let new_rhs = Proof.get_rhs new_goal in
     if
-      (String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src)
-      && i = 0
+      (new_lhs <> lhs && String.starts_with ~prefix:"rhs" src)
+      || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
     then None
-    else (
-      let new_t = Proof.apply_tactic t tactic in
-      let _, goal = Proof.get_first_state t in
-      let _, new_goal = Proof.get_first_state new_t in
-      let lhs = Proof.get_lhs goal in
-      let rhs = Proof.get_rhs goal in
-      let new_lhs = Proof.get_lhs new_goal in
-      let new_rhs = Proof.get_rhs new_goal in
-      if
-        (new_lhs <> lhs && String.starts_with ~prefix:"rhs" src)
-        || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
-      then None
-      else (
-        let new_candidate = mk_candidates new_t in
-        let new_candidate = List.filter (fun c -> is_valid new_t c) new_candidate in
-        let new_candidate =
-          List.filter (fun c -> not (is_duplicated new_t c stateset)) new_candidate
-        in
-        let new_candidate =
-          List.filter
-            (fun c ->
-               match c with
-               | Proof.RewriteReverse _ | Proof.RewriteInAt _ -> true
-               | _ -> false)
-            new_candidate
-        in
-        let new_candidate =
-          List.filter (fun c -> not (useless_rewrite c)) new_candidate
-        in
-        let candidates =
-          List.filter
-            (fun c ->
-               match c with
-               | Proof.RewriteInAt _ | Proof.RewriteReverse _ -> true
-               | _ -> false)
-            candidates
-        in
-        let candidates = List.filter (fun c -> not (useless_rewrite c)) candidates in
-        if candidates = new_candidate
-        then None
-        else if is_more_similar goal new_goal
-        then Some 1
-        else Some 2))
+    else if is_more_similar goal new_goal
+    then Some 1
+    else Some 2
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
-    let _, goal = state in
+    let _, goal, _ = state in
     let new_t = Proof.apply_tactic t tactic in
-    let simpl = Proof.SimplIn "goal" in
-    if not (is_duplicated t simpl stateset)
+    if List.exists (fun cand -> cand = Proof.SimplIn "goal") candidates
     then None
     else if is_if_then_else_in_prop expr goal
     then Some 2
-    else if is_case_match expr goal && not (is_duplicated new_t simpl stateset)
+    else if
+      is_case_match expr goal && not (is_duplicated new_t (Proof.SimplIn "goal") stateset)
     then Some 2
     else None
   | Proof.Reflexivity -> Some 0
@@ -672,16 +640,22 @@ let rank_tactics t tactics stateset : (t * tactic * int) list =
   | hd :: _ -> [ t, hd, 0 ]
 ;;
 
-let prune_rank_worklist t candidates statelist =
-  let candidates =
+let prune_rank_worklist_update_state_list t candidates statelist =
+  let candidates, statelist =
     let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
     candidates
     |> List.filter (fun c -> is_valid t c)
-    |> List.filter (fun c -> not (is_duplicated t c statelist))
     |> List.filter (fun c -> not (useless_rewrite c))
+    |> List.fold_left
+         (fun (tactics, state_list) tactic ->
+            let next_t = Proof.apply_tactic t tactic in
+            if is_duplicated t tactic state_list
+            then tactics, state_list
+            else tactics @ [ tactic ], ProofSet.add next_t state_list)
+         ([], statelist)
   in
   let worklist = rank_tactics t candidates statelist in
-  WorkList.of_list worklist
+  WorkList.of_list worklist, statelist
 ;;
 
 let is_stuck worklist = WorkList.is_empty worklist
@@ -693,7 +667,8 @@ let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
     let prev_worklist, work = WorkList.take_exn worklist in
     let t, tactic, r = work in
     let _ = print_endline "=================================================" in
-    let _ = print_endline ("Progress: " ^ string_of_int (synth_counter ())) in
+    let i = synth_counter () in
+    let _ = print_endline ("Progress: " ^ string_of_int i) in
     let _ = Proof.pp_t t |> print_endline in
     let _ =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
@@ -703,9 +678,16 @@ let rec progress worklist (statelist : ProofSet.t) (stuck_point : ProofSet.t) =
      | _, [], proof -> ProofSet.empty, Some proof, next_t.env
      | _ ->
        let _ = Proof.pp_t next_t |> print_endline in
-       let statelist = ProofSet.add next_t statelist in
+       let prev_worklist =
+         match tactic with
+         | Proof.Reflexivity | Proof.Discriminate ->
+           deduplicate_worklist prev_worklist next_t
+         | _ -> prev_worklist
+       in
        let tactic_list = mk_candidates next_t in
-       let worklist = prune_rank_worklist next_t tactic_list statelist in
+       let worklist, statelist =
+         prune_rank_worklist_update_state_list next_t tactic_list statelist
+       in
        if is_stuck worklist
        then progress prev_worklist statelist (ProofSet.add next_t stuck_point)
        else progress (WorkList.merge prev_worklist worklist) statelist stuck_point)
@@ -715,7 +697,9 @@ let progress_single_thread t =
   let statelist = ProofSet.empty in
   let rec progress_single_thread t (statelist : ProofSet.t) =
     let tactic_list = mk_candidates t in
-    let worklist = prune_rank_worklist t tactic_list statelist in
+    let worklist, statelist =
+      prune_rank_worklist_update_state_list t tactic_list statelist
+    in
     match WorkList.is_empty worklist with
     | true -> Some t
     | _ ->

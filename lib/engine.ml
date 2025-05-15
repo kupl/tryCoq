@@ -44,8 +44,8 @@ let rec split_tale lst =
   | _ -> failwith "length has to be greater than 1"
 ;;
 
-let rec loop_advanced worklist old_lemma_list =
-  let stuck_list, proof, env = Prover.(progress worklist ProofSet.empty ProofSet.empty) in
+let rec loop_advanced worklist statelist old_lemma_list =
+  let stuck_list, proof, env = Prover.(progress worklist statelist ProofSet.empty) in
   match proof with
   | Some _ -> [], proof, env
   | None ->
@@ -56,7 +56,7 @@ let rec loop_advanced worklist old_lemma_list =
     let _ =
       List.iter
         (fun (t, lemma_list) ->
-           let _, goal = Proof.get_first_state t in
+           let _, goal, _ = Proof.get_first_state t in
            let _ = print_endline "Goal and Lemma" in
            Proof.pp_prop goal |> print_endline;
            lemma_list |> List.iter (fun lemma -> lemma |> Proof.pp_prop |> print_endline))
@@ -94,9 +94,15 @@ let rec loop_advanced worklist old_lemma_list =
              in
              new_t, Proof.mk_assert tl, 0)
           lemma_list
-        |> Prover.WorkList.of_list
       in
-      loop_advanced new_worklist (lemma_list @ old_lemma_list))
+      let new_state_list =
+        List.map (fun (t, tactic, _) -> Proof.apply_tactic t tactic) new_worklist
+        |> Prover.ProofSet.of_list
+      in
+      loop_advanced
+        (new_worklist |> Prover.WorkList.of_list)
+        new_state_list
+        (lemma_list @ old_lemma_list))
 ;;
 
 let proof_auto std_lib program_a program_b goal =
@@ -110,7 +116,7 @@ let proof_auto std_lib program_a program_b goal =
   let init_t = Proof.create_t env () in
   let goal = Proof.parse_tactic init_t goal in
   let worklist = Prover.WorkList.of_list [ init_t, goal, 0 ] in
-  match loop_advanced worklist [] with
+  match loop_advanced worklist Prover.ProofSet.empty [] with
   | _, Some proof, env ->
     print_endline "Proof Success";
     print_endline "Helper Functions";
