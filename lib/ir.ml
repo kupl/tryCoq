@@ -48,6 +48,17 @@ let get_fun_name decl =
   | _ -> failwith "t is no function"
 ;;
 
+let get_mk_index t =
+  List.fold_left
+    (fun acc decl ->
+       match decl with
+       | NonRec (name, _, _) | Rec (name, _, _) ->
+         if String.starts_with ~prefix:"mk_lhs" name then acc + 1 else acc
+       | _ -> acc)
+    0
+    t
+;;
+
 let rec nth_tale n lst =
   if n = 0
   then lst

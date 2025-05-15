@@ -169,6 +169,11 @@ let progress_with_split t : t list =
     (fun acc t ->
        match Prover.progress_single_thread t with
        | Some t ->
+         let _ = print_endline "after progress_single_thread" in
+         let _ =
+           Proof.pp_prop (Proof.get_first_state t |> fun (_, goal, _) -> goal)
+           |> print_endline
+         in
          List.fold_left
            (fun acc t ->
               match Prover.progress_single_thread t with
@@ -646,39 +651,39 @@ let helper_function_lemma (decl : Ir.decl) : lemma list =
   | _ -> failwith "this function is not recursive"
 ;;
 
+let is_pattern increase_subtree =
+  let rec comp subtree1 subtree2 =
+    match subtree1.desc, subtree2.desc with
+    | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
+      name1 = name2 && List.for_all2 comp args1 args2
+    | Some (Sub_Var _), Some (Sub_Var _) -> true
+    | None, None -> true
+    | _, _ -> false
+  in
+  List.for_all
+    (fun subtree ->
+       let base = List.hd increase_subtree in
+       comp subtree base)
+    (List.tl increase_subtree)
+;;
+
 let pattern_recognition env ihs state_list : env * lemma list =
   (* let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
   let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in *)
   let goals = List.map (fun (_, goal, _) -> goal) state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
-  (* let lhs_common_subtree_cand =
-    List.map (fun lhs -> catch_recursive_pattern env (lhs :: lhs_list)) first_lhs
-    @ [ catch_recursive_pattern env lhs_list ]
-  in
-  let rhs_common_subtree_cand =
-    List.map (fun rhs -> catch_recursive_pattern env (rhs :: rhs_list)) first_rhs
-    @ [ catch_recursive_pattern env rhs_list ]
-  in
-  let lhs_common_subtree =
-    List.fold_left
-      (fun acc subtree_list ->
-         if List.length acc > List.length subtree_list then acc else subtree_list)
-      (List.hd lhs_common_subtree_cand)
-      (List.tl lhs_common_subtree_cand)
-  in
-  let rhs_common_subtree =
-    List.fold_left
-      (fun acc subtree_list ->
-         if List.length acc > List.length subtree_list then acc else subtree_list)
-      (List.hd rhs_common_subtree_cand)
-      (List.tl rhs_common_subtree_cand)
-  in
-  let _ = ignore lhs_common_subtree in
-  let _ = ignore rhs_common_subtree in *)
   ignore ihs;
   let lhs_common_subtree = new_catch_recursive_pattern env lhs_list in
   let rhs_common_subtree = new_catch_recursive_pattern env rhs_list in
+  let _ = print_endline "lhs_common_subtree" in
+  let _ =
+    lhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+  in
+  let _ = print_endline "rhs_common_subtree" in
+  let _ =
+    rhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+  in
   if
     List.length lhs_common_subtree <> List.length rhs_common_subtree
     || List.is_empty lhs_common_subtree
@@ -701,24 +706,19 @@ let pattern_recognition env ihs state_list : env * lemma list =
              (List.nth rhs_common_subtree (i + 1)))
         range
     in
-    let range = Proof.range 0 (List.length lhs_increase_subtree - 1) in
-    if
-      List.exists
-        (fun i ->
-           is_proper_subset
-             (List.nth lhs_increase_subtree i)
-             (List.nth lhs_increase_subtree (i + 1)))
-        range
-      || List.exists
-           (fun i ->
-              is_proper_subset
-                (List.nth rhs_increase_subtree i)
-                (List.nth rhs_increase_subtree (i + 1)))
-           range
-      || List.exists (fun subtree -> Option.is_none subtree.desc) lhs_increase_subtree
-      || List.exists (fun subtree -> Option.is_none subtree.desc) rhs_increase_subtree
+    if (not (is_pattern lhs_increase_subtree)) || not (is_pattern rhs_increase_subtree)
     then [], []
     else (
+      let _ = print_endline "lhs_increase_subtree" in
+      let _ =
+        lhs_increase_subtree
+        |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+      in
+      let _ = print_endline "rhs_increase_subtree" in
+      let _ =
+        rhs_increase_subtree
+        |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
+      in
       let lhs_base_case = List.hd lhs_common_subtree in
       let lhs_free_vars = collect_free_var_in_subtree lhs_base_case [] in
       let lhs_free_vars_with_typ =
@@ -739,12 +739,19 @@ let pattern_recognition env ihs state_list : env * lemma list =
              | _ -> failwith "not implemented")
           rhs_free_vars
       in
+      let i = Ir.get_mk_index env + 1 in
       (* have to add index for mk function *)
       let mk_lhs =
-        decl_of_subtree_difference "mk_lhs" lhs_base_case lhs_increase_subtree
+        decl_of_subtree_difference
+          ("mk_lhs" ^ string_of_int i)
+          lhs_base_case
+          lhs_increase_subtree
       in
       let mk_rhs =
-        decl_of_subtree_difference "mk_rhs" rhs_base_case rhs_increase_subtree
+        decl_of_subtree_difference
+          ("mk_rhs" ^ string_of_int i)
+          rhs_base_case
+          rhs_increase_subtree
       in
       let lhs_lemma = helper_function_lemma mk_lhs in
       let rhs_lemma = helper_function_lemma mk_rhs in
@@ -754,13 +761,15 @@ let pattern_recognition env ihs state_list : env * lemma list =
       in
       let new_lhs =
         Ir.
-          { desc = Call ("mk_lhs", increase_arg :: lhs_free_vars_with_typ)
+          { desc =
+              Call ("mk_lhs" ^ string_of_int i, increase_arg :: lhs_free_vars_with_typ)
           ; typ = (lhs_common_subtree |> List.hd).typ
           }
       in
       let new_rhs =
         Ir.
-          { desc = Call ("mk_rhs", increase_arg :: rhs_free_vars_with_typ)
+          { desc =
+              Call ("mk_rhs" ^ string_of_int i, increase_arg :: rhs_free_vars_with_typ)
           ; typ = (rhs_common_subtree |> List.hd).typ
           }
       in
@@ -818,6 +827,8 @@ let symbolic_execution t : state list list =
         let vars = List.map fst vars in
         let induction_tactic = Proof.Induction (List.hd vars) in
         let new_t = Proof.apply_tactic new_t induction_tactic in
+        let _ = print_endline "new_t" in
+        let _ = Proof.pp_t new_t |> print_endline in
         let new_t_list = progress_with_split new_t in
         let new_states =
           List.map
@@ -844,6 +855,16 @@ let advanced_generalize t : (t * lemma list) list =
   let facts, _, _ = first_state in
   let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
   let execution_list = symbolic_execution t in
+  let _ = print_endline "execution_list" in
+  let _ =
+    execution_list
+    |> List.iter (fun state_list ->
+      let _ = print_endline "state_list" in
+      state_list |> List.iter (fun (_, goal, _) -> Proof.pp_prop goal |> print_endline))
+  in
+  (* TODO
+   if execution_list is empty, then we have to generalize naviely
+  *)
   let env_lemma_pairs =
     List.map (fun state_list -> pattern_recognition t.env ihs state_list) execution_list
   in
