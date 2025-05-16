@@ -6,7 +6,7 @@ let proof_top std_lib program_a program_b =
   let program_a = program_a |> Ir.t_of_typedtree in
   let program_b = program_b |> Ir.t_of_typedtree in
   (* let _ = std_lib |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in *)
-  let _ = program_b |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in
+  let _ = program_a |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in
   let env = std_lib @ program_a @ program_b in
   Proof.proof_top env
 ;;
@@ -71,6 +71,11 @@ let rec progress worklist statelist old_lemma_list =
        let tactic_list = Prover.mk_candidates next_t in
        let worklist, statelist =
          Prover.prune_rank_worklist_update_state_list next_t tactic_list statelist
+       in
+       let _ =
+         print_endline
+           ("Tactic List : "
+            ^ string_of_int (List.length (worklist |> Prover.WorkList.to_list)))
        in
        if Prover.is_stuck worklist
        then (

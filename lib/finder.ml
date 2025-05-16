@@ -163,7 +163,7 @@ let split_t t : t list =
     states
 ;;
 
-let progress_with_split t : t list =
+(* let progress_with_split t : t list =
   let t_list = split_t t in
   List.fold_left
     (fun acc t ->
@@ -174,17 +174,11 @@ let progress_with_split t : t list =
            Proof.pp_prop (Proof.get_first_state t |> fun (_, goal, _) -> goal)
            |> print_endline
          in
-         List.fold_left
-           (fun acc t ->
-              match Prover.progress_single_thread t with
-              | Some t -> t :: acc
-              | _ -> acc)
-           acc
-           (split_t t)
+         acc @ [ t ]
        | None -> acc)
     []
     t_list
-;;
+;; *)
 
 let filtering_concerned_fact facts goal =
   let free_var = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
@@ -792,15 +786,15 @@ let pattern_recognition env ihs state_list : env * lemma list =
       env, lhs_lemma @ rhs_lemma @ [ goal ]))
 ;;
 
-let symbolic_execution t : state list list =
+let symbolic_execution t : state list =
   let state = Proof.get_first_state t in
   let facts, goal, _ = state in
   let facts = filtering_concerned_fact facts goal in
   let base_hypothesis = [ facts, goal, Proof.graph_of_prop goal ] in
-  let rec symbolic_execution_by_depth t depth (acc : state list) : state list list =
+  let rec symbolic_execution_by_depth t depth (acc : state list) : state list =
     let env = t.Proof.env in
     if depth = 0
-    then [ acc ]
+    then acc
     else (
       let state = Proof.get_first_state t in
       let lemma_stack = Proof.get_lemma_stack t in
@@ -810,7 +804,7 @@ let symbolic_execution t : state list list =
         List.filter (fun (var, _) -> Prover.is_decreasing_var env state var) vars
       in
       if List.is_empty vars
-      then [ acc ]
+      then acc
       else (
         let new_goal = Proof.Forall ([ List.hd vars ], goal) in
         let facts = filtering_concerned_fact facts new_goal in
@@ -829,7 +823,13 @@ let symbolic_execution t : state list list =
         let new_t = Proof.apply_tactic new_t induction_tactic in
         let _ = print_endline "new_t" in
         let _ = Proof.pp_t new_t |> print_endline in
-        let new_t_list = progress_with_split new_t in
+        match Prover.progress_single_thread new_t with
+        | Some new_t ->
+          let state = Proof.get_first_state new_t in
+          symbolic_execution_by_depth new_t (depth - 1) (acc @ [ state ])
+        | None -> []
+        (*
+           let new_t_list = progress_with_split new_t in
         let new_states =
           List.map
             (fun t ->
@@ -844,10 +844,11 @@ let symbolic_execution t : state list list =
             new_t_list
             new_accs
         in
-        List.concat result))
+        List.concat result
+        *)))
   in
   let result = symbolic_execution_by_depth t 2 base_hypothesis in
-  List.filter (fun state_list -> List.length state_list > 2) result
+  if List.length result < 2 then [] else result
 ;;
 
 let advanced_generalize t : (t * lemma list) list =
@@ -857,10 +858,7 @@ let advanced_generalize t : (t * lemma list) list =
   let execution_list = symbolic_execution t in
   let _ = print_endline "execution_list" in
   let _ =
-    execution_list
-    |> List.iter (fun state_list ->
-      let _ = print_endline "state_list" in
-      state_list |> List.iter (fun (_, goal, _) -> Proof.pp_prop goal |> print_endline))
+    execution_list |> List.iter (fun (_, goal, _) -> Proof.pp_prop goal |> print_endline)
   in
   if List.is_empty execution_list
   then (
@@ -882,18 +880,10 @@ let advanced_generalize t : (t * lemma list) list =
     in
     if List.is_empty just_generalize_new_goal then [] else [ t, just_generalize_new_goal ])
   else (
-    let env_lemma_pairs =
-      List.map (fun state_list -> pattern_recognition t.env ihs state_list) execution_list
-    in
-    let env_lemma_pairs =
-      List.filter (fun (_, lemma) -> not (List.is_empty lemma)) env_lemma_pairs
-    in
-    let env_lemma_pairs =
-      List.map
-        (fun (new_env, lemma) -> { t with env = t.env @ new_env }, lemma)
-        env_lemma_pairs
-    in
-    env_lemma_pairs)
+    let new_env, lemma_list = pattern_recognition t.env ihs execution_list in
+    if List.is_empty lemma_list
+    then []
+    else [ { t with env = t.env @ new_env }, lemma_list ])
 ;;
 
 let make_lemmas_by_advanced_generalize (t : t) lemma_list : (t * lemma list) list =

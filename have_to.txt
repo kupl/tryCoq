@@ -1,0 +1,30 @@
+1st goal of : forall (l:lambda), check_ta1 (l) = check (l)
+lambda10 : lambda
+lambda11 : lambda
+IH12 : sub_check_ta1 (lambda10) (Nil) = match (lambda10) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+IH13 : sub_check_ta1 (lambda11) (Nil) = match (lambda11) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil))
+Inductive14 : l = C (lambda10) (lambda11)
+Case42 : sub_check (lambda10) (Nil) = true
+Case44 : match (lambda10) with
+| V x -> false
+| P x e -> sub_check (e) (mk_lhs1 (Nil) (x))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil)) = true
+---------------------------------------
+match (lambda11) with
+| V x -> false
+| P x e -> sub_check (e) (Cons (x) (Nil))
+| C e1 e2 -> && (sub_check (e1) (Nil)) (sub_check (e2) (Nil)) = sub_check (lambda11) (Nil)
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 2
+Tactic List : 6
+=================================================
+Progress: 259
