@@ -14,9 +14,9 @@ module WorkList = CCHeap.Make_from_compare (struct
       let conjs2 = Proof.get_conj_list t2 |> List.length in
       let goals1 = Proof.get_goal_list t1 |> List.length in
       let goals2 = Proof.get_goal_list t2 |> List.length in
-      if conjs1 = conjs2
-      then if r1 = r2 then compare goals1 goals2 else compare r1 r2
-      else compare conjs1 conjs2
+      if r1 = r2
+      then if conjs1 = conjs2 then compare goals1 goals2 else compare conjs1 conjs2
+      else compare r1 r2
     ;;
   end)
 
@@ -606,10 +606,10 @@ let rank_tactic t candidates tactic stateset : int option =
     if List.exists (fun cand -> cand = Proof.SimplIn "goal") candidates
     then None
     else if is_if_then_else_in_prop expr goal
-    then Some 2
+    then Some 3
     else if
       is_case_match expr goal && not (is_duplicated new_t (Proof.SimplIn "goal") stateset)
-    then Some 2
+    then Some 3
     else None
   | Proof.Reflexivity -> Some 0
   | Proof.Discriminate -> Some 0
@@ -708,9 +708,7 @@ let progress_single_thread t =
       let next_t = Proof.apply_tactic t tactic in
       (match next_t.proof with
        | _, [], _ -> None
-       | _ ->
-         let statelist = ProofSet.add next_t statelist in
-         progress_single_thread next_t statelist)
+       | _ -> progress_single_thread next_t statelist)
   in
   progress_single_thread t statelist
 ;;

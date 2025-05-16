@@ -846,8 +846,8 @@ let symbolic_execution t : state list list =
         in
         List.concat result))
   in
-  let result = symbolic_execution_by_depth t 3 base_hypothesis in
-  List.filter (fun state_list -> List.length state_list > 3) result
+  let result = symbolic_execution_by_depth t 2 base_hypothesis in
+  List.filter (fun state_list -> List.length state_list > 2) result
 ;;
 
 let advanced_generalize t : (t * lemma list) list =
@@ -862,21 +862,38 @@ let advanced_generalize t : (t * lemma list) list =
       let _ = print_endline "state_list" in
       state_list |> List.iter (fun (_, goal, _) -> Proof.pp_prop goal |> print_endline))
   in
-  (* TODO
-   if execution_list is empty, then we have to generalize naviely
-  *)
-  let env_lemma_pairs =
-    List.map (fun state_list -> pattern_recognition t.env ihs state_list) execution_list
-  in
-  let env_lemma_pairs =
-    List.filter (fun (_, lemma) -> not (List.is_empty lemma)) env_lemma_pairs
-  in
-  let env_lemma_pairs =
-    List.map
-      (fun (new_env, lemma) -> { t with env = t.env @ new_env }, lemma)
-      env_lemma_pairs
-  in
-  env_lemma_pairs
+  if List.is_empty execution_list
+  then (
+    let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
+    let goal = Proof.get_first_state t |> fun (_, goal, _) -> goal in
+    let just_generalize_var =
+      collect_free_var_in_prop goal [] |> List.sort_uniq compare
+    in
+    let facts = Proof.get_first_state t |> fun (facts, _, _) -> facts in
+    let facts = filtering_concerned_fact facts goal in
+    let facts = List.map snd facts in
+    let facts = List.map Proof.rename_prop facts in
+    let just_generalize_new_goal =
+      if List.is_empty just_generalize_var
+      then []
+      else if List.is_empty facts
+      then [ Proof.Forall (just_generalize_var, goal) ]
+      else [ Proof.Forall (just_generalize_var, Proof.Imply (facts, goal)) ]
+    in
+    if List.is_empty just_generalize_new_goal then [] else [ t, just_generalize_new_goal ])
+  else (
+    let env_lemma_pairs =
+      List.map (fun state_list -> pattern_recognition t.env ihs state_list) execution_list
+    in
+    let env_lemma_pairs =
+      List.filter (fun (_, lemma) -> not (List.is_empty lemma)) env_lemma_pairs
+    in
+    let env_lemma_pairs =
+      List.map
+        (fun (new_env, lemma) -> { t with env = t.env @ new_env }, lemma)
+        env_lemma_pairs
+    in
+    env_lemma_pairs)
 ;;
 
 let make_lemmas_by_advanced_generalize (t : t) lemma_list : (t * lemma list) list =

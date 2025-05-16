@@ -115,7 +115,8 @@ let rec progress worklist statelist old_lemma_list =
                     let new_t = Proof.apply_assert rhs2 new_t in
                     let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
                     Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
-                  | _ -> failwith "length has to be 4"
+                  | [] -> t
+                  | _ -> failwith "length has to be 1 or 4"
                 in
                 new_t, Proof.mk_assert tl, 0)
              lemma_list
@@ -125,9 +126,9 @@ let rec progress worklist statelist old_lemma_list =
            |> Prover.ProofSet.of_list
          in
          progress
-           (Prover.WorkList.merge prev_worklist (new_worklist |> Prover.WorkList.of_list))
+           (Prover.WorkList.add_list prev_worklist new_worklist)
            (Prover.ProofSet.union statelist new_state_list)
-           lemma_list)
+           (old_lemma_list @ lemma_list))
        else
          progress (Prover.WorkList.merge prev_worklist worklist) statelist old_lemma_list)
 ;;
