@@ -641,8 +641,8 @@ let forall_target var_list target source : bool =
                (fun (acc, binding) a b ->
                   if acc then forall_target' var_list binding a b else false, [])
                (true, qvar_binding)
-               match_list1
                match_list2
+               match_list1
            in
            let case_result =
              List.fold_left2
@@ -736,6 +736,28 @@ let convert_in_rewrite (target : expr) expr_from expr_to =
              args
          , args ))
        else failwith "The function name is not equal"
+     | _ -> failwith "Not rewritable")
+  | Ir.Match (match_list, _) ->
+    (match target.Ir.desc with
+     | Ir.Match (match_list', _) ->
+       let result = List.combine match_list match_list' in
+       let result = get_match_var result in
+       ( List.fold_left
+           (fun expr_to (arg, arg') ->
+              let exp, _, _ =
+                substitute_expr_in_expr
+                  Ir.is_equal_expr
+                  (fun _ _ expr_to -> expr_to, [])
+                  expr_to
+                  arg
+                  arg'
+                  0
+                  []
+              in
+              exp)
+           expr_to
+           result
+       , result )
      | _ -> failwith "Not rewritable")
   | _ -> failwith "The source is not a variable"
 ;;
@@ -1876,8 +1898,7 @@ let parse_tactic (t : t) src =
   | _ -> failwith "wrong tactic"
 ;;
 
-let proof_top env =
-  let init = create_t env () in
+let proof_top init =
   let rec loop ?(debug_tactic : debug_tactic option = None) t =
     print_newline ();
     pp_t ~debug_tactic t |> print_endline;

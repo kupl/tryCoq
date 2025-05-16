@@ -8,7 +8,8 @@ let proof_top std_lib program_a program_b =
   (* let _ = std_lib |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in *)
   let _ = program_a |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in
   let env = std_lib @ program_a @ program_b in
-  Proof.proof_top env
+  let init_t = Proof.create_t env () in
+  Proof.proof_top init_t
 ;;
 
 (*
@@ -59,6 +60,7 @@ let rec progress worklist statelist old_lemma_list =
     in
     let next_t = Proof.apply_tactic t tactic in
     let _ = Proof.pp_t next_t |> print_endline in
+    let _ = if i = 258 then Proof.proof_top next_t in
     (match next_t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof, next_t.env
      | _ ->
@@ -76,6 +78,11 @@ let rec progress worklist statelist old_lemma_list =
          print_endline
            ("Tactic List : "
             ^ string_of_int (List.length (worklist |> Prover.WorkList.to_list)))
+       in
+       let _ =
+         Prover.WorkList.iter
+           (fun (_, tactic, _) -> Proof.pp_tactic tactic |> print_endline)
+           worklist
        in
        if Prover.is_stuck worklist
        then (
