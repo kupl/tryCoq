@@ -544,11 +544,11 @@ let rec is_case_match src goal =
 let useless_rewrite tactic =
   match tactic with
   | Proof.RewriteInAt (src, target, _) | Proof.RewriteReverse (src, target, _) ->
-    String.starts_with ~prefix:"Inductive" src
+    src = target
+    || String.starts_with ~prefix:"Inductive" src
     || String.starts_with ~prefix:"Inductive" target
-    || String.starts_with ~prefix:"Case" src
-    || String.starts_with ~prefix:"Case" target
     || String.starts_with ~prefix:"IH" target
+    || (String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"goal" target)
   | _ -> false
 ;;
 
@@ -574,8 +574,11 @@ let rank_tactic t candidates tactic stateset : int option =
     else Some 0
   | Proof.SimplIn "goal" -> Some 0
   | Proof.SimplIn _ -> None
-  | Proof.RewriteInAt (src, _, _) ->
-    if
+  | Proof.RewriteInAt (src, target, _) ->
+    let new_t = Proof.apply_tactic t tactic in
+    if String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"Case" target
+    then if is_valid new_t Proof.Discriminate then Some 0 else None
+    else if
       String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
       (* have to make lhs_lemma only convert lhs.... *)
     then None
@@ -584,21 +587,24 @@ let rank_tactic t candidates tactic stateset : int option =
       let _, goal, _ = Proof.get_first_state t in
       let _, new_goal, _ = Proof.get_first_state new_t in
       if is_more_similar goal new_goal then Some 1 else Some 2)
-  | Proof.RewriteReverse (src, _, _) ->
+  | Proof.RewriteReverse (src, target, _) ->
     let new_t = Proof.apply_tactic t tactic in
-    let _, goal, _ = Proof.get_first_state t in
-    let _, new_goal, _ = Proof.get_first_state new_t in
-    let lhs = Proof.get_lhs goal in
-    let rhs = Proof.get_rhs goal in
-    let new_lhs = Proof.get_lhs new_goal in
-    let new_rhs = Proof.get_rhs new_goal in
-    if
-      (new_lhs <> lhs && String.starts_with ~prefix:"rhs" src)
-      || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
-    then None
-    else if is_more_similar goal new_goal
-    then Some 1
-    else Some 2
+    if String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"Case" target
+    then if is_valid new_t Proof.Discriminate then Some 0 else None
+    else (
+      let _, goal, _ = Proof.get_first_state t in
+      let _, new_goal, _ = Proof.get_first_state new_t in
+      let lhs = Proof.get_lhs goal in
+      let rhs = Proof.get_rhs goal in
+      let new_lhs = Proof.get_lhs new_goal in
+      let new_rhs = Proof.get_rhs new_goal in
+      if
+        (new_lhs <> lhs && String.starts_with ~prefix:"rhs" src)
+        || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
+      then None
+      else if is_more_similar goal new_goal
+      then Some 1
+      else Some 2)
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
     let _, goal, _ = state in

@@ -60,7 +60,6 @@ let rec progress worklist statelist old_lemma_list =
     in
     let next_t = Proof.apply_tactic t tactic in
     let _ = Proof.pp_t next_t |> print_endline in
-    let _ = if i = 258 then Proof.proof_top next_t in
     (match next_t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof, next_t.env
      | _ ->
