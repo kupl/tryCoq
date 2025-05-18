@@ -837,7 +837,7 @@ let symbolic_execution t : t list =
   symbolic_execution_by_depth new_t 2 [ new_t ]
 ;;
 
-let advanced_generalize t : (t * lemma list) list =
+let advanced_generalize t : (t * lemma list) option =
   let first_state = Proof.get_first_state t in
   let facts, _, _ = first_state in
   let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
@@ -850,47 +850,34 @@ let advanced_generalize t : (t * lemma list) list =
     let _ =
       List.iter (fun tactic -> Proof.pp_tactic tactic |> print_endline) new_tactic
     in
-    let _ = print_endline "t" in
-    let _ = Proof.pp_t t |> print_endline in
     let new_t =
       List.fold_left (fun acc tactic -> Proof.apply_tactic acc tactic) t new_tactic
     in
-    [ new_t, [] ]
-  | [] -> []
+    Some (new_t, [])
+  | [] -> None
   | _ ->
     let state_list = List.map Proof.get_first_state execution_list in
     let new_env, lemma_list = pattern_recognition t.env ihs state_list in
     if List.is_empty lemma_list
-    then []
-    else [ { t with env = t.env @ new_env }, lemma_list ]
+    then None
+    else Some ({ t with env = t.env @ new_env }, lemma_list)
 ;;
 
-let make_lemmas_by_advanced_generalize (t : t) lemma_list : (t * lemma list) list =
-  let lemmas = advanced_generalize t in
-  let lemmas =
-    List.fold_left
-      (fun (acc : (t * lemma list) list) (t, lemma_list) ->
-         let lemma_stack = Proof.get_lemma_stack t in
-         if
-           List.exists
-             (fun (t', lemma_list') ->
-                let lemma_stack' = Proof.get_lemma_stack t' in
-                lemma_stack' = lemma_stack
-                && List.map (Proof.simplify_prop t'.env) lemma_list
-                   = List.map (Proof.simplify_prop t'.env) lemma_list')
-             acc
-         then acc
-         else (t, lemma_list) :: acc)
-      []
-      lemmas
+let make_lemmas_by_advanced_generalize (t : t) lemma_list : (t * lemma list) option =
+  let t_lemma = advanced_generalize t in
+  let t_lemma =
+    match t_lemma with
+    | Some (_, lemmas) ->
+      if
+        List.for_all
+          (fun lemma -> List.exists (fun lemma' -> lemma = lemma') lemma_list)
+          lemmas
+        && not (List.is_empty lemmas)
+      then None
+      else t_lemma
+    | None -> None
   in
-  let lemmas =
-    List.filter
-      (fun (_, lemma) ->
-         not (List.exists (fun (_, old_lemma) -> old_lemma = lemma) lemma_list))
-      lemmas
-  in
-  lemmas
+  t_lemma
 ;;
 
 (* let naive_generalize (goal : Proof.goal) t : lemma list =

@@ -80,74 +80,54 @@ let rec progress worklist statelist old_lemma_list =
        in
        let _ =
          Prover.WorkList.iter
-           (fun (_, tactic, _) -> Proof.pp_tactic tactic |> print_endline)
+           (fun (_, tactic, r) ->
+              Proof.pp_tactic tactic ^ "(rank:" ^ string_of_int r ^ ")" |> print_endline)
            worklist
        in
        if Prover.is_stuck worklist
        then (
-         let lemma_list =
-           Finder.make_lemmas_by_advanced_generalize next_t old_lemma_list
-         in
-         let _ =
-           print_endline ("Lemma List : " ^ string_of_int (List.length lemma_list))
-         in
-         let _ =
-           List.iter
-             (fun (t, lemma_list) ->
-                let _, goal, _ = Proof.get_first_state t in
-                let _ = print_endline "Goal and Lemma" in
-                Proof.pp_prop goal |> print_endline;
-                lemma_list
-                |> List.iter (fun lemma -> lemma |> Proof.pp_prop |> print_endline))
-             lemma_list
-         in
-         let new_worklist =
-           List.map
-             (fun (t, assert_list) ->
-                if List.is_empty assert_list
-                then (
-                  let lemma_stack = Proof.get_lemma_stack t in
-                  let last_lemma, _ =
-                    List.nth lemma_stack (List.length lemma_stack - 1)
-                  in
-                  t, Proof.mk_rewrite_in_at last_lemma "goal" 0, -1)
-                else (
-                  let heads, tl = split_tale assert_list in
-                  let new_t =
-                    match heads with
-                    | [ lhs1; lhs2; rhs1; rhs2 ] ->
-                      let new_t = Proof.apply_assert lhs1 t in
-                      let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                      let new_t =
-                        Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
-                      in
-                      let new_t = Proof.apply_assert lhs2 new_t in
-                      let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                      let new_t =
-                        Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
-                      in
-                      let new_t = Proof.apply_assert rhs1 new_t in
-                      let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                      let new_t =
-                        Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
-                      in
-                      let new_t = Proof.apply_assert rhs2 new_t in
-                      let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                      Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
-                    | [] -> t
-                    | _ -> failwith "length has to be 1 or 4"
-                  in
-                  new_t, Proof.mk_assert tl, 0))
-             lemma_list
-         in
-         let new_state_list =
-           List.map (fun (t, tactic, _) -> Proof.apply_tactic t tactic) new_worklist
-           |> Prover.ProofSet.of_list
-         in
-         progress
-           (Prover.WorkList.add_list prev_worklist new_worklist)
-           (Prover.ProofSet.union statelist new_state_list)
-           (old_lemma_list @ lemma_list))
+         let t_lemma = Finder.make_lemmas_by_advanced_generalize next_t old_lemma_list in
+         match t_lemma with
+         | Some (new_t, assert_list) ->
+           let _ = print_endline "Advanced Generalize" in
+           let _ = Proof.pp_t new_t |> print_endline in
+           let new_t, tactic, r =
+             match assert_list with
+             | [] -> new_t, Proof.mk_simpl_in "goal", -1
+             | _ ->
+               let heads, tl = split_tale assert_list in
+               let new_t =
+                 match heads with
+                 | [ lhs1; lhs2; rhs1; rhs2 ] ->
+                   let new_t = Proof.apply_assert lhs1 new_t in
+                   let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                   let new_t =
+                     Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
+                   in
+                   let new_t = Proof.apply_assert lhs2 new_t in
+                   let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                   let new_t =
+                     Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
+                   in
+                   let new_t = Proof.apply_assert rhs1 new_t in
+                   let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                   let new_t =
+                     Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
+                   in
+                   let new_t = Proof.apply_assert rhs2 new_t in
+                   let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                   Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
+                 | [] -> t
+                 | _ -> failwith "length has to be 1 or 4"
+               in
+               new_t, Proof.mk_assert tl, 0
+           in
+           let new_state = Proof.apply_tactic new_t tactic in
+           progress
+             (Prover.WorkList.add prev_worklist (new_t, tactic, r))
+             (Prover.ProofSet.add new_state statelist)
+             (assert_list @ old_lemma_list)
+         | _ -> progress prev_worklist statelist old_lemma_list)
        else
          progress (Prover.WorkList.merge prev_worklist worklist) statelist old_lemma_list)
 ;;

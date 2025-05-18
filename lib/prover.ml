@@ -234,11 +234,10 @@ let is_valid t tactic : bool =
 ;;
 
 let is_duplicated t tactic state_list =
-  let Proof.{ proof = next_lemma, next_conj, _; _ } = Proof.apply_tactic t tactic in
+  let Proof.{ proof = _, next_conj, _; _ } = Proof.apply_tactic t tactic in
   ProofSet.exists
-    (fun Proof.{ proof = lemma_stack, conj_list, _; _ } ->
-       next_lemma = lemma_stack
-       && Proof.remove_graph next_conj = Proof.remove_graph conj_list)
+    (fun Proof.{ proof = _, conj_list, _; _ } ->
+       Proof.remove_graph next_conj = Proof.remove_graph conj_list)
     state_list
 ;;
 
