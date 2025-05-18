@@ -612,10 +612,10 @@ let rank_tactic t candidates tactic stateset : int option =
     if List.exists (fun cand -> cand = Proof.SimplIn "goal") candidates
     then None
     else if is_if_then_else_in_prop expr goal
-    then Some 3
+    then Some 1
     else if
       is_case_match expr goal && not (is_duplicated new_t (Proof.SimplIn "goal") stateset)
-    then Some 3
+    then Some 2
     else None
   | Proof.Reflexivity -> Some 0
   | Proof.Discriminate -> Some 0
