@@ -234,10 +234,11 @@ let is_valid t tactic : bool =
 ;;
 
 let is_duplicated t tactic state_list =
-  let Proof.{ proof = _, next_conj, _; _ } = Proof.apply_tactic t tactic in
+  let Proof.{ proof = lemma_stack, next_conj, _; _ } = Proof.apply_tactic t tactic in
   ProofSet.exists
-    (fun Proof.{ proof = _, conj_list, _; _ } ->
-       Proof.remove_graph next_conj = Proof.remove_graph conj_list)
+    (fun Proof.{ proof = lemma_stack', conj_list, _; _ } ->
+       lemma_stack = lemma_stack'
+       && Proof.remove_graph next_conj = Proof.remove_graph conj_list)
     state_list
 ;;
 
@@ -622,7 +623,7 @@ let rank_tactic t candidates tactic stateset : int option =
        if can_simplify t
        then None
        else if is_if_then_else_in_prop expr goal
-       then Some 3
+       then Some 1
        else if
          is_case_match expr goal
          && not (is_duplicated new_t (Proof.SimplIn "goal") stateset)
@@ -658,18 +659,18 @@ let rank_tactics t tactics stateset : (t * tactic * int) list =
 ;;
 
 let prune_rank_worklist_update_state_list t candidates statelist =
+  let new_t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
+  let candidates = List.filter (fun c -> not (useless_rewrite c)) candidates in
+  let candidates = List.filter (fun c -> is_valid new_t c) candidates in
   let candidates, statelist =
-    let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
-    candidates
-    |> List.filter (fun c -> is_valid t c)
-    |> List.filter (fun c -> not (useless_rewrite c))
-    |> List.fold_left
-         (fun (tactics, state_list) tactic ->
-            let next_t = Proof.apply_tactic t tactic in
-            if is_duplicated t tactic state_list
-            then tactics, state_list
-            else tactics @ [ tactic ], ProofSet.add next_t state_list)
-         ([], statelist)
+    List.fold_left
+      (fun (tactics, state_list) tactic ->
+         let next_t = Proof.apply_tactic new_t tactic in
+         if is_duplicated new_t tactic state_list
+         then tactics, state_list
+         else tactics @ [ tactic ], ProofSet.add next_t state_list)
+      ([], statelist)
+      candidates
   in
   let worklist = rank_tactics t candidates statelist in
   WorkList.of_list worklist, statelist
@@ -711,9 +712,11 @@ let is_stuck worklist = WorkList.is_empty worklist
 ;; *)
 
 let progress_single_thread t =
+  let _ = print_endline "*******************************************" in
   let statelist = ProofSet.empty in
-  let rec progress_single_thread t (statelist : ProofSet.t) =
+  let rec progress_single_thread' t (statelist : ProofSet.t) =
     let tactic_list = mk_candidates t in
+    let _ = print_endline "asdf" in
     let worklist, statelist =
       prune_rank_worklist_update_state_list t tactic_list statelist
     in
@@ -723,9 +726,11 @@ let progress_single_thread t =
       let _, work = WorkList.take_exn worklist in
       let t, tactic, _ = work in
       let next_t = Proof.apply_tactic t tactic in
+      let _ = ">>> " ^ Proof.pp_tactic tactic |> print_endline in
+      let _ = Proof.pp_t next_t |> print_endline in
       (match next_t.proof with
        | _, [], tactic_list -> next_t, tactic_list
-       | _ -> progress_single_thread next_t statelist)
+       | _ -> progress_single_thread' next_t statelist)
   in
-  progress_single_thread t statelist
+  progress_single_thread' t statelist
 ;;

@@ -148,7 +148,8 @@ let get_first_state (t : t) =
 
 let get_goal_list (t : t) =
   let conj_list = get_conj_list t in
-  List.map snd conj_list
+  let state_list = List.hd conj_list |> fst in
+  List.map (fun (_, goal, _) -> goal) state_list
 ;;
 
 let range start stop =

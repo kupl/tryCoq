@@ -45,7 +45,7 @@ let rec split_tale lst =
   | _ -> failwith "length has to be greater than 1"
 ;;
 
-let rec progress worklist statelist old_lemma_list =
+let rec progress worklist statelist stuck_goals old_lemma_list =
   match Prover.WorkList.is_empty worklist with
   | true -> failwith "worklist is empty"
   | false ->
@@ -84,16 +84,27 @@ let rec progress worklist statelist old_lemma_list =
               Proof.pp_tactic tactic ^ "(rank:" ^ string_of_int r ^ ")" |> print_endline)
            worklist
        in
-       if Prover.is_stuck worklist
+       let _, next_goal, _ = Proof.get_first_state next_t in
+       if Prover.is_stuck worklist && List.for_all (fun x -> x <> next_goal) stuck_goals
        then (
          let t_lemma = Finder.make_lemmas_by_advanced_generalize next_t old_lemma_list in
          match t_lemma with
          | Some (new_t, assert_list) ->
            let _ = print_endline "Advanced Generalize" in
            let _ = Proof.pp_t new_t |> print_endline in
-           let new_t, tactic, r =
+           let new_t, tactic, r, assert_list =
              match assert_list with
-             | [] -> new_t, Proof.mk_simpl_in "goal", -1
+             | [] ->
+               let prev_lemma_list = Proof.get_lemma_stack t in
+               let new_lemma_list = Proof.get_lemma_stack new_t in
+               let assert_list =
+                 List.filter (fun x -> not (List.mem x prev_lemma_list)) new_lemma_list
+               in
+               let last_lemma, _ = List.hd (List.rev assert_list) in
+               ( new_t
+               , Proof.mk_rewrite_in_at last_lemma "goal" 0
+               , -1
+               , assert_list |> List.map snd )
              | _ ->
                let heads, tl = split_tale assert_list in
                let new_t =
@@ -120,16 +131,21 @@ let rec progress worklist statelist old_lemma_list =
                  | [] -> t
                  | _ -> failwith "length has to be 1 or 4"
                in
-               new_t, Proof.mk_assert tl, 0
+               new_t, Proof.mk_assert tl, 0, assert_list
            in
            let new_state = Proof.apply_tactic new_t tactic in
            progress
              (Prover.WorkList.add prev_worklist (new_t, tactic, r))
              (Prover.ProofSet.add new_state statelist)
+             (next_goal :: stuck_goals)
              (assert_list @ old_lemma_list)
-         | _ -> progress prev_worklist statelist old_lemma_list)
+         | _ -> progress prev_worklist statelist (next_goal :: stuck_goals) old_lemma_list)
        else
-         progress (Prover.WorkList.merge prev_worklist worklist) statelist old_lemma_list)
+         progress
+           (Prover.WorkList.merge prev_worklist worklist)
+           statelist
+           stuck_goals
+           old_lemma_list)
 ;;
 
 (* let rec loop_advanced worklist statelist old_lemma_list =
@@ -204,7 +220,7 @@ let proof_auto std_lib program_a program_b goal =
   let init_t = Proof.create_t env () in
   let goal = Proof.parse_tactic init_t goal in
   let worklist = Prover.WorkList.of_list [ init_t, goal, 0 ] in
-  match progress worklist Prover.ProofSet.empty [] with
+  match progress worklist Prover.ProofSet.empty [] [] with
   | _, Some proof, env ->
     print_endline "Proof Success";
     print_endline "Helper Functions";

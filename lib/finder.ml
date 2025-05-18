@@ -803,7 +803,7 @@ let symbolic_execution t : t list =
         List.filter (fun (var, _) -> Prover.is_decreasing_var env state var) vars
       in
       if List.is_empty vars
-      then acc
+      then []
       else (
         let just_generalize_var =
           collect_free_var_in_prop goal [] |> List.sort_uniq compare
