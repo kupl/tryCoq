@@ -1678,7 +1678,7 @@ let apply_case expr state t : state list =
            | Ir.Constructor constr -> Ir.Call (constr, new_args)
          in
          let new_facts =
-           [ ( "Inductive" ^ string_of_int (get_counter t)
+           [ ( "Case" ^ string_of_int (get_counter t)
              , Eq (expr, Ir.{ desc = inductive_case; typ }) )
            ]
          in

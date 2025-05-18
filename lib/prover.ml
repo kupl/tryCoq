@@ -355,11 +355,11 @@ let mk_candidates t =
   let state = Proof.get_first_state t in
   let _, goal, _ = state in
   let number_list = [ 0; 1; 2; 3 ] in
-  let expr_list = collect_expr_in_prop goal in
-  let qvar_list = collect_qvar_in_prop goal in
-  let non_qvar_list = collect_non_qvar_in_prop goal in
-  let fact_name_list = collect_fact_name state in
-  let lemma_name_list = collect_lemma_name lemma_stack in
+  let expr_list = collect_expr_in_prop goal |> List.sort_uniq compare in
+  let qvar_list = collect_qvar_in_prop goal |> List.sort_uniq compare in
+  let non_qvar_list = collect_non_qvar_in_prop goal |> List.sort_uniq compare in
+  let fact_name_list = collect_fact_name state |> List.sort_uniq compare in
+  let lemma_name_list = collect_lemma_name lemma_stack |> List.sort_uniq compare in
   let intro_list = List.map (fun v -> Proof.mk_intro v) qvar_list in
   let intro_list =
     match goal with
@@ -552,14 +552,22 @@ let useless_rewrite tactic =
   | _ -> false
 ;;
 
+let can_simplify t =
+  let _, goal, _ = Proof.get_first_state t in
+  let new_t = Proof.apply_tactic t (Proof.SimplIn "goal") in
+  let _, new_goal, _ = Proof.get_first_state new_t in
+  not (goal = new_goal)
+;;
+
 let rank_tactic t candidates tactic stateset : int option =
+  ignore candidates;
   let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
   (* this function be executed after is_valid, is_duplicated *)
   let env = t.Proof.env in
   let state = Proof.get_first_state t in
   match tactic with
   | Proof.Intro var_name ->
-    if List.exists (fun cand -> cand = Proof.SimplIn "goal") candidates
+    if can_simplify t
     then None
     else if is_mk state var_name
     then Some 1
@@ -607,16 +615,20 @@ let rank_tactic t candidates tactic stateset : int option =
       else Some 2)
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
-    let _, goal, _ = state in
-    let new_t = Proof.apply_tactic t tactic in
-    if List.exists (fun cand -> cand = Proof.SimplIn "goal") candidates
-    then None
-    else if is_if_then_else_in_prop expr goal
-    then Some 1
-    else if
-      is_case_match expr goal && not (is_duplicated new_t (Proof.SimplIn "goal") stateset)
-    then Some 2
-    else None
+    (match expr.Ir.desc with
+     | Var _ -> None
+     | _ ->
+       let _, goal, _ = state in
+       let new_t = Proof.apply_tactic t tactic in
+       if can_simplify t
+       then None
+       else if is_if_then_else_in_prop expr goal
+       then Some 3
+       else if
+         is_case_match expr goal
+         && not (is_duplicated new_t (Proof.SimplIn "goal") stateset)
+       then Some 3
+       else None)
   | Proof.Reflexivity -> Some 0
   | Proof.Discriminate -> Some 0
   | _ -> None
@@ -707,13 +719,13 @@ let progress_single_thread t =
       prune_rank_worklist_update_state_list t tactic_list statelist
     in
     match WorkList.is_empty worklist with
-    | true -> Some t
+    | true -> t, []
     | _ ->
       let _, work = WorkList.take_exn worklist in
       let t, tactic, _ = work in
       let next_t = Proof.apply_tactic t tactic in
       (match next_t.proof with
-       | _, [], _ -> None
+       | _, [], tactic_list -> next_t, tactic_list
        | _ -> progress_single_thread next_t statelist)
   in
   progress_single_thread t statelist

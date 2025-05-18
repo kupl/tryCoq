@@ -104,32 +104,40 @@ let rec progress worklist statelist old_lemma_list =
          let new_worklist =
            List.map
              (fun (t, assert_list) ->
-                let heads, tl = split_tale assert_list in
-                let new_t =
-                  match heads with
-                  | [ lhs1; lhs2; rhs1; rhs2 ] ->
-                    let new_t = Proof.apply_assert lhs1 t in
-                    let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                    let new_t =
-                      Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
-                    in
-                    let new_t = Proof.apply_assert lhs2 new_t in
-                    let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                    let new_t =
-                      Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
-                    in
-                    let new_t = Proof.apply_assert rhs1 new_t in
-                    let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                    let new_t =
+                if List.is_empty assert_list
+                then (
+                  let lemma_stack = Proof.get_lemma_stack t in
+                  let last_lemma, _ =
+                    List.nth lemma_stack (List.length lemma_stack - 1)
+                  in
+                  t, Proof.mk_rewrite_in_at last_lemma "goal" 0, -1)
+                else (
+                  let heads, tl = split_tale assert_list in
+                  let new_t =
+                    match heads with
+                    | [ lhs1; lhs2; rhs1; rhs2 ] ->
+                      let new_t = Proof.apply_assert lhs1 t in
+                      let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                      let new_t =
+                        Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
+                      in
+                      let new_t = Proof.apply_assert lhs2 new_t in
+                      let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                      let new_t =
+                        Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
+                      in
+                      let new_t = Proof.apply_assert rhs1 new_t in
+                      let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
+                      let new_t =
+                        Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
+                      in
+                      let new_t = Proof.apply_assert rhs2 new_t in
+                      let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
                       Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
-                    in
-                    let new_t = Proof.apply_assert rhs2 new_t in
-                    let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                    Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
-                  | [] -> t
-                  | _ -> failwith "length has to be 1 or 4"
-                in
-                new_t, Proof.mk_assert tl, 0)
+                    | [] -> t
+                    | _ -> failwith "length has to be 1 or 4"
+                  in
+                  new_t, Proof.mk_assert tl, 0))
              lemma_list
          in
          let new_state_list =
