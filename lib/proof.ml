@@ -172,12 +172,16 @@ let variable_index state typ =
   index
 ;;
 
-let new_fact_name t label =
+let fact_index t label =
   let facts, _, _ = get_first_state t in
   let index =
-    List.fold_left (fun acc (name, _) -> if name = label then acc + 1 else acc) 1 facts
+    List.fold_left
+      (fun acc (name, _) ->
+         if String.starts_with ~prefix:label name then acc + 1 else acc)
+      1
+      facts
   in
-  label ^ string_of_int index
+  index
 ;;
 
 let range start stop =
@@ -321,18 +325,18 @@ let partition_and_transform (pred : 'a -> bool) (transform : 'a -> 'b) (lst : 'a
 
 module StringMap = Map.Make (String)
 
-let add_indices_with_offset offset lst =
+let add_indices_with_custom_offsets offset_fn lst =
   let rec aux lst counts acc =
     match lst with
     | [] -> List.rev acc
     | x :: xs ->
-      let count =
-        match StringMap.find_opt x counts with
+      let current_count =
+        match StringMap.find_opt (x |> Ir.var_of_typ) counts with
         | Some n -> n + 1
-        | None -> offset + 1
+        | None -> offset_fn x
       in
-      let counts' = StringMap.add x count counts in
-      aux xs counts' ((x ^ string_of_int count) :: acc)
+      let counts' = StringMap.add (x |> Ir.var_of_typ) current_count counts in
+      aux xs counts' (((x |> Ir.var_of_typ) ^ string_of_int current_count) :: acc)
   in
   aux lst StringMap.empty []
 ;;
@@ -495,6 +499,7 @@ let apply_induction name state t : state list =
       try List.assoc name var_list with
       | _ -> failwith "there is no such variable"
     in
+    let first_fact = name, typ in
     let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
     let typ =
       match typ with
@@ -520,11 +525,10 @@ let apply_induction name state t : state list =
     List.map
       (fun (constr, arg_types) ->
          let rec_args = List.filter (fun arg -> typ = arg) arg_types in
-         let arg_bind =
-           List.map
-             (fun arg -> Ir.pp_typ arg ^ string_of_int (variable_index state arg), arg)
-             arg_types
+         let new_vars =
+           add_indices_with_custom_offsets (variable_index state) arg_types
          in
+         let arg_bind = List.combine new_vars arg_types in
          match rec_args with
          | [] ->
            let base_case =
@@ -563,26 +567,22 @@ let apply_induction name state t : state list =
                facts
            in
            let typ_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
-           typ_facts @ facts, new_goal, graph_of_prop new_goal
+           (first_fact :: typ_facts) @ facts, new_goal, graph_of_prop new_goal
          | _ ->
            let new_args, new_rec_args =
              partition_and_transform
-               (fun arg -> List.mem arg rec_args)
-               (fun arg ->
-                  Ir.
-                    { desc = Var (Ir.pp_typ arg ^ string_of_int (variable_index state arg))
-                    ; typ = arg
-                    })
-               arg_types
+               (fun (_, typ) -> List.mem typ rec_args)
+               (fun (name, typ) -> Ir.{ desc = Var name; typ })
+               arg_bind
            in
            let inductive_case =
              match constr with
              | Ir.Constructor constr -> Ir.Call (constr, new_args)
            in
            let ihs =
-             List.map
-               (fun arg ->
-                  ( new_fact_name t "IH"
+             List.mapi
+               (fun i arg ->
+                  ( "IH" ^ string_of_int (fact_index t "IH" + i)
                   , let prop, _, _ =
                       substitute_expr_in_prop
                         Ir.is_equal_expr
@@ -597,7 +597,7 @@ let apply_induction name state t : state list =
            in
            let new_facts =
              ihs
-             @ [ ( new_fact_name t "Inductive"
+             @ [ ( "Inductive" ^ string_of_int (fact_index t "Inductive")
                  , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
                ]
            in
@@ -638,7 +638,7 @@ let apply_induction name state t : state list =
                   , Type exp.Ir.typ ))
                new_args
            in
-           typ_facts @ facts @ new_facts, new_goal, graph_of_prop new_goal)
+           (first_fact :: typ_facts) @ facts @ new_facts, new_goal, graph_of_prop new_goal)
       decl
   | _ -> failwith "not implemented"
 ;;
@@ -1124,11 +1124,10 @@ let apply_strong_induction name state t : state list =
     List.map
       (fun (constr, arg_types) ->
          let rec_args = List.filter (fun arg -> arg = typ) arg_types in
-         let arg_bind =
-           List.map
-             (fun arg -> Ir.pp_typ arg ^ string_of_int (variable_index state arg), arg)
-             arg_types
+         let new_vars =
+           add_indices_with_custom_offsets (variable_index state) arg_types
          in
+         let arg_bind = List.combine new_vars arg_types in
          match rec_args with
          | [] ->
            let base_case =
@@ -1174,7 +1173,8 @@ let apply_strong_induction name state t : state list =
                (fun arg -> List.mem arg rec_args)
                (fun arg ->
                   Ir.
-                    { desc = Var (Ir.pp_typ arg ^ string_of_int (variable_index state arg))
+                    { desc =
+                        Var (Ir.var_of_typ arg ^ string_of_int (variable_index state arg))
                     ; typ = arg
                     })
                arg_types
@@ -1185,7 +1185,7 @@ let apply_strong_induction name state t : state list =
            in
            let ihs =
              let precedent_var =
-               Ir.pp_typ typ ^ string_of_int (variable_index state typ)
+               Ir.var_of_typ typ ^ string_of_int (variable_index state typ)
              in
              let precedent = Ir.{ desc = Var precedent_var; typ } in
              let consequent, _, _ =
@@ -1197,7 +1197,7 @@ let apply_strong_induction name state t : state list =
                  precedent
                  0
              in
-             ( new_fact_name t "SIH"
+             ( "SIH" ^ string_of_int (fact_index t "SIH")
              , Forall
                  ( [ precedent_var, Type typ ]
                  , Imply
@@ -1206,7 +1206,7 @@ let apply_strong_induction name state t : state list =
            in
            let new_facts =
              ihs
-             :: [ ( new_fact_name t "Inductive"
+             :: [ ( "Inductive" ^ string_of_int (fact_index t "Inductive")
                   , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
                 ]
            in
@@ -1517,6 +1517,47 @@ let apply_simpl t target : state =
 ;;
 
 let apply_assert prop t : t =
+  let prop = rename_prop prop in
+  let prop =
+    match prop with
+    | Forall (var_list, prop) ->
+      let typ_list =
+        List.map
+          (fun (_, typ) ->
+             match typ with
+             | Type typ -> typ
+             | _ -> failwith "not implemented")
+          var_list
+      in
+      let new_var_list = add_indices_with_custom_offsets (fun _ -> 1) typ_list in
+      let new_var_list =
+        List.map2 (fun typ name -> name, Type typ) typ_list new_var_list
+      in
+      let new_prop =
+        List.fold_left2
+          (fun prop (old_var, _) (var, typ) ->
+             let typ =
+               match typ with
+               | Type typ -> typ
+               | _ -> failwith "not implemented"
+             in
+             let prop, _, _ =
+               substitute_expr_in_prop
+                 Ir.is_equal_expr
+                 (fun _ _ expr_to -> expr_to, [])
+                 prop
+                 Ir.{ desc = Var old_var; typ }
+                 Ir.{ desc = Var var; typ }
+                 0
+             in
+             prop)
+          prop
+          var_list
+          new_var_list
+      in
+      Forall (new_var_list, new_prop)
+    | _ -> prop
+  in
   let conj = [ [], prop, graph_of_prop prop ], prop in
   let lemma_stack, conj_list, tactic_list = t.proof in
   { t with proof = lemma_stack, conj :: conj_list, tactic_list @ [ mk_assert prop ] }
@@ -1549,11 +1590,8 @@ let apply_destruct name state t : state list =
   List.map
     (fun (constr, arg_types) ->
        let rec_args = List.filter (fun arg -> arg = typ) arg_types in
-       let arg_bind =
-         List.map
-           (fun arg -> Ir.pp_typ arg ^ string_of_int (variable_index state arg), arg)
-           arg_types
-       in
+       let new_vars = add_indices_with_custom_offsets (variable_index state) arg_types in
+       let arg_bind = List.combine new_vars arg_types in
        match rec_args with
        | [] ->
          let base_case =
@@ -1564,7 +1602,7 @@ let apply_destruct name state t : state list =
                , List.map (fun (name, typ) -> Ir.{ desc = Ir.Var name; typ }) arg_bind )
          in
          let new_facts =
-           [ ( new_fact_name t "Dest"
+           [ ( "Dest" ^ string_of_int (fact_index t "Dest")
              , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = base_case; typ }) )
            ]
          in
@@ -1600,7 +1638,8 @@ let apply_destruct name state t : state list =
              (fun arg -> List.mem arg rec_args)
              (fun arg ->
                 Ir.
-                  { desc = Var (Ir.pp_typ arg ^ string_of_int (variable_index state arg))
+                  { desc =
+                      Var (Ir.var_of_typ arg ^ string_of_int (variable_index state arg))
                   ; typ = arg
                   })
              arg_types
@@ -1610,7 +1649,7 @@ let apply_destruct name state t : state list =
            | Ir.Constructor constr -> Ir.Call (constr, new_args)
          in
          let new_facts =
-           [ ( new_fact_name t "Inductive"
+           [ ( "Inductive" ^ string_of_int (fact_index t "Inductive")
              , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
            ]
          in
@@ -1666,11 +1705,8 @@ let apply_case expr state t : state list =
   List.map
     (fun (constr, arg_types) ->
        let rec_args = List.filter (fun arg -> arg = typ) arg_types in
-       let arg_bind =
-         List.map
-           (fun arg -> Ir.pp_typ arg ^ string_of_int (variable_index state arg), arg)
-           arg_types
-       in
+       let new_vars = add_indices_with_custom_offsets (variable_index state) arg_types in
+       let arg_bind = List.combine new_vars arg_types in
        match rec_args with
        | [] ->
          let base_case =
@@ -1680,7 +1716,7 @@ let apply_case expr state t : state list =
                (constr, List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind)
          in
          let case_eq = Eq (expr, Ir.{ desc = base_case; typ }) in
-         let new_facts = [ new_fact_name t "Case", case_eq ] in
+         let new_facts = [ "Case" ^ string_of_int (fact_index t "Case"), case_eq ] in
          if List.exists (fun (_, prop) -> prop = case_eq) facts
          then failwith "Duplicated Fact"
          else (
@@ -1717,7 +1753,8 @@ let apply_case expr state t : state list =
              (fun arg -> List.mem arg rec_args)
              (fun arg ->
                 Ir.
-                  { desc = Var (Ir.pp_typ arg ^ string_of_int (variable_index state arg))
+                  { desc =
+                      Var (Ir.var_of_typ arg ^ string_of_int (variable_index state arg))
                   ; typ = arg
                   })
              arg_types
@@ -1727,7 +1764,9 @@ let apply_case expr state t : state list =
            | Ir.Constructor constr -> Ir.Call (constr, new_args)
          in
          let new_facts =
-           [ new_fact_name t "Case", Eq (expr, Ir.{ desc = inductive_case; typ }) ]
+           [ ( "Case" ^ string_of_int (fact_index t "Case")
+             , Eq (expr, Ir.{ desc = inductive_case; typ }) )
+           ]
          in
          let new_goal, _, _ =
            substitute_expr_in_prop

@@ -12,32 +12,6 @@ let proof_top std_lib program_a program_b =
   Proof.proof_top init_t
 ;;
 
-(*
-   let rec loop worklist old_lemma_list =
-  let stuck_list, proof = Prover.(progress worklist ProofSet.empty ProofSet.empty) in
-  match proof with
-  | Some _ -> [], proof
-  | None ->
-    let lemma_list = Finder.make_lemmas stuck_list old_lemma_list in
-    let _ = print_endline ("Lemma List : " ^ string_of_int (List.length lemma_list)) in
-    let _ =
-      List.iter
-        (fun (t, lemma) ->
-           let _, goal = Proof.get_first_state t in
-           let _ = print_endline "Goal and Lemma" in
-           Proof.pp_prop goal |> print_endline;
-           Proof.pp_prop lemma |> print_endline)
-        lemma_list
-    in
-    if List.is_empty lemma_list
-    then failwith "lemma does not exists"
-    else (
-      let new_worklist =
-        List.map (fun (t, goal) -> t, Proof.mk_assert goal, 0) lemma_list
-        |> Prover.WorkList.of_list
-      in
-      loop new_worklist (lemma_list @ old_lemma_list))
-;; *)
 let rec split_tale lst =
   match lst with
   | [ tl ] -> [], tl
@@ -89,8 +63,6 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
          let t_lemma = Finder.make_lemmas_by_advanced_generalize next_t old_lemma_list in
          match t_lemma with
          | Some (new_t, assert_list) ->
-           let _ = print_endline "Advanced Generalize" in
-           let _ = Proof.pp_t new_t |> print_endline in
            let new_t, tactic, r, assert_list =
              match assert_list with
              | [] ->
@@ -105,6 +77,17 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
                , -1
                , assert_list |> List.map snd )
              | _ ->
+               let new_env =
+                 List.filter (fun x -> not (List.mem x next_t.env)) new_t.env
+               in
+               let _ = print_endline "New Env" in
+               let _ = new_env |> Ir.pp_t |> print_endline in
+               let _ = print_endline "Advanced Generalize" in
+               let _ = print_endline "Assert List" in
+               let _ =
+                 assert_list |> List.iter (fun x -> Proof.pp_prop x |> print_endline)
+               in
+               let _ = print_endline "End of Assert List" in
                let heads, tl = split_tale assert_list in
                let new_t =
                  match heads with
@@ -148,67 +131,6 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
            stuck_goals
            old_lemma_list)
 ;;
-
-(* let rec loop_advanced worklist statelist old_lemma_list =
-  let stuck_list, proof, env = Prover.(progress worklist statelist ProofSet.empty) in
-  match proof with
-  | Some _ -> [], proof, env
-  | None ->
-    let lemma_list =
-      Finder.make_lemmas_by_advanced_generalize stuck_list old_lemma_list
-    in
-    let _ = print_endline ("Lemma List : " ^ string_of_int (List.length lemma_list)) in
-    let _ =
-      List.iter
-        (fun (t, lemma_list) ->
-           let _, goal, _ = Proof.get_first_state t in
-           let _ = print_endline "Goal and Lemma" in
-           Proof.pp_prop goal |> print_endline;
-           lemma_list |> List.iter (fun lemma -> lemma |> Proof.pp_prop |> print_endline))
-        lemma_list
-    in
-    if List.is_empty lemma_list
-    then failwith "lemma does not exists"
-    else (
-      let new_worklist =
-        List.map
-          (fun (t, assert_list) ->
-             let heads, tl = split_tale assert_list in
-             let new_t =
-               match heads with
-               | [ lhs1; lhs2; rhs1; rhs2 ] ->
-                 let new_t = Proof.apply_assert lhs1 t in
-                 let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                 let new_t =
-                   Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
-                 in
-                 let new_t = Proof.apply_assert lhs2 new_t in
-                 let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                 let new_t =
-                   Proof.apply_tactic ~is_lhs:(Some true) new_t Proof.Reflexivity
-                 in
-                 let new_t = Proof.apply_assert rhs1 new_t in
-                 let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                 let new_t =
-                   Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
-                 in
-                 let new_t = Proof.apply_assert rhs2 new_t in
-                 let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
-                 Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
-               | _ -> failwith "length has to be 4"
-             in
-             new_t, Proof.mk_assert tl, 0)
-          lemma_list
-      in
-      let new_state_list =
-        List.map (fun (t, tactic, _) -> Proof.apply_tactic t tactic) new_worklist
-        |> Prover.ProofSet.of_list
-      in
-      loop_advanced
-        (new_worklist |> Prover.WorkList.of_list)
-        new_state_list
-        (lemma_list @ old_lemma_list))
-;; *)
 
 let proof_auto std_lib program_a program_b goal =
   let std_lib = Parser.parse std_lib in

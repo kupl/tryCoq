@@ -158,23 +158,6 @@ let split_t t : t list =
     states
 ;;
 
-(* let progress_with_split t : t list =
-  let t_list = split_t t in
-  List.fold_left
-    (fun acc t ->
-       match Prover.progress_single_thread t with
-       | Some t ->
-         let _ = print_endline "after progress_single_thread" in
-         let _ =
-           Proof.pp_prop (Proof.get_first_state t |> fun (_, goal, _) -> goal)
-           |> print_endline
-         in
-         acc @ [ t ]
-       | None -> acc)
-    []
-    t_list
-;; *)
-
 let filtering_concerned_fact facts goal =
   let free_var = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
   let facts =
@@ -835,7 +818,6 @@ let advanced_generalize t : (t * lemma list) option =
   let execution_list = symbolic_execution t in
   match execution_list with
   | [ done_t ] ->
-    let t = Proof.create_t t.env ~proof:t.proof () in
     let new_tactic = Proof.get_tactic_history done_t in
     let _ = print_endline "tactics" in
     let _ =
@@ -849,6 +831,7 @@ let advanced_generalize t : (t * lemma list) option =
   | _ ->
     let state_list = List.map Proof.get_first_state execution_list in
     let new_env, lemma_list = pattern_recognition t.env ihs state_list in
+    let new_env = List.map Ir.rename_decl new_env in
     if List.is_empty lemma_list
     then None
     else Some ({ t with env = t.env @ new_env }, lemma_list)
@@ -870,153 +853,3 @@ let make_lemmas_by_advanced_generalize (t : t) lemma_list : (t * lemma list) opt
   in
   t_lemma
 ;;
-
-(* let naive_generalize (goal : Proof.goal) t : lemma list =
-  let env = t.Proof.env in
-  let goal = Proof.simplify_prop env goal in
-  let trivial =
-    match goal with
-    | Proof.Forall (_, _) -> true
-    | Proof.Eq (lhs, rhs) -> lhs = rhs
-    | Proof.Imply (_, Forall (_, _)) -> true
-    | Proof.Imply (_, Eq (lhs, rhs)) -> lhs = rhs
-    | _ -> false
-  in
-  match trivial with
-  | true -> []
-  | _ ->
-    let _ = print_endline "*******" in
-    let _ =
-      symbolic_execution t
-      |> List.iter (fun state_list ->
-        let _ = print_endline "state_list" in
-        let _ =
-          state_list |> List.iter (fun (_, goal) -> Proof.pp_prop goal |> print_endline)
-        in
-        ())
-    in
-    let _ = print_endline "*******" in
-    let t = Proof.(create_t t.env ~proof:t.proof ~counter:t.counter ()) in
-    let just_generalize_var =
-      collect_free_var_in_prop goal [] |> List.sort_uniq compare
-    in
-    let facts = Proof.get_first_state t |> fst in
-    let facts = filtering_concerned_fact facts goal in
-    let facts = List.map snd facts in
-    let facts = List.map Proof.rename_prop facts in
-    let just_generalize_new_goal =
-      if List.is_empty just_generalize_var
-      then []
-      else if List.is_empty facts
-      then [ Proof.Forall (just_generalize_var, goal) ]
-      else [ Proof.Forall (just_generalize_var, Proof.Imply (facts, goal)) ]
-    in
-    let common_subterm = find_common_subterm_in_prop goal in
-    let common_subterm = List.sort_uniq compare common_subterm in
-    let new_qvars =
-      List.map
-        (fun expr ->
-           Ir.
-             { desc = Var (var_of_typ expr.typ ^ string_of_int (Proof.get_counter t))
-             ; typ = expr.typ
-             })
-        common_subterm
-    in
-    let new_facts_list =
-      List.map2
-        (fun subterm var ->
-           List.map
-             (fun fact ->
-                let new_fact, _, _ =
-                  Proof.substitute_expr_in_prop
-                    Ir.is_equal_expr
-                    (fun _ _ expr_to -> expr_to, [])
-                    fact
-                    subterm
-                    var
-                    0
-                in
-                new_fact)
-             facts)
-        common_subterm
-        new_qvars
-    in
-    let new_goals =
-      List.map2
-        (fun subterm var ->
-           let new_goal, _, _ =
-             Proof.substitute_expr_in_prop
-               Ir.is_equal_expr
-               (fun _ _ expr_to -> expr_to, [])
-               goal
-               subterm
-               var
-               0
-           in
-           new_goal)
-        common_subterm
-        new_qvars
-    in
-    let qvars_list =
-      List.map
-        (fun new_goal -> collect_free_var_in_prop new_goal [] |> List.sort_uniq compare)
-        new_goals
-    in
-    let new_facts_list =
-      List.map2
-        (fun facts qvars ->
-           List.filter (fun fact -> is_concerned fact (List.map fst qvars)) facts)
-        new_facts_list
-        qvars_list
-    in
-    let new_state = List.combine new_facts_list new_goals in
-    just_generalize_new_goal
-    @ List.fold_left2
-        (fun acc qvars (new_facts, new_goal) ->
-           if List.is_empty qvars
-           then acc
-           else if List.is_empty new_facts
-           then Proof.Forall (qvars, new_goal) :: acc
-           else Proof.Forall (qvars, Proof.Imply (new_facts, new_goal)) :: acc)
-        []
-        qvars_list
-        new_state
-;;
-
-let make_lemmas (stuck_list : Prover.ProofSet.t) lemma_list : (t * lemma) list =
-  let lemmas =
-    List.map
-      (fun t ->
-         let state = Proof.get_first_state t in
-         let _, goal = state in
-         let lemmas = naive_generalize goal t in
-         (* convert this part to take env *)
-         List.map (fun lemma -> t, lemma) lemmas)
-      (Prover.ProofSet.to_list stuck_list)
-    |> List.concat
-  in
-  let lemmas =
-    List.fold_left
-      (fun acc (t, lemma) ->
-         let lemma_stack = Proof.get_lemma_stack t in
-         if
-           List.exists
-             (fun (t', lemma') ->
-                let lemma_stack' = Proof.get_lemma_stack t' in
-                lemma_stack' = lemma_stack
-                && Proof.simplify_prop t'.env lemma = Proof.simplify_prop t'.env lemma')
-             acc
-         then acc
-         else (t, Proof.simplify_prop t.env lemma) :: acc)
-      []
-      lemmas
-  in
-  let lemmas =
-    List.filter
-      (fun (_, lemma) ->
-         not (List.exists (fun (_, old_lemma) -> old_lemma = lemma) lemma_list))
-      lemmas
-  in
-  let _ = lemmas |> List.iter (fun (_, lemma) -> Proof.pp_prop lemma |> print_endline) in
-  lemmas
-;; *)

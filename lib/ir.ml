@@ -42,6 +42,13 @@ and pattern =
 
 and name = string [@@deriving sexp, eq, ord]
 
+let counter = ref 0
+
+let get_global_cnt () =
+  counter := !counter + 1;
+  !counter
+;;
+
 let get_fun_name decl =
   match decl with
   | Rec (name, _, _) | NonRec (name, _, _) -> name
@@ -870,4 +877,67 @@ let collect_constructor t =
 let is_constructor name t =
   let constr_list = collect_constructor t in
   List.exists (fun constr -> constr = name) constr_list
+;;
+
+let rename_decl decl =
+  match decl with
+  | NonRec (name, args, body) ->
+    let new_args =
+      List.map
+        (fun arg ->
+           ( "arg_" ^ string_of_int (get_global_cnt ())
+           , match get_type_in_expr arg body with
+             | Some typ -> typ
+             | _ -> failwith "not implemented" ))
+        args
+    in
+    let new_body =
+      List.fold_left2
+        (fun body arg (new_arg, typ) ->
+           let prop, _, _ =
+             substitute_expr
+               is_equal_expr
+               (fun _ _ expr_to -> expr_to, [])
+               body
+               { desc = Var arg; typ }
+               { desc = Var new_arg; typ }
+               0
+               []
+           in
+           prop)
+        body
+        args
+        new_args
+    in
+    NonRec (name, new_args |> List.map fst, new_body)
+  | Rec (name, args, body) ->
+    let new_args =
+      List.map
+        (fun arg ->
+           ( "arg_" ^ string_of_int (get_global_cnt ())
+           , match get_type_in_expr arg body with
+             | Some typ -> typ
+             | _ -> failwith "not implemented" ))
+        args
+    in
+    let new_body =
+      List.fold_left2
+        (fun body arg (new_arg, typ) ->
+           let prop, _, _ =
+             substitute_expr
+               is_equal_expr
+               (fun _ _ expr_to -> expr_to, [])
+               body
+               { desc = Var arg; typ }
+               { desc = Var new_arg; typ }
+               0
+               []
+           in
+           prop)
+        body
+        args
+        new_args
+    in
+    Rec (name, new_args |> List.map fst, new_body)
+  | _ -> decl
 ;;
