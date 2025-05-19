@@ -15,7 +15,6 @@ let sexp_of_graph graph =
 type t =
   { env : Ir.t
   ; proof : lemma_stack * conjecture list * tactic list
-  ; mutable counter : int
   }
 [@@deriving sexp]
 
@@ -70,12 +69,7 @@ let get_global_cnt () =
   !counter
 ;;
 
-let create_t env ?(proof = [], [], []) ?(counter = 0) () = { env; proof; counter }
-
-let get_counter t =
-  t.counter <- t.counter + 1;
-  t.counter
-;;
+let create_t env ?(proof = [], [], []) () = { env; proof }
 
 let rec get_lhs prop =
   match prop with
@@ -150,6 +144,40 @@ let get_goal_list (t : t) =
   let conj_list = get_conj_list t in
   let state_list = List.hd conj_list |> fst in
   List.map (fun (_, goal, _) -> goal) state_list
+;;
+
+let variable_index state typ =
+  let facts, goal, _ = state in
+  let index =
+    List.fold_left
+      (fun acc (_, fact) ->
+         match fact with
+         | Type typ' -> if typ = typ' then acc + 1 else acc
+         | _ -> acc)
+      1
+      facts
+  in
+  let index =
+    match goal with
+    | Forall (var_list, _) ->
+      List.fold_left
+        (fun acc (_, typ') ->
+           match typ' with
+           | Type typ' -> if typ = typ' then acc + 1 else acc
+           | _ -> acc)
+        index
+        var_list
+    | _ -> index
+  in
+  index
+;;
+
+let new_fact_name t label =
+  let facts, _, _ = get_first_state t in
+  let index =
+    List.fold_left (fun acc (name, _) -> if name = label then acc + 1 else acc) 1 facts
+  in
+  label ^ string_of_int index
 ;;
 
 let range start stop =
@@ -289,6 +317,24 @@ let partition_and_transform (pred : 'a -> bool) (transform : 'a -> 'b) (lst : 'a
       else aux (transformed :: acc1) acc2 xs
   in
   aux [] [] lst
+;;
+
+module StringMap = Map.Make (String)
+
+let add_indices_with_offset offset lst =
+  let rec aux lst counts acc =
+    match lst with
+    | [] -> List.rev acc
+    | x :: xs ->
+      let count =
+        match StringMap.find_opt x counts with
+        | Some n -> n + 1
+        | None -> offset + 1
+      in
+      let counts' = StringMap.add x count counts in
+      aux xs counts' ((x ^ string_of_int count) :: acc)
+  in
+  aux lst StringMap.empty []
 ;;
 
 let substitute_expr_in_expr pred convert target expr_from expr_to i result =
@@ -476,7 +522,7 @@ let apply_induction name state t : state list =
          let rec_args = List.filter (fun arg -> typ = arg) arg_types in
          let arg_bind =
            List.map
-             (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (get_counter t), arg)
+             (fun arg -> Ir.pp_typ arg ^ string_of_int (variable_index state arg), arg)
              arg_types
          in
          match rec_args with
@@ -524,7 +570,7 @@ let apply_induction name state t : state list =
                (fun arg -> List.mem arg rec_args)
                (fun arg ->
                   Ir.
-                    { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (get_counter t))
+                    { desc = Var (Ir.pp_typ arg ^ string_of_int (variable_index state arg))
                     ; typ = arg
                     })
                arg_types
@@ -536,7 +582,7 @@ let apply_induction name state t : state list =
            let ihs =
              List.map
                (fun arg ->
-                  ( "IH" ^ string_of_int (get_counter t)
+                  ( new_fact_name t "IH"
                   , let prop, _, _ =
                       substitute_expr_in_prop
                         Ir.is_equal_expr
@@ -551,7 +597,7 @@ let apply_induction name state t : state list =
            in
            let new_facts =
              ihs
-             @ [ ( "Inductive" ^ string_of_int (get_counter t)
+             @ [ ( new_fact_name t "Inductive"
                  , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
                ]
            in
@@ -1080,7 +1126,7 @@ let apply_strong_induction name state t : state list =
          let rec_args = List.filter (fun arg -> arg = typ) arg_types in
          let arg_bind =
            List.map
-             (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (get_counter t), arg)
+             (fun arg -> Ir.pp_typ arg ^ string_of_int (variable_index state arg), arg)
              arg_types
          in
          match rec_args with
@@ -1128,7 +1174,7 @@ let apply_strong_induction name state t : state list =
                (fun arg -> List.mem arg rec_args)
                (fun arg ->
                   Ir.
-                    { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (get_counter t))
+                    { desc = Var (Ir.pp_typ arg ^ string_of_int (variable_index state arg))
                     ; typ = arg
                     })
                arg_types
@@ -1138,7 +1184,9 @@ let apply_strong_induction name state t : state list =
              | Ir.Constructor constr -> Ir.Call (constr, new_args)
            in
            let ihs =
-             let precedent_var = (typ |> Ir.var_of_typ) ^ string_of_int (get_counter t) in
+             let precedent_var =
+               Ir.pp_typ typ ^ string_of_int (variable_index state typ)
+             in
              let precedent = Ir.{ desc = Var precedent_var; typ } in
              let consequent, _, _ =
                substitute_expr_in_prop
@@ -1149,7 +1197,7 @@ let apply_strong_induction name state t : state list =
                  precedent
                  0
              in
-             ( "SIH" ^ string_of_int (get_counter t)
+             ( new_fact_name t "SIH"
              , Forall
                  ( [ precedent_var, Type typ ]
                  , Imply
@@ -1158,7 +1206,7 @@ let apply_strong_induction name state t : state list =
            in
            let new_facts =
              ihs
-             :: [ ( "Inductive" ^ string_of_int (get_counter t)
+             :: [ ( new_fact_name t "Inductive"
                   , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
                 ]
            in
@@ -1503,7 +1551,7 @@ let apply_destruct name state t : state list =
        let rec_args = List.filter (fun arg -> arg = typ) arg_types in
        let arg_bind =
          List.map
-           (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (get_counter t), arg)
+           (fun arg -> Ir.pp_typ arg ^ string_of_int (variable_index state arg), arg)
            arg_types
        in
        match rec_args with
@@ -1516,7 +1564,7 @@ let apply_destruct name state t : state list =
                , List.map (fun (name, typ) -> Ir.{ desc = Ir.Var name; typ }) arg_bind )
          in
          let new_facts =
-           [ ( "Dest" ^ string_of_int (get_counter t)
+           [ ( new_fact_name t "Dest"
              , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = base_case; typ }) )
            ]
          in
@@ -1552,7 +1600,7 @@ let apply_destruct name state t : state list =
              (fun arg -> List.mem arg rec_args)
              (fun arg ->
                 Ir.
-                  { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (get_counter t))
+                  { desc = Var (Ir.pp_typ arg ^ string_of_int (variable_index state arg))
                   ; typ = arg
                   })
              arg_types
@@ -1562,7 +1610,7 @@ let apply_destruct name state t : state list =
            | Ir.Constructor constr -> Ir.Call (constr, new_args)
          in
          let new_facts =
-           [ ( "Inductive" ^ string_of_int (get_counter t)
+           [ ( new_fact_name t "Inductive"
              , Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ }) )
            ]
          in
@@ -1620,7 +1668,7 @@ let apply_case expr state t : state list =
        let rec_args = List.filter (fun arg -> arg = typ) arg_types in
        let arg_bind =
          List.map
-           (fun arg -> (arg |> Ir.var_of_typ) ^ string_of_int (get_counter t), arg)
+           (fun arg -> Ir.pp_typ arg ^ string_of_int (variable_index state arg), arg)
            arg_types
        in
        match rec_args with
@@ -1632,7 +1680,7 @@ let apply_case expr state t : state list =
                (constr, List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind)
          in
          let case_eq = Eq (expr, Ir.{ desc = base_case; typ }) in
-         let new_facts = [ "Case" ^ string_of_int (get_counter t), case_eq ] in
+         let new_facts = [ new_fact_name t "Case", case_eq ] in
          if List.exists (fun (_, prop) -> prop = case_eq) facts
          then failwith "Duplicated Fact"
          else (
@@ -1669,7 +1717,7 @@ let apply_case expr state t : state list =
              (fun arg -> List.mem arg rec_args)
              (fun arg ->
                 Ir.
-                  { desc = Var ((arg |> Ir.var_of_typ) ^ string_of_int (get_counter t))
+                  { desc = Var (Ir.pp_typ arg ^ string_of_int (variable_index state arg))
                   ; typ = arg
                   })
              arg_types
@@ -1679,9 +1727,7 @@ let apply_case expr state t : state list =
            | Ir.Constructor constr -> Ir.Call (constr, new_args)
          in
          let new_facts =
-           [ ( "Case" ^ string_of_int (get_counter t)
-             , Eq (expr, Ir.{ desc = inductive_case; typ }) )
-           ]
+           [ new_fact_name t "Case", Eq (expr, Ir.{ desc = inductive_case; typ }) ]
          in
          let new_goal, _, _ =
            substitute_expr_in_prop
@@ -1793,7 +1839,7 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
                     | Some false -> "rhs_"
                     | _ -> "")
                    ^ "lemma"
-                   ^ string_of_int (get_counter t)
+                   ^ string_of_int ((get_lemma_stack t |> List.length) + 1)
                  , conj_goal )
                ]
            , List.tl conj_list
@@ -1808,7 +1854,10 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
         let remain_states = List.tl state_list in
         (match remain_states with
          | [] ->
-           ( lemma_stack @ [ "lemma" ^ string_of_int (get_counter t), conj_goal ]
+           ( lemma_stack
+             @ [ ( "lemma" ^ string_of_int ((get_lemma_stack t |> List.length) + 1)
+                 , conj_goal )
+               ]
            , List.tl conj_list
            , tactic_list @ [ tactic ] )
          | _ ->

@@ -50,7 +50,7 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
   | true -> failwith "worklist is empty"
   | false ->
     let prev_worklist, work = Prover.WorkList.take_exn worklist in
-    let t, tactic, r = work in
+    let t, tactic, next_t, r = work in
     let _ = print_endline "=================================================" in
     let i = Prover.synth_counter () in
     let _ = print_endline ("Progress: " ^ string_of_int i) in
@@ -58,7 +58,6 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
     let _ =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
     in
-    let next_t = Proof.apply_tactic t tactic in
     let _ = Proof.pp_t next_t |> print_endline in
     (match next_t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof, next_t.env
@@ -80,7 +79,7 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
        in
        let _ =
          Prover.WorkList.iter
-           (fun (_, tactic, r) ->
+           (fun (_, tactic, _, r) ->
               Proof.pp_tactic tactic ^ "(rank:" ^ string_of_int r ^ ")" |> print_endline)
            worklist
        in
@@ -135,7 +134,9 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
            in
            let new_state = Proof.apply_tactic new_t tactic in
            progress
-             (Prover.WorkList.add prev_worklist (new_t, tactic, r))
+             (Prover.WorkList.add
+                prev_worklist
+                (new_t, tactic, Proof.apply_tactic new_t tactic, r))
              (Prover.ProofSet.add new_state statelist)
              (next_goal :: stuck_goals)
              (assert_list @ old_lemma_list)
@@ -218,8 +219,9 @@ let proof_auto std_lib program_a program_b goal =
   let program_b = program_b |> Ir.t_of_typedtree in
   let env = std_lib @ program_a @ program_b in
   let init_t = Proof.create_t env () in
-  let goal = Proof.parse_tactic init_t goal in
-  let worklist = Prover.WorkList.of_list [ init_t, goal, 0 ] in
+  let first_assertion = Proof.parse_tactic init_t goal in
+  let next_t = Proof.apply_tactic init_t first_assertion in
+  let worklist = Prover.WorkList.of_list [ init_t, first_assertion, next_t, 0 ] in
   match progress worklist Prover.ProofSet.empty [] [] with
   | _, Some proof, env ->
     print_endline "Proof Success";

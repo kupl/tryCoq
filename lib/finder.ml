@@ -154,12 +154,7 @@ let split_t t : t list =
   List.map
     (fun state ->
        let dummy_goal = Proof.Type Ir.Tany in
-       Proof.(
-         create_t
-           t.env
-           ~proof:(lemma_stack, [ [ state ], dummy_goal ], tactics)
-           ~counter:t.counter
-           ()))
+       Proof.(create_t t.env ~proof:(lemma_stack, [ [ state ], dummy_goal ], tactics) ()))
     states
 ;;
 
@@ -820,9 +815,7 @@ let symbolic_execution t : t list =
         in
         match just_generalize_new_goal with
         | Some new_goal ->
-          let new_t =
-            Proof.create_t t.env ~proof:(lemma_stack, [], []) ~counter:t.counter ()
-          in
+          let new_t = Proof.create_t t.env ~proof:(lemma_stack, [], []) () in
           let new_t = Proof.apply_assert new_goal new_t in
           (match Prover.progress_single_thread new_t with
            | new_t, [] -> symbolic_execution_by_depth new_t (depth - 1) (acc @ [ new_t ])
@@ -831,9 +824,7 @@ let symbolic_execution t : t list =
   in
   let lemma_stack = Proof.get_lemma_stack t in
   let conjs = Proof.get_conj_list t in
-  let new_t =
-    Proof.create_t t.Proof.env ~proof:(lemma_stack, conjs, []) ~counter:t.counter ()
-  in
+  let new_t = Proof.create_t t.Proof.env ~proof:(lemma_stack, conjs, []) () in
   symbolic_execution_by_depth new_t 2 [ new_t ]
 ;;
 
@@ -844,7 +835,7 @@ let advanced_generalize t : (t * lemma list) option =
   let execution_list = symbolic_execution t in
   match execution_list with
   | [ done_t ] ->
-    let t = Proof.create_t t.env ~proof:t.proof ~counter:t.counter () in
+    let t = Proof.create_t t.env ~proof:t.proof () in
     let new_tactic = Proof.get_tactic_history done_t in
     let _ = print_endline "tactics" in
     let _ =
