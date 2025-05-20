@@ -3,6 +3,7 @@ open Sexplib.Std
 module L = struct
   type 'a shape =
     | Match of 'a list * Ir.case list
+    | FullMatch of int * int * 'a list * ('a list * 'a) list
     | LetIn of Ir.name list * 'a list * Ir.expr
     | Call of Ir.name * 'a list
     | Var of Ir.name
@@ -12,6 +13,7 @@ module L = struct
 
   type op =
     | MatchOp of Ir.case list
+    | FullMatchOp of int * int
     | LetInOp of Ir.name list * Ir.expr
     | CallOp of Ir.name
     | VarOp of Ir.name
@@ -25,6 +27,7 @@ module L = struct
         fmt
         "MatchOp %s"
         (String.concat "|\n" (List.map Ir.pp_case case_list))
+    | FullMatchOp (i, j) -> Format.fprintf fmt "FullMatchOp %d %d" i j
     | LetInOp (names, body) ->
       Format.fprintf fmt "LetInOp %s %s" (String.concat ", " names) (Ir.pp_expr body)
     | CallOp name -> Format.fprintf fmt "CallOp %s" name
@@ -43,6 +46,17 @@ module L = struct
         (Format.pp_print_list pp)
         match_list
         (String.concat "\n" (List.map (fun case -> Ir.pp_case case) case_list))
+    | FullMatch (_, _, match_list, case_list) ->
+      let pp_case fmt (a, b) =
+        Format.fprintf fmt "| %a -> %a" (Format.pp_print_list pp) a pp b
+      in
+      Format.fprintf
+        fmt
+        "match %a with %a"
+        (Format.pp_print_list pp)
+        match_list
+        (Format.pp_print_list ~pp_sep:(fun fmt () -> Format.fprintf fmt "\n") pp_case)
+        case_list
     | LetIn (names, args, body) ->
       Format.fprintf
         fmt
@@ -68,6 +82,7 @@ module L = struct
     fun shape ->
     match shape with
     | Match (_, case_list) -> MatchOp case_list
+    | FullMatch (i, j, _, _) -> FullMatchOp (i, j)
     | LetIn (names, _, body) -> LetInOp (names, body)
     | Call (name, _) -> CallOp name
     | Var name -> VarOp name
@@ -77,6 +92,8 @@ module L = struct
     fun shape ->
     match shape with
     | Match (match_list, _) -> match_list
+    | FullMatch (_, _, match_list, case_list) ->
+      match_list @ (List.map (fun (a, b) -> a @ [ b ]) case_list |> List.flatten)
     | LetIn (_, args, _) -> args
     | Call (_, args) -> args
     | Var _ -> []
@@ -88,6 +105,10 @@ module L = struct
     | Match (match_list, case_list) ->
       let new_match_list = List.map f match_list in
       Match (new_match_list, case_list)
+    | FullMatch (i, j, match_list, case_list) ->
+      let new_match_list = List.map f match_list in
+      let new_case_list = List.map (fun (a, b) -> List.map f a, f b) case_list in
+      FullMatch (i, j, new_match_list, new_case_list)
     | LetIn (names, args, body) ->
       let new_args = List.map f args in
       LetIn (names, new_args, body)
@@ -101,6 +122,33 @@ module L = struct
     fun op args ->
     match op with
     | MatchOp case_list -> Match (args, case_list)
+    | FullMatchOp (i, j) ->
+      let range start stop =
+        let rec range' i acc = if i >= stop then acc else range' (i + 1) (acc @ [ i ]) in
+        range' start []
+      in
+      let slice i j lst =
+        let rec aux i j lst acc =
+          match lst with
+          | [] -> List.rev acc
+          | x :: xs ->
+            if i = 0
+            then if j = 0 then List.rev acc else aux i (j - 1) xs (x :: acc)
+            else aux (i - 1) j xs acc
+        in
+        aux i j lst []
+      in
+      let match_list = slice 0 (i - 1) args in
+      let rest = slice i (List.length args - 1) args in
+      let range = range 0 j in
+      let case_list =
+        List.map
+          (fun index ->
+             let slicing = slice ((i + 1) * index) (((i + 1) * (index + 1)) - 1) rest in
+             List.rev slicing |> List.tl |> List.rev, List.rev slicing |> List.hd)
+          range
+      in
+      FullMatch (i, j, match_list, case_list)
     | LetInOp (names, body) -> LetIn (names, args, body)
     | CallOp name -> Call (name, args)
     | VarOp name -> Var name
@@ -185,8 +233,30 @@ let rec l_of_expr : Ir.expr -> L.t =
     L.Mk (L.Call (name, args))
   | Ir.Var name -> L.Mk (L.Var name)
   | Ir.Match (match_list, case_list) ->
-    let match_list = List.map l_of_expr match_list in
-    L.Mk (L.Match (match_list, case_list))
+    if
+      List.for_all
+        (fun case ->
+           let (Ir.Case (pat, _)) = case in
+           let pat_vars = Ir.collect_var_in_pat pat in
+           List.is_empty pat_vars)
+        case_list
+    then (
+      let match_list = List.map l_of_expr match_list in
+      let i = List.length match_list in
+      let j = List.length case_list in
+      let case_list =
+        List.map
+          (fun case ->
+             let (Ir.Case (pat, body)) = case in
+             let pat = Ir.{ desc = expr_of_pattern pat; typ = Tany } |> l_of_expr in
+             let body = l_of_expr body in
+             [ pat ], body)
+          case_list
+      in
+      L.Mk (L.FullMatch (i, j, match_list, case_list)))
+    else (
+      let match_list = List.map l_of_expr match_list in
+      L.Mk (L.Match (match_list, case_list)))
   | _ -> failwith "not implemented yet"
 ;;
 
