@@ -768,47 +768,54 @@ let pattern_recognition env ihs state_list : env * lemma list =
 ;;
 
 let symbolic_execution t : t list =
-  let rec symbolic_execution_by_depth t depth (acc : t list) : t list =
+  let naive_generalize t =
     let env = t.Proof.env in
+    let state = Proof.get_first_state t in
+    let facts, goal, _ = state in
+    let vars = collect_free_var_in_prop goal [] in
+    let vars =
+      List.filter (fun (var, _) -> Prover.is_decreasing_var env state var) vars
+    in
+    if List.is_empty vars
+    then None
+    else (
+      let just_generalize_var =
+        collect_free_var_in_prop goal [] |> List.sort_uniq compare
+      in
+      let facts = filtering_concerned_fact facts goal in
+      let facts = List.map snd facts in
+      let facts = List.map Proof.rename_prop facts in
+      let just_generalize_new_goal =
+        if List.is_empty just_generalize_var
+        then None
+        else if List.is_empty facts
+        then Some (Proof.Forall (just_generalize_var, goal))
+        else Some (Proof.Forall (just_generalize_var, Proof.Imply (facts, goal)))
+      in
+      just_generalize_new_goal)
+  in
+  let rec symbolic_execution_by_depth t depth (acc : t list) : t list =
     if depth = 0
     then acc
     else (
-      let lemma_stack = Proof.get_lemma_stack t in
-      let state = Proof.get_first_state t in
-      let facts, goal, _ = state in
-      let vars = collect_free_var_in_prop goal [] in
-      let vars =
-        List.filter (fun (var, _) -> Prover.is_decreasing_var env state var) vars
-      in
-      if List.is_empty vars
-      then []
-      else (
-        let just_generalize_var =
-          collect_free_var_in_prop goal [] |> List.sort_uniq compare
-        in
-        let facts = filtering_concerned_fact facts goal in
-        let facts = List.map snd facts in
-        let facts = List.map Proof.rename_prop facts in
-        let just_generalize_new_goal =
-          if List.is_empty just_generalize_var
-          then None
-          else if List.is_empty facts
-          then Some (Proof.Forall (just_generalize_var, goal))
-          else Some (Proof.Forall (just_generalize_var, Proof.Imply (facts, goal)))
-        in
-        match just_generalize_new_goal with
-        | Some new_goal ->
-          let new_t = Proof.create_t t.env ~proof:(lemma_stack, [], []) () in
-          let new_t = Proof.apply_assert new_goal new_t in
-          (match Prover.progress_single_thread new_t with
-           | new_t, [] -> symbolic_execution_by_depth new_t (depth - 1) (acc @ [ new_t ])
-           | new_t, _ -> [ new_t ])
-        | _ -> []))
+      match Prover.progress_single_thread t with
+      | new_t, [] ->
+        let new_goal = naive_generalize new_t in
+        (match new_goal with
+         | Some new_goal ->
+           let new_t = Proof.apply_assert new_goal new_t in
+           symbolic_execution_by_depth new_t (depth - 1) (acc @ [ new_t ])
+         | _ -> [])
+      | new_t, _ -> [ new_t ])
   in
   let lemma_stack = Proof.get_lemma_stack t in
-  let conjs = Proof.get_conj_list t in
-  let new_t = Proof.create_t t.Proof.env ~proof:(lemma_stack, conjs, []) () in
-  symbolic_execution_by_depth new_t 2 [ new_t ]
+  let new_goal = naive_generalize t in
+  match new_goal with
+  | Some new_goal ->
+    let new_t = Proof.create_t t.Proof.env ~proof:(lemma_stack, [], []) () in
+    let new_t = Proof.apply_assert new_goal new_t in
+    symbolic_execution_by_depth new_t 2 [ t ]
+  | _ -> []
 ;;
 
 let advanced_generalize t : (t * lemma list) option =

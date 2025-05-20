@@ -917,7 +917,7 @@ let update_egraph graph from into match_list =
   if Egraph.Egraph.class_equal new_graph id1 id2
   then failwith "The two nodes are already in the same class"
   else Egraph.Egraph.merge new_graph id1 id2;
-  graph
+  new_graph
 ;;
 
 let apply_rewrite lemma_stack state fact_label target_label i : state list =
