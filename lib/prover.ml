@@ -577,7 +577,7 @@ let useless_rewrite tactic =
     src = target
     || String.starts_with ~prefix:"Inductive" src
     || String.starts_with ~prefix:"Inductive" target
-    || String.starts_with ~prefix:"IH" target
+    (* || String.starts_with ~prefix:"IH" target *)
     || (String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"goal" target)
   | _ -> false
 ;;
@@ -629,9 +629,7 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
       match apply_tactic next_t Proof.Discriminate with
       | Some _ -> Some 0
       | _ -> None)
-    else if
-      String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
-      (* have to make lhs_lemma only convert lhs.... *)
+    else if String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
     then None
     else (
       let _, goal, _ = Proof.get_first_state t in

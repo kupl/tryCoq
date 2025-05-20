@@ -66,6 +66,14 @@ let get_mk_index t =
     t
 ;;
 
+let rec collect_var_in_pat pat =
+  match pat with
+  | Pat_Constr (_, patterns) -> List.map collect_var_in_pat patterns |> List.concat
+  | Pat_Var name -> [ name ]
+  | Pat_Tuple patterns -> List.map collect_var_in_pat patterns |> List.concat
+  | _ -> []
+;;
+
 let rec nth_tale n lst =
   if n = 0
   then lst
@@ -505,7 +513,7 @@ let get_typ_decl decl =
   | _ -> failwith "It is not a type declaration"
 ;;
 
-let substitute_expr pred convert target expr_from expr_to i result =
+let substitute_expr pred convert target expr_from expr_to i is_rewrite result =
   let rec substitute_expr' pred convert target expr_from expr_to cnt result =
     if i < cnt && i <> 0
     then target, result, cnt
@@ -529,18 +537,28 @@ let substitute_expr pred convert target expr_from expr_to i result =
             ([], cnt, result)
             match_list
         in
-        let cases', cnt, result =
-          List.fold_left
-            (fun (cases, cnt, result) case ->
-               let (Case (pattern, expr)) = case in
-               let expr', result', cnt =
-                 substitute_expr' pred convert expr expr_from expr_to cnt result
-               in
-               cases @ [ Case (pattern, expr') ], cnt, result')
-            ([], cnt, result)
+        if
+          List.for_all
+            (fun case ->
+               let (Case (pat, _)) = case in
+               let pat_vars = collect_var_in_pat pat in
+               List.is_empty pat_vars)
             cases
-        in
-        { desc = Match (match_list, cases'); typ = target.typ }, result, cnt
+          || not is_rewrite
+        then (
+          let cases', cnt, result =
+            List.fold_left
+              (fun (cases, cnt, result) case ->
+                 let (Case (pattern, expr)) = case in
+                 let expr', result', cnt =
+                   substitute_expr' pred convert expr expr_from expr_to cnt result
+                 in
+                 cases @ [ Case (pattern, expr') ], cnt, result')
+              ([], cnt, result)
+              cases
+          in
+          { desc = Match (match_list, cases'); typ = target.typ }, result, cnt)
+        else { desc = Match (match_list, cases); typ = target.typ }, result, cnt
       | LetIn (bindings, body) ->
         let bindings', cnt, result =
           List.fold_left
@@ -902,6 +920,7 @@ let rename_decl decl =
                { desc = Var arg; typ }
                { desc = Var new_arg; typ }
                0
+               false
                []
            in
            prop)
@@ -931,6 +950,7 @@ let rename_decl decl =
                { desc = Var arg; typ }
                { desc = Var new_arg; typ }
                0
+               false
                []
            in
            prop)

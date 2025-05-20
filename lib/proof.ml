@@ -341,16 +341,25 @@ let add_indices_with_custom_offsets offset_fn lst =
   aux lst StringMap.empty []
 ;;
 
-let substitute_expr_in_expr pred convert target expr_from expr_to i result =
-  Ir.substitute_expr pred convert target expr_from expr_to i result
+let substitute_expr_in_expr pred convert target expr_from expr_to i is_rewrite result =
+  Ir.substitute_expr pred convert target expr_from expr_to i is_rewrite result
 ;;
 
-let substitute_expr_in_prop pred convert target expr_from expr_to i =
-  let rec substitute_expr_in_prop' pred convert target expr_from expr_to i result =
+let substitute_expr_in_prop pred convert target expr_from expr_to i is_rewrite =
+  let rec substitute_expr_in_prop'
+            pred
+            convert
+            target
+            expr_from
+            expr_to
+            i
+            is_rewrite
+            result
+    =
     match target with
     | Eq (e1, e2) ->
       let lhs, result, cnt =
-        substitute_expr_in_expr pred convert e1 expr_from expr_to i result
+        substitute_expr_in_expr pred convert e1 expr_from expr_to i is_rewrite result
       in
       let rhs, result, cnt =
         substitute_expr_in_expr
@@ -360,12 +369,13 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          is_rewrite
           result
       in
       Eq (lhs, rhs), result, cnt
     | Le (e1, e2) ->
       let lhs, result, cnt =
-        substitute_expr_in_expr pred convert e1 expr_from expr_to i result
+        substitute_expr_in_expr pred convert e1 expr_from expr_to i is_rewrite result
       in
       let rhs, result, cnt =
         substitute_expr_in_expr
@@ -375,12 +385,13 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          is_rewrite
           result
       in
       Le (lhs, rhs), result, cnt
     | Lt (e1, e2) ->
       let lhs, result, cnt =
-        substitute_expr_in_expr pred convert e1 expr_from expr_to i result
+        substitute_expr_in_expr pred convert e1 expr_from expr_to i is_rewrite result
       in
       let rhs, result, cnt =
         substitute_expr_in_expr
@@ -390,12 +401,13 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          is_rewrite
           result
       in
       Lt (lhs, rhs), result, cnt
     | And (p1, p2) ->
       let p1, result, cnt =
-        substitute_expr_in_prop' pred convert p1 expr_from expr_to i result
+        substitute_expr_in_prop' pred convert p1 expr_from expr_to i is_rewrite result
       in
       let p2, result, cnt =
         substitute_expr_in_prop'
@@ -405,12 +417,13 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          is_rewrite
           result
       in
       And (p1, p2), result, cnt
     | Or (p1, p2) ->
       let p1, result, cnt =
-        substitute_expr_in_prop' pred convert p1 expr_from expr_to i result
+        substitute_expr_in_prop' pred convert p1 expr_from expr_to i is_rewrite result
       in
       let p2, result, cnt =
         substitute_expr_in_prop'
@@ -420,17 +433,18 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          is_rewrite
           result
       in
       Or (p1, p2), result, cnt
     | Not p ->
       let p, result, cnt =
-        substitute_expr_in_prop' pred convert p expr_from expr_to i result
+        substitute_expr_in_prop' pred convert p expr_from expr_to i is_rewrite result
       in
       Not p, result, cnt
     | Forall (var_list, p) ->
       let p, result, cnt =
-        substitute_expr_in_prop' pred convert p expr_from expr_to i result
+        substitute_expr_in_prop' pred convert p expr_from expr_to i is_rewrite result
       in
       Forall (var_list, p), result, cnt
     | Imply (cond_list, p2) ->
@@ -438,7 +452,15 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
         List.fold_left
           (fun (cond_list, result, cnt) cond ->
              let cond, result, cnt =
-               substitute_expr_in_prop' pred convert cond expr_from expr_to cnt result
+               substitute_expr_in_prop'
+                 pred
+                 convert
+                 cond
+                 expr_from
+                 expr_to
+                 cnt
+                 is_rewrite
+                 result
              in
              cond_list @ [ cond ], result, cnt)
           ([], result, i)
@@ -452,12 +474,13 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i =
           expr_from
           expr_to
           (if i = 0 then 0 else cnt)
+          is_rewrite
           result
       in
       Imply (cond_list, p2), result, cnt
     | Type typ -> Type typ, result, i
   in
-  substitute_expr_in_prop' pred convert target expr_from expr_to i []
+  substitute_expr_in_prop' pred convert target expr_from expr_to i is_rewrite []
 ;;
 
 let apply_intro name state : state =
@@ -546,6 +569,7 @@ let apply_induction name state t : state list =
                Ir.{ desc = Var name; typ }
                Ir.{ desc = base_case; typ }
                0
+               false
            in
            let new_goal =
              if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
@@ -562,6 +586,7 @@ let apply_induction name state t : state list =
                         Ir.{ desc = Var name; typ }
                         Ir.{ desc = base_case; typ }
                         0
+                        false
                     in
                     prop ))
                facts
@@ -591,6 +616,7 @@ let apply_induction name state t : state list =
                         Ir.{ desc = Var name; typ }
                         arg
                         0
+                        false
                     in
                     if List.is_empty var_list then prop else Forall (var_list, prop) ))
                new_rec_args
@@ -609,6 +635,7 @@ let apply_induction name state t : state list =
                Ir.{ desc = Var name; typ }
                Ir.{ desc = inductive_case; typ }
                0
+               false
            in
            let new_goal =
              if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
@@ -625,6 +652,7 @@ let apply_induction name state t : state list =
                         Ir.{ desc = Var name; typ }
                         Ir.{ desc = inductive_case; typ }
                         0
+                        false
                     in
                     prop ))
                facts
@@ -716,6 +744,7 @@ let forall_target var_list target source : bool =
                  Ir.{ desc = Var name; typ = e'.typ }
                  e'
                  0
+                 true
                  []
              in
              exp)
@@ -756,6 +785,7 @@ let convert_in_rewrite (target : expr) expr_from expr_to =
         expr_from
         target
         0
+        false
         []
     in
     new_expr, [ expr_from, target ]
@@ -776,6 +806,7 @@ let convert_in_rewrite (target : expr) expr_from expr_to =
                     arg
                     arg'
                     0
+                    false
                     []
                 in
                 exp)
@@ -799,6 +830,7 @@ let convert_in_rewrite (target : expr) expr_from expr_to =
                   arg
                   arg'
                   0
+                  false
                   []
               in
               exp)
@@ -831,6 +863,7 @@ let rename_prop prop =
                Ir.{ desc = Var old_var; typ }
                Ir.{ desc = Var var; typ }
                0
+               false
            in
            prop)
         prop
@@ -854,6 +887,7 @@ let update_egraph graph from into match_list =
              expr1
              expr2
              0
+             false
              []
          in
          new_expr)
@@ -871,6 +905,7 @@ let update_egraph graph from into match_list =
              expr1
              expr2
              0
+             false
              []
          in
          new_expr)
@@ -908,6 +943,7 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
         expr_from
         expr_to
         i
+        true
     in
     if
       not
@@ -940,6 +976,7 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
                       e1
                       e2
                       0
+                      false
                   in
                   prop)
                cond
@@ -958,6 +995,7 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
         expr_from
         expr_to
         i
+        true
     in
     let fact =
       List.map
@@ -978,6 +1016,7 @@ let apply_rewrite lemma_stack state fact_label target_label i : state list =
                     e1
                     e2
                     0
+                    false
                 in
                 prop)
              cond
@@ -1011,6 +1050,7 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
         expr_from
         expr_to
         i
+        true
     in
     if
       not
@@ -1042,6 +1082,7 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
                       e1
                       e2
                       0
+                      false
                   in
                   prop)
                cond
@@ -1060,6 +1101,7 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
         expr_from
         expr_to
         i
+        true
     in
     let fact =
       List.map
@@ -1080,6 +1122,7 @@ let apply_rewrite_reverse lemma_stack state fact_label target_label i : state li
                     e1
                     e2
                     0
+                    false
                 in
                 prop)
              cond
@@ -1146,6 +1189,7 @@ let apply_strong_induction name state t : state list =
                Ir.{ desc = Var name; typ }
                Ir.{ desc = base_case; typ }
                0
+               false
            in
            let new_goal =
              if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
@@ -1162,6 +1206,7 @@ let apply_strong_induction name state t : state list =
                         Ir.{ desc = Var name; typ }
                         Ir.{ desc = base_case; typ }
                         0
+                        false
                     in
                     prop ))
                facts
@@ -1196,6 +1241,7 @@ let apply_strong_induction name state t : state list =
                  Ir.{ desc = Var name; typ }
                  precedent
                  0
+                 false
              in
              ( "SIH" ^ string_of_int (fact_index t "SIH")
              , Forall
@@ -1218,6 +1264,7 @@ let apply_strong_induction name state t : state list =
                Ir.{ desc = Var name; typ }
                Ir.{ desc = inductive_case; typ }
                0
+               false
            in
            let new_goal =
              if List.is_empty var_list then new_goal else Forall (var_list, new_goal)
@@ -1234,6 +1281,7 @@ let apply_strong_induction name state t : state list =
                         Ir.{ desc = Var name; typ }
                         Ir.{ desc = inductive_case; typ }
                         0
+                        false
                     in
                     prop ))
                facts
@@ -1382,6 +1430,7 @@ let rec simplify_expr (env : Ir.t) expr =
                   Ir.{ desc = Var name; typ = arg.typ }
                   arg
                   0
+                  false
                   []
               in
               exp)
@@ -1428,6 +1477,7 @@ let rec simplify_expr (env : Ir.t) expr =
                               e1
                               e2
                               0
+                              false
                               []
                           in
                           exp)
@@ -1453,6 +1503,7 @@ let rec simplify_expr (env : Ir.t) expr =
                Ir.{ desc = Var name; typ = e'.typ }
                e'
                0
+               false
                []
            in
            exp)
@@ -1549,6 +1600,7 @@ let apply_assert prop t : t =
                  Ir.{ desc = Var old_var; typ }
                  Ir.{ desc = Var var; typ }
                  0
+                 false
              in
              prop)
           prop
@@ -1614,6 +1666,7 @@ let apply_destruct name state t : state list =
              Ir.{ desc = Var name; typ }
              Ir.{ desc = base_case; typ }
              0
+             false
          in
          let facts =
            List.map
@@ -1627,6 +1680,7 @@ let apply_destruct name state t : state list =
                       Ir.{ desc = Var name; typ }
                       Ir.{ desc = base_case; typ }
                       0
+                      false
                   in
                   prop ))
              facts
@@ -1661,6 +1715,7 @@ let apply_destruct name state t : state list =
              Ir.{ desc = Var name; typ }
              Ir.{ desc = inductive_case; typ }
              0
+             false
          in
          let facts =
            List.map
@@ -1674,6 +1729,7 @@ let apply_destruct name state t : state list =
                       Ir.{ desc = Var name; typ }
                       Ir.{ desc = inductive_case; typ }
                       0
+                      false
                   in
                   prop ))
              facts
@@ -1728,6 +1784,7 @@ let apply_case expr state t : state list =
                expr
                Ir.{ desc = base_case; typ }
                0
+               false
            in
            let new_goal = new_goal |> simplify_prop env in
            let facts =
@@ -1742,6 +1799,7 @@ let apply_case expr state t : state list =
                         Ir.{ desc = Var name; typ }
                         Ir.{ desc = base_case; typ }
                         0
+                        false
                     in
                     prop ))
                facts
@@ -1776,6 +1834,7 @@ let apply_case expr state t : state list =
              expr
              Ir.{ desc = inductive_case; typ }
              0
+             false
          in
          let new_goal = new_goal |> simplify_prop env in
          let facts =
@@ -1790,6 +1849,7 @@ let apply_case expr state t : state list =
                       Ir.{ desc = Var name; typ }
                       Ir.{ desc = inductive_case; typ }
                       0
+                      false
                   in
                   prop ))
              facts
