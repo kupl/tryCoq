@@ -251,16 +251,22 @@ let apply_tactic t tactic : t option =
   try
     let next_t = Proof.apply_tactic t tactic in
     let _, goal, _ = Proof.get_first_state t in
-    let _, next_goal, _ = Proof.get_first_state next_t in
-    if goal = next_goal then None else Some next_t
+    try
+      let _, next_goal, _ = Proof.get_first_state next_t in
+      if goal = next_goal then None else Some next_t
+    with
+    | _ -> Some next_t
   with
   | _ -> None
 ;;
 
 let is_duplicated new_t state_list =
-  let Proof.{ proof = lemma_stack, next_conj, _; _ } = new_t in
+  let lemma_stack = Proof.get_lemma_stack new_t in
+  let next_conj = Proof.get_conj_list new_t in
   ProofSet.exists
-    (fun Proof.{ proof = lemma_stack', conj_list, _; _ } ->
+    (fun old_t ->
+       let lemma_stack' = Proof.get_lemma_stack old_t in
+       let conj_list = Proof.get_conj_list old_t in
        lemma_stack = lemma_stack'
        && Proof.remove_graph next_conj = Proof.remove_graph conj_list)
     state_list

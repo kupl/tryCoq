@@ -1819,8 +1819,8 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
   match tactic with
   | Assert prop -> apply_assert prop t
   | _ ->
-    let fisrt_conj = List.hd conj_list in
-    let state_list, conj_goal = fisrt_conj in
+    let first_conj = List.hd conj_list in
+    let state_list, conj_goal = first_conj in
     let first_state = List.hd state_list in
     let proof =
       match tactic with
@@ -1872,17 +1872,20 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
         let remain_states = List.tl state_list in
         (match remain_states with
          | [] ->
-           ( lemma_stack
-             @ [ ( (match is_lhs with
-                    | Some true -> "lhs_"
-                    | Some false -> "rhs_"
-                    | _ -> "")
-                   ^ "lemma"
-                   ^ string_of_int ((get_lemma_stack t |> List.length) + 1)
-                 , conj_goal )
-               ]
-           , List.tl conj_list
-           , tactic_list @ [ tactic ] )
+           let result =
+             ( lemma_stack
+               @ [ ( (match is_lhs with
+                      | Some true -> "lhs_"
+                      | Some false -> "rhs_"
+                      | _ -> "")
+                     ^ "lemma"
+                     ^ string_of_int ((get_lemma_stack t |> List.length) + 1)
+                   , conj_goal )
+                 ]
+             , List.tl conj_list
+             , tactic_list @ [ tactic ] )
+           in
+           result
          | _ ->
            ( lemma_stack
            , (remain_states, conj_goal) :: List.tl conj_list
