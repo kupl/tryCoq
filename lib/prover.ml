@@ -248,14 +248,13 @@ let is_mk (state : state) var_name =
 ;;
 
 let apply_tactic t tactic : t option =
+  (* this function prune fact conversion *)
   try
     let next_t = Proof.apply_tactic t tactic in
-    let facts, goal, _ = Proof.get_first_state t in
+    let _, goal, _ = Proof.get_first_state t in
     try
-      let next_facts, next_goal, _ = Proof.get_first_state next_t in
-      if goal = next_goal && List.for_all2 Proof.is_equal_fact facts next_facts
-      then None
-      else Some next_t
+      let _, next_goal, _ = Proof.get_first_state next_t in
+      if goal = next_goal then None else Some next_t
     with
     | _ -> Some next_t
   with
@@ -370,7 +369,7 @@ let collect_non_qvar_in_prop prop =
 let collect_fact_name (state : state) =
   let fact_list, _, _ = state in
   List.fold_left
-    (fun acc (name, fact, _) ->
+    (fun acc (name, fact) ->
        match fact with
        | Proof.Type _ -> acc
        | _ -> acc @ [ name ])
