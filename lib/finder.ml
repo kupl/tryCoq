@@ -223,43 +223,46 @@ let get_prev_tactics index (t : t) =
   tactic |> List.rev |> until_induction [] |> takeof_reflexivity index
 ;;
 
-let make_next_step t : (state * Proof.tactic list) option =
-  let _ = print_endline "make_next_step" in
+let make_next_step index ind_typ t : state option =
   try
     let env = t.Proof.env in
     let state = Proof.get_first_state t in
-    let index, ind_typ = get_index_type_of_induction env state in
-    let prev_tactics = get_prev_tactics index t in
     let facts, goal, _ = state in
     let vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
+    let ind_var = List.find (fun (_, typ) -> typ = Proof.Type ind_typ) vars in
+    let rest_vars = List.filter (fun (name, _) -> name <> fst ind_var) vars in
     let facts = filtering_concerned_fact facts goal in
     let facts = List.map snd facts in
     let facts = List.map Proof.rename_prop facts in
     let new_goal =
       if List.is_empty facts
-      then Proof.Forall (vars, goal)
-      else Proof.Forall (vars, Proof.Imply (facts, goal))
+      then Proof.Forall ([ ind_var ], goal)
+      else Proof.Forall ([ ind_var ], Proof.Imply (facts, goal))
     in
-    let _ = new_goal |> Proof.pp_prop |> print_endline in
-    let new_t = Proof.apply_assert new_goal t in
-    let _, new_goal, _ = Proof.get_first_state new_t in
-    let vars =
-      match new_goal with
-      | Proof.Forall (vars, _) -> vars
-      | _ -> []
+    let lemma_stack = Proof.get_lemma_stack t in
+    let dummy_goal = Proof.Type Ir.Tany in
+    let new_t =
+      Proof.create_t
+        env
+        ~proof:
+          ( lemma_stack
+          , [ [ rest_vars, new_goal, Proof.graph_of_prop new_goal ], dummy_goal ]
+          , [] )
+        ()
     in
-    let inductive_var = List.find (fun (_, typ) -> typ = Proof.Type ind_typ) vars in
-    let new_t = Proof.apply_tactic new_t (Proof.Induction (inductive_var |> fst)) in
     let _ = Proof.pp_t new_t |> print_endline in
+    let new_t = Proof.apply_tactic new_t (Proof.Induction (ind_var |> fst)) in
     let conj, _ = Proof.get_conj_list new_t |> List.hd in
     let new_state = List.nth conj index in
-    Some (new_state, prev_tactics)
+    Some new_state
   with
   | _ -> None
 ;;
 
 let fast_execution depth t : state list =
   let first_state = Proof.get_first_state t in
+  let index, ind_typ = get_index_type_of_induction t.Proof.env first_state in
+  let prev_tactics = get_prev_tactics index t in
   let range = Proof.range 0 depth in
   let t_of_state state =
     let lemma_stack = Proof.get_lemma_stack t in
@@ -273,19 +276,20 @@ let fast_execution depth t : state list =
       (fun (result, (t : t option)) _ ->
          match t with
          | Some t ->
-           (match make_next_step t with
-            | Some (new_state, tactics) ->
+           (match make_next_step index ind_typ t with
+            | Some new_state ->
               let _ = print_endline "previous tactics" in
-              let _ =
-                tactics
-                |> List.iter (fun tactic -> Proof.pp_tactic tactic |> print_endline)
-              in
               (try
                  let new_t =
                    List.fold_left
                      (fun acc tactic -> Proof.apply_tactic acc tactic)
                      (new_state |> t_of_state)
-                     tactics
+                     prev_tactics
+                 in
+                 let new_state = Proof.get_first_state new_t in
+                 let new_state =
+                   try Proof.apply_intro "*" new_state with
+                   | _ -> new_state
                  in
                  result @ [ new_state ], Some new_t
                with
