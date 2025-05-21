@@ -171,6 +171,118 @@ let filtering_concerned_fact (facts : Proof.fact list) goal =
   facts
 ;;
 
+let get_index_type_of_induction (env : env) (state : state) =
+  let facts, _, _ = state in
+  let last_induction =
+    List.find
+      (fun (name, _) -> String.starts_with ~prefix:"Inductive" name)
+      (List.rev facts)
+  in
+  let constructor, typ =
+    match last_induction with
+    | _, Proof.Eq (_, expr) ->
+      (match expr.Ir.desc with
+       | Call (constr, _) -> Ir.Constructor constr, expr.typ
+       | _ -> failwith "not implemented")
+    | _ -> failwith "not implemented"
+  in
+  let typ_name =
+    match typ with
+    | Ir.Talgebraic (name, _) -> name
+    | _ -> failwith "not implemented"
+  in
+  let typ_decl = Ir.find_decl typ_name env |> Option.get in
+  match typ_decl with
+  | Ir.TypeDecl (_, _, decl_list) ->
+    List.find_index (fun (constr, _) -> constr = constructor) decl_list |> Option.get, typ
+  | _ -> failwith "not implemented"
+;;
+
+let get_prev_tactics index (t : t) =
+  let tactic = Proof.get_tactic_history t in
+  let rec until_induction tactics =
+    match tactics with
+    | [] -> []
+    | tactic :: rest ->
+      (match tactic with
+       | Proof.Induction _ -> tactics |> List.rev
+       | _ -> until_induction rest)
+  in
+  let rec takeof_reflexivity n tactics =
+    if n = 1
+    then tactics
+    else (
+      match tactics with
+      | [] -> []
+      | tactic :: rest ->
+        (match tactic with
+         | Proof.Reflexivity | Discriminate -> takeof_reflexivity (n - 1) rest
+         | Proof.Case _ -> takeof_reflexivity (n + 1) rest
+         | _ -> takeof_reflexivity n rest))
+  in
+  tactic |> List.rev |> until_induction |> takeof_reflexivity index
+;;
+
+let make_next_step t : (state * Proof.tactic list) option =
+  try
+    let env = t.Proof.env in
+    let state = Proof.get_first_state t in
+    let index, ind_typ = get_index_type_of_induction env state in
+    let prev_tactics = get_prev_tactics index t in
+    let facts, goal, _ = state in
+    let vars = collect_free_var_in_prop goal [] in
+    let inductive_var = List.find (fun (_, typ) -> typ = Proof.Type ind_typ) vars in
+    let facts = filtering_concerned_fact facts goal in
+    let facts = List.map snd facts in
+    let facts = List.map Proof.rename_prop facts in
+    let new_goal =
+      if List.is_empty facts
+      then Proof.Forall (vars, goal)
+      else Proof.Forall (vars, Proof.Imply (facts, goal))
+    in
+    let new_t = Proof.apply_assert new_goal t in
+    let new_t = Proof.apply_tactic new_t (Proof.Induction (inductive_var |> fst)) in
+    let conj, _ = Proof.get_conj_list new_t |> List.hd in
+    let new_state = List.nth conj index in
+    Some (new_state, prev_tactics)
+  with
+  | _ -> None
+;;
+
+let fast_execution depth t : state list =
+  let first_state = Proof.get_first_state t in
+  let range = Proof.range 0 (depth - 1) in
+  let t_of_state state =
+    let lemma_stack = Proof.get_lemma_stack t in
+    let dummy_goal = Proof.Type Ir.Tany in
+    let new_conj = [ state ], dummy_goal in
+    Proof.create_t t.Proof.env ~proof:(lemma_stack, [ new_conj ], []) ()
+  in
+  let execution_list =
+    List.fold_left
+      (fun (result, (t : t option)) _ ->
+         match t with
+         | Some t ->
+           (match make_next_step t with
+            | Some (new_state, tactics) ->
+              (try
+                 let new_t =
+                   List.fold_left
+                     (fun acc tactic -> Proof.apply_tactic acc tactic)
+                     (new_state |> t_of_state)
+                     tactics
+                 in
+                 result @ [ new_state ], Some new_t
+               with
+               | _ -> [], None)
+            | _ -> [], None)
+         | _ -> [], None)
+      ([ first_state ], Some t)
+      range
+  in
+  execution_list |> fst
+;;
+
 let rec find_all_subtree expr =
   let rec find_all_subtree_from_root expr =
     match expr.Ir.desc with
@@ -767,33 +879,32 @@ let pattern_recognition env ihs state_list : env * lemma list =
       env, lhs_lemma @ rhs_lemma @ [ goal ]))
 ;;
 
-let symbolic_execution t : t list =
-  let naive_generalize t =
-    let env = t.Proof.env in
-    let state = Proof.get_first_state t in
-    let facts, goal, _ = state in
-    let vars = collect_free_var_in_prop goal [] in
-    let vars =
-      List.filter (fun (var, _) -> Prover.is_decreasing_var env state var) vars
+let naive_generalize t =
+  let env = t.Proof.env in
+  let state = Proof.get_first_state t in
+  let facts, goal, _ = state in
+  let vars = collect_free_var_in_prop goal [] in
+  let vars = List.filter (fun (var, _) -> Prover.is_decreasing_var env state var) vars in
+  if List.is_empty vars
+  then None
+  else (
+    let just_generalize_var =
+      collect_free_var_in_prop goal [] |> List.sort_uniq compare
     in
-    if List.is_empty vars
-    then None
-    else (
-      let just_generalize_var =
-        collect_free_var_in_prop goal [] |> List.sort_uniq compare
-      in
-      let facts = filtering_concerned_fact facts goal in
-      let facts = List.map snd facts in
-      let facts = List.map Proof.rename_prop facts in
-      let just_generalize_new_goal =
-        if List.is_empty just_generalize_var
-        then None
-        else if List.is_empty facts
-        then Some (Proof.Forall (just_generalize_var, goal))
-        else Some (Proof.Forall (just_generalize_var, Proof.Imply (facts, goal)))
-      in
-      just_generalize_new_goal)
-  in
+    let facts = filtering_concerned_fact facts goal in
+    let facts = List.map snd facts in
+    let facts = List.map Proof.rename_prop facts in
+    let just_generalize_new_goal =
+      if List.is_empty just_generalize_var
+      then None
+      else if List.is_empty facts
+      then Some (Proof.Forall (just_generalize_var, goal))
+      else Some (Proof.Forall (just_generalize_var, Proof.Imply (facts, goal)))
+    in
+    just_generalize_new_goal)
+;;
+
+let symbolic_execution t : t list =
   let rec symbolic_execution_by_depth t depth (acc : t list) : t list =
     if depth = 0
     then acc
@@ -822,7 +933,8 @@ let advanced_generalize t : (t * lemma list) option =
   let first_state = Proof.get_first_state t in
   let facts, _, _ = first_state in
   let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
-  let execution_list = symbolic_execution t in
+  (*
+     let execution_list = symbolic_execution t in
   match execution_list with
   | [ done_t ] ->
     let new_tactic = Proof.get_tactic_history done_t in
@@ -836,7 +948,14 @@ let advanced_generalize t : (t * lemma list) option =
     Some (new_t, [])
   | [] -> None
   | _ ->
-    let state_list = List.map Proof.get_first_state execution_list in
+    let state_list = List.map Proof.get_first_state execution_list in *)
+  let state_list = fast_execution 2 t in
+  match state_list with
+  | [] ->
+    (match naive_generalize t with
+     | Some lemma -> Some (t, [ lemma ])
+     | _ -> None)
+  | _ ->
     let new_env, lemma_list = pattern_recognition t.env ihs state_list in
     let new_env = List.map Ir.rename_decl new_env in
     if List.is_empty lemma_list
