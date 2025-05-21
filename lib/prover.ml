@@ -250,10 +250,12 @@ let is_mk (state : state) var_name =
 let apply_tactic t tactic : t option =
   try
     let next_t = Proof.apply_tactic t tactic in
-    let _, goal, _ = Proof.get_first_state t in
+    let facts, goal, _ = Proof.get_first_state t in
     try
-      let _, next_goal, _ = Proof.get_first_state next_t in
-      if goal = next_goal then None else Some next_t
+      let next_facts, next_goal, _ = Proof.get_first_state next_t in
+      if goal = next_goal && List.for_all2 Proof.is_equal_fact facts next_facts
+      then None
+      else Some next_t
     with
     | _ -> Some next_t
   with
@@ -573,7 +575,12 @@ let rec is_case_match src goal =
 
 let useless_rewrite tactic =
   match tactic with
-  | Proof.RewriteInAt (src, target, _) | Proof.RewriteReverse (src, target, _) ->
+  | Proof.RewriteInAt (src, target, _) ->
+    src = target
+    || String.starts_with ~prefix:"Inductive" src
+    || String.starts_with ~prefix:"Inductive" target
+    (* || String.starts_with ~prefix:"IH" target *)
+  | Proof.RewriteReverse (src, target, _) ->
     src = target
     || String.starts_with ~prefix:"Inductive" src
     || String.starts_with ~prefix:"Inductive" target

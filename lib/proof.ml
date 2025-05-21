@@ -62,6 +62,12 @@ type debug_tactic =
   | AllTactic
 [@@deriving sexp]
 
+let is_equal_fact (fact1 : fact) (fact2 : fact) =
+  let name1, prop1, _ = fact1 in
+  let name2, prop2, _ = fact2 in
+  name1 = name2 && prop1 = prop2
+;;
+
 let counter = ref 0
 
 let get_global_cnt () =
