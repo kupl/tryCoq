@@ -158,15 +158,15 @@ let split_t t : t list =
     states
 ;;
 
-let filtering_concerned_fact facts goal =
+let filtering_concerned_fact (facts : Proof.fact list) goal =
   let free_var = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
   let facts =
     List.filter
-      (fun (name, _) -> if String.starts_with ~prefix:"IH" name then false else true)
+      (fun (name, _, _) -> if String.starts_with ~prefix:"IH" name then false else true)
       facts
   in
   let facts =
-    List.filter (fun (_, fact) -> is_concerned fact (List.map fst free_var)) facts
+    List.filter (fun (_, fact, _) -> is_concerned fact (List.map fst free_var)) facts
   in
   facts
 ;;
@@ -386,7 +386,7 @@ let new_catch_recursive_pattern env expr_list =
          if
            Prover.is_decreasing_var
              env
-             ([], Proof.Eq (second, second), Egraph.Egraph.init ())
+             ([], Proof.Eq (second, second), Some (Egraph.Egraph.init ()))
              (fst var)
          then var :: decreasing_var, new_vars
          else decreasing_var, var :: new_vars)
@@ -783,7 +783,7 @@ let symbolic_execution t : t list =
         collect_free_var_in_prop goal [] |> List.sort_uniq compare
       in
       let facts = filtering_concerned_fact facts goal in
-      let facts = List.map snd facts in
+      let facts = List.map (fun (_, fact, _) -> fact) facts in
       let facts = List.map Proof.rename_prop facts in
       let just_generalize_new_goal =
         if List.is_empty just_generalize_var
@@ -821,7 +821,9 @@ let symbolic_execution t : t list =
 let advanced_generalize t : (t * lemma list) option =
   let first_state = Proof.get_first_state t in
   let facts, _, _ = first_state in
-  let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
+  let ihs =
+    List.filter (fun (name, _, _) -> String.starts_with ~prefix:"IH" name) facts
+  in
   let execution_list = symbolic_execution t in
   match execution_list with
   | [ done_t ] ->

@@ -368,7 +368,7 @@ let collect_non_qvar_in_prop prop =
 let collect_fact_name (state : state) =
   let fact_list, _, _ = state in
   List.fold_left
-    (fun acc (name, fact) ->
+    (fun acc (name, fact, _) ->
        match fact with
        | Proof.Type _ -> acc
        | _ -> acc @ [ name ])
