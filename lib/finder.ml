@@ -261,45 +261,51 @@ let make_next_step index ind_typ t : state option =
 
 let fast_execution depth t : state list =
   let first_state = Proof.get_first_state t in
-  let index, ind_typ = get_index_type_of_induction t.Proof.env first_state in
-  let prev_tactics = get_prev_tactics index t in
-  let range = Proof.range 0 depth in
-  let t_of_state state =
-    let lemma_stack = Proof.get_lemma_stack t in
-    let tactics = Proof.get_tactic_history t in
-    let dummy_goal = Proof.Type Ir.Tany in
-    let new_conj = [ state ], dummy_goal in
-    Proof.create_t t.Proof.env ~proof:(lemma_stack, [ new_conj ], tactics) ()
+  let index_typ_opt =
+    try Some (get_index_type_of_induction t.Proof.env first_state) with
+    | _ -> None
   in
-  let execution_list =
-    List.fold_left
-      (fun (result, (t : t option)) _ ->
-         match t with
-         | Some t ->
-           (match make_next_step index ind_typ t with
-            | Some new_state ->
-              let _ = print_endline "previous tactics" in
-              (try
-                 let new_t =
-                   List.fold_left
-                     (fun acc tactic -> Proof.apply_tactic acc tactic)
-                     (new_state |> t_of_state)
-                     prev_tactics
-                 in
-                 let new_state = Proof.get_first_state new_t in
-                 let new_state =
-                   try Proof.apply_intro "*" new_state with
-                   | _ -> new_state
-                 in
-                 result @ [ new_state ], Some new_t
-               with
-               | _ -> [], None)
-            | _ -> [], None)
-         | _ -> [], None)
-      ([ first_state ], Some t)
-      range
-  in
-  execution_list |> fst
+  match index_typ_opt with
+  | Some (index, ind_typ) ->
+    let prev_tactics = get_prev_tactics index t in
+    let range = Proof.range 0 depth in
+    let t_of_state state =
+      let lemma_stack = Proof.get_lemma_stack t in
+      let tactics = Proof.get_tactic_history t in
+      let dummy_goal = Proof.Type Ir.Tany in
+      let new_conj = [ state ], dummy_goal in
+      Proof.create_t t.Proof.env ~proof:(lemma_stack, [ new_conj ], tactics) ()
+    in
+    let execution_list =
+      List.fold_left
+        (fun (result, (t : t option)) _ ->
+           match t with
+           | Some t ->
+             (match make_next_step index ind_typ t with
+              | Some new_state ->
+                let _ = print_endline "previous tactics" in
+                (try
+                   let new_t =
+                     List.fold_left
+                       (fun acc tactic -> Proof.apply_tactic acc tactic)
+                       (new_state |> t_of_state)
+                       prev_tactics
+                   in
+                   let new_state = Proof.get_first_state new_t in
+                   let new_state =
+                     try Proof.apply_intro "*" new_state with
+                     | _ -> new_state
+                   in
+                   result @ [ new_state ], Some new_t
+                 with
+                 | _ -> [], None)
+              | _ -> [], None)
+           | _ -> [], None)
+        ([ first_state ], Some t)
+        range
+    in
+    execution_list |> fst
+  | _ -> []
 ;;
 
 let rec find_all_subtree expr =
@@ -982,7 +988,10 @@ let advanced_generalize t : (t * lemma list) option =
     let new_env, lemma_list = pattern_recognition t.env ihs state_list in
     let new_env = List.map Ir.rename_decl new_env in
     if List.is_empty lemma_list
-    then None
+    then (
+      match naive_generalize t with
+      | Some lemma -> Some (t, [ lemma ])
+      | _ -> None)
     else Some ({ t with env = t.env @ new_env }, lemma_list)
 ;;
 
