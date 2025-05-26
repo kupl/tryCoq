@@ -486,7 +486,11 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i is_rewrite =
       Imply (cond_list, p2), result, cnt
     | Type typ -> Type typ, result, i
   in
-  substitute_expr_in_prop' pred convert target expr_from expr_to i is_rewrite []
+  let new_prop, result, cnt =
+    substitute_expr_in_prop' pred convert target expr_from expr_to i is_rewrite []
+  in
+  let _ = if cnt < i && i > 0 then failwith "Cannot rewrite the i-th term" in
+  new_prop, result, cnt
 ;;
 
 let apply_intro name state : state =
@@ -597,7 +601,7 @@ let apply_induction name (state : state) t : state list =
                facts
            in
            let typ_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
-           (first_fact :: typ_facts) @ facts, new_goal, graph_of_prop new_goal
+           facts @ (first_fact :: typ_facts), new_goal, graph_of_prop new_goal
          | _ ->
            let new_args, new_rec_args =
              partition_and_transform
@@ -673,7 +677,7 @@ let apply_induction name (state : state) t : state list =
                   , Type exp.Ir.typ ))
                new_args
            in
-           (first_fact :: typ_facts) @ facts @ new_facts, new_goal, graph_of_prop new_goal)
+           facts @ (first_fact :: typ_facts) @ new_facts, new_goal, graph_of_prop new_goal)
       decl
   | _ -> failwith "not implemented"
 ;;
@@ -1230,7 +1234,7 @@ let apply_strong_induction name (state : state) t : state list =
                   name, prop)
                facts
            in
-           first_fact :: facts, new_goal, graph_of_prop new_goal
+           facts @ [ first_fact ], new_goal, graph_of_prop new_goal
          | _ ->
            let new_args, _ =
              partition_and_transform

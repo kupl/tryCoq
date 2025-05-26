@@ -230,7 +230,14 @@ let make_next_step index ind_typ t : state option =
     let facts, goal, _ = state in
     let vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
     let ind_var = List.find (fun (_, typ) -> typ = Proof.Type ind_typ) vars in
-    let rest_vars = List.filter (fun (name, _) -> name <> fst ind_var) vars in
+    let rest_vars =
+      List.filter
+        (fun (name, typ) ->
+           match typ with
+           | Proof.Type _ -> name <> fst ind_var
+           | _ -> false)
+        facts
+    in
     let facts = filtering_concerned_fact facts goal in
     let facts = List.map snd facts in
     let facts = List.map Proof.rename_prop facts in
@@ -268,6 +275,8 @@ let fast_execution depth t : state list =
   match index_typ_opt with
   | Some (index, ind_typ) ->
     let prev_tactics = get_prev_tactics index t in
+    let _ = print_endline "previous tactics" in
+    prev_tactics |> List.iter (fun tactic -> Proof.pp_tactic tactic |> print_endline);
     let range = Proof.range 0 depth in
     let t_of_state state =
       let lemma_stack = Proof.get_lemma_stack t in

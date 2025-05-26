@@ -16,8 +16,9 @@ forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 0 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:0)
+Tactic List : 2
+induction nat1(rank:0)
+intro nat2(rank:1)
 =================================================
 Progress: 2
 
@@ -30,39 +31,13 @@ forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul_helper (nat1) (nat2) (ZERO)
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 2
-induction nat1(rank:0)
-intro nat2(rank:1)
-=================================================
-Progress: 3
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul_helper (nat1) (nat2) (ZERO)
-
-0 goal(s) more...
-
-0 conjecture(s) more...
 >>> induction nat1(rank : 0)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), natmul_ta1 (ZERO) (nat2) = natmul_helper (ZERO) (nat2) (ZERO)
+forall (nat2:nat), natmul_ta1 (ZERO) (nat2) = natmul (ZERO) (nat2)
 
 1 goal(s) more...
 
@@ -70,13 +45,13 @@ forall (nat2:nat), natmul_ta1 (ZERO) (nat2) = natmul_helper (ZERO) (nat2) (ZERO)
 Tactic List : 1
 simpl in goal(rank:0)
 =================================================
-Progress: 4
+Progress: 3
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), natmul_ta1 (ZERO) (nat2) = natmul_helper (ZERO) (nat2) (ZERO)
+forall (nat2:nat), natmul_ta1 (ZERO) (nat2) = natmul (ZERO) (nat2)
 
 1 goal(s) more...
 
@@ -95,7 +70,7 @@ forall (nat2:nat), ZERO = ZERO
 Tactic List : 1
 reflexivity(rank:0)
 =================================================
-Progress: 5
+Progress: 4
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
@@ -112,10 +87,10 @@ forall (nat2:nat), ZERO = ZERO
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
 ---------------------------------------
-forall (nat2:nat), natmul_ta1 (SUCC (nat3)) (nat2) = natmul_helper (SUCC (nat3)) (nat2) (ZERO)
+forall (nat2:nat), natmul_ta1 (SUCC (nat3)) (nat2) = natmul (SUCC (nat3)) (nat2)
 
 0 goal(s) more...
 
@@ -124,16 +99,16 @@ Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:0)
 =================================================
-Progress: 6
+Progress: 5
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
 ---------------------------------------
-forall (nat2:nat), natmul_ta1 (SUCC (nat3)) (nat2) = natmul_helper (SUCC (nat3)) (nat2) (ZERO)
+forall (nat2:nat), natmul_ta1 (SUCC (nat3)) (nat2) = natmul (SUCC (nat3)) (nat2)
 
 0 goal(s) more...
 
@@ -144,28 +119,29 @@ forall (nat2:nat), natmul_ta1 (SUCC (nat3)) (nat2) = natmul_helper (SUCC (nat3))
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
 ---------------------------------------
-forall (nat2:nat), natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natmul_helper (nat3) (nat2) (natadd (nat2) (ZERO))
+forall (nat2:nat), natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
 
 0 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 2
+Tactic List : 3
 induction nat2(rank:0)
-rewrite IH1 in goal at 0(rank:2)
+rewrite IH1 in goal at 0(rank:1)
+rewrite <- IH1 in goal at 0(rank:2)
 =================================================
-Progress: 7
+Progress: 6
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
 ---------------------------------------
-forall (nat2:nat), natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natmul_helper (nat3) (nat2) (natadd (nat2) (ZERO))
+forall (nat2:nat), natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
 
 0 goal(s) more...
 
@@ -174,32 +150,33 @@ forall (nat2:nat), natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natmul_helper 
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat2 : nat
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
 ---------------------------------------
-natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natmul_helper (nat3) (ZERO) (natadd (ZERO) (ZERO))
+natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 2
+Tactic List : 3
 simpl in goal(rank:0)
-rewrite IH1 in goal at 0(rank:2)
+rewrite IH1 in goal at 0(rank:1)
+rewrite <- IH1 in goal at 0(rank:1)
 =================================================
-Progress: 8
+Progress: 7
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat2 : nat
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
 ---------------------------------------
-natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natmul_helper (nat3) (ZERO) (natadd (ZERO) (ZERO))
+natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -208,13 +185,13 @@ natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natmul_helper (nat3) (ZERO) (nata
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat2 : nat
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
 ---------------------------------------
-natmul_ta1 (nat3) (ZERO) = natmul_helper (nat3) (ZERO) (ZERO)
+natmul_ta1 (nat3) (ZERO) = natadd (natmul (nat3) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -223,13 +200,112 @@ Tactic List : 2
 rewrite <- IH1 in goal at 0(rank:1)
 rewrite IH1 in goal at 0(rank:1)
 =================================================
+Progress: 8
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
+nat1 : nat
+nat3 : nat
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+---------------------------------------
+forall (nat2:nat), natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 1)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
+nat1 : nat
+nat3 : nat
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+---------------------------------------
+forall (nat2:nat), natadd_ta1 (nat2) (natmul (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+induction nat2(rank:0)
+=================================================
 Progress: 9
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
+nat1 : nat
+nat3 : nat
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+---------------------------------------
+forall (nat2:nat), natadd_ta1 (nat2) (natmul (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> induction nat2(rank : 0)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
+nat1 : nat
+nat3 : nat
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
+---------------------------------------
+natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 3
+simpl in goal(rank:0)
+rewrite <- IH1 in goal at 0(rank:2)
+rewrite <- IH1 in goal at 1(rank:2)
+=================================================
+Progress: 10
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
+nat1 : nat
+nat3 : nat
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
+---------------------------------------
+natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
+nat1 : nat
+nat3 : nat
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
+---------------------------------------
+natmul (nat3) (ZERO) = natadd (natmul (nat3) (ZERO)) (ZERO)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 2
+rewrite <- IH1 in goal at 1(rank:2)
+rewrite <- IH1 in goal at 0(rank:2)
+=================================================
+Progress: 11
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul_helper (nat1) (nat2) (ZERO)
+forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 
 0 goal(s) more...
 
@@ -240,7 +316,7 @@ forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul_helper (nat1) (n
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat2 : nat
 ---------------------------------------
-forall (nat1:nat), natmul_ta1 (nat1) (nat2) = natmul_helper (nat1) (nat2) (ZERO)
+forall (nat1:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 
 0 goal(s) more...
 
@@ -248,13 +324,13 @@ forall (nat1:nat), natmul_ta1 (nat1) (nat2) = natmul_helper (nat1) (nat2) (ZERO)
 Tactic List : 1
 induction nat1(rank:0)
 =================================================
-Progress: 10
+Progress: 12
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat2 : nat
 ---------------------------------------
-forall (nat1:nat), natmul_ta1 (nat1) (nat2) = natmul_helper (nat1) (nat2) (ZERO)
+forall (nat1:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 
 0 goal(s) more...
 
@@ -263,10 +339,10 @@ forall (nat1:nat), natmul_ta1 (nat1) (nat2) = natmul_helper (nat1) (nat2) (ZERO)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat1 : nat
 nat2 : nat
+nat1 : nat
 ---------------------------------------
-natmul_ta1 (ZERO) (nat2) = natmul_helper (ZERO) (nat2) (ZERO)
+natmul_ta1 (ZERO) (nat2) = natmul (ZERO) (nat2)
 
 1 goal(s) more...
 
@@ -274,14 +350,14 @@ natmul_ta1 (ZERO) (nat2) = natmul_helper (ZERO) (nat2) (ZERO)
 Tactic List : 1
 simpl in goal(rank:0)
 =================================================
-Progress: 11
+Progress: 13
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat1 : nat
 nat2 : nat
+nat1 : nat
 ---------------------------------------
-natmul_ta1 (ZERO) (nat2) = natmul_helper (ZERO) (nat2) (ZERO)
+natmul_ta1 (ZERO) (nat2) = natmul (ZERO) (nat2)
 
 1 goal(s) more...
 
@@ -290,8 +366,8 @@ natmul_ta1 (ZERO) (nat2) = natmul_helper (ZERO) (nat2) (ZERO)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat1 : nat
 nat2 : nat
+nat1 : nat
 ---------------------------------------
 ZERO = ZERO
 
@@ -301,12 +377,12 @@ ZERO = ZERO
 Tactic List : 1
 reflexivity(rank:0)
 =================================================
-Progress: 12
+Progress: 14
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat1 : nat
 nat2 : nat
+nat1 : nat
 ---------------------------------------
 ZERO = ZERO
 
@@ -317,13 +393,13 @@ ZERO = ZERO
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
+nat2 : nat
 nat1 : nat
 nat3 : nat
-nat2 : nat
-IH1 : natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
 ---------------------------------------
-natmul_ta1 (SUCC (nat3)) (nat2) = natmul_helper (SUCC (nat3)) (nat2) (ZERO)
+natmul_ta1 (SUCC (nat3)) (nat2) = natmul (SUCC (nat3)) (nat2)
 
 0 goal(s) more...
 
@@ -332,72 +408,6 @@ Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:0)
 =================================================
-Progress: 13
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat1 : nat
-nat3 : nat
-nat2 : nat
-IH1 : natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
-Inductive1 : nat1 = SUCC (nat3)
----------------------------------------
-natmul_ta1 (SUCC (nat3)) (nat2) = natmul_helper (SUCC (nat3)) (nat2) (ZERO)
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> simpl in goal(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat1 : nat
-nat3 : nat
-nat2 : nat
-IH1 : natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
-Inductive1 : nat1 = SUCC (nat3)
----------------------------------------
-natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natmul_helper (nat3) (nat2) (natadd (nat2) (ZERO))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:2)
-=================================================
-Progress: 14
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat2 : nat
-nat1 : nat
-nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
-Inductive1 : nat1 = SUCC (nat3)
----------------------------------------
-natmul_ta1 (nat3) (ZERO) = natmul_helper (nat3) (ZERO) (ZERO)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> rewrite <- IH1 in goal at 0(rank : 1)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat2 : nat
-nat1 : nat
-nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
-Inductive1 : nat1 = SUCC (nat3)
----------------------------------------
-natmul_ta1 (nat3) (ZERO) = natmul_ta1 (nat3) (ZERO)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:0)
-=================================================
 Progress: 15
 
 
@@ -405,51 +415,10 @@ Progress: 15
 nat2 : nat
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
 ---------------------------------------
-natmul_ta1 (nat3) (ZERO) = natmul_ta1 (nat3) (ZERO)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> reflexivity(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat2 : nat
-nat4 : nat
-nat1 : nat
-nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
-Inductive1 : nat1 = SUCC (nat3)
-IH2 : natadd_ta1 (nat4) (natmul_ta1 (nat3) (nat4)) = natmul_helper (nat3) (nat4) (natadd (nat4) (ZERO))
-Inductive2 : nat2 = SUCC (nat4)
----------------------------------------
-natadd_ta1 (SUCC (nat4)) (natmul_ta1 (nat3) (SUCC (nat4))) = natmul_helper (nat3) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Deduplication: 2
-Tactic List : 2
-simpl in goal(rank:0)
-rewrite IH1 in goal at 0(rank:1)
-=================================================
-Progress: 16
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat2 : nat
-nat4 : nat
-nat1 : nat
-nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
-Inductive1 : nat1 = SUCC (nat3)
-IH2 : natadd_ta1 (nat4) (natmul_ta1 (nat3) (nat4)) = natmul_helper (nat3) (nat4) (natadd (nat4) (ZERO))
-Inductive2 : nat2 = SUCC (nat4)
----------------------------------------
-natadd_ta1 (SUCC (nat4)) (natmul_ta1 (nat3) (SUCC (nat4))) = natmul_helper (nat3) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
+natmul_ta1 (SUCC (nat3)) (nat2) = natmul (SUCC (nat3)) (nat2)
 
 0 goal(s) more...
 
@@ -459,36 +428,31 @@ natadd_ta1 (SUCC (nat4)) (natmul_ta1 (nat3) (SUCC (nat4))) = natmul_helper (nat3
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat2 : nat
-nat4 : nat
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
-IH2 : natadd_ta1 (nat4) (natmul_ta1 (nat3) (nat4)) = natmul_helper (nat3) (nat4) (natadd (nat4) (ZERO))
-Inductive2 : nat2 = SUCC (nat4)
 ---------------------------------------
-SUCC (natadd_ta1 (nat4) (natmul_ta1 (nat3) (SUCC (nat4)))) = natmul_helper (nat3) (SUCC (nat4)) (natadd (nat4) (SUCC (ZERO)))
+natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
 
 0 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:2)
+Tactic List : 2
+rewrite IH1 in goal at 0(rank:1)
+rewrite <- IH1 in goal at 0(rank:2)
 =================================================
-Progress: 17
+Progress: 16
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat2 : nat
-nat4 : nat
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
-IH2 : natadd_ta1 (nat4) (natmul_ta1 (nat3) (nat4)) = natmul_helper (nat3) (nat4) (natadd (nat4) (ZERO))
-Inductive2 : nat2 = SUCC (nat4)
 ---------------------------------------
-natadd_ta1 (SUCC (nat4)) (natmul_ta1 (nat3) (SUCC (nat4))) = natmul_helper (nat3) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
+natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
 
 0 goal(s) more...
 
@@ -498,26 +462,27 @@ natadd_ta1 (SUCC (nat4)) (natmul_ta1 (nat3) (SUCC (nat4))) = natmul_helper (nat3
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat2 : nat
-nat4 : nat
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
-IH2 : natadd_ta1 (nat4) (natmul_ta1 (nat3) (nat4)) = natmul_helper (nat3) (nat4) (natadd (nat4) (ZERO))
-Inductive2 : nat2 = SUCC (nat4)
 ---------------------------------------
-natadd_ta1 (SUCC (nat4)) (natmul_helper (nat3) (SUCC (nat4)) (ZERO)) = natmul_helper (nat3) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
+natadd_ta1 (nat2) (natmul (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
+previous tactics
+simpl in goal
+rewrite IH1 in goal at 0
 
 
 1st goal of : any
-nat4 : nat
+nat1 : nat
+nat3 : nat
 ---------------------------------------
-forall (nat3:nat), natadd_ta1 (SUCC (nat4)) (natmul_helper (nat3) (SUCC (nat4)) (ZERO)) = natmul_helper (nat3) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
+forall (nat2:nat), natadd_ta1 (nat2) (natmul (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
 
 0 goal(s) more...
 
@@ -526,18 +491,20 @@ previous tactics
 
 
 1st goal of : any
+nat1 : nat
+nat2 : nat
 nat4 : nat
 ---------------------------------------
-forall (nat3:nat), nat3 = SUCC (nat3) -> natadd_ta1 (SUCC (nat4)) (natmul_helper (SUCC (nat3)) (SUCC (nat4)) (ZERO)) = natmul_helper (SUCC (nat3)) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
+forall (nat3:nat), SUCC (natadd_ta1 (nat4) (natmul (nat3) (SUCC (nat4)))) = natadd (natmul (nat3) (SUCC (nat4))) (SUCC (nat4))
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 previous tactics
 state_list
-natadd_ta1 (SUCC (nat4)) (natmul_helper (nat3) (SUCC (nat4)) (ZERO)) = natmul_helper (nat3) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
-natadd_ta1 (SUCC (nat4)) (natmul_helper (SUCC (nat3)) (SUCC (nat4)) (ZERO)) = natmul_helper (SUCC (nat3)) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
-natadd_ta1 (SUCC (nat4)) (natmul_helper (SUCC (SUCC (nat3))) (SUCC (nat4)) (ZERO)) = natmul_helper (SUCC (SUCC (nat3))) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
+natadd_ta1 (nat2) (natmul (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
+SUCC (natadd_ta1 (nat4) (natmul (nat3) (SUCC (nat4)))) = natadd (natmul (nat3) (SUCC (nat4))) (SUCC (nat4))
+SUCC (natadd_ta1 (nat4) (natadd (natmul (nat5) (SUCC (nat4))) (SUCC (nat4)))) = natadd (natadd (natmul (nat5) (SUCC (nat4))) (SUCC (nat4))) (SUCC (nat4))
 lhs_common_subtree
 rhs_common_subtree
 New Env
@@ -545,59 +512,31 @@ New Env
 ;;
 Advanced Generalize
 Assert List
-forall (nat3:nat) (nat4:nat), natadd_ta1 (SUCC (nat4)) (natmul_helper (nat3) (SUCC (nat4)) (ZERO)) = natmul_helper (nat3) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
+forall (nat2:nat) (nat3:nat), natadd_ta1 (nat2) (natmul (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
 End of Assert List
 =================================================
-Progress: 18
+Progress: 17
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat2 : nat
-nat4 : nat
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
-IH2 : natadd_ta1 (nat4) (natmul_ta1 (nat3) (nat4)) = natmul_helper (nat3) (nat4) (natadd (nat4) (ZERO))
-Inductive2 : nat2 = SUCC (nat4)
 ---------------------------------------
-natadd_ta1 (SUCC (nat4)) (natmul_ta1 (nat3) (SUCC (nat4))) = natmul_helper (nat3) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))
+natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (nat3:nat) (nat4:nat), natadd_ta1 (SUCC (nat4)) (natmul_helper (nat3) (SUCC (nat4)) (ZERO)) = natmul_helper (nat3) (SUCC (nat4)) (natadd (SUCC (nat4)) (ZERO))(rank : 0)
+>>> assert forall (nat2:nat) (nat3:nat), natadd_ta1 (nat2) (natmul (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:0)
-=================================================
-Progress: 19
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul_helper (nat1) (SUCC (nat2)) (ZERO))) = natmul_helper (nat1) (SUCC (nat2)) (natadd (nat2) (SUCC (ZERO)))
+forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 
 0 goal(s) more...
 
@@ -606,13 +545,13 @@ Tactic List : 2
 induction nat2(rank:0)
 induction nat1(rank:0)
 =================================================
-Progress: 20
+Progress: 18
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul_helper (nat1) (SUCC (nat2)) (ZERO))) = natmul_helper (nat1) (SUCC (nat2)) (natadd (nat2) (SUCC (ZERO)))
+forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 
 0 goal(s) more...
 
@@ -620,10 +559,10 @@ forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul_helper (nat1) (SUC
 >>> induction nat2(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat2 : nat
 ---------------------------------------
-forall (nat1:nat), SUCC (natadd_ta1 (ZERO) (natmul_helper (nat1) (SUCC (ZERO)) (ZERO))) = natmul_helper (nat1) (SUCC (ZERO)) (natadd (ZERO) (SUCC (ZERO)))
+forall (nat1:nat), natadd_ta1 (nat1) (natmul (ZERO) (nat1)) = natadd (natmul (ZERO) (nat1)) (nat1)
 
 1 goal(s) more...
 
@@ -631,13 +570,13 @@ forall (nat1:nat), SUCC (natadd_ta1 (ZERO) (natmul_helper (nat1) (SUCC (ZERO)) (
 Tactic List : 1
 simpl in goal(rank:0)
 =================================================
-Progress: 21
+Progress: 19
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul_helper (nat1) (SUCC (nat2)) (ZERO))) = natmul_helper (nat1) (SUCC (nat2)) (natadd (nat2) (SUCC (ZERO)))
+forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 
 0 goal(s) more...
 
@@ -645,10 +584,10 @@ forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul_helper (nat1) (SUC
 >>> induction nat1(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul_helper (ZERO) (SUCC (nat2)) (ZERO))) = natmul_helper (ZERO) (SUCC (nat2)) (natadd (nat2) (SUCC (ZERO)))
+forall (nat2:nat), natadd_ta1 (ZERO) (natmul (nat2) (ZERO)) = natadd (natmul (nat2) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -656,13 +595,13 @@ forall (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul_helper (ZERO) (SUCC (nat2)) (
 Tactic List : 1
 simpl in goal(rank:0)
 =================================================
-Progress: 22
+Progress: 20
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat2 : nat
 ---------------------------------------
-forall (nat1:nat), SUCC (natadd_ta1 (ZERO) (natmul_helper (nat1) (SUCC (ZERO)) (ZERO))) = natmul_helper (nat1) (SUCC (ZERO)) (natadd (ZERO) (SUCC (ZERO)))
+forall (nat1:nat), natadd_ta1 (nat1) (natmul (ZERO) (nat1)) = natadd (natmul (ZERO) (nat1)) (nat1)
 
 1 goal(s) more...
 
@@ -670,10 +609,10 @@ forall (nat1:nat), SUCC (natadd_ta1 (ZERO) (natmul_helper (nat1) (SUCC (ZERO)) (
 >>> simpl in goal(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat2 : nat
 ---------------------------------------
-forall (nat1:nat), SUCC (natmul_helper (nat1) (SUCC (ZERO)) (ZERO)) = natmul_helper (nat1) (SUCC (ZERO)) (SUCC (ZERO))
+forall (nat1:nat), natadd_ta1 (nat1) (ZERO) = nat1
 
 1 goal(s) more...
 
@@ -681,13 +620,13 @@ forall (nat1:nat), SUCC (natmul_helper (nat1) (SUCC (ZERO)) (ZERO)) = natmul_hel
 Tactic List : 1
 induction nat1(rank:0)
 =================================================
-Progress: 23
+Progress: 21
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul_helper (ZERO) (SUCC (nat2)) (ZERO))) = natmul_helper (ZERO) (SUCC (nat2)) (natadd (nat2) (SUCC (ZERO)))
+forall (nat2:nat), natadd_ta1 (ZERO) (natmul (nat2) (ZERO)) = natadd (natmul (nat2) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -695,10 +634,10 @@ forall (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul_helper (ZERO) (SUCC (nat2)) (
 >>> simpl in goal(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), SUCC (natadd_ta1 (nat2) (ZERO)) = natadd (nat2) (SUCC (ZERO))
+forall (nat2:nat), natmul (nat2) (ZERO) = natadd (natmul (nat2) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -706,13 +645,13 @@ forall (nat2:nat), SUCC (natadd_ta1 (nat2) (ZERO)) = natadd (nat2) (SUCC (ZERO))
 Tactic List : 1
 induction nat2(rank:0)
 =================================================
-Progress: 24
+Progress: 22
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat2 : nat
 ---------------------------------------
-forall (nat1:nat), SUCC (natmul_helper (nat1) (SUCC (ZERO)) (ZERO)) = natmul_helper (nat1) (SUCC (ZERO)) (SUCC (ZERO))
+forall (nat1:nat), natadd_ta1 (nat1) (ZERO) = nat1
 
 1 goal(s) more...
 
@@ -720,11 +659,11 @@ forall (nat1:nat), SUCC (natmul_helper (nat1) (SUCC (ZERO)) (ZERO)) = natmul_hel
 >>> induction nat1(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat1 : nat
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat2 : nat
+nat1 : nat
 ---------------------------------------
-SUCC (natmul_helper (ZERO) (SUCC (ZERO)) (ZERO)) = natmul_helper (ZERO) (SUCC (ZERO)) (SUCC (ZERO))
+natadd_ta1 (ZERO) (ZERO) = ZERO
 
 2 goal(s) more...
 
@@ -732,13 +671,13 @@ SUCC (natmul_helper (ZERO) (SUCC (ZERO)) (ZERO)) = natmul_helper (ZERO) (SUCC (Z
 Tactic List : 1
 simpl in goal(rank:0)
 =================================================
-Progress: 25
+Progress: 23
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), SUCC (natadd_ta1 (nat2) (ZERO)) = natadd (nat2) (SUCC (ZERO))
+forall (nat2:nat), natmul (nat2) (ZERO) = natadd (natmul (nat2) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -746,11 +685,11 @@ forall (nat2:nat), SUCC (natadd_ta1 (nat2) (ZERO)) = natadd (nat2) (SUCC (ZERO))
 >>> induction nat2(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat2 : nat
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat1 : nat
+nat2 : nat
 ---------------------------------------
-SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
+natmul (ZERO) (ZERO) = natadd (natmul (ZERO) (ZERO)) (ZERO)
 
 2 goal(s) more...
 
@@ -758,68 +697,68 @@ SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
 Tactic List : 1
 simpl in goal(rank:0)
 =================================================
+Progress: 24
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
+nat2 : nat
+nat1 : nat
+---------------------------------------
+natadd_ta1 (ZERO) (ZERO) = ZERO
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
+nat2 : nat
+nat1 : nat
+---------------------------------------
+ZERO = ZERO
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:0)
+=================================================
+Progress: 25
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
+nat1 : nat
+nat2 : nat
+---------------------------------------
+natmul (ZERO) (ZERO) = natadd (natmul (ZERO) (ZERO)) (ZERO)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
+nat1 : nat
+nat2 : nat
+---------------------------------------
+ZERO = ZERO
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:0)
+=================================================
 Progress: 26
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat1 : nat
-nat2 : nat
----------------------------------------
-SUCC (natmul_helper (ZERO) (SUCC (ZERO)) (ZERO)) = natmul_helper (ZERO) (SUCC (ZERO)) (SUCC (ZERO))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat1 : nat
-nat2 : nat
----------------------------------------
-SUCC (ZERO) = SUCC (ZERO)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:0)
-=================================================
-Progress: 27
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat2 : nat
 nat1 : nat
 ---------------------------------------
-SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat2 : nat
-nat1 : nat
----------------------------------------
-SUCC (ZERO) = SUCC (ZERO)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:0)
-=================================================
-Progress: 28
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat1 : nat
-nat2 : nat
----------------------------------------
-SUCC (ZERO) = SUCC (ZERO)
+ZERO = ZERO
 
 2 goal(s) more...
 
@@ -827,14 +766,82 @@ SUCC (ZERO) = SUCC (ZERO)
 >>> reflexivity(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
+nat2 : nat
 nat1 : nat
 nat3 : nat
-nat2 : nat
-IH1 : SUCC (natmul_helper (nat3) (SUCC (ZERO)) (ZERO)) = natmul_helper (nat3) (SUCC (ZERO)) (SUCC (ZERO))
+IH1 : natadd_ta1 (nat3) (ZERO) = nat3
 Inductive1 : nat1 = SUCC (nat3)
 ---------------------------------------
-SUCC (natmul_helper (SUCC (nat3)) (SUCC (ZERO)) (ZERO)) = natmul_helper (SUCC (nat3)) (SUCC (ZERO)) (SUCC (ZERO))
+natadd_ta1 (SUCC (nat3)) (ZERO) = SUCC (nat3)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+Tactic List : 3
+simpl in goal(rank:0)
+rewrite <- IH1 in goal at 0(rank:2)
+rewrite <- IH1 in goal at 1(rank:2)
+=================================================
+Progress: 27
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
+nat2 : nat
+nat1 : nat
+nat3 : nat
+IH1 : natadd_ta1 (nat3) (ZERO) = nat3
+Inductive1 : nat1 = SUCC (nat3)
+---------------------------------------
+natadd_ta1 (SUCC (nat3)) (ZERO) = SUCC (nat3)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
+nat2 : nat
+nat1 : nat
+nat3 : nat
+IH1 : natadd_ta1 (nat3) (ZERO) = nat3
+Inductive1 : nat1 = SUCC (nat3)
+---------------------------------------
+SUCC (natadd_ta1 (nat3) (ZERO)) = SUCC (nat3)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 3
+rewrite IH1 in goal at 0(rank:1)
+rewrite <- IH1 in goal at 0(rank:2)
+rewrite <- IH1 in goal at 1(rank:2)
+=================================================
+Progress: 28
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
+nat1 : nat
+nat2 : nat
+---------------------------------------
+ZERO = ZERO
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
+nat1 : nat
+nat2 : nat
+nat3 : nat
+IH1 : natmul (nat3) (ZERO) = natadd (natmul (nat3) (ZERO)) (ZERO)
+Inductive1 : nat2 = SUCC (nat3)
+---------------------------------------
+natmul (SUCC (nat3)) (ZERO) = natadd (natmul (SUCC (nat3)) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -846,14 +853,14 @@ simpl in goal(rank:0)
 Progress: 29
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat1 : nat
-nat3 : nat
 nat2 : nat
-IH1 : SUCC (natmul_helper (nat3) (SUCC (ZERO)) (ZERO)) = natmul_helper (nat3) (SUCC (ZERO)) (SUCC (ZERO))
-Inductive1 : nat1 = SUCC (nat3)
+nat3 : nat
+IH1 : natmul (nat3) (ZERO) = natadd (natmul (nat3) (ZERO)) (ZERO)
+Inductive1 : nat2 = SUCC (nat3)
 ---------------------------------------
-SUCC (natmul_helper (SUCC (nat3)) (SUCC (ZERO)) (ZERO)) = natmul_helper (SUCC (nat3)) (SUCC (ZERO)) (SUCC (ZERO))
+natmul (SUCC (nat3)) (ZERO) = natadd (natmul (SUCC (nat3)) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -861,122 +868,63 @@ SUCC (natmul_helper (SUCC (nat3)) (SUCC (ZERO)) (ZERO)) = natmul_helper (SUCC (n
 >>> simpl in goal(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul (nat2) (nat1)) = natadd (natmul (nat2) (nat1)) (nat1)
 nat1 : nat
-nat3 : nat
 nat2 : nat
-IH1 : SUCC (natmul_helper (nat3) (SUCC (ZERO)) (ZERO)) = natmul_helper (nat3) (SUCC (ZERO)) (SUCC (ZERO))
-Inductive1 : nat1 = SUCC (nat3)
+nat3 : nat
+IH1 : natmul (nat3) (ZERO) = natadd (natmul (nat3) (ZERO)) (ZERO)
+Inductive1 : nat2 = SUCC (nat3)
 ---------------------------------------
-SUCC (natmul_helper (nat3) (SUCC (ZERO)) (SUCC (ZERO))) = natmul_helper (nat3) (SUCC (ZERO)) (SUCC (SUCC (ZERO)))
+natadd (natmul (nat3) (ZERO)) (ZERO) = natadd (natadd (natmul (nat3) (ZERO)) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 1
+Tactic List : 4
+rewrite IH1 in goal at 1(rank:1)
+rewrite IH1 in goal at 0(rank:2)
+rewrite <- IH1 in goal at 1(rank:2)
 rewrite <- IH1 in goal at 0(rank:2)
 =================================================
 Progress: 30
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat2 : nat
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
----------------------------------------
-SUCC (ZERO) = SUCC (ZERO)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat2 : nat
 nat3 : nat
-nat1 : nat
-IH1 : SUCC (natadd_ta1 (nat3) (ZERO)) = natadd (nat3) (SUCC (ZERO))
-Inductive1 : nat2 = SUCC (nat3)
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
 ---------------------------------------
-SUCC (natadd_ta1 (SUCC (nat3)) (ZERO)) = natadd (SUCC (nat3)) (SUCC (ZERO))
+natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
-1 conjecture(s) more...
-Deduplication: 0
-Tactic List : 1
-simpl in goal(rank:0)
-=================================================
-Progress: 31
+0 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 1)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat2 : nat
-nat3 : nat
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
-IH1 : SUCC (natadd_ta1 (nat3) (ZERO)) = natadd (nat3) (SUCC (ZERO))
-Inductive1 : nat2 = SUCC (nat3)
+nat3 : nat
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
 ---------------------------------------
-SUCC (natadd_ta1 (SUCC (nat3)) (ZERO)) = natadd (SUCC (nat3)) (SUCC (ZERO))
+natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
-1 conjecture(s) more...
->>> simpl in goal(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat2 : nat
-nat3 : nat
-nat1 : nat
-IH1 : SUCC (natadd_ta1 (nat3) (ZERO)) = natadd (nat3) (SUCC (ZERO))
-Inductive1 : nat2 = SUCC (nat3)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (nat3) (ZERO))) = natadd (nat3) (SUCC (SUCC (ZERO)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:1)
-=================================================
-Progress: 32
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat2 : nat
-nat3 : nat
-nat1 : nat
-IH1 : SUCC (natadd_ta1 (nat3) (ZERO)) = natadd (nat3) (SUCC (ZERO))
-Inductive1 : nat2 = SUCC (nat3)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (nat3) (ZERO))) = natadd (nat3) (SUCC (SUCC (ZERO)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 1)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat2 : nat
-nat3 : nat
-nat1 : nat
-IH1 : SUCC (natadd_ta1 (nat3) (ZERO)) = natadd (nat3) (SUCC (ZERO))
-Inductive1 : nat2 = SUCC (nat3)
----------------------------------------
-SUCC (natadd (nat3) (SUCC (ZERO))) = natadd (nat3) (SUCC (SUCC (ZERO)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
+0 conjecture(s) more...
 Tactic List : 0
+previous tactics
 
 
 1st goal of : any
-
+nat1 : nat
+nat2 : nat
 ---------------------------------------
-forall (nat3:nat), SUCC (natadd (nat3) (SUCC (ZERO))) = natadd (nat3) (SUCC (SUCC (ZERO)))
+forall (nat3:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
@@ -985,18 +933,20 @@ previous tactics
 
 
 1st goal of : any
-
+nat1 : nat
+nat2 : nat
+nat3 : nat
 ---------------------------------------
-forall (nat2:nat), SUCC (natadd (nat2) (SUCC (SUCC (ZERO)))) = natadd (nat2) (SUCC (SUCC (SUCC (ZERO))))
+forall (nat4:nat), natadd_ta1 (ZERO) (natmul_ta1 (SUCC (nat4)) (ZERO)) = natadd (natmul_ta1 (SUCC (nat4)) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 previous tactics
 state_list
-SUCC (natadd (nat3) (SUCC (ZERO))) = natadd (nat3) (SUCC (SUCC (ZERO)))
-SUCC (natadd (nat2) (SUCC (SUCC (ZERO)))) = natadd (nat2) (SUCC (SUCC (SUCC (ZERO))))
-SUCC (natadd (nat2) (SUCC (SUCC (SUCC (ZERO))))) = natadd (nat2) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
+natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)
+natadd_ta1 (ZERO) (natmul_ta1 (SUCC (nat4)) (ZERO)) = natadd (natmul_ta1 (SUCC (nat4)) (ZERO)) (ZERO)
+natadd_ta1 (ZERO) (natmul_ta1 (SUCC (SUCC (nat5))) (ZERO)) = natadd (natmul_ta1 (SUCC (SUCC (nat5))) (ZERO)) (ZERO)
 lhs_common_subtree
 rhs_common_subtree
 New Env
@@ -1004,147 +954,245 @@ New Env
 ;;
 Advanced Generalize
 Assert List
-forall (nat3:nat), SUCC (natadd (nat3) (SUCC (ZERO))) = natadd (nat3) (SUCC (SUCC (ZERO)))
+forall (nat3:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)
 End of Assert List
+=================================================
+Progress: 31
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
+nat1 : nat
+nat3 : nat
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
+---------------------------------------
+natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (nat3:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)(rank : 0)
+
+
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
+
+---------------------------------------
+forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:0)
+=================================================
+Progress: 32
+
+
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
+
+---------------------------------------
+forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
+
+---------------------------------------
+forall (nat1:nat), natmul_ta1 (nat1) (ZERO) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction nat1(rank:0)
 =================================================
 Progress: 33
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (SUCC (nat2)) (natmul_helper (nat1) (SUCC (nat2)) (ZERO)) = natmul_helper (nat1) (SUCC (nat2)) (natadd (SUCC (nat2)) (ZERO))
-nat2 : nat
-nat3 : nat
-nat1 : nat
-IH1 : SUCC (natadd_ta1 (nat3) (ZERO)) = natadd (nat3) (SUCC (ZERO))
-Inductive1 : nat2 = SUCC (nat3)
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
+
 ---------------------------------------
-SUCC (SUCC (natadd_ta1 (nat3) (ZERO))) = natadd (nat3) (SUCC (SUCC (ZERO)))
+forall (nat1:nat), natmul_ta1 (nat1) (ZERO) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction nat1(rank : 0)
+
+
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
+nat1 : nat
+---------------------------------------
+natmul_ta1 (ZERO) (ZERO) = natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (nat3:nat), SUCC (natadd (nat3) (SUCC (ZERO))) = natadd (nat3) (SUCC (SUCC (ZERO)))(rank : 0)
-
-
-1st goal of : forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
-
----------------------------------------
-forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
 Tactic List : 1
-induction nat1(rank:0)
+simpl in goal(rank:0)
 =================================================
 Progress: 34
 
 
-1st goal of : forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
-
----------------------------------------
-forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> induction nat1(rank : 0)
-
-
-1st goal of : forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
 nat1 : nat
 ---------------------------------------
-SUCC (natadd (ZERO) (SUCC (ZERO))) = natadd (ZERO) (SUCC (SUCC (ZERO)))
+natmul_ta1 (ZERO) (ZERO) = natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
-2 conjecture(s) more...
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
+nat1 : nat
+---------------------------------------
+ZERO = ZERO
+
+1 goal(s) more...
+
+1 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:0)
+reflexivity(rank:0)
 =================================================
 Progress: 35
 
 
-1st goal of : forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
 nat1 : nat
 ---------------------------------------
-SUCC (natadd (ZERO) (SUCC (ZERO))) = natadd (ZERO) (SUCC (SUCC (ZERO)))
+ZERO = ZERO
 
 1 goal(s) more...
 
-2 conjecture(s) more...
->>> simpl in goal(rank : 0)
-
-
-1st goal of : forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
-nat1 : nat
----------------------------------------
-SUCC (SUCC (ZERO)) = SUCC (SUCC (ZERO))
-
-1 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:0)
-=================================================
-Progress: 36
-
-
-1st goal of : forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
-nat1 : nat
----------------------------------------
-SUCC (SUCC (ZERO)) = SUCC (SUCC (ZERO))
-
-1 goal(s) more...
-
-2 conjecture(s) more...
+1 conjecture(s) more...
 >>> reflexivity(rank : 0)
 
 
-1st goal of : forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
 nat1 : nat
 nat2 : nat
-IH1 : SUCC (natadd (nat2) (SUCC (ZERO))) = natadd (nat2) (SUCC (SUCC (ZERO)))
+IH1 : natmul_ta1 (nat2) (ZERO) = natadd (natmul_ta1 (nat2) (ZERO)) (ZERO)
 Inductive1 : nat1 = SUCC (nat2)
 ---------------------------------------
-SUCC (natadd (SUCC (nat2)) (SUCC (ZERO))) = natadd (SUCC (nat2)) (SUCC (SUCC (ZERO)))
+natmul_ta1 (SUCC (nat2)) (ZERO) = natadd (natmul_ta1 (SUCC (nat2)) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
-2 conjecture(s) more...
+1 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:0)
 =================================================
-Progress: 37
+Progress: 36
 
 
-1st goal of : forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
 nat1 : nat
 nat2 : nat
-IH1 : SUCC (natadd (nat2) (SUCC (ZERO))) = natadd (nat2) (SUCC (SUCC (ZERO)))
+IH1 : natmul_ta1 (nat2) (ZERO) = natadd (natmul_ta1 (nat2) (ZERO)) (ZERO)
 Inductive1 : nat1 = SUCC (nat2)
 ---------------------------------------
-SUCC (natadd (SUCC (nat2)) (SUCC (ZERO))) = natadd (SUCC (nat2)) (SUCC (SUCC (ZERO)))
+natmul_ta1 (SUCC (nat2)) (ZERO) = natadd (natmul_ta1 (SUCC (nat2)) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
-2 conjecture(s) more...
+1 conjecture(s) more...
 >>> simpl in goal(rank : 0)
 
 
-1st goal of : forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat1) (ZERO)) = natadd (natmul_ta1 (nat1) (ZERO)) (ZERO)
 nat1 : nat
 nat2 : nat
-IH1 : SUCC (natadd (nat2) (SUCC (ZERO))) = natadd (nat2) (SUCC (SUCC (ZERO)))
+IH1 : natmul_ta1 (nat2) (ZERO) = natadd (natmul_ta1 (nat2) (ZERO)) (ZERO)
 Inductive1 : nat1 = SUCC (nat2)
 ---------------------------------------
-SUCC (natadd (nat2) (SUCC (SUCC (ZERO)))) = natadd (nat2) (SUCC (SUCC (SUCC (ZERO))))
+natmul_ta1 (nat2) (ZERO) = natadd (natmul_ta1 (nat2) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
-2 conjecture(s) more...
-Tactic List : 1
-rewrite <- IH1 in goal at 0(rank:2)
+1 conjecture(s) more...
+Tactic List : 3
+rewrite <- IH1 in goal at 0(rank:1)
+rewrite IH1 in goal at 1(rank:1)
+rewrite IH1 in goal at 0(rank:2)
+=================================================
+Progress: 37
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
+nat1 : nat
+nat3 : nat
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
+---------------------------------------
+natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 1)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
+nat1 : nat
+nat3 : nat
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
+Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
+---------------------------------------
+natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+
+
+1st goal of : any
+nat1 : nat
+nat2 : nat
+---------------------------------------
+forall (nat3:nat), natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+previous tactics
+
+
+1st goal of : any
+nat1 : nat
+nat2 : nat
+nat3 : nat
+---------------------------------------
+forall (nat4:nat), natadd_ta1 (ZERO) (natmul (SUCC (nat4)) (ZERO)) = natadd (natmul (SUCC (nat4)) (ZERO)) (ZERO)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+previous tactics
+state_list
+natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
+natadd_ta1 (ZERO) (natmul (SUCC (nat4)) (ZERO)) = natadd (natmul (SUCC (nat4)) (ZERO)) (ZERO)
+natadd_ta1 (ZERO) (natmul (SUCC (SUCC (nat5))) (ZERO)) = natadd (natmul (SUCC (SUCC (nat5))) (ZERO)) (ZERO)
+lhs_common_subtree
+rhs_common_subtree
+New Env
+
+;;
+Advanced Generalize
+Assert List
+forall (nat3:nat), natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
+End of Assert List
 =================================================
 Progress: 38
 
@@ -1152,115 +1200,72 @@ Progress: 38
 1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
 nat3 : nat
-nat2 : nat
-IH1 : natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
----------------------------------------
-natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natmul_helper (nat3) (nat2) (natadd (nat2) (ZERO))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 2)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat1 : nat
-nat3 : nat
 nat2 : nat
-IH1 : natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
-Inductive1 : nat1 = SUCC (nat3)
 ---------------------------------------
-natadd_ta1 (nat2) (natmul_helper (nat3) (nat2) (ZERO)) = natmul_helper (nat3) (nat2) (natadd (nat2) (ZERO))
+natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 0
+>>> assert forall (nat3:nat), natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)(rank : 0)
 
 
-1st goal of : any
-nat3 : nat
----------------------------------------
-forall (nat2:nat), natadd_ta1 (nat2) (natmul_helper (nat3) (nat2) (ZERO)) = natmul_helper (nat3) (nat2) (natadd (nat2) (ZERO))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-previous tactics
-
-
-1st goal of : any
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
 
 ---------------------------------------
-forall (nat3:nat), SUCC (natadd_ta1 (nat3) (natmul_helper (nat3) (SUCC (nat3)) (ZERO))) = natmul_helper (nat3) (SUCC (nat3)) (natadd (nat3) (SUCC (ZERO)))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-previous tactics
-state_list
-natadd_ta1 (nat2) (natmul_helper (nat3) (nat2) (ZERO)) = natmul_helper (nat3) (nat2) (natadd (nat2) (ZERO))
-SUCC (natadd_ta1 (nat3) (natmul_helper (nat3) (SUCC (nat3)) (ZERO))) = natmul_helper (nat3) (SUCC (nat3)) (natadd (nat3) (SUCC (ZERO)))
-SUCC (SUCC (natadd_ta1 (nat2) (natmul_helper (nat2) (SUCC (SUCC (nat2))) (natadd (nat2) (SUCC (SUCC (ZERO))))))) = natmul_helper (nat2) (SUCC (SUCC (nat2))) (natadd (nat2) (SUCC (SUCC (natadd (nat2) (SUCC (SUCC (ZERO)))))))
-lhs_common_subtree
-rhs_common_subtree
-New Env
-
-;;
-Advanced Generalize
-Assert List
-forall (nat2:nat) (nat3:nat), natadd_ta1 (nat2) (natmul_helper (nat3) (nat2) (ZERO)) = natmul_helper (nat3) (nat2) (natadd (nat2) (ZERO))
-End of Assert List
-=================================================
-Progress: 39
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
-nat1 : nat
-nat3 : nat
-nat2 : nat
-IH1 : natmul_ta1 (nat3) (nat2) = natmul_helper (nat3) (nat2) (ZERO)
-Inductive1 : nat1 = SUCC (nat3)
----------------------------------------
-natadd_ta1 (nat2) (natmul_ta1 (nat3) (nat2)) = natmul_helper (nat3) (nat2) (natadd (nat2) (ZERO))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (nat2:nat) (nat3:nat), natadd_ta1 (nat2) (natmul_helper (nat3) (nat2) (ZERO)) = natmul_helper (nat3) (nat2) (natadd (nat2) (ZERO))(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
+forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 2
-induction nat2(rank:0)
+Tactic List : 1
+simpl in goal(rank:0)
+=================================================
+Progress: 39
+
+
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
+
+---------------------------------------
+forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 0)
+
+
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
+
+---------------------------------------
+forall (nat1:nat), natmul (nat1) (ZERO) = natadd (natmul (nat1) (ZERO)) (ZERO)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
 induction nat1(rank:0)
 =================================================
 Progress: 40
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
+forall (nat1:nat), natmul (nat1) (ZERO) = natadd (natmul (nat1) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> induction nat2(rank : 0)
+>>> induction nat1(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-nat2 : nat
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
+nat1 : nat
 ---------------------------------------
-forall (nat1:nat), natadd_ta1 (nat1) (natmul_helper (ZERO) (nat1) (ZERO)) = natmul_helper (ZERO) (nat1) (natadd (nat1) (ZERO))
+natmul (ZERO) (ZERO) = natadd (natmul (ZERO) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -1271,35 +1276,10 @@ simpl in goal(rank:0)
 Progress: 41
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> induction nat1(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), natadd_ta1 (ZERO) (natmul_helper (nat2) (ZERO) (ZERO)) = natmul_helper (nat2) (ZERO) (natadd (ZERO) (ZERO))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:0)
-=================================================
-Progress: 42
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-nat2 : nat
----------------------------------------
-forall (nat1:nat), natadd_ta1 (nat1) (natmul_helper (ZERO) (nat1) (ZERO)) = natmul_helper (ZERO) (nat1) (natadd (nat1) (ZERO))
+natmul (ZERO) (ZERO) = natadd (natmul (ZERO) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -1307,35 +1287,10 @@ forall (nat1:nat), natadd_ta1 (nat1) (natmul_helper (ZERO) (nat1) (ZERO)) = natm
 >>> simpl in goal(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-nat2 : nat
----------------------------------------
-forall (nat1:nat), natadd_ta1 (nat1) (ZERO) = natadd (nat1) (ZERO)
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-induction nat1(rank:0)
-=================================================
-Progress: 43
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), natadd_ta1 (ZERO) (natmul_helper (nat2) (ZERO) (ZERO)) = natmul_helper (nat2) (ZERO) (natadd (ZERO) (ZERO))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-nat1 : nat
----------------------------------------
-forall (nat2:nat), natmul_helper (nat2) (ZERO) (ZERO) = natmul_helper (nat2) (ZERO) (ZERO)
+ZERO = ZERO
 
 1 goal(s) more...
 
@@ -1343,39 +1298,13 @@ forall (nat2:nat), natmul_helper (nat2) (ZERO) (ZERO) = natmul_helper (nat2) (ZE
 Tactic List : 1
 reflexivity(rank:0)
 =================================================
-Progress: 44
+Progress: 42
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-nat2 : nat
----------------------------------------
-forall (nat1:nat), natadd_ta1 (nat1) (ZERO) = natadd (nat1) (ZERO)
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> induction nat1(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-nat1 : nat
-nat2 : nat
----------------------------------------
-natadd_ta1 (ZERO) (ZERO) = natadd (ZERO) (ZERO)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:0)
-=================================================
-Progress: 45
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), natmul_helper (nat2) (ZERO) (ZERO) = natmul_helper (nat2) (ZERO) (ZERO)
+ZERO = ZERO
 
 1 goal(s) more...
 
@@ -1383,13 +1312,13 @@ forall (nat2:nat), natmul_helper (nat2) (ZERO) (ZERO) = natmul_helper (nat2) (ZE
 >>> reflexivity(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
 nat1 : nat
-nat3 : nat
-IH1 : forall (nat2:nat), natadd_ta1 (nat3) (natmul_helper (nat2) (nat3) (ZERO)) = natmul_helper (nat2) (nat3) (natadd (nat3) (ZERO))
-Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
+IH1 : natmul (nat2) (ZERO) = natadd (natmul (nat2) (ZERO)) (ZERO)
+Inductive1 : nat1 = SUCC (nat2)
 ---------------------------------------
-forall (nat2:nat), natadd_ta1 (SUCC (nat3)) (natmul_helper (nat2) (SUCC (nat3)) (ZERO)) = natmul_helper (nat2) (SUCC (nat3)) (natadd (SUCC (nat3)) (ZERO))
+natmul (SUCC (nat2)) (ZERO) = natadd (natmul (SUCC (nat2)) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
@@ -1398,16 +1327,16 @@ Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:0)
 =================================================
-Progress: 46
+Progress: 43
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
 nat1 : nat
-nat3 : nat
-IH1 : forall (nat2:nat), natadd_ta1 (nat3) (natmul_helper (nat2) (nat3) (ZERO)) = natmul_helper (nat2) (nat3) (natadd (nat3) (ZERO))
-Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
+IH1 : natmul (nat2) (ZERO) = natadd (natmul (nat2) (ZERO)) (ZERO)
+Inductive1 : nat1 = SUCC (nat2)
 ---------------------------------------
-forall (nat2:nat), natadd_ta1 (SUCC (nat3)) (natmul_helper (nat2) (SUCC (nat3)) (ZERO)) = natmul_helper (nat2) (SUCC (nat3)) (natadd (SUCC (nat3)) (ZERO))
+natmul (SUCC (nat2)) (ZERO) = natadd (natmul (SUCC (nat2)) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
@@ -1415,89 +1344,62 @@ forall (nat2:nat), natadd_ta1 (SUCC (nat3)) (natmul_helper (nat2) (SUCC (nat3)) 
 >>> simpl in goal(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
+1st goal of : forall (nat1:nat), natadd_ta1 (ZERO) (natmul (nat1) (ZERO)) = natadd (natmul (nat1) (ZERO)) (ZERO)
 nat1 : nat
-nat3 : nat
-IH1 : forall (nat2:nat), natadd_ta1 (nat3) (natmul_helper (nat2) (nat3) (ZERO)) = natmul_helper (nat2) (nat3) (natadd (nat3) (ZERO))
-Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
+IH1 : natmul (nat2) (ZERO) = natadd (natmul (nat2) (ZERO)) (ZERO)
+Inductive1 : nat1 = SUCC (nat2)
 ---------------------------------------
-forall (nat2:nat), SUCC (natadd_ta1 (nat3) (natmul_helper (nat2) (SUCC (nat3)) (ZERO))) = natmul_helper (nat2) (SUCC (nat3)) (natadd (nat3) (SUCC (ZERO)))
+natadd (natmul (nat2) (ZERO)) (ZERO) = natadd (natadd (natmul (nat2) (ZERO)) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 1
-induction nat2(rank:0)
+Tactic List : 4
+rewrite IH1 in goal at 1(rank:1)
+rewrite IH1 in goal at 0(rank:2)
+rewrite <- IH1 in goal at 1(rank:2)
+rewrite <- IH1 in goal at 0(rank:2)
 =================================================
-Progress: 47
+Progress: 44
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natadd_ta1 (nat3) (natmul_helper (nat2) (nat3) (ZERO)) = natmul_helper (nat2) (nat3) (natadd (nat3) (ZERO))
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
----------------------------------------
-forall (nat2:nat), SUCC (natadd_ta1 (nat3) (natmul_helper (nat2) (SUCC (nat3)) (ZERO))) = natmul_helper (nat2) (SUCC (nat3)) (natadd (nat3) (SUCC (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> induction nat2(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
 nat2 : nat
-nat1 : nat
-nat3 : nat
-IH1 : forall (nat2:nat), natadd_ta1 (nat3) (natmul_helper (nat2) (nat3) (ZERO)) = natmul_helper (nat2) (nat3) (natadd (nat3) (ZERO))
-Inductive1 : nat1 = SUCC (nat3)
 ---------------------------------------
-SUCC (natadd_ta1 (nat3) (natmul_helper (ZERO) (SUCC (nat3)) (ZERO))) = natmul_helper (ZERO) (SUCC (nat3)) (natadd (nat3) (SUCC (ZERO)))
+natmul_ta1 (nat3) (ZERO) = natadd (natmul (nat3) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
-1 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:0)
-=================================================
-Progress: 48
+0 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 1)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-nat2 : nat
+1st goal of : forall (nat1:nat) (nat2:nat), natmul_ta1 (nat1) (nat2) = natmul (nat1) (nat2)
 nat1 : nat
 nat3 : nat
-IH1 : forall (nat2:nat), natadd_ta1 (nat3) (natmul_helper (nat2) (nat3) (ZERO)) = natmul_helper (nat2) (nat3) (natadd (nat3) (ZERO))
+IH1 : forall (nat2:nat), natmul_ta1 (nat3) (nat2) = natmul (nat3) (nat2)
 Inductive1 : nat1 = SUCC (nat3)
+nat2 : nat
 ---------------------------------------
-SUCC (natadd_ta1 (nat3) (natmul_helper (ZERO) (SUCC (nat3)) (ZERO))) = natmul_helper (ZERO) (SUCC (nat3)) (natadd (nat3) (SUCC (ZERO)))
+natmul_ta1 (nat3) (ZERO) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
-1 conjecture(s) more...
->>> simpl in goal(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), natadd_ta1 (nat1) (natmul_helper (nat2) (nat1) (ZERO)) = natmul_helper (nat2) (nat1) (natadd (nat1) (ZERO))
-nat2 : nat
-nat1 : nat
-nat3 : nat
-IH1 : forall (nat2:nat), natadd_ta1 (nat3) (natmul_helper (nat2) (nat3) (ZERO)) = natmul_helper (nat2) (nat3) (natadd (nat3) (ZERO))
-Inductive1 : nat1 = SUCC (nat3)
----------------------------------------
-SUCC (natadd_ta1 (nat3) (ZERO)) = natadd (nat3) (SUCC (ZERO))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
+0 conjecture(s) more...
 Tactic List : 0
+previous tactics
 
 
 1st goal of : any
-
+nat1 : nat
+nat2 : nat
 ---------------------------------------
-forall (nat3:nat), SUCC (natadd_ta1 (nat3) (ZERO)) = natadd (nat3) (SUCC (ZERO))
+forall (nat3:nat), natmul_ta1 (nat3) (ZERO) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
@@ -1506,15 +1408,17 @@ previous tactics
 
 
 1st goal of : any
-
+nat1 : nat
+nat2 : nat
+nat3 : nat
 ---------------------------------------
-forall (nat2:nat), SUCC (natadd_ta1 (SUCC (nat2)) (ZERO)) = natadd (SUCC (nat2)) (SUCC (ZERO))
+forall (nat4:nat), natmul_ta1 (SUCC (nat4)) (ZERO) = natadd (natmul_ta1 (SUCC (nat4)) (ZERO)) (ZERO)
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 previous tactics
 state_list
-SUCC (natadd_ta1 (nat3) (ZERO)) = natadd (nat3) (SUCC (ZERO))
-SUCC (natadd_ta1 (SUCC (nat2)) (ZERO)) = natadd (SUCC (nat2)) (SUCC (ZERO))
-SUCC (natadd_ta1 (SUCC (SUCC (nat2))) (ZERO)) = natadd (SUCC (SUCC (nat2))) (SUCC (ZERO))
+natmul_ta1 (nat3) (ZERO) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)
+natmul_ta1 (SUCC (nat4)) (ZERO) = natadd (natmul_ta1 (SUCC (nat4)) (ZERO)) (ZERO)
+natmul_ta1 (SUCC (SUCC (nat5))) (ZERO) = natadd (natmul_ta1 (SUCC (SUCC (nat5))) (ZERO)) (ZERO)
