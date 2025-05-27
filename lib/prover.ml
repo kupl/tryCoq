@@ -578,11 +578,15 @@ let useless_rewrite tactic =
     src = target
     || String.starts_with ~prefix:"Inductive" src
     || String.starts_with ~prefix:"Inductive" target
+    || String.starts_with ~prefix:"Base" src
+    || String.starts_with ~prefix:"Base" target
     (* || String.starts_with ~prefix:"IH" target *)
   | Proof.RewriteReverse (src, target, _) ->
     src = target
     || String.starts_with ~prefix:"Inductive" src
     || String.starts_with ~prefix:"Inductive" target
+    || String.starts_with ~prefix:"Base" src
+    || String.starts_with ~prefix:"Base" target
     (* || String.starts_with ~prefix:"IH" target *)
     || (String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"goal" target)
   | _ -> false

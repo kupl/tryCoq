@@ -175,7 +175,9 @@ let get_index_type_of_induction (env : env) (state : state) =
   let facts, _, _ = state in
   let last_induction =
     List.find
-      (fun (name, _) -> String.starts_with ~prefix:"Inductive" name)
+      (fun (name, _) ->
+         String.starts_with ~prefix:"Inductive" name
+         || String.starts_with ~prefix:"Base" name)
       (List.rev facts)
   in
   let constructor, typ =
@@ -943,6 +945,11 @@ let naive_generalize t =
       else Some (Proof.Forall (vars @ qvars, Proof.Imply (facts, goal)))
     in
     just_generalize_new_goal)
+;;
+
+let generalize_common_subterm t =
+  ignore t;
+  failwith "TODO"
 ;;
 
 let advanced_generalize t : (t * lemma list) option =

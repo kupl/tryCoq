@@ -588,6 +588,10 @@ let apply_induction name (state : state) t : state list =
                  ( constr
                  , List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind )
            in
+           let base_fact =
+             let fact_name = "Base" ^ string_of_int (fact_index t "Base") in
+             fact_name, Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = base_case; typ })
+           in
            let new_goal, _, _ =
              substitute_expr_in_prop
                Ir.is_equal_expr
@@ -618,7 +622,9 @@ let apply_induction name (state : state) t : state list =
                facts
            in
            let typ_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
-           facts @ (first_fact :: typ_facts), new_goal, graph_of_prop new_goal
+           ( facts @ (first_fact :: typ_facts) @ [ base_fact ]
+           , new_goal
+           , graph_of_prop new_goal )
          | _ ->
            let new_args, new_rec_args =
              partition_and_transform
@@ -1235,6 +1241,10 @@ let apply_strong_induction name (state : state) t : state list =
                  , List.map (fun (name, typ) -> Ir.{ desc = Ir.Var name; typ }) arg_bind
                  )
            in
+           let base_fact =
+             let fact_name = "Base" ^ string_of_int (fact_index t "Base") in
+             fact_name, Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = base_case; typ })
+           in
            let new_goal, _, _ =
              substitute_expr_in_prop
                Ir.is_equal_expr
@@ -1264,7 +1274,7 @@ let apply_strong_induction name (state : state) t : state list =
                   name, prop)
                facts
            in
-           facts @ [ first_fact ], new_goal, graph_of_prop new_goal
+           facts @ [ first_fact; base_fact ], new_goal, graph_of_prop new_goal
          | _ ->
            let new_args, _ =
              partition_and_transform
