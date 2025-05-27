@@ -82,12 +82,11 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
                in
                let _ = print_endline "New Env" in
                let _ = new_env |> Ir.pp_t |> print_endline in
-               let _ = print_endline "Advanced Generalize" in
-               let _ = print_endline "Assert List" in
+               let _ = print_endline "Lemma List" in
                let _ =
                  assert_list |> List.iter (fun x -> Proof.pp_prop x |> print_endline)
                in
-               let _ = print_endline "End of Assert List" in
+               let _ = print_endline "End of Lemma List" in
                let heads, tl = split_tale assert_list in
                let new_t =
                  match heads with

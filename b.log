@@ -260,9 +260,10 @@ natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
 1 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 3
+Tactic List : 4
 simpl in goal(rank:0)
 rewrite <- IH1 in goal at 0(rank:2)
+rewrite <- IH1 in goal at 2(rank:2)
 rewrite <- IH1 in goal at 1(rank:2)
 =================================================
 Progress: 10
@@ -295,7 +296,8 @@ natmul (nat3) (ZERO) = natadd (natmul (nat3) (ZERO)) (ZERO)
 1 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 2
+Tactic List : 3
+rewrite <- IH1 in goal at 2(rank:2)
 rewrite <- IH1 in goal at 1(rank:2)
 rewrite <- IH1 in goal at 0(rank:2)
 =================================================
@@ -487,33 +489,13 @@ forall (nat2:nat), natadd_ta1 (nat2) (natmul (nat3) (nat2)) = natadd (natmul (na
 0 goal(s) more...
 
 0 conjecture(s) more...
-previous tactics
-
-
-1st goal of : any
-nat1 : nat
-nat2 : nat
-nat4 : nat
----------------------------------------
-forall (nat3:nat), SUCC (natadd_ta1 (nat4) (natmul (nat3) (SUCC (nat4)))) = natadd (natmul (nat3) (SUCC (nat4))) (SUCC (nat4))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-previous tactics
 state_list
-natadd_ta1 (nat2) (natmul (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
-SUCC (natadd_ta1 (nat4) (natmul (nat3) (SUCC (nat4)))) = natadd (natmul (nat3) (SUCC (nat4))) (SUCC (nat4))
-SUCC (natadd_ta1 (nat4) (natadd (natmul (nat5) (SUCC (nat4))) (SUCC (nat4)))) = natadd (natadd (natmul (nat5) (SUCC (nat4))) (SUCC (nat4))) (SUCC (nat4))
-lhs_common_subtree
-rhs_common_subtree
 New Env
 
 ;;
-Advanced Generalize
-Assert List
+Lemma List
 forall (nat2:nat) (nat3:nat), natadd_ta1 (nat2) (natmul (nat3) (nat2)) = natadd (natmul (nat3) (nat2)) (nat2)
-End of Assert List
+End of Lemma List
 =================================================
 Progress: 17
 
@@ -779,9 +761,10 @@ natadd_ta1 (SUCC (nat3)) (ZERO) = SUCC (nat3)
 
 1 conjecture(s) more...
 Deduplication: 0
-Tactic List : 3
+Tactic List : 4
 simpl in goal(rank:0)
 rewrite <- IH1 in goal at 0(rank:2)
+rewrite <- IH1 in goal at 2(rank:1)
 rewrite <- IH1 in goal at 1(rank:2)
 =================================================
 Progress: 27
@@ -814,10 +797,11 @@ SUCC (natadd_ta1 (nat3) (ZERO)) = SUCC (nat3)
 1 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 3
+Tactic List : 4
+rewrite <- IH1 in goal at 2(rank:1)
+rewrite <- IH1 in goal at 1(rank:2)
 rewrite IH1 in goal at 0(rank:1)
 rewrite <- IH1 in goal at 0(rank:2)
-rewrite <- IH1 in goal at 1(rank:2)
 =================================================
 Progress: 28
 
@@ -880,11 +864,13 @@ natadd (natmul (nat3) (ZERO)) (ZERO) = natadd (natadd (natmul (nat3) (ZERO)) (ZE
 1 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 4
+Tactic List : 6
+rewrite <- IH1 in goal at 2(rank:1)
 rewrite IH1 in goal at 1(rank:1)
 rewrite IH1 in goal at 0(rank:2)
-rewrite <- IH1 in goal at 1(rank:2)
 rewrite <- IH1 in goal at 0(rank:2)
+rewrite IH1 in goal at 2(rank:2)
+rewrite <- IH1 in goal at 1(rank:2)
 =================================================
 Progress: 30
 
@@ -929,7 +915,6 @@ forall (nat3:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul
 0 goal(s) more...
 
 0 conjecture(s) more...
-previous tactics
 
 
 1st goal of : any
@@ -942,7 +927,6 @@ forall (nat4:nat), natadd_ta1 (ZERO) (natmul_ta1 (SUCC (nat4)) (ZERO)) = natadd 
 0 goal(s) more...
 
 0 conjecture(s) more...
-previous tactics
 state_list
 natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)
 natadd_ta1 (ZERO) (natmul_ta1 (SUCC (nat4)) (ZERO)) = natadd (natmul_ta1 (SUCC (nat4)) (ZERO)) (ZERO)
@@ -952,10 +936,9 @@ rhs_common_subtree
 New Env
 
 ;;
-Advanced Generalize
-Assert List
+Lemma List
 forall (nat3:nat), natadd_ta1 (ZERO) (natmul_ta1 (nat3) (ZERO)) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)
-End of Assert List
+End of Lemma List
 =================================================
 Progress: 31
 
@@ -1118,8 +1101,9 @@ natmul_ta1 (nat2) (ZERO) = natadd (natmul_ta1 (nat2) (ZERO)) (ZERO)
 0 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 3
+Tactic List : 4
 rewrite <- IH1 in goal at 0(rank:1)
+rewrite IH1 in goal at 2(rank:2)
 rewrite IH1 in goal at 1(rank:1)
 rewrite IH1 in goal at 0(rank:2)
 =================================================
@@ -1166,7 +1150,6 @@ forall (nat3:nat), natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (na
 0 goal(s) more...
 
 0 conjecture(s) more...
-previous tactics
 
 
 1st goal of : any
@@ -1179,7 +1162,6 @@ forall (nat4:nat), natadd_ta1 (ZERO) (natmul (SUCC (nat4)) (ZERO)) = natadd (nat
 0 goal(s) more...
 
 0 conjecture(s) more...
-previous tactics
 state_list
 natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
 natadd_ta1 (ZERO) (natmul (SUCC (nat4)) (ZERO)) = natadd (natmul (SUCC (nat4)) (ZERO)) (ZERO)
@@ -1189,10 +1171,9 @@ rhs_common_subtree
 New Env
 
 ;;
-Advanced Generalize
-Assert List
+Lemma List
 forall (nat3:nat), natadd_ta1 (ZERO) (natmul (nat3) (ZERO)) = natadd (natmul (nat3) (ZERO)) (ZERO)
-End of Assert List
+End of Lemma List
 =================================================
 Progress: 38
 
@@ -1355,11 +1336,13 @@ natadd (natmul (nat2) (ZERO)) (ZERO) = natadd (natadd (natmul (nat2) (ZERO)) (ZE
 0 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 4
+Tactic List : 6
+rewrite <- IH1 in goal at 2(rank:1)
 rewrite IH1 in goal at 1(rank:1)
 rewrite IH1 in goal at 0(rank:2)
-rewrite <- IH1 in goal at 1(rank:2)
 rewrite <- IH1 in goal at 0(rank:2)
+rewrite IH1 in goal at 2(rank:2)
+rewrite <- IH1 in goal at 1(rank:2)
 =================================================
 Progress: 44
 
@@ -1404,7 +1387,6 @@ forall (nat3:nat), natmul_ta1 (nat3) (ZERO) = natadd (natmul_ta1 (nat3) (ZERO)) 
 0 goal(s) more...
 
 0 conjecture(s) more...
-previous tactics
 
 
 1st goal of : any
@@ -1417,7 +1399,6 @@ forall (nat4:nat), natmul_ta1 (SUCC (nat4)) (ZERO) = natadd (natmul_ta1 (SUCC (n
 0 goal(s) more...
 
 0 conjecture(s) more...
-previous tactics
 state_list
 natmul_ta1 (nat3) (ZERO) = natadd (natmul_ta1 (nat3) (ZERO)) (ZERO)
 natmul_ta1 (SUCC (nat4)) (ZERO) = natadd (natmul_ta1 (SUCC (nat4)) (ZERO)) (ZERO)

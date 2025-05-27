@@ -241,10 +241,15 @@ let make_next_step index ind_typ t : state option =
     let facts = filtering_concerned_fact facts goal in
     let facts = List.map snd facts in
     let facts = List.map Proof.rename_prop facts in
+    let qvars, goal =
+      match goal with
+      | Proof.Forall (qvars, goal) -> qvars, goal
+      | _ -> [], goal
+    in
     let new_goal =
       if List.is_empty facts
-      then Proof.Forall ([ ind_var ], goal)
-      else Proof.Forall ([ ind_var ], Proof.Imply (facts, goal))
+      then Proof.Forall (ind_var :: qvars, goal)
+      else Proof.Forall (ind_var :: qvars, Proof.Imply (facts, goal))
     in
     let lemma_stack = Proof.get_lemma_stack t in
     let dummy_goal = Proof.Type Ir.Tany in
@@ -268,6 +273,10 @@ let make_next_step index ind_typ t : state option =
 
 let fast_execution depth t : state list =
   let first_state = Proof.get_first_state t in
+  let first_state =
+    try Proof.apply_intro "*" first_state with
+    | _ -> first_state
+  in
   let index_typ_opt =
     try Some (get_index_type_of_induction t.Proof.env first_state) with
     | _ -> None
@@ -292,7 +301,6 @@ let fast_execution depth t : state list =
            | Some t ->
              (match make_next_step index ind_typ t with
               | Some new_state ->
-                let _ = print_endline "previous tactics" in
                 (try
                    let new_t =
                      List.fold_left
@@ -423,6 +431,7 @@ let find_larget_common_subtree expr1 expr2 =
 ;;
 
 let new_catch_recursive_pattern env expr_list =
+  (* In catching pattern, have to handle error! *)
   let rec get_parent source expr =
     match expr.Ir.desc with
     | Call (_, args) ->
@@ -914,75 +923,32 @@ let pattern_recognition env ihs state_list : env * lemma list =
 ;;
 
 let naive_generalize t =
-  let env = t.Proof.env in
   let state = Proof.get_first_state t in
   let facts, goal, _ = state in
-  let vars = collect_free_var_in_prop goal [] in
-  let vars = List.filter (fun (var, _) -> Prover.is_decreasing_var env state var) vars in
+  let vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
   if List.is_empty vars
   then None
   else (
-    let just_generalize_var =
-      collect_free_var_in_prop goal [] |> List.sort_uniq compare
-    in
     let facts = filtering_concerned_fact facts goal in
     let facts = List.map snd facts in
     let facts = List.map Proof.rename_prop facts in
+    let qvars, goal =
+      match goal with
+      | Proof.Forall (vars, goal) -> vars, goal
+      | _ -> [], goal
+    in
     let just_generalize_new_goal =
-      if List.is_empty just_generalize_var
-      then None
-      else if List.is_empty facts
-      then Some (Proof.Forall (just_generalize_var, goal))
-      else Some (Proof.Forall (just_generalize_var, Proof.Imply (facts, goal)))
+      if List.is_empty facts
+      then Some (Proof.Forall (vars @ qvars, goal))
+      else Some (Proof.Forall (vars @ qvars, Proof.Imply (facts, goal)))
     in
     just_generalize_new_goal)
-;;
-
-let symbolic_execution t : t list =
-  let rec symbolic_execution_by_depth t depth (acc : t list) : t list =
-    if depth = 0
-    then acc
-    else (
-      match Prover.progress_single_thread t with
-      | new_t, [] ->
-        let new_goal = naive_generalize new_t in
-        (match new_goal with
-         | Some new_goal ->
-           let new_t = Proof.apply_assert new_goal new_t in
-           symbolic_execution_by_depth new_t (depth - 1) (acc @ [ new_t ])
-         | _ -> [])
-      | new_t, _ -> [ new_t ])
-  in
-  let lemma_stack = Proof.get_lemma_stack t in
-  let new_goal = naive_generalize t in
-  match new_goal with
-  | Some new_goal ->
-    let new_t = Proof.create_t t.Proof.env ~proof:(lemma_stack, [], []) () in
-    let new_t = Proof.apply_assert new_goal new_t in
-    symbolic_execution_by_depth new_t 2 [ t ]
-  | _ -> []
 ;;
 
 let advanced_generalize t : (t * lemma list) option =
   let first_state = Proof.get_first_state t in
   let facts, _, _ = first_state in
   let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
-  (*
-     let execution_list = symbolic_execution t in
-  match execution_list with
-  | [ done_t ] ->
-    let new_tactic = Proof.get_tactic_history done_t in
-    let _ = print_endline "tactics" in
-    let _ =
-      List.iter (fun tactic -> Proof.pp_tactic tactic |> print_endline) new_tactic
-    in
-    let new_t =
-      List.fold_left (fun acc tactic -> Proof.apply_tactic acc tactic) t new_tactic
-    in
-    Some (new_t, [])
-  | [] -> None
-  | _ ->
-    let state_list = List.map Proof.get_first_state execution_list in *)
   let state_list = fast_execution 2 t in
   let _ = print_endline "state_list" in
   let _ =

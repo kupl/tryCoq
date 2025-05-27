@@ -600,7 +600,7 @@ let substitute_expr pred convert target expr_from expr_to i is_rewrite result =
   let expr, result, cnt =
     substitute_expr' pred convert target expr_from expr_to 1 result
   in
-  expr, result, cnt
+  expr, result, cnt - 1
 ;;
 
 let rec is_equal_expr e1 e2 =

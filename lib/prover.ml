@@ -743,32 +743,3 @@ let prune_rank_worklist_update_state_list t candidates statelist =
 ;;
 
 let is_stuck worklist = WorkList.is_empty worklist
-
-let progress_single_thread t =
-  let _ = print_endline "*******************************************" in
-  let statelist = ProofSet.empty in
-  let rec progress_single_thread' t (statelist : ProofSet.t) =
-    let tactic_list = mk_candidates t in
-    let worklist, statelist =
-      prune_rank_worklist_update_state_list t tactic_list statelist
-    in
-    let _ = print_endline "candidates" in
-    let _ =
-      WorkList.iter
-        (fun (_, tactic, _, r) ->
-           Proof.pp_tactic tactic ^ "(rank:" ^ string_of_int r ^ ")" |> print_endline)
-        worklist
-    in
-    match WorkList.is_empty worklist with
-    | true -> t, []
-    | _ ->
-      let _, work = WorkList.take_exn worklist in
-      let _, tactic, next_t, _ = work in
-      let _ = ">>> " ^ Proof.pp_tactic tactic |> print_endline in
-      let _ = Proof.pp_t next_t |> print_endline in
-      (match next_t.proof with
-       | _, [], tactic_list -> next_t, tactic_list
-       | _ -> progress_single_thread' next_t statelist)
-  in
-  progress_single_thread' t statelist
-;;

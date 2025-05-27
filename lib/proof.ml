@@ -364,132 +364,149 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i is_rewrite =
     =
     match target with
     | Eq (e1, e2) ->
-      let lhs, result, cnt =
+      let lhs, result, cnt1 =
         substitute_expr_in_expr pred convert e1 expr_from expr_to i is_rewrite result
       in
-      let rhs, result, cnt =
-        substitute_expr_in_expr
-          pred
-          convert
-          e2
-          expr_from
-          expr_to
-          (if i = 0 then 0 else cnt)
-          is_rewrite
-          result
-      in
-      Eq (lhs, rhs), result, cnt
+      if cnt1 < i || i = 0
+      then (
+        let rhs, result, cnt2 =
+          substitute_expr_in_expr
+            pred
+            convert
+            e2
+            expr_from
+            expr_to
+            (if i = 0 then 0 else i - cnt1)
+            is_rewrite
+            result
+        in
+        Eq (lhs, rhs), result, cnt1 + cnt2)
+      else Eq (lhs, e2), result, cnt1
     | Le (e1, e2) ->
-      let lhs, result, cnt =
+      let lhs, result, cnt1 =
         substitute_expr_in_expr pred convert e1 expr_from expr_to i is_rewrite result
       in
-      let rhs, result, cnt =
-        substitute_expr_in_expr
-          pred
-          convert
-          e2
-          expr_from
-          expr_to
-          (if i = 0 then 0 else cnt)
-          is_rewrite
-          result
-      in
-      Le (lhs, rhs), result, cnt
+      if cnt1 < i || i = 0
+      then (
+        let rhs, result, cnt2 =
+          substitute_expr_in_expr
+            pred
+            convert
+            e2
+            expr_from
+            expr_to
+            (if i = 0 then 0 else i - cnt1)
+            is_rewrite
+            result
+        in
+        Le (lhs, rhs), result, cnt1 + cnt2)
+      else Le (lhs, e2), result, cnt1
     | Lt (e1, e2) ->
-      let lhs, result, cnt =
+      let lhs, result, cnt1 =
         substitute_expr_in_expr pred convert e1 expr_from expr_to i is_rewrite result
       in
-      let rhs, result, cnt =
-        substitute_expr_in_expr
-          pred
-          convert
-          e2
-          expr_from
-          expr_to
-          (if i = 0 then 0 else cnt)
-          is_rewrite
-          result
-      in
-      Lt (lhs, rhs), result, cnt
+      if cnt1 < i || i = 0
+      then (
+        let rhs, result, cnt2 =
+          substitute_expr_in_expr
+            pred
+            convert
+            e2
+            expr_from
+            expr_to
+            (if i = 0 then 0 else i - cnt1)
+            is_rewrite
+            result
+        in
+        Lt (lhs, rhs), result, cnt1 + cnt2)
+      else Lt (lhs, e2), result, cnt1
     | And (p1, p2) ->
-      let p1, result, cnt =
+      let p1, result, cnt1 =
         substitute_expr_in_prop' pred convert p1 expr_from expr_to i is_rewrite result
       in
-      let p2, result, cnt =
-        substitute_expr_in_prop'
-          pred
-          convert
-          p2
-          expr_from
-          expr_to
-          (if i = 0 then 0 else cnt)
-          is_rewrite
-          result
-      in
-      And (p1, p2), result, cnt
+      if cnt1 < i || i = 0
+      then (
+        let p2, result, cnt2 =
+          substitute_expr_in_prop'
+            pred
+            convert
+            p2
+            expr_from
+            expr_to
+            (if i = 0 then 0 else i - cnt1)
+            is_rewrite
+            result
+        in
+        And (p1, p2), result, cnt1 + cnt2)
+      else And (p1, p2), result, cnt1
     | Or (p1, p2) ->
-      let p1, result, cnt =
+      let p1, result, cnt1 =
         substitute_expr_in_prop' pred convert p1 expr_from expr_to i is_rewrite result
       in
-      let p2, result, cnt =
-        substitute_expr_in_prop'
-          pred
-          convert
-          p2
-          expr_from
-          expr_to
-          (if i = 0 then 0 else cnt)
-          is_rewrite
-          result
-      in
-      Or (p1, p2), result, cnt
+      if cnt1 < i || i = 0
+      then (
+        let p2, result, cnt2 =
+          substitute_expr_in_prop'
+            pred
+            convert
+            p2
+            expr_from
+            expr_to
+            (if i = 0 then 0 else i - cnt1)
+            is_rewrite
+            result
+        in
+        Or (p1, p2), result, cnt1 + cnt2)
+      else Or (p1, p2), result, cnt1
     | Not p ->
       let p, result, cnt =
         substitute_expr_in_prop' pred convert p expr_from expr_to i is_rewrite result
       in
-      Not p, result, cnt
+      Not p, result, cnt - 1
     | Forall (var_list, p) ->
       let p, result, cnt =
         substitute_expr_in_prop' pred convert p expr_from expr_to i is_rewrite result
       in
       Forall (var_list, p), result, cnt
     | Imply (cond_list, p2) ->
-      let cond_list, result, cnt =
+      let cond_list, result, cnt1 =
         List.fold_left
-          (fun (cond_list, result, cnt) cond ->
-             let cond, result, cnt =
+          (fun (cond_list, result, cnt1) cond ->
+             let cond, result, cnt2 =
                substitute_expr_in_prop'
                  pred
                  convert
                  cond
                  expr_from
                  expr_to
-                 cnt
+                 (if i = 0 then 0 else i - cnt1)
                  is_rewrite
                  result
              in
-             cond_list @ [ cond ], result, cnt)
-          ([], result, i)
+             cond_list @ [ cond ], result, cnt1 + cnt2)
+          ([], result, 0)
           cond_list
       in
-      let p2, result, cnt =
-        substitute_expr_in_prop'
-          pred
-          convert
-          p2
-          expr_from
-          expr_to
-          (if i = 0 then 0 else cnt)
-          is_rewrite
-          result
-      in
-      Imply (cond_list, p2), result, cnt
+      if cnt1 < i || i = 0
+      then (
+        let p2, result, cnt2 =
+          substitute_expr_in_prop'
+            pred
+            convert
+            p2
+            expr_from
+            expr_to
+            (if i = 0 then 0 else i - cnt1)
+            is_rewrite
+            result
+        in
+        Imply (cond_list, p2), result, cnt1 + cnt2)
+      else Imply (cond_list, p2), result, cnt1
     | Type typ -> Type typ, result, i
   in
   let new_prop, result, cnt =
     substitute_expr_in_prop' pred convert target expr_from expr_to i is_rewrite []
   in
-  let _ = if cnt < i && i > 0 then failwith "Cannot rewrite the i-th term" in
   new_prop, result, cnt
 ;;
 
@@ -953,7 +970,7 @@ let apply_rewrite
   in
   match target_label with
   | "goal" ->
-    let new_goal, match_list, _ =
+    let new_goal, match_list, cnt =
       substitute_expr_in_prop
         (forall_target var_list)
         convert_in_rewrite
@@ -963,7 +980,9 @@ let apply_rewrite
         i
         true
     in
-    if
+    if cnt < i || cnt = 0
+    then failwith "Cannot find the i-th occurrence of the expression in the goal"
+    else if
       not
         (List.for_all
            (fun (e1, _) ->
@@ -979,7 +998,6 @@ let apply_rewrite
       |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b));
       failwith "Cannot find matched variable")
     else (
-      (* have to deep copy egraph *)
       let new_graph = update_egraph graph expr_from expr_to match_list in
       let new_task =
         List.map
@@ -1005,7 +1023,7 @@ let apply_rewrite
       @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task)
   | _ ->
     let target_fact = List.assoc target_label facts in
-    let new_fact, match_list, _ =
+    let new_fact, match_list, cnt =
       substitute_expr_in_prop
         (forall_target var_list)
         convert_in_rewrite
@@ -1014,6 +1032,10 @@ let apply_rewrite
         expr_to
         i
         true
+    in
+    let _ =
+      if cnt < i || cnt = 0
+      then failwith "Cannot find the i-th occurrence of the expression in the such fact"
     in
     let fact =
       List.map
@@ -1066,7 +1088,7 @@ let apply_rewrite_reverse
   in
   match target_label with
   | "goal" ->
-    let new_goal, match_list, _ =
+    let new_goal, match_list, cnt =
       substitute_expr_in_prop
         (forall_target var_list)
         convert_in_rewrite
@@ -1075,6 +1097,10 @@ let apply_rewrite_reverse
         expr_to
         i
         true
+    in
+    let _ =
+      if cnt < i || cnt = 0
+      then failwith "Cannot find the i-th occurrence of the expression in the goal"
     in
     if
       not
@@ -1117,7 +1143,7 @@ let apply_rewrite_reverse
       @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task)
   | _ ->
     let target_fact = List.assoc target_label facts in
-    let new_fact, match_list, _ =
+    let new_fact, match_list, cnt =
       substitute_expr_in_prop
         (forall_target var_list)
         convert_in_rewrite
@@ -1126,6 +1152,10 @@ let apply_rewrite_reverse
         expr_to
         i
         true
+    in
+    let _ =
+      if cnt < i || cnt = 0
+      then failwith "Cannot find the i-th occurrence of the expression in the such fact"
     in
     let fact =
       List.map
