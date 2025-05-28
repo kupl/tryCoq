@@ -53,11 +53,6 @@ let difference_of_subtree subtree1 subtree2 =
   difference_of_subtree subtree1 subtree2
 ;;
 
-let is_duplicated (t : t) (lemma : lemma) : bool =
-  ignore (t, lemma);
-  failwith "TODO"
-;;
-
 let find_common_subterm expr1 expr2 : expr list =
   let l_expr_list = Prover.collect_expr_in_expr expr1 in
   let r_expr_list = Prover.collect_expr_in_expr expr2 in
@@ -924,6 +919,57 @@ let pattern_recognition env ihs state_list : env * lemma list =
       env, lhs_lemma @ rhs_lemma @ [ goal ]))
 ;;
 
+let rec size_of_expr expr =
+  match expr.Ir.desc with
+  | Var _ -> 1
+  | Call (_, args) -> 1 + List.fold_left (fun acc arg -> acc + size_of_expr arg) 0 args
+  | Match (args, cases) ->
+    List.fold_left (fun acc arg -> acc + size_of_expr arg) 0 args
+    + List.fold_left
+        (fun acc case ->
+           acc
+           +
+           match case with
+           | Ir.Case (_, e) -> size_of_expr e)
+        0
+        cases
+  | LetIn (assign, e) ->
+    List.fold_left (fun acc (_, body) -> acc + size_of_expr body) 0 assign
+    + size_of_expr e
+;;
+
+let rec generalize_common_subterm goal =
+  let common_expr_list = find_common_subterm_in_prop goal in
+  if List.is_empty common_expr_list
+  then goal
+  else (
+    let max_expr, max =
+      List.fold_left
+        (fun (max_expr, max) expr ->
+           let size = size_of_expr expr in
+           if size > max then expr, size else max_expr, max)
+        (List.hd common_expr_list, size_of_expr (List.hd common_expr_list))
+        (List.tl common_expr_list)
+    in
+    if collect_free_var_in_expr max_expr [] = [] || max = 1
+    then goal
+    else (
+      let new_goal, _, _ =
+        Proof.substitute_expr_in_prop
+          Ir.is_equal_expr
+          (fun _ _ expr_to -> expr_to, [])
+          goal
+          max_expr
+          Ir.
+            { desc = Var ("arg" ^ string_of_int (get_global_cnt ()))
+            ; typ = max_expr.Ir.typ
+            }
+          0
+          false
+      in
+      generalize_common_subterm new_goal))
+;;
+
 let naive_generalize t =
   let state = Proof.get_first_state t in
   let facts, goal, _ = state in
@@ -939,17 +985,25 @@ let naive_generalize t =
       | Proof.Forall (vars, goal) -> vars, goal
       | _ -> [], goal
     in
+    let generalize_common_subterm = generalize_common_subterm goal in
+    let generalize_common_subterm =
+      if List.is_empty facts
+      then generalize_common_subterm
+      else Proof.Imply (facts, generalize_common_subterm)
+    in
+    let generalize_common_subterm_goal =
+      let qvars =
+        collect_free_var_in_prop generalize_common_subterm [] |> List.sort_uniq compare
+      in
+      Some (Proof.Forall (qvars, generalize_common_subterm))
+    in
     let just_generalize_new_goal =
       if List.is_empty facts
       then Some (Proof.Forall (vars @ qvars, goal))
       else Some (Proof.Forall (vars @ qvars, Proof.Imply (facts, goal)))
     in
-    just_generalize_new_goal)
-;;
-
-let generalize_common_subterm t =
-  ignore t;
-  failwith "TODO"
+    ignore just_generalize_new_goal;
+    generalize_common_subterm_goal)
 ;;
 
 let advanced_generalize t : (t * lemma list) option =
