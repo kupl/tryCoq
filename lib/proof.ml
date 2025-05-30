@@ -106,6 +106,24 @@ let graph_of_prop prop =
   graph
 ;;
 
+let compare_fact_list (facts1 : fact list) (facts2 : fact list) =
+  List.length facts1 = List.length facts2
+  && facts1 |> List.sort_uniq compare = (facts2 |> List.sort_uniq compare)
+;;
+
+let compare_conj (conj1 : conjecture) (conj2 : conjecture) =
+  let conj1 = fst conj1 in
+  let conj2 = fst conj2 in
+  List.length conj1 = List.length conj2
+  && List.for_all2
+       (fun state1 state2 ->
+          let facts1, goal1, _ = state1 in
+          let facts2, goal2, _ = state2 in
+          compare_fact_list facts1 facts2 && goal1 = goal2)
+       conj1
+       conj2
+;;
+
 let remove_graph (conjecture_list : conjecture list) =
   List.map
     (fun conj ->

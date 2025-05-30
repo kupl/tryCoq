@@ -7,15 +7,18 @@ type expr = Proof.expr
 type graph = Egraph.L.op Egraph.Egraph.t
 
 module WorkList = CCHeap.Make_from_compare (struct
-    type t = Proof.t * tactic * Proof.t * int
+    type t = Proof.t * tactic * Proof.t * int * int
 
-    let compare (t1, _, _, r1) (t2, _, _, r2) =
+    let compare (t1, _, _, r1, ord1) (t2, _, _, r2, ord2) =
       let conjs1 = Proof.get_conj_list t1 |> List.length in
       let conjs2 = Proof.get_conj_list t2 |> List.length in
       let goals1 = Proof.get_goal_list t1 |> List.length in
       let goals2 = Proof.get_goal_list t2 |> List.length in
       if r1 = r2
-      then if conjs1 = conjs2 then compare goals1 goals2 else compare conjs1 conjs2
+      then
+        if conjs1 = conjs2
+        then if goals1 = goals2 then compare ord1 ord2 else compare goals1 goals2
+        else compare conjs1 conjs2
       else compare r1 r2
     ;;
   end)
@@ -26,7 +29,7 @@ module ProofSet = CCSet.Make (struct
     let compare = compare
   end)
 
-let make_synth_counter () =
+let make_order_counter () =
   let count = ref 0 in
   fun () ->
     incr count;
@@ -46,11 +49,11 @@ let rec split pred lst =
       a, hd :: b)
 ;;
 
-let synth_counter = make_synth_counter ()
+let order_counter = make_order_counter ()
 
-let rec is_sub_list lst1 lst2 =
+let rec is_sub_list pred lst1 lst2 =
   match lst1, lst2 with
-  | hd1 :: tl1, hd2 :: tl2 -> if hd1 = hd2 then is_sub_list tl1 tl2 else false
+  | hd1 :: tl1, hd2 :: tl2 -> if pred hd1 hd2 then is_sub_list pred tl1 tl2 else false
   | [], _ -> true
   | _, [] -> false
 ;;
@@ -62,13 +65,17 @@ let is_sub_t t1 t2 =
   let state_list2 = List.map fst conjs2 |> List.concat in
   let state_list1 = List.map (fun (fact_list, goal, _) -> fact_list, goal) state_list1 in
   let state_list2 = List.map (fun (fact_list, goal, _) -> fact_list, goal) state_list2 in
-  is_sub_list (List.rev state_list1) (List.rev state_list2)
+  is_sub_list
+    (fun (fact_list1, goal1) (fact_list2, goal2) ->
+       Proof.compare_fact_list fact_list1 fact_list2 && goal1 = goal2)
+    (List.rev state_list1)
+    (List.rev state_list2)
 ;;
 
 let deduplicate_worklist worklist t =
   let len1 = WorkList.size worklist in
   let worklist =
-    WorkList.filter (fun (proof_t, _, _, _) -> not (is_sub_t t proof_t)) worklist
+    WorkList.filter (fun (proof_t, _, _, _, _) -> not (is_sub_t t proof_t)) worklist
   in
   let len2 = WorkList.size worklist in
   let _ = print_endline ("Deduplication: " ^ string_of_int (len1 - len2)) in
@@ -268,8 +275,7 @@ let is_duplicated new_t state_list =
     (fun old_t ->
        let lemma_stack' = Proof.get_lemma_stack old_t in
        let conj_list = Proof.get_conj_list old_t in
-       lemma_stack = lemma_stack'
-       && Proof.remove_graph next_conj = Proof.remove_graph conj_list)
+       lemma_stack = lemma_stack' && List.for_all2 Proof.compare_conj next_conj conj_list)
     state_list
 ;;
 
@@ -602,7 +608,14 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
   let qvar_list = collect_qvar_in_prop goal in
   match tactic with
   | Proof.Intro var_name ->
-    if List.exists (fun tactic -> tactic = Proof.SimplIn "goal") valid_tactics
+    if
+      List.exists (fun tactic -> tactic = Proof.SimplIn "goal") valid_tactics
+      || List.exists
+           (fun tactic ->
+              match tactic with
+              | Proof.Induction v -> v <> var_name
+              | _ -> false)
+           real_tactics
     then None
     else if is_mk state var_name
     then (
@@ -686,7 +699,7 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
 ;;
 
 let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
-  : (t * tactic * t * int) list
+  : (t * tactic * t * int * int) list
   =
   let trivial, non_trivial =
     split
@@ -704,21 +717,21 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
         (fun acc (tactic, next_t) ->
            let r = rank_tactic t tactic next_t valid_tactics real_tactic stateset in
            match r with
-           | Some r -> acc @ [ t, tactic, next_t, r ]
+           | Some r -> acc @ [ t, tactic, next_t, r, order_counter () ]
            | _ -> acc)
         []
         non_trivial
     in
     if
       List.for_all
-        (fun (_, tactic, _, _) ->
+        (fun (_, tactic, _, _, _) ->
            match tactic with
            | Proof.Case _ -> true
            | _ -> false)
         worklist
-    then List.map (fun (t, tactic, next_t, _) -> t, tactic, next_t, 0) worklist
+    then List.map (fun (t, tactic, next_t, _, ord) -> t, tactic, next_t, 0, ord) worklist
     else worklist
-  | (tactic, next_t) :: _ -> [ t, tactic, next_t, 0 ]
+  | (tactic, next_t) :: _ -> [ t, tactic, next_t, 0, order_counter () ]
 ;;
 
 let prune_rank_worklist_update_state_list t candidates statelist =
