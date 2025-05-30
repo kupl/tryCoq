@@ -123,6 +123,20 @@ let rec collect_fname_in_prop env goal =
   | _ -> []
 ;;
 
+let rec collect_var_in_prop prop =
+  match prop with
+  | Proof.Forall (_, prop) -> collect_var_in_prop prop
+  | Proof.Eq (lhs, rhs) | Proof.Le (lhs, rhs) | Proof.Lt (lhs, rhs) ->
+    Ir.collect_var_in_expr lhs @ Ir.collect_var_in_expr rhs
+  | Proof.And (lhs, rhs) | Proof.Or (lhs, rhs) ->
+    collect_var_in_prop lhs @ collect_var_in_prop rhs
+  | Proof.Not prop -> collect_var_in_prop prop
+  | Proof.Imply (cond_list, prop) ->
+    List.fold_left (fun acc cond -> acc @ collect_var_in_prop cond) [] cond_list
+    @ collect_var_in_prop prop
+  | _ -> []
+;;
+
 let get_decreasing_arg_index env fname =
   let fun_decl = Ir.find_decl fname env |> Option.get in
   let args, fun_expr =
@@ -605,6 +619,10 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
   let state = Proof.get_first_state t in
   let _, goal, _ = state in
   let decreasing_vars = collect_decreasing_arg env state in
+  let all_vars = collect_var_in_prop goal in
+  let non_decreasing_vars =
+    List.filter (fun v -> not (List.mem v decreasing_vars)) all_vars
+  in
   let qvar_list = collect_qvar_in_prop goal in
   match tactic with
   | Proof.Intro var_name ->
@@ -620,11 +638,8 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
     else if is_mk state var_name
     then (
       let qvar_list = List.filter (fun v -> v <> var_name) qvar_list in
-      if
-        List.exists
-          (fun qvar -> List.exists (fun var -> var = qvar) decreasing_vars)
-          qvar_list
-      then None
+      if List.exists (fun qvar -> List.mem qvar decreasing_vars) qvar_list
+      then if List.mem var_name non_decreasing_vars then Some 3 else None
       else Some 2)
     else if List.exists (fun var -> var = var_name) decreasing_vars
     then None

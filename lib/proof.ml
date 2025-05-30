@@ -1942,17 +1942,36 @@ let apply_case expr state t : state list =
     decl
 ;;
 
-let apply_desrciminate env (facts : fact list) : state list =
+let apply_discriminate env (state : state) : state list =
+  let facts, goal, _ = state in
+  let cond_list =
+    match goal with
+    | Forall (_, Imply (cond_list, _)) -> cond_list
+    | Imply (cond_list, _) -> cond_list
+    | _ -> []
+  in
+  let is_discriminated =
+    match cond_list with
+    | hd :: _ ->
+      (match hd with
+       | Eq (e1, e2) ->
+         let e1 = simplify_expr env e1 in
+         let e2 = simplify_expr env e2 in
+         Ir.absolute_neq e1 e2
+       | _ -> false)
+    | _ -> false
+  in
   if
-    List.exists
-      (fun (_, prop) ->
-         match prop with
-         | Eq (e1, e2) ->
-           let e1 = simplify_expr env e1 in
-           let e2 = simplify_expr env e2 in
-           Ir.absolute_neq e1 e2
-         | _ -> false)
-      facts
+    is_discriminated
+    || List.exists
+         (fun (_, prop) ->
+            match prop with
+            | Eq (e1, e2) ->
+              let e1 = simplify_expr env e1 in
+              let e2 = simplify_expr env e2 in
+              Ir.absolute_neq e1 e2
+            | _ -> false)
+         facts
   then []
   else failwith "Cannot Discriminate"
 ;;
@@ -2035,8 +2054,7 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
            , (remain_states, conj_goal) :: List.tl conj_list
            , tactic_list @ [ tactic ] ))
       | Discriminate ->
-        let facts, _, _ = first_state in
-        let _ = apply_desrciminate env facts in
+        let _ = apply_discriminate env first_state in
         let remain_states = List.tl state_list in
         (match remain_states with
          | [] ->

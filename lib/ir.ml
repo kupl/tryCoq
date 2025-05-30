@@ -74,6 +74,28 @@ let rec collect_var_in_pat pat =
   | _ -> []
 ;;
 
+let rec collect_var_in_expr expr =
+  match expr.desc with
+  | Var name -> [ name ]
+  | Call (_, args) -> List.map collect_var_in_expr args |> List.concat
+  | Match (match_list, cases) ->
+    let match_vars = List.map collect_var_in_expr match_list |> List.concat in
+    let case_vars =
+      List.map
+        (fun (Case (pat, e)) ->
+           let pat_vars = collect_var_in_pat pat in
+           collect_var_in_expr e |> List.filter (fun var -> not (List.mem var pat_vars)))
+        cases
+      |> List.concat
+    in
+    match_vars @ case_vars
+  | LetIn (bindings, body) ->
+    let binding_vars =
+      List.map (fun (_, e) -> collect_var_in_expr e) bindings |> List.concat
+    in
+    binding_vars @ collect_var_in_expr body
+;;
+
 let rec nth_tale n lst =
   if n = 0
   then lst

@@ -121,6 +121,12 @@ let rec collect_free_var_in_prop (goal : Proof.prop) (binding : string list)
     collect_free_var_in_prop prop (binding @ new_bind)
   | Eq (lhs, rhs) ->
     collect_free_var_in_expr lhs binding @ collect_free_var_in_expr rhs binding
+  | Imply (conds, prop) ->
+    let conds_vars =
+      List.map (fun cond -> collect_free_var_in_prop cond binding) conds |> List.concat
+    in
+    let prop_vars = collect_free_var_in_prop prop binding in
+    conds_vars @ prop_vars
   | _ -> []
 ;;
 
@@ -980,10 +986,10 @@ let naive_generalize t =
     let facts = filtering_concerned_fact facts goal in
     let facts = List.map snd facts in
     let facts = List.map Proof.rename_prop facts in
-    let qvars, goal =
+    let goal =
       match goal with
-      | Proof.Forall (vars, goal) -> vars, goal
-      | _ -> [], goal
+      | Proof.Forall (_, goal) -> goal
+      | _ -> goal
     in
     let generalize_common_subterm = generalize_common_subterm goal in
     let generalize_common_subterm =
@@ -997,12 +1003,11 @@ let naive_generalize t =
       in
       Some (Proof.Forall (qvars, generalize_common_subterm))
     in
-    let just_generalize_new_goal =
+    (* let just_generalize_new_goal =
       if List.is_empty facts
       then Some (Proof.Forall (vars @ qvars, goal))
       else Some (Proof.Forall (vars @ qvars, Proof.Imply (facts, goal)))
-    in
-    ignore just_generalize_new_goal;
+    in *)
     generalize_common_subterm_goal)
 ;;
 
