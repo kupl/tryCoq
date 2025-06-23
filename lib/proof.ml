@@ -1047,47 +1047,43 @@ let apply_rewrite
       @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task)
   | _ ->
     let target_fact = List.assoc target_label facts in
-    let new_fact, match_list, cnt =
-      substitute_expr_in_prop
-        (forall_target var_list)
-        convert_in_rewrite
-        target_fact
-        expr_from
-        expr_to
-        i
-        true
-    in
-    let _ =
-      if cnt < i || cnt = 0
-      then failwith "Cannot find the i-th occurrence of the expression in the such fact"
-    in
-    let fact =
-      List.map
-        (fun (name, prop) -> if name = target_label then name, new_fact else name, prop)
-        facts
-    in
-    let new_task =
-      List.map
-        (fun cond ->
-           List.fold_left
-             (fun cond (e1, e2) ->
-                let prop, _, _ =
-                  substitute_expr_in_prop
-                    Ir.is_equal_expr
-                    (fun _ _ expr_to -> expr_to, [])
-                    cond
-                    e1
-                    e2
-                    0
-                    false
-                in
-                prop)
-             cond
-             match_list)
-        cond_list
-    in
-    [ fact, goal, graph ]
-    @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task
+    (match cond_list with
+     | [] ->
+       let new_fact, _, cnt =
+         substitute_expr_in_prop
+           (forall_target var_list)
+           convert_in_rewrite
+           target_fact
+           expr_from
+           expr_to
+           i
+           true
+       in
+       let _ =
+         if cnt < i || cnt = 0
+         then
+           failwith "Cannot find the i-th occurrence of the expression in the such fact"
+       in
+       let fact =
+         List.map
+           (fun (name, prop) ->
+              if name = target_label then name, new_fact else name, prop)
+           facts
+       in
+       [ fact, goal, graph ]
+     | [ cond ] ->
+       if cond = target_fact
+       then (
+         let facts =
+           List.map
+             (fun (name, prop) ->
+                (* have to convert just equality to regarding quantified variable *)
+                if name = target_label then name, Eq (expr_from, expr_to) else name, prop)
+             facts
+         in
+         [ facts, goal, graph ])
+       else failwith "Condition is not matched, cannot rewrite"
+     | _ -> failwith "Cannot rewrite with multiple conditions")
 ;;
 
 let apply_rewrite_reverse
@@ -1859,6 +1855,7 @@ let apply_case expr state t : state list =
                (constr, List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind)
          in
          let case_eq = Eq (expr, Ir.{ desc = base_case; typ }) in
+         (* let eqb_to_eq = if Ir.is_equal_expr expr  *)
          let new_facts = [ "Case" ^ string_of_int (fact_index t "Case"), case_eq ] in
          if List.exists (fun (_, prop) -> prop = case_eq) facts
          then failwith "Duplicated Fact"
@@ -2100,12 +2097,16 @@ let rec parse_prop src binding decls =
   let parts = String.split_on_char ',' src in
   match parts with
   | [ src ] ->
-    let parts = String.split_on_char '=' src in
-    let lhs = List.hd parts |> Lexing.from_string |> Parse.expression in
-    let rhs = List.nth parts 1 |> Lexing.from_string |> Parse.expression in
-    let lhs = Ir.ir_of_parsetree lhs binding decls in
-    let rhs = Ir.ir_of_parsetree rhs binding decls in
-    Eq (lhs, rhs)
+    (match Str.split (Str.regexp "->") src with
+     | [ cond; prop ] ->
+       Imply ([ parse_prop cond binding decls ], parse_prop prop binding decls)
+     | _ ->
+       let parts = String.split_on_char '=' src in
+       let lhs = List.hd parts |> Lexing.from_string |> Parse.expression in
+       let rhs = List.nth parts 1 |> Lexing.from_string |> Parse.expression in
+       let lhs = Ir.ir_of_parsetree lhs binding decls in
+       let rhs = Ir.ir_of_parsetree rhs binding decls in
+       Eq (lhs, rhs))
   | quantifier :: prop ->
     let binding = parse_forall_vars quantifier in
     let binding = List.map (fun (var, typ) -> var, Ir.parse_typ typ) binding in

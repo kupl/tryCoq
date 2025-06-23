@@ -1,14 +1,36 @@
-let proof_top std_lib program_a program_b =
-  let std_lib = Parser.parse std_lib in
+let split_once c str =
+  try
+    let idx = String.index str c in
+    [ String.sub str 0 idx; String.sub str (idx + 1) (String.length str - idx - 1) ]
+  with
+  | Not_found -> [ str ]
+;;
+
+let axiom_to_prop env src : Proof.theorem list =
+  let src = String.split_on_char '\n' src in
+  List.map
+    (fun src ->
+       match split_once ':' src with
+       | [ name; prop ] ->
+         let name = String.trim name in
+         let prop = Proof.parse_prop prop [] env in
+         name, prop
+       | _ -> failwith "axiom format error")
+    src
+;;
+
+let proof_top definition axiom program_a program_b =
+  let definition = Parser.parse definition in
   let program_a = Parser.parse program_a in
   let program_b = Parser.parse program_b in
-  let std_lib = std_lib |> Ir.t_of_typedtree in
+  let definition = definition |> Ir.t_of_typedtree in
   let program_a = program_a |> Ir.t_of_typedtree in
   let program_b = program_b |> Ir.t_of_typedtree in
-  (* let _ = std_lib |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in *)
+  (* let _ = definition |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in *)
   let _ = program_a |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in
-  let env = std_lib @ program_a @ program_b in
-  let init_t = Proof.create_t env () in
+  let env = definition @ program_a @ program_b in
+  let axiom = axiom |> axiom_to_prop env in
+  let init_t = Proof.create_t env ~proof:(axiom, [], []) () in
   Proof.proof_top init_t
 ;;
 
@@ -144,15 +166,16 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
            old_lemma_list)
 ;;
 
-let proof_auto std_lib program_a program_b goal =
-  let std_lib = Parser.parse std_lib in
+let proof_auto definition axiom program_a program_b goal =
+  let definition = Parser.parse definition in
   let program_a = Parser.parse program_a in
   let program_b = Parser.parse program_b in
-  let std_lib = std_lib |> Ir.t_of_typedtree in
+  let definition = definition |> Ir.t_of_typedtree in
   let program_a = program_a |> Ir.t_of_typedtree in
   let program_b = program_b |> Ir.t_of_typedtree in
-  let env = std_lib @ program_a @ program_b in
-  let init_t = Proof.create_t env () in
+  let env = definition @ program_a @ program_b in
+  let axiom = axiom |> axiom_to_prop env in
+  let init_t = Proof.create_t env ~proof:(axiom, [], []) () in
   let first_assertion = Proof.parse_tactic init_t goal in
   let next_t = Proof.apply_tactic init_t first_assertion in
   let worklist =
