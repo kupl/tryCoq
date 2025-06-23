@@ -723,89 +723,91 @@ let apply_induction name (state : state) t : state list =
   | _ -> failwith "not implemented"
 ;;
 
-let forall_target var_list target source : bool =
-  let rec forall_target' var_list qvar_binding target source : bool * (string * expr) list
-    =
-    match source.Ir.desc with
-    | Ir.Var var ->
-      let lhs_typ = source.Ir.typ in
-      if List.mem_assoc var var_list
+let rec forall_target_aux var_list qvar_binding target source
+  : bool * (string * expr) list
+  =
+  match source.Ir.desc with
+  | Ir.Var var ->
+    let lhs_typ = source.Ir.typ in
+    if List.mem_assoc var var_list
+    then (
+      let target_typ = target.Ir.typ in
+      if Ir.is_typ_contained lhs_typ target_typ
       then (
-        let target_typ = target.Ir.typ in
-        if Ir.is_typ_contained lhs_typ target_typ
-        then (
-          match List.assoc_opt var qvar_binding with
-          | Some expr -> Ir.is_equal_expr target expr, qvar_binding
-          | None -> true, (var, target) :: qvar_binding)
-        else false, [])
-      else Ir.is_equal_expr source target, qvar_binding
-    | Ir.Call (name, args) ->
-      (match target.Ir.desc with
-       | Ir.Call (name', args') ->
-         if name <> name' || List.length args <> List.length args'
-         then false, []
-         else (
-           let result =
-             List.fold_left2
-               (fun (result, binding) a b ->
-                  if result then forall_target' var_list binding a b else false, [])
-               (name = name', qvar_binding)
-               args'
-               args
+        match List.assoc_opt var qvar_binding with
+        | Some expr -> Ir.is_equal_expr target expr, qvar_binding
+        | None -> true, (var, target) :: qvar_binding)
+      else false, [])
+    else Ir.is_equal_expr source target, qvar_binding
+  | Ir.Call (name, args) ->
+    (match target.Ir.desc with
+     | Ir.Call (name', args') ->
+       if name <> name' || List.length args <> List.length args'
+       then false, []
+       else (
+         let result =
+           List.fold_left2
+             (fun (result, binding) a b ->
+                if result then forall_target_aux var_list binding a b else false, [])
+             (name = name', qvar_binding)
+             args'
+             args
+         in
+         result)
+     | _ -> false, [])
+  | Ir.Match (match_list1, cases) ->
+    (match target.Ir.desc with
+     | Ir.Match (match_list2, cases') ->
+       if
+         List.length match_list1 <> List.length match_list2
+         || List.length cases <> List.length cases'
+       then false, []
+       else (
+         let match_result =
+           List.fold_left2
+             (fun (acc, binding) a b ->
+                if acc then forall_target_aux var_list binding a b else false, [])
+             (true, qvar_binding)
+             match_list2
+             match_list1
+         in
+         let case_result =
+           List.fold_left2
+             (fun (acc, binding) a b ->
+                match a, b with
+                | Ir.Case (_, e1), Ir.Case (_, e2) ->
+                  if acc then forall_target_aux var_list binding e1 e2 else false, [])
+                (* have to think pattern order.... or compatiblity *)
+             match_result
+             cases'
+             cases
+         in
+         case_result)
+     | _ -> false, [])
+  | Ir.LetIn (let_list, e) ->
+    let new_expr =
+      List.fold_left
+        (fun e (name, e') ->
+           let exp, _, _ =
+             substitute_expr_in_expr
+               Ir.is_equal_expr
+               (fun _ _ expr_to -> expr_to, [])
+               e
+               Ir.{ desc = Var name; typ = e'.typ }
+               e'
+               0
+               true
+               []
            in
-           result)
-       | _ -> false, [])
-    | Ir.Match (match_list1, cases) ->
-      (match target.Ir.desc with
-       | Ir.Match (match_list2, cases') ->
-         if
-           List.length match_list1 <> List.length match_list2
-           || List.length cases <> List.length cases'
-         then false, []
-         else (
-           let match_result =
-             List.fold_left2
-               (fun (acc, binding) a b ->
-                  if acc then forall_target' var_list binding a b else false, [])
-               (true, qvar_binding)
-               match_list2
-               match_list1
-           in
-           let case_result =
-             List.fold_left2
-               (fun (acc, binding) a b ->
-                  match a, b with
-                  | Ir.Case (_, e1), Ir.Case (_, e2) ->
-                    if acc then forall_target' var_list binding e1 e2 else false, [])
-                  (* have to think pattern order.... or compatiblity *)
-               match_result
-               cases'
-               cases
-           in
-           case_result)
-       | _ -> false, [])
-    | Ir.LetIn (let_list, e) ->
-      let new_expr =
-        List.fold_left
-          (fun e (name, e') ->
-             let exp, _, _ =
-               substitute_expr_in_expr
-                 Ir.is_equal_expr
-                 (fun _ _ expr_to -> expr_to, [])
-                 e
-                 Ir.{ desc = Var name; typ = e'.typ }
-                 e'
-                 0
-                 true
-                 []
-             in
-             exp)
-          e
-          let_list
-      in
-      forall_target' var_list qvar_binding target new_expr
-  in
-  forall_target' var_list [] target source |> fst
+           exp)
+        e
+        let_list
+    in
+    forall_target_aux var_list qvar_binding target new_expr
+;;
+
+let forall_target var_list target source : bool =
+  forall_target_aux var_list [] target source |> fst
 ;;
 
 let rec get_match_var (match_list : (expr * expr) list) =
@@ -972,7 +974,22 @@ let update_egraph graph from into match_list =
   new_graph
 ;;
 
+let is_prop_matched var_list prop_src prop_tgt : bool * (string * expr) list =
+  match prop_src, prop_tgt with
+  | Eq (lhs_src, rhs_src), Eq (lhs_tgt, rhs_tgt) ->
+    let is_done, match_result = forall_target_aux var_list [] lhs_tgt lhs_src in
+    if is_done
+    then (
+      let is_done, match_result' =
+        forall_target_aux var_list match_result rhs_tgt rhs_src
+      in
+      if is_done then true, match_result' else false, [])
+    else false, []
+  | _ -> false, []
+;;
+
 let apply_rewrite
+      (is_reverse : bool)
       (lemma_stack : lemma_stack)
       (state : state)
       (fact_label : string)
@@ -991,6 +1008,9 @@ let apply_rewrite
     | Imply (cond_list, Eq (lhs, rhs)) -> cond_list, [], lhs, rhs
     | Forall (var_list, Imply (cond_list, Eq (lhs, rhs))) -> cond_list, var_list, lhs, rhs
     | _ -> failwith "Not rewritable"
+  in
+  let expr_from, expr_to =
+    if is_reverse then expr_to, expr_from else expr_from, expr_to
   in
   match target_label with
   | "goal" ->
@@ -1072,138 +1092,36 @@ let apply_rewrite
        in
        [ fact, goal, graph ]
      | [ cond ] ->
-       if cond = target_fact
+       let is_matched, match_result = is_prop_matched var_list cond target_fact in
+       let new_fact =
+         List.fold_left
+           (fun prop (var, e) ->
+              let prop, _, _ =
+                substitute_expr_in_prop
+                  Ir.is_equal_expr
+                  (fun _ _ expr_to -> expr_to, [])
+                  prop
+                  Ir.{ desc = Var var; typ = e.Ir.typ }
+                  e
+                  0
+                  false
+              in
+              prop)
+           (Eq (expr_from, expr_to))
+           match_result
+       in
+       if is_matched
        then (
          let facts =
            List.map
              (fun (name, prop) ->
                 (* have to convert just equality to regarding quantified variable *)
-                if name = target_label then name, Eq (expr_from, expr_to) else name, prop)
+                if name = target_label then name, new_fact else name, prop)
              facts
          in
          [ facts, goal, graph ])
        else failwith "Condition is not matched, cannot rewrite"
      | _ -> failwith "Cannot rewrite with multiple conditions")
-;;
-
-let apply_rewrite_reverse
-      (lemma_stack : lemma_stack)
-      (state : state)
-      (fact_label : string)
-      (target_label : string)
-      i
-  : state list
-  =
-  let facts, goal, graph = state in
-  let lemma_list = List.map (fun (name, prop) -> name, prop) lemma_stack in
-  let source = List.assoc fact_label (facts @ lemma_list) in
-  let source = rename_prop source in
-  let cond_list, var_list, expr_from, expr_to =
-    match source with
-    | Eq (lhs, rhs) -> [], [], rhs, lhs
-    | Forall (var_list, Eq (lhs, rhs)) -> [], var_list, rhs, lhs
-    | Imply (cond_list, Eq (lhs, rhs)) -> cond_list, [], rhs, lhs
-    | Forall (var_list, Imply (cond_list, Eq (lhs, rhs))) -> cond_list, var_list, rhs, lhs
-    | _ -> failwith "Not rewritable"
-  in
-  match target_label with
-  | "goal" ->
-    let new_goal, match_list, cnt =
-      substitute_expr_in_prop
-        (forall_target var_list)
-        convert_in_rewrite
-        goal
-        expr_from
-        expr_to
-        i
-        true
-    in
-    let _ =
-      if cnt < i || cnt = 0
-      then failwith "Cannot find the i-th occurrence of the expression in the goal"
-    in
-    if
-      not
-        (List.for_all
-           (fun (e1, _) ->
-              List.exists
-                (fun (e2, _) ->
-                   match e2.Ir.desc with
-                   | Var var -> e1 = var
-                   | _ -> false)
-                match_list)
-           var_list)
-    then (
-      match_list
-      |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b));
-      failwith "Cannot find matched variable")
-    else (
-      let new_graph = update_egraph graph expr_from expr_to match_list in
-      let new_task =
-        List.map
-          (fun cond ->
-             List.fold_left
-               (fun cond (e1, e2) ->
-                  let prop, _, _ =
-                    substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to, [])
-                      cond
-                      e1
-                      e2
-                      0
-                      false
-                  in
-                  prop)
-               cond
-               match_list)
-          cond_list
-      in
-      [ facts, new_goal, new_graph ]
-      @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task)
-  | _ ->
-    let target_fact = List.assoc target_label facts in
-    let new_fact, match_list, cnt =
-      substitute_expr_in_prop
-        (forall_target var_list)
-        convert_in_rewrite
-        target_fact
-        expr_from
-        expr_to
-        i
-        true
-    in
-    let _ =
-      if cnt < i || cnt = 0
-      then failwith "Cannot find the i-th occurrence of the expression in the such fact"
-    in
-    let fact =
-      List.map
-        (fun (name, prop) -> if name = target_label then name, new_fact else name, prop)
-        facts
-    in
-    let new_task =
-      List.map
-        (fun cond ->
-           List.fold_left
-             (fun cond (e1, e2) ->
-                let prop, _, _ =
-                  substitute_expr_in_prop
-                    Ir.is_equal_expr
-                    (fun _ _ expr_to -> expr_to, [])
-                    cond
-                    e1
-                    e2
-                    0
-                    false
-                in
-                prop)
-             cond
-             match_list)
-        cond_list
-    in
-    [ fact, goal, graph ]
-    @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task
 ;;
 
 let apply_strong_induction name (state : state) t : state list =
@@ -1991,13 +1909,14 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
         , tactic_list @ [ tactic ] )
       | RewriteInAt (fact, target_label, i) ->
         ( lemma_stack
-        , ( apply_rewrite lemma_stack first_state fact target_label i @ List.tl state_list
+        , ( apply_rewrite false lemma_stack first_state fact target_label i
+            @ List.tl state_list
           , conj_goal )
           :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | RewriteReverse (fact, target_label, i) ->
         ( lemma_stack
-        , ( apply_rewrite_reverse lemma_stack first_state fact target_label i
+        , ( apply_rewrite true lemma_stack first_state fact target_label i
             @ List.tl state_list
           , conj_goal )
           :: List.tl conj_list

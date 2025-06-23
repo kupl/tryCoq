@@ -14,7 +14,9 @@ let axiom_to_prop env src : Proof.theorem list =
        | [ name; prop ] ->
          let name = String.trim name in
          let prop = Proof.parse_prop prop [] env in
-         name, prop
+         if Str.search_forward (Str.regexp "eqb_eq") name 0 <> -1
+         then name, Proof.simplify_prop env prop
+         else name, prop
        | _ -> failwith "axiom format error")
     src
 ;;

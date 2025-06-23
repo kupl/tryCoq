@@ -272,10 +272,10 @@ let apply_tactic t tactic : t option =
   (* this function prune fact conversion *)
   try
     let next_t = Proof.apply_tactic t tactic in
-    let _, goal, _ = Proof.get_first_state t in
+    let facts, goal, _ = Proof.get_first_state t in
     try
-      let _, next_goal, _ = Proof.get_first_state next_t in
-      if goal = next_goal then None else Some next_t
+      let next_facts, next_goal, _ = Proof.get_first_state next_t in
+      if goal = next_goal && facts = next_facts then None else Some next_t
     with
     | _ -> Some next_t
   with
@@ -592,6 +592,14 @@ let rec is_case_match src goal =
   | _ -> false
 ;;
 
+let contains_substring str substr =
+  try
+    let _ = Str.search_forward (Str.regexp_string substr) str 0 in
+    true
+  with
+  | _ -> false
+;;
+
 let useless_rewrite tactic =
   match tactic with
   | Proof.RewriteInAt (src, target, _) ->
@@ -600,6 +608,8 @@ let useless_rewrite tactic =
     || String.starts_with ~prefix:"Inductive" target
     || String.starts_with ~prefix:"Base" src
     || String.starts_with ~prefix:"Base" target
+    || ((not (contains_substring src "eqb_eq"))
+        && not (String.starts_with ~prefix:"goal" target))
     (* || String.starts_with ~prefix:"IH" target *)
   | Proof.RewriteReverse (src, target, _) ->
     src = target
@@ -609,6 +619,8 @@ let useless_rewrite tactic =
     || String.starts_with ~prefix:"Base" target
     (* || String.starts_with ~prefix:"IH" target *)
     || (String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"goal" target)
+    || ((not (contains_substring src "eqb_eq"))
+        && not (String.starts_with ~prefix:"goal" target))
   | _ -> false
 ;;
 
@@ -667,6 +679,8 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
       match apply_tactic next_t Proof.Discriminate with
       | Some _ -> Some 0
       | _ -> None)
+    else if contains_substring src "eqb_eq"
+    then Some 0
     else if String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
     then None
     else (
@@ -679,6 +693,8 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
       match apply_tactic next_t Proof.Discriminate with
       | Some _ -> Some 0
       | _ -> None)
+    else if contains_substring src "eqb_eq"
+    then Some 0
     else (
       let _, goal, _ = Proof.get_first_state t in
       let _, new_goal, _ = Proof.get_first_state next_t in
