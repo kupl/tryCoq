@@ -960,7 +960,8 @@ let rec generalize_common_subterm goal =
         (List.hd common_expr_list, size_of_expr (List.hd common_expr_list))
         (List.tl common_expr_list)
     in
-    if collect_free_var_in_expr max_expr [] = [] || max = 1
+    let free_vars = collect_free_var_in_expr max_expr [] |> List.sort_uniq compare in
+    if free_vars = [] || max = 1
     then goal
     else (
       let new_goal, _, _ =
@@ -976,7 +977,15 @@ let rec generalize_common_subterm goal =
           0
           false
       in
-      generalize_common_subterm new_goal))
+      if
+        List.exists
+          (fun (name, typ) ->
+             match typ with
+             | Proof.Type typ -> Proof.is_contained Ir.{ desc = Var name; typ } new_goal
+             | _ -> false)
+          free_vars
+      then goal
+      else generalize_common_subterm new_goal))
 ;;
 
 let naive_generalize t =

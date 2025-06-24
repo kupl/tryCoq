@@ -68,6 +68,20 @@ let is_equal_fact (fact1 : fact) (fact2 : fact) =
   name1 = name2 && prop1 = prop2
 ;;
 
+let rec is_contained expr prop_target =
+  match prop_target with
+  | Eq (e1, e2) -> Ir.is_contained expr e1 || Ir.is_contained expr e2
+  | Le (e1, e2) -> Ir.is_contained expr e1 || Ir.is_contained expr e2
+  | Lt (e1, e2) -> Ir.is_contained expr e1 || Ir.is_contained expr e2
+  | And (p1, p2) -> is_contained expr p1 || is_contained expr p2
+  | Or (p1, p2) -> is_contained expr p1 || is_contained expr p2
+  | Not p -> is_contained expr p
+  | Forall (_, p) -> is_contained expr p
+  | Imply (cond_list, p2) ->
+    List.exists (fun cond -> is_contained expr cond) cond_list || is_contained expr p2
+  | Type _ -> false
+;;
+
 let counter = ref 0
 
 let get_global_cnt () =

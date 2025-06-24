@@ -983,3 +983,19 @@ let rename_decl decl =
     Rec (name, new_args |> List.map fst, new_body)
   | _ -> decl
 ;;
+
+let rec is_contained expr_src expr_target =
+  if is_equal_expr expr_src expr_target
+  then true
+  else (
+    match expr_target.desc with
+    | Match (match_list, cases) ->
+      List.exists
+        (fun e -> is_contained expr_src e)
+        (match_list @ List.map (fun (Case (_, e)) -> e) cases)
+    | LetIn (bindings, body) ->
+      List.exists (fun (_, e) -> is_contained expr_src e) bindings
+      || is_contained expr_src body
+    | Call (_, args) -> List.exists (fun arg -> is_contained expr_src arg) args
+    | _ -> false)
+;;
