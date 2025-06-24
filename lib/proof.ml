@@ -1037,10 +1037,10 @@ let apply_rewrite
                    | _ -> false)
                 match_list)
            var_list)
-    then (
-      match_list
-      |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b));
-      failwith "Cannot find matched variable")
+    then
+      (* match_list
+      |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b)); *)
+      failwith "Cannot find matched variable"
     else (
       let new_graph = update_egraph graph expr_from expr_to match_list in
       let new_task =

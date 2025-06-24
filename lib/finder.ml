@@ -946,6 +946,9 @@ let rec size_of_expr expr =
 
 let rec generalize_common_subterm goal =
   let common_expr_list = find_common_subterm_in_prop goal in
+  let common_expr_list =
+    List.filter (fun expr -> expr.Ir.typ |> Ir.pp_typ <> "bool") common_expr_list
+  in
   if List.is_empty common_expr_list
   then goal
   else (
@@ -1003,11 +1006,6 @@ let naive_generalize t =
       in
       Some (Proof.Forall (qvars, generalize_common_subterm))
     in
-    (* let just_generalize_new_goal =
-      if List.is_empty facts
-      then Some (Proof.Forall (vars @ qvars, goal))
-      else Some (Proof.Forall (vars @ qvars, Proof.Imply (facts, goal)))
-    in *)
     generalize_common_subterm_goal)
 ;;
 
