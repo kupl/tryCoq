@@ -139,17 +139,42 @@ let expr_of_string string =
   let char_list =
     List.init (String.length string) (fun i -> String.get string i |> ascii_of_char)
   in
-  let char_list =
+  let str =
     List.fold_right
       (fun c acc ->
          { desc =
-             Call ("::", [ { desc = expr_of_int c; typ = Talgebraic ("int", []) }; acc ])
-         ; typ = Talgebraic ("list", [ Talgebraic ("int", []) ])
+             Call
+               ("Concat", [ { desc = expr_of_int c; typ = Talgebraic ("int", []) }; acc ])
+         ; typ = Talgebraic ("string", [])
          })
       char_list
-      { desc = Call ("[]", []); typ = Talgebraic ("list", [ Talgebraic ("int", []) ]) }
+      { desc = Call ("EmptyString", []); typ = Talgebraic ("string", []) }
   in
-  Call ("string", [ char_list ])
+  str.desc
+;;
+
+let rec oint_of_nat expr =
+  match expr.desc with
+  | Call ("Z", []) -> 0
+  | Call ("S", [ n ]) -> 1 + oint_of_nat n
+  | _ -> failwith "oint_of_nat: not a natural number expression"
+;;
+
+let oint_of_int expr =
+  match expr.desc with
+  | Call ("Zero", []) -> 0
+  | Call ("Pos", [ n ]) -> oint_of_nat n
+  | Call ("Neg", [ n ]) -> -oint_of_nat n
+  | _ -> failwith "oint_of_int: not an integer expression"
+;;
+
+let rec pp_string expr =
+  match expr.desc with
+  | Call ("EmptyString", []) -> ""
+  | Call ("Concat", [ ascii; tale ]) ->
+    let ascii = oint_of_int ascii in
+    (char_of_ascii ascii |> Char.escaped) ^ pp_string tale
+  | _ -> failwith "pp_string: not a string expression"
 ;;
 
 let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
@@ -205,6 +230,7 @@ and pp_expr expr =
        ^ " "
        ^ pp_expr (List.hd (List.tl args))
        ^ ")"
+     | "Concat" | "EmptyString" -> "\"" ^ pp_string expr ^ "\""
      | _ ->
        (match args with
         | [] -> name

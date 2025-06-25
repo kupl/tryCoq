@@ -17,7 +17,9 @@ type int =
   | Pos of natural
   | Neg of natural
 
-type string = String of int list
+type string =
+  | EmptyString
+  | Concat of int * string
 
 let not b =
   match b with
@@ -62,9 +64,19 @@ let rec list_eq l1 l2 =
   | _, _ -> false
 ;;
 
-let string_eq s1 s2 =
-  match s1, s2 with
-  | String l1, String l2 -> list_eq l1 l2
+let rec string_eq s1 s2 =
+  match s1 with
+  | EmptyString ->
+    (match s2 with
+     | EmptyString -> true
+     | _ -> false)
+  | Concat (i1, s1') ->
+    (match s2 with
+     | EmptyString -> false
+     | Concat (i2, s2') ->
+       (match int_eq i1 i2 with
+        | true -> string_eq s1' s2'
+        | false -> false))
 ;;
 
 let ( && ) b1 b2 =

@@ -331,7 +331,10 @@ let pp_t ?(debug_tactic : debug_tactic option = None) (t : t) =
   (if all_lemma then "Lemma stack : \n" ^ pp_lemma_stack lemma_stack else "")
   ^ "\n\n"
   ^ (if all_tactic
-     then "Proof\n" ^ (List.map pp_tactic tactics |> String.concat "\n") ^ "\nQed\n"
+     then
+       "Proof\n"
+       ^ (List.map pp_tactic tactics |> String.concat "\n")
+       ^ if List.is_empty conjecture_list then "\nQed\n" else "\n"
      else "")
   ^
   if all_conjecture
@@ -1765,6 +1768,14 @@ let apply_case expr state t : state list =
          | Some decl -> decl |> Ir.get_typ_decl
          | _ -> failwith ("cannot found such type : " ^ typ_name)) )
     | _ -> failwith "This type is not algebraic"
+  in
+  let vars = Ir.collect_var_in_expr expr |> List.sort_uniq compare in
+  let bind_vars =
+    List.filter (fun var -> not (List.exists (fun (name, _) -> name = var) facts)) vars
+  in
+  let _ =
+    if not (List.is_empty bind_vars)
+    then failwith (String.concat ", " bind_vars ^ " are not bound")
   in
   let typ_match = List.combine origin_args typ_args in
   let decl =

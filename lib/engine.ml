@@ -14,7 +14,12 @@ let axiom_to_prop env src : Proof.theorem list =
        | [ name; prop ] ->
          let name = String.trim name in
          let prop = Proof.parse_prop prop [] env in
-         if Str.search_forward (Str.regexp "eqb_eq") name 0 <> -1
+         if
+           try
+             let _ = Str.search_forward (Str.regexp "eqb_eq") name 0 in
+             true
+           with
+           | _ -> false
          then name, Proof.simplify_prop env prop
          else name, prop
        | _ -> failwith "axiom format error")
@@ -66,6 +71,7 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
     in
     let _ = Proof.pp_t next_t |> print_endline in
+    (* let _ = if i = 7 then Proof.proof_top next_t in *)
     (match next_t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof, next_t.env
      | _ ->

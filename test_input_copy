@@ -1,0 +1,34 @@
+1
+assert forall (lambda2:lambda) (string1:string) (string_list1:string list), sub_check_ta1 (lambda2) (string1::string_list1) = if is_mem_ta1 (string_list1) (string1) then sub_check_ta1 (lambda2) (string_list1) else sub_check_ta1 (lambda2) (string1::string_list1)
+induction lambda1
+simpl in goal
+intro string1
+case string_eq (string1) (string2)
+rewrite string_eqb_eq in Case1 at 0
+rewrite <- Case1 in goal at 0
+induction string_list1
+simpl in goal
+rewrite string_refl in goal at 0
+simpl in goal
+reflexivity
+simpl in goal
+case string_eq (string3) (string1)
+rewrite Case2 in goal at 0
+simpl in goal
+reflexivity
+simpl in goal
+rewrite IH1 in goal at 1
+case is_mem_ta1 (string_list2) (string1)
+rewrite Case2 in goal at 0
+simpl in goal
+reflexivity
+rewrite string_refl in goal at 0
+simpl in goal
+reflexivity
+simpl in goal
+intro *
+case is_mem_ta1 (string_list1) (string1)
+reflexivity
+rewrite Case1 in goal at 0
+simpl in goal
+reflexivity

@@ -208,24 +208,36 @@ let rec get_nth_arg_in_prop fname i prop =
 
 let collect_decreasing_arg env state =
   let _, goal, _ = state in
-  let fname_list = collect_fname_in_prop env goal in
+  let fname_list =
+    collect_fname_in_prop env goal
+    |> List.filter (fun fname ->
+      try
+        let _ = Str.search_forward (Str.regexp "_eq") fname 0 in
+        false
+      with
+      | _ -> true)
+    |> List.sort_uniq compare
+  in
+  let decreasing_vars =
+    List.fold_left
+      (fun acc fname ->
+         let arg_index_list = get_decreasing_arg_index env fname in
+         List.fold_left
+           (fun acc arg_index ->
+              let arg_list = get_nth_arg_in_prop fname arg_index goal in
+              acc @ arg_list)
+           acc
+           arg_index_list)
+      []
+      fname_list
+  in
   List.fold_left
-    (fun acc fname ->
-       let arg_index_list = get_decreasing_arg_index env fname in
-       List.fold_left
-         (fun acc arg_index ->
-            let arg_list = get_nth_arg_in_prop fname arg_index goal in
-            acc @ arg_list)
-         acc
-         arg_index_list)
+    (fun acc arg ->
+       match arg.Ir.desc with
+       | Ir.Var v -> v :: acc
+       | _ -> acc)
     []
-    fname_list
-  |> List.fold_left
-       (fun acc arg ->
-          match arg.Ir.desc with
-          | Ir.Var v -> v :: acc
-          | _ -> acc)
-       []
+    decreasing_vars
 ;;
 
 let is_decreasing_var env (state : state) var_name =
@@ -559,6 +571,33 @@ let rec is_if_then_else_in_prop src goal =
   | Proof.Imply (cond_list, prop) ->
     List.exists (fun cond -> is_if_then_else_in_prop src cond) cond_list
     || is_if_then_else_in_prop src prop
+  | Proof.Forall (_, prop) -> is_if_then_else_in_prop src prop
+  | Proof.And (lhs, rhs) ->
+    is_if_then_else_in_prop src lhs || is_if_then_else_in_prop src rhs
+  | _ -> false
+;;
+
+let rec contain_case_mach_in_expr expr =
+  match expr.Ir.desc with
+  | Ir.Match _ -> true
+  | Call (_, args) -> List.exists (fun arg -> contain_case_mach_in_expr arg) args
+  | Ir.LetIn (assign_list, body) ->
+    List.exists (fun (_, exp) -> contain_case_mach_in_expr exp) assign_list
+    || contain_case_mach_in_expr body
+  | Ir.Var _ -> false
+;;
+
+let rec contain_case_mach_in_prop prop =
+  match prop with
+  | Proof.Eq (lhs, rhs) | Proof.Le (lhs, rhs) | Proof.Lt (lhs, rhs) ->
+    contain_case_mach_in_expr lhs || contain_case_mach_in_expr rhs
+  | Proof.Or (lhs, rhs) -> contain_case_mach_in_prop lhs || contain_case_mach_in_prop rhs
+  | Proof.Not prop -> contain_case_mach_in_prop prop
+  | Proof.Imply (cond_list, prop) ->
+    List.exists (fun cond -> contain_case_mach_in_prop cond) cond_list
+    || contain_case_mach_in_prop prop
+  | Proof.Forall (_, prop) -> contain_case_mach_in_prop prop
+  | Proof.And (lhs, rhs) -> contain_case_mach_in_prop lhs || contain_case_mach_in_prop rhs
   | _ -> false
 ;;
 
@@ -589,6 +628,8 @@ let rec is_case_match src goal =
   | Proof.Not prop -> is_case_match src prop
   | Proof.Imply (cond_list, prop) ->
     List.exists (fun cond -> is_case_match src cond) cond_list || is_case_match src prop
+  | Proof.Forall (_, prop) -> is_case_match src prop
+  | Proof.And (lhs, rhs) -> is_case_match src lhs || is_case_match src rhs
   | _ -> false
 ;;
 
@@ -716,7 +757,7 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
          let new_t = Proof.apply_tactic next_t (Proof.SimplIn "goal") in
          let _, new_goal, _ = Proof.get_first_state new_t in
          is_case_match expr goal
-         && ((not (is_duplicated new_t stateset)) || is_if_then_else_in_prop expr new_goal)
+         && ((not (is_duplicated new_t stateset)) || contain_case_mach_in_prop new_goal)
        then Some 3
        else None)
   | Proof.Reflexivity -> Some 0
