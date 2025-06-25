@@ -2003,12 +2003,8 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
     { t with proof }
 ;;
 
-let parse_expr goal src decls =
+let parse_expr binding src decls =
   let expr = src |> Lexing.from_string |> Parse.expression in
-  let free_vars = Ir.get_free_vars expr in
-  let binding =
-    List.map (fun var -> var, get_type_in_prop var goal |> Option.get) free_vars
-  in
   Ir.ir_of_parsetree expr binding decls
 ;;
 
@@ -2079,8 +2075,17 @@ let parse_tactic (t : t) src =
   | "reflexivity" -> Reflexivity
   | "case" ->
     let state = get_first_state t in
-    let _, goal, _ = state in
-    Case (parse_expr goal (String.concat " " args) env)
+    let facts, _, _ = state in
+    let binding =
+      List.fold_left
+        (fun acc (name, typ) ->
+           match typ with
+           | Type typ -> (name, typ) :: acc
+           | _ -> acc)
+        []
+        facts
+    in
+    Case (parse_expr binding (String.concat " " args) env)
   | "assert" -> Assert (parse_prop (String.concat " " args) [] env)
   | "discriminate" -> Discriminate
   | _ -> failwith "wrong tactic"

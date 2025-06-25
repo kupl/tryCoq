@@ -810,6 +810,42 @@ let search_constr_type name t =
   | _ -> failwith "something wrong"
 ;;
 
+let rec pattern_of_parsetree pat =
+  match pat.Parsetree.ppat_desc with
+  (* | Tpat_value p -> (p :> Typedtree.pattern) |> get_pattern *)
+  | Ppat_construct (lident_loc, arg_opt) ->
+    let name = Longident.last lident_loc.txt in
+    let name =
+      match name with
+      | "::" -> "Cons"
+      | "[]" -> "Nil"
+      | _ -> name
+    in
+    let args =
+      match arg_opt with
+      | Some ([], patterns) ->
+        (match patterns.Parsetree.ppat_desc with
+         | Parsetree.Ppat_tuple args -> args
+         | _ -> [ patterns ])
+      | _ -> []
+    in
+    let args' = List.map (fun arg -> pattern_of_parsetree arg) args in
+    Pat_Constr (name, args')
+  | Ppat_var name -> Pat_Var name.Location.txt
+  | Ppat_tuple patterns -> Pat_Tuple (List.map pattern_of_parsetree patterns)
+  | Ppat_any -> Pat_any
+  | _ -> failwith "Not implemented"
+;;
+
+let get_fun_arg_types name t =
+  let decl = find_decl name t in
+  match decl with
+  | Some (NonRec (_, args, body)) | Some (Rec (_, args, body)) ->
+    let arg_types = List.map (fun arg -> get_type_in_expr arg body |> Option.get) args in
+    arg_types
+  | _ -> failwith ("This is not function name: " ^ name)
+;;
+
 let rec ir_of_parsetree parse_expr binding t =
   match parse_expr.Parsetree.pexp_desc with
   | Pexp_ident { txt = Longident.Lident name; _ } ->
@@ -829,12 +865,30 @@ let rec ir_of_parsetree parse_expr binding t =
               | [ hd ] -> hd
               | _ -> Tarrow typ_list)
            | _ -> fun_type)
-         else search_return_type name t
+         else (
+           try search_return_type name t with
+           | _ -> failwith ("Function not found: " ^ name))
        in
-       { desc = Call (name, List.map (fun (_, arg) -> ir_of_parsetree arg binding t) args)
+       let args_types = get_fun_arg_types name t in
+       let new_bind =
+         List.fold_left2
+           (fun acc (_, arg) typ ->
+              match arg.Parsetree.pexp_desc with
+              | Pexp_ident { txt = Longident.Lident arg_name; _ } ->
+                (arg_name, typ) :: acc
+              | _ -> acc)
+           []
+           args
+           args_types
+       in
+       { desc =
+           Call
+             ( name
+             , List.map (fun (_, arg) -> ir_of_parsetree arg (new_bind @ binding) t) args
+             )
        ; typ
        }
-     | _ -> failwith "Not implemented")
+     | _ -> failwith "Not implemented : Pexp_apply")
   | Pexp_construct ({ txt = Longident.Lident name; _ }, Some e) ->
     let name =
       match name with
@@ -859,7 +913,7 @@ let rec ir_of_parsetree parse_expr binding t =
     let e2 =
       match e2_opt with
       | Some e2 -> ir_of_parsetree e2 binding t
-      | None -> failwith "Not implemented"
+      | None -> failwith "Not implemented : Pexp_ifthenelse"
     in
     { desc =
         Match
@@ -867,8 +921,26 @@ let rec ir_of_parsetree parse_expr binding t =
           , [ Case (Pat_Constr ("true", []), e1); Case (Pat_Constr ("false", []), e2) ] )
     ; typ = e1.typ
     }
+  | Pexp_match (expr, case_list) ->
+    let match_list =
+      match expr.Parsetree.pexp_desc with
+      | Pexp_tuple l -> List.map (fun e -> ir_of_parsetree e binding t) l
+      | _ -> [ ir_of_parsetree expr binding t ]
+    in
+    let cases =
+      List.map
+        (fun case ->
+           let pat = case.Parsetree.pc_lhs in
+           let body = case.Parsetree.pc_rhs in
+           let pattern = pattern_of_parsetree pat in
+           let expr = ir_of_parsetree body binding t in
+           Case (pattern, expr))
+        case_list
+    in
+    let typ = List.hd cases |> fun (Case (_, e)) -> e.typ in
+    { desc = Match (match_list, cases); typ }
   | Pexp_tuple _ -> failwith "tuple is not implemented"
-  | _ -> failwith "Not implemented"
+  | _ -> failwith "Not implemented : Pexp_other"
 ;;
 
 let rec substitute_typ typ binding =

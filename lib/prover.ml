@@ -638,14 +638,7 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
   let qvar_list = collect_qvar_in_prop goal in
   match tactic with
   | Proof.Intro var_name ->
-    if
-      List.exists (fun tactic -> tactic = Proof.SimplIn "goal") valid_tactics
-      || List.exists
-           (fun tactic ->
-              match tactic with
-              | Proof.Induction v -> v <> var_name
-              | _ -> false)
-           real_tactics
+    if List.exists (fun tactic -> tactic = Proof.SimplIn "goal") valid_tactics
     then None
     else if is_mk state var_name
     then (
@@ -721,7 +714,9 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
        then Some 2
        else if
          let new_t = Proof.apply_tactic next_t (Proof.SimplIn "goal") in
-         is_case_match expr goal && not (is_duplicated new_t stateset)
+         let _, new_goal, _ = Proof.get_first_state new_t in
+         is_case_match expr goal
+         && ((not (is_duplicated new_t stateset)) || is_if_then_else_in_prop expr new_goal)
        then Some 3
        else None)
   | Proof.Reflexivity -> Some 0
