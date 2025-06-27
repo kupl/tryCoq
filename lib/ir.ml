@@ -231,6 +231,7 @@ and pp_expr expr =
        ^ pp_expr (List.hd (List.tl args))
        ^ ")"
      | "Concat" | "EmptyString" -> "\"" ^ pp_string expr ^ "\""
+     | "Cons" | "Nil" -> "(" ^ pp_list expr ^ ")"
      | _ ->
        (match args with
         | [] -> name
@@ -272,6 +273,15 @@ and pp_typ typ =
     ^ name
   | Tany -> "any"
   | Tarrow l -> String.concat " -> " (List.map pp_typ l)
+
+and pp_list expr =
+  match expr.desc with
+  | Call ("Nil", []) -> "Nil"
+  | Call ("Cons", [ head; tail ]) ->
+    let head_str = pp_expr head in
+    let tail_str = pp_expr tail in
+    head_str ^ "::" ^ tail_str
+  | _ -> failwith "pp_list: not a list expression"
 ;;
 
 let var_of_typ typ =

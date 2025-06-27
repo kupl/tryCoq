@@ -122,7 +122,10 @@ let graph_of_prop prop =
 
 let compare_fact_list (facts1 : fact list) (facts2 : fact list) =
   List.length facts1 = List.length facts2
-  && facts1 |> List.sort_uniq compare = (facts2 |> List.sort_uniq compare)
+  && List.for_all2
+       (fun fact1 fact2 -> is_equal_fact fact1 fact2)
+       (facts1 |> List.sort_uniq compare)
+       (facts2 |> List.sort_uniq compare)
 ;;
 
 let compare_conj (conj1 : conjecture) (conj2 : conjecture) =
@@ -1758,7 +1761,7 @@ let apply_destruct name state t : state list =
 
 let apply_case expr state t : state list =
   let env = t.env in
-  let facts, goal, _ = state in
+  let facts, goal, graph = state in
   let typ = expr.Ir.typ in
   let typ_args, (origin_args, decl) =
     match typ with
@@ -1798,6 +1801,7 @@ let apply_case expr state t : state list =
                (constr, List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind)
          in
          let case_eq = Eq (expr, Ir.{ desc = base_case; typ }) in
+         let new_graph = update_egraph graph expr Ir.{ desc = base_case; typ } [] in
          (* let eqb_to_eq = if Ir.is_equal_expr expr  *)
          let new_facts = [ "Case" ^ string_of_int (fact_index t "Case"), case_eq ] in
          if List.exists (fun (_, prop) -> prop = case_eq) facts
@@ -1830,7 +1834,7 @@ let apply_case expr state t : state list =
                   name, prop)
                facts
            in
-           facts @ new_facts, new_goal, graph_of_prop new_goal)
+           facts @ new_facts, new_goal, new_graph)
        | _ ->
          let new_args, _ =
            partition_and_transform
@@ -1851,6 +1855,7 @@ let apply_case expr state t : state list =
            let new_fact_prop = Eq (expr, Ir.{ desc = inductive_case; typ }) in
            [ "Case" ^ string_of_int (fact_index t "Case"), new_fact_prop ]
          in
+         let new_graph = update_egraph graph expr Ir.{ desc = inductive_case; typ } [] in
          let new_goal, _, _ =
            substitute_expr_in_prop
              Ir.is_equal_expr
@@ -1878,7 +1883,7 @@ let apply_case expr state t : state list =
                 name, prop)
              facts
          in
-         facts @ new_facts, new_goal, graph_of_prop new_goal)
+         facts @ new_facts, new_goal, new_graph)
     decl
 ;;
 
@@ -2042,7 +2047,11 @@ let rec parse_prop src binding decls =
        Imply ([ parse_prop cond binding decls ], parse_prop prop binding decls)
      | _ ->
        let parts = String.split_on_char '=' src in
-       let lhs = List.hd parts |> Lexing.from_string |> Parse.expression in
+       let lhs = List.hd parts |> Lexing.from_string in
+       let lhs2 = List.hd parts |> Lexing.from_string in
+       let _ = lhs2 |> Parse.implementation in
+       let _ = print_endline "asdf" in
+       let lhs = lhs |> Parse.expression in
        let rhs = List.nth parts 1 |> Lexing.from_string |> Parse.expression in
        let lhs = Ir.ir_of_parsetree lhs binding decls in
        let rhs = Ir.ir_of_parsetree rhs binding decls in

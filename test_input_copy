@@ -1,34 +1,86 @@
 1
 assert forall (lambda2:lambda) (string1:string) (string_list1:string list), sub_check_ta1 (lambda2) (string1::string_list1) = if is_mem_ta1 (string_list1) (string1) then sub_check_ta1 (lambda2) (string_list1) else sub_check_ta1 (lambda2) (string1::string_list1)
+intro string1
+intro string_list1
+case is_mem_ta1 (string_list1) (string1)
 induction lambda1
 simpl in goal
-intro string1
-case string_eq (string1) (string2)
-rewrite string_eqb_eq in Case1 at 0
 rewrite <- Case1 in goal at 0
+case string_eq (string1) (string2)
+rewrite string_eqb_eq in Case2 at 0
+rewrite Case2 in goal at 0
+reflexivity
+reflexivity
+simpl in goal
+assert forall (string1:string) (string2:string) (string_list1:string list), mk_lhs1 (Nil) (string1) (string2) (string_list1) = Cons (string1) (Cons (string2) (string_list1))
+simpl in goal
+reflexivity
+assert forall (string1:string) (string_list1:string list) (string2:string) (string3:string) (string_list2:string list), mk_lhs1 (Cons (string1) (string_list1)) (string2) (string3) (string_list2) = Cons (string1) (mk_lhs1 (string_list1) (string2) (string3) (string_list2))
+simpl in goal
+reflexivity
+assert forall (string1:string) (string_list1:string list), mk_rhs1 (Nil) (string1) (string_list1) = Cons (string1) (string_list1)
+simpl in goal
+reflexivity
+assert forall (string1:string) (string_list1:string list) (string2:string) (string_list2:string list), mk_rhs1 (Cons (string1) (string_list1)) (string2) (string_list2) = Cons (string1) (mk_rhs1 (string_list1) (string2) (string_list2))
+simpl in goal
+reflexivity
+assert forall (lambda1:lambda) (string_list1:string list) (string1:string) (string2:string) (string_list2:string list), is_mem_ta1 (string_list2) (string1) = true -> sub_check_ta1 (lambda1) (mk_lhs1 (string_list1) (string2) (string1) (string_list2)) = sub_check_ta1 (lambda1) (mk_rhs1 (string_list1) (string2) (string_list2))
+induction lambda1
+intro string_list2
+intro string1
+simpl in goal
 induction string_list1
 simpl in goal
-rewrite string_refl in goal at 0
-simpl in goal
-reflexivity
-simpl in goal
-case string_eq (string3) (string1)
-rewrite Case2 in goal at 0
-simpl in goal
-reflexivity
-simpl in goal
-rewrite IH1 in goal at 1
-case is_mem_ta1 (string_list2) (string1)
-rewrite Case2 in goal at 0
-simpl in goal
-reflexivity
-rewrite string_refl in goal at 0
-simpl in goal
-reflexivity
-simpl in goal
 intro *
-case is_mem_ta1 (string_list1) (string1)
+intro Cond1
+case string_eq (string2) (string3)
+reflexivity
+case string_eq (string1) (string3)
+rewrite string_eqb_eq in Case2 at 0
+rewrite <- Case2 in goal at 0
+rewrite Cond1 in goal at 0
+reflexivity
+reflexivity
+intro *
+intro Cond1
+simpl in goal
+case string_eq (string4) (string3)
+reflexivity
+rewrite IH1 in goal at 0
+reflexivity
+rewrite Cond1 in goal at 0
+reflexivity
+simpl in goal
+intro string_list2
+intro string1
+rewrite <- lhs_lemma4 in goal at 0
+intro *
+intro Cond1
+rewrite IH1 in goal at 0
+simpl in goal
+reflexivity
+rewrite Cond1 in goal at 0
+reflexivity
+simpl in goal
+intro string_list2
+intro string1
+intro *
+intro Cond1
+rewrite IH1 in goal at 0
+rewrite IH2 in goal at 0
+reflexivity
+rewrite Cond1 in goal at 0
+reflexivity
+rewrite Cond1 in goal at 0
+reflexivity
+rewrite <- lhs_lemma3 in goal at 1
+rewrite lemma7 in goal at 0
+simpl in goal
 reflexivity
 rewrite Case1 in goal at 0
+reflexivity
 simpl in goal
+rewrite IH1 in goal at 0
+rewrite IH2 in goal at 0
+reflexivity
 reflexivity

@@ -803,6 +803,24 @@ let is_pattern increase_subtree =
 let pattern_recognition env ihs state_list : env * lemma list =
   (* let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
   let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in *)
+  let facts_list =
+    List.map
+      (fun state ->
+         let facts, goal, _ = state in
+         filtering_concerned_fact facts goal)
+      state_list
+  in
+  let common_facts =
+    try
+      List.fold_left
+        (fun acc facts ->
+           List.filter (fun (_, fact) -> List.exists (fun (_, f) -> f = fact) facts) acc)
+        (List.hd facts_list)
+        (List.tl facts_list)
+    with
+    | _ -> List.concat facts_list
+  in
+  let common_facts = List.map snd common_facts in
   let goals = List.map (fun (_, goal, _) -> goal) state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
@@ -918,7 +936,11 @@ let pattern_recognition env ihs state_list : env * lemma list =
       in
       let lhs = fill_subtreewith_expr lhs_head new_lhs in
       let rhs = fill_subtreewith_expr rhs_head new_rhs in
-      let goal = Proof.Eq (lhs, rhs) in
+      let goal =
+        match common_facts with
+        | [] -> Proof.Eq (lhs, rhs)
+        | _ -> Proof.Imply (common_facts, Proof.Eq (lhs, rhs))
+      in
       let free_vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
       let goal = Proof.Forall (free_vars, goal) in
       let env = [ mk_lhs; mk_rhs ] in

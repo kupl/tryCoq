@@ -659,7 +659,7 @@ let useless_rewrite tactic =
     || String.starts_with ~prefix:"Base" src
     || String.starts_with ~prefix:"Base" target
     (* || String.starts_with ~prefix:"IH" target *)
-    || (String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"goal" target)
+    (* || (String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"goal" target) *)
     || ((not (contains_substring src "eqb_eq"))
         && not (String.starts_with ~prefix:"goal" target))
   | _ -> false
@@ -748,7 +748,6 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
     (match expr.Ir.desc with
      | Var _ -> None
      | _ ->
-       let _, goal, _ = state in
        if List.exists (fun tactic -> tactic = Proof.SimplIn "goal") valid_tactics
        then None
        else if is_if_then_else_in_prop expr goal
