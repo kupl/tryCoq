@@ -71,7 +71,7 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
     in
     let _ = Proof.pp_t next_t |> print_endline in
-    (* let _ = if i = 255 then Proof.proof_top next_t in *)
+    let _ = if i = 255 then Proof.proof_top next_t in
     (match next_t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof, next_t.env
      | _ ->

@@ -51,6 +51,7 @@ and tactic =
   | Reflexivity
   | Discriminate
   | Assert of prop
+  | Define of Ir.decl
 [@@deriving sexp]
 
 type env = Ir.t [@@deriving sexp]
@@ -275,6 +276,13 @@ let pp_tactic tactic =
   | Reflexivity -> "reflexivity"
   | Assert prop -> "assert " ^ pp_prop prop
   | Discriminate -> "discriminate"
+  | Define decl ->
+    let name, args, body =
+      match decl with
+      | Ir.NonRec (name, args, body) | Ir.Rec (name, args, body) -> name, args, body
+      | _ -> failwith "Not a declaration or recursive declaration"
+    in
+    "define " ^ name ^ " " ^ String.concat " " args ^ " =\n" ^ pp_expr body
 ;;
 
 let pp_theorem (tactics, name, goal) =
@@ -1926,6 +1934,8 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
   let lemma_stack, conj_list, tactic_list = t.proof in
   match tactic with
   | Assert prop -> apply_assert prop t
+  | Define decl ->
+    { env = env @ [ decl ]; proof = lemma_stack, conj_list, tactic_list @ [ tactic ] }
   | _ ->
     let first_conj = List.hd conj_list in
     let state_list, conj_goal = first_conj in
@@ -2014,7 +2024,8 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
            ( lemma_stack
            , (remain_states, conj_goal) :: List.tl conj_list
            , tactic_list @ [ tactic ] ))
-      | _ -> failwith "not implemented"
+      | Assert _ -> failwith "Assert tactic should be applied before"
+      | Define _ -> failwith "Define tactic should be applied before"
     in
     { t with proof }
 ;;
@@ -2048,12 +2059,10 @@ let rec parse_prop src binding decls =
      | _ ->
        let parts = String.split_on_char '=' src in
        let lhs = List.hd parts |> Lexing.from_string in
-       let lhs2 = List.hd parts |> Lexing.from_string in
-       let _ = lhs2 |> Parse.implementation in
-       let _ = print_endline "asdf" in
        let lhs = lhs |> Parse.expression in
        let rhs = List.nth parts 1 |> Lexing.from_string |> Parse.expression in
        let lhs = Ir.ir_of_parsetree lhs binding decls in
+       let _ = print_endline "asdf" in
        let rhs = Ir.ir_of_parsetree rhs binding decls in
        Eq (lhs, rhs))
   | quantifier :: prop ->
@@ -2108,6 +2117,20 @@ let parse_tactic (t : t) src =
     Case (parse_expr binding (String.concat " " args) env)
   | "assert" -> Assert (parse_prop (String.concat " " args) [] env)
   | "discriminate" -> Discriminate
+  | "define" ->
+    let src = String.concat " " args in
+    let parts = String.split_on_char '=' src in
+    (match parts with
+     | [ lhs; body ] ->
+       let lhs = String.trim lhs in
+       let body = String.trim body in
+       let lhs_parts = String.split_on_char ' ' lhs in
+       let name = List.hd lhs_parts in
+       let args = List.tl lhs_parts in
+       let body = parse_expr [] body env in
+       let decl = Ir.Rec (name, args, body) in
+       Define decl
+     | _ -> failwith "asdf")
   | _ -> failwith "wrong tactic"
 ;;
 

@@ -179,20 +179,17 @@ let rec pp_string expr =
 
 let string_of_t t = t |> sexp_of_t |> Sexplib.Sexp.to_string
 
-let rec pp_t t : string =
-  (List.map
-     (fun decl ->
-        match decl with
-        | NonRec (name, args, body) ->
-          "let " ^ name ^ " " ^ String.concat " " args ^ " =\n" ^ pp_expr body
-        | Rec (name, args, body) ->
-          "let rec " ^ name ^ " " ^ String.concat " " args ^ " =\n" ^ pp_expr body
-        | TypeDecl (name, args, typ_decl) ->
-          let args = List.map (fun arg -> pp_typ arg) args in
-          "type " ^ String.concat " " args ^ name ^ " = " ^ pp_typ_decl typ_decl)
-     t
-   |> String.concat "\n;;\n")
-  ^ "\n;;"
+let rec pp_decl decl =
+  match decl with
+  | NonRec (name, args, body) ->
+    "let " ^ name ^ " " ^ String.concat " " args ^ " =\n" ^ pp_expr body
+  | Rec (name, args, body) ->
+    "let rec " ^ name ^ " " ^ String.concat " " args ^ " =\n" ^ pp_expr body
+  | TypeDecl (name, args, typ_decl) ->
+    let args = List.map (fun arg -> pp_typ arg) args in
+    "type " ^ String.concat " " args ^ name ^ " = " ^ pp_typ_decl typ_decl
+
+and pp_t t : string = (List.map pp_decl t |> String.concat "\n;;\n") ^ "\n;;"
 
 and pp_expr expr =
   match expr.desc with

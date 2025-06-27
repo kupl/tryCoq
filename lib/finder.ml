@@ -1062,7 +1062,14 @@ let advanced_generalize t : (t * lemma list) option =
       match naive_generalize t with
       | Some lemma -> Some (t, [ lemma ])
       | _ -> None)
-    else Some ({ t with env = t.env @ new_env }, lemma_list)
+    else (
+      let new_t =
+        List.fold_left
+          (fun acc decl -> Proof.apply_tactic acc (Proof.Define decl))
+          t
+          new_env
+      in
+      Some (new_t, lemma_list))
 ;;
 
 let make_lemmas_by_advanced_generalize (t : t) lemma_list : (t * lemma list) option =
