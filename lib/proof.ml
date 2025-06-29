@@ -2062,7 +2062,6 @@ let rec parse_prop src binding decls =
        let lhs = lhs |> Parse.expression in
        let rhs = List.nth parts 1 |> Lexing.from_string |> Parse.expression in
        let lhs = Ir.ir_of_parsetree lhs binding decls in
-       let _ = print_endline "asdf" in
        let rhs = Ir.ir_of_parsetree rhs binding decls in
        Eq (lhs, rhs))
   | quantifier :: prop ->
@@ -2130,7 +2129,7 @@ let parse_tactic (t : t) src =
        let body = parse_expr [] body env in
        let decl = Ir.Rec (name, args, body) in
        Define decl
-     | _ -> failwith "asdf")
+     | _ -> failwith "syntax error in define")
   | _ -> failwith "wrong tactic"
 ;;
 
