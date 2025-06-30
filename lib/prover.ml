@@ -21,6 +21,9 @@ module WorkList = CCHeap.Make_from_compare (struct
         else compare conjs1 conjs2
       else compare r1 r2
     ;;
+    (* ignore t1;
+      ignore t2;
+      if r1 = r2 then compare ord1 ord2 else compare r1 r2 *)
   end)
 
 module ProofSet = CCSet.Make (struct
@@ -726,9 +729,11 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
       if List.exists (fun qvar -> List.mem qvar decreasing_vars) qvar_list
       then if List.mem var_name non_decreasing_vars then Some 3 else None
       else Some 2)
+    else if is_in_cond state var_name
+    then Some 0
     else if List.exists (fun var -> var = var_name) decreasing_vars
-    then if is_in_cond state var_name then Some 0 else None
-    else Some 1
+    then None
+    else Some 0
   | Proof.Induction var_name ->
     if List.exists (fun tactic -> tactic = Proof.SimplIn "goal") valid_tactics
     then None
@@ -745,7 +750,7 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
       else Some 2)
     else if is_in_cond state var_name
     then None
-    else Some 0
+    else Some 1
   | Proof.SimplIn "goal" -> Some 0
   | Proof.SimplIn _ -> None
   | Proof.RewriteInAt (src, target, _) ->
@@ -754,7 +759,7 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
       match apply_tactic next_t Proof.Discriminate with
       | Some _ -> Some 0
       | _ -> None)
-    else if contains_substring src "eqb_eq"
+    else if contains_substring src "eqb_eq" || contains_substring src "refl"
     then Some 0
     else if String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
     then None
@@ -794,7 +799,7 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
        if List.exists (fun tactic -> tactic = Proof.SimplIn "goal") valid_tactics
        then None
        else if is_if_then_else_in_prop expr goal
-       then Some 1
+       then Some 0
        else if
          let new_t = Proof.apply_tactic next_t (Proof.SimplIn "goal") in
          let _, new_goal, _ = Proof.get_first_state new_t in
@@ -839,6 +844,8 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
            | _ -> false)
         worklist
     then List.map (fun (t, tactic, next_t, _, ord) -> t, tactic, next_t, 0, ord) worklist
+    else if List.length worklist = 1
+    then List.map (fun (t, tactic, next_t, _, ord) -> t, tactic, next_t, 0, ord) worklist
     else worklist
   | (tactic, next_t) :: _ -> [ t, tactic, next_t, 0, order_counter () ]
 ;;
@@ -865,6 +872,15 @@ let prune_rank_worklist_update_state_list t candidates statelist =
       new_worklist
   in
   let worklist = rank_tactics t valid_tactics new_worklist statelist in
+  (* let worklist =
+    List.map
+      (fun (t, tactic, next_t, r, ord) ->
+         let conj_len = Proof.get_conj_list next_t |> List.length in
+         let goal_len = Proof.get_goal_list next_t |> List.length in
+         let r = (6 * r) + (2 * conj_len) + goal_len in
+         t, tactic, next_t, r, ord)
+      worklist
+  in *)
   WorkList.of_list worklist, statelist
 ;;
 
