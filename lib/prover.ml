@@ -118,8 +118,10 @@ let rec collect_fname_in_prop env goal =
   | Proof.Or (lhs, rhs) -> collect_fname_in_prop env lhs @ collect_fname_in_prop env rhs
   | Proof.Not prop -> collect_fname_in_prop env prop
   | Proof.Imply (cond_list, prop) ->
-    List.fold_left (fun acc cond -> acc @ collect_fname_in_prop env cond) [] cond_list
-    @ collect_fname_in_prop env prop
+    (* List.fold_left (fun acc cond -> acc @ collect_fname_in_prop env cond) [] cond_list
+    @  *)
+    ignore cond_list;
+    collect_fname_in_prop env prop
   | _ -> []
 ;;
 
@@ -200,9 +202,7 @@ let rec get_nth_arg_in_prop fname i prop =
   | Proof.Or (lhs, rhs) ->
     get_nth_arg_in_prop fname i lhs @ get_nth_arg_in_prop fname i rhs
   | Proof.Not prop -> get_nth_arg_in_prop fname i prop
-  | Proof.Imply (cond_list, prop) ->
-    List.fold_left (fun acc cond -> acc @ get_nth_arg_in_prop fname i cond) [] cond_list
-    @ get_nth_arg_in_prop fname i prop
+  | Proof.Imply (_, prop) -> get_nth_arg_in_prop fname i prop
   | _ -> []
 ;;
 
@@ -278,6 +278,35 @@ let is_mk (state : state) var_name =
     | _ -> false
   in
   is_mk_arg lhs || is_mk_arg rhs
+;;
+
+let is_base_case state =
+  let facts, _, _ = state in
+  let base_ind_fact =
+    List.filter
+      (fun (name, _) ->
+         String.starts_with ~prefix:"Base" name
+         || String.starts_with ~prefix:"Inductive" name)
+      facts
+  in
+  try
+    let last_base_ind_fact = base_ind_fact |> List.rev |> List.hd in
+    String.starts_with ~prefix:"Base" (fst last_base_ind_fact)
+  with
+  | _ -> false
+;;
+
+let is_in_cond (state : state) var_name =
+  let _, goal, _ = state in
+  let cond_list =
+    match goal with
+    | Proof.Imply (cond_list, _) -> cond_list
+    | Proof.Forall (_, Proof.Imply (cond_list, _)) -> cond_list
+    | _ -> []
+  in
+  List.exists
+    (fun cond -> collect_var_in_prop cond |> List.exists (( = ) var_name))
+    cond_list
 ;;
 
 let apply_tactic t tactic : t option =
@@ -633,6 +662,15 @@ let rec is_case_match src goal =
   | _ -> false
 ;;
 
+let is_eq prop =
+  match prop with
+  | Proof.Eq (lhs, rhs) ->
+    (match lhs.Ir.desc, rhs.Ir.desc with
+     | Ir.Var _, Ir.Var _ -> true
+     | _ -> false)
+  | _ -> false
+;;
+
 let contains_substring str substr =
   try
     let _ = Str.search_forward (Str.regexp_string substr) str 0 in
@@ -670,7 +708,8 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
   ignore real_tactics;
   let env = t.Proof.env in
   let state = Proof.get_first_state t in
-  let _, goal, _ = state in
+  let facts, goal, _ = state in
+  ignore facts;
   let decreasing_vars = collect_decreasing_arg env state in
   let all_vars = collect_var_in_prop goal in
   let non_decreasing_vars =
@@ -688,14 +727,14 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
       then if List.mem var_name non_decreasing_vars then Some 3 else None
       else Some 2)
     else if List.exists (fun var -> var = var_name) decreasing_vars
-    then None
+    then if is_in_cond state var_name then Some 0 else None
     else Some 1
   | Proof.Induction var_name ->
     if List.exists (fun tactic -> tactic = Proof.SimplIn "goal") valid_tactics
     then None
     else if not (List.exists (fun var -> var = var_name) decreasing_vars)
     then None
-    else if is_mk state var_name
+    else if is_mk state var_name && not (is_base_case state)
     then (
       let qvar_list = List.filter (fun v -> v <> var_name) qvar_list in
       if
@@ -704,6 +743,8 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
           qvar_list
       then None
       else Some 2)
+    else if is_in_cond state var_name
+    then None
     else Some 0
   | Proof.SimplIn "goal" -> Some 0
   | Proof.SimplIn _ -> None
@@ -727,6 +768,8 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
       match apply_tactic next_t Proof.Discriminate with
       | Some _ -> Some 0
       | _ -> None)
+    else if String.starts_with ~prefix:"Case" src && is_eq (List.assoc src facts)
+    then Some 0
     else if contains_substring src "eqb_eq"
     then Some 0
     else (
@@ -751,7 +794,7 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
        if List.exists (fun tactic -> tactic = Proof.SimplIn "goal") valid_tactics
        then None
        else if is_if_then_else_in_prop expr goal
-       then Some 2
+       then Some 1
        else if
          let new_t = Proof.apply_tactic next_t (Proof.SimplIn "goal") in
          let _, new_goal, _ = Proof.get_first_state new_t in

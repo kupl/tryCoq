@@ -1120,6 +1120,7 @@ let apply_rewrite
        in
        [ fact, goal, graph ]
      | [ cond ] ->
+       let _ = if is_reverse then failwith "Does not support if and only if" in
        let is_matched, match_result = is_prop_matched var_list cond target_fact in
        let new_fact =
          List.fold_left
@@ -1810,7 +1811,6 @@ let apply_case expr state t : state list =
          in
          let case_eq = Eq (expr, Ir.{ desc = base_case; typ }) in
          let new_graph = update_egraph graph expr Ir.{ desc = base_case; typ } [] in
-         (* let eqb_to_eq = if Ir.is_equal_expr expr  *)
          let new_facts = [ "Case" ^ string_of_int (fact_index t "Case"), case_eq ] in
          if List.exists (fun (_, prop) -> prop = case_eq) facts
          then failwith "Duplicated Fact"
@@ -1825,7 +1825,10 @@ let apply_case expr state t : state list =
                0
                false
            in
-           let new_goal = new_goal |> simplify_prop env in
+           let simpl_goal = new_goal |> simplify_prop env in
+           let new_graph =
+             if simpl_goal = goal then new_graph else graph_of_prop simpl_goal
+           in
            let facts =
              List.map
                (fun (name, prop) ->
@@ -1842,7 +1845,7 @@ let apply_case expr state t : state list =
                   name, prop)
                facts
            in
-           facts @ new_facts, new_goal, new_graph)
+           facts @ new_facts, simpl_goal, new_graph)
        | _ ->
          let new_args, _ =
            partition_and_transform

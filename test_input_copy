@@ -12,23 +12,31 @@ rewrite Case2 in goal at 0
 reflexivity
 reflexivity
 simpl in goal
-assert forall (string1:string) (string2:string) (string_list1:string list), mk_lhs1 (Nil) (string1) (string2) (string_list1) = Cons (string1) (Cons (string2) (string_list1))
+define mk_lhs1 arg_1 arg_2 arg_3 arg_4 =
+match (arg_1) with
+| Nil  -> (arg_2::(arg_3::arg_4))
+| Cons hd tl -> (hd::mk_lhs1 (tl) (arg_2) (arg_3) (arg_4))
+define mk_rhs1 arg_5 arg_6 arg_7 =
+match (arg_5) with
+| Nil  -> (arg_6::arg_7)
+| Cons hd tl -> (hd::mk_rhs1 (tl) (arg_6) (arg_7))
+assert forall (string1:string) (string2:string) (string_list1:string list), mk_lhs1 ((Nil)) (string1) (string2) (string_list1) = (string1::(string2::string_list1))
 simpl in goal
 reflexivity
-assert forall (string1:string) (string_list1:string list) (string2:string) (string3:string) (string_list2:string list), mk_lhs1 (Cons (string1) (string_list1)) (string2) (string3) (string_list2) = Cons (string1) (mk_lhs1 (string_list1) (string2) (string3) (string_list2))
+assert forall (string1:string) (string_list1:string list) (string2:string) (string3:string) (string_list2:string list), mk_lhs1 ((string1::string_list1)) (string2) (string3) (string_list2) = (string1::mk_lhs1 (string_list1) (string2) (string3) (string_list2))
 simpl in goal
 reflexivity
-assert forall (string1:string) (string_list1:string list), mk_rhs1 (Nil) (string1) (string_list1) = Cons (string1) (string_list1)
+assert forall (string1:string) (string_list1:string list), mk_rhs1 ((Nil)) (string1) (string_list1) = (string1::string_list1)
 simpl in goal
 reflexivity
-assert forall (string1:string) (string_list1:string list) (string2:string) (string_list2:string list), mk_rhs1 (Cons (string1) (string_list1)) (string2) (string_list2) = Cons (string1) (mk_rhs1 (string_list1) (string2) (string_list2))
+assert forall (string1:string) (string_list1:string list) (string2:string) (string_list2:string list), mk_rhs1 ((string1::string_list1)) (string2) (string_list2) = (string1::mk_rhs1 (string_list1) (string2) (string_list2))
 simpl in goal
 reflexivity
 assert forall (lambda1:lambda) (string_list1:string list) (string1:string) (string2:string) (string_list2:string list), is_mem_ta1 (string_list2) (string1) = true -> sub_check_ta1 (lambda1) (mk_lhs1 (string_list1) (string2) (string1) (string_list2)) = sub_check_ta1 (lambda1) (mk_rhs1 (string_list1) (string2) (string_list2))
 induction lambda1
+simpl in goal
 intro string_list2
 intro string1
-simpl in goal
 induction string_list1
 simpl in goal
 intro *
@@ -50,20 +58,18 @@ rewrite IH1 in goal at 0
 reflexivity
 rewrite Cond1 in goal at 0
 reflexivity
-simpl in goal
 intro string_list2
 intro string1
-rewrite <- lhs_lemma4 in goal at 0
+simpl in goal
 intro *
 intro Cond1
+rewrite <- lhs_lemma4 in goal at 0
 rewrite IH1 in goal at 0
 simpl in goal
 reflexivity
 rewrite Cond1 in goal at 0
 reflexivity
 simpl in goal
-intro string_list2
-intro string1
 intro *
 intro Cond1
 rewrite IH1 in goal at 0
@@ -84,3 +90,4 @@ rewrite IH1 in goal at 0
 rewrite IH2 in goal at 0
 reflexivity
 reflexivity
+Qed
