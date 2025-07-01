@@ -1040,36 +1040,47 @@ let naive_generalize t =
     generalize_common_subterm_goal)
 ;;
 
+let rec is_trivial goal =
+  match goal with
+  | Proof.Eq (lhs, rhs) -> Ir.is_equal_expr lhs rhs
+  | Proof.Forall (_, goal) -> is_trivial goal
+  | Proof.Imply (_, goal) -> is_trivial goal
+  | _ -> false
+;;
+
 let advanced_generalize t : (t * lemma list) option =
   let first_state = Proof.get_first_state t in
-  let facts, _, _ = first_state in
-  let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
-  let state_list = fast_execution 2 t in
-  let _ = print_endline "state_list" in
-  let _ =
-    List.iter (fun (_, goal, _) -> Proof.pp_prop goal |> print_endline) state_list
-  in
-  match state_list with
-  | [] ->
-    (match naive_generalize t with
-     | Some lemma -> Some (t, [ lemma ])
-     | _ -> None)
-  | _ ->
-    let new_env, lemma_list = pattern_recognition t.env ihs state_list in
-    let new_env = List.map Ir.rename_decl new_env in
-    if List.is_empty lemma_list
-    then (
-      match naive_generalize t with
-      | Some lemma -> Some (t, [ lemma ])
-      | _ -> None)
-    else (
-      let new_t =
-        List.fold_left
-          (fun acc decl -> Proof.apply_tactic acc (Proof.Define decl))
-          t
-          new_env
-      in
-      Some (new_t, lemma_list))
+  let facts, goal, _ = first_state in
+  match is_trivial goal with
+  | true -> None
+  | false ->
+    let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
+    let state_list = fast_execution 2 t in
+    let _ = print_endline "state_list" in
+    let _ =
+      List.iter (fun (_, goal, _) -> Proof.pp_prop goal |> print_endline) state_list
+    in
+    (match state_list with
+     | [] ->
+       (match naive_generalize t with
+        | Some lemma -> Some (t, [ lemma ])
+        | _ -> None)
+     | _ ->
+       let new_env, lemma_list = pattern_recognition t.env ihs state_list in
+       let new_env = List.map Ir.rename_decl new_env in
+       if List.is_empty lemma_list
+       then (
+         match naive_generalize t with
+         | Some lemma -> Some (t, [ lemma ])
+         | _ -> None)
+       else (
+         let new_t =
+           List.fold_left
+             (fun acc decl -> Proof.apply_tactic acc (Proof.Define decl))
+             t
+             new_env
+         in
+         Some (new_t, lemma_list)))
 ;;
 
 let make_lemmas_by_advanced_generalize (t : t) lemma_list : (t * lemma list) option =

@@ -71,7 +71,7 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
     in
     let _ = Proof.pp_t next_t |> print_endline in
-    (* let _ = if i = 286 then Proof.proof_top next_t in *)
+    let _ = if i = 18 then Proof.proof_top next_t in
     (match next_t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof, next_t.env
      | _ ->
@@ -165,7 +165,8 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
              (Prover.ProofSet.add new_state statelist)
              (next_goal :: stuck_goals)
              (assert_list @ old_lemma_list)
-         | _ -> progress prev_worklist statelist (next_goal :: stuck_goals) old_lemma_list)
+         | None ->
+           progress prev_worklist statelist (next_goal :: stuck_goals) old_lemma_list)
        else
          progress
            (Prover.WorkList.merge prev_worklist worklist)

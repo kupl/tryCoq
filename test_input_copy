@@ -1,4 +1,43 @@
 1
+assert forall (lambda1:lambda), check_ta1 (lambda1) = check (lambda1)
+simpl in goal
+induction lambda1
+simpl in goal
+reflexivity
+simpl in goal
+assert forall (lambda1:lambda) (string_list1:string list), sub_check_ta1 (lambda1) (string_list1) = sub_check (lambda1) (string_list1)
+induction lambda1
+simpl in goal
+induction string_list1
+simpl in goal
+reflexivity
+simpl in goal
+rewrite <- IH1 in goal at 0
+reflexivity
+simpl in goal
+rewrite <- IH1 in goal at 0
+intro string_list1
+case mem (string1) (string_list1)
+assert forall (lambda1:lambda) (string1:string) (string_list1:string list), sub_check_ta1 (lambda1) ((string1::string_list1)) = if mem (string1) (string_list1) then sub_check_ta1 (lambda1) (string_list1) else sub_check_ta1 (lambda1) ((string1::string_list1))
+intro string1
+intro string_list1
+case mem (string1) (string_list1)
+induction lambda1
+simpl in goal
+case string_eq (string1) (string2)
+rewrite <- Case1 in goal at 0
+assert forall (string1:string) (string_list1:string list), mem (string1) (string_list1) = is_mem_ta1 (string_list1) (string1)
+induction string_list1
+simpl in goal
+reflexivity
+simpl in goal
+rewrite IH1 in goal at 0
+reflexivity
+rewrite lemma3 in goal at 0
+rewrite string_eqb_eq in Case2 at 0
+rewrite Case2 in goal at 0
+reflexivity
+reflexivity
 assert forall (lambda2:lambda) (string1:string) (string_list1:string list), sub_check_ta1 (lambda2) (string1::string_list1) = if is_mem_ta1 (string_list1) (string1) then sub_check_ta1 (lambda2) (string_list1) else sub_check_ta1 (lambda2) (string1::string_list1)
 intro string1
 intro string_list1
@@ -90,4 +129,11 @@ rewrite IH1 in goal at 0
 rewrite IH2 in goal at 0
 reflexivity
 reflexivity
-Qed
+rewrite lemma8 in goal at 0
+rewrite Case1 in goal at 0
+simpl in goal
+reflexivity
+simpl in goal
+rewrite IH1 in goal at 0
+rewrite IH2 in goal at 0
+reflexivity

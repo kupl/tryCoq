@@ -121,6 +121,20 @@ let graph_of_prop prop =
   graph
 ;;
 
+let rec collect_var_in_prop prop =
+  match prop with
+  | Eq (e1, e2) -> Ir.collect_var_in_expr e1 @ Ir.collect_var_in_expr e2
+  | Le (e1, e2) -> Ir.collect_var_in_expr e1 @ Ir.collect_var_in_expr e2
+  | Lt (e1, e2) -> Ir.collect_var_in_expr e1 @ Ir.collect_var_in_expr e2
+  | And (p1, p2) -> collect_var_in_prop p1 @ collect_var_in_prop p2
+  | Or (p1, p2) -> collect_var_in_prop p1 @ collect_var_in_prop p2
+  | Not p -> collect_var_in_prop p
+  | Forall (var_list, p) -> List.map fst var_list @ collect_var_in_prop p
+  | Imply (cond_list, p2) ->
+    List.flatten (List.map collect_var_in_prop cond_list) @ collect_var_in_prop p2
+  | Type _ -> []
+;;
+
 let compare_fact_list (facts1 : fact list) (facts2 : fact list) =
   List.length facts1 = List.length facts2
   && List.for_all2
@@ -557,8 +571,25 @@ let substitute_expr_in_prop pred convert target expr_from expr_to i is_rewrite =
 ;;
 
 let apply_intro name state : state =
-  let facts, goal, _ = state in
+  let facts, goal, graph = state in
   match goal with
+  | Forall (var_list, Imply (cond_list, p2)) when String.starts_with ~prefix:"Cond" name
+    ->
+    let cond_vars =
+      List.map (fun cond -> collect_var_in_prop cond) cond_list
+      |> List.concat
+      |> List.sort_uniq compare
+    in
+    let bind_vars = List.filter (fun var -> List.mem_assoc var var_list) cond_vars in
+    (match bind_vars with
+     | [] ->
+       (match cond_list with
+        | hd :: _ ->
+          let new_fact = name, hd in
+          let new_goal = Forall (var_list, p2) in
+          facts @ [ new_fact ], new_goal, graph
+        | _ -> failwith "Not implemented many condition")
+     | _ -> failwith "There is bind variable in the condition")
   | Forall (var_list, goal) ->
     if name = "*"
     then facts @ var_list, goal, graph_of_prop goal
@@ -569,20 +600,21 @@ let apply_intro name state : state =
       in
       let var_list = List.filter (fun (name', _) -> name' <> name) var_list in
       let new_goal = if List.is_empty var_list then goal else Forall (var_list, goal) in
-      facts @ [ name, typ ], new_goal, graph_of_prop new_goal)
+      facts @ [ name, typ ], new_goal, graph)
   | Imply (cond_list, p2) ->
     let new_goal =
       if List.is_empty (List.tl cond_list) then p2 else Imply (List.tl cond_list, p2)
     in
-    facts @ [ name, List.hd cond_list ], new_goal, graph_of_prop new_goal
+    facts @ [ name, List.hd cond_list ], new_goal, graph
   | _ -> failwith "There is no term that can be introduced"
 ;;
 
-let rec apply_eq goal =
+let rec apply_reflexivity goal =
   match goal with
   | Eq (e1, e2) ->
     if Ir.is_equal_expr e1 e2 then [] else failwith "LHS and RHS are not equal"
-  | Forall (_, goal) -> apply_eq goal
+  | Forall (_, goal) -> apply_reflexivity goal
+  | Imply (_, goal) -> apply_reflexivity goal
   | _ -> failwith "The goal is not an equality"
 ;;
 
@@ -1990,7 +2022,7 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
         , tactic_list @ [ tactic ] )
       | Reflexivity ->
         let _, goal, _ = first_state in
-        let _ = apply_eq goal in
+        let _ = apply_reflexivity goal in
         let remain_states = List.tl state_list in
         (match remain_states with
          | [] ->
