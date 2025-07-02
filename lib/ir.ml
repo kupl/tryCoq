@@ -569,7 +569,79 @@ let get_typ_decl decl =
 ;;
 
 let substitute_expr pred convert target expr_from expr_to i is_rewrite result =
-  let rec substitute_expr' pred convert target expr_from expr_to cnt result =
+  let rec substitute_further pred convert target expr_from expr_to cnt result =
+    match target.desc with
+    | Match (match_list, cases) ->
+      let match_list, cnt, result =
+        List.fold_left
+          (fun (after_list, cnt, result) match_expr ->
+             let new_expr, result, cnt =
+               substitute_expr' pred convert match_expr expr_from expr_to cnt result
+             in
+             after_list @ [ new_expr ], cnt, result)
+          ([], cnt, result)
+          match_list
+      in
+      if
+        List.for_all
+          (fun case ->
+             let (Case (pat, _)) = case in
+             let pat_vars = collect_var_in_pat pat in
+             List.is_empty pat_vars)
+          cases
+        || not is_rewrite
+      then (
+        let cases', cnt, result =
+          List.fold_left
+            (fun (cases, cnt, result) case ->
+               let (Case (pattern, expr)) = case in
+               let expr', result', cnt =
+                 substitute_expr' pred convert expr expr_from expr_to cnt result
+               in
+               cases @ [ Case (pattern, expr') ], cnt, result')
+            ([], cnt, result)
+            cases
+        in
+        { desc = Match (match_list, cases'); typ = target.typ }, result, cnt)
+      else { desc = Match (match_list, cases); typ = target.typ }, result, cnt
+    | LetIn (bindings, body) ->
+      let bindings', cnt, result =
+        List.fold_left
+          (fun (bindings, cnt, result) (name, body) ->
+             let body', result', cnt =
+               substitute_expr' pred convert body expr_from expr_to cnt result
+             in
+             bindings @ [ name, body' ], cnt, result')
+          ([], cnt, result)
+          bindings
+      in
+      let body', result, cnt =
+        substitute_expr' pred convert body expr_from expr_to cnt result
+      in
+      { desc = LetIn (bindings', body'); typ = target.typ }, result, cnt
+    | Call (name, args) ->
+      let name =
+        match name with
+        | "any_eq" ->
+          let typ = (List.hd args).typ in
+          (match typ with
+           | Talgebraic (name, _) -> name ^ "_eq"
+           | _ -> name)
+        | _ -> name
+      in
+      let args', cnt, result =
+        List.fold_left
+          (fun (args, cnt, result) arg ->
+             let arg', result', cnt =
+               substitute_expr' pred convert arg expr_from expr_to cnt result
+             in
+             args @ [ arg' ], cnt, result')
+          ([], cnt, result)
+          args
+      in
+      { desc = Call (name, args'); typ = target.typ }, result, cnt
+    | Var _ -> target, result, cnt
+  and substitute_expr' pred convert target expr_from expr_to cnt result =
     if i < cnt && i <> 0
     then target, result, cnt
     else if pred target expr_from
@@ -578,79 +650,8 @@ let substitute_expr pred convert target expr_from expr_to i is_rewrite result =
       then (
         let expr, result = convert target expr_from expr_to in
         expr, result, cnt + 1)
-      else target, result, cnt + 1
-    else (
-      match target.desc with
-      | Match (match_list, cases) ->
-        let match_list, cnt, result =
-          List.fold_left
-            (fun (after_list, cnt, result) match_expr ->
-               let new_expr, result, cnt =
-                 substitute_expr' pred convert match_expr expr_from expr_to cnt result
-               in
-               after_list @ [ new_expr ], cnt, result)
-            ([], cnt, result)
-            match_list
-        in
-        if
-          List.for_all
-            (fun case ->
-               let (Case (pat, _)) = case in
-               let pat_vars = collect_var_in_pat pat in
-               List.is_empty pat_vars)
-            cases
-          || not is_rewrite
-        then (
-          let cases', cnt, result =
-            List.fold_left
-              (fun (cases, cnt, result) case ->
-                 let (Case (pattern, expr)) = case in
-                 let expr', result', cnt =
-                   substitute_expr' pred convert expr expr_from expr_to cnt result
-                 in
-                 cases @ [ Case (pattern, expr') ], cnt, result')
-              ([], cnt, result)
-              cases
-          in
-          { desc = Match (match_list, cases'); typ = target.typ }, result, cnt)
-        else { desc = Match (match_list, cases); typ = target.typ }, result, cnt
-      | LetIn (bindings, body) ->
-        let bindings', cnt, result =
-          List.fold_left
-            (fun (bindings, cnt, result) (name, body) ->
-               let body', result', cnt =
-                 substitute_expr' pred convert body expr_from expr_to cnt result
-               in
-               bindings @ [ name, body' ], cnt, result')
-            ([], cnt, result)
-            bindings
-        in
-        let body', result, cnt =
-          substitute_expr' pred convert body expr_from expr_to cnt result
-        in
-        { desc = LetIn (bindings', body'); typ = target.typ }, result, cnt
-      | Call (name, args) ->
-        let name =
-          match name with
-          | "any_eq" ->
-            let typ = (List.hd args).typ in
-            (match typ with
-             | Talgebraic (name, _) -> name ^ "_eq"
-             | _ -> name)
-          | _ -> name
-        in
-        let args', cnt, result =
-          List.fold_left
-            (fun (args, cnt, result) arg ->
-               let arg', result', cnt =
-                 substitute_expr' pred convert arg expr_from expr_to cnt result
-               in
-               args @ [ arg' ], cnt, result')
-            ([], cnt, result)
-            args
-        in
-        { desc = Call (name, args'); typ = target.typ }, result, cnt
-      | Var _ -> target, result, cnt)
+      else substitute_further pred convert target expr_from expr_to (cnt + 1) result
+    else substitute_further pred convert target expr_from expr_to cnt result
   in
   let expr, result, cnt =
     substitute_expr' pred convert target expr_from expr_to 1 result

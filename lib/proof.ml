@@ -198,8 +198,9 @@ let get_first_state (t : t) =
 
 let get_goal_list (t : t) =
   let conj_list = get_conj_list t in
-  let state_list = List.hd conj_list |> fst in
-  List.map (fun (_, goal, _) -> goal) state_list
+  match conj_list with
+  | [] -> []
+  | (state_list, _) :: _ -> List.map (fun (_, goal, _) -> goal) state_list
 ;;
 
 let variable_index (state : state) typ =
@@ -584,11 +585,15 @@ let apply_intro name state : state =
     (match bind_vars with
      | [] ->
        (match cond_list with
-        | hd :: _ ->
+        | hd :: tl ->
           let new_fact = name, hd in
-          let new_goal = Forall (var_list, p2) in
+          let new_goal =
+            match tl with
+            | [] -> Forall (var_list, p2)
+            | rest -> Forall (var_list, Imply (rest, p2))
+          in
           facts @ [ new_fact ], new_goal, graph
-        | _ -> failwith "Not implemented many condition")
+        | _ -> failwith "Condition list is empty")
      | _ -> failwith "There is bind variable in the condition")
   | Forall (var_list, goal) ->
     if name = "*"
@@ -602,20 +607,17 @@ let apply_intro name state : state =
       let new_goal = if List.is_empty var_list then goal else Forall (var_list, goal) in
       facts @ [ name, typ ], new_goal, graph)
   | Imply (cond_list, p2) ->
-    let new_goal =
-      if List.is_empty (List.tl cond_list) then p2 else Imply (List.tl cond_list, p2)
-    in
-    facts @ [ name, List.hd cond_list ], new_goal, graph
+    (match cond_list with
+     | hd :: tl ->
+       let new_fact = name, hd in
+       let new_goal =
+         match tl with
+         | [] -> p2
+         | rest -> Imply (rest, p2)
+       in
+       facts @ [ new_fact ], new_goal, graph
+     | _ -> failwith "Condition list is empty")
   | _ -> failwith "There is no term that can be introduced"
-;;
-
-let rec apply_reflexivity goal =
-  match goal with
-  | Eq (e1, e2) ->
-    if Ir.is_equal_expr e1 e2 then [] else failwith "LHS and RHS are not equal"
-  | Forall (_, goal) -> apply_reflexivity goal
-  | Imply (_, goal) -> apply_reflexivity goal
-  | _ -> failwith "The goal is not an equality"
 ;;
 
 let apply_induction name (state : state) t : state list =
@@ -1964,6 +1966,16 @@ let apply_discriminate env (state : state) : state list =
   else failwith "Cannot Discriminate"
 ;;
 
+let rec apply_reflexivity env goal =
+  let goal = simplify_prop env goal in
+  match goal with
+  | Eq (e1, e2) ->
+    if Ir.is_equal_expr e1 e2 then [] else failwith "LHS and RHS are not equal"
+  | Forall (_, goal) -> apply_reflexivity env goal
+  | Imply (_, goal) -> apply_reflexivity env goal
+  | _ -> failwith "The goal is not an equality"
+;;
+
 let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
   let env = t.env in
   let lemma_stack, conj_list, tactic_list = t.proof in
@@ -2022,7 +2034,7 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
         , tactic_list @ [ tactic ] )
       | Reflexivity ->
         let _, goal, _ = first_state in
-        let _ = apply_reflexivity goal in
+        let _ = apply_reflexivity env goal in
         let remain_states = List.tl state_list in
         (match remain_states with
          | [] ->
