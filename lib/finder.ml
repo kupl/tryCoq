@@ -1083,17 +1083,50 @@ let advanced_generalize t : (t * lemma list) option =
          Some (new_t, lemma_list)))
 ;;
 
-let make_lemmas_by_advanced_generalize (t : t) lemma_list : (t * lemma list) option =
+let make_lemmas_by_advanced_generalize (t : t) lemma_set : (t * lemma list) option =
   let t_lemma = advanced_generalize t in
+  let original_goal = Proof.get_conj_list t |> List.hd |> snd in
   let t_lemma =
     match t_lemma with
-    | Some (_, lemmas) ->
+    | Some (new_t, lemmas) ->
       if
         List.for_all
-          (fun lemma -> List.exists (fun lemma' -> lemma = lemma') lemma_list)
+          (fun lemma ->
+             Prover.LemmaSet.exists
+               (fun (goal', lemma', _) -> original_goal = goal' && lemma = lemma')
+               lemma_set)
           lemmas
         && not (List.is_empty lemmas)
       then None
+      else if
+        List.for_all
+          (fun lemma ->
+             Prover.LemmaSet.exists (fun (_, lemma', _) -> lemma = lemma') lemma_set)
+          lemmas
+        && not (List.is_empty lemmas)
+      then (
+        let pre_lemmas =
+          List.map
+            (fun lemma ->
+               Prover.LemmaSet.find_first
+                 (fun (_, lemma', tactic) -> lemma = lemma' && tactic <> [])
+                 lemma_set)
+            lemmas
+        in
+        if List.length pre_lemmas <> List.length lemmas
+        then t_lemma
+        else (
+          let new_t =
+            List.fold_left
+              (fun acc (_, _, tactic) ->
+                 List.fold_left
+                   (fun acc tactic -> Proof.apply_tactic acc tactic)
+                   acc
+                   tactic)
+              new_t
+              pre_lemmas
+          in
+          Some (new_t, [])))
       else t_lemma
     | None -> None
   in

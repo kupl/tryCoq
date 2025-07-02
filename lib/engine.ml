@@ -57,7 +57,31 @@ let make_progress_counter () =
 
 let progress_counter = make_progress_counter ()
 
-let rec progress worklist statelist stuck_goals old_lemma_list =
+let get_proof_of_lemma t =
+  let tactic_list = Proof.get_tactic_history t in
+  let rec aux tactic_list result =
+    match tactic_list with
+    | [] -> []
+    | Proof.Assert lemma :: _ -> Proof.Assert lemma :: result
+    | hd :: tl -> aux tl (result @ [ hd ])
+  in
+  aux (List.rev tactic_list) []
+;;
+
+let is_end_of_conj t next_t =
+  let conj_len = Proof.get_conj_list t |> List.length in
+  let next_conj_len = Proof.get_conj_list next_t |> List.length in
+  conj_len > next_conj_len
+;;
+
+let get_conj_goal t =
+  let conj_list = Proof.get_conj_list t in
+  match conj_list with
+  | [] -> failwith "conj_list is empty"
+  | hd :: _ -> snd hd
+;;
+
+let rec progress worklist statelist stuck_goals lemma_set =
   match Prover.WorkList.is_empty worklist with
   | true -> failwith "worklist is empty"
   | false ->
@@ -71,6 +95,17 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
     in
     let _ = Proof.pp_t next_t |> print_endline in
+    let lemma_set =
+      match is_end_of_conj t next_t with
+      | true ->
+        let lemma_list = Proof.get_lemma_stack next_t in
+        let lemma = List.hd (List.rev lemma_list) |> snd in
+        let tactics = get_proof_of_lemma next_t in
+        let original_goal = get_conj_goal t in
+        let lemma_set = Prover.LemmaSet.add (original_goal, lemma, tactics) lemma_set in
+        lemma_set
+      | false -> lemma_set
+    in
     (* let _ = if i = 72 then Proof.proof_top next_t in *)
     (match next_t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof, next_t.env
@@ -99,7 +134,7 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
        let _, next_goal, _ = Proof.get_first_state next_t in
        if Prover.is_stuck worklist && List.for_all (fun x -> x <> next_goal) stuck_goals
        then (
-         let t_lemma = Finder.make_lemmas_by_advanced_generalize next_t old_lemma_list in
+         let t_lemma = Finder.make_lemmas_by_advanced_generalize next_t lemma_set in
          match t_lemma with
          | Some (new_t, assert_list) ->
            let new_t, tactic, r, assert_list =
@@ -153,6 +188,12 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
                in
                new_t, Proof.mk_assert tl, 0, assert_list
            in
+           let original_goal = get_conj_goal next_t in
+           let lemma_set =
+             Prover.LemmaSet.add_list
+               lemma_set
+               (List.map (fun lemma -> original_goal, lemma, []) assert_list)
+           in
            let new_state = Proof.apply_tactic new_t tactic in
            progress
              (Prover.WorkList.add
@@ -164,15 +205,14 @@ let rec progress worklist statelist stuck_goals old_lemma_list =
                 , Prover.order_counter () ))
              (Prover.ProofSet.add new_state statelist)
              (next_goal :: stuck_goals)
-             (assert_list @ old_lemma_list)
-         | None ->
-           progress prev_worklist statelist (next_goal :: stuck_goals) old_lemma_list)
+             lemma_set
+         | None -> progress prev_worklist statelist (next_goal :: stuck_goals) lemma_set)
        else
          progress
            (Prover.WorkList.merge prev_worklist worklist)
            statelist
            stuck_goals
-           old_lemma_list)
+           lemma_set)
 ;;
 
 let proof_auto definition axiom program_a program_b goal =
@@ -191,7 +231,7 @@ let proof_auto definition axiom program_a program_b goal =
     Prover.WorkList.of_list
       [ init_t, first_assertion, next_t, 0, Prover.order_counter () ]
   in
-  match progress worklist Prover.ProofSet.empty [] [] with
+  match progress worklist Prover.ProofSet.empty [] Prover.LemmaSet.empty with
   | _, Some proof, env ->
     print_endline "Proof Success";
     print_endline "Helper Functions";

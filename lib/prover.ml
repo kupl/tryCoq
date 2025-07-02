@@ -34,7 +34,7 @@ module ProofSet = CCSet.Make (struct
   end)
 
 module LemmaSet = CCSet.Make (struct
-    type t = Proof.prop * Proof.tactic list
+    type t = Proof.prop * Proof.prop * Proof.tactic list
 
     let compare = compare
   end)
