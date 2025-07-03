@@ -1056,10 +1056,6 @@ let advanced_generalize t : (t * lemma list) option =
   | false ->
     let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
     let state_list = fast_execution 2 t in
-    let _ = print_endline "state_list" in
-    let _ =
-      List.iter (fun (_, goal, _) -> Proof.pp_prop goal |> print_endline) state_list
-    in
     (match state_list with
      | [] ->
        (match naive_generalize t with
@@ -1101,32 +1097,28 @@ let make_lemmas_by_advanced_generalize (t : t) lemma_set : (t * lemma list) opti
       else if
         List.for_all
           (fun lemma ->
-             Prover.LemmaSet.exists (fun (_, lemma', _) -> lemma = lemma') lemma_set)
+             Prover.LemmaSet.exists
+               (fun (_, lemma', tactic) -> lemma = lemma' && not (List.is_empty tactic))
+               lemma_set)
           lemmas
         && not (List.is_empty lemmas)
       then (
         let pre_lemmas =
           List.map
             (fun lemma ->
-               Prover.LemmaSet.find_first
-                 (fun (_, lemma', tactic) -> lemma = lemma' && tactic <> [])
-                 lemma_set)
+               List.find
+                 (fun (_, lemma', tactic) -> lemma = lemma' && not (List.is_empty tactic))
+                 (lemma_set |> Prover.LemmaSet.to_list))
             lemmas
         in
-        if List.length pre_lemmas <> List.length lemmas
-        then t_lemma
-        else (
-          let new_t =
-            List.fold_left
-              (fun acc (_, _, tactic) ->
-                 List.fold_left
-                   (fun acc tactic -> Proof.apply_tactic acc tactic)
-                   acc
-                   tactic)
-              new_t
-              pre_lemmas
-          in
-          Some (new_t, [])))
+        let new_t =
+          List.fold_left
+            (fun acc (_, _, tactic) ->
+               List.fold_left (fun acc tactic -> Proof.apply_tactic acc tactic) acc tactic)
+            new_t
+            pre_lemmas
+        in
+        Some (new_t, []))
       else t_lemma
     | None -> None
   in

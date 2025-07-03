@@ -63,7 +63,7 @@ let get_proof_of_lemma t =
     match tactic_list with
     | [] -> []
     | Proof.Assert lemma :: _ -> Proof.Assert lemma :: result
-    | hd :: tl -> aux tl (result @ [ hd ])
+    | hd :: tl -> aux tl (hd :: result)
   in
   aux (List.rev tactic_list) []
 ;;
@@ -81,7 +81,7 @@ let get_conj_goal t =
   | hd :: _ -> snd hd
 ;;
 
-let rec progress worklist statelist stuck_goals lemma_set =
+let rec progress worklist statelist lemma_set =
   match Prover.WorkList.is_empty worklist with
   | true -> failwith "worklist is empty"
   | false ->
@@ -95,6 +95,7 @@ let rec progress worklist statelist stuck_goals lemma_set =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
     in
     let _ = Proof.pp_t next_t |> print_endline in
+    (* let _ = if i = 49 then Proof.proof_top next_t in *)
     let lemma_set =
       match is_end_of_conj t next_t with
       | true ->
@@ -106,7 +107,6 @@ let rec progress worklist statelist stuck_goals lemma_set =
         lemma_set
       | false -> lemma_set
     in
-    (* let _ = if i = 72 then Proof.proof_top next_t in *)
     (match next_t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof, next_t.env
      | _ ->
@@ -131,8 +131,7 @@ let rec progress worklist statelist stuck_goals lemma_set =
               Proof.pp_tactic tactic ^ "(rank:" ^ string_of_int r ^ ")" |> print_endline)
            worklist
        in
-       let _, next_goal, _ = Proof.get_first_state next_t in
-       if Prover.is_stuck worklist && List.for_all (fun x -> x <> next_goal) stuck_goals
+       if Prover.is_stuck worklist
        then (
          let t_lemma = Finder.make_lemmas_by_advanced_generalize next_t lemma_set in
          match t_lemma with
@@ -145,11 +144,7 @@ let rec progress worklist statelist stuck_goals lemma_set =
                let assert_list =
                  List.filter (fun x -> not (List.mem x prev_lemma_list)) new_lemma_list
                in
-               let last_lemma, _ = List.hd (List.rev assert_list) in
-               ( new_t
-               , Proof.mk_rewrite_in_at last_lemma "goal" 0
-               , -1
-               , assert_list |> List.map snd )
+               new_t, Proof.SimplIn "goal", -1, assert_list |> List.map snd
              | _ ->
                let new_env =
                  List.filter (fun x -> not (List.mem x next_t.env)) new_t.env
@@ -183,36 +178,38 @@ let rec progress worklist statelist stuck_goals lemma_set =
                    let new_t = Proof.apply_assert rhs2 new_t in
                    let new_t = Proof.apply_tactic new_t (Proof.SimplIn "goal") in
                    Proof.apply_tactic ~is_lhs:(Some false) new_t Proof.Reflexivity
-                 | [] -> t
+                 | [] -> new_t
                  | _ -> failwith "length has to be 1 or 4"
                in
                new_t, Proof.mk_assert tl, 0, assert_list
            in
+           let _ = new_t |> Proof.pp_t |> print_endline in
            let original_goal = get_conj_goal next_t in
            let lemma_set =
              Prover.LemmaSet.add_list
                lemma_set
                (List.map (fun lemma -> original_goal, lemma, []) assert_list)
            in
+           let _ =
+             if i = 49
+             then (
+               let _ =
+                 lemma_set
+                 |> Prover.LemmaSet.iter (fun (_, lemma, _) ->
+                   print_endline ("Lemma: " ^ Proof.pp_prop lemma))
+               in
+               let _ = failwith "asdf" in
+               ())
+           in
            let new_state = Proof.apply_tactic new_t tactic in
            progress
              (Prover.WorkList.add
                 prev_worklist
-                ( new_t
-                , tactic
-                , Proof.apply_tactic new_t tactic
-                , r
-                , Prover.order_counter () ))
+                (new_t, tactic, new_state, r, Prover.order_counter ()))
              (Prover.ProofSet.add new_state statelist)
-             (next_goal :: stuck_goals)
              lemma_set
-         | None -> progress prev_worklist statelist (next_goal :: stuck_goals) lemma_set)
-       else
-         progress
-           (Prover.WorkList.merge prev_worklist worklist)
-           statelist
-           stuck_goals
-           lemma_set)
+         | None -> progress prev_worklist statelist lemma_set)
+       else progress (Prover.WorkList.merge prev_worklist worklist) statelist lemma_set)
 ;;
 
 let proof_auto definition axiom program_a program_b goal =
@@ -231,7 +228,7 @@ let proof_auto definition axiom program_a program_b goal =
     Prover.WorkList.of_list
       [ init_t, first_assertion, next_t, 0, Prover.order_counter () ]
   in
-  match progress worklist Prover.ProofSet.empty [] Prover.LemmaSet.empty with
+  match progress worklist Prover.ProofSet.empty Prover.LemmaSet.empty with
   | _, Some proof, env ->
     print_endline "Proof Success";
     print_endline "Helper Functions";

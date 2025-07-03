@@ -881,8 +881,6 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
           qvar_list
       then None
       else Some 2)
-    else if is_in_cond state var_name
-    then None
     else Some 1
   | Proof.SimplIn "goal" -> Some 0
   | Proof.SimplIn _ -> None
@@ -1050,7 +1048,10 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
                 in
                 let next_t = Proof.apply_tactic t tactic in
                 [ t, tactic, next_t, 0, order_counter () ]
-              | _ -> make_worklist t valid_tactics non_trivial stateset)
+              | hd :: _ ->
+                let tactic = Proof.Induction hd in
+                let next_t = Proof.apply_tactic t tactic in
+                [ t, tactic, next_t, 0, order_counter () ])
            | _ ->
              let cond_var = collect_var_in_ifthenelse_prop goal in
              let cond_var = List.filter (fun v -> List.mem v qvars) cond_var in

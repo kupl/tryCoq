@@ -1866,17 +1866,19 @@ let apply_case expr state t : state list =
            let facts =
              List.map
                (fun (name, prop) ->
-                  let prop, _, _ =
+                  let prop', _, _ =
                     substitute_expr_in_prop
                       Ir.is_equal_expr
                       (fun _ _ expr_to -> expr_to, [])
                       prop
-                      Ir.{ desc = Var name; typ }
+                      expr
                       Ir.{ desc = base_case; typ }
                       0
                       false
                   in
-                  name, prop)
+                  match prop = prop' with
+                  | true -> name, prop
+                  | false -> name, simplify_prop env prop')
                facts
            in
            facts @ new_facts, simpl_goal, new_graph)
