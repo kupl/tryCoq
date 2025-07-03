@@ -1866,19 +1866,22 @@ let apply_case expr state t : state list =
            let facts =
              List.map
                (fun (name, prop) ->
-                  let prop', _, _ =
-                    substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to, [])
-                      prop
-                      expr
-                      Ir.{ desc = base_case; typ }
-                      0
-                      false
-                  in
-                  match prop = prop' with
-                  | true -> name, prop
-                  | false -> name, simplify_prop env prop')
+                  match prop with
+                  | Forall _ -> name, prop
+                  | _ ->
+                    let prop', _, _ =
+                      substitute_expr_in_prop
+                        Ir.is_equal_expr
+                        (fun _ _ expr_to -> expr_to, [])
+                        prop
+                        expr
+                        Ir.{ desc = base_case; typ }
+                        0
+                        false
+                    in
+                    (match prop = prop' with
+                     | true -> name, prop
+                     | false -> name, simplify_prop env prop'))
                facts
            in
            facts @ new_facts, simpl_goal, new_graph)
@@ -1934,6 +1937,17 @@ let apply_case expr state t : state list =
     decl
 ;;
 
+let rec absolute_neq_prop env prop =
+  match prop with
+  | Eq (e1, e2) ->
+    let e1 = simplify_expr env e1 in
+    let e2 = simplify_expr env e2 in
+    Ir.absolute_neq e1 e2
+  | Forall (_, prop) -> absolute_neq_prop env prop
+  | Imply (_, prop) -> absolute_neq_prop env prop
+  | _ -> false
+;;
+
 let apply_discriminate env (state : state) : state list =
   let facts, goal, _ = state in
   let cond_list =
@@ -1953,17 +1967,7 @@ let apply_discriminate env (state : state) : state list =
        | _ -> false)
     | _ -> false
   in
-  if
-    is_discriminated
-    || List.exists
-         (fun (_, prop) ->
-            match prop with
-            | Eq (e1, e2) ->
-              let e1 = simplify_expr env e1 in
-              let e2 = simplify_expr env e2 in
-              Ir.absolute_neq e1 e2
-            | _ -> false)
-         facts
+  if is_discriminated || List.exists (fun (_, prop) -> absolute_neq_prop env prop) facts
   then []
   else failwith "Cannot Discriminate"
 ;;

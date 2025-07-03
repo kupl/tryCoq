@@ -1087,11 +1087,40 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
                              | _ -> false)
                           non_trivial
                       in
-                      make_worklist
-                        t
-                        valid_tactics
-                        (case_tactic @ rewrite_tactic)
-                        stateset
+                      (match case_tactic with
+                       | [] -> make_worklist t valid_tactics rewrite_tactic stateset
+                       | _ ->
+                         let rewrite_tactic =
+                           List.filter
+                             (fun (tactic, _) ->
+                                let facts, goal, _ = Proof.get_first_state t in
+                                let lemma_stack = Proof.get_lemma_stack t in
+                                match tactic with
+                                | Proof.RewriteInAt (src, _, _) ->
+                                  let src =
+                                    try List.assoc src facts with
+                                    | _ -> List.assoc src lemma_stack
+                                  in
+                                  let src = Proof.get_lhs src in
+                                  is_if_then_else_in_prop src goal
+                                | Proof.RewriteReverse (src, _, _) ->
+                                  let src =
+                                    try List.assoc src facts with
+                                    | _ -> List.assoc src lemma_stack
+                                  in
+                                  let src = Proof.get_rhs src in
+                                  is_if_then_else_in_prop src goal
+                                | _ -> false)
+                             rewrite_tactic
+                         in
+                         make_worklist
+                           t
+                           valid_tactics
+                           (case_tactic @ rewrite_tactic)
+                           stateset)
+                      (* (match rewrite_tactic with
+                       | [] -> make_worklist t valid_tactics case_tactic stateset
+                       | _ -> make_worklist t valid_tactics rewrite_tactic stateset) *)
                     | hd :: _ ->
                       (match List.mem hd qvars with
                        | true ->
