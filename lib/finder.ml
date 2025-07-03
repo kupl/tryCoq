@@ -801,8 +801,9 @@ let is_pattern increase_subtree =
 ;;
 
 let pattern_recognition env ihs state_list : env * lemma list =
-  (* let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
-  let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in *)
+  let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
+  let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in
+  let _ = ignore (first_lhs, first_rhs) in
   let facts_list =
     List.map
       (fun state ->
@@ -824,7 +825,6 @@ let pattern_recognition env ihs state_list : env * lemma list =
   let goals = List.map (fun (_, goal, _) -> goal) state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
-  ignore ihs;
   let lhs_common_subtree = new_catch_recursive_pattern env lhs_list in
   let rhs_common_subtree = new_catch_recursive_pattern env rhs_list in
   let _ = print_endline "lhs_common_subtree" in
