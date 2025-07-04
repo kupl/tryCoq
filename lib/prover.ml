@@ -943,6 +943,33 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
   | _ -> None
 ;;
 
+let rec is_convert_match_list expr next_expr =
+  match expr.Ir.desc, next_expr.Ir.desc with
+  | Ir.Match (match_list, case_list), Ir.Match (next_match_list, next_case_list) ->
+    (List.length match_list = List.length next_match_list
+     && List.exists2 (fun exp1 exp2 -> exp1 <> exp2) match_list next_match_list)
+    || (List.length case_list = List.length next_case_list
+        && List.exists2
+             (fun case1 case2 ->
+                match case1, case2 with
+                | Ir.Case (_, exp1), Ir.Case (_, exp2) -> is_convert_match_list exp1 exp2)
+             case_list
+             next_case_list)
+  | Ir.Call (name, args), Ir.Call (next_name, next_args) ->
+    name = next_name
+    && List.length args = List.length next_args
+    && List.exists2 (fun arg1 arg2 -> is_convert_match_list arg1 arg2) args next_args
+  | _ -> false
+;;
+
+let is_convert_match_list_in_prop prop next_prop =
+  let lhs = Proof.get_lhs prop in
+  let rhs = Proof.get_rhs prop in
+  let next_lhs = Proof.get_lhs next_prop in
+  let next_rhs = Proof.get_rhs next_prop in
+  is_convert_match_list lhs next_lhs || is_convert_match_list rhs next_rhs
+;;
+
 let make_worklist t valid_tactics non_trivial stateset =
   let real_tactic = List.map fst non_trivial in
   let worklist, _ =
@@ -1092,25 +1119,9 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
                        | _ ->
                          let rewrite_tactic =
                            List.filter
-                             (fun (tactic, _) ->
-                                let facts, goal, _ = Proof.get_first_state t in
-                                let lemma_stack = Proof.get_lemma_stack t in
-                                match tactic with
-                                | Proof.RewriteInAt (src, _, _) ->
-                                  let src =
-                                    try List.assoc src facts with
-                                    | _ -> List.assoc src lemma_stack
-                                  in
-                                  let src = Proof.get_lhs src in
-                                  is_if_then_else_in_prop src goal
-                                | Proof.RewriteReverse (src, _, _) ->
-                                  let src =
-                                    try List.assoc src facts with
-                                    | _ -> List.assoc src lemma_stack
-                                  in
-                                  let src = Proof.get_rhs src in
-                                  is_if_then_else_in_prop src goal
-                                | _ -> false)
+                             (fun (_, next_t) ->
+                                let _, next_goal, _ = Proof.get_first_state next_t in
+                                is_convert_match_list_in_prop goal next_goal)
                              rewrite_tactic
                          in
                          make_worklist

@@ -433,7 +433,11 @@ let find_larget_common_subtree expr1 expr2 =
     largest_common_subtree)
 ;;
 
-let new_catch_recursive_pattern env expr_list =
+let new_catch_recursive_pattern induction_var expr_list =
+  let _ = print_endline "induction_var" in
+  let _ = Proof.pp_expr induction_var |> print_endline in
+  let _ = print_endline "expr_list" in
+  let _ = expr_list |> List.iter (fun expr -> Proof.pp_expr expr |> print_endline) in
   (* In catching pattern, have to handle error! *)
   let rec get_parent source expr =
     match expr.Ir.desc with
@@ -494,7 +498,9 @@ let new_catch_recursive_pattern env expr_list =
         }
     | _ -> expr |> to_sub
   in
-  let rec remove_upper decreasing_vars upper expr =
+  let rec remove_upper induction_var upper expr =
+    let _ = print_endline "upper" in
+    let _ = pp_subtree upper |> print_endline in
     match expr.desc, upper.desc with
     | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
       if name1 = name2
@@ -503,13 +509,11 @@ let new_catch_recursive_pattern env expr_list =
           (fun (acc, is_done) arg1 arg2 ->
              if is_done
              then acc, true
-             else if
-               arg1 = arg2
-               || List.exists (fun var -> arg2 = (var |> to_sub)) decreasing_vars
+             else if arg1 = arg2 || arg2 = (induction_var |> to_sub)
              then acc, false
              else if arg2.desc = None
              then Some arg1, true
-             else remove_upper decreasing_vars arg1 arg2, true)
+             else remove_upper induction_var arg1 arg2, true)
           (None, false)
           args1
           args2
@@ -538,19 +542,6 @@ let new_catch_recursive_pattern env expr_list =
   let first_vars = collect_free_var_in_expr first [] in
   let second_vars = collect_free_var_in_expr second [] in
   let new_vars = List.filter (fun var -> not (List.mem var first_vars)) second_vars in
-  let decreasing_vars, new_vars =
-    List.fold_left
-      (fun (decreasing_var, new_vars) var ->
-         if
-           Prover.is_decreasing_var
-             env
-             ([], Proof.Eq (second, second), Egraph.Egraph.init ())
-             (fst var)
-         then var :: decreasing_var, new_vars
-         else decreasing_var, var :: new_vars)
-      ([], [])
-      new_vars
-  in
   if List.is_empty new_vars
   then []
   else (
@@ -563,18 +554,6 @@ let new_catch_recursive_pattern env expr_list =
              | _ -> failwith "not implemented")
         }
     in
-    let decreasing_vars =
-      List.map
-        (fun (var, typ) ->
-           Ir.
-             { desc = Var var
-             ; typ =
-                 (match typ with
-                  | Proof.Type typ -> typ
-                  | _ -> failwith "this must be type")
-             })
-        decreasing_vars
-    in
     let parent = get_parent new_var second in
     match parent with
     | None -> []
@@ -585,7 +564,7 @@ let new_catch_recursive_pattern env expr_list =
         List.map
           (fun expr ->
              let expr = expr |> to_sub in
-             match remove_upper decreasing_vars upper expr with
+             match remove_upper induction_var upper expr with
              | Some subtree -> subtree |> remove_lower lower
              | None -> { desc = None; typ = Tany })
           expr_list
@@ -800,10 +779,9 @@ let is_pattern increase_subtree =
     (List.tl increase_subtree)
 ;;
 
-let pattern_recognition env ihs state_list : env * lemma list =
+let pattern_recognition env ihs induction_var state_list : env * lemma list =
   let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
   let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in
-  let _ = ignore (first_lhs, first_rhs) in
   let facts_list =
     List.map
       (fun state ->
@@ -825,8 +803,12 @@ let pattern_recognition env ihs state_list : env * lemma list =
   let goals = List.map (fun (_, goal, _) -> goal) state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
-  let lhs_common_subtree = new_catch_recursive_pattern env lhs_list in
-  let rhs_common_subtree = new_catch_recursive_pattern env rhs_list in
+  let lhs_common_subtree =
+    new_catch_recursive_pattern induction_var (first_lhs @ lhs_list)
+  in
+  let rhs_common_subtree =
+    new_catch_recursive_pattern induction_var (first_rhs @ rhs_list)
+  in
   let _ = print_endline "lhs_common_subtree" in
   let _ =
     lhs_common_subtree |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
@@ -871,6 +853,9 @@ let pattern_recognition env ihs state_list : env * lemma list =
         |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
       in
       let lhs_base_case = List.hd lhs_common_subtree in
+      (*
+         If first expr is Nil, then there is no free varsiable so that error occurs
+      *)
       let lhs_free_vars = collect_free_var_in_subtree lhs_base_case [] in
       let lhs_free_vars_with_typ =
         List.map
@@ -891,7 +876,6 @@ let pattern_recognition env ihs state_list : env * lemma list =
           rhs_free_vars
       in
       let i = Ir.get_mk_index env + 1 in
-      (* have to add index for mk function *)
       let mk_lhs =
         decl_of_subtree_difference
           ("mk_lhs" ^ string_of_int i)
@@ -1048,6 +1032,42 @@ let rec is_trivial goal =
   | _ -> false
 ;;
 
+let get_induction_var t =
+  let facts, _, _ = Proof.get_first_state t in
+  let _, induction_fact =
+    List.find
+      (fun (name, _) ->
+         String.starts_with ~prefix:"Inductive" name
+         || String.starts_with ~prefix:"Base" name)
+      facts
+  in
+  let induction_var =
+    match induction_fact with
+    | Proof.Eq (lhs, rhs) ->
+      let rhs_vars = collect_free_var_in_expr rhs [] in
+      let recursive_var =
+        List.find
+          (fun (_, typ) ->
+             match typ with
+             | Proof.Type typ -> typ = lhs.Ir.typ
+             | _ -> false)
+          rhs_vars
+      in
+      let recursive_var =
+        Ir.
+          { desc = Var (fst recursive_var)
+          ; typ =
+              (match snd recursive_var with
+               | Proof.Type typ -> typ
+               | _ -> failwith "Unexpected type")
+          }
+      in
+      recursive_var
+    | _ -> failwith "Induction fact is not a Forall"
+  in
+  induction_var
+;;
+
 let advanced_generalize t : (t * lemma list) option =
   let first_state = Proof.get_first_state t in
   let facts, goal, _ = first_state in
@@ -1062,7 +1082,8 @@ let advanced_generalize t : (t * lemma list) option =
         | Some lemma -> Some (t, [ lemma ])
         | _ -> None)
      | _ ->
-       let new_env, lemma_list = pattern_recognition t.env ihs state_list in
+       let induction_var = get_induction_var t in
+       let new_env, lemma_list = pattern_recognition t.env ihs induction_var state_list in
        let new_env = List.map Ir.rename_decl new_env in
        if List.is_empty lemma_list
        then (
