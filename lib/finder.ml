@@ -434,10 +434,6 @@ let find_larget_common_subtree expr1 expr2 =
 ;;
 
 let new_catch_recursive_pattern induction_var expr_list =
-  let _ = print_endline "induction_var" in
-  let _ = Proof.pp_expr induction_var |> print_endline in
-  let _ = print_endline "expr_list" in
-  let _ = expr_list |> List.iter (fun expr -> Proof.pp_expr expr |> print_endline) in
   (* In catching pattern, have to handle error! *)
   let rec get_parent source expr =
     match expr.Ir.desc with
@@ -499,8 +495,6 @@ let new_catch_recursive_pattern induction_var expr_list =
     | _ -> expr |> to_sub
   in
   let rec remove_upper induction_var upper expr =
-    let _ = print_endline "upper" in
-    let _ = pp_subtree upper |> print_endline in
     match expr.desc, upper.desc with
     | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
       if name1 = name2
@@ -779,6 +773,48 @@ let is_pattern increase_subtree =
     (List.tl increase_subtree)
 ;;
 
+let make_helper_function_and_lemma ~is_lhs expr_list common_subtree increase_subtree i =
+  let base_case = List.hd common_subtree in
+  let free_vars = collect_free_var_in_subtree base_case [] in
+  let free_vars_with_typ =
+    List.map
+      (fun (name, typ) ->
+         match typ with
+         | Proof.Type typ -> Ir.{ desc = Var name; typ }
+         | _ -> failwith "not implemented")
+      free_vars
+  in
+  let helper_decl =
+    decl_of_subtree_difference
+      ((if is_lhs then "mk_lhs" else "mk_rhs") ^ string_of_int i)
+      base_case
+      increase_subtree
+  in
+  let lemma = helper_function_lemma helper_decl in
+  let increase_arg =
+    match helper_decl with
+    | Ir.Rec (_, args, body) ->
+      let arg = List.hd args in
+      let typ = Ir.get_type_in_expr arg body |> Option.get in
+      Ir.{ desc = Var "lst"; typ }
+    | _ -> failwith "not implemented"
+  in
+  let helper_call =
+    Ir.
+      { desc =
+          Call
+            ( (if is_lhs then "mk_lhs" else "mk_rhs") ^ string_of_int i
+            , increase_arg :: free_vars_with_typ )
+      ; typ = (common_subtree |> List.hd).typ
+      }
+  in
+  let head =
+    difference_of_subtree (List.hd common_subtree) (List.hd expr_list |> subtree_of_expr)
+  in
+  let expr_with_helper = fill_subtreewith_expr head helper_call in
+  helper_decl, lemma, expr_with_helper
+;;
+
 let pattern_recognition env ihs induction_var state_list : env * lemma list =
   let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
   let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in
@@ -852,83 +888,35 @@ let pattern_recognition env ihs induction_var state_list : env * lemma list =
         rhs_increase_subtree
         |> List.iter (fun subtree -> pp_subtree subtree |> print_endline)
       in
-      let lhs_base_case = List.hd lhs_common_subtree in
       (*
          If first expr is Nil, then there is no free varsiable so that error occurs
       *)
-      let lhs_free_vars = collect_free_var_in_subtree lhs_base_case [] in
-      let lhs_free_vars_with_typ =
-        List.map
-          (fun (name, typ) ->
-             match typ with
-             | Proof.Type typ -> Ir.{ desc = Var name; typ }
-             | _ -> failwith "not implemented")
-          lhs_free_vars
-      in
-      let rhs_base_case = List.hd rhs_common_subtree in
-      let rhs_free_vars = collect_free_var_in_subtree rhs_base_case [] in
-      let rhs_free_vars_with_typ =
-        List.map
-          (fun (name, typ) ->
-             match typ with
-             | Proof.Type typ -> Ir.{ desc = Var name; typ }
-             | _ -> failwith "not implemented")
-          rhs_free_vars
-      in
       let i = Ir.get_mk_index env + 1 in
-      let mk_lhs =
-        decl_of_subtree_difference
-          ("mk_lhs" ^ string_of_int i)
-          lhs_base_case
+      let lhs_decl, lhs_lemmas, lhs_expr =
+        make_helper_function_and_lemma
+          ~is_lhs:true
+          lhs_list
+          lhs_common_subtree
           lhs_increase_subtree
+          i
       in
-      let mk_rhs =
-        decl_of_subtree_difference
-          ("mk_rhs" ^ string_of_int i)
-          rhs_base_case
+      let rhs_decl, rhs_lemmas, rhs_expr =
+        make_helper_function_and_lemma
+          ~is_lhs:false
+          rhs_list
+          rhs_common_subtree
           rhs_increase_subtree
+          i
       in
-      let lhs_lemma = helper_function_lemma mk_lhs in
-      let rhs_lemma = helper_function_lemma mk_rhs in
-      let increase_typ = lhs_free_vars_with_typ |> List.hd |> Ir.(fun x -> x.typ) in
-      let increase_arg =
-        Ir.{ desc = Var "lst"; typ = Ir.Talgebraic ("list", [ increase_typ ]) }
-      in
-      let new_lhs =
-        Ir.
-          { desc =
-              Call ("mk_lhs" ^ string_of_int i, increase_arg :: lhs_free_vars_with_typ)
-          ; typ = (lhs_common_subtree |> List.hd).typ
-          }
-      in
-      let new_rhs =
-        Ir.
-          { desc =
-              Call ("mk_rhs" ^ string_of_int i, increase_arg :: rhs_free_vars_with_typ)
-          ; typ = (rhs_common_subtree |> List.hd).typ
-          }
-      in
-      let lhs_head =
-        difference_of_subtree
-          (List.hd lhs_common_subtree)
-          (List.hd lhs_list |> subtree_of_expr)
-      in
-      let rhs_head =
-        difference_of_subtree
-          (List.hd rhs_common_subtree)
-          (List.hd rhs_list |> subtree_of_expr)
-      in
-      let lhs = fill_subtreewith_expr lhs_head new_lhs in
-      let rhs = fill_subtreewith_expr rhs_head new_rhs in
       let goal =
         match common_facts with
-        | [] -> Proof.Eq (lhs, rhs)
-        | _ -> Proof.Imply (common_facts, Proof.Eq (lhs, rhs))
+        | [] -> Proof.Eq (lhs_expr, rhs_expr)
+        | _ -> Proof.Imply (common_facts, Proof.Eq (lhs_expr, rhs_expr))
       in
       let free_vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
       let goal = Proof.Forall (free_vars, goal) in
-      let env = [ mk_lhs; mk_rhs ] in
-      env, lhs_lemma @ rhs_lemma @ [ goal ]))
+      let env = [ lhs_decl; rhs_decl ] in
+      env, lhs_lemmas @ rhs_lemmas @ [ goal ]))
 ;;
 
 let rec size_of_expr expr =
