@@ -9,20 +9,7 @@ type graph = Egraph.L.op Egraph.Egraph.t
 module WorkList = CCHeap.Make_from_compare (struct
     type t = Proof.t * tactic * Proof.t * int * int
 
-    let compare (t1, _, _, r1, ord1) (t2, _, _, r2, ord2) =
-      (* let conjs1 = Proof.get_conj_list t1 |> List.length in
-      let conjs2 = Proof.get_conj_list t2 |> List.length in
-      let goals1 = Proof.get_goal_list t1 |> List.length in
-      let goals2 = Proof.get_goal_list t2 |> List.length in
-      if r1 = r2
-      then
-        if conjs1 = conjs2
-        then if goals1 = goals2 then compare ord1 ord2 else compare goals1 goals2
-        else compare conjs1 conjs2
-      else compare r1 r2
-    ;; *)
-      ignore t1;
-      ignore t2;
+    let compare (_, _, _, r1, ord1) (_, _, _, r2, ord2) =
       if r1 = r2 then compare ord1 ord2 else compare r1 r2
     ;;
   end)
@@ -339,13 +326,7 @@ let is_in_cond (state : state) var_name =
 let rec collect_var_in_ifthenelse expr =
   match expr.Ir.desc with
   | Ir.Match (match_list, _) ->
-    List.fold_left
-      (fun acc exp ->
-         match exp.Ir.desc with
-         | Ir.Var v -> v :: acc
-         | _ -> acc @ collect_var_in_ifthenelse exp)
-      []
-      match_list
+    List.fold_left (fun acc exp -> Ir.collect_var_in_expr exp @ acc) [] match_list
   | Ir.Call (_, args) ->
     List.fold_left (fun acc arg -> acc @ collect_var_in_ifthenelse arg) [] args
   | _ -> []
@@ -1081,6 +1062,7 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
                 [ t, tactic, next_t, 0, order_counter () ])
            | _ ->
              let cond_var = collect_var_in_ifthenelse_prop goal in
+             let _ = cond_var |> List.iter (fun v -> Printf.printf "%s " v) in
              let cond_var = List.filter (fun v -> List.mem v qvars) cond_var in
              let non_decreasing_cond_vars =
                List.filter (fun v -> not (List.mem v decreasing_vars_body)) cond_var
@@ -1098,6 +1080,7 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
                    in
                    (match decreasing_cond_vars with
                     | [] ->
+                      let _ = print_endline "asdf" in
                       let case_tactic =
                         List.filter
                           (fun (tactic, _) ->
