@@ -598,10 +598,6 @@ let rec convert_diff_to_expr fun_name increase_arg base_args diff =
 ;;
 
 let rec fill_subtreewith_expr subtree expr : expr =
-  let _ = print_endline "subtree" in
-  let _ = subtree |> pp_subtree |> print_endline in
-  let _ = print_endline "expr" in
-  let _ = expr |> Ir.pp_expr |> print_endline in
   match subtree.desc with
   | Some (Sub_Call (name, args)) ->
     let args = List.map (fun arg -> fill_subtreewith_expr arg expr) args in
@@ -706,6 +702,41 @@ let is_pattern increase_subtree =
     (List.tl increase_subtree)
 ;;
 
+let is_identity decl =
+  match decl with
+  | Ir.Rec (fname, args, body) ->
+    (match args with
+     | arg :: [] ->
+       (match body.desc with
+        | Match (match_list, case_list) ->
+          (match match_list with
+           | [ Ir.{ desc = Var v; typ = _ } ] when v = arg ->
+             (match case_list with
+              | [ Ir.Case
+                    (Ir.Pat_Constr ("Nil", []), Ir.{ desc = Call ("Nil", []); typ = _ })
+                ; Ir.Case
+                    ( Ir.Pat_Constr ("Cons", [ Ir.Pat_Var "hd"; Ir.Pat_Var "tl" ])
+                    , Ir.
+                        { desc =
+                            Call
+                              ( "Cons"
+                              , [ Ir.{ desc = Var "hd"; typ = _ }
+                                ; Ir.
+                                    { desc =
+                                        Call (fname', [ Ir.{ desc = Var "tl"; typ = _ } ])
+                                    ; typ = _
+                                    }
+                                ] )
+                        ; typ = _
+                        } )
+                ] -> fname = fname'
+              | _ -> false)
+           | _ -> false)
+        | _ -> false)
+     | _ -> false)
+  | _ -> failwith "not implemented"
+;;
+
 let make_helper_function_and_lemma ~is_lhs expr_list common_subtree increase_subtree i =
   let base_case = List.hd common_subtree in
   let free_vars = collect_free_var_in_subtree base_case [] in
@@ -723,31 +754,43 @@ let make_helper_function_and_lemma ~is_lhs expr_list common_subtree increase_sub
       base_case
       increase_subtree
   in
-  let lemma = helper_function_lemma helper_decl in
-  let increase_arg =
-    match helper_decl with
-    | Ir.Rec (_, args, body) ->
-      let arg = List.hd args in
-      let typ = Ir.get_type_in_expr arg body |> Option.get in
-      Ir.{ desc = Var "lst"; typ }
-    | _ -> failwith "not implemented"
-  in
-  let helper_call =
-    Ir.
-      { desc =
-          Call
-            ( (if is_lhs then "mk_lhs" else "mk_rhs") ^ string_of_int i
-            , increase_arg :: free_vars_with_typ )
-      ; typ = (common_subtree |> List.hd).typ
-      }
-  in
-  let head =
-    difference_of_subtree
-      (List.nth common_subtree 1)
-      (List.nth expr_list 1 |> subtree_of_expr)
-  in
-  let expr_with_helper = fill_subtreewith_expr head helper_call in
-  helper_decl, lemma, expr_with_helper
+  match is_identity helper_decl with
+  | true ->
+    let head =
+      difference_of_subtree
+        (List.nth common_subtree 1)
+        (List.nth expr_list 1 |> subtree_of_expr)
+    in
+    let typ = base_case.typ in
+    let lst = Ir.{ desc = Var "lst"; typ } in
+    let expr = fill_subtreewith_expr head lst in
+    [], [], expr
+  | false ->
+    let lemma = helper_function_lemma helper_decl in
+    let increase_arg =
+      match helper_decl with
+      | Ir.Rec (_, args, body) ->
+        let arg = List.hd args in
+        let typ = Ir.get_type_in_expr arg body |> Option.get in
+        Ir.{ desc = Var "lst"; typ }
+      | _ -> failwith "not implemented"
+    in
+    let helper_call =
+      Ir.
+        { desc =
+            Call
+              ( (if is_lhs then "mk_lhs" else "mk_rhs") ^ string_of_int i
+              , increase_arg :: free_vars_with_typ )
+        ; typ = (common_subtree |> List.hd).typ
+        }
+    in
+    let head =
+      difference_of_subtree
+        (List.nth common_subtree 1)
+        (List.nth expr_list 1 |> subtree_of_expr)
+    in
+    let expr_with_helper = fill_subtreewith_expr head helper_call in
+    [ helper_decl ], lemma, expr_with_helper
 ;;
 
 let pattern_recognition env ihs induction_var state_list : env * lemma list =
@@ -825,7 +868,7 @@ let pattern_recognition env ihs induction_var state_list : env * lemma list =
       in
       let free_vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
       let goal = Proof.Forall (free_vars, goal) in
-      let env = [ lhs_decl; rhs_decl ] in
+      let env = lhs_decl @ rhs_decl in
       env, lhs_lemmas @ rhs_lemmas @ [ goal ]))
 ;;
 
@@ -881,7 +924,9 @@ let rec generalize_common_subterm goal =
           0
           false
       in
-      if
+      let _ = print_endline "generalized goal" in
+      let _ = new_goal |> Proof.pp_prop |> print_endline in
+      (* if
         List.exists
           (fun (name, typ) ->
              match typ with
@@ -889,7 +934,8 @@ let rec generalize_common_subterm goal =
              | _ -> false)
           free_vars
       then goal
-      else generalize_common_subterm new_goal))
+      else *)
+      generalize_common_subterm new_goal))
 ;;
 
 let naive_generalize t =

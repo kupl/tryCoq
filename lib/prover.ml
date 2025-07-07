@@ -822,6 +822,7 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
   let env = t.Proof.env in
   let state = Proof.get_first_state t in
   let facts, goal, _ = state in
+  let lemma_stack = Proof.get_lemma_stack t in
   ignore facts;
   let decreasing_vars =
     collect_decreasing_arg_in_prop env goal |> List.sort_uniq compare
@@ -876,9 +877,18 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
     else if String.starts_with ~prefix:"lhs" src || String.starts_with ~prefix:"rhs" src
     then None
     else (
-      let _, goal, _ = Proof.get_first_state t in
-      let _, new_goal, _ = Proof.get_first_state next_t in
-      if is_more_similar goal new_goal then Some 1 else Some 2)
+      let src_fact =
+        try List.assoc src facts with
+        | _ -> List.assoc src lemma_stack
+      in
+      let lhs = Proof.get_lhs src_fact in
+      let rhs = Proof.get_rhs src_fact in
+      if Ir.is_contained lhs rhs
+      then None
+      else (
+        let _, goal, _ = Proof.get_first_state t in
+        let _, new_goal, _ = Proof.get_first_state next_t in
+        if is_more_similar goal new_goal then Some 1 else Some 2))
   | Proof.RewriteReverse (src, target, _) ->
     if String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"Case" target
     then (
@@ -890,19 +900,28 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
     else if contains_substring src "eqb_eq"
     then Some 0
     else (
-      let _, goal, _ = Proof.get_first_state t in
-      let _, new_goal, _ = Proof.get_first_state next_t in
-      let lhs = Proof.get_lhs goal in
-      let rhs = Proof.get_rhs goal in
-      let new_lhs = Proof.get_lhs new_goal in
-      let new_rhs = Proof.get_rhs new_goal in
-      if
-        (new_lhs <> lhs && String.starts_with ~prefix:"rhs" src)
-        || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
+      let src_fact =
+        try List.assoc src facts with
+        | _ -> List.assoc src lemma_stack
+      in
+      let lhs = Proof.get_lhs src_fact in
+      let rhs = Proof.get_rhs src_fact in
+      if Ir.is_contained rhs lhs
       then None
-      else if is_more_similar goal new_goal
-      then Some 1
-      else Some 2)
+      else (
+        let _, goal, _ = Proof.get_first_state t in
+        let _, new_goal, _ = Proof.get_first_state next_t in
+        let lhs = Proof.get_lhs goal in
+        let rhs = Proof.get_rhs goal in
+        let new_lhs = Proof.get_lhs new_goal in
+        let new_rhs = Proof.get_rhs new_goal in
+        if
+          (new_lhs <> lhs && String.starts_with ~prefix:"rhs" src)
+          || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
+        then None
+        else if is_more_similar goal new_goal
+        then Some 1
+        else Some 2))
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
     (match expr.Ir.desc with

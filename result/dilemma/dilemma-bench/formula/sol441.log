@@ -1,0 +1,946 @@
+Enter the definition file path (1/2) : 
+> Enter the definition file path (2/2) : 
+> Choose the proof type :
+1) Interactive Mode 	 2) Auto Mode
+Enter the goal : =================================================
+Progress: 1
+
+
+No conjecture
+>>> assert forall (f:formula), eval_ta1 (f) = eval (f)(rank : 0)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+
+---------------------------------------
+forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:3)
+=================================================
+Progress: 2
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+
+---------------------------------------
+forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+
+---------------------------------------
+forall (formula1:formula), eval_ta1 (formula1) = match (eval_help (formula1)) with
+| True  -> true
+| False  -> false
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+formula1 Tactic List : 1
+induction formula1(rank:9)
+=================================================
+Progress: 3
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+
+---------------------------------------
+forall (formula1:formula), eval_ta1 (formula1) = match (eval_help (formula1)) with
+| True  -> true
+| False  -> false
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> induction formula1(rank : 9)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+Base1 : formula1 = True
+---------------------------------------
+eval_ta1 (True) = match (eval_help (True)) with
+| True  -> true
+| False  -> false
+
+6 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:8)
+=================================================
+Progress: 4
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+Base1 : formula1 = True
+---------------------------------------
+eval_ta1 (True) = match (eval_help (True)) with
+| True  -> true
+| False  -> false
+
+6 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 8)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+Base1 : formula1 = False
+---------------------------------------
+eval_ta1 (False) = match (eval_help (False)) with
+| True  -> true
+| False  -> false
+
+5 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+reflexivity(rank:7)
+=================================================
+Progress: 5
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+Base1 : formula1 = False
+---------------------------------------
+eval_ta1 (False) = match (eval_help (False)) with
+| True  -> true
+| False  -> false
+
+5 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 7)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+---------------------------------------
+eval_ta1 (Not (formula2)) = match (eval_help (Not (formula2))) with
+| True  -> true
+| False  -> false
+
+4 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 0
+formula2 Tactic List : 1
+case eval_help (Not (formula2))(rank:13)
+=================================================
+Progress: 6
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+---------------------------------------
+eval_ta1 (Not (formula2)) = match (eval_help (Not (formula2))) with
+| True  -> true
+| False  -> false
+
+4 goal(s) more...
+
+0 conjecture(s) more...
+>>> case eval_help (Not (formula2))(rank : 13)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : eval_help (Not (formula2)) = True
+---------------------------------------
+if eval_ta1 (formula2) then false else true = true
+
+10 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+simpl in Case1(rank:13)
+=================================================
+Progress: 7
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : eval_help (Not (formula2)) = True
+---------------------------------------
+if eval_ta1 (formula2) then false else true = true
+
+10 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in Case1(rank : 13)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+---------------------------------------
+if eval_ta1 (formula2) then false else true = true
+
+10 goal(s) more...
+
+0 conjecture(s) more...
+formula2 asdf
+Tactic List : 2
+case eval_ta1 (formula2)(rank:14)
+rewrite IH1 in goal at 0(rank:29)
+=================================================
+Progress: 8
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+---------------------------------------
+if eval_ta1 (formula2) then false else true = true
+
+10 goal(s) more...
+
+0 conjecture(s) more...
+>>> case eval_ta1 (formula2)(rank : 14)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : true = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+Case2 : eval_ta1 (formula2) = true
+---------------------------------------
+false = true
+
+11 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+rewrite <- Case2 in goal at 0(rank:14)
+=================================================
+Progress: 9
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : true = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+Case2 : eval_ta1 (formula2) = true
+---------------------------------------
+false = true
+
+11 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite <- Case2 in goal at 0(rank : 14)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : true = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+Case2 : eval_ta1 (formula2) = true
+---------------------------------------
+false = eval_ta1 (formula2)
+
+11 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+case eval_help (Not (formula2))
+simpl in Case1
+case eval_ta1 (formula2)
+rewrite <- Case2 in goal at 0
+New Env
+
+;;
+Lemma List
+forall (formula2:formula), match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True->eval_ta1 (formula2) = true -> false = eval_ta1 (formula2)
+End of Lemma List
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : true = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+Case2 : eval_ta1 (formula2) = true
+---------------------------------------
+false = eval_ta1 (formula2)
+
+11 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 10
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : true = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+Case2 : eval_ta1 (formula2) = true
+---------------------------------------
+false = eval_ta1 (formula2)
+
+11 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (formula2:formula), match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True->eval_ta1 (formula2) = true -> false = eval_ta1 (formula2)(rank : 0)
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+
+---------------------------------------
+forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction formula1(rank:11)
+=================================================
+Progress: 11
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+
+---------------------------------------
+forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction formula1(rank : 11)
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+---------------------------------------
+match (True) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (True))) = True->eval_ta1 (True) = true -> false = eval_ta1 (True)
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:11)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+---------------------------------------
+match (True) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (True))) = True->eval_ta1 (True) = true -> false = eval_ta1 (True)
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 11)
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+---------------------------------------
+False = True->true = true -> false = true
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:11)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+---------------------------------------
+False = True->true = true -> false = true
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 11)
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+Cond1 : False = True
+---------------------------------------
+true = true -> false = true
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:11)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+Cond1 : False = True
+---------------------------------------
+true = true -> false = true
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond2(rank : 11)
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->eval_ta1 (formula1) = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+Cond1 : False = True
+Cond2 : true = true
+---------------------------------------
+false = true
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
+intro Cond2
+=================================================
+Progress: 15
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+---------------------------------------
+if eval_ta1 (formula2) then false else true = true
+
+10 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 29)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+---------------------------------------
+if match (eval_help (formula2)) with
+| True  -> true
+| False  -> false then false else true = true
+
+10 goal(s) more...
+
+0 conjecture(s) more...
+formula2 asdf
+Tactic List : 1
+case match (eval_help (formula2)) with
+| True  -> true
+| False  -> false(rank:14)
+=================================================
+Progress: 16
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+---------------------------------------
+if match (eval_help (formula2)) with
+| True  -> true
+| False  -> false then false else true = true
+
+10 goal(s) more...
+
+0 conjecture(s) more...
+>>> case match (eval_help (formula2)) with
+| True  -> true
+| False  -> false(rank : 14)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = true
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+Case2 : match (eval_help (formula2)) with
+| True  -> true
+| False  -> false = true
+---------------------------------------
+false = true
+
+11 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+rewrite <- IH1 in goal at 0(rank:14)
+=================================================
+Progress: 17
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = true
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+Case2 : match (eval_help (formula2)) with
+| True  -> true
+| False  -> false = true
+---------------------------------------
+false = true
+
+11 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 14)
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = true
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+Case2 : match (eval_help (formula2)) with
+| True  -> true
+| False  -> false = true
+---------------------------------------
+false = eval_ta1 (formula2)
+
+11 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+case eval_help (Not (formula2))
+simpl in Case1
+rewrite IH1 in goal at 0
+case match (eval_help (formula2)) with
+| True  -> true
+| False  -> false
+rewrite <- IH1 in goal at 0
+New Env
+
+;;
+Lemma List
+forall (formula2:formula), match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True->match (eval_help (formula2)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula2)
+End of Lemma List
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = true
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+Case2 : match (eval_help (formula2)) with
+| True  -> true
+| False  -> false = true
+---------------------------------------
+false = eval_ta1 (formula2)
+
+11 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 18
+
+
+1st goal of : forall (formula1:formula), eval_ta1 (formula1) = eval (formula1)
+formula1 : formula
+formula2 : formula
+IH1 : eval_ta1 (formula2) = true
+Inductive1 : formula1 = Not (formula2)
+Case1 : match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True
+Case2 : match (eval_help (formula2)) with
+| True  -> true
+| False  -> false = true
+---------------------------------------
+false = eval_ta1 (formula2)
+
+11 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (formula2:formula), match (formula2) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula2))) = True->match (eval_help (formula2)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula2)(rank : 0)
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+
+---------------------------------------
+forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction formula1(rank:11)
+=================================================
+Progress: 19
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+
+---------------------------------------
+forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction formula1(rank : 11)
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+---------------------------------------
+match (True) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (True))) = True->match (eval_help (True)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (True)
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:11)
+=================================================
+Progress: 20
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+---------------------------------------
+match (True) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (True))) = True->match (eval_help (True)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (True)
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 11)
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+---------------------------------------
+False = True->true = true -> false = true
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:11)
+=================================================
+Progress: 21
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+---------------------------------------
+False = True->true = true -> false = true
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 11)
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+Cond1 : False = True
+---------------------------------------
+true = true -> false = true
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:11)
+=================================================
+Progress: 22
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+Cond1 : False = True
+---------------------------------------
+true = true -> false = true
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond2(rank : 11)
+
+
+1st goal of : forall (formula1:formula), match (formula1) with
+| True  -> False
+| False  -> True
+| _ -> eval_help (Not (eval_help (formula1))) = True->match (eval_help (formula1)) with
+| True  -> true
+| False  -> false = true -> false = eval_ta1 (formula1)
+formula1 : formula
+Base1 : formula1 = True
+Cond1 : False = True
+Cond2 : true = true
+---------------------------------------
+false = true
+
+6 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
+intro Cond2
+File "_none_", lines 59-61, characters 2-17:
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Not _|AndAlso (_, _)|OrElse (_, _)|Imply (_, _)|Equal (_, _))
+Fatal error: exception Failure("worklist is empty")
+Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 211, characters 8-69
+Called from Dune__exe__Main.main in file "bin/main.ml", line 26, characters 12-79

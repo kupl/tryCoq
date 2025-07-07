@@ -57,7 +57,7 @@ def run_benchmark(benchmark_name, tool_name):
             rest_programs = [i for i in file_list if (not i.endswith('ta1.ml')) and i.endswith('.ml')]
             for program_b in rest_programs:
                 base, _ = os.path.splitext(program_b)
-                output_path_by_problem = os.path.join(output_dir, base + '.out')
+                output_path_by_problem = os.path.join(output_dir, base + '.log')
                 program_b = os.path.join(file_path, problem, program_b)
                 input_text = '\n'.join([program_a, program_b, assertion]) + '\n'
                 print(f"Here is input text: {input_text}")
