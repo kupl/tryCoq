@@ -95,7 +95,7 @@ let rec progress worklist statelist lemma_set =
       print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
     in
     let _ = Proof.pp_t next_t |> print_endline in
-    (* let _ = if i = 12 then Proof.proof_top next_t in *)
+    (* let _ = if i = 26 then Proof.proof_top next_t in *)
     let lemma_set =
       match is_end_of_conj t next_t with
       | true ->
@@ -108,7 +108,7 @@ let rec progress worklist statelist lemma_set =
       | false -> lemma_set
     in
     (match next_t.proof with
-     | _, [], proof -> Prover.ProofSet.empty, Some proof, next_t.env
+     | _, [], proof -> Prover.ProofSet.empty, Some proof
      | _ ->
        let prev_worklist =
          match tactic with
@@ -218,19 +218,10 @@ let proof_auto definition axiom program_a program_b goal =
       [ init_t, first_assertion, next_t, 0, Prover.order_counter () ]
   in
   match progress worklist Prover.ProofSet.empty Prover.LemmaSet.empty with
-  | _, Some proof, env ->
+  | _, Some proof ->
     print_endline "Proof Success";
-    print_endline "Helper Functions";
-    Ir.pp_t
-      (List.filter
-         (fun decl ->
-            match decl with
-            | Ir.TypeDecl _ -> false
-            | _ -> String.starts_with ~prefix:"mk" (Ir.get_fun_name decl))
-         env)
-    |> print_endline;
     print_endline "Proof";
     List.iter print_endline (List.map Proof.pp_tactic proof);
     print_endline "Qed"
-  | _, None, _ -> print_endline "Fail"
+  | _, None -> print_endline "Fail"
 ;;

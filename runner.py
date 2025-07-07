@@ -1,6 +1,7 @@
 import os
 import argparse
 import subprocess
+import pandas as pd
 
 TOOLS = ['cclemma', 'thesy','dilemma']
 BENCHMARKS = ['isaplanner', 'clam', 'optimization', 'dilemma']
@@ -22,6 +23,11 @@ def parse_args():
                         choices = BENCHMARKS,
                         default = BENCHMARKS,
                         help = 'List of benchmarks to run. Default is all benchmarks: ' + ', '.join(BENCHMARKS))
+    
+    parser.add_argument('--aggregate',
+                        type = bool,
+                        default = False,
+                        help = 'Whether to aggregate results. Default is False.')
     return parser.parse_args()   
 
 def run_benchmark(benchmark_name, tool_name):
@@ -78,11 +84,85 @@ def run_benchmark(benchmark_name, tool_name):
         pass
     if tool_name == 'thesy':
         pass
+
+def get_proof_result(file_path):
+    if not os.path.exists(file_path):
+        return None
+    with open(file_path, 'r') as f:
+        content = f.read()
+    if "Proof Success" in content:
+        return "Proof Success"
+    elif "Fatal error" in content:
+        return 'error'
+    else:
+        return 'timeout'
+    
+
+def aggregate_results():
+    benchmarks = os.listdir('./result/dilemma')
+    for benchmark in benchmarks:
+        output_path = os.path.join('./summary/summary_'+benchmark+'.md')
+        with open(output_path, 'w') as md:
+            benchmark_path = os.path.join('./result/dilemma', benchmark)
+            files = os.listdir(benchmark_path)
+            total_stats = {
+                'success': 0,
+                'error': 0,
+                'timeout': 0,
+                'total': 0
+            }
+            df_rows = []
+            for file in files:
+                file_path = os.path.join(benchmark_path, file)
+                problems = os.listdir(file_path)
+                success_count = 0
+                error_count = 0
+                timeout_count = 0
+                for problem in problems:
+                    problem_path = os.path.join(file_path, problem)
+                    result = get_proof_result(problem_path)
+                    if result == "Proof Success":
+                        success_count += 1
+                    elif result == "error":
+                        error_count += 1
+                    else:
+                        timeout_count += 1
+                df_rows.append({
+                    "Problem": file,
+                    "Success": success_count,
+                    "Error": error_count,
+                    "Timeout": timeout_count,
+                    "Total": success_count + error_count + timeout_count
+                })
+
+                total_stats['success'] += success_count
+                total_stats['error'] += error_count
+                total_stats['timeout'] += timeout_count
+                total_stats['total'] += success_count + error_count + timeout_count
+
+            if df_rows:
+                df = pd.DataFrame(df_rows).set_index("Problem")
+                df.loc["Total"] = [
+                    total_stats['success'],
+                    total_stats['error'],
+                    total_stats['timeout'],
+                    total_stats['total']
+                ]
+                md.write(f"# Benchmark: {benchmark}\n\n")
+                md.write(df.to_markdown() + '\n\n')
+            else:
+                md.write(f"# Benchmark: {benchmark}\n\n")
+                md.write("No results found.\n\n")
+            
+
                         
 if __name__ == '__main__':
     args = parse_args()
     dataset_list = args.benchmarks
     tool_list = args.tools
+    if args.aggregate:
+        aggregate_results()
+        exit(0)
     for tool in tool_list:    
         for dataset in dataset_list:
             run_benchmark(dataset, tool)
