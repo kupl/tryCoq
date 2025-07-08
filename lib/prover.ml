@@ -281,13 +281,10 @@ let is_mk (state : state) var_name =
     match expr.Ir.desc with
     | Ir.Call (name, args) ->
       if String.starts_with ~prefix:"mk" name
-      then
-        List.exists
-          (fun arg ->
-             match arg.Ir.desc with
-             | Ir.Var var -> var = var_name
-             | _ -> false)
-          args
+      then (
+        match (List.hd args).Ir.desc with
+        | Ir.Var var -> var = var_name
+        | _ -> false)
       else List.exists is_mk_arg args
     | _ -> false
   in
@@ -390,15 +387,18 @@ let apply_tactic t tactic : t option =
 
 let is_duplicated new_t state_list =
   let lemma_stack = Proof.get_lemma_stack new_t in
-  let next_conj = Proof.get_conj_list new_t in
-  ProofSet.exists
-    (fun old_t ->
-       let lemma_stack' = Proof.get_lemma_stack old_t in
-       let conj_list = Proof.get_conj_list old_t in
-       List.length conj_list = List.length next_conj
-       && lemma_stack = lemma_stack'
-       && List.for_all2 Proof.compare_conj next_conj conj_list)
-    state_list
+  let conj_list = Proof.get_conj_list new_t in
+  let result =
+    ProofSet.exists
+      (fun old_t ->
+         let lemma_stack' = Proof.get_lemma_stack old_t in
+         let conj_list' = Proof.get_conj_list old_t in
+         List.length conj_list = List.length conj_list'
+         && lemma_stack = lemma_stack'
+         && List.for_all2 Proof.compare_conj conj_list conj_list')
+      state_list
+  in
+  result
 ;;
 
 let rec collect_expr_in_expr expr =
@@ -1081,7 +1081,6 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
                 [ t, tactic, next_t, 0, order_counter () ])
            | _ ->
              let cond_var = collect_var_in_ifthenelse_prop goal in
-             let _ = cond_var |> List.iter (fun v -> Printf.printf "%s " v) in
              let cond_var = List.filter (fun v -> List.mem v qvars) cond_var in
              let non_decreasing_cond_vars =
                List.filter (fun v -> not (List.mem v decreasing_vars_body)) cond_var
@@ -1099,7 +1098,6 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
                    in
                    (match decreasing_cond_vars with
                     | [] ->
-                      let _ = print_endline "asdf" in
                       let case_tactic =
                         List.filter
                           (fun (tactic, _) ->
@@ -1219,6 +1217,8 @@ let prune_rank_worklist_update_state_list t candidates statelist =
          t, tactic, next_t, r, ord)
       worklist
   in
+  (* let next_t_list = List.map (fun (_, _, next_t, _, _) -> next_t) worklist in
+  let statelist = ProofSet.add_list statelist next_t_list in *)
   WorkList.of_list worklist, statelist
 ;;
 
