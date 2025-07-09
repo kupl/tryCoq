@@ -1685,6 +1685,7 @@ let apply_destruct name state t : state list =
     | Some typ -> typ
     | _ -> failwith ("there is no such variable : " ^ name)
   in
+  let first_fact = name, Type typ in
   let typ_args, (origin_args, decl) =
     match typ with
     | Ir.Talgebraic (typ_name, typ_list) ->
@@ -1748,7 +1749,8 @@ let apply_destruct name state t : state list =
                 name, prop)
              facts
          in
-         facts @ new_facts, new_goal, graph_of_prop new_goal
+         let typ_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
+         facts @ (first_fact :: typ_facts) @ new_facts, new_goal, graph_of_prop new_goal
        | _ ->
          let new_args, _ =
            partition_and_transform
@@ -1766,7 +1768,7 @@ let apply_destruct name state t : state list =
            | Ir.Constructor constr -> Ir.Call (constr, new_args)
          in
          let new_facts =
-           let new_fact_name = "Inductive" ^ string_of_int (fact_index t "Inductive") in
+           let new_fact_name = "Dest" ^ string_of_int (fact_index t "Dest") in
            let new_fact_prop =
              Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ })
            in
@@ -1798,7 +1800,16 @@ let apply_destruct name state t : state list =
                 name, prop)
              facts
          in
-         facts @ new_facts, new_goal, graph_of_prop new_goal)
+         let typ_facts =
+           List.map
+             (fun exp ->
+                ( (match exp.Ir.desc with
+                   | Var name -> name
+                   | _ -> failwith "dead point")
+                , Type exp.Ir.typ ))
+             new_args
+         in
+         facts @ (first_fact :: typ_facts) @ new_facts, new_goal, graph_of_prop new_goal)
     decl
 ;;
 

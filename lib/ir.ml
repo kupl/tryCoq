@@ -288,7 +288,7 @@ let var_of_typ typ =
     ^ (if List.is_empty args then "" else "_")
     ^ name
   | Tany -> "any"
-  | Tarrow l -> String.concat "->" (List.map pp_typ l)
+  | Tarrow l -> String.concat "2" (List.map pp_typ l)
 ;;
 
 let rec parse_typ (s : string) : typ =
@@ -871,13 +871,16 @@ let rec pattern_of_parsetree pat =
   | _ -> failwith "Not implemented"
 ;;
 
-let get_fun_arg_types name t =
+let get_fun_arg_types binding name t =
   let decl = find_decl name t in
   match decl with
   | Some (NonRec (_, args, body)) | Some (Rec (_, args, body)) ->
     let arg_types = List.map (fun arg -> get_type_in_expr arg body |> Option.get) args in
     arg_types
-  | _ -> failwith ("This is not function name: " ^ name)
+  | _ ->
+    (match List.assoc_opt name binding with
+     | Some (Tarrow l) -> List.rev l |> List.tl |> List.rev
+     | _ -> failwith ("This is not function name: " ^ name))
 ;;
 
 let rec ir_of_parsetree parse_expr binding t =
@@ -903,7 +906,7 @@ let rec ir_of_parsetree parse_expr binding t =
            try search_return_type name t with
            | _ -> failwith ("Function not found: " ^ name))
        in
-       let args_types = get_fun_arg_types name t in
+       let args_types = get_fun_arg_types binding name t in
        let new_bind =
          List.fold_left2
            (fun acc (_, arg) typ ->
