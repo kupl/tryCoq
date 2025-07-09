@@ -816,14 +816,12 @@ let useless_rewrite tactic =
   | _ -> false
 ;;
 
-let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option =
+let rank_tactic t tactic next_t valid_tactics stateset : int option =
   (* this function be executed after is_valid, is_duplicated *)
-  ignore real_tactics;
   let env = t.Proof.env in
   let state = Proof.get_first_state t in
   let facts, goal, _ = state in
   let lemma_stack = Proof.get_lemma_stack t in
-  ignore facts;
   let decreasing_vars =
     collect_decreasing_arg_in_prop env goal |> List.sort_uniq compare
   in
@@ -895,6 +893,8 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
       match apply_tactic next_t Proof.Discriminate with
       | Some _ -> Some 0
       | _ -> None)
+    else if String.starts_with ~prefix:"rhs_lemma" src
+    then None
     else if String.starts_with ~prefix:"Case" src && is_eq (List.assoc src facts)
     then Some 0
     else if contains_substring src "eqb_eq"
@@ -920,6 +920,8 @@ let rank_tactic t tactic next_t valid_tactics real_tactics stateset : int option
           || (new_rhs <> rhs && String.starts_with ~prefix:"lhs" src)
         then None
         else if is_more_similar goal new_goal
+        then Some 1
+        else if String.starts_with ~prefix:"lhs_lemma" src
         then Some 1
         else Some 2))
   | Proof.Destruct _ -> None
@@ -970,15 +972,42 @@ let is_convert_match_list_in_prop prop next_prop =
   is_convert_match_list lhs next_lhs || is_convert_match_list rhs next_rhs
 ;;
 
+let is_second_helper_lemma t src =
+  let lemma_stack = Proof.get_lemma_stack t in
+  match String.starts_with ~prefix:"lhs_lemma" src with
+  | true ->
+    let index = String.sub src 9 (String.length src - 9) |> int_of_string in
+    List.exists
+      (fun (name, _) -> name = "lhs_lemma" ^ string_of_int (index - 1))
+      lemma_stack
+  | false ->
+    (match String.starts_with ~prefix:"rhs_lemma" src with
+     | true ->
+       let index = String.sub src 9 (String.length src - 9) |> int_of_string in
+       List.exists
+         (fun (name, _) -> name = "rhs_lemma" ^ string_of_int (index - 1))
+         lemma_stack
+     | false -> false)
+;;
+
+let is_lhs_to_rhs_lemma t prop =
+  let env = t.Proof.env in
+  let lhs = Proof.get_lhs prop in
+  let rhs = Proof.get_rhs prop in
+  let lhs_fnames = collect_fname_in_expr env lhs in
+  let rhs_fnames = collect_fname_in_expr env rhs in
+  List.exists (fun v -> String.starts_with ~prefix:"mk_lhs" v) lhs_fnames
+  && List.exists (fun v -> String.starts_with ~prefix:"mk_rhs" v) rhs_fnames
+;;
+
 let make_worklist t valid_tactics non_trivial stateset =
-  let real_tactic = List.map fst non_trivial in
   let worklist, _ =
     List.fold_left
       (fun (acc, is_done) (tactic, next_t) ->
          match is_done with
          | true -> acc, true
          | false ->
-           let r = rank_tactic t tactic next_t valid_tactics real_tactic stateset in
+           let r = rank_tactic t tactic next_t valid_tactics stateset in
            (match r with
             | Some r ->
               (match tactic with
@@ -1054,9 +1083,19 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
         non_trivial
     in
     (match simpl with
-     | (tactic, _) :: _ ->
-       let next_t = Proof.apply_tactic t tactic in
-       [ t, tactic, next_t, 0, order_counter () ]
+     | (tactic, next_t) :: _ ->
+       let second_helper_tactic =
+         List.filter
+           (fun (tactic, _) ->
+              match tactic with
+              | Proof.RewriteReverse (src, _, _) -> is_second_helper_lemma t src
+              | _ -> false)
+           non_trivial
+       in
+       (match second_helper_tactic with
+        | (rewrite_tactic, next_t) :: _ ->
+          [ t, rewrite_tactic, next_t, 0, order_counter () ]
+        | [] -> [ t, tactic, next_t, 0, order_counter () ])
      | [] ->
        (match non_decreasing_vars with
         | [] ->
@@ -1117,28 +1156,57 @@ let rank_tactics t valid_tactics (new_worklist : (tactic * t) list) stateset
                       (match case_tactic with
                        | [] -> make_worklist t valid_tactics rewrite_tactic stateset
                        | _ ->
-                         let rewrite_tactic =
+                         let common_case_tactic =
                            List.filter
-                             (fun (_, next_t) ->
-                                let _, next_goal, _ = Proof.get_first_state next_t in
-                                is_convert_match_list_in_prop goal next_goal)
-                             rewrite_tactic
+                             (fun (tactic, _) ->
+                                match tactic with
+                                | Proof.Case expr ->
+                                  let lhs = Proof.get_lhs goal in
+                                  let rhs = Proof.get_rhs goal in
+                                  is_case_match_in_expr expr lhs
+                                  && is_case_match_in_expr expr rhs
+                                | _ -> false)
+                             case_tactic
                          in
-                         make_worklist
-                           t
-                           valid_tactics
-                           (case_tactic @ rewrite_tactic)
-                           stateset)
+                         (match common_case_tactic with
+                          | (common, next_t) :: _ ->
+                            [ t, common, next_t, 0, order_counter () ]
+                          | _ ->
+                            make_worklist
+                              t
+                              valid_tactics
+                              (rewrite_tactic @ case_tactic)
+                              stateset))
                       (* (match rewrite_tactic with
                        | [] -> make_worklist t valid_tactics case_tactic stateset
                        | _ -> make_worklist t valid_tactics rewrite_tactic stateset) *)
                     | hd :: _ ->
-                      (match List.mem hd qvars with
-                       | true ->
-                         let tactic = Proof.Induction hd in
-                         let next_t = Proof.apply_tactic t tactic in
+                      let facts, _, _ = Proof.get_first_state t in
+                      let lemma_stack = Proof.get_lemma_stack t in
+                      let lhs_to_rhs_tactic =
+                        List.filter
+                          (fun (tactic, _) ->
+                             match tactic with
+                             | Proof.RewriteInAt (src, _, _)
+                             | Proof.RewriteReverse (src, _, _) ->
+                               let src_fact =
+                                 try List.assoc src facts with
+                                 | _ -> List.assoc src lemma_stack
+                               in
+                               is_lhs_to_rhs_lemma t src_fact
+                             | _ -> false)
+                          non_trivial
+                      in
+                      (match lhs_to_rhs_tactic with
+                       | (tactic, next_t) :: _ ->
                          [ t, tactic, next_t, 0, order_counter () ]
-                       | false -> make_worklist t valid_tactics non_trivial stateset))
+                       | [] ->
+                         (match List.mem hd qvars with
+                          | true ->
+                            let tactic = Proof.Induction hd in
+                            let next_t = Proof.apply_tactic t tactic in
+                            [ t, tactic, next_t, 0, order_counter () ]
+                          | false -> make_worklist t valid_tactics non_trivial stateset)))
                  | false -> make_worklist t valid_tactics non_trivial stateset)))
         | hd :: _ ->
           (match contain_if_then_else_in_prop goal with
