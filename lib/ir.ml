@@ -950,7 +950,9 @@ let rec ir_of_parsetree parse_expr binding t =
        ; typ = search_constr_type name t
        })
   | Pexp_construct ({ txt = Longident.Lident name; _ }, None) ->
-    { desc = Call (name, []); typ = search_constr_type name t }
+    (match name with
+     | "[]" -> { desc = Call ("Nil", []); typ = Talgebraic ("list", [ Tany ]) }
+     | _ -> { desc = Call (name, []); typ = search_constr_type name t })
   | Pexp_ifthenelse (cond, e1, e2_opt) ->
     let cond = ir_of_parsetree cond binding t in
     let e1 = ir_of_parsetree e1 binding t in
