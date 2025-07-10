@@ -1,8 +1,6 @@
 let main =
   let definition = "prerequisites/definition.ml" in
   let axiom = "prerequisites/axiom" in
-  (* let program_a = "../dilemma-benchmark/dilemma-bench/dilemma/lambda/ta1.ml" in
-  let program_b = "../dilemma-benchmark/dilemma-bench/dilemma/lambda/ta2.ml" in *)
   let _ = print_endline "Enter the definition file path (1/2) : " in
   let _ = print_string "> " in
   let program_a = read_line () in

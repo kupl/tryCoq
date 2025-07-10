@@ -1388,69 +1388,66 @@ let rec get_type_in_prop name prop =
   | Type typ -> Some typ
 ;;
 
-let get_case_match env expr_list pat =
-  let rec get_case_match' env expr_list pat =
-    match expr_list with
-    | [ expr ] ->
-      (match expr.Ir.desc, pat with
-       | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ], false
-       (* we need to check type *)
-       | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
-         if constr = constr'
-         then
-           if arg_list = [] && pat_list = []
-           then
-             ( [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
-                 , Ir.{ desc = Call (constr, []); typ = expr.typ } )
-               ]
-             , false )
-           else (
-             let result, ambiguity, _ =
-               List.fold_left2
-                 (fun (acc, ambiguity, is_done) e p ->
-                    if is_done || ambiguity
-                    then [], ambiguity, true
-                    else (
-                      let next, new_ambiguity = get_case_match' env [ e ] p in
-                      if new_ambiguity
-                      then [], true, true
-                      else if next = []
-                      then [], false, true
-                      else acc @ next, false, false))
-                 ([], false, false)
-                 arg_list
-                 pat_list
-             in
-             result, ambiguity)
-         else if Ir.is_constructor constr env
-         then [], false
-         else [], true
-       | _, Pat_any -> [ Ir.{ desc = Var "dummy"; typ = expr.typ }, expr ], false
-       (* any must return something *)
-       | _ -> [], true)
-    | _ ->
-      (match pat with
-       | Ir.Pat_Tuple l ->
-         let result, ambiguity, _ =
-           List.fold_left2
-             (fun (acc, ambiguity, is_done) e p ->
-                if is_done || ambiguity
-                then [], ambiguity, true
-                else (
-                  let next, new_ambiguity = get_case_match' env [ e ] p in
-                  if new_ambiguity
-                  then [], true, true
-                  else if next = []
-                  then [], false, true
-                  else acc @ next, false, false))
-             ([], false, false)
-             expr_list
-             l
-         in
-         result, ambiguity
-       | _ -> failwith "pattern matching is ill-formed")
-  in
-  get_case_match' env expr_list pat
+let rec get_case_match env expr_list pat =
+  match expr_list with
+  | [ expr ] ->
+    (match expr.Ir.desc, pat with
+     | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ], false
+     (* we need to check type *)
+     | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
+       if constr = constr'
+       then (
+         match arg_list, pat_list with
+         | [], [] ->
+           ( [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
+               , Ir.{ desc = Call (constr, []); typ = expr.typ } )
+             ]
+           , false )
+         | _ ->
+           let result, ambiguity, _ =
+             List.fold_left2
+               (fun (acc, ambiguity, is_done) e p ->
+                  if is_done || ambiguity
+                  then [], ambiguity, true
+                  else (
+                    let next, new_ambiguity = get_case_match env [ e ] p in
+                    if new_ambiguity
+                    then [], true, true
+                    else if next = []
+                    then [], false, true
+                    else acc @ next, false, false))
+               ([], false, false)
+               arg_list
+               pat_list
+           in
+           result, ambiguity)
+       else if Ir.is_constructor constr env
+       then [], false
+       else [], true
+     | _, Pat_any -> [ Ir.{ desc = Var "dummy"; typ = expr.typ }, expr ], false
+     (* any must return something *)
+     | _ -> [], true)
+  | _ ->
+    (match pat with
+     | Ir.Pat_Tuple l ->
+       let result, ambiguity, _ =
+         List.fold_left2
+           (fun (acc, ambiguity, is_done) e p ->
+              if is_done || ambiguity
+              then [], ambiguity, true
+              else (
+                let next, new_ambiguity = get_case_match env [ e ] p in
+                if new_ambiguity
+                then [], true, true
+                else if next = []
+                then [], false, true
+                else acc @ next, false, false))
+           ([], false, false)
+           expr_list
+           l
+       in
+       result, ambiguity
+     | _ -> failwith "pattern matching is ill-formed")
 ;;
 
 let convert_in_simpl (target : expr) expr_from expr_to : expr * 'a list =
@@ -1470,15 +1467,9 @@ let rec simplify_expr (env : Ir.t) expr =
   | Ir.Var _ -> expr
   | Ir.Call (name, args) ->
     let args = List.map (simplify_expr env) args in
-    (try
-       let decl_args, fun_decl, rec_flag =
-         let decl = Ir.find_decl name env in
-         match decl with
-         | Some (Ir.NonRec (_, args, e)) -> args, e, false
-         | Some (Ir.Rec (_, args, e)) -> args, e, true
-         | _ -> failwith "This expression is not a function"
-       in
-       let fun_body =
+    (match Ir.find_decl name env with
+     | Some (Ir.NonRec (_, decl_args, body)) ->
+       let new_body =
          List.fold_left2
            (fun e name arg ->
               let exp, _, _ =
@@ -1493,19 +1484,36 @@ let rec simplify_expr (env : Ir.t) expr =
                   []
               in
               exp)
-           fun_decl
+           body
            decl_args
            args
        in
-       let new_expr = simplify_expr env fun_body in
-       if new_expr = fun_body && rec_flag
+       simplify_expr env new_body
+     | Some (Ir.Rec (_, decl_args, body)) ->
+       let new_body =
+         List.fold_left2
+           (fun e name arg ->
+              let exp, _, _ =
+                substitute_expr_in_expr
+                  Ir.is_equal_expr_partrial_fun
+                  convert_in_simpl
+                  e
+                  Ir.{ desc = Var name; typ = arg.typ }
+                  arg
+                  0
+                  false
+                  []
+              in
+              exp)
+           body
+           decl_args
+           args
+       in
+       let simplify_body = simplify_expr env new_body in
+       if simplify_body = new_body
        then Ir.{ desc = Call (name, args); typ = expr.typ }
-       else new_expr
-     with
-     | exn ->
-       ignore exn;
-       (* print_endline (Printexc.to_string exn); *)
-       Ir.{ desc = Call (name, args); typ = expr.typ })
+       else simplify_body
+     | _ -> Ir.{ desc = Call (name, args); typ = expr.typ })
   | Ir.Match (match_list, cases) ->
     let match_list = List.map (simplify_expr env) match_list in
     let new_expr, _ =
@@ -1518,7 +1526,7 @@ let rec simplify_expr (env : Ir.t) expr =
              then None, is_ambiguous
              else (
                match case with
-               | Ir.Case (pat, e') ->
+               | Ir.Case (pat, pat_body) ->
                  let expr_match_list, is_ambiguous = get_case_match env match_list pat in
                  if expr_match_list = []
                  then None, is_ambiguous
@@ -1540,7 +1548,7 @@ let rec simplify_expr (env : Ir.t) expr =
                               []
                           in
                           exp)
-                       e'
+                       pat_body
                        expr_match_list
                    in
                    Some new_expr, is_ambiguous)))
@@ -1685,6 +1693,7 @@ let apply_destruct name state t : state list =
     | Some typ -> typ
     | _ -> failwith ("there is no such variable : " ^ name)
   in
+  let first_fact = name, Type typ in
   let typ_args, (origin_args, decl) =
     match typ with
     | Ir.Talgebraic (typ_name, typ_list) ->
@@ -1748,7 +1757,8 @@ let apply_destruct name state t : state list =
                 name, prop)
              facts
          in
-         facts @ new_facts, new_goal, graph_of_prop new_goal
+         let typ_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
+         facts @ (first_fact :: typ_facts) @ new_facts, new_goal, graph_of_prop new_goal
        | _ ->
          let new_args, _ =
            partition_and_transform
@@ -1766,7 +1776,7 @@ let apply_destruct name state t : state list =
            | Ir.Constructor constr -> Ir.Call (constr, new_args)
          in
          let new_facts =
-           let new_fact_name = "Inductive" ^ string_of_int (fact_index t "Inductive") in
+           let new_fact_name = "Dest" ^ string_of_int (fact_index t "Dest") in
            let new_fact_prop =
              Eq (Ir.{ desc = Var name; typ }, Ir.{ desc = inductive_case; typ })
            in
@@ -1798,7 +1808,16 @@ let apply_destruct name state t : state list =
                 name, prop)
              facts
          in
-         facts @ new_facts, new_goal, graph_of_prop new_goal)
+         let typ_facts =
+           List.map
+             (fun exp ->
+                ( (match exp.Ir.desc with
+                   | Var name -> name
+                   | _ -> failwith "dead point")
+                , Type exp.Ir.typ ))
+             new_args
+         in
+         facts @ (first_fact :: typ_facts) @ new_facts, new_goal, graph_of_prop new_goal)
     decl
 ;;
 

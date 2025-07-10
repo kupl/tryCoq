@@ -288,7 +288,7 @@ let var_of_typ typ =
     ^ (if List.is_empty args then "" else "_")
     ^ name
   | Tany -> "any"
-  | Tarrow l -> String.concat "->" (List.map pp_typ l)
+  | Tarrow l -> String.concat "2" (List.map pp_typ l)
 ;;
 
 let rec parse_typ (s : string) : typ =
@@ -329,11 +329,11 @@ let rec t_of_typedtree typ_tree : t =
 and typ_of_ctype ctype =
   match ctype.Typedtree.ctyp_desc with
   | Ttyp_any -> Tany
-  | Ttyp_var name ->
-    ignore name;
-    Tany
+  | Ttyp_var _ -> Tany
   | Ttyp_constr (_, lident, lst) ->
     Talgebraic (Longident.last lident.txt, List.map typ_of_ctype lst)
+  | Ttyp_tuple l ->
+    failwith ("tuple" ^ string_of_int (List.length l) ^ " is not implemented")
   | _ -> failwith "Not implemented"
 
 and decl_of_item item : decl list =
@@ -377,7 +377,6 @@ and decl_of_item item : decl list =
                constr_list ))
       decl_list
   | Typedtree.Tstr_value (rec_flag, bindings) ->
-    ignore rec_flag;
     let fun_decl =
       List.map
         (fun binding ->
@@ -480,7 +479,11 @@ and get_expr expr =
            , [ Case (Pat_Constr ("true", []), e1); Case (Pat_Constr ("false", []), e2) ]
            )
        | None -> failwith "Not implemented")
-    | Texp_tuple _ -> failwith "tuple not implemented"
+    | Texp_tuple [ a; b ] ->
+      let a' = get_expr a in
+      let b' = get_expr b in
+      Call ("tuple2", [ a'; b' ])
+    | Texp_tuple _ -> failwith "more than tuple2 are not implemented"
     | Texp_constant constant ->
       (match constant with
        | Const_int i -> expr_of_int i
@@ -546,7 +549,11 @@ and get_type (expr : Typedtree.expression) =
         | _ -> Tarrow [ arg_typ; e2' ]
       in
       new_typ
-    | Ttuple _ -> failwith "tuple is not implemented yet"
+    | Ttuple [ a; b ] ->
+      let a' = a |> Types.get_desc |> pr_type in
+      let b' = b |> Types.get_desc |> pr_type in
+      Talgebraic ("tuple2", [ a'; b' ])
+    | Ttuple _ -> failwith "more than tuple2 is not implemented yet"
     | _ -> failwith "Not implemented"
   in
   expr.exp_type |> Types.get_desc |> pr_type
@@ -871,13 +878,16 @@ let rec pattern_of_parsetree pat =
   | _ -> failwith "Not implemented"
 ;;
 
-let get_fun_arg_types name t =
+let get_fun_arg_types binding name t =
   let decl = find_decl name t in
   match decl with
   | Some (NonRec (_, args, body)) | Some (Rec (_, args, body)) ->
     let arg_types = List.map (fun arg -> get_type_in_expr arg body |> Option.get) args in
     arg_types
-  | _ -> failwith ("This is not function name: " ^ name)
+  | _ ->
+    (match List.assoc_opt name binding with
+     | Some (Tarrow l) -> List.rev l |> List.tl |> List.rev
+     | _ -> failwith ("This is not function name: " ^ name))
 ;;
 
 let rec ir_of_parsetree parse_expr binding t =
@@ -903,7 +913,7 @@ let rec ir_of_parsetree parse_expr binding t =
            try search_return_type name t with
            | _ -> failwith ("Function not found: " ^ name))
        in
-       let args_types = get_fun_arg_types name t in
+       let args_types = get_fun_arg_types binding name t in
        let new_bind =
          List.fold_left2
            (fun acc (_, arg) typ ->
@@ -940,7 +950,9 @@ let rec ir_of_parsetree parse_expr binding t =
        ; typ = search_constr_type name t
        })
   | Pexp_construct ({ txt = Longident.Lident name; _ }, None) ->
-    { desc = Call (name, []); typ = search_constr_type name t }
+    (match name with
+     | "[]" -> { desc = Call ("Nil", []); typ = Talgebraic ("list", [ Tany ]) }
+     | _ -> { desc = Call (name, []); typ = search_constr_type name t })
   | Pexp_ifthenelse (cond, e1, e2_opt) ->
     let cond = ir_of_parsetree cond binding t in
     let e1 = ir_of_parsetree e1 binding t in

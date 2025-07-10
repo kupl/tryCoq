@@ -436,6 +436,8 @@ let find_larget_common_subtree expr1 expr2 =
 ;;
 
 let catch_recursive_pattern induction_vars expr_list =
+  let _ = print_endline "expr list" in
+  let _ = List.iter (fun expr -> expr |> Proof.pp_expr |> print_endline) expr_list in
   let rec get_parent source expr =
     match expr.Ir.desc with
     | Call (_, args) ->
