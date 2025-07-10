@@ -1,0 +1,186 @@
+Enter the definition file path (1/2) : 
+> Enter the definition file path (2/2) : 
+> Choose the proof type :
+1) Interactive Mode 	 2) Auto Mode
+Enter the goal : =================================================
+Progress: 1
+
+
+No conjecture
+>>> assert forall (x:any list) (y:any list), len ((x @ y)) = plus (len (x)) (len (y))(rank : 0)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 2
+induction any_list1(rank:12)
+induction any_list2(rank:12)
+=================================================
+Progress: 2
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> induction any_list1(rank : 12)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any_list2:any list), len (((Nil) @ any_list2)) = plus (len ((Nil))) (len (any_list2))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:3)
+=================================================
+Progress: 3
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any_list2:any list), len (((Nil) @ any_list2)) = plus (len ((Nil))) (len (any_list2))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 3)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (any_list2:any list), len ((any_list3 @ any_list2)) = plus (len (any_list3)) (len (any_list2))
+Inductive1 : any_list1 = (any1::any_list3)
+---------------------------------------
+forall (any_list2:any list), len (((any1::any_list3) @ any_list2)) = plus (len ((any1::any_list3))) (len (any_list2))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:3)
+=================================================
+Progress: 4
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (any_list2:any list), len ((any_list3 @ any_list2)) = plus (len (any_list3)) (len (any_list2))
+Inductive1 : any_list1 = (any1::any_list3)
+---------------------------------------
+forall (any_list2:any list), len (((any1::any_list3) @ any_list2)) = plus (len ((any1::any_list3))) (len (any_list2))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (any_list2:any list), len ((any_list3 @ any_list2)) = plus (len (any_list3)) (len (any_list2))
+Inductive1 : any_list1 = (any1::any_list3)
+---------------------------------------
+forall (any_list2:any list), SUCC (len ((any_list3 @ any_list2))) = SUCC (plus (len (any_list3)) (len (any_list2)))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 3
+rewrite IH1 in goal at 0(rank:11)
+induction any_list2(rank:12)
+rewrite <- IH1 in goal at 0(rank:11)
+=================================================
+Progress: 5
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (any_list2:any list), len ((any_list3 @ any_list2)) = plus (len (any_list3)) (len (any_list2))
+Inductive1 : any_list1 = (any1::any_list3)
+---------------------------------------
+forall (any_list2:any list), SUCC (len ((any_list3 @ any_list2))) = SUCC (plus (len (any_list3)) (len (any_list2)))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 11)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (any_list2:any list), len ((any_list3 @ any_list2)) = plus (len (any_list3)) (len (any_list2))
+Inductive1 : any_list1 = (any1::any_list3)
+---------------------------------------
+forall (any_list2:any list), SUCC (plus (len (any_list3)) (len (any_list2))) = SUCC (plus (len (any_list3)) (len (any_list2)))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:0)
+=================================================
+Progress: 6
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (any_list2:any list), len ((any_list3 @ any_list2)) = plus (len (any_list3)) (len (any_list2))
+Inductive1 : any_list1 = (any1::any_list3)
+---------------------------------------
+forall (any_list2:any list), SUCC (plus (len (any_list3)) (len (any_list2))) = SUCC (plus (len (any_list3)) (len (any_list2)))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+No conjecture
+Proof Success
+Proof
+assert forall (any_list1:any list) (any_list2:any list), len ((any_list1 @ any_list2)) = plus (len (any_list1)) (len (any_list2))
+induction any_list1
+reflexivity
+simpl in goal
+rewrite IH1 in goal at 0
+reflexivity
+Qed
+File "_none_", lines 81-83, characters 2-22:
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+[]
+
+File "_none_", lines 81-83, characters 2-22:
+Warning 8 [partial-match]: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+[]

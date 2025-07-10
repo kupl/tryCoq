@@ -2,15 +2,13 @@ type 'a list =
   | Nil
   | Cons of 'a * 'a list
 
-type ('a, 'b) tuple2 = Tuple2 of 'a * 'b
+type natural =
+  | Z
+  | S of natural
 
 type bool =
   | true
   | false
-
-type natural =
-  | Z
-  | S of natural
 
 type int =
   | Zero
@@ -20,6 +18,44 @@ type int =
 type string =
   | EmptyString
   | Concat of int * string
+
+type ('a, 'b) tuple2 = Tuple2 of 'a * 'b
+
+let rec natural_eq n1 n2 =
+  match n1, n2 with
+  | Z, Z -> true
+  | S n1', S n2' -> natural_eq n1' n2'
+  | Z, S _ -> false
+  | S _, Z -> false
+;;
+
+let rec natural_add n1 n2 =
+  match n1 with
+  | Z -> n2
+  | S n1' -> S (natural_add n1' n2)
+;;
+
+let rec natural_sub n1 n2 =
+  match n2 with
+  | Z -> n1
+  | S n2' ->
+    (match n1 with
+     | Z -> Z
+     | S n1' -> natural_sub n1' n2')
+;;
+
+let rec natural_mul n1 n2 =
+  match n1 with
+  | Z -> Z
+  | S n1' -> natural_add n2 (natural_mul n1' n2)
+;;
+
+let rec less_than n1 n2 =
+  match n1, n2 with
+  | Z, _ -> true
+  | _, Z -> false
+  | S n1', S n2' -> less_than n1' n2'
+;;
 
 let not b =
   match b with
@@ -32,14 +68,6 @@ let bool_eq b1 b2 =
   | true, true -> true
   | false, false -> true
   | _, _ -> false
-;;
-
-let rec natural_eq n1 n2 =
-  match n1, n2 with
-  | Z, Z -> true
-  | S n1', S n2' -> natural_eq n1' n2'
-  | Z, S _ -> false
-  | S _, Z -> false
 ;;
 
 let int_eq i1 i2 =
@@ -89,34 +117,6 @@ let ( || ) b1 b2 =
   match b1 with
   | true -> true
   | false -> b2
-;;
-
-let rec natural_add n1 n2 =
-  match n1 with
-  | Z -> n2
-  | S n1' -> S (natural_add n1' n2)
-;;
-
-let rec natural_sub n1 n2 =
-  match n2 with
-  | Z -> n1
-  | S n2' ->
-    (match n1 with
-     | Z -> Z
-     | S n1' -> natural_sub n1' n2')
-;;
-
-let rec natural_mul n1 n2 =
-  match n1 with
-  | Z -> Z
-  | S n1' -> natural_add n2 (natural_mul n1' n2)
-;;
-
-let rec less_than n1 n2 =
-  match n1, n2 with
-  | Z, _ -> true
-  | _, Z -> false
-  | S n1', S n2' -> less_than n1' n2'
 ;;
 
 let ( + ) i1 i2 =

@@ -26,21 +26,6 @@ let axiom_to_prop env src : Proof.theorem list =
     src
 ;;
 
-let proof_top definition axiom program_a program_b =
-  let definition = Parser.parse definition in
-  let program_a = Parser.parse program_a in
-  let program_b = Parser.parse program_b in
-  let definition = definition |> Ir.t_of_typedtree in
-  let program_a = program_a |> Ir.t_of_typedtree in
-  let program_b = program_b |> Ir.t_of_typedtree in
-  (* let _ = definition |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in *)
-  let _ = program_a |> Ir.sexp_of_t |> Sexplib.Sexp.to_string |> print_endline in
-  let env = definition @ program_a @ program_b in
-  let axiom = axiom |> axiom_to_prop env in
-  let init_t = Proof.create_t env ~proof:(axiom, [], []) () in
-  Proof.proof_top init_t
-;;
-
 let rec split_tale lst =
   match lst with
   | [ tl ] -> [], tl
@@ -215,4 +200,17 @@ let proof_auto definition axiom program_a program_b goal =
     List.iter print_endline (List.map Proof.pp_tactic proof);
     print_endline "Qed"
   | _, None -> print_endline "Fail"
+;;
+
+let proof_top definition axiom program_a program_b =
+  let definition = Parser.parse definition in
+  let program_a = Parser.parse program_a in
+  let program_b = Parser.parse program_b in
+  let definition = definition |> Ir.t_of_typedtree in
+  let program_a = program_a |> Ir.t_of_typedtree in
+  let program_b = program_b |> Ir.t_of_typedtree in
+  let env = definition @ program_a @ program_b in
+  let axiom = axiom |> axiom_to_prop env in
+  let init_t = Proof.create_t env ~proof:(axiom, [], []) () in
+  Proof.proof_top init_t
 ;;

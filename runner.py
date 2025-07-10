@@ -30,21 +30,19 @@ def parse_args():
                         help = 'Whether to aggregate results. Default is False.')
     return parser.parse_args()   
 
-def run_benchmark(benchmark_name, tool_name):
+def run_dilemma(benchmark_name):
     if benchmark_name == 'dilemma':
         benchmark_name = 'dilemma-bench'
-    file_path = os.path.join('../dilemma-benchmark',benchmark_name,tool_name)
+    file_path = os.path.join('../dilemma-benchmark',benchmark_name,"dilemma")
     
-    result_path = os.path.join('result', tool_name, benchmark_name)
+    result_path = os.path.join('result', "dilemma", benchmark_name)
     os.makedirs(result_path, exist_ok=True)
     if not os.path.exists(file_path):
         print(f"Benchmark {benchmark_name} does not exist in the specified path: {file_path}")
-        return
-    if tool_name == 'dilemma':        
-        dir_list = os.listdir(file_path)
-        if len(dir_list) < 2:
-            print(f"Not enough files in {file_path} to run dilemma tool.")
-            return
+        return    
+    dir_list = os.listdir(file_path)
+
+    if benchmark_name == 'dilemma-bench':
         for problem in dir_list:
             output_dir = os.path.join(result_path,problem)
             if not os.path.exists(output_dir):
@@ -71,19 +69,49 @@ def run_benchmark(benchmark_name, tool_name):
                         if e.stdout:
                             f.write(e.stdout.decode("utf-8"))
                         if e.stderr:                            
-                            f.write(f"Tool {tool_name} timed out for benchmark {benchmark_name} with problem {problem}.")
+                            f.write(f"Dilemma timed out for benchmark {benchmark_name} with problem {problem}.")
                             f.write(e.stderr.decode("utf-8"))
                 except Exception as e:
                     with open(output_path_by_problem, "w") as f:
                         if e.stdout:
                                 f.write(e.stdout.decode("utf-8"))
                         if e.stderr:                            
-                            f.write(f"An error occurred while running tool {tool_name} on benchmark {benchmark_name}: {e}")
+                            f.write(f"An error occurred while running Dilemma on benchmark {benchmark_name}: {e}")
                             f.write(e.stderr.decode("utf-8"))
-    if tool_name == 'cclemma':
-        pass
-    if tool_name == 'thesy':
-        pass
+    elif benchmark_name == 'clam':
+        definition_file = os.path.join(file_path, 'clam.ml')
+        input_file = os.path.join(file_path, 'input')
+        with open(input_file, 'r') as f:
+            assertion = f.readlines()
+        for i, problem in enumerate(assertion):
+            problem = problem.strip()
+            input_text = f"{definition_file}\n{definition_file}\n{2}\n{problem}\n"
+            print(input_text)
+            print(f"Problem {i+1}: {problem}")
+            output_path_by_problem = os.path.join(result_path, "clam", f"problem{i+1}.log")
+            try:
+                result = subprocess.run(['dune', 'exec', 'dilemma'], input=input_text, text=True, timeout=TIMEOUT, capture_output=True)
+                with open(output_path_by_problem, "w") as f:
+                    f.write(result.stdout)
+                    f.write(result.stderr)
+            except subprocess.TimeoutExpired as e:
+                with open(output_path_by_problem, "w") as f:
+                    if e.stdout:
+                        f.write(e.stdout.decode("utf-8"))
+                    if e.stderr:                            
+                        f.write(f"Dilemma timed out for benchmark {benchmark_name} with problem {i+1}.")
+                        f.write(e.stderr.decode("utf-8"))
+            except Exception as e:
+                with open(output_path_by_problem, "w") as f:
+                    if e.stdout:
+                        f.write(e.stdout.decode("utf-8"))
+                    if e.stderr:                            
+                        f.write(f"An error occurred while running Dilemma on benchmark {benchmark_name}: {e}")
+                        f.write(e.stderr.decode("utf-8"))
+    else:
+        print(f"Benchmark {benchmark_name} is not supported for Dilemma.")
+        return
+
 
 def get_proof_result(file_path):
     if not os.path.exists(file_path):
@@ -165,4 +193,11 @@ if __name__ == '__main__':
         exit(0)
     for tool in tool_list:    
         for dataset in dataset_list:
-            run_benchmark(dataset, tool)
+            if tool == 'dilemma':
+                run_dilemma(dataset)
+            elif tool == 'cclemma':
+                pass
+            elif tool == 'thesy':
+                pass
+            else:
+                print(f"Tool {tool} is not supported.")
