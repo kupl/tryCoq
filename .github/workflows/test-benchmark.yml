@@ -10,6 +10,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      
+    - name: download benchmarks
+      run: |
+        cd ../
+        git clone --depth=1 https://github.com/kupl/dilemma-benchmark.git
+        cd dilemma
+
+    - name: install pandas
+      run: pip install pandas tabulate
 
     - name: setup-opam-and-ocaml
       uses: tapthaker/actions-ocaml@0.4
@@ -19,12 +28,6 @@ jobs:
 
     - name: dependency opam package
       run:  opam install . --deps-only -y
-
-    - name: install pandas
-      run: pip install pandas tabulate
-
-    - name: download benchmarks
-      run: git clone --depth=1 https://github.com/kupl/dilemma-benchmark.git ../
           
     - name: test benchmark
       run: python3 runner.py
