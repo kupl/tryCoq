@@ -29,14 +29,15 @@ jobs:
     - name: dependency opam package
       run: opam install . --deps-only -y
 
-    - name: eval opam
-      run: eval $(opam env)
-      
     - name: build dilemma
-      run: dune build
+      run: |
+        eval $(opam env)
+        dune build
           
     - name: test benchmark
-      run: python3 runner.py
+      run: |
+        eval $(opam env)
+        python3 runner.py
 
     - name: aggregate
       run: python3 runner.py --aggregate True
