@@ -19,7 +19,7 @@ forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
 
 0 conjecture(s) more...
 Tactic List : 1
-intro any_list1(rank:3)
+induction any_list1(rank:4)
 =================================================
 Progress: 2
 
@@ -32,83 +32,1024 @@ forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro any_list1(rank : 3)
+>>> induction any_list1(rank : 4)
 
 
 1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
 any_list1 : any list
+Base1 : any_list1 = (Nil)
 ---------------------------------------
-reverse ((reverse (any_list1) @ (Nil))) = any_list1
+reverse ((reverse ((Nil)) @ (Nil))) = (Nil)
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 0
-New Env
-
-;;
-Lemma List
-forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
-End of Lemma List
-
-
-1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
-any_list1 : any list
----------------------------------------
-reverse ((reverse (any_list1) @ (Nil))) = any_list1
-
-0 goal(s) more...
-
-0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:3)
 =================================================
 Progress: 3
 
 
 1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
 any_list1 : any list
+Base1 : any_list1 = (Nil)
 ---------------------------------------
-reverse ((reverse (any_list1) @ (Nil))) = any_list1
+reverse ((reverse ((Nil)) @ (Nil))) = (Nil)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 3)
+
+
+1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+reverse ((reverse ((any1::any_list2)) @ (Nil))) = (any1::any_list2)
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1(rank : 0)
-
-
-1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
-
----------------------------------------
-forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
-
-0 goal(s) more...
-
-1 conjecture(s) more...
+Deduplication: 0
 Tactic List : 1
-intro any_list1(rank:5)
+simpl in goal(rank:3)
 =================================================
 Progress: 4
 
 
 1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
-
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
 ---------------------------------------
-forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+reverse ((reverse ((any1::any_list2)) @ (Nil))) = (any1::any_list2)
 
 0 goal(s) more...
 
-1 conjecture(s) more...
->>> intro any_list1(rank : 5)
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3)
 
 
 1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
 any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
 ---------------------------------------
-reverse ((reverse (any_list1) @ (Nil))) = any_list1
+reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+expr list
+reverse ((reverse (any_list2) @ (Nil)))
+reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil)))
+reverse ((((reverse (any_list3) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil)))
+reverse (((((reverse (any_list4) @ (any3::(Nil))) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil)))
+expr list
+any_list2
+(any1::any_list2)
+(any1::(any2::any_list3))
+(any1::(any2::(any3::any_list4)))
+New Env
+
+;;
+Lemma List
+forall (any1:any) (any_list2:any list), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+End of Lemma List
+
+
+1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 5
+
+
+1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (any1:any) (any_list2:any list), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)(rank : 0)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:6)
+=================================================
+Progress: 6
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction any_list1(rank : 6)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), reverse (((reverse ((Nil)) @ (any1::(Nil))) @ (Nil))) = (any1::(Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:5)
+=================================================
+Progress: 7
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), reverse (((reverse ((Nil)) @ (any1::(Nil))) @ (Nil))) = (any1::(Nil))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 5)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse (((reverse ((any2::any_list2)) @ (any1::(Nil))) @ (Nil))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:5)
+=================================================
+Progress: 8
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse (((reverse ((any2::any_list2)) @ (any1::(Nil))) @ (Nil))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 5)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+intro any1(rank:5)
+rewrite <- IH1 in goal at 0(rank:13)
+=================================================
+Progress: 9
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro any1(rank : 5)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+rewrite <- IH1 in goal at 0(rank:5)
+=================================================
+Progress: 10
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 5)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
 
 0 goal(s) more...
 
 1 conjecture(s) more...
 Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+rewrite <- IH1 in goal at 0
+New Env
+
+;;
+Lemma List
+forall (any1:any) (arg1:any list), reverse (((arg1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((arg1 @ (Nil))))
+End of Lemma List
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 11
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (any1:any) (arg1:any list), reverse (((arg1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((arg1 @ (Nil))))(rank : 0)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:8)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction any_list1(rank : 8)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), reverse ((((Nil) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((Nil) @ (Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:7)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), reverse ((((Nil) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((Nil) @ (Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> reflexivity(rank : 7)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((any2::any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((any2::any_list2) @ (Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:7)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((any2::any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((any2::any_list2) @ (Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 7)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+intro any1(rank:7)
+rewrite IH1 in goal at 0(rank:15)
+=================================================
+Progress: 15
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro any1(rank : 7)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:7)
+=================================================
+Progress: 16
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 7)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+((any1::reverse ((any_list2 @ (Nil)))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:5)
+=================================================
+Progress: 17
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+((any1::reverse ((any_list2 @ (Nil)))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> reflexivity(rank : 5)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 1
+Tactic List : 4
+rewrite lemma3 in goal at 1(rank:13)
+rewrite lemma3 in goal at 0(rank:21)
+rewrite <- lemma3 in goal at 0(rank:13)
+rewrite lemma3 in goal at 2(rank:21)
+=================================================
+Progress: 18
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 13)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+New Env
+
+;;
+Lemma List
+forall (any1:any) (arg2:any list), reverse (((arg2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((arg2 @ (Nil))))
+End of Lemma List
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 19
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (any1:any) (arg2:any list), reverse (((arg2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((arg2 @ (Nil))))(rank : 0)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:8)
+=================================================
+Progress: 20
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction any_list1(rank : 8)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), reverse ((((Nil) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((Nil) @ (Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:7)
+=================================================
+Progress: 21
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), reverse ((((Nil) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((Nil) @ (Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> reflexivity(rank : 7)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((any2::any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((any2::any_list2) @ (Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:7)
+=================================================
+Progress: 22
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((any2::any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((any2::any_list2) @ (Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 7)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+intro any1(rank:7)
+rewrite IH1 in goal at 0(rank:15)
+=================================================
+Progress: 23
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro any1(rank : 7)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:7)
+=================================================
+Progress: 24
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 7)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+((any1::reverse ((any_list2 @ (Nil)))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:5)
+=================================================
+Progress: 25
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((any_list2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list2 @ (Nil))))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+((any1::reverse ((any_list2 @ (Nil)))) @ (any2::(Nil))) = (any1::(reverse ((any_list2 @ (Nil))) @ (any2::(Nil))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> reflexivity(rank : 5)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 1
+Tactic List : 4
+rewrite lemma3 in goal at 1(rank:13)
+rewrite lemma3 in goal at 0(rank:21)
+rewrite <- lemma3 in goal at 0(rank:13)
+rewrite lemma3 in goal at 2(rank:21)
+=================================================
+Progress: 26
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+reverse ((((reverse (any_list2) @ (any2::(Nil))) @ (any1::(Nil))) @ (Nil))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite lemma3 in goal at 1(rank : 13)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil)))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:3)
+=================================================
+Progress: 27
+
+
+1st goal of : forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil)))) = (any1::reverse (((reverse (any_list2) @ (any2::(Nil))) @ (Nil))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 3)
+
+
+1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 7
+Tactic List : 5
+rewrite lemma3 in goal at 0(rank:11)
+rewrite <- lemma4 in goal at 0(rank:11)
+rewrite <- lemma4 in goal at 1(rank:19)
+rewrite <- lemma4 in goal at 2(rank:11)
+rewrite lemma4 in goal at 0(rank:11)
+=================================================
+Progress: 28
+
+
+1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite lemma3 in goal at 0(rank : 11)
+
+
+1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+(any1::reverse ((reverse (any_list2) @ (Nil)))) = (any1::any_list2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 2
+rewrite <- lemma4 in goal at 2(rank:11)
+rewrite <- lemma4 in goal at 0(rank:19)
+=================================================
+Progress: 29
+
+
+1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+reverse (((reverse (any_list2) @ (any1::(Nil))) @ (Nil))) = (any1::any_list2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite lemma4 in goal at 0(rank : 11)
+
+
+1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+(any1::any_list2) = (any1::any_list2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:0)
+=================================================
+Progress: 30
+
+
+1st goal of : forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : reverse ((reverse (any_list2) @ (Nil))) = any_list2
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+(any1::any_list2) = (any1::any_list2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 0)
+
+
+No conjecture
+Proof Success
+Proof
+assert forall (any_list1:any list), reverse ((reverse (any_list1) @ (Nil))) = any_list1
+induction any_list1
+reflexivity
+simpl in goal
+assert forall (any1:any) (any_list1:any list), reverse (((reverse (any_list1) @ (any1::(Nil))) @ (Nil))) = (any1::any_list1)
+induction any_list1
+reflexivity
+simpl in goal
+intro any1
+rewrite <- IH1 in goal at 0
+assert forall (any1:any) (any_list1:any list), reverse (((any_list1 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((any_list1 @ (Nil))))
+induction any_list1
+reflexivity
+simpl in goal
+intro any1
+rewrite IH1 in goal at 0
+reflexivity
+rewrite lemma3 in goal at 1
+reflexivity
+rewrite lemma4 in goal at 0
+reflexivity
+Qed
 File "_none_", lines 81-83, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
@@ -118,7 +1059,3 @@ File "_none_", lines 81-83, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
 []
-Fatal error: exception Failure("worklist is empty")
-Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 196, characters 8-69
-Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

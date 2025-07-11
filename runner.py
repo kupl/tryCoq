@@ -90,7 +90,7 @@ def run_dilemma(benchmark_name):
             print(f"Problem {i+1}: {problem}")
             output_path_by_problem = os.path.join(result_path, "clam", f"problem{i+1}.log")
             try:
-                result = subprocess.run(['dune', 'exec', 'dilemma'], input=input_text, text=True, timeout=TIMEOUT, capture_output=True)
+                result = subprocess.run(['opam', 'exec', '--', 'dune', 'exec', 'dilemma'], input=input_text, text=True, timeout=TIMEOUT, capture_output=True)
                 with open(output_path_by_problem, "w") as f:
                     f.write(result.stdout)
                     f.write(result.stderr)

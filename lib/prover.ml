@@ -165,9 +165,8 @@ let get_decreasing_arg_index env fname =
 let rec get_nth_arg_in_expr fname i expr =
   match expr.Ir.desc with
   | Ir.Call (name, args) ->
-    if name = fname
-    then [ List.nth args i ]
-    else List.fold_left (fun acc exp -> acc @ get_nth_arg_in_expr fname i exp) [] args
+    let acc = if name = fname then [ List.nth args i ] else [] in
+    acc @ List.fold_left (fun acc exp -> acc @ get_nth_arg_in_expr fname i exp) [] args
   | Ir.Var _ -> []
   | Ir.LetIn (assign_list, body) ->
     List.fold_left

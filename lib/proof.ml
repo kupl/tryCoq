@@ -1469,26 +1469,29 @@ let rec simplify_expr (env : Ir.t) expr =
     let args = List.map (simplify_expr env) args in
     (match Ir.find_decl name env with
      | Some (Ir.NonRec (_, decl_args, body)) ->
-       let new_body =
-         List.fold_left2
-           (fun e name arg ->
-              let exp, _, _ =
-                substitute_expr_in_expr
-                  Ir.is_equal_expr_partrial_fun
-                  convert_in_simpl
-                  e
-                  Ir.{ desc = Var name; typ = arg.typ }
-                  arg
-                  0
-                  false
-                  []
-              in
-              exp)
-           body
-           decl_args
-           args
-       in
-       simplify_expr env new_body
+       (match List.length decl_args <> List.length args with
+        | true -> Ir.{ desc = Call (name, args); typ = expr.typ }
+        | false ->
+          let new_body =
+            List.fold_left2
+              (fun e name arg ->
+                 let exp, _, _ =
+                   substitute_expr_in_expr
+                     Ir.is_equal_expr_partrial_fun
+                     convert_in_simpl
+                     e
+                     Ir.{ desc = Var name; typ = arg.typ }
+                     arg
+                     0
+                     false
+                     []
+                 in
+                 exp)
+              body
+              decl_args
+              args
+          in
+          simplify_expr env new_body)
      | Some (Ir.Rec (_, decl_args, body)) ->
        let new_body =
          List.fold_left2

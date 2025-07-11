@@ -2778,8 +2778,8 @@ forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (S
 
 1 conjecture(s) more...
 Tactic List : 2
-intro nat1(rank:5)
-intro nat3(rank:5)
+induction nat1(rank:14)
+induction nat3(rank:14)
 =================================================
 Progress: 79
 
@@ -2795,7 +2795,7 @@ forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (S
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro nat1(rank : 5)
+>>> induction nat1(rank : 14)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
@@ -2804,16 +2804,55 @@ nat4 : nat
 IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
 Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
+Base1 : nat1 = ZERO
 ---------------------------------------
-forall (nat3:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (plus (nat3) (nat1)))
+forall (nat3:nat), plus (qmult (nat4) (ZERO) (plus (ZERO) (ZERO))) (SUCC (nat3)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (plus (nat3) (ZERO)))
 
-0 goal(s) more...
+1 goal(s) more...
 
 1 conjecture(s) more...
 Tactic List : 1
-intro nat3(rank:5)
+simpl in goal(rank:6)
 =================================================
 Progress: 80
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+forall (nat3:nat), plus (qmult (nat4) (ZERO) (plus (ZERO) (ZERO))) (SUCC (nat3)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (plus (nat3) (ZERO)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+forall (nat3:nat), plus (qmult (nat4) (ZERO) (ZERO)) (SUCC (nat3)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (plus (nat3) (ZERO)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 4
+rewrite IH1 in goal at 0(rank:14)
+induction nat3(rank:15)
+rewrite lemma3 in goal at 1(rank:14)
+rewrite lemma3 in goal at 2(rank:14)
+=================================================
+Progress: 81
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
@@ -2827,7 +2866,7 @@ forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (S
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro nat3(rank : 5)
+>>> induction nat3(rank : 14)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
@@ -2836,68 +2875,15 @@ nat4 : nat
 IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
 Inductive1 : nat2 = SUCC (nat4)
 nat3 : nat
+Base1 : nat3 = ZERO
 ---------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (plus (nat3) (nat1)))
+forall (nat1:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (ZERO)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (plus (ZERO) (nat1)))
 
-0 goal(s) more...
+1 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-rewrite IH2 in goal at 0
-reflexivity
-simpl in goal
-intro nat3
-New Env
-
-;;
-Lemma List
-forall (nat1:nat) (nat3:nat) (nat4:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (plus (nat3) (nat1)))
-End of Lemma List
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
-nat2 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
-Inductive1 : nat2 = SUCC (nat4)
-nat3 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (plus (nat3) (nat1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-=================================================
-Progress: 81
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
-nat2 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
-Inductive1 : nat2 = SUCC (nat4)
-nat3 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (plus (nat3) (nat1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> assert forall (nat1:nat) (nat3:nat) (nat4:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (plus (nat3) (nat1)))(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
 Tactic List : 1
-induction nat3(rank:8)
+simpl in goal(rank:6)
 =================================================
 Progress: 82
 
@@ -2907,14 +2893,247 @@ nat2 : nat
 nat4 : nat
 IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
 Inductive1 : nat2 = SUCC (nat4)
-nat1 : nat
+nat3 : nat
+Base1 : nat3 = ZERO
 ---------------------------------------
-forall (nat3:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (plus (nat3) (nat1)))
+forall (nat1:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (ZERO)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (plus (ZERO) (nat1)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+---------------------------------------
+forall (nat1:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (ZERO)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (nat1))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction nat1(rank:7)
+=================================================
+Progress: 83
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+---------------------------------------
+forall (nat1:nat), plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (ZERO)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (nat1))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction nat1(rank : 7)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+plus (qmult (nat4) (ZERO) (plus (ZERO) (ZERO))) (SUCC (ZERO)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7)
+=================================================
+Progress: 84
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+plus (qmult (nat4) (ZERO) (plus (ZERO) (ZERO))) (SUCC (ZERO)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+plus (qmult (nat4) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:7)
+=================================================
+Progress: 85
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+plus (qmult (nat4) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 7)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+plus (mult (nat4) (ZERO)) (SUCC (plus (ZERO) (ZERO))) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7)
+=================================================
+Progress: 86
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+plus (mult (nat4) (ZERO)) (SUCC (plus (ZERO) (ZERO))) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+plus (mult (nat4) (ZERO)) (SUCC (ZERO)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite IH1 in goal at 0
+simpl in goal
+New Env
+
+;;
+Lemma List
+forall (arg4:nat), plus (arg4) (SUCC (ZERO)) = plus (plus (arg4) (ZERO)) (SUCC (ZERO))
+End of Lemma List
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+plus (mult (nat4) (ZERO)) (SUCC (ZERO)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 87
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat3 : nat
+Base1 : nat3 = ZERO
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+plus (mult (nat4) (ZERO)) (SUCC (ZERO)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (arg4:nat), plus (arg4) (SUCC (ZERO)) = plus (plus (arg4) (ZERO)) (SUCC (ZERO))(rank : 0)
+
+
+1st goal of : forall (nat1:nat), plus (nat1) (SUCC (ZERO)) = plus (plus (nat1) (ZERO)) (SUCC (ZERO))
+
+---------------------------------------
+forall (nat1:nat), plus (nat1) (SUCC (ZERO)) = plus (plus (nat1) (ZERO)) (SUCC (ZERO))
 
 0 goal(s) more...
 
-1 conjecture(s) more...
->>> intro nat3(rank : 5)
+2 conjecture(s) more...
+Tactic List : 2
+rewrite lemma3 in goal at 0(rank:15)
+induction nat1(rank:16)
+=================================================
+Progress: 88
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
@@ -2923,545 +3142,172 @@ nat4 : nat
 IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
 Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
-nat3 : nat
+Base1 : nat1 = ZERO
 ---------------------------------------
-plus (qmult (nat4) (nat1) (plus (nat1) (nat1))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat1)) (nat1)) (SUCC (plus (nat3) (nat1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-rewrite IH2 in goal at 0
-reflexivity
-simpl in goal
-intro nat1
-intro nat3
-=================================================
-Progress: 83
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> induction nat3(rank : 8)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-nat3 : nat
-Base1 : nat3 = ZERO
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (ZERO) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (ZERO) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
+forall (nat3:nat), plus (qmult (nat4) (ZERO) (ZERO)) (SUCC (nat3)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (plus (nat3) (ZERO)))
 
 1 goal(s) more...
 
-2 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:8)
-=================================================
-Progress: 84
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-nat3 : nat
-Base1 : nat3 = ZERO
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (ZERO) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (ZERO) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-
-1 goal(s) more...
-
-2 conjecture(s) more...
->>> simpl in goal(rank : 8)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-nat3 : nat
-Base1 : nat3 = ZERO
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (plus (nat1) (nat1)) (SUCC (nat2)) = plus (nat1) (SUCC (plus (nat2) (nat1)))
-
-1 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-induction nat1(rank:9)
-=================================================
-Progress: 85
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-nat3 : nat
-Base1 : nat3 = ZERO
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (plus (nat1) (nat1)) (SUCC (nat2)) = plus (nat1) (SUCC (plus (nat2) (nat1)))
-
-1 goal(s) more...
-
-2 conjecture(s) more...
->>> induction nat1(rank : 9)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-nat3 : nat
-Base1 : nat3 = ZERO
-nat1 : nat
-Base2 : nat1 = ZERO
----------------------------------------
-forall (nat2:nat), plus (plus (ZERO) (ZERO)) (SUCC (nat2)) = plus (ZERO) (SUCC (plus (nat2) (ZERO)))
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:9)
-=================================================
-Progress: 86
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-nat3 : nat
-Base1 : nat3 = ZERO
-nat1 : nat
-Base2 : nat1 = ZERO
----------------------------------------
-forall (nat2:nat), plus (plus (ZERO) (ZERO)) (SUCC (nat2)) = plus (ZERO) (SUCC (plus (nat2) (ZERO)))
-
-2 goal(s) more...
-
-2 conjecture(s) more...
->>> simpl in goal(rank : 9)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat1) (plus (nat1) (nat1))) (SUCC (nat2)) = plus (plus (mult (nat3) (nat1)) (nat1)) (SUCC (plus (nat2) (nat1)))
-nat3 : nat
-Base1 : nat3 = ZERO
-nat1 : nat
-Base2 : nat1 = ZERO
----------------------------------------
-forall (nat2:nat), SUCC (nat2) = SUCC (plus (nat2) (ZERO))
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 2
-rewrite lemma3 in goal at 0(rank:17)
-induction nat2(rank:18)
-=================================================
-Progress: 87
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
----------------------------------------
-forall (nat3:nat), SUCC (nat3) = SUCC (plus (nat3) (ZERO))
-
-2 goal(s) more...
-
 1 conjecture(s) more...
->>> rewrite lemma3 in goal at 0(rank : 15)
+>>> rewrite IH1 in goal at 0(rank : 14)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
----------------------------------------
-forall (nat3:nat), SUCC (nat3) = SUCC (nat3)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:6)
-=================================================
-Progress: 88
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
----------------------------------------
-forall (nat3:nat), SUCC (nat3) = SUCC (nat3)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 6)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
 nat2 : nat
 nat4 : nat
-IH1 : forall (nat3:nat), plus (nat4) (SUCC (nat3)) = SUCC (plus (nat3) (nat4))
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
 Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
+Base1 : nat1 = ZERO
 ---------------------------------------
-forall (nat3:nat), plus (SUCC (nat4)) (SUCC (nat3)) = SUCC (plus (nat3) (SUCC (nat4)))
+forall (nat3:nat), plus (mult (nat4) (ZERO)) (SUCC (plus (nat3) (ZERO))) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (plus (nat3) (ZERO)))
 
 1 goal(s) more...
 
 1 conjecture(s) more...
-Deduplication: 1
-Tactic List : 1
-simpl in goal(rank:6)
+Tactic List : 5
+rewrite lemma3 in goal at 0(rank:14)
+rewrite lemma3 in goal at 2(rank:14)
+rewrite lemma3 in goal at 1(rank:22)
+rewrite lemma3 in goal at 3(rank:22)
+induction nat3(rank:15)
 =================================================
 Progress: 89
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
 nat2 : nat
 nat4 : nat
-IH1 : forall (nat3:nat), plus (nat4) (SUCC (nat3)) = SUCC (plus (nat3) (nat4))
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
 Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
+Base1 : nat1 = ZERO
 ---------------------------------------
-forall (nat3:nat), plus (SUCC (nat4)) (SUCC (nat3)) = SUCC (plus (nat3) (SUCC (nat4)))
+forall (nat3:nat), plus (qmult (nat4) (ZERO) (ZERO)) (SUCC (nat3)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (plus (nat3) (ZERO)))
 
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 6)
+>>> rewrite lemma3 in goal at 1(rank : 14)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
 nat2 : nat
 nat4 : nat
-IH1 : forall (nat3:nat), plus (nat4) (SUCC (nat3)) = SUCC (plus (nat3) (nat4))
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
 Inductive1 : nat2 = SUCC (nat4)
----------------------------------------
-forall (nat3:nat), SUCC (plus (nat4) (SUCC (nat3))) = SUCC (plus (nat3) (SUCC (nat4)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-induction nat3(rank:15)
-rewrite IH1 in goal at 0(rank:22)
-=================================================
-Progress: 90
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
 nat1 : nat
 Base1 : nat1 = ZERO
-nat3 : nat
-Base2 : nat3 = ZERO
-nat2 : nat
-nat4 : nat
-IH1 : plus (nat4) (SUCC (ZERO)) = SUCC (nat4)
-Inductive1 : nat2 = SUCC (nat4)
 ---------------------------------------
-SUCC (plus (nat4) (SUCC (ZERO))) = SUCC (SUCC (nat4))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 15)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat3 : nat
-Base2 : nat3 = ZERO
-nat2 : nat
-nat4 : nat
-IH1 : plus (nat4) (SUCC (ZERO)) = SUCC (nat4)
-Inductive1 : nat2 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (nat4)) = SUCC (SUCC (nat4))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:6)
-=================================================
-Progress: 91
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat3 : nat
-Base2 : nat3 = ZERO
-nat2 : nat
-nat4 : nat
-IH1 : plus (nat4) (SUCC (ZERO)) = SUCC (nat4)
-Inductive1 : nat2 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (nat4)) = SUCC (SUCC (nat4))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 6)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat2:nat), plus (nat2) (SUCC (SUCC (nat4))) = SUCC (plus (SUCC (nat4)) (nat2))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Deduplication: 1
-Tactic List : 1
-simpl in goal(rank:6)
-=================================================
-Progress: 92
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat2:nat), plus (nat2) (SUCC (SUCC (nat4))) = SUCC (plus (SUCC (nat4)) (nat2))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 6)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat2:nat), plus (nat2) (SUCC (SUCC (nat4))) = SUCC (SUCC (plus (nat4) (nat2)))
+forall (nat3:nat), plus (qmult (nat4) (ZERO) (ZERO)) (SUCC (nat3)) = plus (mult (nat4) (ZERO)) (SUCC (plus (nat3) (ZERO)))
 
 1 goal(s) more...
 
 1 conjecture(s) more...
 Tactic List : 2
 rewrite <- IH1 in goal at 0(rank:14)
-induction nat2(rank:15)
+induction nat3(rank:15)
 =================================================
-Progress: 93
+Progress: 90
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
 Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
 ---------------------------------------
-forall (nat2:nat), plus (nat2) (SUCC (SUCC (nat4))) = SUCC (SUCC (plus (nat4) (nat2)))
+forall (nat3:nat), plus (qmult (nat4) (ZERO) (ZERO)) (SUCC (nat3)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (plus (nat3) (ZERO)))
 
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> rewrite <- IH1 in goal at 0(rank : 14)
+>>> rewrite lemma3 in goal at 2(rank : 14)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
 Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
 ---------------------------------------
-forall (nat2:nat), plus (nat2) (SUCC (SUCC (nat4))) = SUCC (plus (nat2) (SUCC (nat4)))
+forall (nat3:nat), plus (qmult (nat4) (ZERO) (ZERO)) (SUCC (nat3)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (nat3))
 
 1 goal(s) more...
 
 1 conjecture(s) more...
 Tactic List : 1
-induction nat2(rank:7)
+intro nat3(rank:6)
 =================================================
-Progress: 94
+Progress: 91
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
 Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
 ---------------------------------------
-forall (nat2:nat), plus (nat2) (SUCC (SUCC (nat4))) = SUCC (plus (nat2) (SUCC (nat4)))
+forall (nat3:nat), plus (qmult (nat4) (ZERO) (ZERO)) (SUCC (nat3)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (nat3))
 
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> induction nat2(rank : 7)
+>>> intro nat3(rank : 6)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
 Base1 : nat1 = ZERO
 nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
-Base2 : nat2 = ZERO
 ---------------------------------------
-plus (ZERO) (SUCC (SUCC (nat4))) = SUCC (plus (ZERO) (SUCC (nat4)))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:6)
-=================================================
-Progress: 95
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
-Base2 : nat2 = ZERO
----------------------------------------
-plus (ZERO) (SUCC (SUCC (nat4))) = SUCC (plus (ZERO) (SUCC (nat4)))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 6)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
-nat5 : nat
-IH2 : plus (nat5) (SUCC (SUCC (nat4))) = SUCC (plus (nat5) (SUCC (nat4)))
-Inductive2 : nat2 = SUCC (nat5)
----------------------------------------
-plus (SUCC (nat5)) (SUCC (SUCC (nat4))) = SUCC (plus (SUCC (nat5)) (SUCC (nat4)))
+plus (qmult (nat4) (ZERO) (ZERO)) (SUCC (nat3)) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (nat3))
 
 1 goal(s) more...
 
 1 conjecture(s) more...
-Deduplication: 0
-Tactic List : 1
-simpl in goal(rank:6)
-=================================================
-Progress: 96
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
-nat5 : nat
-IH2 : plus (nat5) (SUCC (SUCC (nat4))) = SUCC (plus (nat5) (SUCC (nat4)))
-Inductive2 : nat2 = SUCC (nat5)
----------------------------------------
-plus (SUCC (nat5)) (SUCC (SUCC (nat4))) = SUCC (plus (SUCC (nat5)) (SUCC (nat4)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 6)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
-nat5 : nat
-IH2 : plus (nat5) (SUCC (SUCC (nat4))) = SUCC (plus (nat5) (SUCC (nat4)))
-Inductive2 : nat2 = SUCC (nat5)
----------------------------------------
-SUCC (plus (nat5) (SUCC (SUCC (nat4)))) = SUCC (SUCC (plus (nat5) (SUCC (nat4))))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 3
-rewrite IH2 in goal at 0(rank:14)
+Tactic List : 2
 rewrite IH1 in goal at 0(rank:22)
-rewrite <- IH2 in goal at 0(rank:14)
+rewrite lemma3 in goal at 0(rank:22)
 =================================================
-Progress: 97
+Progress: 92
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
 Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
-nat5 : nat
-IH2 : plus (nat5) (SUCC (SUCC (nat4))) = SUCC (plus (nat5) (SUCC (nat4)))
-Inductive2 : nat2 = SUCC (nat5)
 ---------------------------------------
-SUCC (plus (nat5) (SUCC (SUCC (nat4)))) = SUCC (SUCC (plus (nat5) (SUCC (nat4))))
+forall (nat3:nat), plus (mult (nat4) (ZERO)) (SUCC (plus (nat3) (ZERO))) = plus (plus (mult (nat4) (ZERO)) (ZERO)) (SUCC (plus (nat3) (ZERO)))
 
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> rewrite IH2 in goal at 0(rank : 14)
+>>> rewrite lemma3 in goal at 0(rank : 14)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
 Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
-nat5 : nat
-IH2 : plus (nat5) (SUCC (SUCC (nat4))) = SUCC (plus (nat5) (SUCC (nat4)))
-Inductive2 : nat2 = SUCC (nat5)
 ---------------------------------------
-SUCC (SUCC (plus (nat5) (SUCC (nat4)))) = SUCC (SUCC (plus (nat5) (SUCC (nat4))))
+forall (nat3:nat), plus (mult (nat4) (ZERO)) (SUCC (nat3)) = plus (mult (nat4) (ZERO)) (SUCC (nat3))
 
 1 goal(s) more...
 
@@ -3469,22 +3315,18 @@ SUCC (SUCC (plus (nat5) (SUCC (nat4)))) = SUCC (SUCC (plus (nat5) (SUCC (nat4)))
 Tactic List : 1
 reflexivity(rank:5)
 =================================================
-Progress: 98
+Progress: 93
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
 Base1 : nat1 = ZERO
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat2:nat), plus (nat2) (SUCC (nat4)) = SUCC (plus (nat4) (nat2))
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
-nat5 : nat
-IH2 : plus (nat5) (SUCC (SUCC (nat4))) = SUCC (plus (nat5) (SUCC (nat4)))
-Inductive2 : nat2 = SUCC (nat5)
 ---------------------------------------
-SUCC (SUCC (plus (nat5) (SUCC (nat4)))) = SUCC (SUCC (plus (nat5) (SUCC (nat4))))
+forall (nat3:nat), plus (mult (nat4) (ZERO)) (SUCC (nat3)) = plus (mult (nat4) (ZERO)) (SUCC (nat3))
 
 1 goal(s) more...
 
@@ -3492,31 +3334,39 @@ SUCC (SUCC (plus (nat5) (SUCC (nat4)))) = SUCC (SUCC (plus (nat5) (SUCC (nat4)))
 >>> reflexivity(rank : 5)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
 nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
+nat5 : nat
+IH2 : forall (nat3:nat), plus (qmult (nat4) (nat5) (plus (nat5) (nat5))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat5)) (nat5)) (SUCC (plus (nat3) (nat5)))
+Inductive2 : nat1 = SUCC (nat5)
 ---------------------------------------
-forall (nat2:nat) (nat3:nat), plus (plus (SUCC (nat4)) (nat2)) (SUCC (nat3)) = plus (SUCC (nat4)) (SUCC (plus (nat3) (nat2)))
+forall (nat3:nat), plus (qmult (nat4) (SUCC (nat5)) (plus (SUCC (nat5)) (SUCC (nat5)))) (SUCC (nat3)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (plus (nat3) (SUCC (nat5))))
 
 0 goal(s) more...
 
 1 conjecture(s) more...
-Deduplication: 5
+Deduplication: 9
 Tactic List : 1
 simpl in goal(rank:5)
 =================================================
-Progress: 99
+Progress: 94
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
 nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
+nat5 : nat
+IH2 : forall (nat3:nat), plus (qmult (nat4) (nat5) (plus (nat5) (nat5))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat5)) (nat5)) (SUCC (plus (nat3) (nat5)))
+Inductive2 : nat1 = SUCC (nat5)
 ---------------------------------------
-forall (nat2:nat) (nat3:nat), plus (plus (SUCC (nat4)) (nat2)) (SUCC (nat3)) = plus (SUCC (nat4)) (SUCC (plus (nat3) (nat2)))
+forall (nat3:nat), plus (qmult (nat4) (SUCC (nat5)) (plus (SUCC (nat5)) (SUCC (nat5)))) (SUCC (nat3)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (plus (nat3) (SUCC (nat5))))
 
 0 goal(s) more...
 
@@ -3524,414 +3374,17 @@ forall (nat2:nat) (nat3:nat), plus (plus (SUCC (nat4)) (nat2)) (SUCC (nat3)) = p
 >>> simpl in goal(rank : 5)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
----------------------------------------
-forall (nat2:nat) (nat3:nat), SUCC (plus (plus (nat4) (nat2)) (SUCC (nat3))) = SUCC (plus (nat4) (SUCC (plus (nat3) (nat2))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 4
-intro nat2(rank:5)
-intro nat3(rank:5)
-rewrite IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 0(rank:13)
-=================================================
-Progress: 100
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
----------------------------------------
-forall (nat2:nat) (nat3:nat), SUCC (plus (plus (nat4) (nat2)) (SUCC (nat3))) = SUCC (plus (nat4) (SUCC (plus (nat3) (nat2))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat2(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
 nat2 : nat
----------------------------------------
-forall (nat3:nat), SUCC (plus (plus (nat4) (nat2)) (SUCC (nat3))) = SUCC (plus (nat4) (SUCC (plus (nat3) (nat2))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 3
-intro nat3(rank:5)
-rewrite IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 0(rank:13)
-=================================================
-Progress: 101
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
 nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
----------------------------------------
-forall (nat2:nat) (nat3:nat), SUCC (plus (plus (nat4) (nat2)) (SUCC (nat3))) = SUCC (plus (nat4) (SUCC (plus (nat3) (nat2))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat3(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
----------------------------------------
-forall (nat2:nat), SUCC (plus (plus (nat4) (nat2)) (SUCC (nat3))) = SUCC (plus (nat4) (SUCC (plus (nat3) (nat2))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-rewrite IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 0(rank:13)
-=================================================
-Progress: 102
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat3:nat), SUCC (plus (plus (nat4) (nat2)) (SUCC (nat3))) = SUCC (plus (nat4) (SUCC (plus (nat3) (nat2))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat3(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
-nat2 : nat
-nat3 : nat
----------------------------------------
-SUCC (plus (plus (nat4) (nat2)) (SUCC (nat3))) = SUCC (plus (nat4) (SUCC (plus (nat3) (nat2))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-rewrite IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 0(rank:13)
-=================================================
-Progress: 103
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
----------------------------------------
-forall (nat2:nat) (nat3:nat), SUCC (plus (plus (nat4) (nat2)) (SUCC (nat3))) = SUCC (plus (nat4) (SUCC (plus (nat3) (nat2))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 13)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
----------------------------------------
-forall (nat2:nat) (nat3:nat), SUCC (plus (nat4) (SUCC (plus (nat3) (nat2)))) = SUCC (plus (nat4) (SUCC (plus (nat3) (nat2))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:3)
-=================================================
-Progress: 104
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (plus (nat4) (nat2)) (SUCC (nat3)) = plus (nat4) (SUCC (plus (nat3) (nat2)))
-Inductive1 : nat1 = SUCC (nat4)
----------------------------------------
-forall (nat2:nat) (nat3:nat), SUCC (plus (nat4) (SUCC (plus (nat3) (nat2)))) = SUCC (plus (nat4) (SUCC (plus (nat3) (nat2))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 3)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
 nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
+IH2 : forall (nat3:nat), plus (qmult (nat4) (nat5) (plus (nat5) (nat5))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat5)) (nat5)) (SUCC (plus (nat3) (nat5)))
+Inductive2 : nat1 = SUCC (nat5)
 ---------------------------------------
-forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (SUCC (nat5)) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Deduplication: 7
-Tactic List : 4
-intro nat2(rank:3)
-rewrite IH1 in goal at 1(rank:11)
-rewrite lemma4 in goal at 0(rank:11)
-rewrite <- lemma4 in goal at 0(rank:11)
-=================================================
-Progress: 105
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
----------------------------------------
-forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (SUCC (nat5)) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> intro nat2(rank : 3)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
-nat2 : nat
----------------------------------------
-plus (plus (mult (nat4) (nat2)) (nat2)) (SUCC (nat5)) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 3
-rewrite IH1 in goal at 1(rank:11)
-rewrite lemma4 in goal at 0(rank:11)
-rewrite <- lemma4 in goal at 0(rank:11)
-=================================================
-Progress: 106
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
----------------------------------------
-forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (SUCC (nat5)) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> rewrite IH1 in goal at 1(rank : 11)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
----------------------------------------
-forall (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 1
-rewrite <- lemma4 in goal at 0(rank:3)
-=================================================
-Progress: 107
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
----------------------------------------
-forall (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> rewrite <- lemma4 in goal at 0(rank : 3)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
----------------------------------------
-forall (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (plus (mult (nat4) (nat2)) (nat2)) (SUCC (nat5))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 1
-intro nat2(rank:3)
-=================================================
-Progress: 108
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
----------------------------------------
-forall (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (plus (mult (nat4) (nat2)) (nat2)) (SUCC (nat5))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> intro nat2(rank : 3)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (plus (mult (nat4) (nat2)) (nat2)) (SUCC (nat5))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-rewrite IH2 in goal at 0
-reflexivity
-simpl in goal
-rewrite IH1 in goal at 0
-reflexivity
-rewrite IH1 in goal at 1
-rewrite <- lemma4 in goal at 0
-intro nat2
-New Env
-
-;;
-Lemma List
-forall (arg4:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (nat2)) (arg4) = plus (plus (mult (nat4) (nat2)) (nat2)) (arg4)
-End of Lemma List
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (plus (mult (nat4) (nat2)) (nat2)) (SUCC (nat5))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-=================================================
-Progress: 109
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (plus (mult (nat4) (nat2)) (nat2)) (SUCC (nat5))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (arg4:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (nat2)) (arg4) = plus (plus (mult (nat4) (nat2)) (nat2)) (arg4)(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
+forall (nat3:nat), plus (qmult (nat4) (SUCC (nat5)) (SUCC (plus (nat5) (SUCC (nat5))))) (SUCC (nat3)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (plus (nat3) (SUCC (nat5))))
 
 0 goal(s) more...
 
@@ -3939,13 +3392,20 @@ forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1
 Tactic List : 1
 induction nat3(rank:6)
 =================================================
-Progress: 110
+Progress: 95
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
+nat5 : nat
+IH2 : forall (nat3:nat), plus (qmult (nat4) (nat5) (plus (nat5) (nat5))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat5)) (nat5)) (SUCC (plus (nat3) (nat5)))
+Inductive2 : nat1 = SUCC (nat5)
 ---------------------------------------
-forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
+forall (nat3:nat), plus (qmult (nat4) (SUCC (nat5)) (SUCC (plus (nat5) (SUCC (nat5))))) (SUCC (nat3)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (plus (nat3) (SUCC (nat5))))
 
 0 goal(s) more...
 
@@ -3953,1011 +3413,69 @@ forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1
 >>> induction nat3(rank : 6)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-Base1 : nat3 = ZERO
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (ZERO) (nat2) (nat2)) (nat1) = plus (plus (mult (ZERO) (nat2)) (nat2)) (nat1)
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:5)
-=================================================
-Progress: 111
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-Base1 : nat3 = ZERO
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (ZERO) (nat2) (nat2)) (nat1) = plus (plus (mult (ZERO) (nat2)) (nat2)) (nat1)
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
 nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (SUCC (nat4)) (nat2) (nat2)) (nat1) = plus (plus (mult (SUCC (nat4)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Deduplication: 0
-Tactic List : 1
-simpl in goal(rank:5)
-=================================================
-Progress: 112
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (SUCC (nat4)) (nat2) (nat2)) (nat1) = plus (plus (mult (SUCC (nat4)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (plus (mult (nat4) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 3
-intro nat1(rank:5)
-intro nat2(rank:5)
-rewrite <- IH1 in goal at 0(rank:13)
-=================================================
-Progress: 113
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (plus (mult (nat4) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat1(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
 nat1 : nat
----------------------------------------
-forall (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (plus (mult (nat4) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-intro nat2(rank:5)
-rewrite <- IH1 in goal at 0(rank:13)
-=================================================
-Progress: 114
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (plus (mult (nat4) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat2(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (plus (mult (nat4) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-rewrite <- IH1 in goal at 0(rank:5)
-=================================================
-Progress: 115
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
----------------------------------------
-forall (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (plus (mult (nat4) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat2(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (plus (mult (nat4) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-rewrite <- IH1 in goal at 0(rank:5)
-=================================================
-Progress: 116
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (plus (mult (nat4) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- IH1 in goal at 0(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-intro nat2
-rewrite <- IH1 in goal at 0
-New Env
-
-;;
-Lemma List
-forall (nat1:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-End of Lemma List
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-=================================================
-Progress: 117
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> assert forall (nat1:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-induction nat3(rank:8)
-=================================================
-Progress: 118
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (plus (mult (nat4) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- IH1 in goal at 0(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (nat1) = plus (plus (mult (nat4) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-intro nat1
-intro nat2
-rewrite <- IH1 in goal at 0
-=================================================
-Progress: 119
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> induction nat3(rank : 8)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-Base1 : nat3 = ZERO
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (ZERO) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (ZERO) (nat2) (nat2)) (nat2)) (nat1)
-
-1 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:7)
-=================================================
-Progress: 120
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-Base1 : nat3 = ZERO
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (ZERO) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (ZERO) (nat2) (nat2)) (nat2)) (nat1)
-
-1 goal(s) more...
-
-2 conjecture(s) more...
->>> reflexivity(rank : 7)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (SUCC (nat4)) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (SUCC (nat4)) (nat2) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Deduplication: 0
-Tactic List : 1
-simpl in goal(rank:7)
-=================================================
-Progress: 121
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (SUCC (nat4)) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (SUCC (nat4)) (nat2) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> simpl in goal(rank : 7)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 3
-intro nat1(rank:7)
-intro nat2(rank:7)
-rewrite IH1 in goal at 0(rank:23)
-=================================================
-Progress: 122
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat1(rank : 7)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
----------------------------------------
-forall (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 2
-intro nat2(rank:7)
-rewrite IH1 in goal at 0(rank:23)
-=================================================
-Progress: 123
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat2(rank : 7)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:7)
-=================================================
-Progress: 124
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
----------------------------------------
-forall (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat2(rank : 7)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:7)
-=================================================
-Progress: 125
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 7)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-intro nat2
-rewrite IH1 in goal at 0
-New Env
-
-;;
-Lemma List
-forall (nat1:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-End of Lemma List
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-=================================================
-Progress: 126
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> assert forall (nat1:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-induction nat3(rank:10)
-=================================================
-Progress: 127
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 7)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat1) = plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-intro nat1
-intro nat2
-rewrite IH1 in goal at 0
-=================================================
-Progress: 128
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> induction nat3(rank : 10)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-Base1 : nat3 = ZERO
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (ZERO) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (ZERO) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
-1 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:9)
-=================================================
-Progress: 129
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-Base1 : nat3 = ZERO
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (ZERO) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (ZERO) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
-1 goal(s) more...
-
-3 conjecture(s) more...
->>> reflexivity(rank : 9)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (SUCC (nat4)) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (SUCC (nat4)) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Deduplication: 0
-Tactic List : 1
-simpl in goal(rank:9)
-=================================================
-Progress: 130
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (SUCC (nat4)) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (SUCC (nat4)) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> simpl in goal(rank : 9)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 2
-intro nat1(rank:9)
-intro nat2(rank:9)
-=================================================
-Progress: 131
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro nat1(rank : 9)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
----------------------------------------
-forall (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-intro nat2(rank:9)
-=================================================
-Progress: 132
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
----------------------------------------
-forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro nat2(rank : 9)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-intro nat2
-New Env
-
-;;
-Lemma List
-forall (arg5:nat) (nat1:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (plus (plus (arg5) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (arg5)) (nat2)) (nat2)) (nat1)
-End of Lemma List
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-=================================================
-Progress: 133
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat2 : nat
----------------------------------------
-forall (nat1:nat), plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> assert forall (arg5:nat) (nat1:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (plus (plus (arg5) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (arg5)) (nat2)) (nat2)) (nat1)(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), plus (qmult (nat4) (nat3) (plus (plus (nat1) (nat3)) (nat3))) (nat2) = plus (plus (plus (qmult (nat4) (nat3) (nat1)) (nat3)) (nat3)) (nat2)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), plus (qmult (nat4) (nat3) (plus (plus (nat1) (nat3)) (nat3))) (nat2) = plus (plus (plus (qmult (nat4) (nat3) (nat1)) (nat3)) (nat3)) (nat2)
-
-0 goal(s) more...
-
-4 conjecture(s) more...
-Tactic List : 1
-induction nat4(rank:12)
-=================================================
-Progress: 134
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
----------------------------------------
-forall (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro nat2(rank : 9)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-intro nat1
-intro nat2
-New Env
-
-;;
-Lemma List
-forall (arg6:nat) (nat1:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (plus (plus (arg6) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (arg6)) (nat2)) (nat2)) (nat1)
-End of Lemma List
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-=================================================
-Progress: 135
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat3) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-nat3 : nat
-nat4 : nat
-IH1 : forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (plus (nat2) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (nat2)) (nat2)) (nat2)) (nat1)
-Inductive1 : nat3 = SUCC (nat4)
-nat1 : nat
-nat2 : nat
----------------------------------------
-plus (qmult (nat4) (nat2) (plus (plus (plus (nat2) (nat2)) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (nat2)) (nat2)) (nat1)
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> assert forall (arg6:nat) (nat1:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (plus (plus (arg6) (nat2)) (nat2))) (nat1) = plus (plus (plus (qmult (nat4) (nat2) (arg6)) (nat2)) (nat2)) (nat1)(rank : 0)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), plus (qmult (nat4) (nat3) (plus (plus (nat1) (nat3)) (nat3))) (nat2) = plus (plus (plus (qmult (nat4) (nat3) (nat1)) (nat3)) (nat3)) (nat2)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), plus (qmult (nat4) (nat3) (plus (plus (nat1) (nat3)) (nat3))) (nat2) = plus (plus (plus (qmult (nat4) (nat3) (nat1)) (nat3)) (nat3)) (nat2)
-
-0 goal(s) more...
-
-4 conjecture(s) more...
-Tactic List : 1
-induction nat4(rank:12)
-=================================================
-Progress: 136
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
 nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
----------------------------------------
-forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (SUCC (nat5)) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> rewrite lemma4 in goal at 0(rank : 11)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
-nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
+IH2 : forall (nat3:nat), plus (qmult (nat4) (nat5) (plus (nat5) (nat5))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat5)) (nat5)) (SUCC (plus (nat3) (nat5)))
+Inductive2 : nat1 = SUCC (nat5)
 nat3 : nat
-nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
+Base1 : nat3 = ZERO
 ---------------------------------------
-forall (nat2:nat), plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2))) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
+plus (qmult (nat4) (SUCC (nat5)) (SUCC (plus (nat5) (SUCC (nat5))))) (SUCC (ZERO)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (plus (ZERO) (SUCC (nat5))))
 
-0 goal(s) more...
+1 goal(s) more...
 
-0 conjecture(s) more...
+1 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:0)
+simpl in goal(rank:6)
 =================================================
-Progress: 137
+Progress: 96
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-nat1 : nat
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
 nat4 : nat
-IH1 : forall (nat2:nat) (nat3:nat), plus (mult (nat4) (nat2)) (nat3) = qmult (nat4) (nat2) (nat3)
-Inductive1 : nat1 = SUCC (nat4)
-nat3 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
 nat5 : nat
-IH2 : forall (nat2:nat), plus (plus (mult (nat4) (nat2)) (nat2)) (nat5) = qmult (nat4) (nat2) (plus (nat5) (nat2))
-Inductive2 : nat3 = SUCC (nat5)
+IH2 : forall (nat3:nat), plus (qmult (nat4) (nat5) (plus (nat5) (nat5))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat5)) (nat5)) (SUCC (plus (nat3) (nat5)))
+Inductive2 : nat1 = SUCC (nat5)
+nat3 : nat
+Base1 : nat3 = ZERO
 ---------------------------------------
-forall (nat2:nat), plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2))) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
+plus (qmult (nat4) (SUCC (nat5)) (SUCC (plus (nat5) (SUCC (nat5))))) (SUCC (ZERO)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (plus (ZERO) (SUCC (nat5))))
 
-0 goal(s) more...
+1 goal(s) more...
 
-0 conjecture(s) more...
->>> reflexivity(rank : 0)
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6)
 
 
-No conjecture
-Proof Success
-Proof
-assert forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
-induction nat1
-reflexivity
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
+nat5 : nat
+IH2 : forall (nat3:nat), plus (qmult (nat4) (nat5) (plus (nat5) (nat5))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat5)) (nat5)) (SUCC (plus (nat3) (nat5)))
+Inductive2 : nat1 = SUCC (nat5)
+nat3 : nat
+Base1 : nat3 = ZERO
+---------------------------------------
+plus (qmult (nat4) (SUCC (nat5)) (SUCC (plus (nat5) (SUCC (nat5))))) (SUCC (ZERO)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (SUCC (nat5)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
 simpl in goal
-induction nat3
-simpl in goal
-rewrite IH1 in goal at 0
-assert forall (nat1:nat), plus (nat1) (ZERO) = nat1
-induction nat1
-reflexivity
-simpl in goal
-rewrite IH1 in goal at 0
-reflexivity
-intro nat2
-rewrite lemma3 in goal at 0
-reflexivity
-simpl in goal
-rewrite <- IH1 in goal at 0
-assert forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
-induction nat1
-simpl in goal
-induction nat3
-simpl in goal
-induction nat2
-reflexivity
-simpl in goal
-rewrite IH1 in goal at 0
-reflexivity
-simpl in goal
-rewrite <- IH1 in goal at 0
-induction nat2
-reflexivity
-simpl in goal
-rewrite IH2 in goal at 0
-reflexivity
-simpl in goal
-rewrite IH1 in goal at 0
-reflexivity
-rewrite lemma4 in goal at 0
-reflexivity
-Qed
 File "_none_", lines 81-83, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
@@ -4967,3 +3485,12 @@ File "_none_", lines 81-83, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
 []
+Fatal error: exception Not_found
+Raised at Stdlib__List.find in file "list.ml", line 232, characters 10-25
+Called from Dilemma__Finder.get_induction_var in file "lib/finder.ml", lines 1064-1069, characters 8-18
+Called from Stdlib__List.map in file "list.ml", line 86, characters 15-19
+Called from Dilemma__Finder.advanced_generalize in file "lib/finder.ml", line 1100, characters 28-65
+Called from Dilemma__Finder.make_lemmas_by_advanced_generalize in file "lib/finder.ml", line 1121, characters 16-37
+Called from Dilemma__Engine.progress in file "lib/engine.ml", line 128, characters 23-81
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 196, characters 8-69
+Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79
