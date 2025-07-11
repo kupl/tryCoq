@@ -1,0 +1,66 @@
+name: BenchMark Test
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: setup-opam-and-ocaml
+      uses: tapthaker/actions-ocaml@0.4
+      with:
+      # Version of Ocaml Compiler
+        ocaml_version: 5.3.0
+
+    - name: dependency opam package
+      run:  opam install . --deps-only
+
+    - name: test benchmark
+      run: python3 runner.py
+
+    - name: aggregate
+      run: python3 runner.py --aggregate True
+      
+    - name: Comment benchmark result
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          const summary_dir = 'summary'
+          const files = fs.readdirSync(summaryDir).filter(file => file.endsWith('.md'));
+          if (files.length === 0) {
+            console.log('No summary markdown files found.');
+            return;
+          }
+
+          let commentBody = '### Benchmark Summaries\n\n'
+
+          for (const file of files){
+            const fullPath = path.join(summaryDir,file);
+            const content = fs.readFileSync(fullPath, 'utf8');
+
+            commentBody += '### ${file}\n\n';
+            commentBody += '\n' + content + '\n';
+          }
+
+          const pr = context.payload.pull_reqeust;
+          if (!pr){
+            core.wraning('No pull request found.');
+            return;
+          }
+
+          await github.rest.issues.createComment({
+            issue_number: pr.number,
+            owner : contest.repo.owner,
+            repo: context.repo.repo,
+            body: commentBody
+          });
+
+
+          
