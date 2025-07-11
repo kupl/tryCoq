@@ -41,7 +41,7 @@ jobs:
         script: |
           const fs = require('fs');
           const path = require('path');
-          const summary_dir = 'summary'
+          const summaryDir = 'summary'
           const files = fs.readdirSync(summaryDir).filter(file => file.endsWith('.md'));
           if (files.length === 0) {
             console.log('No summary markdown files found.');
@@ -54,13 +54,12 @@ jobs:
             const fullPath = path.join(summaryDir,file);
             const content = fs.readFileSync(fullPath, 'utf8');
 
-            commentBody += '### ${file}\n\n';
             commentBody += '\n' + content + '\n';
           }
 
-          const pr = context.payload.pull_reqeust;
+          const pr = context.payload.pull_request;
           if (!pr){
-            core.wraning('No pull request found.');
+            core.warning('No pull request found.');
             return;
           }
 
