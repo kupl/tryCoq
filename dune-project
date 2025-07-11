@@ -21,7 +21,19 @@
  (description "A longer description")
  (depends
   (ocaml
-   (>= 5.3.0)))
+   (>= 5.3.0))
+  sexplib
+  ppxlib
+  ppx_sexp_conv
+  containers
+  core
+  ocaml-compiler-libs
+  ppx_deriving
+  containers-data
+  iter
+  alcotest
+  ocamldot
+  ppx_inline_alcotest)
  (tags
   ("add topics" "to describe" your project)))
 

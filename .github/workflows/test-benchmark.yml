@@ -1,0 +1,81 @@
+name: BenchMark Test
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: download benchmarks
+      run: |
+        cd ../
+        git clone --depth=1 https://x-access-token:${{ secrets.MY_PAT }}@github.com/kupl/dilemma-benchmark.git
+        cd dilemma
+
+    - name: install pandas
+      run: pip install pandas tabulate
+
+    - name: Set-up OCaml
+      uses: ocaml/setup-ocaml@v3
+      with:
+        ocaml-compiler: 5.3.0
+        dune-cache: true
+
+    - name: dependency opam package
+      run: opam install . --deps-only -y
+
+    - name: build dilemma
+      run: |
+        eval $(opam env)
+        dune build
+          
+    - name: test benchmark
+      run: |
+        eval $(opam env)
+        python3 runner.py
+
+    - name: aggregate
+      run: python3 runner.py --aggregate True
+ 
+    - name: Comment benchmark result
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          const summaryDir = 'summary'
+          const files = fs.readdirSync(summaryDir).filter(file => file.endsWith('.md'));
+          if (files.length === 0) {
+            console.log('No summary markdown files found.');
+            return;
+          }
+
+          let commentBody = '### Benchmark Summaries\n\n'
+
+          for (const file of files){
+            const fullPath = path.join(summaryDir,file);
+            const content = fs.readFileSync(fullPath, 'utf8');
+
+            commentBody += '\n' + content + '\n';
+          }
+
+          const pr = context.payload.pull_request;
+          if (!pr){
+            core.warning('No pull request found.');
+            return;
+          }
+
+          await github.rest.issues.createComment({
+            issue_number: pr.number,
+            owner : context.repo.owner,
+            repo: context.repo.repo,
+            body: commentBody
+          });
+
+
+          
