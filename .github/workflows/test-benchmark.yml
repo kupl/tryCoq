@@ -20,14 +20,17 @@ jobs:
     - name: install pandas
       run: pip install pandas tabulate
 
-    - name: setup-opam-and-ocaml
-      uses: tapthaker/actions-ocaml@0.4
+    - name: Set-up OCaml
+      uses: ocaml/setup-ocaml@v3
       with:
-      # Version of Ocaml Compiler
-        ocaml_version: 5.3.0
+        ocaml-compiler: 5.3.0
+        dune-cache: true
 
     - name: dependency opam package
       run:  opam install . --deps-only -y
+
+    - name: build dilemma
+      run: dune build
           
     - name: test benchmark
       run: python3 runner.py
