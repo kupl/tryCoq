@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -21,8 +21,11 @@ jobs:
       run:  opam install . --deps-only -y
 
     - name: install pandas
-      run: pip install pandas
-
+      run: pip install pandas tabulate
+      
+  test:
+    runs-on: ubuntu-latest
+    steps:
     - name: test benchmark
       run: python3 runner.py
 
