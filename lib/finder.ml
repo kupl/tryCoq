@@ -229,13 +229,47 @@ let get_prev_tactics index (t : t) =
   tactic |> List.rev |> until_induction [] |> takeof_reflexivity index
 ;;
 
-let make_next_step index ind_typ t : state option =
+let make_next_step index t : state option =
   try
     let env = t.Proof.env in
     let state = Proof.get_first_state t in
     let facts, goal, _ = state in
-    let vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
-    let ind_var = List.find (fun (_, typ) -> typ = Proof.Type ind_typ) vars in
+    let _, last_induction =
+      List.find
+        (fun (name, _) ->
+           String.starts_with ~prefix:"Inductive" name
+           || String.starts_with ~prefix:"Base" name)
+        (List.rev facts)
+    in
+    let ind_var =
+      match last_induction with
+      | Proof.Eq (lhs, rhs) ->
+        let rhs_vars = collect_free_var_in_expr rhs [] in
+        let recursive_var =
+          List.find
+            (fun (_, typ) ->
+               match typ with
+               | Proof.Type typ -> typ = lhs.Ir.typ
+               | _ -> false)
+            rhs_vars
+        in
+        let recursive_var =
+          Ir.
+            { desc = Var (fst recursive_var)
+            ; typ =
+                (match snd recursive_var with
+                 | Proof.Type typ -> typ
+                 | _ -> failwith "Unexpected type")
+            }
+        in
+        recursive_var
+      | _ -> failwith "Induction fact is not a Forall"
+    in
+    let ind_var =
+      match ind_var.Ir.desc with
+      | Var name -> name, Proof.Type ind_var.Ir.typ
+      | _ -> failwith "Induction variable is not a Var"
+    in
     let rest_vars =
       List.filter
         (fun (name, typ) ->
@@ -287,7 +321,7 @@ let fast_execution depth t : state list =
     | _ -> None
   in
   match index_typ_opt with
-  | Some (index, ind_typ) ->
+  | Some (index, _) ->
     let prev_tactics = get_prev_tactics index t in
     let _ = print_endline "previous tactics" in
     prev_tactics |> List.iter (fun tactic -> Proof.pp_tactic tactic |> print_endline);
@@ -304,7 +338,7 @@ let fast_execution depth t : state list =
         (fun (result, (t : t option)) _ ->
            match t with
            | Some t ->
-             (match make_next_step index ind_typ t with
+             (match make_next_step index t with
               | Some new_state ->
                 (try
                    let new_t =
@@ -860,9 +894,15 @@ let make_helper_function_and_lemma
     [ helper_decl ], lemma, expr_with_helper
 ;;
 
-let pattern_recognition env ihs induction_vars state_list : env * lemma list =
-  let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
-  let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in
+let pattern_recognition env ih induction_vars state_list : env * lemma list =
+  let first_lhs, first_rhs =
+    match ih with
+    | Some (_, ih) ->
+      let first_lhs = Proof.get_lhs ih in
+      let first_rhs = Proof.get_rhs ih in
+      Some first_lhs, Some first_rhs
+    | None -> None, None
+  in
   let facts_list =
     List.map
       (fun state ->
@@ -884,8 +924,16 @@ let pattern_recognition env ihs induction_vars state_list : env * lemma list =
   let goals = List.map (fun (_, goal, _) -> goal) state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
-  let lhs_list = first_lhs @ lhs_list in
-  let rhs_list = first_rhs @ rhs_list in
+  let lhs_list =
+    match first_lhs with
+    | Some lhs -> lhs :: lhs_list
+    | None -> lhs_list
+  in
+  let rhs_list =
+    match first_rhs with
+    | Some rhs -> rhs :: rhs_list
+    | None -> rhs_list
+  in
   let lhs_common_subtree = catch_recursive_pattern induction_vars lhs_list in
   let rhs_common_subtree = catch_recursive_pattern induction_vars rhs_list in
   if
@@ -1047,7 +1095,7 @@ let rec is_trivial goal =
   | _ -> false
 ;;
 
-let get_induction_var state =
+let get_induction_var (state : state) =
   let facts, _, _ = state in
   let _, induction_fact =
     List.find
@@ -1089,7 +1137,11 @@ let advanced_generalize t : (t * lemma list) option =
   match is_trivial goal with
   | true -> None
   | false ->
-    let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
+    let ih =
+      List.find_opt
+        (fun (name, _) -> String.starts_with ~prefix:"IH" name)
+        (List.rev facts)
+    in
     let state_list = fast_execution 2 t in
     (match state_list with
      | [] ->
@@ -1098,9 +1150,7 @@ let advanced_generalize t : (t * lemma list) option =
         | _ -> None)
      | _ ->
        let induction_vars = List.map get_induction_var state_list in
-       let new_env, lemma_list =
-         pattern_recognition t.env ihs induction_vars state_list
-       in
+       let new_env, lemma_list = pattern_recognition t.env ih induction_vars state_list in
        let new_env = List.map Ir.rename_decl new_env in
        if List.is_empty lemma_list
        then (
