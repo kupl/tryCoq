@@ -16,6 +16,7 @@ type subtree =
 and sub_desc =
   | Sub_Var of string
   | Sub_Call of string * subtree list
+  | Sub_None of subtree list
 [@@deriving sexp]
 
 let rec to_sub expr =
@@ -33,21 +34,39 @@ let rec pp_subtree (subtree : subtree) : string =
   | Some (Sub_Call (name, args)) ->
     let args = List.map (fun arg -> pp_subtree arg) args in
     name ^ "(" ^ String.concat ", " args ^ ")"
+  | Some (Sub_None args) ->
+    let args = List.map (fun arg -> pp_subtree arg) args in
+    "none(" ^ String.concat ", " args ^ ")"
   | None -> "_"
 ;;
 
 let rec difference_of_subtree induction_vars subtree1 subtree2 =
+  (*
+     have to convert here!!!
+     have to fill with lower => None
+     have to fill with mk tl => Sub_None
+  *)
   match subtree2.desc with
   | Some (Sub_Call (name, args)) ->
     if equal_with_induction_vars induction_vars subtree1 subtree2
-    then { desc = None; typ = subtree2.typ }
+    then convert subtree1 subtree2
     else (
       let new_args =
         List.map (fun arg -> difference_of_subtree induction_vars subtree1 arg) args
       in
       { desc = Some (Sub_Call (name, new_args)); typ = subtree2.typ })
   | Some (Sub_Var _) ->
-    if subtree1 = subtree2 then { desc = None; typ = subtree2.typ } else subtree2
+    if subtree1 = subtree2
+    then { desc = Some (Sub_None []); typ = subtree2.typ }
+    else subtree2
+  | Some (Sub_None args) ->
+    if equal_with_induction_vars induction_vars subtree1 subtree2
+    then convert subtree1 subtree2
+    else (
+      let new_args =
+        List.map (fun arg -> difference_of_subtree induction_vars subtree1 arg) args
+      in
+      { desc = Some (Sub_None new_args); typ = subtree2.typ })
   | None -> subtree2
 
 and equal_with_induction_vars induction_vars subtree1 subtree2 =
@@ -56,7 +75,8 @@ and equal_with_induction_vars induction_vars subtree1 subtree2 =
     if name1 = name2 && List.length args1 = List.length args2
     then
       List.for_all2
-        (fun arg1 arg2 -> equal_with_induction_vars induction_vars arg1 arg2)
+        (fun arg1 arg2 ->
+           equal_with_induction_vars induction_vars arg1 arg2 || arg1.desc = None)
         args1
         args2
     else false
@@ -65,6 +85,29 @@ and equal_with_induction_vars induction_vars subtree1 subtree2 =
     || (List.exists (fun var -> var |> to_sub = subtree1) induction_vars
         && List.exists (fun var -> var |> to_sub = subtree2) induction_vars)
   | _ -> subtree1 = subtree2
+
+and convert subtree1 subtree2 =
+  match subtree1.desc, subtree2.desc with
+  | Some (Sub_Call (_, args1)), Some (Sub_Call (_, args2)) ->
+    if subtree1 = subtree2
+    then { desc = Some (Sub_None []); typ = subtree2.typ }
+    else if List.exists (fun arg -> arg.desc = None) args1
+    then (
+      let index = List.find_index (fun arg -> arg.desc = None) args1 |> Option.get in
+      { desc = Some (Sub_None [ List.nth args2 index ]); typ = subtree2.typ })
+    else (
+      let range = List.init (List.length args1) (fun i -> i) in
+      let different_index =
+        List.find (fun i -> List.nth args1 i <> List.nth args2 i) range
+      in
+      convert (List.nth args1 different_index) (List.nth args2 different_index))
+  | Some (Sub_Var _), Some (Sub_Var _) ->
+    { desc = Some (Sub_None []); typ = subtree2.typ }
+  | _, None -> subtree2
+  | _ ->
+    let _ = subtree1 |> pp_subtree |> print_endline in
+    let _ = subtree2 |> pp_subtree |> print_endline in
+    failwith "not implemented: convert"
 ;;
 
 let find_common_subterm expr1 expr2 : expr list =
@@ -152,6 +195,8 @@ let rec collect_free_var_in_subtree (subtree : subtree) (binding : string list)
     if List.mem name binding then [] else [ name, Proof.Type subtree.typ ]
   | Some (Sub_Call (_, args)) ->
     List.map (fun arg -> collect_free_var_in_subtree arg binding) args |> List.concat
+  | Some (Sub_None args) ->
+    List.map (fun arg -> collect_free_var_in_subtree arg binding) args |> List.concat
   | None -> []
 ;;
 
@@ -229,13 +274,47 @@ let get_prev_tactics index (t : t) =
   tactic |> List.rev |> until_induction [] |> takeof_reflexivity index
 ;;
 
-let make_next_step index ind_typ t : state option =
+let make_next_step index t : state option =
   try
     let env = t.Proof.env in
     let state = Proof.get_first_state t in
     let facts, goal, _ = state in
-    let vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
-    let ind_var = List.find (fun (_, typ) -> typ = Proof.Type ind_typ) vars in
+    let _, last_induction =
+      List.find
+        (fun (name, _) ->
+           String.starts_with ~prefix:"Inductive" name
+           || String.starts_with ~prefix:"Base" name)
+        (List.rev facts)
+    in
+    let ind_var =
+      match last_induction with
+      | Proof.Eq (lhs, rhs) ->
+        let rhs_vars = collect_free_var_in_expr rhs [] in
+        let recursive_var =
+          List.find
+            (fun (_, typ) ->
+               match typ with
+               | Proof.Type typ -> typ = lhs.Ir.typ
+               | _ -> false)
+            rhs_vars
+        in
+        let recursive_var =
+          Ir.
+            { desc = Var (fst recursive_var)
+            ; typ =
+                (match snd recursive_var with
+                 | Proof.Type typ -> typ
+                 | _ -> failwith "Unexpected type")
+            }
+        in
+        recursive_var
+      | _ -> failwith "Induction fact is not a Forall"
+    in
+    let ind_var =
+      match ind_var.Ir.desc with
+      | Var name -> name, Proof.Type ind_var.Ir.typ
+      | _ -> failwith "Induction variable is not a Var"
+    in
     let rest_vars =
       List.filter
         (fun (name, typ) ->
@@ -287,7 +366,7 @@ let fast_execution depth t : state list =
     | _ -> None
   in
   match index_typ_opt with
-  | Some (index, ind_typ) ->
+  | Some (index, _) ->
     let prev_tactics = get_prev_tactics index t in
     let _ = print_endline "previous tactics" in
     prev_tactics |> List.iter (fun tactic -> Proof.pp_tactic tactic |> print_endline);
@@ -304,7 +383,7 @@ let fast_execution depth t : state list =
         (fun (result, (t : t option)) _ ->
            match t with
            | Some t ->
-             (match make_next_step index ind_typ t with
+             (match make_next_step index t with
               | Some new_state ->
                 (try
                    let new_t =
@@ -375,6 +454,8 @@ let number_of_vertices subtree =
     | Some (Sub_Call (_, args)) ->
       List.fold_left (fun acc arg -> acc + number_of_vertices_from_root arg) 1 args
     | Some (Sub_Var _) -> 1
+    | Some (Sub_None args) ->
+      List.fold_left (fun acc arg -> acc + number_of_vertices_from_root arg) 1 args
     | None -> 0
   in
   number_of_vertices_from_root subtree
@@ -435,9 +516,7 @@ let find_larget_common_subtree expr1 expr2 =
     largest_common_subtree)
 ;;
 
-let catch_recursive_pattern induction_vars expr_list =
-  let _ = print_endline "expr list" in
-  let _ = List.iter (fun expr -> expr |> Proof.pp_expr |> print_endline) expr_list in
+let catch_recursive_pattern induction_vars expr_list : subtree list * subtree =
   let rec get_parent source expr =
     match expr.Ir.desc with
     | Call (_, args) ->
@@ -475,27 +554,31 @@ let catch_recursive_pattern induction_vars expr_list =
     | _ -> failwith "not implemented"
   in
   let rec get_upper source expr =
-    match expr.Ir.desc with
-    | Call (name, args) ->
-      if List.exists (fun arg -> arg = source) args
-      then
-        { desc =
-            Some
-              (Sub_Call
-                 ( name
-                 , List.map
-                     (fun arg ->
-                        if arg = source
-                        then { desc = None; typ = expr.typ }
-                        else arg |> to_sub)
-                     args ))
-        ; typ = expr.typ
-        }
-      else
-        { desc = Some (Sub_Call (name, List.map (fun arg -> get_upper source arg) args))
-        ; typ = expr.typ
-        }
-    | _ -> expr |> to_sub
+    match Ir.equal_expr source expr with
+    | true -> { desc = None; typ = expr.typ }
+    | false ->
+      (match expr.Ir.desc with
+       | Call (name, args) ->
+         if List.exists (fun arg -> arg = source) args
+         then
+           { desc =
+               Some
+                 (Sub_Call
+                    ( name
+                    , List.map
+                        (fun arg ->
+                           if arg = source
+                           then { desc = None; typ = expr.typ }
+                           else arg |> to_sub)
+                        args ))
+           ; typ = expr.typ
+           }
+         else
+           { desc =
+               Some (Sub_Call (name, List.map (fun arg -> get_upper source arg) args))
+           ; typ = expr.typ
+           }
+       | _ -> expr |> to_sub)
   in
   let rec remove_upper induction_vars upper expr =
     match expr.desc, upper.desc with
@@ -511,30 +594,65 @@ let catch_recursive_pattern induction_vars expr_list =
              then acc, false
              else if arg2.desc = None
              then Some arg1, true
-             else remove_upper induction_vars arg1 arg2, true)
+             else remove_upper induction_vars arg2 arg1, true)
           (None, false)
           args1
           args2
         |> fst
       else None
+    | _, None -> Some expr
     | _ -> None
-    (* have to correct here *)
   in
-  let remove_lower lower expr =
-    match expr.desc with
-    | Some (Sub_Call (name, args)) ->
-      { desc =
-          Some
-            (Sub_Call
-               ( name
-               , List.map
-                   (fun arg ->
-                      if arg = lower then { desc = None; typ = arg.typ } else arg)
-                   args ))
-      ; typ = expr.typ
-      }
-    | Some (Sub_Var _) -> if expr = lower then { desc = None; typ = expr.typ } else expr
-    | _ -> failwith "not implemented : remove_lower"
+  let rec remove_lower induction_vars lower expr =
+    let args =
+      match lower with
+      | { desc = Some (Sub_Call (_, args)); _ } ->
+        args |> List.filter (fun arg -> arg.desc <> None)
+      | _ -> []
+    in
+    match
+      List.for_all
+        (fun lower -> List.exists (fun var -> var |> to_sub = lower) induction_vars)
+        args
+    with
+    | true ->
+      (match expr.desc with
+       | Some (Sub_Call (name, args)) ->
+         { desc =
+             Some
+               (Sub_Call
+                  ( name
+                  , List.map
+                      (fun arg ->
+                         if
+                           arg = lower
+                           || List.exists (fun var -> var |> to_sub = arg) induction_vars
+                         then { desc = None; typ = arg.typ }
+                         else remove_lower induction_vars lower arg)
+                      args ))
+         ; typ = expr.typ
+         }
+       | Some (Sub_Var _) ->
+         if expr = lower || List.exists (fun var -> var |> to_sub = expr) induction_vars
+         then { desc = None; typ = expr.typ }
+         else expr
+       | _ -> failwith "not implemented : remove_lower")
+    | false ->
+      (match expr.desc with
+       | Some (Sub_Call (name, args)) ->
+         { desc =
+             Some
+               (Sub_Call
+                  ( name
+                  , List.map
+                      (fun arg ->
+                         if arg = lower then { desc = None; typ = arg.typ } else arg)
+                      args ))
+         ; typ = expr.typ
+         }
+       | Some (Sub_Var _) ->
+         if expr = lower then { desc = None; typ = expr.typ } else expr
+       | _ -> failwith "not implemented : remove_lower")
   in
   let get_parent_when_nil first second =
     match first.Ir.desc, second.Ir.desc with
@@ -558,7 +676,7 @@ let catch_recursive_pattern induction_vars expr_list =
   | [] ->
     (try
        match is_proper_subset (first |> to_sub) (second |> to_sub) with
-       | true -> List.map to_sub expr_list
+       | true -> List.map to_sub expr_list, to_sub first
        | false ->
          let parent = get_parent_when_nil first second in
          (match parent with
@@ -577,11 +695,11 @@ let catch_recursive_pattern induction_vars expr_list =
               List.exists
                 (fun subtree -> Option.is_none subtree.desc)
                 (List.tl recursive_expr_list)
-            then []
-            else recursive_expr_list
-          | None -> [])
+            then [], { desc = None; typ = Tany }
+            else recursive_expr_list, List.hd recursive_expr_list
+          | None -> [], { desc = None; typ = Tany })
      with
-     | _ -> [])
+     | _ -> [], { desc = None; typ = Tany })
   | (var, typ) :: _ ->
     let new_var =
       Ir.
@@ -594,7 +712,7 @@ let catch_recursive_pattern induction_vars expr_list =
     in
     let parent = get_parent new_var second in
     (match parent with
-     | None -> []
+     | None -> [], { desc = None; typ = Tany }
      | Some parent ->
        let lower = get_lower new_var parent in
        let upper = get_upper parent second in
@@ -603,7 +721,7 @@ let catch_recursive_pattern induction_vars expr_list =
            (fun expr ->
               let expr = expr |> to_sub in
               match remove_upper induction_vars upper expr with
-              | Some subtree -> subtree |> remove_lower lower
+              | Some subtree -> subtree |> remove_lower induction_vars lower
               | None -> { desc = None; typ = Tany })
            expr_list
        in
@@ -611,8 +729,8 @@ let catch_recursive_pattern induction_vars expr_list =
          List.exists
            (fun subtree -> Option.is_none subtree.desc)
            (List.tl recursive_expr_list)
-       then []
-       else recursive_expr_list)
+       then [], lower
+       else recursive_expr_list, lower)
 ;;
 
 let expr_of_subtree subtree =
@@ -622,7 +740,7 @@ let expr_of_subtree subtree =
       let args = List.map (fun arg -> expr_of_subtree arg) args in
       Ir.{ desc = Call (name, args); typ = subtree.typ }
     | Some (Sub_Var name) -> Ir.{ desc = Var name; typ = subtree.typ }
-    | None -> failwith "subtree is not proper"
+    | Some (Sub_None _) | None -> failwith "subtree is not proper"
   in
   expr_of_subtree subtree
 ;;
@@ -639,17 +757,25 @@ let subtree_of_expr expr =
   subtree_of_expr expr
 ;;
 
-let rec convert_diff_to_expr fun_name increase_arg base_args diff =
+let rec convert_diff_to_expr fun_name base_case increase_arg base_args diff =
   match diff.desc with
   | Some (Sub_Call (name, args)) ->
     let args =
-      List.map (fun arg -> convert_diff_to_expr fun_name increase_arg base_args arg) args
+      List.map
+        (fun arg -> convert_diff_to_expr fun_name base_case increase_arg base_args arg)
+        args
     in
     Ir.{ desc = Call (name, args); typ = diff.typ }
   | Some (Sub_Var _) -> Ir.{ desc = Var "hd"; typ = diff.typ }
-  | None ->
+  | Some (Sub_None [ arg ]) ->
+    let arg = convert_diff_to_expr fun_name base_case increase_arg base_args arg in
+    let increase_arg = Ir.{ increase_arg with desc = Var "tl" } in
+    Ir.{ desc = Call (fun_name, [ increase_arg; arg ]); typ = diff.typ }
+  | Some (Sub_None []) ->
     let increase_arg = Ir.{ increase_arg with desc = Var "tl" } in
     Ir.{ desc = Call (fun_name, increase_arg :: base_args); typ = diff.typ }
+  | Some (Sub_None _) -> failwith "not implemented: convert_diff_to_expr"
+  | None -> base_case
 ;;
 
 let rec fill_subtreewith_expr subtree expr : expr =
@@ -658,6 +784,15 @@ let rec fill_subtreewith_expr subtree expr : expr =
     let args = List.map (fun arg -> fill_subtreewith_expr arg expr) args in
     Ir.{ desc = Call (name, args); typ = subtree.typ }
   | Some (Sub_Var name) -> Ir.{ desc = Var name; typ = subtree.typ }
+  | Some (Sub_None []) -> expr
+  | Some (Sub_None [ arg ]) ->
+    (match expr.Ir.desc with
+     | Call (name, args) ->
+       let arg = fill_subtreewith_expr arg expr in
+       let args = args |> List.rev |> List.tl |> List.rev in
+       Ir.{ desc = Call (name, args @ [ arg ]); typ = subtree.typ }
+     | _ -> failwith "not implemented: fill_subtreewith_expr")
+  | Some (Sub_None _) -> failwith "not implemented: fill_subtreewith_expr"
   | None -> expr
 ;;
 
@@ -684,10 +819,12 @@ let decl_of_subtree_difference fun_name base_case subtree_differnce =
   let increase_arg =
     Ir.{ desc = Var "lst"; typ = Ir.Talgebraic ("list", [ increase_typ ]) }
   in
-  let base_pattern = Ir.Case (Pat_Constr ("Nil", []), expr_of_subtree base_case) in
+  let base_case = expr_of_subtree base_case in
+  let base_pattern = Ir.Case (Pat_Constr ("Nil", []), base_case) in
   let inductive_expr =
     convert_diff_to_expr
       fun_name
+      base_case
       increase_arg
       base_case_var_expr
       (List.hd subtree_differnce)
@@ -744,15 +881,17 @@ let helper_function_lemma (decl : Ir.decl) : lemma list =
   | _ -> failwith "this function is not recursive"
 ;;
 
+let rec comp subtree1 subtree2 =
+  match subtree1.desc, subtree2.desc with
+  | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
+    name1 = name2 && List.for_all2 comp args1 args2
+  | Some (Sub_None args1), Some (Sub_None args2) -> List.for_all2 comp args1 args2
+  | Some (Sub_Var _), Some (Sub_Var _) -> true
+  | None, None -> true
+  | _, _ -> false
+;;
+
 let is_pattern increase_subtree =
-  let rec comp subtree1 subtree2 =
-    match subtree1.desc, subtree2.desc with
-    | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
-      name1 = name2 && List.for_all2 comp args1 args2
-    | Some (Sub_Var _), Some (Sub_Var _) -> true
-    | None, None -> true
-    | _, _ -> false
-  in
   List.for_all
     (fun subtree ->
        let base = List.hd increase_subtree in
@@ -799,11 +938,19 @@ let make_helper_function_and_lemma
       ~is_lhs
       induction_vars
       expr_list
+      base_case
       common_subtree
       increase_subtree
       i
   =
-  let base_case = List.hd common_subtree in
+  let base_case =
+    match base_case.desc with
+    | Some (Sub_Call (_, args)) ->
+      (match List.find_opt (fun arg -> arg.desc <> None) args with
+       | Some arg -> arg
+       | None -> base_case)
+    | _ -> base_case
+  in
   let free_vars = collect_free_var_in_subtree base_case [] in
   let free_vars_with_typ =
     List.map
@@ -860,9 +1007,32 @@ let make_helper_function_and_lemma
     [ helper_decl ], lemma, expr_with_helper
 ;;
 
-let pattern_recognition env ihs induction_vars state_list : env * lemma list =
-  let first_lhs = List.map (fun ih -> ih |> snd |> Proof.get_lhs) ihs in
-  let first_rhs = List.map (fun ih -> ih |> snd |> Proof.get_rhs) ihs in
+let add_none increase_subtree =
+  match increase_subtree with
+  | hd :: hd2 :: rest ->
+    (match is_pattern (hd2 :: rest) with
+     | true ->
+       (match hd2.desc with
+        | Some (Sub_None [ arg ]) ->
+          if comp hd arg
+          then (
+            let hd = { desc = Some (Sub_None [ hd ]); typ = hd.typ } in
+            hd :: hd2 :: rest)
+          else increase_subtree
+        | _ -> increase_subtree)
+     | false -> increase_subtree)
+  | _ -> increase_subtree
+;;
+
+let pattern_recognition env ih induction_vars state_list : env * lemma list =
+  let first_lhs, first_rhs =
+    match ih with
+    | Some (_, ih) ->
+      let first_lhs = Proof.get_lhs ih in
+      let first_rhs = Proof.get_rhs ih in
+      Some first_lhs, Some first_rhs
+    | None -> None, None
+  in
   let facts_list =
     List.map
       (fun state ->
@@ -884,10 +1054,18 @@ let pattern_recognition env ihs induction_vars state_list : env * lemma list =
   let goals = List.map (fun (_, goal, _) -> goal) state_list in
   let lhs_list = List.map (fun goal -> Proof.get_lhs goal) goals in
   let rhs_list = List.map (fun goal -> Proof.get_rhs goal) goals in
-  let lhs_list = first_lhs @ lhs_list in
-  let rhs_list = first_rhs @ rhs_list in
-  let lhs_common_subtree = catch_recursive_pattern induction_vars lhs_list in
-  let rhs_common_subtree = catch_recursive_pattern induction_vars rhs_list in
+  let lhs_list =
+    match first_lhs with
+    | Some lhs -> lhs :: lhs_list
+    | None -> lhs_list
+  in
+  let rhs_list =
+    match first_rhs with
+    | Some rhs -> rhs :: rhs_list
+    | None -> rhs_list
+  in
+  let lhs_common_subtree, lhs_base = catch_recursive_pattern induction_vars lhs_list in
+  let rhs_common_subtree, rhs_base = catch_recursive_pattern induction_vars rhs_list in
   if
     List.length lhs_common_subtree <> List.length rhs_common_subtree
     || List.is_empty lhs_common_subtree
@@ -903,6 +1081,7 @@ let pattern_recognition env ihs induction_vars state_list : env * lemma list =
              (List.nth lhs_common_subtree (i + 1)))
         range
     in
+    let lhs_increase_subtree = add_none lhs_increase_subtree in
     let rhs_increase_subtree =
       List.map
         (fun i ->
@@ -912,6 +1091,7 @@ let pattern_recognition env ihs induction_vars state_list : env * lemma list =
              (List.nth rhs_common_subtree (i + 1)))
         range
     in
+    let rhs_increase_subtree = add_none rhs_increase_subtree in
     if (not (is_pattern lhs_increase_subtree)) || not (is_pattern rhs_increase_subtree)
     then [], []
     else (
@@ -921,6 +1101,7 @@ let pattern_recognition env ihs induction_vars state_list : env * lemma list =
           ~is_lhs:true
           induction_vars
           lhs_list
+          lhs_base
           lhs_common_subtree
           lhs_increase_subtree
           i
@@ -930,6 +1111,7 @@ let pattern_recognition env ihs induction_vars state_list : env * lemma list =
           ~is_lhs:false
           induction_vars
           rhs_list
+          rhs_base
           rhs_common_subtree
           rhs_increase_subtree
           i
@@ -1047,7 +1229,7 @@ let rec is_trivial goal =
   | _ -> false
 ;;
 
-let get_induction_var state =
+let get_induction_var (state : state) =
   let facts, _, _ = state in
   let _, induction_fact =
     List.find
@@ -1089,7 +1271,11 @@ let advanced_generalize t : (t * lemma list) option =
   match is_trivial goal with
   | true -> None
   | false ->
-    let ihs = List.filter (fun (name, _) -> String.starts_with ~prefix:"IH" name) facts in
+    let ih =
+      List.find_opt
+        (fun (name, _) -> String.starts_with ~prefix:"IH" name)
+        (List.rev facts)
+    in
     let state_list = fast_execution 2 t in
     (match state_list with
      | [] ->
@@ -1098,9 +1284,7 @@ let advanced_generalize t : (t * lemma list) option =
         | _ -> None)
      | _ ->
        let induction_vars = List.map get_induction_var state_list in
-       let new_env, lemma_list =
-         pattern_recognition t.env ihs induction_vars state_list
-       in
+       let new_env, lemma_list = pattern_recognition t.env ih induction_vars state_list in
        let new_env = List.map Ir.rename_decl new_env in
        if List.is_empty lemma_list
        then (

@@ -52,8 +52,8 @@ let rec natural_mul n1 n2 =
 
 let rec less_than n1 n2 =
   match n1, n2 with
-  | Z, _ -> true
   | _, Z -> false
+  | Z, S _ -> true
   | S n1', S n2' -> less_than n1' n2'
 ;;
 
