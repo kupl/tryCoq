@@ -1307,7 +1307,9 @@ let make_lemmas_by_advanced_generalize (t : t) lemma_set : (t * lemma list) opti
   let t_lemma =
     match t_lemma with
     | Some (new_t, lemmas) ->
-      if
+      if List.exists (fun lemma -> not (Validate.validate t.env lemma)) lemmas
+      then None
+      else if
         List.for_all
           (fun lemma ->
              Prover.LemmaSet.exists

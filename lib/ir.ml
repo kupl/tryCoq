@@ -229,6 +229,8 @@ and pp_expr expr =
        ^ ")"
      | "Concat" | "EmptyString" -> "\"" ^ pp_string expr ^ "\""
      | "Cons" | "Nil" -> "(" ^ pp_list expr ^ ")"
+     | "Pos" | "Zero" | "Neg" -> pp_int (List.hd args)
+     | "S" | "Z" -> pp_nat (List.hd args)
      | _ ->
        (match args with
         | [] -> name
@@ -279,6 +281,28 @@ and pp_list expr =
     let tail_str = pp_expr tail in
     head_str ^ "::" ^ tail_str
   | _ -> failwith "pp_list: not a list expression"
+
+and pp_int expr =
+  match expr.desc with
+  | Call ("Zero", []) -> "0"
+  | Call ("Pos", [ n ]) -> pp_expr n
+  | Call ("Neg", [ n ]) -> "-" ^ pp_expr n
+  | _ ->
+    let _ = pp_expr expr in
+    failwith "pp_int: not an integer expression"
+
+and pp_nat expr =
+  match expr.desc with
+  | Call ("Z", []) -> "0"
+  | Call ("S", [ n ]) ->
+    if is_constant n then string_of_int (oint_of_nat n) else "S(" ^ pp_expr n ^ ")"
+  | _ -> failwith "pp_nat: not a natural number expression"
+
+and is_constant expr =
+  match expr.desc with
+  | Call ("Z", []) -> true
+  | Call ("S", [ n ]) -> is_constant n
+  | _ -> false
 ;;
 
 let var_of_typ typ =
