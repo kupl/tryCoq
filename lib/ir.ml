@@ -229,7 +229,7 @@ and pp_expr expr =
        ^ ")"
      | "Concat" | "EmptyString" -> "\"" ^ pp_string expr ^ "\""
      | "Cons" | "Nil" -> "(" ^ pp_list expr ^ ")"
-     | "Pos" | "Zero" | "Neg" -> pp_int (List.hd args)
+     | "Pos" | "Zero" | "Neg" -> pp_int expr
      | "S" | "Z" -> pp_nat (List.hd args)
      | _ ->
        (match args with
@@ -287,9 +287,7 @@ and pp_int expr =
   | Call ("Zero", []) -> "0"
   | Call ("Pos", [ n ]) -> pp_expr n
   | Call ("Neg", [ n ]) -> "-" ^ pp_expr n
-  | _ ->
-    let _ = pp_expr expr in
-    failwith "pp_int: not an integer expression"
+  | _ -> failwith "pp_int: not an integer expression"
 
 and pp_nat expr =
   match expr.desc with

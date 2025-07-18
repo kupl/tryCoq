@@ -6,8 +6,13 @@ type typ = Ir.typ
 let rec generator =
   fun (env : env) (typ : typ) : expr ->
   match typ with
-  | Ir.Talgebraic (name, args) ->
-    let decl = Ir.find_decl name env in
+  | Ir.Talgebraic ("string", []) ->
+    let _ = Random.self_init () in
+    let random_string = String.init 10 (fun _ -> Char.chr (Random.int 26 + 97)) in
+    let random_string = Ir.expr_of_string random_string in
+    Ir.{ desc = random_string; typ = Ir.Talgebraic ("string", []) }
+  | Ir.Talgebraic (typ_name, args) ->
+    let decl = Ir.find_decl typ_name env in
     (match decl with
      | Some decl ->
        let _, typ_decl = Ir.get_typ_decl decl in
@@ -17,9 +22,9 @@ let rec generator =
        let typ = List.nth typ_decl i in
        (* have to assign high probability to terminal constructors *)
        (match typ with
-        | Ir.Constructor name, constr_arg ->
+        | Ir.Constructor const_name, constr_arg ->
           let constr_arg = List.map (fun arg -> generator env arg) constr_arg in
-          Ir.{ desc = Call (name, constr_arg); typ = Talgebraic (name, args) })
+          Ir.{ desc = Call (const_name, constr_arg); typ = Talgebraic (typ_name, args) })
      | None -> failwith "type not found")
   | Ir.Tany ->
     let _ = Random.self_init () in
@@ -54,10 +59,6 @@ let validate =
          | Proof.Type t -> v, generator env t
          | _ -> failwith "unexpected type in variable")
       vars
-  in
-  let _ = print_endline "vars" in
-  let _ =
-    List.iter (fun (name, expr) -> Printf.printf "%s: %s\n" name (Ir.pp_expr expr)) vars
   in
   let conds =
     List.map
