@@ -1304,46 +1304,66 @@ let advanced_generalize t : (t * lemma list) option =
 let make_lemmas_by_advanced_generalize (t : t) lemma_set : (t * lemma list) option =
   let t_lemma = advanced_generalize t in
   let original_goal = Proof.get_conj_list t |> List.hd |> snd in
+  let _ = Printf.printf "advanced_generalize done\n" in
   let t_lemma =
     match t_lemma with
     | Some (new_t, lemmas) ->
-      if List.exists (fun lemma -> not (Validate.validate t.env lemma)) lemmas
-      then None
-      else if
-        List.for_all
-          (fun lemma ->
-             Prover.LemmaSet.exists
-               (fun (goal', lemma', _) -> original_goal = goal' && lemma = lemma')
-               lemma_set)
+      let false_lemmas =
+        List.fold_left
+          (fun acc lemma ->
+             let result, model = Validate.validate new_t.env lemma in
+             if not result then (lemma, model) :: acc else acc)
+          []
           lemmas
-        && not (List.is_empty lemmas)
-      then None
-      else if
-        List.for_all
-          (fun lemma ->
-             Prover.LemmaSet.exists
-               (fun (_, lemma', tactic) -> lemma = lemma' && not (List.is_empty tactic))
-               lemma_set)
-          lemmas
-        && not (List.is_empty lemmas)
-      then (
-        let pre_lemmas =
-          List.map
-            (fun lemma ->
-               List.find
-                 (fun (_, lemma', tactic) -> lemma = lemma' && not (List.is_empty tactic))
-                 (lemma_set |> Prover.LemmaSet.to_list))
-            lemmas
-        in
-        let new_t =
-          List.fold_left
-            (fun acc (_, _, tactic) ->
-               List.fold_left (fun acc tactic -> Proof.apply_tactic acc tactic) acc tactic)
-            new_t
-            pre_lemmas
-        in
-        Some (new_t, []))
-      else t_lemma
+      in
+      (match false_lemmas with
+       | _ :: _ ->
+         false_lemmas
+         |> List.iter (fun (lemma, model) ->
+           let _ = Printf.eprintf "Invalid lemma: %s\n" (Proof.pp_prop lemma) in
+           Printf.eprintf "Model: %s\n" (Validate.pp_model model));
+         None
+       | _ ->
+         if
+           List.for_all
+             (fun lemma ->
+                Prover.LemmaSet.exists
+                  (fun (goal', lemma', _) -> original_goal = goal' && lemma = lemma')
+                  lemma_set)
+             lemmas
+           && not (List.is_empty lemmas)
+         then None
+         else if
+           List.for_all
+             (fun lemma ->
+                Prover.LemmaSet.exists
+                  (fun (_, lemma', tactic) ->
+                     lemma = lemma' && not (List.is_empty tactic))
+                  lemma_set)
+             lemmas
+           && not (List.is_empty lemmas)
+         then (
+           let pre_lemmas =
+             List.map
+               (fun lemma ->
+                  List.find
+                    (fun (_, lemma', tactic) ->
+                       lemma = lemma' && not (List.is_empty tactic))
+                    (lemma_set |> Prover.LemmaSet.to_list))
+               lemmas
+           in
+           let new_t =
+             List.fold_left
+               (fun acc (_, _, tactic) ->
+                  List.fold_left
+                    (fun acc tactic -> Proof.apply_tactic acc tactic)
+                    acc
+                    tactic)
+               new_t
+               pre_lemmas
+           in
+           Some (new_t, []))
+         else t_lemma)
     | None -> None
   in
   t_lemma

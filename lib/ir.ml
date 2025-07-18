@@ -66,6 +66,21 @@ let get_mk_index t =
     t
 ;;
 
+let get_is_rec_list decl =
+  match decl with
+  | NonRec _ | Rec _ -> failwith "get_is_rec_list: input should be a type declaration"
+  | TypeDecl (name, _, typ_decl) ->
+    List.map
+      (fun (_, typ_list) ->
+         List.exists
+           (fun typ ->
+              match typ with
+              | Talgebraic (typ_name, _) -> name = typ_name
+              | _ -> false)
+           typ_list)
+      typ_decl
+;;
+
 let rec collect_var_in_pat pat =
   match pat with
   | Pat_Constr (_, patterns) -> List.map collect_var_in_pat patterns |> List.concat
@@ -144,7 +159,8 @@ let expr_of_string string =
       (fun c acc ->
          { desc =
              Call
-               ("Concat", [ { desc = expr_of_int c; typ = Talgebraic ("int", []) }; acc ])
+               ( "Concat"
+               , [ { desc = expr_of_int (c - 97); typ = Talgebraic ("int", []) }; acc ] )
          ; typ = Talgebraic ("string", [])
          })
       char_list
@@ -172,7 +188,7 @@ let rec pp_string expr =
   match expr.desc with
   | Call ("EmptyString", []) -> ""
   | Call ("Concat", [ ascii; tale ]) ->
-    let ascii = oint_of_int ascii in
+    let ascii = oint_of_int ascii + 97 in
     (char_of_ascii ascii |> Char.escaped) ^ pp_string tale
   | _ -> failwith "pp_string: not a string expression"
 ;;
@@ -230,7 +246,7 @@ and pp_expr expr =
      | "Concat" | "EmptyString" -> "\"" ^ pp_string expr ^ "\""
      | "Cons" | "Nil" -> "(" ^ pp_list expr ^ ")"
      | "Pos" | "Zero" | "Neg" -> pp_int expr
-     | "S" | "Z" -> pp_nat (List.hd args)
+     | "S" | "Z" -> pp_nat expr
      | _ ->
        (match args with
         | [] -> name
