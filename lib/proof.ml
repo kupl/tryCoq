@@ -2189,7 +2189,9 @@ let parse_tactic (t : t) src =
         facts
     in
     Case (parse_expr binding (String.concat " " args) env)
-  | "assert" -> Assert (parse_prop (String.concat " " args) [] env)
+  | "assert" ->
+    let assertion = parse_prop (String.concat " " args) [] env in
+    Assert assertion
   | "discriminate" -> Discriminate
   | "define" ->
     let src = String.concat " " args in

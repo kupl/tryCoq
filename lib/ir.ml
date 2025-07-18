@@ -369,7 +369,8 @@ and typ_of_ctype ctype =
   | Ttyp_any -> Tany
   | Ttyp_var _ -> Tany
   | Ttyp_constr (_, lident, lst) ->
-    Talgebraic (Longident.last lident.txt, List.map typ_of_ctype lst)
+    let typ_name = Longident.last lident.txt in
+    Talgebraic (typ_name, List.map typ_of_ctype lst)
   | Ttyp_tuple l ->
     failwith ("tuple" ^ string_of_int (List.length l) ^ " is not implemented")
   | _ -> failwith "Not implemented"

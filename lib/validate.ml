@@ -4,7 +4,7 @@ type expr = Ir.expr
 type typ = Ir.typ
 type model = (string * expr) list
 
-let pp_model model =
+let pp_model (model : model) =
   model
   |> List.map (fun (name, expr) -> Printf.sprintf "%s: %s" name (Ir.pp_expr expr))
   |> String.concat ", "
@@ -19,7 +19,6 @@ let rec generator =
     let random_string = Ir.expr_of_string random_string in
     Ir.{ desc = random_string; typ = Ir.Talgebraic ("string", []) }
   | Ir.Talgebraic (typ_name, args) ->
-    (* if string list *)
     let decl = Ir.find_decl typ_name env in
     (match decl with
      | Some decl ->
@@ -54,11 +53,11 @@ let rec generator =
         | Ir.Constructor const_name, constr_arg ->
           let constr_arg = List.map (fun arg -> generator binding env arg) constr_arg in
           Ir.{ desc = Call (const_name, constr_arg); typ = Talgebraic (typ_name, args) })
-     | None -> failwith "type not found")
+     | None -> failwith ("type not found : " ^ typ_name))
   | Ir.Tany ->
     (match List.assoc_opt typ binding with
-     | Some typ -> generator binding env typ
-     | None ->
+     | Some typ when typ <> Ir.Tany -> generator binding env typ
+     | _ ->
        let _ = Random.self_init () in
        let random_int = Random.int 10 in
        let random_int = Ir.expr_of_int random_int in
@@ -75,6 +74,7 @@ let validate_prop prop =
 let validate =
   fun (env : env) (prop : prop) : bool ->
   let _ = Printf.printf "Lemma : %s\n" (Proof.pp_prop prop) in
+  let _ = flush stdout in
   let vars, prop =
     match prop with
     | Proof.Forall (vars, prop) -> vars, prop
@@ -96,8 +96,11 @@ let validate =
           vars
       in
       let _ = Printf.printf "Model : %s\n" (pp_model vars) in
+      let _ = flush stdout in
       vars)
   in
+  let _ = Printf.printf "Substituting variables...\n" in
+  let _ = flush stdout in
   let conds_list =
     List.map
       (fun vars ->
