@@ -1309,20 +1309,10 @@ let make_lemmas_by_advanced_generalize (t : t) lemma_set : (t * lemma list) opti
     match t_lemma with
     | Some (new_t, lemmas) ->
       let false_lemmas =
-        List.fold_left
-          (fun acc lemma ->
-             let result, model = Validate.validate new_t.env lemma in
-             if not result then (lemma, model) :: acc else acc)
-          []
-          lemmas
+        List.filter (fun lemma -> not (Validate.validate new_t.env lemma)) lemmas
       in
       (match false_lemmas with
-       | _ :: _ ->
-         false_lemmas
-         |> List.iter (fun (lemma, model) ->
-           let _ = Printf.eprintf "Invalid lemma: %s\n" (Proof.pp_prop lemma) in
-           Printf.eprintf "Model: %s\n" (Validate.pp_model model));
-         None
+       | _ :: _ -> None
        | _ ->
          if
            List.for_all

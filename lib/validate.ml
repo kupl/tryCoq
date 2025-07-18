@@ -73,7 +73,7 @@ let validate_prop prop =
 ;;
 
 let validate =
-  fun (env : env) (prop : prop) : (bool * model) ->
+  fun (env : env) (prop : prop) : bool ->
   let _ = Printf.printf "Lemma : %s\n" (Proof.pp_prop prop) in
   let vars, prop =
     match prop with
@@ -85,74 +85,82 @@ let validate =
     | Proof.Imply (conds, prop) -> conds, prop
     | _ -> [], prop
   in
-  let _ = Printf.printf "Generating variables...\n" in
-  let start = Sys.time () in
-  let vars =
+  let vars_list =
+    List.init 3 (fun _ ->
+      let vars =
+        List.map
+          (fun (v, typ) ->
+             match typ with
+             | Proof.Type t -> v, generator [] env t
+             | _ -> failwith "unexpected type in variable")
+          vars
+      in
+      let _ = Printf.printf "Model : %s\n" (pp_model vars) in
+      vars)
+  in
+  let conds_list =
     List.map
-      (fun (v, typ) ->
-         match typ with
-         | Proof.Type t -> v, generator [] env t
-         | _ -> failwith "unexpected type in variable")
-      vars
+      (fun vars ->
+         List.map
+           (fun prop ->
+              let new_cond =
+                List.fold_left
+                  (fun prop (name, concrete_value) ->
+                     let new_prop, _, _ =
+                       Proof.substitute_expr_in_prop
+                         Ir.is_equal_expr
+                         (fun _ _ expr_to -> expr_to, [])
+                         prop
+                         Ir.{ desc = Var name; typ = concrete_value.typ }
+                         concrete_value
+                         0
+                         false
+                     in
+                     new_prop)
+                  prop
+                  vars
+              in
+              new_cond)
+           conds)
+      vars_list
   in
-  let end_time = Sys.time () in
-  let _ = Printf.printf "Variable generation took %f seconds\n" (end_time -. start) in
-  let _ = Printf.printf "Model : %s\n" (pp_model vars) in
-  let start = Sys.time () in
-  let _ = Printf.printf "Substituting variables...\n" in
-  let conds =
+  let prop_list =
     List.map
-      (fun prop ->
-         let new_cond =
-           List.fold_left
-             (fun prop (name, concrete_value) ->
-                let new_prop, _, _ =
-                  Proof.substitute_expr_in_prop
-                    Ir.is_equal_expr
-                    (fun _ _ expr_to -> expr_to, [])
-                    prop
-                    Ir.{ desc = Var name; typ = concrete_value.typ }
-                    concrete_value
-                    0
-                    false
-                in
-                new_prop)
-             prop
-             vars
-         in
-         new_cond)
-      conds
+      (fun vars ->
+         List.fold_left
+           (fun prop (name, concrete_value) ->
+              let new_prop, _, _ =
+                Proof.substitute_expr_in_prop
+                  Ir.is_equal_expr
+                  (fun _ _ expr_to -> expr_to, [])
+                  prop
+                  Ir.{ desc = Var name; typ = concrete_value.typ }
+                  concrete_value
+                  0
+                  false
+              in
+              new_prop)
+           prop
+           vars)
+      vars_list
   in
-  let prop =
-    List.fold_left
-      (fun prop (name, concrete_value) ->
-         let new_prop, _, _ =
-           Proof.substitute_expr_in_prop
-             Ir.is_equal_expr
-             (fun _ _ expr_to -> expr_to, [])
-             prop
-             Ir.{ desc = Var name; typ = concrete_value.typ }
-             concrete_value
-             0
-             false
-         in
-         new_prop)
-      prop
-      vars
-  in
-  let end_time = Sys.time () in
-  let _ = Printf.printf "Substitution took %f seconds\n" (end_time -. start) in
   let start = Sys.time () in
   let _ = Printf.printf "Simplifying conditions and property...\n" in
   let _ = flush stdout in
-  let conds = List.map (Proof.simplify_prop env) conds in
-  let prop = Proof.simplify_prop env prop in
+  let conds_list =
+    List.map (fun conds -> List.map (Proof.simplify_prop env) conds) conds_list
+  in
+  let prop_list = List.map (Proof.simplify_prop env) prop_list in
   let end_time = Sys.time () in
   let _ = Printf.printf "Simplifying took %f seconds\n" (end_time -. start) in
   let _ = flush stdout in
   let result =
-    List.exists (fun cond -> not (validate_prop cond)) conds || validate_prop prop
+    List.for_all2
+      (fun conds prop ->
+         List.exists (fun cond -> not (validate_prop cond)) conds || validate_prop prop)
+      conds_list
+      prop_list
   in
   let _ = Printf.printf "Result : %b\n" result in
-  result, vars
+  result
 ;;
