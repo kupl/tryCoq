@@ -246,12 +246,24 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (nat3:nat), natmul_ta1 (nat3) (ZERO) = ZERO
-Model : nat3: SUCC (ZERO)
-Model : nat3: SUCC (ZERO)
 Model : nat3: ZERO
+Model : nat3: ZERO
+Model : nat3: SUCC (SUCC (SUCC (SUCC (ZERO))))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000020 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+natmul_ta1 (ZERO) (ZERO) = ZERO
+natmul_ta1 (ZERO) (ZERO) = ZERO
+natmul_ta1 (SUCC (SUCC (SUCC (SUCC (ZERO))))) (ZERO) = ZERO
+Simplifying took 0.000042 seconds
 Result : true
 New Env
 
@@ -682,7 +694,19 @@ Model : nat3: ZERO
 Model : nat3: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000014 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+natmul (ZERO) (ZERO) = ZERO
+natmul (ZERO) (ZERO) = ZERO
+natmul (SUCC (ZERO)) (ZERO) = ZERO
+Simplifying took 0.000022 seconds
 Result : true
 New Env
 
@@ -1024,12 +1048,24 @@ rewrite IH1 in goal at 0
 rewrite <- IH1 in goal at 2
 advanced_generalize done
 Lemma : forall (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (natmul (nat3) (SUCC (nat4)))) = SUCC (natadd (natadd (nat3) (natmul_ta1 (nat3) (nat4))) (nat4))
-Model : nat3: SUCC (SUCC (ZERO)), nat4: SUCC (ZERO)
 Model : nat3: ZERO, nat4: ZERO
 Model : nat3: SUCC (ZERO), nat4: ZERO
+Model : nat3: ZERO, nat4: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000143 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (natadd_ta1 (ZERO) (natmul (ZERO) (SUCC (ZERO)))) = SUCC (natadd (natadd (ZERO) (natmul_ta1 (ZERO) (ZERO))) (ZERO))
+SUCC (natadd_ta1 (ZERO) (natmul (SUCC (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (natadd (SUCC (ZERO)) (natmul_ta1 (SUCC (ZERO)) (ZERO))) (ZERO))
+SUCC (natadd_ta1 (SUCC (ZERO)) (natmul (ZERO) (SUCC (SUCC (ZERO))))) = SUCC (natadd (natadd (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) (SUCC (ZERO)))
+Simplifying took 0.000069 seconds
 Result : true
 New Env
 
@@ -1133,12 +1169,24 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (natmul_ta1 (nat3) (SUCC (nat4)))) = SUCC (natadd (natadd (nat3) (natmul_ta1 (nat3) (nat4))) (nat4))
-Model : nat3: SUCC (ZERO), nat4: SUCC (ZERO)
 Model : nat3: ZERO, nat4: ZERO
+Model : nat3: ZERO, nat4: SUCC (ZERO)
 Model : nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000174 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (natadd (natadd (ZERO) (natmul_ta1 (ZERO) (ZERO))) (ZERO))
+SUCC (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (SUCC (SUCC (ZERO))))) = SUCC (natadd (natadd (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) (SUCC (ZERO)))
+SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (natadd (natadd (ZERO) (natmul_ta1 (ZERO) (ZERO))) (ZERO))
+Simplifying took 0.000051 seconds
 Result : true
 New Env
 
@@ -1540,10 +1588,22 @@ advanced_generalize done
 Lemma : forall (nat3:nat), SUCC (SUCC (natadd (natadd (nat3) (ZERO)) (ZERO))) = SUCC (SUCC (natadd (natmul_ta1 (nat3) (ZERO)) (nat3)))
 Model : nat3: ZERO
 Model : nat3: ZERO
-Model : nat3: ZERO
+Model : nat3: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000029 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd (natadd (ZERO) (ZERO)) (ZERO))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd (natadd (ZERO) (ZERO)) (ZERO))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd (natadd (SUCC (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd (natmul_ta1 (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))))
+Simplifying took 0.000052 seconds
 Result : true
 New Env
 
@@ -1687,11 +1747,23 @@ simpl in goal
 advanced_generalize done
 Lemma : forall (arg1:nat) (nat2:nat), SUCC (SUCC (arg1)) = SUCC (SUCC (natadd (natmul_ta1 (nat2) (ZERO)) (arg1)))
 Model : arg1: ZERO, nat2: ZERO
+Model : arg1: SUCC (ZERO), nat2: ZERO
 Model : arg1: ZERO, nat2: ZERO
-Model : arg1: SUCC (ZERO), nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000023 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (ZERO)) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+SUCC (SUCC (SUCC (ZERO))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (SUCC (ZERO))))
+SUCC (SUCC (ZERO)) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+Simplifying took 0.000028 seconds
 Result : true
 New Env
 
@@ -2209,11 +2281,23 @@ rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg2:nat) (nat3:nat), SUCC (SUCC (natadd (natadd (nat3) (arg2)) (ZERO))) = SUCC (SUCC (natadd (arg2) (nat3)))
 Model : arg2: ZERO, nat3: ZERO
-Model : arg2: ZERO, nat3: ZERO
 Model : arg2: ZERO, nat3: SUCC (ZERO)
+Model : arg2: SUCC (SUCC (ZERO)), nat3: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000034 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd (natadd (ZERO) (ZERO)) (ZERO))) = SUCC (SUCC (natadd (ZERO) (ZERO)))
+SUCC (SUCC (natadd (natadd (SUCC (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd (ZERO) (SUCC (ZERO))))
+SUCC (SUCC (natadd (natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (ZERO))) = SUCC (SUCC (natadd (SUCC (SUCC (ZERO))) (SUCC (ZERO))))
+Simplifying took 0.000060 seconds
 Result : true
 New Env
 
@@ -2475,11 +2559,23 @@ rewrite lemma3 in goal at 0
 advanced_generalize done
 Lemma : forall (nat3:nat), SUCC (SUCC (natadd (natadd (nat3) (ZERO)) (ZERO))) = SUCC (SUCC (natadd (natmul_ta1 (nat3) (ZERO)) (nat3)))
 Model : nat3: ZERO
-Model : nat3: SUCC (ZERO)
+Model : nat3: ZERO
 Model : nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000041 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd (natadd (ZERO) (ZERO)) (ZERO))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd (natadd (ZERO) (ZERO)) (ZERO))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd (natadd (ZERO) (ZERO)) (ZERO))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+Simplifying took 0.000036 seconds
 Result : true
 =================================================
 Progress: 71
@@ -2756,12 +2852,24 @@ rewrite <- IH1 in goal at 0
 simpl in goal
 advanced_generalize done
 Lemma : forall (nat3:nat), SUCC (SUCC (natmul_ta1 (nat3) (SUCC (ZERO)))) = SUCC (SUCC (natadd (natmul_ta1 (nat3) (ZERO)) (nat3)))
-Model : nat3: SUCC (SUCC (ZERO))
-Model : nat3: SUCC (ZERO)
+Model : nat3: ZERO
+Model : nat3: ZERO
 Model : nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000065 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+SUCC (SUCC (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+SUCC (SUCC (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+Simplifying took 0.000043 seconds
 Result : true
 New Env
 
@@ -2936,12 +3044,24 @@ simpl in goal
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg3:nat) (nat2:nat), SUCC (SUCC (SUCC (natadd (arg3) (nat2)))) = SUCC (SUCC (natadd (arg3) (SUCC (nat2))))
-Model : arg3: ZERO, nat2: ZERO
+Model : arg3: ZERO, nat2: SUCC (ZERO)
 Model : arg3: ZERO, nat2: ZERO
 Model : arg3: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000022 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO))))) = SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO)))))
+SUCC (SUCC (SUCC (natadd (ZERO) (ZERO)))) = SUCC (SUCC (natadd (ZERO) (SUCC (ZERO))))
+SUCC (SUCC (SUCC (natadd (ZERO) (ZERO)))) = SUCC (SUCC (natadd (ZERO) (SUCC (ZERO))))
+Simplifying took 0.000032 seconds
 Result : true
 New Env
 
@@ -3149,12 +3269,24 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (nat3:nat), SUCC (SUCC (natmul_ta1 (nat3) (SUCC (ZERO)))) = SUCC (SUCC (natadd (natmul_ta1 (nat3) (ZERO)) (nat3)))
-Model : nat3: ZERO
+Model : nat3: SUCC (ZERO)
 Model : nat3: ZERO
 Model : nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000024 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natmul_ta1 (SUCC (ZERO)) (SUCC (ZERO)))) = SUCC (SUCC (natadd (natmul_ta1 (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))))
+SUCC (SUCC (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+SUCC (SUCC (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (SUCC (natadd (natmul_ta1 (ZERO) (ZERO)) (ZERO)))
+Simplifying took 0.000048 seconds
 Result : true
 =================================================
 Progress: 90
@@ -3953,7 +4085,19 @@ Model : nat3: ZERO
 Model : nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000011 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (ZERO) (ZERO))) = SUCC (SUCC (ZERO))
+SUCC (SUCC (natadd_ta1 (ZERO) (ZERO))) = SUCC (SUCC (ZERO))
+SUCC (SUCC (natadd_ta1 (ZERO) (ZERO))) = SUCC (SUCC (ZERO))
+Simplifying took 0.000019 seconds
 Result : true
 New Env
 
@@ -4542,11 +4686,23 @@ rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (nat3:nat), SUCC (SUCC (SUCC (SUCC (nat3)))) = SUCC (SUCC (natadd (nat3) (SUCC (SUCC (ZERO)))))
 Model : nat3: ZERO
-Model : nat3: SUCC (ZERO)
-Model : nat3: SUCC (ZERO)
+Model : nat3: ZERO
+Model : nat3: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000031 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (SUCC (SUCC (ZERO)))) = SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO)))))
+SUCC (SUCC (SUCC (SUCC (ZERO)))) = SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO)))))
+SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = SUCC (SUCC (natadd (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO)))))
+Simplifying took 0.000042 seconds
 Result : true
 New Env
 
@@ -4721,12 +4877,24 @@ simpl in goal
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (nat2:nat), SUCC (SUCC (SUCC (natadd (nat2) (SUCC (SUCC (ZERO)))))) = SUCC (SUCC (SUCC (SUCC (natadd (nat2) (SUCC (ZERO))))))
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000028 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (SUCC (natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO)))))) = SUCC (SUCC (SUCC (SUCC (natadd (SUCC (ZERO)) (SUCC (ZERO))))))
+SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO)))))) = SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO))))))
+SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO)))))) = SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO))))))
+Simplifying took 0.000046 seconds
 Result : true
 New Env
 
@@ -4902,7 +5070,19 @@ Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000025 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (ZERO)))))))
+SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (ZERO)))))))
+SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (ZERO)))))))
+Simplifying took 0.000035 seconds
 Result : true
 New Env
 
@@ -5046,7 +5226,19 @@ Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000021 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
+SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
+SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
+Simplifying took 0.000033 seconds
 Result : true
 New Env
 
@@ -5222,7 +5414,19 @@ Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000032 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (ZERO))))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO)))))))))
+SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (ZERO))))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO)))))))))
+SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (ZERO))))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO)))))))))
+Simplifying took 0.000041 seconds
 Result : true
 New Env
 
@@ -5319,12 +5523,24 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (natmul_ta1 (nat3) (SUCC (nat4)))) = SUCC (natadd (natadd (nat3) (natmul_ta1 (nat3) (nat4))) (nat4))
+Model : nat3: ZERO, nat4: SUCC (ZERO)
 Model : nat3: SUCC (ZERO), nat4: ZERO
-Model : nat3: ZERO, nat4: ZERO
 Model : nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000051 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (SUCC (SUCC (ZERO))))) = SUCC (natadd (natadd (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) (SUCC (ZERO)))
+SUCC (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (natadd (SUCC (ZERO)) (natmul_ta1 (SUCC (ZERO)) (ZERO))) (ZERO))
+SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (natadd (natadd (ZERO) (natmul_ta1 (ZERO) (ZERO))) (ZERO))
+Simplifying took 0.000066 seconds
 Result : true
 =================================================
 Progress: 151
@@ -5375,11 +5591,23 @@ rewrite <- IH1 in goal at 1
 advanced_generalize done
 Lemma : forall (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (natmul_ta1 (nat3) (SUCC (nat4)))) = SUCC (natadd (natadd (nat3) (natmul (nat3) (nat4))) (nat4))
 Model : nat3: ZERO, nat4: ZERO
-Model : nat3: ZERO, nat4: SUCC (ZERO)
+Model : nat3: ZERO, nat4: ZERO
 Model : nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000038 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO))
+SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO))
+SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO))
+Simplifying took 0.000044 seconds
 Result : true
 New Env
 
@@ -5780,11 +6008,23 @@ rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (nat3:nat), SUCC (SUCC (natadd (natadd (nat3) (natmul (nat3) (ZERO))) (ZERO))) = SUCC (SUCC (nat3))
 Model : nat3: ZERO
-Model : nat3: SUCC (ZERO)
+Model : nat3: ZERO
 Model : nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000031 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO))) = SUCC (SUCC (ZERO))
+SUCC (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO))) = SUCC (SUCC (ZERO))
+SUCC (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO))) = SUCC (SUCC (ZERO))
+Simplifying took 0.000030 seconds
 Result : true
 New Env
 
@@ -6205,12 +6445,24 @@ rewrite <- IH1 in goal at 0
 simpl in goal
 advanced_generalize done
 Lemma : forall (nat3:nat), SUCC (SUCC (natmul_ta1 (nat3) (SUCC (ZERO)))) = SUCC (SUCC (nat3))
-Model : nat3: SUCC (ZERO)
+Model : nat3: ZERO
 Model : nat3: ZERO
 Model : nat3: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000041 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (SUCC (ZERO))
+SUCC (SUCC (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (SUCC (ZERO))
+SUCC (SUCC (natmul_ta1 (SUCC (ZERO)) (SUCC (ZERO)))) = SUCC (SUCC (SUCC (ZERO)))
+Simplifying took 0.000032 seconds
 Result : true
 New Env
 
@@ -6525,11 +6777,23 @@ simpl in goal
 advanced_generalize done
 Lemma : forall (nat3:nat), SUCC (SUCC (natmul_ta1 (nat3) (SUCC (ZERO)))) = SUCC (SUCC (nat3))
 Model : nat3: ZERO
-Model : nat3: ZERO
 Model : nat3: SUCC (ZERO)
+Model : nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000023 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (SUCC (ZERO))
+SUCC (SUCC (natmul_ta1 (SUCC (ZERO)) (SUCC (ZERO)))) = SUCC (SUCC (SUCC (ZERO)))
+SUCC (SUCC (natmul_ta1 (ZERO) (SUCC (ZERO)))) = SUCC (SUCC (ZERO))
+Simplifying took 0.000032 seconds
 Result : true
 =================================================
 Progress: 185
@@ -6835,10 +7099,22 @@ advanced_generalize done
 Lemma : forall (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (natmul (nat3) (SUCC (nat4)))) = SUCC (natadd (natadd (nat3) (natmul_ta1 (nat3) (nat4))) (nat4))
 Model : nat3: ZERO, nat4: ZERO
 Model : nat3: ZERO, nat4: ZERO
-Model : nat3: ZERO, nat4: SUCC (ZERO)
+Model : nat3: SUCC (ZERO), nat4: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000035 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (natadd_ta1 (ZERO) (natmul (ZERO) (SUCC (ZERO)))) = SUCC (natadd (natadd (ZERO) (natmul_ta1 (ZERO) (ZERO))) (ZERO))
+SUCC (natadd_ta1 (ZERO) (natmul (ZERO) (SUCC (ZERO)))) = SUCC (natadd (natadd (ZERO) (natmul_ta1 (ZERO) (ZERO))) (ZERO))
+SUCC (natadd_ta1 (SUCC (ZERO)) (natmul (SUCC (ZERO)) (SUCC (SUCC (ZERO))))) = SUCC (natadd (natadd (SUCC (ZERO)) (natmul_ta1 (SUCC (ZERO)) (SUCC (ZERO)))) (SUCC (ZERO)))
+Simplifying took 0.000196 seconds
 Result : true
 =================================================
 Progress: 193
@@ -6967,7 +7243,19 @@ Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000023 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO))))))))))
+SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO))))))))))
+SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (natadd (ZERO) (SUCC (ZERO))))))))))
+Simplifying took 0.000042 seconds
 Result : true
 New Env
 
@@ -9045,12 +9333,24 @@ rewrite <- lemma6 in goal at 3
 rewrite <- lemma6 in goal at 0
 advanced_generalize done
 Lemma : forall (arg4:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg4))) (arg4)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg4)))))) (ZERO))) (ZERO)))
-Model : arg4: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg4: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg4: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg4: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: SUCC (ZERO)
+Model : arg4: SUCC (SUCC (SUCC (ZERO))), nat3: SUCC (SUCC (ZERO)), nat4: ZERO
+Model : arg4: SUCC (ZERO), nat3: ZERO, nat4: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000176 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (ZERO))) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (SUCC (SUCC (ZERO))) (natadd (SUCC (ZERO)) (natadd_ta1 (SUCC (SUCC (ZERO))) (natmul_ta1 (SUCC (ZERO)) (ZERO)))))) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (ZERO))) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (SUCC (SUCC (ZERO))))))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (SUCC (SUCC (ZERO))) (natadd (ZERO) (natadd_ta1 (SUCC (SUCC (ZERO))) (natmul_ta1 (ZERO) (SUCC (SUCC (SUCC (ZERO))))))))) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (SUCC (ZERO))))))) (ZERO))) (ZERO)))
+Simplifying took 0.000575 seconds
 Result : false
 =================================================
 Progress: 249
@@ -11237,12 +11537,24 @@ rewrite <- lemma6 in goal at 3
 rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg5:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg5))) (arg5)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg5))))) (ZERO))) (ZERO))) (ZERO)))
-Model : arg5: SUCC (ZERO), nat3: SUCC (ZERO), nat4: ZERO
-Model : arg5: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg5: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
 Model : arg5: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg5: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000178 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (ZERO))))) (ZERO))) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))))) (ZERO))) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (ZERO))))) (ZERO))) (ZERO))) (ZERO)))
+Simplifying took 0.000280 seconds
 Result : false
 =================================================
 Progress: 303
@@ -11458,12 +11770,24 @@ simpl in goal
 rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg6:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg6))) (arg6)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg6))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
-Model : arg6: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
-Model : arg6: ZERO, nat3: SUCC (ZERO), nat4: SUCC (ZERO)
+Model : arg6: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg6: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg6: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000237 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+Simplifying took 0.000114 seconds
 Result : false
 =================================================
 Progress: 308
@@ -11561,12 +11885,24 @@ rewrite <- lemma6 in goal at 1
 rewrite <- lemma6 in goal at 0
 advanced_generalize done
 Lemma : forall (arg7:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg7))) (arg7)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg7))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
-Model : arg7: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
+Model : arg7: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg7: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg7: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000155 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+Simplifying took 0.000156 seconds
 Result : false
 =================================================
 Progress: 310
@@ -11664,12 +12000,24 @@ rewrite <- lemma6 in goal at 1
 rewrite <- lemma6 in goal at 0
 advanced_generalize done
 Lemma : forall (arg8:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg8))) (arg8)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg8))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+Model : arg8: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Model : arg8: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg8: SUCC (ZERO), nat3: ZERO, nat4: ZERO
 Model : arg8: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000156 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+Simplifying took 0.000204 seconds
 Result : false
 =================================================
 Progress: 312
@@ -11727,12 +12075,24 @@ rewrite <- lemma6 in goal at 1
 rewrite <- lemma6 in goal at 1
 advanced_generalize done
 Lemma : forall (arg9:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg9))) (arg9)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg9))))) (ZERO)) (ZERO)) (ZERO)))))
-Model : arg9: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg9: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg9: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg9: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
 Model : arg9: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000109 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))))) (ZERO)) (ZERO)) (ZERO)))))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)))))
+Simplifying took 0.000181 seconds
 Result : false
 =================================================
 Progress: 313
@@ -12102,12 +12462,24 @@ rewrite lemma4 in goal at 0
 rewrite <- lemma4 in goal at 2
 advanced_generalize done
 Lemma : forall (nat3:nat), SUCC (SUCC (natadd (natadd (natadd_ta1 (nat3) (ZERO)) (natmul (natadd_ta1 (nat3) (ZERO)) (ZERO))) (ZERO))) = SUCC (SUCC (natadd (natadd (nat3) (natmul (nat3) (ZERO))) (ZERO)))
+Model : nat3: SUCC (SUCC (ZERO))
 Model : nat3: ZERO
 Model : nat3: ZERO
-Model : nat3: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000067 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd (natadd (natadd_ta1 (SUCC (SUCC (ZERO))) (ZERO)) (natmul (natadd_ta1 (SUCC (SUCC (ZERO))) (ZERO)) (ZERO))) (ZERO))) = SUCC (SUCC (natadd (natadd (SUCC (SUCC (ZERO))) (natmul (SUCC (SUCC (ZERO))) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd (natadd (natadd_ta1 (ZERO) (ZERO)) (natmul (natadd_ta1 (ZERO) (ZERO)) (ZERO))) (ZERO))) = SUCC (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd (natadd (natadd_ta1 (ZERO) (ZERO)) (natmul (natadd_ta1 (ZERO) (ZERO)) (ZERO))) (ZERO))) = SUCC (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))
+Simplifying took 0.000115 seconds
 Result : true
 New Env
 
@@ -15063,12 +15435,24 @@ rewrite <- lemma6 in goal at 0
 rewrite <- lemma6 in goal at 1
 advanced_generalize done
 Lemma : forall (arg10:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg10))) (arg10)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg10))))))) (ZERO)) (ZERO)))
-Model : arg10: ZERO, nat3: SUCC (ZERO), nat4: SUCC (ZERO)
-Model : arg10: SUCC (ZERO), nat3: SUCC (ZERO), nat4: ZERO
-Model : arg10: ZERO, nat3: SUCC (ZERO), nat4: ZERO
+Model : arg10: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg10: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg10: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000309 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))))))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))))) (ZERO)) (ZERO)))
+Simplifying took 0.000156 seconds
 Result : false
 =================================================
 Progress: 400
@@ -15161,12 +15545,24 @@ rewrite <- lemma6 in goal at 2
 rewrite <- lemma6 in goal at 0
 advanced_generalize done
 Lemma : forall (arg11:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg11))) (arg11)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg11))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))
-Model : arg11: ZERO, nat3: SUCC (ZERO), nat4: ZERO
-Model : arg11: ZERO, nat3: SUCC (ZERO), nat4: ZERO
+Model : arg11: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
 Model : arg11: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg11: SUCC (ZERO), nat3: ZERO, nat4: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000314 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (ZERO))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (SUCC (ZERO)))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))
+Simplifying took 0.000338 seconds
 Result : false
 =================================================
 Progress: 402
@@ -15259,12 +15655,24 @@ rewrite <- lemma6 in goal at 2
 rewrite <- lemma6 in goal at 3
 advanced_generalize done
 Lemma : forall (arg12:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg12))) (arg12)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg12))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
-Model : arg12: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg12: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg12: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
+Model : arg12: SUCC (SUCC (ZERO)), nat3: ZERO, nat4: ZERO
 Model : arg12: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000141 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (ZERO))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (SUCC (ZERO))))) (SUCC (SUCC (ZERO)))))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (SUCC (ZERO))))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+Simplifying took 0.000231 seconds
 Result : false
 =================================================
 Progress: 404
@@ -15396,12 +15804,24 @@ rewrite <- lemma6 in goal at 1
 rewrite <- lemma6 in goal at 1
 advanced_generalize done
 Lemma : forall (arg13:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg13))) (arg13)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg13))))))) (ZERO)))
-Model : arg13: ZERO, nat3: ZERO, nat4: SUCC (SUCC (SUCC (ZERO)))
+Model : arg13: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: ZERO
 Model : arg13: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg13: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg13: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000214 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (ZERO))) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd (SUCC (SUCC (ZERO))) (natadd (ZERO) (natadd_ta1 (SUCC (SUCC (ZERO))) (natmul_ta1 (ZERO) (ZERO))))))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))))) (ZERO)))
+Simplifying took 0.000205 seconds
 Result : false
 =================================================
 Progress: 407
@@ -16268,12 +16688,24 @@ rewrite <- lemma6 in goal at 3
 rewrite <- lemma6 in goal at 0
 advanced_generalize done
 Lemma : forall (arg14:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg14))) (arg14)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg14)))))) (ZERO))) (ZERO)))
-Model : arg14: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Model : arg14: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg14: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg14: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000185 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO))))))) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO))) (ZERO)))
+Simplifying took 0.000163 seconds
 Result : false
 =================================================
 Progress: 428
@@ -16327,12 +16759,24 @@ rewrite <- lemma6 in goal at 3
 rewrite <- lemma6 in goal at 1
 advanced_generalize done
 Lemma : forall (arg15:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg15))) (arg15)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg15)))))) (ZERO))))
+Model : arg15: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg15: SUCC (ZERO), nat3: SUCC (ZERO), nat4: ZERO
 Model : arg15: ZERO, nat3: SUCC (ZERO), nat4: ZERO
-Model : arg15: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg15: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000177 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO))))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (SUCC (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (SUCC (ZERO))))))) (ZERO))))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (SUCC (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO))))
+Simplifying took 0.000203 seconds
 Result : false
 =================================================
 Progress: 429
@@ -16387,12 +16831,24 @@ rewrite <- lemma6 in goal at 2
 rewrite <- lemma6 in goal at 0
 advanced_generalize done
 Lemma : forall (arg16:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg16))) (arg16)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg16)))))) (ZERO))) (ZERO)) (ZERO)))
-Model : arg16: ZERO, nat3: ZERO, nat4: SUCC (SUCC (ZERO))
-Model : arg16: ZERO, nat3: SUCC (ZERO), nat4: ZERO
-Model : arg16: ZERO, nat3: SUCC (ZERO), nat4: ZERO
+Model : arg16: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg16: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg16: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000317 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO))))))) (ZERO))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (ZERO))) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (SUCC (SUCC (ZERO))) (natadd (ZERO) (natadd_ta1 (SUCC (SUCC (ZERO))) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO))) (ZERO)) (ZERO)))
+Simplifying took 0.000298 seconds
 Result : false
 =================================================
 Progress: 430
@@ -16449,10 +16905,22 @@ advanced_generalize done
 Lemma : forall (arg17:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg17))) (arg17)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg17)))))) (ZERO)) (ZERO))) (ZERO)))
 Model : arg17: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg17: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg17: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg17: ZERO, nat3: ZERO, nat4: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000144 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO)) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO)) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (SUCC (ZERO))) (natmul (SUCC (SUCC (ZERO))) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (ZERO) (natadd (SUCC (SUCC (ZERO))) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (SUCC (ZERO))) (ZERO)))))) (ZERO)) (ZERO))) (ZERO)))
+Simplifying took 0.000234 seconds
 Result : false
 =================================================
 Progress: 431
@@ -16507,12 +16975,24 @@ rewrite <- lemma6 in goal at 3
 rewrite <- lemma6 in goal at 1
 advanced_generalize done
 Lemma : forall (arg18:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg18))) (arg18)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg18)))))) (ZERO)) (ZERO))))
-Model : arg18: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg18: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Model : arg18: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg18: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000123 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO)) (ZERO))))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO)) (ZERO))))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO)) (ZERO))))
+Simplifying took 0.000248 seconds
 Result : false
 =================================================
 Progress: 432
@@ -16568,12 +17048,24 @@ rewrite <- lemma6 in goal at 2
 rewrite <- lemma6 in goal at 0
 advanced_generalize done
 Lemma : forall (arg19:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg19))) (arg19)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg19)))))) (ZERO))) (ZERO)) (ZERO)) (ZERO)))
-Model : arg19: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg19: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
 Model : arg19: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg19: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000167 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (ZERO)))))) (ZERO))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO))) (ZERO)) (ZERO)) (ZERO)))
+Simplifying took 0.000272 seconds
 Result : false
 =================================================
 Progress: 433
@@ -16708,12 +17200,24 @@ rewrite <- lemma6 in goal at 2
 rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg20:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg20))) (arg20)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg20)))))) (ZERO)) (ZERO))) (ZERO)) (ZERO)))
-Model : arg20: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
-Model : arg20: SUCC (SUCC (ZERO)), nat3: ZERO, nat4: ZERO
 Model : arg20: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg20: ZERO, nat3: SUCC (ZERO), nat4: ZERO
+Model : arg20: ZERO, nat3: ZERO, nat4: SUCC (SUCC (SUCC (ZERO)))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000214 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO)) (ZERO))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO)) (ZERO))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (SUCC (SUCC (ZERO)))) (natmul (SUCC (SUCC (SUCC (ZERO)))) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd (ZERO) (natadd (SUCC (SUCC (SUCC (ZERO)))) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (SUCC (SUCC (ZERO)))) (ZERO)))))) (ZERO)) (ZERO))) (ZERO)) (ZERO)))
+Simplifying took 0.000366 seconds
 Result : false
 =================================================
 Progress: 436
@@ -16927,12 +17431,24 @@ rewrite <- lemma6 in goal at 3
 rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg21:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg21))) (arg21)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg21)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO)))
-Model : arg21: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg21: SUCC (SUCC (ZERO)), nat3: ZERO, nat4: ZERO
-Model : arg21: SUCC (ZERO), nat3: SUCC (ZERO), nat4: SUCC (ZERO)
+Model : arg21: ZERO, nat3: SUCC (ZERO), nat4: SUCC (SUCC (SUCC (ZERO)))
+Model : arg21: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
+Model : arg21: ZERO, nat3: SUCC (ZERO), nat4: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000334 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (SUCC (SUCC (SUCC (ZERO)))) (natmul (SUCC (SUCC (SUCC (ZERO)))) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd (SUCC (ZERO)) (natadd (SUCC (SUCC (SUCC (ZERO)))) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (SUCC (SUCC (SUCC (ZERO)))) (ZERO)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (ZERO)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd (SUCC (ZERO)) (natadd (SUCC (ZERO)) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (SUCC (ZERO)) (ZERO)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO)))
+Simplifying took 0.000480 seconds
 Result : false
 =================================================
 Progress: 441
@@ -17191,12 +17707,24 @@ simpl in goal
 rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg22:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg22))) (arg22)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg22))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
-Model : arg22: ZERO, nat3: ZERO, nat4: SUCC (SUCC (ZERO))
-Model : arg22: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
 Model : arg22: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg22: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
+Model : arg22: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000250 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+Simplifying took 0.000200 seconds
 Result : false
 =================================================
 Progress: 447
@@ -17850,12 +18378,24 @@ rewrite lemma6 in goal at 1
 rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg23:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg23))) (arg23))))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg23))))) (ZERO)) (ZERO)))) (ZERO)))
-Model : arg23: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Model : arg23: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg23: SUCC (SUCC (ZERO)), nat3: SUCC (ZERO), nat4: SUCC (ZERO)
 Model : arg23: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000123 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO))))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (SUCC (SUCC (ZERO))))) (SUCC (SUCC (ZERO))))))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (SUCC (ZERO)) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (SUCC (ZERO)) (SUCC (SUCC (ZERO))))))) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO))))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)))
+Simplifying took 0.000312 seconds
 Result : false
 =================================================
 Progress: 463
@@ -17951,11 +18491,23 @@ rewrite <- lemma6 in goal at 0
 advanced_generalize done
 Lemma : forall (arg24:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg24))) (arg24)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg24))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)))
 Model : arg24: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg24: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg24: SUCC (ZERO), nat3: ZERO, nat4: SUCC (SUCC (ZERO))
+Model : arg24: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg24: SUCC (ZERO), nat3: SUCC (ZERO), nat4: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000365 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (SUCC (ZERO)) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (SUCC (ZERO)) (SUCC (ZERO)))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)))
+Simplifying took 0.000379 seconds
 Result : false
 =================================================
 Progress: 465
@@ -18010,12 +18562,24 @@ rewrite <- lemma6 in goal at 0
 rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg25:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg25))) (arg25)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg25))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)))
+Model : arg25: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Model : arg25: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg25: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg25: SUCC (ZERO), nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000144 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)))
+Simplifying took 0.000195 seconds
 Result : false
 =================================================
 Progress: 466
@@ -18273,12 +18837,24 @@ simpl in goal
 rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg26:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg26))) (arg26)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg26))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
-Model : arg26: SUCC (ZERO), nat3: ZERO, nat4: SUCC (SUCC (ZERO))
+Model : arg26: ZERO, nat3: ZERO, nat4: SUCC (SUCC (ZERO))
 Model : arg26: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg26: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000260 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (SUCC (ZERO))) (natmul (SUCC (SUCC (ZERO))) (ZERO))) (ZERO)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (SUCC (SUCC (ZERO))) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (SUCC (ZERO))) (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
+Simplifying took 0.000184 seconds
 Result : false
 =================================================
 Progress: 472
@@ -18614,12 +19190,24 @@ rewrite <- lemma6 in goal at 0
 rewrite <- lemma6 in goal at 1
 advanced_generalize done
 Lemma : forall (arg27:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg27))) (arg27)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg27))))) (ZERO)) (ZERO)))) (ZERO)))
-Model : arg27: SUCC (SUCC (SUCC (ZERO))), nat3: ZERO, nat4: ZERO
 Model : arg27: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg27: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Model : arg27: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000174 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)))
+Simplifying took 0.000190 seconds
 Result : false
 =================================================
 Progress: 480
@@ -18675,12 +19263,24 @@ rewrite <- lemma6 in goal at 1
 rewrite <- lemma6 in goal at 1
 advanced_generalize done
 Lemma : forall (arg28:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg28))) (arg28)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg28))))) (ZERO)) (ZERO)))))
-Model : arg28: ZERO, nat3: SUCC (ZERO), nat4: SUCC (ZERO)
 Model : arg28: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg28: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg28: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg28: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000205 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))))
+Simplifying took 0.000140 seconds
 Result : false
 =================================================
 Progress: 481
@@ -18860,12 +19460,24 @@ rewrite <- lemma6 in goal at 3
 rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg29:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg29))) (arg29)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg29))))) (ZERO)) (ZERO))) (ZERO))) (ZERO)))
-Model : arg29: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: ZERO
 Model : arg29: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg29: SUCC (SUCC (ZERO)), nat3: ZERO, nat4: SUCC (ZERO)
+Model : arg29: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg29: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000404 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO))) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))))) (ZERO)) (ZERO))) (ZERO))) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO))) (ZERO))) (ZERO)))
+Simplifying took 0.000220 seconds
 Result : false
 =================================================
 Progress: 485
@@ -19199,12 +19811,24 @@ rewrite <- lemma6 in goal at 0
 rewrite <- lemma6 in goal at 1
 advanced_generalize done
 Lemma : forall (arg30:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg30))) (arg30)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg30)))))) (ZERO))) (ZERO)) (ZERO)) (ZERO)))
-Model : arg30: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg30: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
 Model : arg30: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg30: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: SUCC (ZERO)
+Model : arg30: ZERO, nat3: ZERO, nat4: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000339 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (ZERO)))))) (ZERO))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO)))))) (ZERO))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (SUCC (ZERO))) (natmul (SUCC (SUCC (ZERO))) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd (ZERO) (natadd (SUCC (SUCC (ZERO))) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (SUCC (ZERO))) (ZERO)))))) (ZERO))) (ZERO)) (ZERO)) (ZERO)))
+Simplifying took 0.000292 seconds
 Result : false
 =================================================
 Progress: 493
@@ -19942,10 +20566,22 @@ advanced_generalize done
 Lemma : forall (arg31:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg31))) (arg31)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg31))))))) (ZERO)) (ZERO)) (ZERO)))
 Model : arg31: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg31: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg31: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: ZERO
+Model : arg31: SUCC (ZERO), nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000265 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))))))) (ZERO)) (ZERO)) (ZERO)))
+Simplifying took 0.000194 seconds
 Result : false
 =================================================
 Progress: 511
@@ -20043,10 +20679,22 @@ advanced_generalize done
 Lemma : forall (arg32:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg32))) (arg32)))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg32))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
 Model : arg32: SUCC (ZERO), nat3: SUCC (ZERO), nat4: ZERO
 Model : arg32: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg32: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg32: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000251 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (SUCC (ZERO)))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+Simplifying took 0.000346 seconds
 Result : false
 =================================================
 Progress: 513
@@ -20104,10 +20752,22 @@ advanced_generalize done
 Lemma : forall (arg33:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg33))) (arg33)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg33))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
 Model : arg33: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Model : arg33: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg33: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: ZERO
+Model : arg33: SUCC (ZERO), nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000386 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))))) (ZERO)) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+Simplifying took 0.000266 seconds
 Result : false
 =================================================
 Progress: 514
@@ -20242,11 +20902,23 @@ rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg34:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg34))) (arg34)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg34))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
 Model : arg34: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg34: SUCC (ZERO), nat3: ZERO, nat4: ZERO
-Model : arg34: ZERO, nat3: SUCC (ZERO), nat4: SUCC (ZERO)
+Model : arg34: SUCC (SUCC (ZERO)), nat3: ZERO, nat4: SUCC (ZERO)
+Model : arg34: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000232 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (SUCC (ZERO)) (natmul (SUCC (ZERO)) (SUCC (SUCC (ZERO))))) (SUCC (SUCC (ZERO)))))) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (ZERO) (natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (SUCC (SUCC (ZERO))))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO))))) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
+Simplifying took 0.000333 seconds
 Result : false
 =================================================
 Progress: 517
@@ -20300,12 +20972,24 @@ rewrite <- lemma6 in goal at 0
 rewrite <- lemma6 in goal at 0
 advanced_generalize done
 Lemma : forall (arg35:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg35))) (arg35)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg35))))) (ZERO))) (ZERO))) (ZERO)) (ZERO)))
-Model : arg35: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
-Model : arg35: SUCC (ZERO), nat3: SUCC (ZERO), nat4: ZERO
+Model : arg35: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Model : arg35: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg35: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000240 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (ZERO)) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (SUCC (ZERO)) (natadd (ZERO) (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO))))) (ZERO))) (ZERO))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO))) (ZERO))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (ZERO))) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (SUCC (SUCC (ZERO))) (natadd (ZERO) (natadd_ta1 (SUCC (SUCC (ZERO))) (natmul_ta1 (ZERO) (ZERO))))) (ZERO))) (ZERO))) (ZERO)) (ZERO)))
+Simplifying took 0.000313 seconds
 Result : false
 =================================================
 Progress: 518
@@ -20360,11 +21044,23 @@ rewrite <- lemma6 in goal at 2
 advanced_generalize done
 Lemma : forall (arg36:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg36))) (arg36)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg36))))) (ZERO))) (ZERO))) (ZERO)) (ZERO)))
 Model : arg36: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg36: SUCC (ZERO), nat3: SUCC (SUCC (ZERO)), nat4: SUCC (ZERO)
-Model : arg36: ZERO, nat3: SUCC (SUCC (SUCC (ZERO))), nat4: ZERO
+Model : arg36: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg36: SUCC (ZERO), nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000505 seconds
+let rec natadd n1 n2 =
+match (n1) with
+| ZERO  -> n2
+| SUCC x -> SUCC (natadd (n2) (x))
+let rec natmul n1 n2 =
+match (n1) with
+| ZERO  -> ZERO
+| SUCC x -> natadd (n2) (natmul (n2) (x))
+prop list:
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO))) (ZERO))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (ZERO))) (ZERO)))) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))))) (ZERO))) (ZERO))) (ZERO)) (ZERO)))
+SUCC (SUCC (natadd_ta1 (natadd_ta1 (ZERO) (SUCC (natadd (natadd (ZERO) (natmul (ZERO) (SUCC (ZERO)))) (SUCC (ZERO))))) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd (ZERO) (natadd (ZERO) (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))))) (ZERO))) (ZERO))) (ZERO)) (ZERO)))
+Simplifying took 0.000169 seconds
 Result : false
 =================================================
 Progress: 519
@@ -21453,476 +22149,6 @@ IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUC
 Inductive2 : nat1 = SUCC (nat4)
 ---------------------------------------
 SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-rewrite <- lemma6 in goal at 0(rank:5)
-=================================================
-Progress: 546
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- lemma6 in goal at 0(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 4
-rewrite <- lemma6 in goal at 2(rank:13)
-rewrite <- lemma6 in goal at 3(rank:13)
-rewrite <- lemma6 in goal at 0(rank:21)
-rewrite <- lemma6 in goal at 1(rank:21)
-=================================================
-Progress: 547
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- lemma6 in goal at 2(rank : 13)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 4
-rewrite lemma6 in goal at 3(rank:21)
-rewrite <- lemma6 in goal at 0(rank:21)
-rewrite <- lemma6 in goal at 2(rank:21)
-rewrite <- lemma6 in goal at 3(rank:21)
-=================================================
-Progress: 548
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- lemma6 in goal at 3(rank : 13)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)))) (ZERO)) (ZERO)) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 4
-rewrite lemma6 in goal at 1(rank:21)
-rewrite <- lemma6 in goal at 0(rank:21)
-rewrite <- lemma6 in goal at 1(rank:21)
-rewrite <- lemma6 in goal at 3(rank:21)
-=================================================
-Progress: 549
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- lemma6 in goal at 0(rank : 21)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO))) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-rewrite <- lemma6 in goal at 0(rank:5)
-=================================================
-Progress: 550
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO))) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- lemma6 in goal at 0(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO))) (ZERO)) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 3
-rewrite <- lemma6 in goal at 2(rank:13)
-rewrite <- lemma6 in goal at 0(rank:21)
-rewrite <- lemma6 in goal at 1(rank:21)
-=================================================
-Progress: 551
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO))) (ZERO)) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- lemma6 in goal at 2(rank : 13)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO))) (ZERO)) (ZERO)) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 3
-rewrite lemma6 in goal at 1(rank:21)
-rewrite <- lemma6 in goal at 0(rank:21)
-rewrite <- lemma6 in goal at 2(rank:21)
-=================================================
-Progress: 552
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- lemma6 in goal at 1(rank : 21)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO))) (ZERO))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-rewrite IH1 in goal at 0
-reflexivity
-rewrite lemma6 in goal at 0
-reflexivity
-simpl in goal
-rewrite <- lemma6 in goal at 2
-simpl in goal
-rewrite <- lemma6 in goal at 1
-rewrite <- lemma6 in goal at 0
-rewrite <- lemma6 in goal at 0
-rewrite <- lemma6 in goal at 1
-rewrite <- lemma6 in goal at 1
-simpl in goal
-rewrite <- lemma6 in goal at 3
-rewrite <- lemma6 in goal at 1
-advanced_generalize done
-Lemma : forall (arg37:nat) (nat3:nat) (nat4:nat), SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (arg37))) (arg37)))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (arg37))))) (ZERO)) (ZERO)) (ZERO))) (ZERO))))
-Model : arg37: ZERO, nat3: SUCC (ZERO), nat4: ZERO
-Model : arg37: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg37: SUCC (ZERO), nat3: ZERO, nat4: ZERO
-Substituting variables...
-Simplifying conditions and property...
-Simplifying took 0.000228 seconds
-Result : false
-=================================================
-Progress: 553
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite lemma6 in goal at 1(rank : 21)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-rewrite <- lemma6 in goal at 3(rank:5)
-=================================================
-Progress: 554
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- lemma6 in goal at 3(rank : 5)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (natadd_ta1 (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) (ZERO))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 3
-rewrite <- lemma6 in goal at 0(rank:21)
-rewrite <- lemma6 in goal at 2(rank:21)
-rewrite <- lemma6 in goal at 3(rank:21)
-=================================================
-Progress: 555
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- lemma6 in goal at 0(rank : 21)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (natadd_ta1 (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)))) (ZERO)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-rewrite <- lemma6 in goal at 0(rank:21)
-rewrite <- lemma6 in goal at 2(rank:21)
-=================================================
-Progress: 556
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- lemma6 in goal at 1(rank : 21)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd_ta1 (nat2) (natmul (nat1) (SUCC (nat2)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat2))) (nat2))
-nat2 : nat
-nat3 : nat
-IH1 : forall (nat1:nat), SUCC (natadd_ta1 (nat3) (natmul (nat1) (SUCC (nat3)))) = SUCC (natadd (natadd (nat1) (natmul_ta1 (nat1) (nat3))) (nat3))
-Inductive1 : nat2 = SUCC (nat3)
-nat1 : nat
-nat4 : nat
-IH2 : SUCC (SUCC (natadd_ta1 (nat3) (natmul (nat4) (SUCC (SUCC (nat3)))))) = SUCC (natadd (natadd (nat4) (natmul_ta1 (nat4) (SUCC (nat3)))) (SUCC (nat3)))
-Inductive2 : nat1 = SUCC (nat4)
----------------------------------------
-SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (nat3) (SUCC (natadd (natadd (nat4) (natmul (nat4) (SUCC (nat3)))) (SUCC (nat3))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO))) = SUCC (SUCC (SUCC (SUCC (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd_ta1 (natadd (nat3) (natadd (nat4) (natadd_ta1 (nat3) (natmul_ta1 (nat4) (SUCC (nat3)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)))))
 
 0 goal(s) more...
 

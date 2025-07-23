@@ -601,12 +601,23 @@ simpl in goal
 rewrite IH2 in goal at 0
 advanced_generalize done
 Lemma : forall (arg1:nat) (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat3) (natmul_helper (nat4) (arg1) (ZERO))) = natmul_helper (nat4) (arg1) (arg1)
-Model : arg1: SUCC (ZERO), nat3: ZERO, nat4: SUCC (ZERO)
-Model : arg1: ZERO, nat3: ZERO, nat4: SUCC (SUCC (ZERO))
-Model : arg1: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: ZERO
+Model : arg1: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg1: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg1: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000070 seconds
+let rec natmul_helper n1 n2 result =
+match (n1, n2) with
+| (_, ZERO ) -> result
+| (ZERO , _) -> result
+| (SUCC v1, _) -> natmul_helper (v1) (n2) (natadd (result) (n2))
+let natmul n1 n2 =
+natmul_helper (n1) (n2) (ZERO)
+prop list:
+SUCC (natadd_ta1 (ZERO) (natmul_helper (ZERO) (ZERO) (ZERO))) = natmul_helper (ZERO) (ZERO) (ZERO)
+SUCC (natadd_ta1 (ZERO) (natmul_helper (ZERO) (SUCC (ZERO)) (ZERO))) = natmul_helper (ZERO) (SUCC (ZERO)) (SUCC (ZERO))
+SUCC (natadd_ta1 (ZERO) (natmul_helper (ZERO) (ZERO) (ZERO))) = natmul_helper (ZERO) (ZERO) (ZERO)
+Simplifying took 0.000048 seconds
 Result : false
 =================================================
 Progress: 20
@@ -831,12 +842,23 @@ simpl in goal
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg2:nat) (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (natmul_helper (nat3) (arg2) (ZERO))) = natmul_helper (nat3) (arg2) (arg2)
-Model : arg2: SUCC (SUCC (ZERO)), nat3: ZERO, nat4: ZERO
-Model : arg2: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
+Model : arg2: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg2: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg2: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000039 seconds
+let rec natmul_helper n1 n2 result =
+match (n1, n2) with
+| (_, ZERO ) -> result
+| (ZERO , _) -> result
+| (SUCC v1, _) -> natmul_helper (v1) (n2) (natadd (result) (n2))
+let natmul n1 n2 =
+natmul_helper (n1) (n2) (ZERO)
+prop list:
+SUCC (natadd_ta1 (ZERO) (natmul_helper (ZERO) (ZERO) (ZERO))) = natmul_helper (ZERO) (ZERO) (ZERO)
+SUCC (natadd_ta1 (ZERO) (natmul_helper (ZERO) (ZERO) (ZERO))) = natmul_helper (ZERO) (ZERO) (ZERO)
+SUCC (natadd_ta1 (ZERO) (natmul_helper (ZERO) (ZERO) (ZERO))) = natmul_helper (ZERO) (ZERO) (ZERO)
+Simplifying took 0.000054 seconds
 Result : false
 =================================================
 Progress: 26
@@ -1024,12 +1046,23 @@ advanced_generalize done
 Lemma : forall (arg3:nat) (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (natmul_ta1 (nat3) (arg3))) = natmul_helper (nat3) (arg3) (arg3)
 Model : arg3: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg3: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg3: ZERO, nat3: ZERO, nat4: SUCC (SUCC (ZERO))
+Model : arg3: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000033 seconds
+let rec natmul_helper n1 n2 result =
+match (n1, n2) with
+| (_, ZERO ) -> result
+| (ZERO , _) -> result
+| (SUCC v1, _) -> natmul_helper (v1) (n2) (natadd (result) (n2))
+let natmul n1 n2 =
+natmul_helper (n1) (n2) (ZERO)
+prop list:
+SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))) = natmul_helper (ZERO) (ZERO) (ZERO)
+SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))) = natmul_helper (ZERO) (ZERO) (ZERO)
+SUCC (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (ZERO))) = natmul_helper (SUCC (ZERO)) (ZERO) (ZERO)
+Simplifying took 0.000041 seconds
 Result : false
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 196, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 288, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

@@ -180,15 +180,39 @@ Model : nat3: ZERO
 Model : nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000011 seconds
+let rec mk_lhs1 arg_1 arg_2 =
+match (arg_1) with
+| Nil  -> arg_2
+| Cons hd tl -> SUCC (mk_lhs1 (tl) (arg_2))
+let rec mk_rhs1 arg_3 =
+match (arg_3) with
+| Nil  -> ZERO
+| Cons hd tl -> SUCC (mk_rhs1 (tl))
+prop list:
+mk_lhs1 ((Nil)) (ZERO) = ZERO
+mk_lhs1 ((Nil)) (ZERO) = ZERO
+mk_lhs1 ((Nil)) (ZERO) = ZERO
+Simplifying took 0.000021 seconds
 Result : true
 Lemma : forall (tl:nat list) (nat3:nat), mk_lhs1 ((hd::tl)) (nat3) = SUCC (mk_lhs1 (tl) (nat3))
 Model : tl: (Nil), nat3: ZERO
-Model : tl: (Nil), nat3: ZERO
-Model : tl: (Nil), nat3: SUCC (SUCC (ZERO))
+Model : tl: (ZERO::(Nil)), nat3: ZERO
+Model : tl: (Nil), nat3: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000030 seconds
+let rec mk_lhs1 arg_1 arg_2 =
+match (arg_1) with
+| Nil  -> arg_2
+| Cons hd tl -> SUCC (mk_lhs1 (tl) (arg_2))
+let rec mk_rhs1 arg_3 =
+match (arg_3) with
+| Nil  -> ZERO
+| Cons hd tl -> SUCC (mk_rhs1 (tl))
+prop list:
+mk_lhs1 ((hd::(Nil))) (ZERO) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+mk_lhs1 ((hd::(ZERO::(Nil)))) (ZERO) = SUCC (mk_lhs1 ((ZERO::(Nil))) (ZERO))
+mk_lhs1 ((hd::(Nil))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
+Simplifying took 0.000048 seconds
 Result : true
 Lemma : forall , mk_rhs1 ((Nil)) = ZERO
 Model : 
@@ -196,23 +220,59 @@ Model :
 Model : 
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000007 seconds
+let rec mk_lhs1 arg_1 arg_2 =
+match (arg_1) with
+| Nil  -> arg_2
+| Cons hd tl -> SUCC (mk_lhs1 (tl) (arg_2))
+let rec mk_rhs1 arg_3 =
+match (arg_3) with
+| Nil  -> ZERO
+| Cons hd tl -> SUCC (mk_rhs1 (tl))
+prop list:
+mk_rhs1 ((Nil)) = ZERO
+mk_rhs1 ((Nil)) = ZERO
+mk_rhs1 ((Nil)) = ZERO
+Simplifying took 0.000013 seconds
 Result : true
 Lemma : forall (tl:nat list), mk_rhs1 ((hd::tl)) = SUCC (mk_rhs1 (tl))
 Model : tl: (Nil)
-Model : tl: (ZERO::(Nil))
 Model : tl: (Nil)
+Model : tl: (SUCC (ZERO)::(ZERO::(Nil)))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000027 seconds
+let rec mk_lhs1 arg_1 arg_2 =
+match (arg_1) with
+| Nil  -> arg_2
+| Cons hd tl -> SUCC (mk_lhs1 (tl) (arg_2))
+let rec mk_rhs1 arg_3 =
+match (arg_3) with
+| Nil  -> ZERO
+| Cons hd tl -> SUCC (mk_rhs1 (tl))
+prop list:
+mk_rhs1 ((hd::(Nil))) = SUCC (mk_rhs1 ((Nil)))
+mk_rhs1 ((hd::(Nil))) = SUCC (mk_rhs1 ((Nil)))
+mk_rhs1 ((hd::(SUCC (ZERO)::(ZERO::(Nil))))) = SUCC (mk_rhs1 ((SUCC (ZERO)::(ZERO::(Nil)))))
+Simplifying took 0.000045 seconds
 Result : true
 Lemma : forall (lst:nat list) (nat3:nat), mk_lhs1 (lst) (nat3) = natadd (mk_rhs1 (lst)) (nat3)
-Model : lst: (Nil), nat3: SUCC (SUCC (ZERO))
 Model : lst: (Nil), nat3: ZERO
-Model : lst: (SUCC (ZERO)::(Nil)), nat3: ZERO
+Model : lst: (Nil), nat3: ZERO
+Model : lst: (Nil), nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000036 seconds
+let rec mk_lhs1 arg_1 arg_2 =
+match (arg_1) with
+| Nil  -> arg_2
+| Cons hd tl -> SUCC (mk_lhs1 (tl) (arg_2))
+let rec mk_rhs1 arg_3 =
+match (arg_3) with
+| Nil  -> ZERO
+| Cons hd tl -> SUCC (mk_rhs1 (tl))
+prop list:
+mk_lhs1 ((Nil)) (ZERO) = natadd (mk_rhs1 ((Nil))) (ZERO)
+mk_lhs1 ((Nil)) (ZERO) = natadd (mk_rhs1 ((Nil))) (ZERO)
+mk_lhs1 ((Nil)) (ZERO) = natadd (mk_rhs1 ((Nil))) (ZERO)
+Simplifying took 0.000024 seconds
 Result : true
 New Env
 let rec mk_lhs1 arg_1 arg_2 =

@@ -216,12 +216,22 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (arg1:any list), len ((arg1 @ (any1::(Nil)))) = SUCC (len (arg1))
-Model : any1: 6, arg1: (Nil)
-Model : any1: 1, arg1: (Nil)
+Model : any1: 5, arg1: (6::(4::(0::(Nil))))
 Model : any1: 3, arg1: (Nil)
+Model : any1: 8, arg1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000136 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+len (((6::(4::(0::(Nil)))) @ (5::(Nil)))) = SUCC (len ((6::(4::(0::(Nil))))))
+len (((Nil) @ (3::(Nil)))) = SUCC (len ((Nil)))
+len (((Nil) @ (8::(Nil)))) = SUCC (len ((Nil)))
+Simplifying took 0.000536 seconds
 Result : true
 New Env
 

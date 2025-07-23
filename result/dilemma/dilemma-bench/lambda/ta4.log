@@ -167,12 +167,26 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (arg1:string list) (lambda2:lambda), sub_check_ta1 (lambda2) (arg1) = sub_check (lambda2) (arg1)
-Model : arg1: ("bzi"::(Nil)), lambda2: V ("lmg")
-Model : arg1: (Nil), lambda2: V ("imj")
-Model : arg1: (Nil), lambda2: V ("gjr")
+Model : arg1: (Nil), lambda2: V ("fni")
+Model : arg1: (Nil), lambda2: V ("hxd")
+Model : arg1: (Nil), lambda2: V ("lnx")
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000881 seconds
+let rec sub_check ma li =
+match (ma) with
+| V na -> exists (aux (na)) (li)
+| P st k -> sub_check (k) ((st::li))
+| C me1 me2 -> && (sub_check (me1) (li)) (sub_check (me2) (li))
+let check m =
+match (m) with
+| V na -> false
+| P st k -> sub_check (k) ((st::(Nil)))
+| C me1 me2 -> && (sub_check (me1) ((Nil))) (sub_check (me2) ((Nil)))
+prop list:
+sub_check_ta1 (V ("fni")) ((Nil)) = sub_check (V ("fni")) ((Nil))
+sub_check_ta1 (V ("hxd")) ((Nil)) = sub_check (V ("hxd")) ((Nil))
+sub_check_ta1 (V ("lnx")) ((Nil)) = sub_check (V ("lnx")) ((Nil))
+Simplifying took 0.000312 seconds
 Result : true
 New Env
 

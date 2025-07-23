@@ -216,12 +216,22 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (arg1:any list), qreva ((arg1 @ (any1::(Nil)))) ((Nil)) = (any1::qreva (arg1) ((Nil)))
-Model : any1: 5, arg1: (Nil)
-Model : any1: 5, arg1: (Nil)
+Model : any1: 8, arg1: (Nil)
+Model : any1: 3, arg1: (Nil)
 Model : any1: 0, arg1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000213 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva (((Nil) @ (8::(Nil)))) ((Nil)) = (8::qreva ((Nil)) ((Nil)))
+qreva (((Nil) @ (3::(Nil)))) ((Nil)) = (3::qreva ((Nil)) ((Nil)))
+qreva (((Nil) @ (0::(Nil)))) ((Nil)) = (0::qreva ((Nil)) ((Nil)))
+Simplifying took 0.000203 seconds
 Result : true
 New Env
 
@@ -404,12 +414,22 @@ simpl in goal
 intro any1
 advanced_generalize done
 Lemma : forall (any1:any) (any_list2:any list) (arg2:any list), qreva ((any_list2 @ (any1::(Nil)))) (arg2) = (any1::qreva (any_list2) (arg2))
-Model : any1: 0, any_list2: (Nil), arg2: (6::(Nil))
-Model : any1: 3, any_list2: (Nil), arg2: (Nil)
+Model : any1: 7, any_list2: (Nil), arg2: (7::(Nil))
+Model : any1: 8, any_list2: (Nil), arg2: (Nil)
 Model : any1: 1, any_list2: (Nil), arg2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000222 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva (((Nil) @ (7::(Nil)))) ((7::(Nil))) = (7::qreva ((Nil)) ((7::(Nil))))
+qreva (((Nil) @ (8::(Nil)))) ((Nil)) = (8::qreva ((Nil)) ((Nil)))
+qreva (((Nil) @ (1::(Nil)))) ((Nil)) = (1::qreva ((Nil)) ((Nil)))
+Simplifying took 0.000297 seconds
 Result : true
 New Env
 
@@ -825,23 +845,53 @@ Model : any_list3: (Nil)
 Model : any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000023 seconds
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+let rec mk_rhs1 arg_3 arg_4 =
+match (arg_3) with
+| Nil  -> arg_4
+| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_4))
+prop list:
+mk_rhs1 ((Nil)) ((Nil)) = (Nil)
+mk_rhs1 ((Nil)) ((Nil)) = (Nil)
+mk_rhs1 ((Nil)) ((Nil)) = (Nil)
+Simplifying took 0.000034 seconds
 Result : true
 Lemma : forall (tl:any list) (hd:any) (any_list3:any list), mk_rhs1 ((hd::tl)) (any_list3) = mk_rhs1 (tl) ((hd::any_list3))
-Model : tl: (Nil), hd: 8, any_list3: (Nil)
+Model : tl: (Nil), hd: 1, any_list3: (Nil)
 Model : tl: (Nil), hd: 0, any_list3: (Nil)
-Model : tl: (Nil), hd: 0, any_list3: (Nil)
+Model : tl: (Nil), hd: 4, any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000406 seconds
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+let rec mk_rhs1 arg_3 arg_4 =
+match (arg_3) with
+| Nil  -> arg_4
+| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_4))
+prop list:
+mk_rhs1 ((1::(Nil))) ((Nil)) = mk_rhs1 ((Nil)) ((1::(Nil)))
+mk_rhs1 ((0::(Nil))) ((Nil)) = mk_rhs1 ((Nil)) ((0::(Nil)))
+mk_rhs1 ((4::(Nil))) ((Nil)) = mk_rhs1 ((Nil)) ((4::(Nil)))
+Simplifying took 0.000164 seconds
 Result : true
 Lemma : forall (any_list3:any list) (lst:any list), qreva (qreva (any_list3) (lst)) ((Nil)) = mk_rhs1 (lst) (any_list3)
-Model : any_list3: (Nil), lst: (4::(Nil))
 Model : any_list3: (Nil), lst: (Nil)
 Model : any_list3: (Nil), lst: (Nil)
+Model : any_list3: (Nil), lst: (5::(2::(0::(Nil))))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000148 seconds
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+let rec mk_rhs1 arg_3 arg_4 =
+match (arg_3) with
+| Nil  -> arg_4
+| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_4))
+prop list:
+qreva (qreva ((Nil)) ((Nil))) ((Nil)) = mk_rhs1 ((Nil)) ((Nil))
+qreva (qreva ((Nil)) ((Nil))) ((Nil)) = mk_rhs1 ((Nil)) ((Nil))
+qreva (qreva ((Nil)) ((5::(2::(0::(Nil)))))) ((Nil)) = mk_rhs1 ((5::(2::(0::(Nil))))) ((Nil))
+Simplifying took 0.000359 seconds
 Result : true
 New Env
 let rec mk_rhs1 arg_3 arg_4 =
@@ -1278,12 +1328,22 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (any1:any) (any_list3:any list), qreva (qreva (any_list3) ((any1::(Nil)))) ((Nil)) = (any1::any_list3)
+Model : any1: 0, any_list3: (Nil)
 Model : any1: 2, any_list3: (Nil)
-Model : any1: 5, any_list3: (Nil)
-Model : any1: 6, any_list3: (Nil)
+Model : any1: 0, any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000230 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva (qreva ((Nil)) ((0::(Nil)))) ((Nil)) = (0::(Nil))
+qreva (qreva ((Nil)) ((2::(Nil)))) ((Nil)) = (2::(Nil))
+qreva (qreva ((Nil)) ((0::(Nil)))) ((Nil)) = (0::(Nil))
+Simplifying took 0.000130 seconds
 Result : true
 New Env
 
@@ -1539,12 +1599,22 @@ rewrite <- IH1 in goal at 0
 rewrite <- lemma3 in goal at 0
 advanced_generalize done
 Lemma : forall (any2:any) (any_list2:any list) (arg5:any list), qreva (qreva (any_list2) ((any2::arg5))) ((Nil)) = qreva ((qreva (any_list2) ((any2::(Nil))) @ arg5)) ((Nil))
-Model : any2: 3, any_list2: (Nil), arg5: (Nil)
+Model : any2: 0, any_list2: (Nil), arg5: (Nil)
+Model : any2: 7, any_list2: (0::(Nil)), arg5: (1::(3::(Nil)))
 Model : any2: 1, any_list2: (Nil), arg5: (Nil)
-Model : any2: 2, any_list2: (Nil), arg5: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000371 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva (qreva ((Nil)) ((0::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(Nil))) @ (Nil))) ((Nil))
+qreva (qreva ((0::(Nil))) ((7::(1::(3::(Nil)))))) ((Nil)) = qreva ((qreva ((0::(Nil))) ((7::(Nil))) @ (1::(3::(Nil))))) ((Nil))
+qreva (qreva ((Nil)) ((1::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((1::(Nil))) @ (Nil))) ((Nil))
+Simplifying took 0.000964 seconds
 Result : true
 New Env
 
@@ -1834,12 +1904,22 @@ intro any_list2
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any_list2:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any2::(Nil))) @ (any1::any_list2))) ((Nil)) = qreva ((qreva (any_list3) ((any2::(any1::(Nil)))) @ any_list2)) ((Nil))
-Model : any1: 8, any2: 5, any_list2: (Nil), any_list3: (6::(Nil))
-Model : any1: 4, any2: 8, any_list2: (Nil), any_list3: (3::(Nil))
-Model : any1: 6, any2: 2, any_list2: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 5, any_list2: (Nil), any_list3: (6::(Nil))
+Model : any1: 7, any2: 8, any_list2: (8::(Nil)), any_list3: (Nil)
+Model : any1: 0, any2: 6, any_list2: (4::(3::(Nil))), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.002105 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((6::(Nil))) ((5::(Nil))) @ (0::(Nil)))) ((Nil)) = qreva ((qreva ((6::(Nil))) ((5::(0::(Nil)))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((8::(Nil))) @ (7::(8::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((8::(7::(Nil)))) @ (8::(Nil)))) ((Nil))
+qreva ((qreva ((Nil)) ((6::(Nil))) @ (0::(4::(3::(Nil)))))) ((Nil)) = qreva ((qreva ((Nil)) ((6::(0::(Nil)))) @ (4::(3::(Nil))))) ((Nil))
+Simplifying took 0.002307 seconds
 Result : true
 New Env
 
@@ -1935,12 +2015,22 @@ intro any_list2
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any_list2:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any2::(Nil))) @ (any1::any_list2))) ((Nil)) = qreva ((qreva (any_list3) ((any2::(any1::(Nil)))) @ any_list2)) ((Nil))
-Model : any1: 5, any2: 0, any_list2: (Nil), any_list3: (Nil)
-Model : any1: 3, any2: 4, any_list2: (8::(Nil)), any_list3: (Nil)
-Model : any1: 5, any2: 4, any_list2: (Nil), any_list3: (5::(Nil))
+Model : any1: 3, any2: 0, any_list2: (Nil), any_list3: (Nil)
+Model : any1: 7, any2: 7, any_list2: (Nil), any_list3: (Nil)
+Model : any1: 3, any2: 1, any_list2: (Nil), any_list3: (1::(4::(Nil)))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001703 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((0::(Nil))) @ (3::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(3::(Nil)))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((7::(Nil))) @ (7::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((7::(7::(Nil)))) @ (Nil))) ((Nil))
+qreva ((qreva ((1::(4::(Nil)))) ((1::(Nil))) @ (3::(Nil)))) ((Nil)) = qreva ((qreva ((1::(4::(Nil)))) ((1::(3::(Nil)))) @ (Nil))) ((Nil))
+Simplifying took 0.001706 seconds
 Result : true
 =================================================
 Progress: 54
@@ -2289,12 +2379,22 @@ intro any_list1
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any3::(Nil))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any3::(any2::(any1::(Nil))))) @ any_list1)) ((Nil))
-Model : any1: 0, any2: 0, any3: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 2, any2: 1, any3: 4, any_list1: (0::(Nil)), any_list3: (Nil)
-Model : any1: 2, any2: 2, any3: 3, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 0, any3: 2, any_list1: (0::(Nil)), any_list3: (Nil)
+Model : any1: 3, any2: 0, any3: 4, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 4, any2: 7, any3: 0, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001591 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((2::(Nil))) @ (0::(0::(0::(Nil)))))) ((Nil)) = qreva ((qreva ((Nil)) ((2::(0::(0::(Nil))))) @ (0::(Nil)))) ((Nil))
+qreva ((qreva ((Nil)) ((4::(Nil))) @ (0::(3::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((4::(0::(3::(Nil))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(Nil))) @ (7::(4::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(7::(4::(Nil))))) @ (Nil))) ((Nil))
+Simplifying took 0.001563 seconds
 Result : true
 New Env
 
@@ -2428,12 +2528,22 @@ intro any_list1
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any3::(Nil))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any3::(any2::(any1::(Nil))))) @ any_list1)) ((Nil))
-Model : any1: 2, any2: 6, any3: 5, any_list1: (4::(Nil)), any_list3: (Nil)
-Model : any1: 3, any2: 0, any3: 5, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 1, any2: 3, any3: 8, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 2, any2: 4, any3: 0, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 1, any2: 4, any3: 1, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 1, any2: 8, any3: 2, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.002060 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((0::(Nil))) @ (4::(2::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(4::(2::(Nil))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((1::(Nil))) @ (4::(1::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((1::(4::(1::(Nil))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((2::(Nil))) @ (8::(1::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((2::(8::(1::(Nil))))) @ (Nil))) ((Nil))
+Simplifying took 0.001513 seconds
 Result : true
 =================================================
 Progress: 67
@@ -2478,12 +2588,22 @@ intro any_list1
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any3::(Nil))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any3::(any2::(any1::(Nil))))) @ any_list1)) ((Nil))
-Model : any1: 1, any2: 0, any3: 8, any_list1: (Nil), any_list3: (Nil)
 Model : any1: 2, any2: 6, any3: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 8, any2: 3, any3: 0, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 3, any2: 1, any3: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 3, any2: 8, any3: 3, any_list1: (4::(Nil)), any_list3: (3::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001640 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((0::(Nil))) @ (6::(2::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(6::(2::(Nil))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((5::(Nil))) @ (1::(3::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((5::(1::(3::(Nil))))) @ (Nil))) ((Nil))
+qreva ((qreva ((3::(Nil))) ((3::(Nil))) @ (8::(3::(4::(Nil)))))) ((Nil)) = qreva ((qreva ((3::(Nil))) ((3::(8::(3::(Nil))))) @ (4::(Nil)))) ((Nil))
+Simplifying took 0.002672 seconds
 Result : true
 =================================================
 Progress: 68
@@ -2531,12 +2651,22 @@ intro any_list1
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any3::(Nil))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any3::(any2::(any1::(Nil))))) @ any_list1)) ((Nil))
-Model : any1: 2, any2: 5, any3: 1, any_list1: (4::(Nil)), any_list3: (Nil)
-Model : any1: 0, any2: 1, any3: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 6, any2: 3, any3: 6, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 2, any2: 1, any3: 1, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 3, any2: 2, any3: 6, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 8, any2: 3, any3: 5, any_list1: (Nil), any_list3: (2::(0::(Nil)))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001858 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((1::(Nil))) @ (1::(2::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((1::(1::(2::(Nil))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((6::(Nil))) @ (2::(3::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((6::(2::(3::(Nil))))) @ (Nil))) ((Nil))
+qreva ((qreva ((2::(0::(Nil)))) ((5::(Nil))) @ (3::(8::(Nil))))) ((Nil)) = qreva ((qreva ((2::(0::(Nil)))) ((5::(3::(8::(Nil))))) @ (Nil))) ((Nil))
+Simplifying took 0.002583 seconds
 Result : true
 =================================================
 Progress: 69
@@ -2774,12 +2904,22 @@ simpl in goal
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any4::(any3::(Nil)))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any4::(any3::(any2::(any1::(Nil)))))) @ any_list1)) ((Nil))
-Model : any1: 8, any2: 0, any3: 5, any4: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 1, any2: 0, any3: 0, any4: 1, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 1, any2: 5, any3: 4, any4: 5, any_list1: (4::(2::(1::(Nil)))), any_list3: (Nil)
+Model : any1: 7, any2: 4, any3: 3, any4: 8, any_list1: (Nil), any_list3: (6::(Nil))
+Model : any1: 1, any2: 1, any3: 7, any4: 2, any_list1: (7::(Nil)), any_list3: (Nil)
+Model : any1: 0, any2: 6, any3: 2, any4: 7, any_list1: (Nil), any_list3: (5::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.003564 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((6::(Nil))) ((8::(3::(Nil)))) @ (4::(7::(Nil))))) ((Nil)) = qreva ((qreva ((6::(Nil))) ((8::(3::(4::(7::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((2::(7::(Nil)))) @ (1::(1::(7::(Nil)))))) ((Nil)) = qreva ((qreva ((Nil)) ((2::(7::(1::(1::(Nil)))))) @ (7::(Nil)))) ((Nil))
+qreva ((qreva ((5::(Nil))) ((7::(2::(Nil)))) @ (6::(0::(Nil))))) ((Nil)) = qreva ((qreva ((5::(Nil))) ((7::(2::(6::(0::(Nil)))))) @ (Nil))) ((Nil))
+Simplifying took 0.004568 seconds
 Result : true
 New Env
 
@@ -2946,12 +3086,22 @@ intro any1
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any4::(any3::(Nil)))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any4::(any3::(any2::(any1::(Nil)))))) @ any_list1)) ((Nil))
-Model : any1: 7, any2: 1, any3: 0, any4: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 0, any2: 3, any3: 0, any4: 4, any_list1: (3::(Nil)), any_list3: (Nil)
-Model : any1: 6, any2: 1, any3: 8, any4: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 0, any3: 5, any4: 3, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 8, any2: 0, any3: 4, any4: 8, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 4, any2: 6, any3: 8, any4: 3, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.003482 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((3::(5::(Nil)))) @ (0::(0::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((3::(5::(0::(0::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((8::(4::(Nil)))) @ (0::(8::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((8::(4::(0::(8::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((3::(8::(Nil)))) @ (6::(4::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((3::(8::(6::(4::(Nil)))))) @ (Nil))) ((Nil))
+Simplifying took 0.003202 seconds
 Result : true
 =================================================
 Progress: 80
@@ -3030,12 +3180,22 @@ intro any2
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any4::(any3::(Nil)))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any4::(any3::(any2::(any1::(Nil)))))) @ any_list1)) ((Nil))
-Model : any1: 7, any2: 5, any3: 4, any4: 6, any_list1: (Nil), any_list3: (0::(5::(Nil)))
-Model : any1: 5, any2: 8, any3: 1, any4: 7, any_list1: (3::(Nil)), any_list3: (Nil)
-Model : any1: 3, any2: 5, any3: 3, any4: 8, any_list1: (7::(Nil)), any_list3: (0::(Nil))
+Model : any1: 0, any2: 7, any3: 6, any4: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 5, any2: 0, any3: 7, any4: 0, any_list1: (0::(0::(8::(Nil)))), any_list3: (Nil)
+Model : any1: 0, any2: 8, any3: 0, any4: 4, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.006431 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((5::(6::(Nil)))) @ (7::(0::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((5::(6::(7::(0::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(7::(Nil)))) @ (0::(5::(0::(0::(8::(Nil)))))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(7::(0::(5::(Nil)))))) @ (0::(0::(8::(Nil)))))) ((Nil))
+qreva ((qreva ((Nil)) ((4::(0::(Nil)))) @ (8::(0::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((4::(0::(8::(0::(Nil)))))) @ (Nil))) ((Nil))
+Simplifying took 0.004046 seconds
 Result : true
 =================================================
 Progress: 82
@@ -3078,12 +3238,22 @@ intro any3
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any4::(any3::(Nil)))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any4::(any3::(any2::(any1::(Nil)))))) @ any_list1)) ((Nil))
-Model : any1: 8, any2: 3, any3: 8, any4: 3, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 1, any2: 0, any3: 1, any4: 6, any_list1: (5::(Nil)), any_list3: (6::(Nil))
-Model : any1: 6, any2: 1, any3: 2, any4: 7, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 6, any3: 7, any4: 1, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 8, any2: 0, any3: 0, any4: 1, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 4, any2: 7, any3: 5, any4: 1, any_list1: (3::(Nil)), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.004074 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((1::(7::(Nil)))) @ (6::(0::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((1::(7::(6::(0::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((1::(0::(Nil)))) @ (0::(8::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((1::(0::(0::(8::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((1::(5::(Nil)))) @ (7::(4::(3::(Nil)))))) ((Nil)) = qreva ((qreva ((Nil)) ((1::(5::(7::(4::(Nil)))))) @ (3::(Nil)))) ((Nil))
+Simplifying took 0.003022 seconds
 Result : true
 =================================================
 Progress: 83
@@ -3167,12 +3337,22 @@ intro any2
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any4::(any3::(Nil)))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any4::(any3::(any2::(any1::(Nil)))))) @ any_list1)) ((Nil))
-Model : any1: 7, any2: 4, any3: 7, any4: 8, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 7, any2: 6, any3: 8, any4: 5, any_list1: (Nil), any_list3: (1::(3::(Nil)))
-Model : any1: 7, any2: 0, any3: 6, any4: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 4, any2: 6, any3: 4, any4: 4, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 2, any3: 8, any4: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 3, any2: 6, any3: 0, any4: 0, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.005181 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((4::(4::(Nil)))) @ (6::(4::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((4::(4::(6::(4::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((5::(8::(Nil)))) @ (2::(0::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((5::(8::(2::(0::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(0::(Nil)))) @ (6::(3::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(0::(6::(3::(Nil)))))) @ (Nil))) ((Nil))
+Simplifying took 0.003124 seconds
 Result : true
 =================================================
 Progress: 85
@@ -3218,12 +3398,22 @@ intro any3
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any4::(any3::(Nil)))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any4::(any3::(any2::(any1::(Nil)))))) @ any_list1)) ((Nil))
-Model : any1: 4, any2: 1, any3: 7, any4: 1, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 0, any2: 2, any3: 1, any4: 4, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 0, any2: 7, any3: 7, any4: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 6, any2: 2, any3: 4, any4: 8, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 5, any3: 6, any4: 0, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 6, any2: 7, any3: 6, any4: 6, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.002914 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((8::(4::(Nil)))) @ (2::(6::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((8::(4::(2::(6::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(6::(Nil)))) @ (5::(0::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(6::(5::(0::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((6::(6::(Nil)))) @ (7::(6::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((6::(6::(7::(6::(Nil)))))) @ (Nil))) ((Nil))
+Simplifying took 0.003291 seconds
 Result : true
 =================================================
 Progress: 86
@@ -3269,12 +3459,22 @@ intro any3
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any4::(any3::(Nil)))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any4::(any3::(any2::(any1::(Nil)))))) @ any_list1)) ((Nil))
-Model : any1: 3, any2: 8, any3: 0, any4: 5, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 3, any2: 7, any3: 0, any4: 8, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 3, any2: 5, any3: 4, any4: 3, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 6, any2: 5, any3: 8, any4: 1, any_list1: (2::(3::(Nil))), any_list3: (0::(Nil))
+Model : any1: 6, any2: 7, any3: 3, any4: 2, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 0, any3: 8, any4: 4, any_list1: (0::(7::(Nil))), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.003196 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((0::(Nil))) ((1::(8::(Nil)))) @ (5::(6::(2::(3::(Nil))))))) ((Nil)) = qreva ((qreva ((0::(Nil))) ((1::(8::(5::(6::(Nil)))))) @ (2::(3::(Nil))))) ((Nil))
+qreva ((qreva ((Nil)) ((2::(3::(Nil)))) @ (7::(6::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((2::(3::(7::(6::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((4::(8::(Nil)))) @ (0::(0::(0::(7::(Nil))))))) ((Nil)) = qreva ((qreva ((Nil)) ((4::(8::(0::(0::(Nil)))))) @ (0::(7::(Nil))))) ((Nil))
+Simplifying took 0.005307 seconds
 Result : true
 =================================================
 Progress: 87
@@ -3323,12 +3523,22 @@ intro any3
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any4::(any3::(Nil)))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any4::(any3::(any2::(any1::(Nil)))))) @ any_list1)) ((Nil))
-Model : any1: 8, any2: 4, any3: 6, any4: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 8, any2: 0, any3: 3, any4: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 6, any2: 4, any3: 6, any4: 7, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 4, any2: 6, any3: 5, any4: 5, any_list1: (Nil), any_list3: (2::(Nil))
+Model : any1: 5, any2: 4, any3: 8, any4: 2, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 4, any2: 0, any3: 6, any4: 7, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.003173 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((2::(Nil))) ((5::(5::(Nil)))) @ (6::(4::(Nil))))) ((Nil)) = qreva ((qreva ((2::(Nil))) ((5::(5::(6::(4::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((2::(8::(Nil)))) @ (4::(5::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((2::(8::(4::(5::(Nil)))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((7::(6::(Nil)))) @ (0::(4::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((7::(6::(0::(4::(Nil)))))) @ (Nil))) ((Nil))
+Simplifying took 0.003636 seconds
 Result : true
 =================================================
 Progress: 88
@@ -3402,11 +3612,21 @@ rewrite <- lemma3 in goal at 0
 advanced_generalize done
 Lemma : forall (any2:any) (any_list2:any list) (arg6:any list), qreva (qreva (any_list2) ((any2::arg6))) ((Nil)) = qreva ((qreva (any_list2) ((any2::(Nil))) @ arg6)) ((Nil))
 Model : any2: 0, any_list2: (Nil), arg6: (Nil)
-Model : any2: 1, any_list2: (3::(Nil)), arg6: (Nil)
-Model : any2: 0, any_list2: (Nil), arg6: (Nil)
+Model : any2: 8, any_list2: (Nil), arg6: (Nil)
+Model : any2: 3, any_list2: (Nil), arg6: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000488 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva (qreva ((Nil)) ((0::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(Nil))) @ (Nil))) ((Nil))
+qreva (qreva ((Nil)) ((8::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((8::(Nil))) @ (Nil))) ((Nil))
+qreva (qreva ((Nil)) ((3::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((3::(Nil))) @ (Nil))) ((Nil))
+Simplifying took 0.000402 seconds
 Result : true
 New Env
 
@@ -3694,12 +3914,22 @@ intro any_list2
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any_list2:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any2::(Nil))) @ (any1::any_list2))) ((Nil)) = qreva ((qreva (any_list3) ((any2::(any1::(Nil)))) @ any_list2)) ((Nil))
-Model : any1: 4, any2: 5, any_list2: (Nil), any_list3: (4::(Nil))
-Model : any1: 4, any2: 1, any_list2: (3::(Nil)), any_list3: (8::(Nil))
-Model : any1: 3, any2: 2, any_list2: (Nil), any_list3: (3::(Nil))
+Model : any1: 4, any2: 4, any_list2: (Nil), any_list3: (Nil)
+Model : any1: 8, any2: 2, any_list2: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 3, any_list2: (Nil), any_list3: (7::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.002399 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((4::(Nil))) @ (4::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((4::(4::(Nil)))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((2::(Nil))) @ (8::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((2::(8::(Nil)))) @ (Nil))) ((Nil))
+qreva ((qreva ((7::(Nil))) ((3::(Nil))) @ (0::(Nil)))) ((Nil)) = qreva ((qreva ((7::(Nil))) ((3::(0::(Nil)))) @ (Nil))) ((Nil))
+Simplifying took 0.001383 seconds
 Result : true
 =================================================
 Progress: 98
@@ -3744,12 +3974,22 @@ intro any_list2
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any_list2:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any2::(Nil))) @ (any1::any_list2))) ((Nil)) = qreva ((qreva (any_list3) ((any2::(any1::(Nil)))) @ any_list2)) ((Nil))
-Model : any1: 8, any2: 7, any_list2: (Nil), any_list3: (Nil)
-Model : any1: 1, any2: 0, any_list2: (Nil), any_list3: (4::(Nil))
-Model : any1: 0, any2: 3, any_list2: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 5, any_list2: (Nil), any_list3: (Nil)
+Model : any1: 6, any2: 0, any_list2: (Nil), any_list3: (Nil)
+Model : any1: 6, any2: 0, any_list2: (Nil), any_list3: (6::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001191 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((5::(Nil))) @ (0::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((5::(0::(Nil)))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(Nil))) @ (6::(Nil)))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(6::(Nil)))) @ (Nil))) ((Nil))
+qreva ((qreva ((6::(Nil))) ((0::(Nil))) @ (6::(Nil)))) ((Nil)) = qreva ((qreva ((6::(Nil))) ((0::(6::(Nil)))) @ (Nil))) ((Nil))
+Simplifying took 0.001222 seconds
 Result : true
 =================================================
 Progress: 99
@@ -4025,12 +4265,22 @@ simpl in goal
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 3, any2: 6, any3: 4, any4: 0, any5: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 8, any2: 0, any3: 4, any4: 2, any5: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 7, any2: 0, any3: 2, any4: 3, any5: 6, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 2, any2: 5, any3: 0, any4: 0, any5: 1, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 2, any2: 0, any3: 3, any4: 4, any5: 2, any_list1: (2::(Nil)), any_list3: (Nil)
+Model : any1: 3, any2: 1, any3: 8, any4: 7, any5: 2, any_list1: (1::(Nil)), any_list3: (1::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.003985 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((1::(0::(0::(Nil))))) @ (5::(2::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((1::(0::(0::(5::(2::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((2::(4::(3::(Nil))))) @ (0::(2::(2::(Nil)))))) ((Nil)) = qreva ((qreva ((Nil)) ((2::(4::(3::(0::(2::(Nil))))))) @ (2::(Nil)))) ((Nil))
+qreva ((qreva ((1::(Nil))) ((2::(7::(8::(Nil))))) @ (1::(3::(1::(Nil)))))) ((Nil)) = qreva ((qreva ((1::(Nil))) ((2::(7::(8::(1::(3::(Nil))))))) @ (1::(Nil)))) ((Nil))
+Simplifying took 0.004818 seconds
 Result : true
 New Env
 
@@ -4235,12 +4485,22 @@ intro any1
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 0, any2: 5, any3: 3, any4: 0, any5: 4, any_list1: (Nil), any_list3: (7::(Nil))
-Model : any1: 0, any2: 6, any3: 4, any4: 3, any5: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 7, any2: 6, any3: 3, any4: 8, any5: 6, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 3, any3: 5, any4: 3, any5: 1, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 2, any2: 5, any3: 1, any4: 4, any5: 1, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 2, any3: 1, any4: 0, any5: 6, any_list1: (0::(Nil)), any_list3: (5::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.004985 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((1::(3::(5::(Nil))))) @ (3::(0::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((1::(3::(5::(3::(0::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((1::(4::(1::(Nil))))) @ (5::(2::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((1::(4::(1::(5::(2::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((5::(Nil))) ((6::(0::(1::(Nil))))) @ (2::(0::(0::(Nil)))))) ((Nil)) = qreva ((qreva ((5::(Nil))) ((6::(0::(1::(2::(0::(Nil))))))) @ (0::(Nil)))) ((Nil))
+Simplifying took 0.004161 seconds
 Result : true
 =================================================
 Progress: 112
@@ -4356,12 +4616,22 @@ intro any2
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 8, any2: 8, any3: 3, any4: 3, any5: 2, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 2, any2: 7, any3: 6, any4: 8, any5: 1, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 4, any2: 5, any3: 8, any4: 3, any5: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 3, any2: 0, any3: 3, any4: 1, any5: 6, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 3, any2: 0, any3: 2, any4: 3, any5: 2, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 5, any2: 5, any3: 0, any4: 0, any5: 3, any_list1: (3::(Nil)), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.004935 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((6::(1::(3::(Nil))))) @ (0::(3::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((6::(1::(3::(0::(3::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((2::(3::(2::(Nil))))) @ (0::(3::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((2::(3::(2::(0::(3::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((3::(0::(0::(Nil))))) @ (5::(5::(3::(Nil)))))) ((Nil)) = qreva ((qreva ((Nil)) ((3::(0::(0::(5::(5::(Nil))))))) @ (3::(Nil)))) ((Nil))
+Simplifying took 0.004023 seconds
 Result : true
 =================================================
 Progress: 115
@@ -4440,12 +4710,22 @@ intro any3
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 6, any2: 0, any3: 8, any4: 2, any5: 6, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 4, any2: 0, any3: 5, any4: 0, any5: 3, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 0, any2: 0, any3: 7, any4: 4, any5: 1, any_list1: (7::(0::(Nil))), any_list3: (Nil)
+Model : any1: 2, any2: 7, any3: 2, any4: 3, any5: 8, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 7, any2: 0, any3: 0, any4: 3, any5: 1, any_list1: (Nil), any_list3: (2::(0::(1::(3::(Nil)))))
+Model : any1: 1, any2: 8, any3: 0, any4: 6, any5: 6, any_list1: (Nil), any_list3: (7::(7::(Nil)))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.004883 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((8::(3::(2::(Nil))))) @ (7::(2::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((8::(3::(2::(7::(2::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((2::(0::(1::(3::(Nil)))))) ((1::(3::(0::(Nil))))) @ (0::(7::(Nil))))) ((Nil)) = qreva ((qreva ((2::(0::(1::(3::(Nil)))))) ((1::(3::(0::(0::(7::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((7::(7::(Nil)))) ((6::(6::(0::(Nil))))) @ (8::(1::(Nil))))) ((Nil)) = qreva ((qreva ((7::(7::(Nil)))) ((6::(6::(0::(8::(1::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.008332 seconds
 Result : true
 =================================================
 Progress: 117
@@ -4488,12 +4768,22 @@ intro any4
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 1, any2: 8, any3: 0, any4: 2, any5: 5, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 8, any2: 6, any3: 5, any4: 0, any5: 4, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 6, any2: 4, any3: 7, any4: 2, any5: 7, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 5, any2: 7, any3: 4, any4: 3, any5: 0, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 8, any2: 4, any3: 1, any4: 5, any5: 6, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 3, any2: 0, any3: 2, any4: 3, any5: 3, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.004711 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((0::(3::(4::(Nil))))) @ (7::(5::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(3::(4::(7::(5::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((6::(5::(1::(Nil))))) @ (4::(8::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((6::(5::(1::(4::(8::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((3::(3::(2::(Nil))))) @ (0::(3::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((3::(3::(2::(0::(3::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.004199 seconds
 Result : true
 =================================================
 Progress: 118
@@ -4616,12 +4906,22 @@ intro any2
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 7, any2: 3, any3: 5, any4: 7, any5: 3, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 1, any2: 5, any3: 3, any4: 0, any5: 0, any_list1: (8::(Nil)), any_list3: (Nil)
-Model : any1: 2, any2: 0, any3: 0, any4: 0, any5: 0, any_list1: (3::(3::(Nil))), any_list3: (Nil)
+Model : any1: 2, any2: 0, any3: 2, any4: 1, any5: 7, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 6, any2: 3, any3: 3, any4: 0, any5: 7, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 3, any2: 6, any3: 1, any4: 3, any5: 3, any_list1: (7::(Nil)), any_list3: (3::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.004882 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((7::(1::(2::(Nil))))) @ (0::(2::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((7::(1::(2::(0::(2::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((7::(0::(3::(Nil))))) @ (3::(6::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((7::(0::(3::(3::(6::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((3::(Nil))) ((3::(3::(1::(Nil))))) @ (6::(3::(7::(Nil)))))) ((Nil)) = qreva ((qreva ((3::(Nil))) ((3::(3::(1::(6::(3::(Nil))))))) @ (7::(Nil)))) ((Nil))
+Simplifying took 0.005093 seconds
 Result : true
 =================================================
 Progress: 121
@@ -4705,12 +5005,22 @@ intro any3
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 0, any2: 5, any3: 2, any4: 5, any5: 8, any_list1: (Nil), any_list3: (8::(Nil))
-Model : any1: 1, any2: 1, any3: 8, any4: 4, any5: 3, any_list1: (3::(Nil)), any_list3: (Nil)
-Model : any1: 2, any2: 7, any3: 7, any4: 0, any5: 3, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 4, any2: 0, any3: 5, any4: 8, any5: 0, any_list1: (Nil), any_list3: (3::(7::(Nil)))
+Model : any1: 8, any2: 3, any3: 1, any4: 2, any5: 0, any_list1: (0::(Nil)), any_list3: (Nil)
+Model : any1: 6, any2: 7, any3: 8, any4: 6, any5: 0, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.005675 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((3::(7::(Nil)))) ((0::(8::(5::(Nil))))) @ (0::(4::(Nil))))) ((Nil)) = qreva ((qreva ((3::(7::(Nil)))) ((0::(8::(5::(0::(4::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(2::(1::(Nil))))) @ (3::(8::(0::(Nil)))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(2::(1::(3::(8::(Nil))))))) @ (0::(Nil)))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(6::(8::(Nil))))) @ (7::(6::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(6::(8::(7::(6::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.006171 seconds
 Result : true
 =================================================
 Progress: 123
@@ -4756,12 +5066,22 @@ intro any4
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 3, any2: 4, any3: 0, any4: 4, any5: 4, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 4, any2: 3, any3: 6, any4: 7, any5: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 0, any2: 8, any3: 7, any4: 4, any5: 2, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 8, any2: 3, any3: 0, any4: 1, any5: 4, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 7, any2: 1, any3: 5, any4: 4, any5: 0, any_list1: (0::(Nil)), any_list3: (Nil)
+Model : any1: 1, any2: 8, any3: 7, any4: 8, any5: 0, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.005331 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((4::(1::(0::(Nil))))) @ (3::(8::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((4::(1::(0::(3::(8::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(4::(5::(Nil))))) @ (1::(7::(0::(Nil)))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(4::(5::(1::(7::(Nil))))))) @ (0::(Nil)))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(8::(7::(Nil))))) @ (8::(1::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(8::(7::(8::(1::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.004307 seconds
 Result : true
 =================================================
 Progress: 124
@@ -4845,12 +5165,22 @@ intro any3
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 0, any2: 4, any3: 3, any4: 0, any5: 5, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 2, any2: 0, any3: 2, any4: 5, any5: 0, any_list1: (Nil), any_list3: (0::(Nil))
-Model : any1: 7, any2: 0, any3: 3, any4: 6, any5: 7, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 8, any2: 6, any3: 0, any4: 1, any5: 5, any_list1: (Nil), any_list3: (0::(2::(Nil)))
+Model : any1: 2, any2: 1, any3: 1, any4: 0, any5: 2, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 1, any2: 4, any3: 0, any4: 1, any5: 7, any_list1: (0::(Nil)), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.004780 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((0::(2::(Nil)))) ((5::(1::(0::(Nil))))) @ (6::(8::(Nil))))) ((Nil)) = qreva ((qreva ((0::(2::(Nil)))) ((5::(1::(0::(6::(8::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((2::(0::(1::(Nil))))) @ (1::(2::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((2::(0::(1::(1::(2::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((7::(1::(0::(Nil))))) @ (4::(1::(0::(Nil)))))) ((Nil)) = qreva ((qreva ((Nil)) ((7::(1::(0::(4::(1::(Nil))))))) @ (0::(Nil)))) ((Nil))
+Simplifying took 0.005145 seconds
 Result : true
 =================================================
 Progress: 126
@@ -4896,12 +5226,22 @@ intro any4
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 2, any2: 1, any3: 1, any4: 7, any5: 0, any_list1: (7::(Nil)), any_list3: (0::(Nil))
-Model : any1: 5, any2: 8, any3: 4, any4: 5, any5: 6, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 7, any2: 0, any3: 4, any4: 4, any5: 0, any_list1: (7::(Nil)), any_list3: (0::(Nil))
+Model : any1: 6, any2: 1, any3: 0, any4: 0, any5: 8, any_list1: (Nil), any_list3: (0::(1::(Nil)))
+Model : any1: 0, any2: 7, any3: 8, any4: 8, any5: 4, any_list1: (8::(Nil)), any_list3: (Nil)
+Model : any1: 8, any2: 4, any3: 8, any4: 2, any5: 4, any_list1: (Nil), any_list3: (2::(1::(4::(Nil))))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.008108 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((0::(1::(Nil)))) ((8::(0::(0::(Nil))))) @ (1::(6::(Nil))))) ((Nil)) = qreva ((qreva ((0::(1::(Nil)))) ((8::(0::(0::(1::(6::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((4::(8::(8::(Nil))))) @ (7::(0::(8::(Nil)))))) ((Nil)) = qreva ((qreva ((Nil)) ((4::(8::(8::(7::(0::(Nil))))))) @ (8::(Nil)))) ((Nil))
+qreva ((qreva ((2::(1::(4::(Nil))))) ((4::(2::(8::(Nil))))) @ (4::(8::(Nil))))) ((Nil)) = qreva ((qreva ((2::(1::(4::(Nil))))) ((4::(2::(8::(4::(8::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.008903 seconds
 Result : true
 =================================================
 Progress: 127
@@ -4947,12 +5287,22 @@ intro any4
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 4, any2: 3, any3: 6, any4: 0, any5: 2, any_list1: (Nil), any_list3: (7::(Nil))
-Model : any1: 7, any2: 4, any3: 0, any4: 1, any5: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 0, any2: 8, any3: 8, any4: 3, any5: 3, any_list1: (Nil), any_list3: (7::(Nil))
+Model : any1: 7, any2: 0, any3: 2, any4: 5, any5: 1, any_list1: (Nil), any_list3: (7::(Nil))
+Model : any1: 1, any2: 6, any3: 1, any4: 4, any5: 0, any_list1: (Nil), any_list3: (3::(Nil))
+Model : any1: 4, any2: 0, any3: 8, any4: 0, any5: 0, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.006038 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((7::(Nil))) ((1::(5::(2::(Nil))))) @ (0::(7::(Nil))))) ((Nil)) = qreva ((qreva ((7::(Nil))) ((1::(5::(2::(0::(7::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((3::(Nil))) ((0::(4::(1::(Nil))))) @ (6::(1::(Nil))))) ((Nil)) = qreva ((qreva ((3::(Nil))) ((0::(4::(1::(6::(1::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(0::(8::(Nil))))) @ (0::(4::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(0::(8::(0::(4::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.004691 seconds
 Result : true
 =================================================
 Progress: 128
@@ -5041,12 +5391,22 @@ intro any3
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 3, any2: 4, any3: 1, any4: 4, any5: 7, any_list1: (0::(6::(Nil))), any_list3: (1::(Nil))
-Model : any1: 8, any2: 2, any3: 2, any4: 7, any5: 7, any_list1: (Nil), any_list3: (1::(Nil))
-Model : any1: 7, any2: 8, any3: 2, any4: 6, any5: 0, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 1, any2: 5, any3: 4, any4: 3, any5: 2, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 5, any2: 6, any3: 0, any4: 6, any5: 6, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 2, any2: 0, any3: 3, any4: 2, any5: 0, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.007707 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((2::(3::(4::(Nil))))) @ (5::(1::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((2::(3::(4::(5::(1::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((6::(6::(0::(Nil))))) @ (6::(5::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((6::(6::(0::(6::(5::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(2::(3::(Nil))))) @ (0::(2::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(2::(3::(0::(2::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.003786 seconds
 Result : true
 =================================================
 Progress: 130
@@ -5095,12 +5455,22 @@ intro any4
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 8, any2: 6, any3: 5, any4: 0, any5: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 5, any2: 0, any3: 5, any4: 1, any5: 3, any_list1: (7::(Nil)), any_list3: (Nil)
-Model : any1: 0, any2: 7, any3: 8, any4: 0, any5: 0, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 6, any2: 6, any3: 2, any4: 0, any5: 4, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 0, any3: 0, any4: 6, any5: 0, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 7, any2: 5, any3: 4, any4: 1, any5: 3, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.005359 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((4::(0::(2::(Nil))))) @ (6::(6::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((4::(0::(2::(6::(6::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(6::(0::(Nil))))) @ (0::(0::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(6::(0::(0::(0::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((3::(1::(4::(Nil))))) @ (5::(7::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((3::(1::(4::(5::(7::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.003594 seconds
 Result : true
 =================================================
 Progress: 131
@@ -5149,12 +5519,22 @@ intro any4
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 7, any2: 7, any3: 1, any4: 6, any5: 5, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 5, any2: 5, any3: 1, any4: 4, any5: 3, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 0, any2: 8, any3: 2, any4: 0, any5: 4, any_list1: (5::(Nil)), any_list3: (Nil)
+Model : any1: 0, any2: 4, any3: 0, any4: 1, any5: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 3, any2: 0, any3: 5, any4: 4, any5: 4, any_list1: (Nil), any_list3: (0::(Nil))
+Model : any1: 1, any2: 6, any3: 5, any4: 4, any5: 3, any_list1: (Nil), any_list3: (6::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.005018 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((5::(1::(0::(Nil))))) @ (4::(0::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((5::(1::(0::(4::(0::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((0::(Nil))) ((4::(4::(5::(Nil))))) @ (0::(3::(Nil))))) ((Nil)) = qreva ((qreva ((0::(Nil))) ((4::(4::(5::(0::(3::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((6::(Nil))) ((3::(4::(5::(Nil))))) @ (6::(1::(Nil))))) ((Nil)) = qreva ((qreva ((6::(Nil))) ((3::(4::(5::(6::(1::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.004880 seconds
 Result : true
 =================================================
 Progress: 132
@@ -5203,12 +5583,22 @@ intro any4
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 1, any2: 0, any3: 1, any4: 3, any5: 1, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 8, any2: 4, any3: 1, any4: 4, any5: 2, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 1, any2: 0, any3: 8, any4: 7, any5: 4, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 4, any2: 7, any3: 4, any4: 6, any5: 5, any_list1: (8::(Nil)), any_list3: (0::(Nil))
+Model : any1: 0, any2: 2, any3: 2, any4: 5, any5: 0, any_list1: (Nil), any_list3: (7::(Nil))
+Model : any1: 0, any2: 6, any3: 1, any4: 7, any5: 0, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.004642 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((0::(Nil))) ((5::(6::(4::(Nil))))) @ (7::(4::(8::(Nil)))))) ((Nil)) = qreva ((qreva ((0::(Nil))) ((5::(6::(4::(7::(4::(Nil))))))) @ (8::(Nil)))) ((Nil))
+qreva ((qreva ((7::(Nil))) ((0::(5::(2::(Nil))))) @ (2::(0::(Nil))))) ((Nil)) = qreva ((qreva ((7::(Nil))) ((0::(5::(2::(2::(0::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((0::(7::(1::(Nil))))) @ (6::(0::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((0::(7::(1::(6::(0::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.005808 seconds
 Result : true
 =================================================
 Progress: 133
@@ -5260,12 +5650,22 @@ intro any4
 intro any_list1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list) (any_list3:any list), qreva ((qreva (any_list3) ((any5::(any4::(any3::(Nil))))) @ (any2::(any1::any_list1)))) ((Nil)) = qreva ((qreva (any_list3) ((any5::(any4::(any3::(any2::(any1::(Nil))))))) @ any_list1)) ((Nil))
-Model : any1: 3, any2: 5, any3: 6, any4: 3, any5: 5, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 8, any2: 1, any3: 1, any4: 3, any5: 8, any_list1: (Nil), any_list3: (2::(Nil))
-Model : any1: 0, any2: 3, any3: 6, any4: 5, any5: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 4, any2: 0, any3: 6, any4: 5, any5: 4, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any2: 1, any3: 5, any4: 5, any5: 5, any_list1: (Nil), any_list3: (5::(Nil))
+Model : any1: 6, any2: 8, any3: 3, any4: 0, any5: 5, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.005500 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+qreva ((qreva ((Nil)) ((4::(5::(6::(Nil))))) @ (0::(4::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((4::(5::(6::(0::(4::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((5::(Nil))) ((5::(5::(5::(Nil))))) @ (1::(0::(Nil))))) ((Nil)) = qreva ((qreva ((5::(Nil))) ((5::(5::(5::(1::(0::(Nil))))))) @ (Nil))) ((Nil))
+qreva ((qreva ((Nil)) ((5::(0::(3::(Nil))))) @ (8::(6::(Nil))))) ((Nil)) = qreva ((qreva ((Nil)) ((5::(0::(3::(8::(6::(Nil))))))) @ (Nil))) ((Nil))
+Simplifying took 0.004718 seconds
 Result : true
 =================================================
 Progress: 134
@@ -5371,12 +5771,22 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (any_list3:any list) (lst:any list), qreva (any_list3) (lst) = mk_rhs1 (any_list3) (lst)
-Model : any_list3: (Nil), lst: (3::(Nil))
+Model : any_list3: (Nil), lst: (Nil)
 Model : any_list3: (Nil), lst: (Nil)
 Model : any_list3: (Nil), lst: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000090 seconds
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+let rec mk_rhs1 arg_3 arg_4 =
+match (arg_3) with
+| Nil  -> arg_4
+| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_4))
+prop list:
+qreva ((Nil)) ((Nil)) = mk_rhs1 ((Nil)) ((Nil))
+qreva ((Nil)) ((Nil)) = mk_rhs1 ((Nil)) ((Nil))
+qreva ((Nil)) ((Nil)) = mk_rhs1 ((Nil)) ((Nil))
+Simplifying took 0.000043 seconds
 Result : true
 New Env
 
@@ -6286,12 +6696,22 @@ intro any_list1
 rewrite <- lemma5 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list1:any list) (any_list3:any list), qreva ((reverse (any_list3) @ (any1::(Nil)))) (any_list1) = (any1::(any_list3 @ any_list1))
-Model : any1: 0, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 2, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 7, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 7, any_list1: (2::(Nil)), any_list3: (6::(6::(Nil)))
+Model : any1: 6, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 7, any_list1: (Nil), any_list3: (0::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000191 seconds
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+let rec mk_rhs1 arg_3 arg_4 =
+match (arg_3) with
+| Nil  -> arg_4
+| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_4))
+prop list:
+qreva ((reverse ((6::(6::(Nil)))) @ (7::(Nil)))) ((2::(Nil))) = (7::((6::(6::(Nil))) @ (2::(Nil))))
+qreva ((reverse ((Nil)) @ (6::(Nil)))) ((Nil)) = (6::((Nil) @ (Nil)))
+qreva ((reverse ((0::(Nil))) @ (7::(Nil)))) ((Nil)) = (7::((0::(Nil)) @ (Nil)))
+Simplifying took 0.001224 seconds
 Result : true
 New Env
 
@@ -6667,12 +7087,22 @@ intro any_list1
 rewrite <- lemma5 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list1:any list) (arg7:any list), qreva ((arg7 @ (any1::(Nil)))) (any_list1) = (any1::qreva (arg7) (any_list1))
-Model : any1: 5, any_list1: (Nil), arg7: (Nil)
-Model : any1: 0, any_list1: (Nil), arg7: (Nil)
-Model : any1: 0, any_list1: (Nil), arg7: (Nil)
+Model : any1: 3, any_list1: (4::(0::(Nil))), arg7: (4::(Nil))
+Model : any1: 6, any_list1: (Nil), arg7: (Nil)
+Model : any1: 8, any_list1: (Nil), arg7: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000149 seconds
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+let rec mk_rhs1 arg_3 arg_4 =
+match (arg_3) with
+| Nil  -> arg_4
+| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_4))
+prop list:
+qreva (((4::(Nil)) @ (3::(Nil)))) ((4::(0::(Nil)))) = (3::qreva ((4::(Nil))) ((4::(0::(Nil)))))
+qreva (((Nil) @ (6::(Nil)))) ((Nil)) = (6::qreva ((Nil)) ((Nil)))
+qreva (((Nil) @ (8::(Nil)))) ((Nil)) = (8::qreva ((Nil)) ((Nil)))
+Simplifying took 0.000819 seconds
 Result : true
 New Env
 
@@ -6989,12 +7419,22 @@ rewrite lemma6 in goal at 0
 rewrite <- lemma5 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list1:any list) (arg8:any list), qreva ((arg8 @ (any1::(Nil)))) (any_list1) = (any1::qreva (arg8) (any_list1))
-Model : any1: 5, any_list1: (Nil), arg8: (Nil)
-Model : any1: 0, any_list1: (Nil), arg8: (Nil)
-Model : any1: 0, any_list1: (0::(Nil)), arg8: (0::(Nil))
+Model : any1: 3, any_list1: (Nil), arg8: (Nil)
+Model : any1: 6, any_list1: (1::(Nil)), arg8: (Nil)
+Model : any1: 1, any_list1: (Nil), arg8: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000244 seconds
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+let rec mk_rhs1 arg_3 arg_4 =
+match (arg_3) with
+| Nil  -> arg_4
+| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_4))
+prop list:
+qreva (((Nil) @ (3::(Nil)))) ((Nil)) = (3::qreva ((Nil)) ((Nil)))
+qreva (((Nil) @ (6::(Nil)))) ((1::(Nil))) = (6::qreva ((Nil)) ((1::(Nil))))
+qreva (((Nil) @ (1::(Nil)))) ((Nil)) = (1::qreva ((Nil)) ((Nil)))
+Simplifying took 0.000382 seconds
 Result : true
 New Env
 

@@ -178,12 +178,22 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (arg1:any list), arg1 = (arg1 @ (Nil))
-Model : arg1: (Nil)
+Model : arg1: (2::(Nil))
 Model : arg1: (Nil)
 Model : arg1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000022 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(2::(Nil)) = ((2::(Nil)) @ (Nil))
+(Nil) = ((Nil) @ (Nil))
+(Nil) = ((Nil) @ (Nil))
+Simplifying took 0.000065 seconds
 Result : true
 New Env
 
@@ -736,12 +746,22 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (nat1:nat) (nat2:nat) (nat_list3:nat list) (nat_list4:nat list), reverse (((reverse (nat_list3) @ (nat1::(Nil))) @ (nat2::nat_list4))) = ((reverse (nat_list4) @ (nat2::(Nil))) @ (nat1::nat_list3))
-Model : nat1: ZERO, nat2: SUCC (ZERO), nat_list3: (Nil), nat_list4: (ZERO::(Nil))
 Model : nat1: ZERO, nat2: SUCC (ZERO), nat_list3: (Nil), nat_list4: (Nil)
-Model : nat1: ZERO, nat2: SUCC (ZERO), nat_list3: (Nil), nat_list4: (ZERO::(Nil))
+Model : nat1: ZERO, nat2: ZERO, nat_list3: (Nil), nat_list4: (Nil)
+Model : nat1: ZERO, nat2: ZERO, nat_list3: (Nil), nat_list4: (SUCC (ZERO)::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000637 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = ((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))) = ((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Simplifying took 0.000468 seconds
 Result : true
 New Env
 
@@ -1045,12 +1065,22 @@ simpl in goal
 intro nat2
 advanced_generalize done
 Lemma : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat_list3:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::(nat1::(nat3::nat_list3)))
+Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (SUCC (ZERO)::(Nil))
 Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (Nil)
-Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (Nil)
-Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (Nil)
+Model : nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO, nat_list3: (SUCC (ZERO)::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000521 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))
+reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(Nil))))
+reverse ((((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))
+Simplifying took 0.000836 seconds
 Result : true
 New Env
 
@@ -1152,12 +1182,22 @@ intro nat1
 intro nat2
 advanced_generalize done
 Lemma : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat_list3:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::(nat1::(nat3::nat_list3)))
-Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (ZERO::(Nil))
-Model : nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO, nat_list3: (SUCC (ZERO)::(Nil))
+Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (Nil)
+Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (Nil)
 Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000843 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(Nil))))
+reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(Nil))))
+reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(Nil))))
+Simplifying took 0.000561 seconds
 Result : true
 =================================================
 Progress: 32
@@ -1511,7 +1551,17 @@ Model : arg2: (Nil), nat1: ZERO, nat2: ZERO
 Model : arg2: (Nil), nat1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000321 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Simplifying took 0.000339 seconds
 Result : true
 New Env
 
@@ -1645,12 +1695,22 @@ intro nat3
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg3:any list) (nat1:nat) (nat2:nat), reverse (((arg3 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg3 @ (nat1::(Nil)))))
-Model : arg3: (Nil), nat1: SUCC (SUCC (ZERO)), nat2: ZERO
-Model : arg3: (2::(Nil)), nat1: ZERO, nat2: ZERO
-Model : arg3: (8::(Nil)), nat1: ZERO, nat2: ZERO
+Model : arg3: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg3: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg3: (Nil), nat1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000883 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Simplifying took 0.000349 seconds
 Result : true
 New Env
 
@@ -1749,11 +1809,21 @@ rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg4:any list) (nat1:nat) (nat2:nat), reverse (((arg4 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg4 @ (nat1::(Nil)))))
 Model : arg4: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg4: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg4: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg4: (Nil), nat1: ZERO, nat2: SUCC (ZERO)
+Model : arg4: (0::(Nil)), nat1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000336 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((0::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((0::(Nil)) @ (ZERO::(Nil)))))
+Simplifying took 0.000441 seconds
 Result : true
 New Env
 
@@ -1855,11 +1925,21 @@ rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg5:any list) (nat1:nat) (nat2:nat), reverse (((arg5 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg5 @ (nat1::(Nil)))))
 Model : arg5: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg5: (Nil), nat1: ZERO, nat2: SUCC (ZERO)
+Model : arg5: (Nil), nat1: ZERO, nat2: ZERO
 Model : arg5: (Nil), nat1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000326 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Simplifying took 0.000317 seconds
 Result : true
 New Env
 
@@ -3489,12 +3569,22 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (nat1:nat) (nat_list3:nat list), reverse (((reverse (nat_list3) @ (nat1::(Nil))) @ (Nil))) = (nat1::nat_list3)
-Model : nat1: SUCC (ZERO), nat_list3: (Nil)
 Model : nat1: ZERO, nat_list3: (Nil)
 Model : nat1: ZERO, nat_list3: (Nil)
+Model : nat1: ZERO, nat_list3: (ZERO::(SUCC (ZERO)::(Nil)))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000150 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(Nil))
+reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(Nil))
+reverse (((reverse ((ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(ZERO::(SUCC (ZERO)::(Nil))))
+Simplifying took 0.000353 seconds
 Result : true
 New Env
 
@@ -3719,7 +3809,17 @@ Model : arg6: (Nil), nat1: ZERO
 Model : arg6: (Nil), nat1: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000164 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
+Simplifying took 0.000171 seconds
 Result : true
 New Env
 
@@ -4010,10 +4110,20 @@ advanced_generalize done
 Lemma : forall (arg7:any list) (nat1:nat), reverse (((arg7 @ (nat1::(Nil))) @ (Nil))) = (nat1::reverse ((arg7 @ (Nil))))
 Model : arg7: (Nil), nat1: ZERO
 Model : arg7: (Nil), nat1: ZERO
-Model : arg7: (Nil), nat1: ZERO
+Model : arg7: (1::(0::(3::(Nil)))), nat1: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000163 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
+reverse ((((1::(0::(3::(Nil)))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((1::(0::(3::(Nil)))) @ (Nil))))
+Simplifying took 0.000900 seconds
 Result : true
 New Env
 
@@ -4600,12 +4710,22 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg8:any list) (nat1:nat) (nat2:nat), reverse (((arg8 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg8 @ (nat1::(Nil)))))
-Model : arg8: (0::(Nil)), nat1: ZERO, nat2: ZERO
-Model : arg8: (7::(0::(6::(Nil)))), nat1: ZERO, nat2: ZERO
 Model : arg8: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg8: (8::(7::(Nil))), nat1: ZERO, nat2: ZERO
+Model : arg8: (Nil), nat1: ZERO, nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001705 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((8::(7::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((8::(7::(Nil))) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((Nil) @ (ZERO::(Nil)))))
+Simplifying took 0.001228 seconds
 Result : true
 New Env
 
@@ -5083,11 +5203,21 @@ rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg9:any list) (nat1:nat) (nat2:nat), reverse (((arg9 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg9 @ (nat1::(Nil)))))
 Model : arg9: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg9: (4::(Nil)), nat1: ZERO, nat2: SUCC (ZERO)
-Model : arg9: (Nil), nat1: SUCC (ZERO), nat2: ZERO
+Model : arg9: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg9: (Nil), nat1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000597 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Simplifying took 0.000317 seconds
 Result : true
 New Env
 
@@ -5521,12 +5651,22 @@ intro nat2
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg10:any list) (nat1:nat) (nat2:nat), reverse (((arg10 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg10 @ (nat1::(Nil)))))
-Model : arg10: (Nil), nat1: ZERO, nat2: SUCC (ZERO)
-Model : arg10: (0::(Nil)), nat1: ZERO, nat2: ZERO
 Model : arg10: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg10: (Nil), nat1: SUCC (SUCC (ZERO)), nat2: SUCC (ZERO)
+Model : arg10: (1::(Nil)), nat1: ZERO, nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000497 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((Nil) @ (SUCC (SUCC (ZERO))::(Nil)))))
+reverse ((((1::(Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((1::(Nil)) @ (ZERO::(Nil)))))
+Simplifying took 0.000545 seconds
 Result : true
 New Env
 
@@ -5964,11 +6104,21 @@ rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg11:any list) (nat1:nat) (nat2:nat), reverse (((arg11 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg11 @ (nat1::(Nil)))))
 Model : arg11: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg11: (3::(Nil)), nat1: ZERO, nat2: ZERO
 Model : arg11: (Nil), nat1: SUCC (ZERO), nat2: ZERO
-Model : arg11: (Nil), nat1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000350 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((3::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((3::(Nil)) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
+Simplifying took 0.000648 seconds
 Result : true
 New Env
 
@@ -6748,12 +6898,22 @@ simpl in goal
 intro nat2
 advanced_generalize done
 Lemma : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list3:nat list) (nat_list4:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
-Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat4: SUCC (ZERO), nat_list3: (Nil), nat_list4: (ZERO::(ZERO::(Nil)))
-Model : nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO), nat4: ZERO, nat_list3: (Nil), nat_list4: (Nil)
-Model : nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO, nat4: ZERO, nat_list3: (Nil), nat_list4: (Nil)
+Model : nat1: ZERO, nat2: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: ZERO, nat_list3: (ZERO::(Nil)), nat_list4: (Nil)
+Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat4: ZERO, nat_list3: (Nil), nat_list4: (Nil)
+Model : nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO, nat4: SUCC (ZERO), nat_list3: (Nil), nat_list4: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001524 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((reverse ((ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))
+reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))) = (((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Simplifying took 0.001292 seconds
 Result : true
 New Env
 
@@ -6875,12 +7035,22 @@ intro nat1
 intro nat2
 advanced_generalize done
 Lemma : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list3:nat list) (nat_list4:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
-Model : nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO, nat4: ZERO, nat_list3: (Nil), nat_list4: (ZERO::(Nil))
-Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat4: SUCC (ZERO), nat_list3: (Nil), nat_list4: (Nil)
-Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat4: SUCC (ZERO), nat_list3: (ZERO::(ZERO::(Nil))), nat_list4: (ZERO::(ZERO::(Nil)))
+Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat4: ZERO, nat_list3: (ZERO::(Nil)), nat_list4: (ZERO::(Nil))
+Model : nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO, nat4: ZERO, nat_list3: (ZERO::(Nil)), nat_list4: (Nil)
+Model : nat1: SUCC (ZERO), nat2: ZERO, nat3: SUCC (ZERO), nat4: SUCC (SUCC (SUCC (ZERO))), nat_list3: (Nil), nat_list4: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.002334 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(ZERO::(Nil)))))) = (((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(ZERO::(Nil)))))
+reverse ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(ZERO::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))
+reverse ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))) = (((reverse ((Nil)) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(SUCC (ZERO)::(Nil))))
+Simplifying took 0.001740 seconds
 Result : true
 =================================================
 Progress: 185
@@ -7486,12 +7656,22 @@ intro nat4
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg12:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg12 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg12 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
-Model : arg12: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg12: (5::(Nil)), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg12: (Nil), nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO
+Model : arg12: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO
+Model : arg12: (Nil), nat1: SUCC (SUCC (ZERO)), nat2: ZERO, nat3: ZERO
+Model : arg12: (Nil), nat1: SUCC (ZERO), nat2: SUCC (ZERO), nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000439 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(((Nil) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(ZERO::(Nil))))
+(((Nil) @ (SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Simplifying took 0.000324 seconds
 Result : true
 New Env
 
@@ -7722,12 +7902,22 @@ intro nat4
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg13:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg13 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg13 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
+Model : arg13: (Nil), nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO
+Model : arg13: (3::(Nil)), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Model : arg13: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg13: (Nil), nat1: SUCC (ZERO), nat2: SUCC (SUCC (SUCC (ZERO))), nat3: ZERO
-Model : arg13: (6::(Nil)), nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000466 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(((Nil) @ (ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+(((3::(Nil)) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((3::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Simplifying took 0.000380 seconds
 Result : true
 New Env
 
@@ -7876,11 +8066,21 @@ rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg14:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg14 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg14 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
 Model : arg14: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg14: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: SUCC (ZERO)
 Model : arg14: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg14: (0::(Nil)), nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000271 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((0::(Nil)) @ (ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((0::(Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Simplifying took 0.000340 seconds
 Result : true
 New Env
 
@@ -7986,12 +8186,22 @@ intro nat4
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg15:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg15 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg15 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
+Model : arg15: (Nil), nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO)
+Model : arg15: (Nil), nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO)
 Model : arg15: (Nil), nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO
-Model : arg15: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO
-Model : arg15: (3::(Nil)), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000397 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
+(((Nil) @ (ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Simplifying took 0.000320 seconds
 Result : true
 New Env
 
@@ -8144,12 +8354,22 @@ intro nat4
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg16:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg16 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg16 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
-Model : arg16: (Nil), nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO
 Model : arg16: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg16: (Nil), nat1: SUCC (ZERO), nat2: ZERO, nat3: SUCC (ZERO)
+Model : arg16: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: SUCC (SUCC (ZERO))
+Model : arg16: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000311 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (SUCC (SUCC (ZERO))::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Simplifying took 0.000287 seconds
 Result : true
 New Env
 
@@ -8261,11 +8481,21 @@ rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg17:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg17 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg17 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
 Model : arg17: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg17: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO
+Model : arg17: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Model : arg17: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000281 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Simplifying took 0.000258 seconds
 Result : true
 New Env
 
@@ -8376,12 +8606,22 @@ intro nat4
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg18:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg18 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg18 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
-Model : arg18: (5::(Nil)), nat1: ZERO, nat2: SUCC (ZERO), nat3: SUCC (ZERO)
 Model : arg18: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg18: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO
+Model : arg18: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg18: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000425 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Simplifying took 0.000259 seconds
 Result : true
 New Env
 
@@ -8495,12 +8735,22 @@ intro nat4
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg19:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg19 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg19 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
-Model : arg19: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO
 Model : arg19: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg19: (5::(Nil)), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg19: (Nil), nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO)
+Model : arg19: (4::(3::(Nil))), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000482 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
+(((4::(3::(Nil))) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((4::(3::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Simplifying took 0.000584 seconds
 Result : true
 New Env
 
@@ -16229,12 +16479,22 @@ rewrite <- lemma5 in goal at 2
 rewrite <- lemma4 in goal at 0
 advanced_generalize done
 Lemma : forall (arg20:any list) (arg21:any list) (arg22:nat list) (nat2:nat) (nat5:nat) (nat_list3:nat list), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ arg20) @ arg21) @ (nat2::arg22))) = reverse (((((reverse ((nat5::nat_list3)) @ arg20) @ arg21) @ (nat2::(Nil))) @ arg22))
-Model : arg20: (4::(Nil)), arg21: (8::(Nil)), arg22: (ZERO::(Nil)), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
-Model : arg20: (Nil), arg21: (Nil), arg22: (Nil), nat2: ZERO, nat5: SUCC (SUCC (SUCC (ZERO))), nat_list3: (Nil)
-Model : arg20: (0::(Nil)), arg21: (Nil), arg22: (Nil), nat2: ZERO, nat5: SUCC (ZERO), nat_list3: (ZERO::(Nil))
+Model : arg20: (Nil), arg21: (Nil), arg22: (SUCC (ZERO)::(Nil)), nat2: ZERO, nat5: SUCC (ZERO), nat_list3: (ZERO::(Nil))
+Model : arg20: (Nil), arg21: (Nil), arg22: (Nil), nat2: SUCC (ZERO), nat5: ZERO, nat_list3: (Nil)
+Model : arg20: (Nil), arg21: (Nil), arg22: (ZERO::(ZERO::(Nil))), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.003240 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((((reverse ((ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(SUCC (ZERO)::(Nil))))) = reverse (((((reverse ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (SUCC (ZERO)::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(ZERO::(ZERO::(Nil)))))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil)))))
+Simplifying took 0.001618 seconds
 Result : true
 New Env
 
@@ -16947,11 +17207,21 @@ rewrite <- lemma4 in goal at 0
 advanced_generalize done
 Lemma : forall (arg23:any list) (arg24:any list) (arg25:nat list) (nat2:nat) (nat5:nat) (nat_list3:nat list), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ arg23) @ arg24) @ (nat2::arg25))) = reverse (((((reverse ((nat5::nat_list3)) @ arg23) @ arg24) @ (nat2::(Nil))) @ arg25))
 Model : arg23: (Nil), arg24: (Nil), arg25: (ZERO::(Nil)), nat2: ZERO, nat5: ZERO, nat_list3: (ZERO::(Nil))
-Model : arg23: (Nil), arg24: (0::(Nil)), arg25: (Nil), nat2: ZERO, nat5: SUCC (SUCC (ZERO)), nat_list3: (Nil)
-Model : arg23: (Nil), arg24: (Nil), arg25: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (ZERO::(SUCC (ZERO)::(Nil)))
+Model : arg23: (Nil), arg24: (0::(1::(Nil))), arg25: (ZERO::(Nil)), nat2: SUCC (ZERO), nat5: SUCC (SUCC (ZERO)), nat_list3: (Nil)
+Model : arg23: (Nil), arg24: (Nil), arg25: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (SUCC (ZERO)::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.002257 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(ZERO::(Nil))))) = reverse (((((reverse ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))))
+reverse (((((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (Nil)) @ (0::(1::(Nil)))) @ (SUCC (ZERO)::(ZERO::(Nil))))) = reverse (((((reverse ((SUCC (SUCC (ZERO))::(Nil))) @ (Nil)) @ (0::(1::(Nil)))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))))
+reverse (((((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+Simplifying took 0.002473 seconds
 Result : true
 New Env
 
@@ -17663,12 +17933,22 @@ rewrite <- lemma5 in goal at 2
 rewrite <- lemma4 in goal at 0
 advanced_generalize done
 Lemma : forall (arg26:any list) (arg27:any list) (arg28:nat list) (nat2:nat) (nat5:nat) (nat_list3:nat list), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ arg26) @ arg27) @ (nat2::arg28))) = reverse (((((reverse ((nat5::nat_list3)) @ arg26) @ arg27) @ (nat2::(Nil))) @ arg28))
+Model : arg26: (Nil), arg27: (Nil), arg28: (SUCC (ZERO)::(Nil)), nat2: SUCC (ZERO), nat5: ZERO, nat_list3: (ZERO::(Nil))
 Model : arg26: (Nil), arg27: (Nil), arg28: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
 Model : arg26: (Nil), arg27: (Nil), arg28: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
-Model : arg26: (Nil), arg27: (4::(Nil)), arg28: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001173 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) = reverse (((((reverse ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+Simplifying took 0.001253 seconds
 Result : true
 New Env
 
@@ -18380,12 +18660,22 @@ rewrite <- lemma5 in goal at 2
 rewrite <- lemma4 in goal at 0
 advanced_generalize done
 Lemma : forall (arg29:any list) (arg30:any list) (arg31:nat list) (nat2:nat) (nat5:nat) (nat_list3:nat list), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ arg29) @ arg30) @ (nat2::arg31))) = reverse (((((reverse ((nat5::nat_list3)) @ arg29) @ arg30) @ (nat2::(Nil))) @ arg31))
-Model : arg29: (Nil), arg30: (5::(2::(Nil))), arg31: (ZERO::(Nil)), nat2: SUCC (ZERO), nat5: ZERO, nat_list3: (Nil)
-Model : arg29: (0::(Nil)), arg30: (2::(4::(Nil))), arg31: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (SUCC (ZERO)::(Nil))
-Model : arg29: (Nil), arg30: (Nil), arg31: (SUCC (ZERO)::(Nil)), nat2: SUCC (SUCC (ZERO)), nat5: ZERO, nat_list3: (Nil)
+Model : arg29: (Nil), arg30: (Nil), arg31: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (ZERO::(Nil))
+Model : arg29: (8::(Nil)), arg30: (2::(Nil)), arg31: (Nil), nat2: ZERO, nat5: SUCC (SUCC (ZERO)), nat_list3: (Nil)
+Model : arg29: (Nil), arg30: (7::(Nil)), arg31: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.004952 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (8::(Nil))) @ (2::(Nil))) @ (ZERO::(Nil)))) = reverse (((((reverse ((SUCC (SUCC (ZERO))::(Nil))) @ (8::(Nil))) @ (2::(Nil))) @ (ZERO::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (7::(Nil))) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (7::(Nil))) @ (ZERO::(Nil))) @ (Nil)))
+Simplifying took 0.002798 seconds
 Result : true
 New Env
 
@@ -19960,6 +20250,47 @@ nat3 : nat
 nat4 : nat
 ---------------------------------------
 forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(nat2::(Nil)))) @ (nat4::(Nil)))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite <- lemma6 in goal at 0(rank:8)
+=================================================
+Progress: 508
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat3 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(nat2::(Nil)))) @ (nat4::(Nil)))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite <- lemma6 in goal at 0(rank : 8)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat3 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(nat1::(Nil)))) @ (nat2::(Nil))) @ (nat4::(Nil)))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
 
 1 goal(s) more...
 

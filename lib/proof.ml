@@ -2004,13 +2004,29 @@ let rec apply_reflexivity env goal =
   | _ -> failwith "The goal is not an equality"
 ;;
 
+let apply_define decl t : t =
+  let fun_name = Ir.get_fun_name decl in
+  let env = t.env in
+  if
+    List.exists
+      (fun d ->
+         match d with
+         | Ir.Rec (name, _, _) | Ir.NonRec (name, _, _) -> name = fun_name
+         | _ -> false)
+      env
+  then failwith ("Function " ^ fun_name ^ " is already defined")
+  else (
+    let new_env = env @ [ decl ] in
+    let lemma_stack, conj_list, tactic_list = t.proof in
+    { env = new_env; proof = lemma_stack, conj_list, tactic_list @ [ Define decl ] })
+;;
+
 let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
   let env = t.env in
   let lemma_stack, conj_list, tactic_list = t.proof in
   match tactic with
   | Assert prop -> apply_assert prop t
-  | Define decl ->
-    { env = env @ [ decl ]; proof = lemma_stack, conj_list, tactic_list @ [ tactic ] }
+  | Define decl -> apply_define decl t
   | _ ->
     let first_conj = List.hd conj_list in
     let state_list, conj_goal = first_conj in

@@ -1296,10 +1296,15 @@ let advanced_generalize (t : proof_node) : (proof_node * lemma list) option =
          | _ -> None)
        else (
          let new_t =
-           List.fold_left
-             (fun acc decl -> Prover.just_apply_tactic acc (Proof.Define decl))
-             t
-             new_env
+           try
+             List.fold_left
+               (fun acc decl -> Prover.just_apply_tactic acc (Proof.Define decl))
+               t
+               new_env
+           with
+           | _ ->
+             let _ = Proof.proof_top t.t in
+             failwith "asdf"
          in
          Some (new_t, lemma_list)))
 ;;

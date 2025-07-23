@@ -56,14 +56,23 @@ let get_fun_name decl =
 ;;
 
 let get_mk_index t =
-  List.fold_left
-    (fun acc decl ->
-       match decl with
-       | NonRec (name, _, _) | Rec (name, _, _) ->
-         if String.starts_with ~prefix:"mk_lhs" name then acc + 1 else acc
-       | _ -> acc)
-    0
-    t
+  let t = List.rev t in
+  let i, _ =
+    List.fold_left
+      (fun (i, is_done) decl ->
+         match is_done with
+         | true -> i, true
+         | false ->
+           (match decl with
+            | (Rec (name, _, _) | NonRec (name, _, _))
+              when String.starts_with ~prefix:"mk_" name ->
+              let i = String.sub name 6 (String.length name - 6) |> int_of_string in
+              i + 1, true
+            | _ -> i, false))
+      (0, false)
+      t
+  in
+  i
 ;;
 
 let get_is_rec_list decl =

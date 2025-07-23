@@ -148,11 +148,21 @@ rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg1:any list) (nat_list2:nat list), (qreva (nat_list2) ((Nil)) @ arg1) = qreva (nat_list2) (arg1)
 Model : arg1: (Nil), nat_list2: (Nil)
-Model : arg1: (Nil), nat_list2: (ZERO::(Nil))
+Model : arg1: (7::(Nil)), nat_list2: (Nil)
 Model : arg1: (Nil), nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000085 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(qreva ((Nil)) ((Nil)) @ (Nil)) = qreva ((Nil)) ((Nil))
+(qreva ((Nil)) ((Nil)) @ (7::(Nil))) = qreva ((Nil)) ((7::(Nil)))
+(qreva ((Nil)) ((Nil)) @ (Nil)) = qreva ((Nil)) ((Nil))
+Simplifying took 0.000102 seconds
 Result : true
 New Env
 
@@ -511,12 +521,22 @@ intro any_list1
 rewrite <- IH1 in goal at 2
 advanced_generalize done
 Lemma : forall (any_list1:any list) (arg2:any list) (nat1:nat), (((arg2 @ (Nil)) @ (nat1::(Nil))) @ any_list1) = (arg2 @ (nat1::any_list1))
-Model : any_list1: (Nil), arg2: (8::(Nil)), nat1: ZERO
+Model : any_list1: (Nil), arg2: (0::(Nil)), nat1: ZERO
 Model : any_list1: (Nil), arg2: (Nil), nat1: ZERO
 Model : any_list1: (Nil), arg2: (Nil), nat1: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000576 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+((((0::(Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)) = ((0::(Nil)) @ (ZERO::(Nil)))
+((((Nil) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)) = ((Nil) @ (ZERO::(Nil)))
+((((Nil) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)) = ((Nil) @ (ZERO::(Nil)))
+Simplifying took 0.000194 seconds
 Result : true
 New Env
 

@@ -223,12 +223,24 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (nat3:nat), SUCC (natadd_ta1 (nat3) (ZERO)) = SUCC (nat3)
-Model : nat3: ZERO
+Model : nat3: SUCC (ZERO)
 Model : nat3: ZERO
 Model : nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000012 seconds
+let rec add n1 n2 =
+match (n2) with
+| ZERO  -> n1
+| SUCC n -> add (SUCC (n1)) (n)
+let natadd n1 n2 =
+match (n1) with
+| ZERO  -> add (n2) (n1)
+| _ -> add (n1) (n2)
+prop list:
+SUCC (natadd_ta1 (SUCC (ZERO)) (ZERO)) = SUCC (SUCC (ZERO))
+SUCC (natadd_ta1 (ZERO) (ZERO)) = SUCC (ZERO)
+SUCC (natadd_ta1 (ZERO) (ZERO)) = SUCC (ZERO)
+Simplifying took 0.000023 seconds
 Result : true
 New Env
 
@@ -1206,10 +1218,22 @@ advanced_generalize done
 Lemma : forall (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat3) (SUCC (natadd_ta1 (nat4) (ZERO)))) = add (SUCC (SUCC (natadd_ta1 (nat3) (ZERO)))) (nat4)
 Model : nat3: ZERO, nat4: ZERO
 Model : nat3: ZERO, nat4: ZERO
-Model : nat3: ZERO, nat4: SUCC (ZERO)
+Model : nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000038 seconds
+let rec add n1 n2 =
+match (n2) with
+| ZERO  -> n1
+| SUCC n -> add (SUCC (n1)) (n)
+let natadd n1 n2 =
+match (n1) with
+| ZERO  -> add (n2) (n1)
+| _ -> add (n1) (n2)
+prop list:
+SUCC (natadd_ta1 (ZERO) (SUCC (natadd_ta1 (ZERO) (ZERO)))) = add (SUCC (SUCC (natadd_ta1 (ZERO) (ZERO)))) (ZERO)
+SUCC (natadd_ta1 (ZERO) (SUCC (natadd_ta1 (ZERO) (ZERO)))) = add (SUCC (SUCC (natadd_ta1 (ZERO) (ZERO)))) (ZERO)
+SUCC (natadd_ta1 (ZERO) (SUCC (natadd_ta1 (ZERO) (ZERO)))) = add (SUCC (SUCC (natadd_ta1 (ZERO) (ZERO)))) (ZERO)
+Simplifying took 0.000041 seconds
 Result : true
 New Env
 

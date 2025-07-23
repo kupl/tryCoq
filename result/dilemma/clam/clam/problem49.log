@@ -254,11 +254,21 @@ rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg1:nat), plus (arg1) (ZERO) = arg1
 Model : arg1: ZERO
-Model : arg1: ZERO
+Model : arg1: SUCC (ZERO)
 Model : arg1: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000033 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (ZERO) (ZERO) = ZERO
+plus (SUCC (ZERO)) (ZERO) = SUCC (ZERO)
+plus (SUCC (ZERO)) (ZERO) = SUCC (ZERO)
+Simplifying took 0.000048 seconds
 Result : true
 New Env
 
@@ -793,7 +803,17 @@ Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
 Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000096 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (mult (ZERO) (ZERO)) (SUCC (plus (ZERO) (ZERO)))
+plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (mult (ZERO) (ZERO)) (SUCC (plus (ZERO) (ZERO)))
+plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (mult (ZERO) (ZERO)) (SUCC (plus (ZERO) (ZERO)))
+Simplifying took 0.000116 seconds
 Result : true
 New Env
 
@@ -955,12 +975,22 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg2:nat) (nat2:nat) (nat5:nat), plus (plus (arg2) (nat2)) (SUCC (nat5)) = plus (arg2) (SUCC (plus (nat5) (nat2)))
-Model : arg2: SUCC (ZERO), nat2: ZERO, nat5: ZERO
-Model : arg2: SUCC (ZERO), nat2: ZERO, nat5: ZERO
+Model : arg2: ZERO, nat2: SUCC (SUCC (ZERO)), nat5: ZERO
 Model : arg2: ZERO, nat2: ZERO, nat5: ZERO
+Model : arg2: SUCC (ZERO), nat2: ZERO, nat5: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000126 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (plus (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (ZERO)) = plus (ZERO) (SUCC (plus (ZERO) (SUCC (SUCC (ZERO)))))
+plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (ZERO) (SUCC (plus (ZERO) (ZERO)))
+plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (plus (ZERO) (ZERO)))
+Simplifying took 0.000157 seconds
 Result : true
 New Env
 
@@ -1124,11 +1154,21 @@ rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (nat2:nat) (nat4:nat) (nat5:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = qmult (nat4) (nat2) (SUCC (plus (nat5) (nat2)))
 Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
-Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
+Model : nat2: ZERO, nat4: ZERO, nat5: SUCC (ZERO)
 Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000080 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))
+plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (SUCC (ZERO))) = qmult (ZERO) (ZERO) (SUCC (plus (SUCC (ZERO)) (ZERO)))
+plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))
+Simplifying took 0.000127 seconds
 Result : true
 New Env
 
@@ -1293,12 +1333,22 @@ intro nat2
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg3:nat) (nat2:nat) (nat5:nat), plus (plus (arg3) (nat2)) (SUCC (nat5)) = plus (arg3) (SUCC (plus (nat5) (nat2)))
+Model : arg3: ZERO, nat2: ZERO, nat5: ZERO
 Model : arg3: ZERO, nat2: ZERO, nat5: SUCC (ZERO)
 Model : arg3: ZERO, nat2: ZERO, nat5: ZERO
-Model : arg3: ZERO, nat2: SUCC (SUCC (ZERO)), nat5: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000107 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (ZERO) (SUCC (plus (ZERO) (ZERO)))
+plus (plus (ZERO) (ZERO)) (SUCC (SUCC (ZERO))) = plus (ZERO) (SUCC (plus (SUCC (ZERO)) (ZERO)))
+plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (ZERO) (SUCC (plus (ZERO) (ZERO)))
+Simplifying took 0.000104 seconds
 Result : true
 New Env
 
@@ -3123,12 +3173,22 @@ rewrite IH1 in goal at 0
 simpl in goal
 advanced_generalize done
 Lemma : forall (arg4:nat), plus (arg4) (SUCC (ZERO)) = plus (plus (arg4) (ZERO)) (SUCC (ZERO))
-Model : arg4: ZERO
+Model : arg4: SUCC (SUCC (ZERO))
 Model : arg4: ZERO
 Model : arg4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000056 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))
+plus (ZERO) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
+plus (ZERO) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
+Simplifying took 0.000127 seconds
 Result : true
 New Env
 
@@ -3533,11 +3593,21 @@ simpl in goal
 advanced_generalize done
 Lemma : forall (arg5:nat) (nat4:nat) (nat5:nat), plus (qmult (nat4) (arg5) (SUCC (plus (nat5) (arg5)))) (SUCC (ZERO)) = plus (plus (mult (nat4) (arg5)) (arg5)) (SUCC (arg5))
 Model : arg5: ZERO, nat4: ZERO, nat5: ZERO
-Model : arg5: ZERO, nat4: ZERO, nat5: SUCC (ZERO)
+Model : arg5: ZERO, nat4: ZERO, nat5: ZERO
 Model : arg5: ZERO, nat4: ZERO, nat5: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000175 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))) (SUCC (ZERO)) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO))
+plus (qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))) (SUCC (ZERO)) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO))
+plus (qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))) (SUCC (ZERO)) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO))
+Simplifying took 0.000146 seconds
 Result : false
 =================================================
 Progress: 97
@@ -4540,11 +4610,21 @@ intro nat2
 advanced_generalize done
 Lemma : forall (arg6:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (nat2)) (arg6) = plus (plus (mult (nat4) (nat2)) (nat2)) (arg6)
 Model : arg6: ZERO, nat2: ZERO, nat4: ZERO
-Model : arg6: SUCC (ZERO), nat2: ZERO, nat4: SUCC (ZERO)
-Model : arg6: ZERO, nat2: SUCC (ZERO), nat4: ZERO
+Model : arg6: ZERO, nat2: ZERO, nat4: SUCC (ZERO)
+Model : arg6: SUCC (ZERO), nat2: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000222 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)
+plus (qmult (SUCC (ZERO)) (ZERO) (ZERO)) (ZERO) = plus (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)
+plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO))
+Simplifying took 0.000154 seconds
 Result : true
 New Env
 

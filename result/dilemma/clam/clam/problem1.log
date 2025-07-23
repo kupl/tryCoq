@@ -143,11 +143,21 @@ rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (nat2:nat), SUCC (SUCC (plus (nat2) (nat2))) = SUCC (plus (nat2) (SUCC (nat2)))
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000051 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+SUCC (SUCC (plus (ZERO) (ZERO))) = SUCC (plus (ZERO) (SUCC (ZERO)))
+SUCC (SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO))))) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO)))))
+SUCC (SUCC (plus (ZERO) (ZERO))) = SUCC (plus (ZERO) (SUCC (ZERO)))
+Simplifying took 0.000682 seconds
 Result : true
 New Env
 
@@ -323,7 +333,17 @@ Model : nat2: ZERO
 Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000089 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+SUCC (SUCC (SUCC (SUCC (plus (ZERO) (ZERO))))) = SUCC (SUCC (plus (ZERO) (SUCC (SUCC (ZERO)))))
+SUCC (SUCC (SUCC (SUCC (plus (ZERO) (ZERO))))) = SUCC (SUCC (plus (ZERO) (SUCC (SUCC (ZERO)))))
+SUCC (SUCC (SUCC (SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))))) = SUCC (SUCC (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))))
+Simplifying took 0.000103 seconds
 Result : true
 New Env
 
@@ -463,11 +483,21 @@ simpl in goal
 advanced_generalize done
 Lemma : forall (arg1:nat) (nat2:nat), SUCC (SUCC (SUCC (SUCC (SUCC (plus (nat2) (arg1)))))) = SUCC (SUCC (SUCC (plus (nat2) (SUCC (SUCC (arg1))))))
 Model : arg1: ZERO, nat2: ZERO
-Model : arg1: SUCC (ZERO), nat2: ZERO
-Model : arg1: ZERO, nat2: ZERO
+Model : arg1: SUCC (SUCC (ZERO)), nat2: ZERO
+Model : arg1: ZERO, nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000080 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+SUCC (SUCC (SUCC (SUCC (SUCC (plus (ZERO) (ZERO)))))) = SUCC (SUCC (SUCC (plus (ZERO) (SUCC (SUCC (ZERO))))))
+SUCC (SUCC (SUCC (SUCC (SUCC (plus (ZERO) (SUCC (SUCC (ZERO)))))))) = SUCC (SUCC (SUCC (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))))
+SUCC (SUCC (SUCC (SUCC (SUCC (plus (SUCC (ZERO)) (ZERO)))))) = SUCC (SUCC (SUCC (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))))
+Simplifying took 0.000107 seconds
 Result : true
 New Env
 

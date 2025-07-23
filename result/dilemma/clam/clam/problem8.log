@@ -890,11 +890,21 @@ rewrite IH2 in goal at 0
 advanced_generalize done
 Lemma : forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (nat5) (drop (SUCC (nat3)) (nat_list2)) = drop (SUCC (nat5)) (drop (nat3) (nat_list2))
 Model : nat3: ZERO, nat5: ZERO, nat_list2: (ZERO::(Nil))
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
+Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (SUCC (ZERO)::(Nil))
+Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000115 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+drop (ZERO) (drop (SUCC (ZERO)) ((ZERO::(Nil)))) = drop (SUCC (ZERO)) (drop (ZERO) ((ZERO::(Nil))))
+drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((SUCC (ZERO)::(Nil)))) = drop (SUCC (SUCC (ZERO))) (drop (ZERO) ((SUCC (ZERO)::(Nil))))
+drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil))) = drop (SUCC (SUCC (ZERO))) (drop (ZERO) ((Nil)))
+Simplifying took 0.000169 seconds
 Result : true
 New Env
 
@@ -1016,12 +1026,22 @@ simpl in goal
 rewrite IH2 in goal at 0
 advanced_generalize done
 Lemma : forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (nat5) (drop (SUCC (nat3)) (nat_list2)) = drop (nat3) (drop (SUCC (nat5)) (nat_list2))
+Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
 Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
+Model : nat3: ZERO, nat5: ZERO, nat_list2: (SUCC (ZERO)::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000105 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil)))
+drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
+drop (ZERO) (drop (SUCC (ZERO)) ((SUCC (ZERO)::(Nil)))) = drop (ZERO) (drop (SUCC (ZERO)) ((SUCC (ZERO)::(Nil))))
+Simplifying took 0.000129 seconds
 Result : true
 New Env
 
@@ -1816,12 +1836,22 @@ rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 0
 advanced_generalize done
 Lemma : forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (SUCC (nat5)) (drop (nat3) (nat_list2)) = drop (nat5) (drop (SUCC (nat3)) (nat_list2))
-Model : nat3: ZERO, nat5: SUCC (SUCC (SUCC (ZERO))), nat_list2: (Nil)
-Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
+Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
+Model : nat3: ZERO, nat5: ZERO, nat_list2: (ZERO::(Nil))
 Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000110 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+drop (SUCC (ZERO)) (drop (ZERO) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
+drop (SUCC (ZERO)) (drop (ZERO) ((ZERO::(Nil)))) = drop (ZERO) (drop (SUCC (ZERO)) ((ZERO::(Nil))))
+drop (SUCC (ZERO)) (drop (ZERO) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
+Simplifying took 0.000133 seconds
 Result : true
 New Env
 
@@ -1943,12 +1973,22 @@ simpl in goal
 rewrite <- IH2 in goal at 0
 advanced_generalize done
 Lemma : forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (nat3) (drop (SUCC (nat5)) (nat_list2)) = drop (nat5) (drop (SUCC (nat3)) (nat_list2))
+Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
 Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (ZERO::(Nil))
 Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000109 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil))) = drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil)))
+drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
+drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
+Simplifying took 0.000104 seconds
 Result : true
 New Env
 
@@ -2869,12 +2909,22 @@ simpl in goal
 rewrite IH1 in goal at 1
 advanced_generalize done
 Lemma : forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (nat5) (drop (SUCC (nat4)) (nat_list2)) = drop (nat4) (drop (SUCC (nat5)) (nat_list2))
-Model : nat4: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
-Model : nat4: ZERO, nat5: ZERO, nat_list2: (ZERO::(ZERO::(ZERO::(Nil))))
+Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
+Model : nat4: ZERO, nat5: ZERO, nat_list2: (ZERO::(Nil))
 Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000171 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
+drop (ZERO) (drop (SUCC (ZERO)) ((ZERO::(Nil)))) = drop (ZERO) (drop (SUCC (ZERO)) ((ZERO::(Nil))))
+drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
+Simplifying took 0.000124 seconds
 Result : true
 New Env
 
@@ -2996,12 +3046,22 @@ simpl in goal
 rewrite IH1 in goal at 2
 advanced_generalize done
 Lemma : forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (SUCC (nat4)) (drop (nat5) (nat_list2)) = drop (SUCC (nat5)) (drop (nat4) (nat_list2))
-Model : nat4: ZERO, nat5: ZERO, nat_list2: (SUCC (ZERO)::(ZERO::(Nil)))
 Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
-Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
+Model : nat4: ZERO, nat5: ZERO, nat_list2: (ZERO::(Nil))
+Model : nat4: SUCC (ZERO), nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000153 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+drop (SUCC (ZERO)) (drop (ZERO) ((Nil))) = drop (SUCC (ZERO)) (drop (ZERO) ((Nil)))
+drop (SUCC (ZERO)) (drop (ZERO) ((ZERO::(Nil)))) = drop (SUCC (ZERO)) (drop (ZERO) ((ZERO::(Nil))))
+drop (SUCC (SUCC (ZERO))) (drop (ZERO) ((Nil))) = drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil)))
+Simplifying took 0.000140 seconds
 Result : true
 New Env
 
@@ -3423,12 +3483,22 @@ simpl in goal
 rewrite IH1 in goal at 1
 advanced_generalize done
 Lemma : forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (SUCC (nat5)) (drop (nat4) (nat_list2)) = drop (SUCC (nat4)) (drop (nat5) (nat_list2))
+Model : nat4: ZERO, nat5: ZERO, nat_list2: (SUCC (ZERO)::(Nil))
+Model : nat4: SUCC (ZERO), nat5: ZERO, nat_list2: (ZERO::(Nil))
 Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
-Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
-Model : nat4: SUCC (SUCC (ZERO)), nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000098 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+drop (SUCC (ZERO)) (drop (ZERO) ((SUCC (ZERO)::(Nil)))) = drop (SUCC (ZERO)) (drop (ZERO) ((SUCC (ZERO)::(Nil))))
+drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((ZERO::(Nil)))) = drop (SUCC (SUCC (ZERO))) (drop (ZERO) ((ZERO::(Nil))))
+drop (SUCC (ZERO)) (drop (ZERO) ((Nil))) = drop (SUCC (ZERO)) (drop (ZERO) ((Nil)))
+Simplifying took 0.000168 seconds
 Result : true
 New Env
 
@@ -3555,7 +3625,17 @@ Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
 Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000094 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil))) = drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil)))
+drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
+drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
+Simplifying took 0.000109 seconds
 Result : true
 New Env
 

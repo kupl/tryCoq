@@ -147,6 +147,394 @@ simpl in goal
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (int1:int) (int_list2:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Model : int1: 0, int_list2: (Nil)
+Model : int1: -0, int_list2: (Nil)
+Model : int1: 0, int_list2: (Nil)
+Substituting variables...
+Simplifying conditions and property...
+let rec drop lst n =
+match (lst) with
+| Nil  -> (Nil)
+| Cons hd tl -> if a_eq (hd) (n) then drop (tl) (n) else (hd::drop (tl) (n))
+let rec uniq lst =
+match (lst) with
+| Nil  -> (Nil)
+| Cons hd tl -> (hd::uniq (drop (tl) (hd)))
+prop list:
+(0::remove_elem_ta1 (0) (uniq ((Nil)))) = (0::uniq (drop ((Nil)) (0)))
+(-0::remove_elem_ta1 (-0) (uniq ((Nil)))) = (-0::uniq (drop ((Nil)) (-0)))
+(0::remove_elem_ta1 (0) (uniq ((Nil)))) = (0::uniq (drop ((Nil)) (0)))
+Simplifying took 0.000046 seconds
+Result : true
+New Env
+
+;;
+Lemma List
+forall (int1:int) (int_list2:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+End of Lemma List
+
+
+1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
+int_list1 : int list
+int1 : int
+int_list2 : int list
+IH1 : uniq_ta1 (int_list2) = uniq (int_list2)
+Inductive1 : int_list1 = (int1::int_list2)
+---------------------------------------
+(int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 6
+
+
+1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
+int_list1 : int list
+int1 : int
+int_list2 : int list
+IH1 : uniq_ta1 (int_list2) = uniq (int_list2)
+Inductive1 : int_list1 = (int1::int_list2)
+---------------------------------------
+(int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (int1:int) (int_list2:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))(rank : 0)
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+
+---------------------------------------
+forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction int_list1(rank:6)
+=================================================
+Progress: 7
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+
+---------------------------------------
+forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction int_list1(rank : 6)
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+Base1 : int_list1 = (Nil)
+---------------------------------------
+forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq ((Nil)))) = (int1::uniq (drop ((Nil)) (int1)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:5)
+=================================================
+Progress: 8
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+Base1 : int_list1 = (Nil)
+---------------------------------------
+forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq ((Nil)))) = (int1::uniq (drop ((Nil)) (int1)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 5)
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+---------------------------------------
+forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq ((int2::int_list2)))) = (int1::uniq (drop ((int2::int_list2)) (int1)))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:5)
+=================================================
+Progress: 9
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+---------------------------------------
+forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq ((int2::int_list2)))) = (int1::uniq (drop ((int2::int_list2)) (int1)))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 5)
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+---------------------------------------
+forall (int1:int), (int1::if a_eq (int1) (int2) then remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))) else (int2::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))))) = (int1::uniq (if a_eq (int2) (int1) then drop (int_list2) (int1) else (int2::drop (int_list2) (int1))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro int1(rank:5)
+=================================================
+Progress: 10
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+---------------------------------------
+forall (int1:int), (int1::if a_eq (int1) (int2) then remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))) else (int2::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))))) = (int1::uniq (if a_eq (int2) (int1) then drop (int_list2) (int1) else (int2::drop (int_list2) (int1))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro int1(rank : 5)
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+---------------------------------------
+(int1::if a_eq (int1) (int2) then remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))) else (int2::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))))) = (int1::uniq (if a_eq (int2) (int1) then drop (int_list2) (int1) else (int2::drop (int_list2) (int1))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+case a_eq (int1) (int2)(rank:6)
+case a_eq (int2) (int1)(rank:6)
+=================================================
+Progress: 11
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+---------------------------------------
+(int1::if a_eq (int1) (int2) then remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))) else (int2::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))))) = (int1::uniq (if a_eq (int2) (int1) then drop (int_list2) (int1) else (int2::drop (int_list2) (int1))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> case a_eq (int1) (int2)(rank : 6)
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+Case1 : a_eq (int1) (int2) = true
+---------------------------------------
+(int1::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2)))) = (int1::uniq (if a_eq (int2) (int1) then drop (int_list2) (int1) else (int2::drop (int_list2) (int1))))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case a_eq (int2) (int1)(rank:7)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+---------------------------------------
+(int1::if a_eq (int1) (int2) then remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))) else (int2::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))))) = (int1::uniq (if a_eq (int2) (int1) then drop (int_list2) (int1) else (int2::drop (int_list2) (int1))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> case a_eq (int2) (int1)(rank : 6)
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+Case1 : a_eq (int2) (int1) = true
+---------------------------------------
+(int1::if a_eq (int1) (int2) then remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))) else (int2::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))))) = (int1::uniq (drop (int_list2) (int1)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+case a_eq (int1) (int2)(rank:7)
+rewrite <- IH1 in goal at 0(rank:14)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+Case1 : a_eq (int1) (int2) = true
+---------------------------------------
+(int1::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2)))) = (int1::uniq (if a_eq (int2) (int1) then drop (int_list2) (int1) else (int2::drop (int_list2) (int1))))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> case a_eq (int2) (int1)(rank : 7)
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+Case1 : a_eq (int1) (int2) = true
+Case2 : a_eq (int2) (int1) = true
+---------------------------------------
+(int1::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2)))) = (int1::uniq (drop (int_list2) (int1)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+rewrite <- IH1 in goal at 0(rank:7)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+Case1 : a_eq (int2) (int1) = true
+---------------------------------------
+(int1::if a_eq (int1) (int2) then remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))) else (int2::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2))))) = (int1::uniq (drop (int_list2) (int1)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> case a_eq (int1) (int2)(rank : 7)
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+Case1 : a_eq (int2) (int1) = true
+Case2 : a_eq (int1) (int2) = true
+---------------------------------------
+(int1::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2)))) = (int1::uniq (drop (int_list2) (int1)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+rewrite <- IH1 in goal at 0(rank:7)
+=================================================
+Progress: 15
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+Case1 : a_eq (int1) (int2) = true
+Case2 : a_eq (int2) (int1) = true
+---------------------------------------
+(int1::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2)))) = (int1::uniq (drop (int_list2) (int1)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 7)
+
+
+1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = (int1::uniq (drop (int_list1) (int1)))
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (drop (int_list2) (int1)))
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+Case1 : a_eq (int1) (int2) = true
+Case2 : a_eq (int2) (int1) = true
+---------------------------------------
+(int1::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2)))) = (int1::remove_elem_ta1 (int1) (uniq (int_list2)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro int1
+case a_eq (int1) (int2)
+case a_eq (int2) (int1)
+rewrite <- IH1 in goal at 0
+advanced_generalize done
+Lemma : forall (int1:int) (int2:int) (int_list2:int list), a_eq (int1) (int2) = true->a_eq (int2) (int1) = true -> (int1::remove_elem_ta1 (int1) (uniq (drop (int_list2) (int2)))) = (int1::remove_elem_ta1 (int1) (uniq (int_list2)))
 Fatal error: exception Invalid_argument("Random.int")
 Raised at Stdlib.invalid_arg in file "stdlib.ml", line 30, characters 20-45
 Called from Dilemma__Validate.generator in file "lib/validate.ml", line 46, characters 19-56
@@ -155,9 +543,10 @@ Called from Stdlib__List.map in file "list.ml", line 86, characters 15-19
 Called from Dilemma__Validate.validate.(fun) in file "lib/validate.ml", lines 91-96, characters 8-14
 Called from Stdlib__List.init in file "list.ml", line 66, characters 13-16
 Called from Dilemma__Validate.validate in file "lib/validate.ml", lines 89-100, characters 4-11
-Called from Dilemma__Finder.make_lemmas_by_advanced_generalize.(fun) in file "lib/finder.ml", line 1312, characters 38-73
+Called from Dilemma__Finder.make_lemmas_by_advanced_generalize.(fun) in file "lib/finder.ml", line 1322, characters 38-75
 Called from Stdlib__List.find_all in file "list.ml", line 265, characters 17-20
-Called from Dilemma__Finder.make_lemmas_by_advanced_generalize in file "lib/finder.ml", line 1312, characters 8-81
-Called from Dilemma__Engine.progress in file "lib/engine.ml", line 128, characters 23-81
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 196, characters 8-69
+Called from Dilemma__Finder.make_lemmas_by_advanced_generalize in file "lib/finder.ml", line 1322, characters 8-83
+Called from Stdlib__List.map in file "list.ml", line 83, characters 15-19
+Called from Dilemma__Engine.progress in file "lib/engine.ml", lines 186-188, characters 12-29
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 288, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

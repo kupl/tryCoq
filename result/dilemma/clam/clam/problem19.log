@@ -178,11 +178,21 @@ simpl in goal
 advanced_generalize done
 Lemma : forall (nat1:nat) (nat_list3:nat list), (nat1::nat_list3) = reverse ((reverse (nat_list3) @ (nat1::(Nil))))
 Model : nat1: ZERO, nat_list3: (Nil)
-Model : nat1: SUCC (ZERO), nat_list3: (Nil)
+Model : nat1: ZERO, nat_list3: (Nil)
 Model : nat1: ZERO, nat_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000115 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(ZERO::(Nil)) = reverse ((reverse ((Nil)) @ (ZERO::(Nil))))
+(ZERO::(Nil)) = reverse ((reverse ((Nil)) @ (ZERO::(Nil))))
+(ZERO::(Nil)) = reverse ((reverse ((Nil)) @ (ZERO::(Nil))))
+Simplifying took 0.000108 seconds
 Result : true
 New Env
 
@@ -402,12 +412,22 @@ intro nat1
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg1:any list) (nat1:nat), (nat1::reverse (arg1)) = reverse ((arg1 @ (nat1::(Nil))))
+Model : arg1: (1::(3::(Nil))), nat1: ZERO
 Model : arg1: (Nil), nat1: ZERO
-Model : arg1: (Nil), nat1: ZERO
-Model : arg1: (Nil), nat1: ZERO
+Model : arg1: (7::(Nil)), nat1: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000105 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(ZERO::reverse ((1::(3::(Nil))))) = reverse (((1::(3::(Nil))) @ (ZERO::(Nil))))
+(ZERO::reverse ((Nil))) = reverse (((Nil) @ (ZERO::(Nil))))
+(ZERO::reverse ((7::(Nil)))) = reverse (((7::(Nil)) @ (ZERO::(Nil))))
+Simplifying took 0.000584 seconds
 Result : true
 New Env
 
@@ -698,10 +718,20 @@ advanced_generalize done
 Lemma : forall (arg2:any list) (nat1:nat), (nat1::reverse (arg2)) = reverse ((arg2 @ (nat1::(Nil))))
 Model : arg2: (Nil), nat1: ZERO
 Model : arg2: (Nil), nat1: ZERO
-Model : arg2: (6::(Nil)), nat1: ZERO
+Model : arg2: (5::(Nil)), nat1: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000268 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(ZERO::reverse ((Nil))) = reverse (((Nil) @ (ZERO::(Nil))))
+(ZERO::reverse ((Nil))) = reverse (((Nil) @ (ZERO::(Nil))))
+(ZERO::reverse ((5::(Nil)))) = reverse (((5::(Nil)) @ (ZERO::(Nil))))
+Simplifying took 0.000253 seconds
 Result : true
 New Env
 

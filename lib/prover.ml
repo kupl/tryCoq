@@ -29,8 +29,8 @@ module WorkList = CCHeap.Make_from_compare (struct
     ;;
   end)
 
-module ProofSet = CCSet.Make (struct
-    type t = proof_node
+module ProofSet = CCMap.Make (struct
+    type t = int
 
     let compare = compare
   end)
@@ -420,7 +420,7 @@ let is_duplicated new_t state_list =
   let conj_list = Proof.get_conj_list new_t in
   let result =
     ProofSet.exists
-      (fun old_t ->
+      (fun _ (old_t : proof_node) ->
          let lemma_stack' = Proof.get_lemma_stack old_t.t in
          let conj_list' = Proof.get_conj_list old_t.t in
          List.length conj_list = List.length conj_list'
@@ -1340,7 +1340,7 @@ let prune_rank_worklist_update_state_list t candidates statelist =
         (tactic, (next_t : proof_node)) ->
          if is_duplicated next_t.t state_list
          then worklist, state_list
-         else worklist @ [ tactic, next_t ], ProofSet.add next_t state_list)
+         else worklist @ [ tactic, next_t ], ProofSet.add next_t.id next_t state_list)
       ([], statelist)
       new_worklist
   in
@@ -1354,9 +1354,8 @@ let prune_rank_worklist_update_state_list t candidates statelist =
          { t; tactic; next_t; rank = r; order })
       worklist
   in
-  (* let next_t_list = List.map (fun (_, _, next_t, _, _) -> next_t) worklist in
-  let statelist = ProofSet.add_list statelist next_t_list in *)
-  WorkList.of_list worklist, statelist
+  let is_empty = List.is_empty worklist in
+  WorkList.of_list worklist, statelist, is_empty && not (List.is_empty valid_tactics)
 ;;
 
 let is_stuck worklist = WorkList.is_empty worklist

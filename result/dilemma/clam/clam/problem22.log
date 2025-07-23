@@ -1994,12 +1994,22 @@ reflexivity
 rewrite <- Case2 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list3:any list) (any_list4:any list), if even (len ((any_list4 @ any_list3))) then false else true = true->even (len ((any_list4 @ (any1::any_list3)))) = false -> even (len ((any_list4 @ (any1::any_list3)))) = true
-Model : any1: 4, any_list3: (Nil), any_list4: (Nil)
-Model : any1: 8, any_list3: (Nil), any_list4: (Nil)
-Model : any1: 5, any_list3: (Nil), any_list4: (Nil)
+Model : any1: 5, any_list3: (0::(4::(Nil))), any_list4: (Nil)
+Model : any1: 6, any_list3: (Nil), any_list4: (Nil)
+Model : any1: 7, any_list3: (Nil), any_list4: (1::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000512 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+even (len (((Nil) @ (5::(0::(4::(Nil))))))) = true
+even (len (((Nil) @ (6::(Nil))))) = true
+even (len (((1::(Nil)) @ (7::(Nil))))) = true
+Simplifying took 0.000880 seconds
 Result : true
 New Env
 
@@ -2567,12 +2577,22 @@ case even (len ((any_list3 @ (any1::any_list1))))
 rewrite <- Case1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list1:any list) (any_list3:any list), if if even (len ((any_list3 @ any_list1))) then false else true then false else true = true->false = false->even (len ((any_list3 @ (any1::any_list1)))) = true -> false = even (len ((any_list3 @ (any1::any_list1))))
-Model : any1: 0, any_list1: (6::(Nil)), any_list3: (Nil)
-Model : any1: 1, any_list1: (Nil), any_list3: (0::(Nil))
-Model : any1: 5, any_list1: (Nil), any_list3: (0::(Nil))
+Model : any1: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 2, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 8, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000738 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+false = even (len (((Nil) @ (5::(Nil)))))
+false = even (len (((Nil) @ (2::(Nil)))))
+false = even (len (((Nil) @ (8::(Nil)))))
+Simplifying took 0.000367 seconds
 Result : true
 New Env
 
@@ -3270,12 +3290,22 @@ reflexivity
 rewrite <- Case1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list1:any list) (any_list3:any list), if if if even (len ((any_list3 @ any_list1))) then false else true then false else true then false else true = true->false = false->true = true->even (len ((any_list3 @ (any1::any_list1)))) = false -> even (len ((any_list3 @ (any1::any_list1)))) = true
-Model : any1: 2, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 2, any_list1: (Nil), any_list3: (1::(Nil))
+Model : any1: 1, any_list1: (Nil), any_list3: (0::(Nil))
+Model : any1: 1, any_list1: (6::(Nil)), any_list3: (6::(Nil))
 Model : any1: 0, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000522 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+even (len (((0::(Nil)) @ (1::(Nil))))) = true
+even (len (((6::(Nil)) @ (1::(6::(Nil)))))) = true
+even (len (((Nil) @ (0::(Nil))))) = true
+Simplifying took 0.000897 seconds
 Result : true
 New Env
 
@@ -3882,11 +3912,21 @@ rewrite IH2 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list3:any list) (any_list4:any list), if even (len ((any_list3 @ any_list4))) then false else true = true->if even (len ((any_list4 @ any_list3))) then false else true = false -> even (len ((any_list4 @ (any1::any_list3)))) = false
 Model : any1: 1, any_list3: (Nil), any_list4: (Nil)
-Model : any1: 1, any_list3: (8::(6::(Nil))), any_list4: (Nil)
-Model : any1: 5, any_list3: (Nil), any_list4: (7::(Nil))
+Model : any1: 0, any_list3: (Nil), any_list4: (3::(Nil))
+Model : any1: 1, any_list3: (Nil), any_list4: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000864 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+even (len (((Nil) @ (1::(Nil))))) = false
+even (len (((3::(Nil)) @ (0::(Nil))))) = false
+even (len (((Nil) @ (1::(Nil))))) = false
+Simplifying took 0.000350 seconds
 Result : true
 New Env
 
@@ -4102,12 +4142,22 @@ reflexivity
 rewrite IH2 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list3:any list) (any_list4:any list), if even (len ((any_list4 @ any_list3))) then false else true = true->if even (len ((any_list3 @ any_list4))) then false else true = false -> even (len ((any_list4 @ (any1::any_list3)))) = true
-Model : any1: 6, any_list3: (Nil), any_list4: (Nil)
-Model : any1: 0, any_list3: (Nil), any_list4: (Nil)
-Model : any1: 1, any_list3: (Nil), any_list4: (Nil)
+Model : any1: 5, any_list3: (0::(Nil)), any_list4: (Nil)
+Model : any1: 2, any_list3: (Nil), any_list4: (Nil)
+Model : any1: 5, any_list3: (Nil), any_list4: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000213 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+even (len (((Nil) @ (5::(0::(Nil)))))) = true
+even (len (((Nil) @ (2::(Nil))))) = true
+even (len (((Nil) @ (5::(Nil))))) = true
+Simplifying took 0.000319 seconds
 Result : true
 New Env
 
@@ -4896,12 +4946,22 @@ reflexivity
 rewrite <- Case1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list1:any list) (any_list3:any list), if if even (len ((any_list3 @ any_list1))) then false else true then false else true = false->even (len ((any_list3 @ (any1::any_list1)))) = false -> true = even (len ((any_list3 @ (any1::any_list1))))
-Model : any1: 1, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 7, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any_list1: (Nil), any_list3: (Nil)
 Model : any1: 0, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000301 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+true = even (len (((Nil) @ (0::(Nil)))))
+true = even (len (((Nil) @ (0::(Nil)))))
+true = even (len (((Nil) @ (0::(Nil)))))
+Simplifying took 0.000259 seconds
 Result : true
 New Env
 
@@ -5285,12 +5345,22 @@ case even (len ((any_list3 @ (any1::any_list1))))
 rewrite <- Case1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list1:any list) (any_list3:any list), if if even (len ((any_list3 @ any_list1))) then false else true then false else true = true->even (len ((any_list3 @ (any1::any_list1)))) = true -> false = even (len ((any_list3 @ (any1::any_list1))))
-Model : any1: 5, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 0, any_list1: (Nil), any_list3: (Nil)
 Model : any1: 2, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 4, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 7, any_list1: (3::(4::(0::(Nil)))), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000312 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+false = even (len (((Nil) @ (2::(Nil)))))
+false = even (len (((Nil) @ (4::(Nil)))))
+false = even (len (((Nil) @ (7::(3::(4::(0::(Nil))))))))
+Simplifying took 0.000777 seconds
 Result : true
 New Env
 
@@ -6032,11 +6102,21 @@ rewrite <- Case1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list1:any list) (any_list3:any list), if if if even (len ((any_list3 @ any_list1))) then false else true then false else true then false else true = false->false = false->even (len ((any_list3 @ (any1::any_list1)))) = true -> even (len ((any_list3 @ (any1::any_list1)))) = false
 Model : any1: 8, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 4, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 2, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 6, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 0, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000416 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+even (len (((Nil) @ (8::(Nil))))) = false
+even (len (((Nil) @ (6::(Nil))))) = false
+even (len (((Nil) @ (0::(Nil))))) = false
+Simplifying took 0.000371 seconds
 Result : true
 New Env
 
@@ -6466,12 +6546,22 @@ reflexivity
 rewrite <- Case1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list1:any list) (any_list3:any list), if if if even (len ((any_list3 @ any_list1))) then false else true then false else true then false else true = true->true = true->even (len ((any_list3 @ (any1::any_list1)))) = false -> even (len ((any_list3 @ (any1::any_list1)))) = true
-Model : any1: 0, any_list1: (2::(Nil)), any_list3: (Nil)
+Model : any1: 2, any_list1: (Nil), any_list3: (Nil)
 Model : any1: 4, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 3, any_list1: (Nil), any_list3: (3::(7::(8::(4::(Nil)))))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000480 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+even (len (((Nil) @ (2::(Nil))))) = true
+even (len (((Nil) @ (4::(Nil))))) = true
+even (len (((3::(7::(8::(4::(Nil))))) @ (3::(Nil))))) = true
+Simplifying took 0.001973 seconds
 Result : true
 New Env
 
@@ -7390,12 +7480,22 @@ case even (len ((any_list3 @ (any1::any_list1))))
 rewrite <- Case1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (any_list1:any list) (any_list3:any list), if if if if even (len ((any_list3 @ any_list1))) then false else true then false else true then false else true then false else true = true->false = false->true = true->false = false->even (len ((any_list3 @ (any1::any_list1)))) = true -> false = even (len ((any_list3 @ (any1::any_list1))))
-Model : any1: 6, any_list1: (0::(Nil)), any_list3: (4::(Nil))
-Model : any1: 1, any_list1: (Nil), any_list3: (Nil)
-Model : any1: 1, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 6, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 5, any_list1: (Nil), any_list3: (Nil)
+Model : any1: 7, any_list1: (Nil), any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000722 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+false = even (len (((Nil) @ (6::(Nil)))))
+false = even (len (((Nil) @ (5::(Nil)))))
+false = even (len (((Nil) @ (7::(Nil)))))
+Simplifying took 0.000403 seconds
 Result : true
 New Env
 

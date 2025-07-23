@@ -216,12 +216,22 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (arg1:any list), reverse ((arg1 @ (any1::(Nil)))) = (any1::reverse (arg1))
-Model : any1: 3, arg1: (7::(Nil))
-Model : any1: 0, arg1: (0::(Nil))
-Model : any1: 6, arg1: (5::(7::(Nil)))
+Model : any1: 2, arg1: (Nil)
+Model : any1: 4, arg1: (6::(Nil))
+Model : any1: 8, arg1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001122 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((Nil) @ (2::(Nil)))) = (2::reverse ((Nil)))
+reverse (((6::(Nil)) @ (4::(Nil)))) = (4::reverse ((6::(Nil))))
+reverse (((Nil) @ (8::(Nil)))) = (8::reverse ((Nil)))
+Simplifying took 0.000415 seconds
 Result : true
 New Env
 
@@ -632,11 +642,21 @@ simpl in goal
 advanced_generalize done
 Lemma : forall (any1:any) (any_list3:any list), reverse (((reverse (any_list3) @ (any1::(Nil))) @ (Nil))) = (any1::any_list3)
 Model : any1: 0, any_list3: (Nil)
-Model : any1: 3, any_list3: (0::(Nil))
-Model : any1: 1, any_list3: (Nil)
+Model : any1: 5, any_list3: (Nil)
+Model : any1: 3, any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000367 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((reverse ((Nil)) @ (0::(Nil))) @ (Nil))) = (0::(Nil))
+reverse (((reverse ((Nil)) @ (5::(Nil))) @ (Nil))) = (5::(Nil))
+reverse (((reverse ((Nil)) @ (3::(Nil))) @ (Nil))) = (3::(Nil))
+Simplifying took 0.000254 seconds
 Result : true
 New Env
 
@@ -857,11 +877,21 @@ rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (arg2:any list), reverse (((arg2 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((arg2 @ (Nil))))
 Model : any1: 6, arg2: (Nil)
-Model : any1: 2, arg2: (Nil)
-Model : any1: 8, arg2: (7::(Nil))
+Model : any1: 3, arg2: (1::(Nil))
+Model : any1: 0, arg2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000725 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (6::(Nil))) @ (Nil))) = (6::reverse (((Nil) @ (Nil))))
+reverse ((((1::(Nil)) @ (3::(Nil))) @ (Nil))) = (3::reverse (((1::(Nil)) @ (Nil))))
+reverse ((((Nil) @ (0::(Nil))) @ (Nil))) = (0::reverse (((Nil) @ (Nil))))
+Simplifying took 0.000426 seconds
 Result : true
 New Env
 
@@ -1294,12 +1324,22 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (any1:any) (any_list3:any list), reverse (((reverse (any_list3) @ (any1::(Nil))) @ (Nil))) = (any1::any_list3)
-Model : any1: 0, any_list3: (2::(Nil))
-Model : any1: 0, any_list3: (Nil)
-Model : any1: 4, any_list3: (Nil)
+Model : any1: 2, any_list3: (Nil)
+Model : any1: 6, any_list3: (Nil)
+Model : any1: 2, any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000318 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((reverse ((Nil)) @ (2::(Nil))) @ (Nil))) = (2::(Nil))
+reverse (((reverse ((Nil)) @ (6::(Nil))) @ (Nil))) = (6::(Nil))
+reverse (((reverse ((Nil)) @ (2::(Nil))) @ (Nil))) = (2::(Nil))
+Simplifying took 0.000289 seconds
 Result : true
 =================================================
 Progress: 38
@@ -1339,11 +1379,21 @@ rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (arg3:any list), reverse (((arg3 @ (any1::(Nil))) @ (Nil))) = (any1::reverse ((arg3 @ (Nil))))
 Model : any1: 0, arg3: (Nil)
-Model : any1: 8, arg3: (Nil)
-Model : any1: 8, arg3: (Nil)
+Model : any1: 6, arg3: (0::(Nil))
+Model : any1: 6, arg3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000334 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse ((((Nil) @ (0::(Nil))) @ (Nil))) = (0::reverse (((Nil) @ (Nil))))
+reverse ((((0::(Nil)) @ (6::(Nil))) @ (Nil))) = (6::reverse (((0::(Nil)) @ (Nil))))
+reverse ((((Nil) @ (6::(Nil))) @ (Nil))) = (6::reverse (((Nil) @ (Nil))))
+Simplifying took 0.000496 seconds
 Result : true
 New Env
 
@@ -2525,12 +2575,22 @@ rewrite <- IH1 in goal at 0
 rewrite <- lemma4 in goal at 1
 advanced_generalize done
 Lemma : forall (any1:any) (arg4:any list) (arg5:any list), reverse ((arg4 @ (arg5 @ reverse (((reverse ((Nil)) @ (any1::(Nil))) @ (Nil)))))) = (any1::reverse ((arg4 @ arg5)))
-Model : any1: 2, arg4: (Nil), arg5: (Nil)
-Model : any1: 4, arg4: (Nil), arg5: (4::(Nil))
-Model : any1: 1, arg4: (Nil), arg5: (Nil)
+Model : any1: 0, arg4: (Nil), arg5: (4::(Nil))
+Model : any1: 8, arg4: (Nil), arg5: (Nil)
+Model : any1: 1, arg4: (Nil), arg5: (7::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000604 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((Nil) @ ((4::(Nil)) @ reverse (((reverse ((Nil)) @ (0::(Nil))) @ (Nil)))))) = (0::reverse (((Nil) @ (4::(Nil)))))
+reverse (((Nil) @ ((Nil) @ reverse (((reverse ((Nil)) @ (8::(Nil))) @ (Nil)))))) = (8::reverse (((Nil) @ (Nil))))
+reverse (((Nil) @ ((7::(Nil)) @ reverse (((reverse ((Nil)) @ (1::(Nil))) @ (Nil)))))) = (1::reverse (((Nil) @ (7::(Nil)))))
+Simplifying took 0.000828 seconds
 Result : true
 New Env
 

@@ -356,12 +356,22 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (any1:any) (any_list3:any list), rotate (len (any_list3)) (((any_list3 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list3)
-Model : any1: 2, any_list3: (Nil)
-Model : any1: 8, any_list3: (3::(Nil))
+Model : any1: 7, any_list3: (Nil)
+Model : any1: 7, any_list3: (Nil)
 Model : any1: 7, any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000441 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+rotate (len ((Nil))) ((((Nil) @ (Nil)) @ (7::(Nil)))) = (7::(Nil))
+rotate (len ((Nil))) ((((Nil) @ (Nil)) @ (7::(Nil)))) = (7::(Nil))
+rotate (len ((Nil))) ((((Nil) @ (Nil)) @ (7::(Nil)))) = (7::(Nil))
+Simplifying took 0.000253 seconds
 Result : true
 New Env
 
@@ -581,18 +591,256 @@ intro any1
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (arg1:any list) (arg2:any list) (arg3:nat), rotate (arg3) (((arg1 @ (any1::(Nil))) @ arg2)) = (any1::rotate (arg3) ((arg1 @ arg2)))
-Model : any1: 4, arg1: (Nil), arg2: (Nil), arg3: ZERO
-Model : any1: 0, arg1: (Nil), arg2: (Nil), arg3: ZERO
-Model : any1: 3, arg1: (Nil), arg2: (Nil), arg3: ZERO
+Model : any1: 6, arg1: (8::(Nil)), arg2: (Nil), arg3: ZERO
+Model : any1: 7, arg1: (Nil), arg2: (Nil), arg3: ZERO
+Model : any1: 8, arg1: (5::(Nil)), arg2: (Nil), arg3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000236 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+rotate (ZERO) ((((8::(Nil)) @ (6::(Nil))) @ (Nil))) = (6::rotate (ZERO) (((8::(Nil)) @ (Nil))))
+rotate (ZERO) ((((Nil) @ (7::(Nil))) @ (Nil))) = (7::rotate (ZERO) (((Nil) @ (Nil))))
+rotate (ZERO) ((((5::(Nil)) @ (8::(Nil))) @ (Nil))) = (8::rotate (ZERO) (((5::(Nil)) @ (Nil))))
+Simplifying took 0.000691 seconds
+Result : false
+=================================================
+Progress: 18
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> induction any_list2(rank : 12)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+any_list2 : any list
+Base1 : any_list2 = (Nil)
+---------------------------------------
+forall (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (Nil))) = ((Nil) @ any_list1)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:4)
+=================================================
+Progress: 19
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+any_list2 : any list
+Base1 : any_list2 = (Nil)
+---------------------------------------
+forall (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (Nil))) = ((Nil) @ any_list1)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 4)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+any_list2 : any list
+Base1 : any_list2 = (Nil)
+---------------------------------------
+forall (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (Nil))) = any_list1
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:5)
+=================================================
+Progress: 20
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+any_list2 : any list
+Base1 : any_list2 = (Nil)
+---------------------------------------
+forall (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (Nil))) = any_list1
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> induction any_list1(rank : 5)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+any_list2 : any list
+Base1 : any_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+---------------------------------------
+rotate (len ((Nil))) (((Nil) @ (Nil))) = (Nil)
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:4)
+=================================================
+Progress: 21
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+any_list2 : any list
+Base1 : any_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+---------------------------------------
+rotate (len ((Nil))) (((Nil) @ (Nil))) = (Nil)
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 4)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+any_list2 : any list
+Base1 : any_list2 = (Nil)
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : rotate (len (any_list3)) ((any_list3 @ (Nil))) = any_list3
+Inductive1 : any_list1 = (any1::any_list3)
+---------------------------------------
+rotate (len ((any1::any_list3))) (((any1::any_list3) @ (Nil))) = (any1::any_list3)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:4)
+=================================================
+Progress: 22
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+any_list2 : any list
+Base1 : any_list2 = (Nil)
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : rotate (len (any_list3)) ((any_list3 @ (Nil))) = any_list3
+Inductive1 : any_list1 = (any1::any_list3)
+---------------------------------------
+rotate (len ((any1::any_list3))) (((any1::any_list3) @ (Nil))) = (any1::any_list3)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 4)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
+any_list2 : any list
+Base1 : any_list2 = (Nil)
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : rotate (len (any_list3)) ((any_list3 @ (Nil))) = any_list3
+Inductive1 : any_list1 = (any1::any_list3)
+---------------------------------------
+rotate (len (any_list3)) (((any_list3 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list3)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+advanced_generalize done
+Lemma : forall (any1:any) (any_list3:any list), rotate (len (any_list3)) (((any_list3 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list3)
+Model : any1: 0, any_list3: (Nil)
+Model : any1: 2, any_list3: (Nil)
+Model : any1: 2, any_list3: (Nil)
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+rotate (len ((Nil))) ((((Nil) @ (Nil)) @ (0::(Nil)))) = (0::(Nil))
+rotate (len ((Nil))) ((((Nil) @ (Nil)) @ (2::(Nil)))) = (2::(Nil))
+rotate (len ((Nil))) ((((Nil) @ (Nil)) @ (2::(Nil)))) = (2::(Nil))
+Simplifying took 0.000160 seconds
+Result : true
+=================================================
+Progress: 23
+
+
+1st goal of : forall (any1:any) (any_list1:any list), rotate (len (any_list1)) (((any_list1 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), rotate (len (any_list2)) ((((any_list2 @ (Nil)) @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 13)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), rotate (len (any_list1)) (((any_list1 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), rotate (len (any_list2)) ((((any_list2 @ (Nil)) @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any2::(Nil)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+advanced_generalize done
+Lemma : forall (any1:any) (arg4:any list) (arg5:any list) (arg6:nat), rotate (arg6) (((arg4 @ (any1::(Nil))) @ arg5)) = (any1::rotate (arg6) ((arg4 @ arg5)))
+Model : any1: 6, arg4: (Nil), arg5: (Nil), arg6: ZERO
+Model : any1: 3, arg4: (Nil), arg5: (Nil), arg6: ZERO
+Model : any1: 1, arg4: (Nil), arg5: (1::(Nil)), arg6: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+rotate (ZERO) ((((Nil) @ (6::(Nil))) @ (Nil))) = (6::rotate (ZERO) (((Nil) @ (Nil))))
+rotate (ZERO) ((((Nil) @ (3::(Nil))) @ (Nil))) = (3::rotate (ZERO) (((Nil) @ (Nil))))
+rotate (ZERO) ((((Nil) @ (1::(Nil))) @ (1::(Nil)))) = (1::rotate (ZERO) (((Nil) @ (1::(Nil)))))
+Simplifying took 0.000444 seconds
 Result : true
 New Env
 
 ;;
 Lemma List
-forall (any1:any) (arg1:any list) (arg2:any list) (arg3:nat), rotate (arg3) (((arg1 @ (any1::(Nil))) @ arg2)) = (any1::rotate (arg3) ((arg1 @ arg2)))
+forall (any1:any) (arg4:any list) (arg5:any list) (arg6:nat), rotate (arg6) (((arg4 @ (any1::(Nil))) @ arg5)) = (any1::rotate (arg6) ((arg4 @ arg5)))
 End of Lemma List
 
 
@@ -602,15 +850,14 @@ any2 : any
 any_list2 : any list
 IH1 : forall (any1:any), rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list2)
 Inductive1 : any_list1 = (any2::any_list2)
-any1 : any
 ---------------------------------------
-rotate (len (any_list2)) ((((any_list2 @ (Nil)) @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any2::(Nil)))))
+forall (any1:any), rotate (len (any_list2)) ((((any_list2 @ (Nil)) @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any2::(Nil)))))
 
 0 goal(s) more...
 
 1 conjecture(s) more...
 =================================================
-Progress: 18
+Progress: 24
 
 
 1st goal of : forall (any1:any) (any_list1:any list), rotate (len (any_list1)) (((any_list1 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list1)
@@ -619,14 +866,13 @@ any2 : any
 any_list2 : any list
 IH1 : forall (any1:any), rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list2)
 Inductive1 : any_list1 = (any2::any_list2)
-any1 : any
 ---------------------------------------
-rotate (len (any_list2)) ((((any_list2 @ (Nil)) @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any2::(Nil)))))
+forall (any1:any), rotate (len (any_list2)) ((((any_list2 @ (Nil)) @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any2::(Nil)))))
 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (any1:any) (arg1:any list) (arg2:any list) (arg3:nat), rotate (arg3) (((arg1 @ (any1::(Nil))) @ arg2)) = (any1::rotate (arg3) ((arg1 @ arg2)))(rank : 0)
+>>> assert forall (any1:any) (arg4:any list) (arg5:any list) (arg6:nat), rotate (arg6) (((arg4 @ (any1::(Nil))) @ arg5)) = (any1::rotate (arg6) ((arg4 @ arg5)))(rank : 0)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -640,7 +886,7 @@ forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (
 Tactic List : 1
 induction any_list1(rank:8)
 =================================================
-Progress: 19
+Progress: 25
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -666,7 +912,7 @@ forall (any1:any) (any_list2:any list) (nat1:nat), rotate (nat1) ((((Nil) @ (any
 Tactic List : 1
 simpl in goal(rank:8)
 =================================================
-Progress: 20
+Progress: 26
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -693,7 +939,7 @@ forall (any1:any) (any_list2:any list) (nat1:nat), rotate (nat1) ((any1::any_lis
 Tactic List : 1
 induction any_list2(rank:9)
 =================================================
-Progress: 21
+Progress: 27
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -722,7 +968,7 @@ forall (any1:any) (nat1:nat), rotate (nat1) ((any1::(Nil))) = (any1::rotate (nat
 Tactic List : 1
 induction nat1(rank:10)
 =================================================
-Progress: 22
+Progress: 28
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -755,7 +1001,7 @@ forall (any1:any), rotate (ZERO) ((any1::(Nil))) = (any1::rotate (ZERO) ((Nil)))
 Tactic List : 1
 reflexivity(rank:9)
 =================================================
-Progress: 23
+Progress: 29
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -793,7 +1039,7 @@ Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:9)
 =================================================
-Progress: 24
+Progress: 30
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -833,7 +1079,7 @@ Tactic List : 2
 intro any1(rank:9)
 rewrite IH1 in goal at 0(rank:25)
 =================================================
-Progress: 25
+Progress: 31
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -873,7 +1119,7 @@ rotate (nat2) ((any1::(Nil))) = (any1::(Nil))
 Tactic List : 1
 rewrite IH1 in goal at 0(rank:9)
 =================================================
-Progress: 26
+Progress: 32
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -918,12 +1164,22 @@ intro any1
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (any1:any) (nat2:nat), (any1::rotate (nat2) ((Nil))) = (any1::(Nil))
-Model : any1: 6, nat2: SUCC (ZERO)
-Model : any1: 0, nat2: ZERO
-Model : any1: 4, nat2: SUCC (ZERO)
+Model : any1: 5, nat2: ZERO
+Model : any1: 0, nat2: SUCC (ZERO)
+Model : any1: 8, nat2: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000080 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(5::rotate (ZERO) ((Nil))) = (5::(Nil))
+(0::rotate (SUCC (ZERO)) ((Nil))) = (0::(Nil))
+(8::rotate (SUCC (SUCC (ZERO))) ((Nil))) = (8::(Nil))
+Simplifying took 0.000091 seconds
 Result : true
 New Env
 
@@ -950,7 +1206,7 @@ any1 : any
 
 2 conjecture(s) more...
 =================================================
-Progress: 27
+Progress: 33
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -983,7 +1239,7 @@ forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
 Tactic List : 1
 induction nat1(rank:10)
 =================================================
-Progress: 28
+Progress: 34
 
 
 1st goal of : forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
@@ -1009,7 +1265,7 @@ forall (any1:any), (any1::rotate (ZERO) ((Nil))) = (any1::(Nil))
 Tactic List : 1
 reflexivity(rank:9)
 =================================================
-Progress: 29
+Progress: 35
 
 
 1st goal of : forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
@@ -1039,7 +1295,7 @@ Deduplication: 0
 Tactic List : 1
 reflexivity(rank:9)
 =================================================
-Progress: 30
+Progress: 36
 
 
 1st goal of : forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
@@ -1076,7 +1332,7 @@ Deduplication: 0
 Tactic List : 1
 rewrite lemma3 in goal at 0(rank:9)
 =================================================
-Progress: 31
+Progress: 37
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -1117,7 +1373,7 @@ any1 : any
 Tactic List : 1
 reflexivity(rank:8)
 =================================================
-Progress: 32
+Progress: 38
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -1157,7 +1413,7 @@ Deduplication: 1
 Tactic List : 1
 induction nat1(rank:9)
 =================================================
-Progress: 33
+Progress: 39
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -1196,7 +1452,7 @@ forall (any1:any), rotate (ZERO) ((any1::(any2::any_list3))) = (any1::rotate (ZE
 Tactic List : 1
 reflexivity(rank:8)
 =================================================
-Progress: 34
+Progress: 40
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -1240,7 +1496,7 @@ Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:8)
 =================================================
-Progress: 35
+Progress: 41
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -1285,7 +1541,7 @@ forall (any1:any), rotate (nat2) ((any2::(any_list3 @ (any1::(Nil))))) = (any1::
 Tactic List : 1
 intro any1(rank:8)
 =================================================
-Progress: 36
+Progress: 42
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -1334,220 +1590,22 @@ simpl in goal
 intro any1
 advanced_generalize done
 Lemma : forall (any1:any) (any2:any) (any_list3:any list) (nat2:nat), rotate (nat2) ((any2::(any_list3 @ (any1::(Nil))))) = (any1::rotate (nat2) ((any_list3 @ (any2::(Nil)))))
-Model : any1: 3, any2: 8, any_list3: (Nil), nat2: ZERO
-Model : any1: 7, any2: 2, any_list3: (7::(Nil)), nat2: ZERO
-Model : any1: 2, any2: 2, any_list3: (Nil), nat2: ZERO
+Model : any1: 7, any2: 4, any_list3: (Nil), nat2: ZERO
+Model : any1: 5, any2: 6, any_list3: (0::(Nil)), nat2: SUCC (ZERO)
+Model : any1: 8, any2: 2, any_list3: (Nil), nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000541 seconds
-Result : false
-=================================================
-Progress: 37
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-
----------------------------------------
-forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> induction any_list2(rank : 12)
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-any_list2 : any list
-Base1 : any_list2 = (Nil)
----------------------------------------
-forall (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (Nil))) = ((Nil) @ any_list1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:4)
-=================================================
-Progress: 38
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-any_list2 : any list
-Base1 : any_list2 = (Nil)
----------------------------------------
-forall (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (Nil))) = ((Nil) @ any_list1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> simpl in goal(rank : 4)
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-any_list2 : any list
-Base1 : any_list2 = (Nil)
----------------------------------------
-forall (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (Nil))) = any_list1
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 1
-induction any_list1(rank:5)
-=================================================
-Progress: 39
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-any_list2 : any list
-Base1 : any_list2 = (Nil)
----------------------------------------
-forall (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (Nil))) = any_list1
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> induction any_list1(rank : 5)
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-any_list2 : any list
-Base1 : any_list2 = (Nil)
-any_list1 : any list
-Base2 : any_list1 = (Nil)
----------------------------------------
-rotate (len ((Nil))) (((Nil) @ (Nil))) = (Nil)
-
-2 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:4)
-=================================================
-Progress: 40
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-any_list2 : any list
-Base1 : any_list2 = (Nil)
-any_list1 : any list
-Base2 : any_list1 = (Nil)
----------------------------------------
-rotate (len ((Nil))) (((Nil) @ (Nil))) = (Nil)
-
-2 goal(s) more...
-
-0 conjecture(s) more...
->>> reflexivity(rank : 4)
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-any_list2 : any list
-Base1 : any_list2 = (Nil)
-any_list1 : any list
-any1 : any
-any_list3 : any list
-IH1 : rotate (len (any_list3)) ((any_list3 @ (Nil))) = any_list3
-Inductive1 : any_list1 = (any1::any_list3)
----------------------------------------
-rotate (len ((any1::any_list3))) (((any1::any_list3) @ (Nil))) = (any1::any_list3)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Deduplication: 0
-Tactic List : 1
-simpl in goal(rank:4)
-=================================================
-Progress: 41
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-any_list2 : any list
-Base1 : any_list2 = (Nil)
-any_list1 : any list
-any1 : any
-any_list3 : any list
-IH1 : rotate (len (any_list3)) ((any_list3 @ (Nil))) = any_list3
-Inductive1 : any_list1 = (any1::any_list3)
----------------------------------------
-rotate (len ((any1::any_list3))) (((any1::any_list3) @ (Nil))) = (any1::any_list3)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> simpl in goal(rank : 4)
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), rotate (len (any_list1)) ((any_list1 @ any_list2)) = (any_list2 @ any_list1)
-any_list2 : any list
-Base1 : any_list2 = (Nil)
-any_list1 : any list
-any1 : any
-any_list3 : any list
-IH1 : rotate (len (any_list3)) ((any_list3 @ (Nil))) = any_list3
-Inductive1 : any_list1 = (any1::any_list3)
----------------------------------------
-rotate (len (any_list3)) (((any_list3 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list3)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-advanced_generalize done
-Lemma : forall (any1:any) (any_list3:any list), rotate (len (any_list3)) (((any_list3 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list3)
-Model : any1: 3, any_list3: (7::(Nil))
-Model : any1: 2, any_list3: (Nil)
-Model : any1: 8, any_list3: (7::(0::(Nil)))
-Substituting variables...
-Simplifying conditions and property...
-Simplifying took 0.000971 seconds
-Result : true
-=================================================
-Progress: 42
-
-
-1st goal of : forall (any1:any) (any_list1:any list), rotate (len (any_list1)) (((any_list1 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list1)
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : forall (any1:any), rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list2)
-Inductive1 : any_list1 = (any2::any_list2)
----------------------------------------
-forall (any1:any), rotate (len (any_list2)) ((((any_list2 @ (Nil)) @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::(any2::any_list2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- IH1 in goal at 0(rank : 13)
-
-
-1st goal of : forall (any1:any) (any_list1:any list), rotate (len (any_list1)) (((any_list1 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list1)
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : forall (any1:any), rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any1::(Nil)))) = (any1::any_list2)
-Inductive1 : any_list1 = (any2::any_list2)
----------------------------------------
-forall (any1:any), rotate (len (any_list2)) ((((any_list2 @ (Nil)) @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::rotate (len (any_list2)) (((any_list2 @ (Nil)) @ (any2::(Nil)))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-rewrite <- IH1 in goal at 0
-advanced_generalize done
-Lemma : forall (any1:any) (arg4:any list) (arg5:any list) (arg6:nat), rotate (arg6) (((arg4 @ (any1::(Nil))) @ arg5)) = (any1::rotate (arg6) ((arg4 @ arg5)))
-Model : any1: 0, arg4: (0::(Nil)), arg5: (Nil), arg6: SUCC (ZERO)
-Model : any1: 0, arg4: (1::(2::(Nil))), arg5: (Nil), arg6: ZERO
-Model : any1: 7, arg4: (7::(Nil)), arg5: (Nil), arg6: ZERO
-Substituting variables...
-Simplifying conditions and property...
-Simplifying took 0.000793 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+rotate (ZERO) ((4::((Nil) @ (7::(Nil))))) = (7::rotate (ZERO) (((Nil) @ (4::(Nil)))))
+rotate (SUCC (ZERO)) ((6::((0::(Nil)) @ (5::(Nil))))) = (5::rotate (SUCC (ZERO)) (((0::(Nil)) @ (6::(Nil)))))
+rotate (ZERO) ((2::((Nil) @ (8::(Nil))))) = (8::rotate (ZERO) (((Nil) @ (2::(Nil)))))
+Simplifying took 0.000670 seconds
 Result : false
 File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
@@ -1560,5 +1618,5 @@ Here is an example of a case that is not matched:
 []
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 196, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 288, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

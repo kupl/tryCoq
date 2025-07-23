@@ -180,10 +180,20 @@ advanced_generalize done
 Lemma : forall (arg1:any list), arg1 = (arg1 @ (Nil))
 Model : arg1: (Nil)
 Model : arg1: (Nil)
-Model : arg1: (Nil)
+Model : arg1: (0::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000023 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(Nil) = ((Nil) @ (Nil))
+(Nil) = ((Nil) @ (Nil))
+(0::(Nil)) = ((0::(Nil)) @ (Nil))
+Simplifying took 0.000049 seconds
 Result : true
 New Env
 
@@ -666,15 +676,35 @@ Model : any_list3: (Nil)
 Model : any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000024 seconds
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+let rec mk_rhs1 arg_2 arg_3 =
+match (arg_2) with
+| Nil  -> arg_3
+| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_3))
+prop list:
+mk_rhs1 ((Nil)) ((Nil)) = (Nil)
+mk_rhs1 ((Nil)) ((Nil)) = (Nil)
+mk_rhs1 ((Nil)) ((Nil)) = (Nil)
+Simplifying took 0.000038 seconds
 Result : true
 Lemma : forall (tl:any list) (hd:any) (any_list3:any list), mk_rhs1 ((hd::tl)) (any_list3) = mk_rhs1 (tl) ((hd::any_list3))
-Model : tl: (Nil), hd: 0, any_list3: (Nil)
-Model : tl: (Nil), hd: 0, any_list3: (Nil)
-Model : tl: (8::(Nil)), hd: 3, any_list3: (4::(Nil))
+Model : tl: (Nil), hd: 3, any_list3: (Nil)
+Model : tl: (Nil), hd: 7, any_list3: (1::(Nil))
+Model : tl: (Nil), hd: 7, any_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000353 seconds
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+let rec mk_rhs1 arg_2 arg_3 =
+match (arg_2) with
+| Nil  -> arg_3
+| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_3))
+prop list:
+mk_rhs1 ((3::(Nil))) ((Nil)) = mk_rhs1 ((Nil)) ((3::(Nil)))
+mk_rhs1 ((7::(Nil))) ((1::(Nil))) = mk_rhs1 ((Nil)) ((7::(1::(Nil))))
+mk_rhs1 ((7::(Nil))) ((Nil)) = mk_rhs1 ((Nil)) ((7::(Nil)))
+Simplifying took 0.000326 seconds
 Result : true
 Lemma : forall (any_list3:any list) (lst:any list), reverse (qreva (any_list3) (lst)) = mk_rhs1 (lst) (any_list3)
 Model : any_list3: (Nil), lst: (Nil)
@@ -682,7 +712,17 @@ Model : any_list3: (Nil), lst: (Nil)
 Model : any_list3: (Nil), lst: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000043 seconds
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+let rec mk_rhs1 arg_2 arg_3 =
+match (arg_2) with
+| Nil  -> arg_3
+| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_3))
+prop list:
+reverse (qreva ((Nil)) ((Nil))) = mk_rhs1 ((Nil)) ((Nil))
+reverse (qreva ((Nil)) ((Nil))) = mk_rhs1 ((Nil)) ((Nil))
+reverse (qreva ((Nil)) ((Nil))) = mk_rhs1 ((Nil)) ((Nil))
+Simplifying took 0.000055 seconds
 Result : true
 New Env
 let rec mk_rhs1 arg_2 arg_3 =
@@ -1080,12 +1120,22 @@ rewrite IH1 in goal at 0
 simpl in goal
 advanced_generalize done
 Lemma : forall (any1:any) (any_list3:any list) (arg4:any list), ((arg4 @ (any1::(Nil))) @ any_list3) = (arg4 @ (any1::any_list3))
-Model : any1: 8, any_list3: (Nil), arg4: (Nil)
-Model : any1: 7, any_list3: (8::(6::(Nil))), arg4: (Nil)
+Model : any1: 0, any_list3: (Nil), arg4: (Nil)
 Model : any1: 5, any_list3: (Nil), arg4: (Nil)
+Model : any1: 8, any_list3: (Nil), arg4: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000378 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(((Nil) @ (0::(Nil))) @ (Nil)) = ((Nil) @ (0::(Nil)))
+(((Nil) @ (5::(Nil))) @ (Nil)) = ((Nil) @ (5::(Nil)))
+(((Nil) @ (8::(Nil))) @ (Nil)) = ((Nil) @ (8::(Nil)))
+Simplifying took 0.000347 seconds
 Result : true
 New Env
 

@@ -178,12 +178,22 @@ intro nat2
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (ZERO)) (nat2) = qmult (nat3) (nat2) (nat2)
-Model : nat2: ZERO, nat3: SUCC (SUCC (ZERO))
-Model : nat2: ZERO, nat3: SUCC (ZERO)
-Model : nat2: SUCC (ZERO), nat3: ZERO
+Model : nat2: ZERO, nat3: ZERO
+Model : nat2: ZERO, nat3: ZERO
+Model : nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000220 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = qmult (ZERO) (ZERO) (ZERO)
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = qmult (ZERO) (ZERO) (ZERO)
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = qmult (ZERO) (ZERO) (ZERO)
+Simplifying took 0.000070 seconds
 Result : true
 New Env
 
@@ -548,12 +558,22 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg1:nat) (nat3:nat) (nat4:nat), plus (plus (qmult (nat3) (arg1) (ZERO)) (arg1)) (arg1) = qmult (nat3) (arg1) (SUCC (plus (nat4) (arg1)))
+Model : arg1: ZERO, nat3: SUCC (ZERO), nat4: SUCC (SUCC (ZERO))
 Model : arg1: ZERO, nat3: SUCC (ZERO), nat4: ZERO
-Model : arg1: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg1: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
+Model : arg1: ZERO, nat3: SUCC (ZERO), nat4: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000253 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (plus (qmult (SUCC (ZERO)) (ZERO) (ZERO)) (ZERO)) (ZERO) = qmult (SUCC (ZERO)) (ZERO) (SUCC (plus (SUCC (SUCC (ZERO))) (ZERO)))
+plus (plus (qmult (SUCC (ZERO)) (ZERO) (ZERO)) (ZERO)) (ZERO) = qmult (SUCC (ZERO)) (ZERO) (SUCC (plus (ZERO) (ZERO)))
+plus (plus (qmult (SUCC (ZERO)) (ZERO) (ZERO)) (ZERO)) (ZERO) = qmult (SUCC (ZERO)) (ZERO) (SUCC (plus (SUCC (ZERO)) (ZERO)))
+Simplifying took 0.000389 seconds
 Result : false
 =================================================
 Progress: 17
@@ -595,7 +615,17 @@ Model : nat2: ZERO, nat3: ZERO
 Model : nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000061 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = qmult (ZERO) (ZERO) (ZERO)
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = qmult (ZERO) (ZERO) (ZERO)
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = qmult (ZERO) (ZERO) (ZERO)
+Simplifying took 0.000067 seconds
 Result : true
 =================================================
 Progress: 18
@@ -926,12 +956,22 @@ simpl in goal
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (arg2:nat) (nat3:nat) (nat4:nat), plus (qmult (nat3) (arg2) (arg2)) (arg2) = qmult (nat3) (arg2) (SUCC (plus (nat4) (arg2)))
-Model : arg2: SUCC (ZERO), nat3: ZERO, nat4: ZERO
-Model : arg2: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg2: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg2: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg2: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000113 seconds
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))
+Simplifying took 0.000090 seconds
 Result : false
 File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
@@ -944,5 +984,5 @@ Here is an example of a case that is not matched:
 []
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 196, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 288, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

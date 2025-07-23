@@ -140,12 +140,23 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (arg1:string list) (lambda2:lambda), sub_check_ta1 (lambda2) (arg1) = sub_check (lambda2) (arg1)
-Model : arg1: (Nil), lambda2: V ("hgg")
-Model : arg1: ("fpd"::(Nil)), lambda2: V ("bue")
-Model : arg1: (Nil), lambda2: V ("ugs")
+Model : arg1: ("jyj"::(Nil)), lambda2: P ("jkb") (V ("gql"))
+Model : arg1: (Nil), lambda2: V ("mja")
+Model : arg1: ("hrp"::(Nil)), lambda2: V ("tyq")
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000502 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+sub_check_ta1 (P ("jkb") (V ("gql"))) (("jyj"::(Nil))) = sub_check (P ("jkb") (V ("gql"))) (("jyj"::(Nil)))
+sub_check_ta1 (V ("mja")) ((Nil)) = sub_check (V ("mja")) ((Nil))
+sub_check_ta1 (V ("tyq")) (("hrp"::(Nil))) = sub_check (V ("tyq")) (("hrp"::(Nil)))
+Simplifying took 0.002772 seconds
 Result : true
 New Env
 
@@ -715,12 +726,23 @@ rewrite IH1 in goal at 0
 rewrite <- IH1 in goal at 2
 advanced_generalize done
 Lemma : forall (lambda2:lambda) (string1:string) (string_list1:string list), mem (string1) (string_list1) = true -> sub_check (lambda2) ((string1::string_list1)) = sub_check_ta1 (lambda2) (string_list1)
-Model : lambda2: V ("qoa"), string1: "tzm", string_list1: ("ojq"::(Nil))
-Model : lambda2: P ("bqg") (V ("ujq")), string1: "zcv", string_list1: (Nil)
-Model : lambda2: V ("okq"), string1: "njr", string_list1: (Nil)
+Model : lambda2: V ("hxo"), string1: "yoy", string_list1: (Nil)
+Model : lambda2: V ("jgw"), string1: "hha", string_list1: (Nil)
+Model : lambda2: V ("ker"), string1: "bxc", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.004630 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+sub_check (V ("hxo")) (("yoy"::(Nil))) = sub_check_ta1 (V ("hxo")) ((Nil))
+sub_check (V ("jgw")) (("hha"::(Nil))) = sub_check_ta1 (V ("jgw")) ((Nil))
+sub_check (V ("ker")) (("bxc"::(Nil))) = sub_check_ta1 (V ("ker")) ((Nil))
+Simplifying took 0.001506 seconds
 Result : true
 New Env
 
@@ -1077,12 +1099,23 @@ rewrite <- Case1 in goal at 0
 rewrite <- Cond1 in goal at 0
 advanced_generalize done
 Lemma : forall (string1:string) (string_list1:string list), mem (string1) (string_list1) = true -> mem (string1) (string_list1) = is_mem_ta1 (string_list1) (string1)
-Model : string1: "tdz", string_list1: ("ixa"::(Nil))
-Model : string1: "umx", string_list1: (Nil)
-Model : string1: "krz", string_list1: (Nil)
+Model : string1: "wad", string_list1: (Nil)
+Model : string1: "vfc", string_list1: ("jzv"::(Nil))
+Model : string1: "yit", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001358 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+mem ("wad") ((Nil)) = is_mem_ta1 ((Nil)) ("wad")
+mem ("vfc") (("jzv"::(Nil))) = is_mem_ta1 (("jzv"::(Nil))) ("vfc")
+mem ("yit") ((Nil)) = is_mem_ta1 ((Nil)) ("yit")
+Simplifying took 0.001239 seconds
 Result : true
 New Env
 
@@ -1421,12 +1454,23 @@ case mem (string1) (string_list1)
 rewrite <- IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (lambda2:lambda) (string1:string) (string_list1:string list), mem (string1) (string_list1) = true -> sub_check_ta1 (lambda2) ((string1::string_list1)) = sub_check_ta1 (lambda2) (string_list1)
-Model : lambda2: V ("byl"), string1: "ivq", string_list1: (Nil)
-Model : lambda2: C (V ("hqz")) (V ("iea")), string1: "ril", string_list1: (Nil)
-Model : lambda2: V ("zix"), string1: "rdo", string_list1: (Nil)
+Model : lambda2: V ("kly"), string1: "cta", string_list1: (Nil)
+Model : lambda2: V ("tya"), string1: "vfp", string_list1: (Nil)
+Model : lambda2: V ("kjr"), string1: "age", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.002152 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+sub_check_ta1 (V ("kly")) (("cta"::(Nil))) = sub_check_ta1 (V ("kly")) ((Nil))
+sub_check_ta1 (V ("tya")) (("vfp"::(Nil))) = sub_check_ta1 (V ("tya")) ((Nil))
+sub_check_ta1 (V ("kjr")) (("age"::(Nil))) = sub_check_ta1 (V ("kjr")) ((Nil))
+Simplifying took 0.001532 seconds
 Result : true
 New Env
 
@@ -1783,12 +1827,23 @@ rewrite <- Case1 in goal at 0
 rewrite <- Cond1 in goal at 0
 advanced_generalize done
 Lemma : forall (string1:string) (string_list1:string list), mem (string1) (string_list1) = true -> mem (string1) (string_list1) = is_mem_ta1 (string_list1) (string1)
-Model : string1: "tou", string_list1: (Nil)
-Model : string1: "wzq", string_list1: (Nil)
-Model : string1: "xrz", string_list1: ("lsx"::(Nil))
+Model : string1: "yuh", string_list1: (Nil)
+Model : string1: "zms", string_list1: (Nil)
+Model : string1: "ldw", string_list1: ("iwv"::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.002341 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+mem ("yuh") ((Nil)) = is_mem_ta1 ((Nil)) ("yuh")
+mem ("zms") ((Nil)) = is_mem_ta1 ((Nil)) ("zms")
+mem ("ldw") (("iwv"::(Nil))) = is_mem_ta1 (("iwv"::(Nil))) ("ldw")
+Simplifying took 0.001667 seconds
 Result : true
 New Env
 
@@ -2160,12 +2215,23 @@ rewrite <- Cond1 in goal at 0
 rewrite Case1 in goal at 0
 advanced_generalize done
 Lemma : forall (string2:string) (string_list1:string list), mem (string2) (string_list1) = is_mem_ta1 (string_list1) (string2)
-Model : string2: "ryh", string_list1: ("pql"::(Nil))
-Model : string2: "cgq", string_list1: (Nil)
-Model : string2: "zkr", string_list1: (Nil)
+Model : string2: "who", string_list1: (Nil)
+Model : string2: "xfs", string_list1: (Nil)
+Model : string2: "tzq", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001103 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+mem ("who") ((Nil)) = is_mem_ta1 ((Nil)) ("who")
+mem ("xfs") ((Nil)) = is_mem_ta1 ((Nil)) ("xfs")
+mem ("tzq") ((Nil)) = is_mem_ta1 ((Nil)) ("tzq")
+Simplifying took 0.000145 seconds
 Result : true
 New Env
 
@@ -2736,12 +2802,23 @@ rewrite <- Cond1 in goal at 0
 rewrite Case1 in goal at 0
 advanced_generalize done
 Lemma : forall (string2:string) (string_list1:string list), mem (string2) (string_list1) = is_mem_ta1 (string_list1) (string2)
-Model : string2: "qtp", string_list1: (Nil)
-Model : string2: "iaw", string_list1: (Nil)
-Model : string2: "tos", string_list1: ("lyl"::("odx"::(Nil)))
+Model : string2: "ist", string_list1: ("rhv"::(Nil))
+Model : string2: "dhp", string_list1: ("fil"::(Nil))
+Model : string2: "dhg", string_list1: ("ruh"::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001880 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+mem ("ist") (("rhv"::(Nil))) = is_mem_ta1 (("rhv"::(Nil))) ("ist")
+mem ("dhp") (("fil"::(Nil))) = is_mem_ta1 (("fil"::(Nil))) ("dhp")
+mem ("dhg") (("ruh"::(Nil))) = is_mem_ta1 (("ruh"::(Nil))) ("dhg")
+Simplifying took 0.001932 seconds
 Result : true
 New Env
 
@@ -3521,12 +3598,23 @@ case if string_eq (string1) (string2) then true else mem (string2) (string_list1
 rewrite IH1 in goal at 0
 advanced_generalize done
 Lemma : forall (lambda2:lambda) (string2:string) (string_list1:string list), sub_check_ta1 (lambda2) (string_list1) = sub_check_ta1 (lambda2) ((string2::string_list1))
-Model : lambda2: V ("dhs"), string2: "ert", string_list1: ("vdn"::(Nil))
-Model : lambda2: V ("fvs"), string2: "wdo", string_list1: (Nil)
-Model : lambda2: V ("pjf"), string2: "rqv", string_list1: (Nil)
+Model : lambda2: V ("ssc"), string2: "bqv", string_list1: (Nil)
+Model : lambda2: V ("euj"), string2: "qwc", string_list1: (Nil)
+Model : lambda2: V ("zxv"), string2: "cjd", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001834 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+sub_check_ta1 (V ("ssc")) ((Nil)) = sub_check_ta1 (V ("ssc")) (("bqv"::(Nil)))
+sub_check_ta1 (V ("euj")) ((Nil)) = sub_check_ta1 (V ("euj")) (("qwc"::(Nil)))
+sub_check_ta1 (V ("zxv")) ((Nil)) = sub_check_ta1 (V ("zxv")) (("cjd"::(Nil)))
+Simplifying took 0.001193 seconds
 Result : true
 New Env
 
@@ -3980,12 +4068,23 @@ reflexivity
 simpl in goal
 advanced_generalize done
 Lemma : forall (lambda2:lambda) (string1:string) (string2:string) (string_list1:string list), mem (string1) (string_list1) = true -> sub_check_ta1 (lambda2) ((string2::(string1::string_list1))) = sub_check_ta1 (lambda2) ((string2::string_list1))
-Model : lambda2: C (V ("edz")) (C (V ("gik")) (V ("phq"))), string1: "job", string2: "rjf", string_list1: (Nil)
-Model : lambda2: V ("mxf"), string1: "vrl", string2: "oqv", string_list1: (Nil)
-Model : lambda2: V ("fkk"), string1: "ucy", string2: "qxi", string_list1: (Nil)
+Model : lambda2: V ("jdz"), string1: "kdc", string2: "oig", string_list1: (Nil)
+Model : lambda2: V ("ggo"), string1: "knp", string2: "esu", string_list1: ("xek"::("jmf"::(Nil)))
+Model : lambda2: P ("oyw") (V ("jgl")), string1: "enb", string2: "vwp", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.005553 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+sub_check_ta1 (V ("jdz")) (("oig"::("kdc"::(Nil)))) = sub_check_ta1 (V ("jdz")) (("oig"::(Nil)))
+sub_check_ta1 (V ("ggo")) (("esu"::("knp"::("xek"::("jmf"::(Nil)))))) = sub_check_ta1 (V ("ggo")) (("esu"::("xek"::("jmf"::(Nil)))))
+sub_check_ta1 (P ("oyw") (V ("jgl"))) (("vwp"::("enb"::(Nil)))) = sub_check_ta1 (P ("oyw") (V ("jgl"))) (("vwp"::(Nil)))
+Simplifying took 0.005656 seconds
 Result : true
 New Env
 
@@ -4535,9 +4634,6 @@ false = true
 
 3 conjecture(s) more...
 Tactic List : 0
-previous tactics
-simpl in goal
-advanced_generalize done
 =================================================
 Progress: 122
 
@@ -4642,9 +4738,6 @@ false = true
 
 3 conjecture(s) more...
 Tactic List : 0
-previous tactics
-simpl in goal
-advanced_generalize done
 =================================================
 Progress: 125
 
@@ -4738,12 +4831,23 @@ rewrite string_eqb_eq in Case2 at 0
 rewrite <- lemma3 in goal at 0
 advanced_generalize done
 Lemma : forall (string3:string) (string_list1:string list), true = mem (string3) (string_list1)
-Model : string3: "xdv", string_list1: (Nil)
-Model : string3: "ngz", string_list1: ("fgc"::(Nil))
-Model : string3: "nvo", string_list1: (Nil)
+Model : string3: "due", string_list1: (Nil)
+Model : string3: "rfh", string_list1: (Nil)
+Model : string3: "jgh", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000269 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+true = mem ("due") ((Nil))
+true = mem ("rfh") ((Nil))
+true = mem ("jgh") ((Nil))
+Simplifying took 0.000072 seconds
 Result : false
 =================================================
 Progress: 127
@@ -5035,44 +5139,104 @@ simpl in goal
 intro string2
 advanced_generalize done
 Lemma : forall (string2:string) (string1:string) (string_list1:string list), mk_lhs1 ((Nil)) (string2) (string1) (string_list1) = (string2::(string1::string_list1))
-Model : string2: "fti", string1: "pfd", string_list1: (Nil)
-Model : string2: "att", string1: "bbz", string_list1: (Nil)
-Model : string2: "rif", string1: "dwg", string_list1: (Nil)
+Model : string2: "cgt", string1: "pmb", string_list1: ("ayy"::(Nil))
+Model : string2: "wiy", string1: "yat", string_list1: ("eed"::(Nil))
+Model : string2: "ibp", string1: "bah", string_list1: ("gof"::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000585 seconds
+let rec mk_lhs1 arg_2 arg_3 arg_4 arg_5 =
+match (arg_2) with
+| Nil  -> (arg_3::(arg_4::arg_5))
+| Cons hd tl -> (hd::mk_lhs1 (tl) (arg_3) (arg_4) (arg_5))
+let rec mk_rhs1 arg_6 arg_7 arg_8 =
+match (arg_6) with
+| Nil  -> (arg_7::arg_8)
+| Cons hd tl -> (hd::mk_rhs1 (tl) (arg_7) (arg_8))
+prop list:
+mk_lhs1 ((Nil)) ("cgt") ("pmb") (("ayy"::(Nil))) = ("cgt"::("pmb"::("ayy"::(Nil))))
+mk_lhs1 ((Nil)) ("wiy") ("yat") (("eed"::(Nil))) = ("wiy"::("yat"::("eed"::(Nil))))
+mk_lhs1 ((Nil)) ("ibp") ("bah") (("gof"::(Nil))) = ("ibp"::("bah"::("gof"::(Nil))))
+Simplifying took 0.000486 seconds
 Result : true
 Lemma : forall (hd:string) (tl:string list) (string2:string) (string1:string) (string_list1:string list), mk_lhs1 ((hd::tl)) (string2) (string1) (string_list1) = (hd::mk_lhs1 (tl) (string2) (string1) (string_list1))
-Model : hd: "sfq", tl: (Nil), string2: "tbt", string1: "cbs", string_list1: ("tku"::(Nil))
-Model : hd: "ohn", tl: ("toj"::(Nil)), string2: "upa", string1: "ume", string_list1: (Nil)
-Model : hd: "soz", tl: (Nil), string2: "apn", string1: "hce", string_list1: (Nil)
+Model : hd: "ynk", tl: ("yhb"::(Nil)), string2: "mkv", string1: "ntz", string_list1: ("hdu"::(Nil))
+Model : hd: "kdc", tl: (Nil), string2: "shp", string1: "obi", string_list1: ("raa"::(Nil))
+Model : hd: "wby", tl: (Nil), string2: "cka", string1: "xhr", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001300 seconds
+let rec mk_lhs1 arg_2 arg_3 arg_4 arg_5 =
+match (arg_2) with
+| Nil  -> (arg_3::(arg_4::arg_5))
+| Cons hd tl -> (hd::mk_lhs1 (tl) (arg_3) (arg_4) (arg_5))
+let rec mk_rhs1 arg_6 arg_7 arg_8 =
+match (arg_6) with
+| Nil  -> (arg_7::arg_8)
+| Cons hd tl -> (hd::mk_rhs1 (tl) (arg_7) (arg_8))
+prop list:
+mk_lhs1 (("ynk"::("yhb"::(Nil)))) ("mkv") ("ntz") (("hdu"::(Nil))) = ("ynk"::mk_lhs1 (("yhb"::(Nil))) ("mkv") ("ntz") (("hdu"::(Nil))))
+mk_lhs1 (("kdc"::(Nil))) ("shp") ("obi") (("raa"::(Nil))) = ("kdc"::mk_lhs1 ((Nil)) ("shp") ("obi") (("raa"::(Nil))))
+mk_lhs1 (("wby"::(Nil))) ("cka") ("xhr") ((Nil)) = ("wby"::mk_lhs1 ((Nil)) ("cka") ("xhr") ((Nil)))
+Simplifying took 0.001444 seconds
 Result : true
 Lemma : forall (string2:string) (string_list1:string list), mk_rhs1 ((Nil)) (string2) (string_list1) = (string2::string_list1)
-Model : string2: "dlz", string_list1: (Nil)
-Model : string2: "ill", string_list1: (Nil)
-Model : string2: "yuh", string_list1: (Nil)
+Model : string2: "jlj", string_list1: (Nil)
+Model : string2: "egg", string_list1: (Nil)
+Model : string2: "mvx", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000171 seconds
+let rec mk_lhs1 arg_2 arg_3 arg_4 arg_5 =
+match (arg_2) with
+| Nil  -> (arg_3::(arg_4::arg_5))
+| Cons hd tl -> (hd::mk_lhs1 (tl) (arg_3) (arg_4) (arg_5))
+let rec mk_rhs1 arg_6 arg_7 arg_8 =
+match (arg_6) with
+| Nil  -> (arg_7::arg_8)
+| Cons hd tl -> (hd::mk_rhs1 (tl) (arg_7) (arg_8))
+prop list:
+mk_rhs1 ((Nil)) ("jlj") ((Nil)) = ("jlj"::(Nil))
+mk_rhs1 ((Nil)) ("egg") ((Nil)) = ("egg"::(Nil))
+mk_rhs1 ((Nil)) ("mvx") ((Nil)) = ("mvx"::(Nil))
+Simplifying took 0.000204 seconds
 Result : true
 Lemma : forall (hd:string) (tl:string list) (string2:string) (string_list1:string list), mk_rhs1 ((hd::tl)) (string2) (string_list1) = (hd::mk_rhs1 (tl) (string2) (string_list1))
-Model : hd: "wbz", tl: (Nil), string2: "ibe", string_list1: (Nil)
-Model : hd: "zcb", tl: ("whd"::("ruv"::(Nil))), string2: "bwj", string_list1: (Nil)
-Model : hd: "ubf", tl: (Nil), string2: "ycy", string_list1: ("pro"::(Nil))
+Model : hd: "enb", tl: (Nil), string2: "tcz", string_list1: (Nil)
+Model : hd: "thq", tl: (Nil), string2: "hdu", string_list1: (Nil)
+Model : hd: "vhp", tl: (Nil), string2: "qqy", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001290 seconds
+let rec mk_lhs1 arg_2 arg_3 arg_4 arg_5 =
+match (arg_2) with
+| Nil  -> (arg_3::(arg_4::arg_5))
+| Cons hd tl -> (hd::mk_lhs1 (tl) (arg_3) (arg_4) (arg_5))
+let rec mk_rhs1 arg_6 arg_7 arg_8 =
+match (arg_6) with
+| Nil  -> (arg_7::arg_8)
+| Cons hd tl -> (hd::mk_rhs1 (tl) (arg_7) (arg_8))
+prop list:
+mk_rhs1 (("enb"::(Nil))) ("tcz") ((Nil)) = ("enb"::mk_rhs1 ((Nil)) ("tcz") ((Nil)))
+mk_rhs1 (("thq"::(Nil))) ("hdu") ((Nil)) = ("thq"::mk_rhs1 ((Nil)) ("hdu") ((Nil)))
+mk_rhs1 (("vhp"::(Nil))) ("qqy") ((Nil)) = ("vhp"::mk_rhs1 ((Nil)) ("qqy") ((Nil)))
+Simplifying took 0.000544 seconds
 Result : true
 Lemma : forall (lambda2:lambda) (lst:string list) (string1:string) (string2:string) (string_list1:string list), mem (string1) (string_list1) = true -> sub_check_ta1 (lambda2) (mk_lhs1 (lst) (string2) (string1) (string_list1)) = sub_check_ta1 (lambda2) (mk_rhs1 (lst) (string2) (string_list1))
-Model : lambda2: V ("kqz"), lst: (Nil), string1: "qvg", string2: "wrw", string_list1: (Nil)
-Model : lambda2: V ("otg"), lst: (Nil), string1: "fmv", string2: "yon", string_list1: (Nil)
-Model : lambda2: C (V ("xpp")) (V ("jkv")), lst: (Nil), string1: "kuw", string2: "dne", string_list1: (Nil)
+Model : lambda2: C (V ("nrv")) (V ("ddi")), lst: (Nil), string1: "kjq", string2: "rcf", string_list1: (Nil)
+Model : lambda2: V ("ulx"), lst: (Nil), string1: "zxe", string2: "ccn", string_list1: (Nil)
+Model : lambda2: V ("ndj"), lst: (Nil), string1: "dvj", string2: "wxs", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.005696 seconds
+let rec mk_lhs1 arg_2 arg_3 arg_4 arg_5 =
+match (arg_2) with
+| Nil  -> (arg_3::(arg_4::arg_5))
+| Cons hd tl -> (hd::mk_lhs1 (tl) (arg_3) (arg_4) (arg_5))
+let rec mk_rhs1 arg_6 arg_7 arg_8 =
+match (arg_6) with
+| Nil  -> (arg_7::arg_8)
+| Cons hd tl -> (hd::mk_rhs1 (tl) (arg_7) (arg_8))
+prop list:
+sub_check_ta1 (C (V ("nrv")) (V ("ddi"))) (mk_lhs1 ((Nil)) ("rcf") ("kjq") ((Nil))) = sub_check_ta1 (C (V ("nrv")) (V ("ddi"))) (mk_rhs1 ((Nil)) ("rcf") ((Nil)))
+sub_check_ta1 (V ("ulx")) (mk_lhs1 ((Nil)) ("ccn") ("zxe") ((Nil))) = sub_check_ta1 (V ("ulx")) (mk_rhs1 ((Nil)) ("ccn") ((Nil)))
+sub_check_ta1 (V ("ndj")) (mk_lhs1 ((Nil)) ("wxs") ("dvj") ((Nil))) = sub_check_ta1 (V ("ndj")) (mk_rhs1 ((Nil)) ("wxs") ((Nil)))
+Simplifying took 0.004974 seconds
 Result : true
 New Env
 let rec mk_lhs1 arg_2 arg_3 arg_4 arg_5 =
@@ -5703,9 +5867,6 @@ false = true
 
 3 conjecture(s) more...
 Tactic List : 0
-previous tactics
-simpl in goal
-advanced_generalize done
 =================================================
 Progress: 150
 
@@ -5777,9 +5938,6 @@ false = true
 
 3 conjecture(s) more...
 Tactic List : 0
-previous tactics
-simpl in goal
-advanced_generalize done
 =================================================
 Progress: 152
 
@@ -5972,12 +6130,23 @@ intro string_list1
 rewrite <- IH1 in goal at 1
 advanced_generalize done
 Lemma : forall (arg9:string list) (lambda2:lambda) (string1:string) (string_list1:string list), sub_check_ta1 (lambda2) (arg9) = if mem (string1) (string_list1) then sub_check_ta1 (lambda2) (string_list1) else sub_check (lambda2) (arg9)
-Model : arg9: (Nil), lambda2: V ("amz"), string1: "byw", string_list1: (Nil)
-Model : arg9: (Nil), lambda2: V ("qqs"), string1: "ilv", string_list1: (Nil)
-Model : arg9: ("xjj"::(Nil)), lambda2: V ("odp"), string1: "ayi", string_list1: (Nil)
+Model : arg9: (Nil), lambda2: V ("cbs"), string1: "uzy", string_list1: (Nil)
+Model : arg9: (Nil), lambda2: V ("xmd"), string1: "iby", string_list1: (Nil)
+Model : arg9: (Nil), lambda2: V ("xoq"), string1: "osn", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001840 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+sub_check_ta1 (V ("cbs")) ((Nil)) = if mem ("uzy") ((Nil)) then sub_check_ta1 (V ("cbs")) ((Nil)) else sub_check (V ("cbs")) ((Nil))
+sub_check_ta1 (V ("xmd")) ((Nil)) = if mem ("iby") ((Nil)) then sub_check_ta1 (V ("xmd")) ((Nil)) else sub_check (V ("xmd")) ((Nil))
+sub_check_ta1 (V ("xoq")) ((Nil)) = if mem ("osn") ((Nil)) then sub_check_ta1 (V ("xoq")) ((Nil)) else sub_check (V ("xoq")) ((Nil))
+Simplifying took 0.000938 seconds
 Result : true
 New Env
 
@@ -6213,12 +6382,23 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (string2:string) (string_list1:string list) (string_list2:string list), is_mem_ta1 (string_list1) (string2) = is_mem_ta1 (string_list2) (string2)
-Model : string2: "irt", string_list1: ("pdt"::(Nil)), string_list2: (Nil)
-Model : string2: "qon", string_list1: (Nil), string_list2: (Nil)
-Model : string2: "ggh", string_list1: ("uyt"::(Nil)), string_list2: ("nrx"::(Nil))
+Model : string2: "hhe", string_list1: (Nil), string_list2: (Nil)
+Model : string2: "gsn", string_list1: (Nil), string_list2: (Nil)
+Model : string2: "xmo", string_list1: ("ohk"::(Nil)), string_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001228 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+is_mem_ta1 ((Nil)) ("hhe") = is_mem_ta1 ((Nil)) ("hhe")
+is_mem_ta1 ((Nil)) ("gsn") = is_mem_ta1 ((Nil)) ("gsn")
+is_mem_ta1 (("ohk"::(Nil))) ("xmo") = is_mem_ta1 ((Nil)) ("xmo")
+Simplifying took 0.000489 seconds
 Result : true
 New Env
 
@@ -6546,12 +6726,6 @@ false = true
 
 3 conjecture(s) more...
 Tactic List : 0
-previous tactics
-simpl in goal
-intro string1
-case string_eq (string2) (string1)
-rewrite string_eqb_eq in Case1 at 0
-advanced_generalize done
 =================================================
 Progress: 173
 
@@ -6671,13 +6845,6 @@ false = true
 
 3 conjecture(s) more...
 Tactic List : 0
-previous tactics
-simpl in goal
-intro string1
-rewrite <- IH1 in goal at 0
-case string_eq (string2) (string1)
-rewrite string_eqb_eq in Case1 at 0
-advanced_generalize done
 =================================================
 Progress: 176
 
@@ -6723,12 +6890,23 @@ intro string_list1
 rewrite <- IH1 in goal at 2
 advanced_generalize done
 Lemma : forall (arg10:string list) (lambda2:lambda) (string1:string) (string_list1:string list), sub_check_ta1 (lambda2) (arg10) = if mem (string1) (string_list1) then sub_check (lambda2) (string_list1) else sub_check_ta1 (lambda2) (arg10)
-Model : arg10: ("vah"::(Nil)), lambda2: V ("ibc"), string1: "yrp", string_list1: (Nil)
-Model : arg10: (Nil), lambda2: V ("uev"), string1: "udn", string_list1: (Nil)
-Model : arg10: (Nil), lambda2: C (V ("fog")) (V ("vnx")), string1: "eff", string_list1: (Nil)
+Model : arg10: ("hkq"::(Nil)), lambda2: V ("igq"), string1: "ddm", string_list1: (Nil)
+Model : arg10: (Nil), lambda2: V ("rwa"), string1: "lje", string_list1: (Nil)
+Model : arg10: ("dgu"::(Nil)), lambda2: V ("ekz"), string1: "acz", string_list1: ("ntq"::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.001339 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+sub_check_ta1 (V ("igq")) (("hkq"::(Nil))) = if mem ("ddm") ((Nil)) then sub_check (V ("igq")) ((Nil)) else sub_check_ta1 (V ("igq")) (("hkq"::(Nil)))
+sub_check_ta1 (V ("rwa")) ((Nil)) = if mem ("lje") ((Nil)) then sub_check (V ("rwa")) ((Nil)) else sub_check_ta1 (V ("rwa")) ((Nil))
+sub_check_ta1 (V ("ekz")) (("dgu"::(Nil))) = if mem ("acz") (("ntq"::(Nil))) then sub_check (V ("ekz")) (("ntq"::(Nil))) else sub_check_ta1 (V ("ekz")) (("dgu"::(Nil)))
+Simplifying took 0.001641 seconds
 Result : true
 New Env
 
@@ -6964,12 +7142,23 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (string2:string) (string_list1:string list) (string_list2:string list), is_mem_ta1 (string_list1) (string2) = mem (string2) (string_list2)
-Model : string2: "qip", string_list1: (Nil), string_list2: (Nil)
-Model : string2: "oou", string_list1: (Nil), string_list2: (Nil)
-Model : string2: "dpj", string_list1: ("npl"::(Nil)), string_list2: (Nil)
+Model : string2: "nkn", string_list1: (Nil), string_list2: (Nil)
+Model : string2: "ehx", string_list1: (Nil), string_list2: (Nil)
+Model : string2: "vpz", string_list1: (Nil), string_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000594 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+is_mem_ta1 ((Nil)) ("nkn") = mem ("nkn") ((Nil))
+is_mem_ta1 ((Nil)) ("ehx") = mem ("ehx") ((Nil))
+is_mem_ta1 ((Nil)) ("vpz") = mem ("vpz") ((Nil))
+Simplifying took 0.000160 seconds
 Result : true
 New Env
 
@@ -7297,12 +7486,6 @@ false = true
 
 3 conjecture(s) more...
 Tactic List : 0
-previous tactics
-simpl in goal
-intro string1
-case string_eq (string2) (string1)
-rewrite string_eqb_eq in Case1 at 0
-advanced_generalize done
 =================================================
 Progress: 193
 
@@ -7422,13 +7605,6 @@ false = true
 
 3 conjecture(s) more...
 Tactic List : 0
-previous tactics
-simpl in goal
-intro string1
-rewrite <- IH1 in goal at 0
-case string_eq (string2) (string1)
-rewrite string_eqb_eq in Case1 at 0
-advanced_generalize done
 =================================================
 Progress: 196
 
@@ -7475,12 +7651,23 @@ rewrite IH1 in goal at 0
 rewrite <- IH1 in goal at 2
 advanced_generalize done
 Lemma : forall (arg11:string list) (lambda2:lambda) (string1:string) (string_list1:string list), sub_check (lambda2) (arg11) = if mem (string1) (string_list1) then sub_check_ta1 (lambda2) (string_list1) else sub_check (lambda2) (arg11)
-Model : arg11: (Nil), lambda2: V ("ifb"), string1: "jhu", string_list1: (Nil)
-Model : arg11: (Nil), lambda2: V ("dfd"), string1: "yrm", string_list1: (Nil)
-Model : arg11: (Nil), lambda2: V ("yjo"), string1: "kpq", string_list1: (Nil)
+Model : arg11: (Nil), lambda2: V ("itt"), string1: "unj", string_list1: (Nil)
+Model : arg11: (Nil), lambda2: V ("vqu"), string1: "bfz", string_list1: (Nil)
+Model : arg11: (Nil), lambda2: V ("bdn"), string1: "sbu", string_list1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000321 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+sub_check (V ("itt")) ((Nil)) = if mem ("unj") ((Nil)) then sub_check_ta1 (V ("itt")) ((Nil)) else sub_check (V ("itt")) ((Nil))
+sub_check (V ("vqu")) ((Nil)) = if mem ("bfz") ((Nil)) then sub_check_ta1 (V ("vqu")) ((Nil)) else sub_check (V ("vqu")) ((Nil))
+sub_check (V ("bdn")) ((Nil)) = if mem ("sbu") ((Nil)) then sub_check_ta1 (V ("bdn")) ((Nil)) else sub_check (V ("bdn")) ((Nil))
+Simplifying took 0.000414 seconds
 Result : true
 New Env
 
@@ -7716,12 +7903,23 @@ previous tactics
 simpl in goal
 advanced_generalize done
 Lemma : forall (string2:string) (string_list1:string list) (string_list2:string list), mem (string2) (string_list1) = is_mem_ta1 (string_list2) (string2)
-Model : string2: "bri", string_list1: (Nil), string_list2: (Nil)
-Model : string2: "fbn", string_list1: (Nil), string_list2: (Nil)
-Model : string2: "fhu", string_list1: (Nil), string_list2: (Nil)
+Model : string2: "gdq", string_list1: (Nil), string_list2: (Nil)
+Model : string2: "gkq", string_list1: (Nil), string_list2: (Nil)
+Model : string2: "kta", string_list1: (Nil), string_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000085 seconds
+let rec sub_check m lst =
+match (m) with
+| V na -> mem (na) (lst)
+| P st k -> if mem (st) (lst) then sub_check (k) (lst) else sub_check (k) ((st::lst))
+| C me1 me2 -> && (sub_check (me1) (lst)) (sub_check (me2) (lst))
+let check m =
+sub_check (m) ((Nil))
+prop list:
+mem ("gdq") ((Nil)) = is_mem_ta1 ((Nil)) ("gdq")
+mem ("gkq") ((Nil)) = is_mem_ta1 ((Nil)) ("gkq")
+mem ("kta") ((Nil)) = is_mem_ta1 ((Nil)) ("kta")
+Simplifying took 0.000102 seconds
 Result : true
 New Env
 
@@ -8049,12 +8247,6 @@ false = true
 
 3 conjecture(s) more...
 Tactic List : 0
-previous tactics
-simpl in goal
-intro string1
-case string_eq (string2) (string1)
-rewrite string_eqb_eq in Case1 at 0
-advanced_generalize done
 =================================================
 Progress: 213
 
@@ -8174,13 +8366,6 @@ false = true
 
 3 conjecture(s) more...
 Tactic List : 0
-previous tactics
-simpl in goal
-intro string1
-rewrite <- IH1 in goal at 0
-case string_eq (string2) (string1)
-rewrite string_eqb_eq in Case1 at 0
-advanced_generalize done
 =================================================
 Progress: 216
 
@@ -8282,12 +8467,24 @@ rewrite string_eqb_eq in Case2 at 0
 rewrite <- lemma3 in goal at 0
 advanced_generalize done
 Lemma : forall (string3:string) (string_list2:string list), true = mem (string3) (string_list2)
-Model : string3: "upj", string_list2: (Nil)
-Model : string3: "fwa", string_list2: (Nil)
-Model : string3: "ajk", string_list2: (Nil)
+Model : string3: "snc", string_list2: (Nil)
+Model : string3: "wlz", string_list2: (Nil)
+Model : string3: "vtd", string_list2: ("ser"::(Nil))
 Substituting variables...
 Simplifying conditions and property...
-Simplifying took 0.000062 seconds
+let rec mk_lhs1 arg_2 arg_3 arg_4 arg_5 =
+match (arg_2) with
+| Nil  -> (arg_3::(arg_4::arg_5))
+| Cons hd tl -> (hd::mk_lhs1 (tl) (arg_3) (arg_4) (arg_5))
+let rec mk_rhs1 arg_6 arg_7 arg_8 =
+match (arg_6) with
+| Nil  -> (arg_7::arg_8)
+| Cons hd tl -> (hd::mk_rhs1 (tl) (arg_7) (arg_8))
+prop list:
+true = mem ("snc") ((Nil))
+true = mem ("wlz") ((Nil))
+true = mem ("vtd") (("ser"::(Nil)))
+Simplifying took 0.000582 seconds
 Result : false
 =================================================
 Progress: 218
