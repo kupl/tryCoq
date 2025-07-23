@@ -1,6 +1,7 @@
 open Sexplib.Std
 
 type t = Proof.t
+type proof_node = Prover.proof_node
 type env = Proof.env
 type state = Proof.state
 type lemma_stack = Proof.lemma_stack
@@ -1265,8 +1266,8 @@ let get_induction_var (state : state) =
   induction_var
 ;;
 
-let advanced_generalize t : (t * lemma list) option =
-  let first_state = Proof.get_first_state t in
+let advanced_generalize (t : proof_node) : (proof_node * lemma list) option =
+  let first_state = Proof.get_first_state t.t in
   let facts, goal, _ = first_state in
   match is_trivial goal with
   | true -> None
@@ -1276,40 +1277,44 @@ let advanced_generalize t : (t * lemma list) option =
         (fun (name, _) -> String.starts_with ~prefix:"IH" name)
         (List.rev facts)
     in
-    let state_list = fast_execution 2 t in
+    let state_list = fast_execution 2 t.t in
     (match state_list with
      | [] ->
-       (match naive_generalize t with
+       (match naive_generalize t.t with
         | Some lemma -> Some (t, [ lemma ])
         | _ -> None)
      | _ ->
        let induction_vars = List.map get_induction_var state_list in
-       let new_env, lemma_list = pattern_recognition t.env ih induction_vars state_list in
+       let new_env, lemma_list =
+         pattern_recognition t.t.env ih induction_vars state_list
+       in
        let new_env = List.map Ir.rename_decl new_env in
        if List.is_empty lemma_list
        then (
-         match naive_generalize t with
+         match naive_generalize t.t with
          | Some lemma -> Some (t, [ lemma ])
          | _ -> None)
        else (
          let new_t =
            List.fold_left
-             (fun acc decl -> Proof.apply_tactic acc (Proof.Define decl))
+             (fun acc decl -> Prover.just_apply_tactic acc (Proof.Define decl))
              t
              new_env
          in
          Some (new_t, lemma_list)))
 ;;
 
-let make_lemmas_by_advanced_generalize (t : t) lemma_set : (t * lemma list) option =
+let make_lemmas_by_advanced_generalize (t : proof_node) lemma_set
+  : (proof_node * lemma list) option
+  =
   let t_lemma = advanced_generalize t in
-  let original_goal = Proof.get_conj_list t |> List.hd |> snd in
+  let original_goal = Proof.get_conj_list t.t |> List.hd |> snd in
   let _ = Printf.printf "advanced_generalize done\n" in
   let t_lemma =
     match t_lemma with
     | Some (new_t, lemmas) ->
       let false_lemmas =
-        List.filter (fun lemma -> not (Validate.validate new_t.env lemma)) lemmas
+        List.filter (fun lemma -> not (Validate.validate new_t.t.env lemma)) lemmas
       in
       (match false_lemmas with
        | _ :: _ -> None
@@ -1346,7 +1351,7 @@ let make_lemmas_by_advanced_generalize (t : t) lemma_set : (t * lemma list) opti
              List.fold_left
                (fun acc (_, _, tactic) ->
                   List.fold_left
-                    (fun acc tactic -> Proof.apply_tactic acc tactic)
+                    (fun acc tactic -> Prover.just_apply_tactic acc tactic)
                     acc
                     tactic)
                new_t
