@@ -78,39 +78,39 @@ let rec progress worklist statelist lemma_set =
   | true -> failwith "worklist is empty"
   | false ->
     let prev_worklist, work = Prover.WorkList.take_exn worklist in
-    let t, tactic, next_t, r, _ = work in
     let _ = print_endline "=================================================" in
     let i = progress_counter () in
     let _ = print_endline ("Progress: " ^ string_of_int i) in
-    let _ = Proof.pp_t t |> print_endline in
+    let _ = Proof.pp_t work.t |> print_endline in
     let _ =
-      print_endline (">>> " ^ Proof.pp_tactic tactic ^ "(rank : " ^ string_of_int r ^ ")")
+      print_endline
+        (">>> " ^ Proof.pp_tactic work.tactic ^ "(rank : " ^ string_of_int work.rank ^ ")")
     in
-    let _ = Proof.pp_t next_t |> print_endline in
+    let _ = Proof.pp_t work.next_t |> print_endline in
     (* let _ = if i = 5 then Proof.proof_top next_t in *)
     let lemma_set =
-      match is_end_of_conj t next_t with
+      match is_end_of_conj work.t work.next_t with
       | true ->
-        let lemma_list = Proof.get_lemma_stack next_t in
+        let lemma_list = Proof.get_lemma_stack work.next_t in
         let lemma = List.hd (List.rev lemma_list) |> snd in
-        let tactics = get_proof_of_lemma next_t in
-        let original_goal = get_conj_goal t in
+        let tactics = get_proof_of_lemma work.next_t in
+        let original_goal = get_conj_goal work.t in
         let lemma_set = Prover.LemmaSet.add (original_goal, lemma, tactics) lemma_set in
         lemma_set
       | false -> lemma_set
     in
-    (match next_t.proof with
+    (match work.next_t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof
      | _ ->
        let prev_worklist =
-         match tactic with
+         match work.tactic with
          | Proof.Reflexivity | Proof.Discriminate ->
-           Prover.deduplicate_worklist prev_worklist next_t
+           Prover.deduplicate_worklist prev_worklist work.next_t
          | _ -> prev_worklist
        in
-       let tactic_list = Prover.mk_candidates next_t in
+       let tactic_list = Prover.mk_candidates work.next_t in
        let worklist, statelist =
-         Prover.prune_rank_worklist_update_state_list next_t tactic_list statelist
+         Prover.prune_rank_worklist_update_state_list work.next_t tactic_list statelist
        in
        let _ =
          print_endline
@@ -119,27 +119,28 @@ let rec progress worklist statelist lemma_set =
        in
        let _ =
          Prover.WorkList.iter
-           (fun (_, tactic, _, r, _) ->
-              Proof.pp_tactic tactic ^ "(rank:" ^ string_of_int r ^ ")" |> print_endline)
+           (fun elt ->
+              Proof.pp_tactic elt.tactic ^ "(rank:" ^ string_of_int elt.rank ^ ")"
+              |> print_endline)
            worklist
        in
        if Prover.is_stuck worklist
        then (
-         let t_lemma = Finder.make_lemmas_by_advanced_generalize next_t lemma_set in
+         let t_lemma = Finder.make_lemmas_by_advanced_generalize work.next_t lemma_set in
          match t_lemma with
          | Some (new_t, assert_list) ->
            let new_t, tactic, r, assert_list =
              match assert_list with
              | [] ->
-               let prev_lemma_list = Proof.get_lemma_stack t in
-               let new_lemma_list = Proof.get_lemma_stack new_t in
+               let prev_lemma_list = Proof.get_lemma_stack work.t in
+               let new_lemma_list = Proof.get_lemma_stack work.next_t in
                let assert_list =
                  List.filter (fun x -> not (List.mem x prev_lemma_list)) new_lemma_list
                in
                new_t, Proof.SimplIn "goal", -1, assert_list |> List.map snd
              | _ ->
                let new_env =
-                 List.filter (fun x -> not (List.mem x next_t.env)) new_t.env
+                 List.filter (fun x -> not (List.mem x work.next_t.env)) new_t.env
                in
                let _ = print_endline "New Env" in
                let _ = new_env |> Ir.pp_t |> print_endline in
@@ -160,7 +161,7 @@ let rec progress worklist statelist lemma_set =
                new_t, Proof.mk_assert tl, 0, assert_list
            in
            let _ = new_t |> Proof.pp_t |> print_endline in
-           let original_goal = get_conj_goal next_t in
+           let original_goal = get_conj_goal work.next_t in
            let lemma_set =
              Prover.LemmaSet.add_list
                lemma_set
@@ -170,7 +171,12 @@ let rec progress worklist statelist lemma_set =
            progress
              (Prover.WorkList.add
                 prev_worklist
-                (new_t, tactic, new_state, r, Prover.order_counter ()))
+                { t = new_t
+                ; tactic
+                ; next_t = new_state
+                ; rank = r
+                ; order = Prover.order_counter ()
+                })
              (Prover.ProofSet.add new_state statelist)
              lemma_set
          | None -> progress prev_worklist statelist lemma_set)
@@ -191,7 +197,13 @@ let proof_auto definition axiom program_a program_b goal =
   let next_t = Proof.apply_tactic init_t first_assertion in
   let worklist =
     Prover.WorkList.of_list
-      [ init_t, first_assertion, next_t, 0, Prover.order_counter () ]
+      [ { t = init_t
+        ; tactic = first_assertion
+        ; next_t
+        ; rank = 0
+        ; order = Prover.order_counter ()
+        }
+      ]
   in
   match progress worklist Prover.ProofSet.empty Prover.LemmaSet.empty with
   | _, Some proof ->

@@ -176,6 +176,15 @@ Inductive1 : any_list2 = (any1::any_list3)
 Tactic List : 0
 previous tactics
 simpl in goal
+advanced_generalize done
+Lemma : forall (arg1:any list), arg1 = (arg1 @ (Nil))
+Model : arg1: (Nil)
+Model : arg1: (Nil)
+Model : arg1: (Nil)
+Substituting variables...
+Simplifying conditions and property...
+Simplifying took 0.000023 seconds
+Result : true
 New Env
 
 ;;
@@ -650,6 +659,31 @@ reverse (qreva (any_list3) ((any1::(Nil)))) = (any1::any_list3)
 Tactic List : 0
 previous tactics
 simpl in goal
+advanced_generalize done
+Lemma : forall (any_list3:any list), mk_rhs1 ((Nil)) (any_list3) = any_list3
+Model : any_list3: (Nil)
+Model : any_list3: (Nil)
+Model : any_list3: (Nil)
+Substituting variables...
+Simplifying conditions and property...
+Simplifying took 0.000024 seconds
+Result : true
+Lemma : forall (tl:any list) (hd:any) (any_list3:any list), mk_rhs1 ((hd::tl)) (any_list3) = mk_rhs1 (tl) ((hd::any_list3))
+Model : tl: (Nil), hd: 0, any_list3: (Nil)
+Model : tl: (Nil), hd: 0, any_list3: (Nil)
+Model : tl: (8::(Nil)), hd: 3, any_list3: (4::(Nil))
+Substituting variables...
+Simplifying conditions and property...
+Simplifying took 0.000353 seconds
+Result : true
+Lemma : forall (any_list3:any list) (lst:any list), reverse (qreva (any_list3) (lst)) = mk_rhs1 (lst) (any_list3)
+Model : any_list3: (Nil), lst: (Nil)
+Model : any_list3: (Nil), lst: (Nil)
+Model : any_list3: (Nil), lst: (Nil)
+Substituting variables...
+Simplifying conditions and property...
+Simplifying took 0.000043 seconds
+Result : true
 New Env
 let rec mk_rhs1 arg_2 arg_3 =
 match (arg_2) with
@@ -1044,6 +1078,15 @@ previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 simpl in goal
+advanced_generalize done
+Lemma : forall (any1:any) (any_list3:any list) (arg4:any list), ((arg4 @ (any1::(Nil))) @ any_list3) = (arg4 @ (any1::any_list3))
+Model : any1: 8, any_list3: (Nil), arg4: (Nil)
+Model : any1: 7, any_list3: (8::(6::(Nil))), arg4: (Nil)
+Model : any1: 5, any_list3: (Nil), arg4: (Nil)
+Substituting variables...
+Simplifying conditions and property...
+Simplifying took 0.000378 seconds
+Result : true
 New Env
 
 ;;

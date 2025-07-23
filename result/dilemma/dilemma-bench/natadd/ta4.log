@@ -173,6 +173,47 @@ SUCC (nat3) = natadd (SUCC (ZERO)) (nat3)
 Tactic List : 0
 previous tactics
 simpl in goal
+advanced_generalize done
+Lemma : forall (nat3:nat), mk_lhs1 ((Nil)) (nat3) = nat3
+Model : nat3: ZERO
+Model : nat3: ZERO
+Model : nat3: ZERO
+Substituting variables...
+Simplifying conditions and property...
+Simplifying took 0.000011 seconds
+Result : true
+Lemma : forall (tl:nat list) (nat3:nat), mk_lhs1 ((hd::tl)) (nat3) = SUCC (mk_lhs1 (tl) (nat3))
+Model : tl: (Nil), nat3: ZERO
+Model : tl: (Nil), nat3: ZERO
+Model : tl: (Nil), nat3: SUCC (SUCC (ZERO))
+Substituting variables...
+Simplifying conditions and property...
+Simplifying took 0.000030 seconds
+Result : true
+Lemma : forall , mk_rhs1 ((Nil)) = ZERO
+Model : 
+Model : 
+Model : 
+Substituting variables...
+Simplifying conditions and property...
+Simplifying took 0.000007 seconds
+Result : true
+Lemma : forall (tl:nat list), mk_rhs1 ((hd::tl)) = SUCC (mk_rhs1 (tl))
+Model : tl: (Nil)
+Model : tl: (ZERO::(Nil))
+Model : tl: (Nil)
+Substituting variables...
+Simplifying conditions and property...
+Simplifying took 0.000027 seconds
+Result : true
+Lemma : forall (lst:nat list) (nat3:nat), mk_lhs1 (lst) (nat3) = natadd (mk_rhs1 (lst)) (nat3)
+Model : lst: (Nil), nat3: SUCC (SUCC (ZERO))
+Model : lst: (Nil), nat3: ZERO
+Model : lst: (SUCC (ZERO)::(Nil)), nat3: ZERO
+Substituting variables...
+Simplifying conditions and property...
+Simplifying took 0.000036 seconds
+Result : true
 New Env
 let rec mk_lhs1 arg_1 arg_2 =
 match (arg_1) with
