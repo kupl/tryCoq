@@ -251,11 +251,10 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-advanced_generalize done
 Lemma : forall (arg1:nat), plus (arg1) (ZERO) = arg1
 Model : arg1: ZERO
-Model : arg1: SUCC (ZERO)
-Model : arg1: SUCC (ZERO)
+Model : arg1: ZERO
+Model : arg1: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -266,16 +265,11 @@ let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 plus (ZERO) (ZERO) = ZERO
-plus (SUCC (ZERO)) (ZERO) = SUCC (ZERO)
-plus (SUCC (ZERO)) (ZERO) = SUCC (ZERO)
-Simplifying took 0.000048 seconds
+plus (ZERO) (ZERO) = ZERO
+plus (ZERO) (ZERO) = ZERO
+Simplifying took 0.000031 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (arg1:nat), plus (arg1) (ZERO) = arg1
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -796,10 +790,9 @@ simpl in goal
 rewrite IH1 in goal at 0
 rewrite <- IH1 in goal at 2
 intro nat2
-advanced_generalize done
 Lemma : forall (nat2:nat) (nat4:nat) (nat5:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
-Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
-Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
+Model : nat2: ZERO, nat4: ZERO, nat5: SUCC (ZERO)
+Model : nat2: ZERO, nat4: SUCC (ZERO), nat5: ZERO
 Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
 Substituting variables...
 Simplifying conditions and property...
@@ -810,17 +803,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (SUCC (ZERO))) = plus (mult (ZERO) (ZERO)) (SUCC (plus (SUCC (ZERO)) (ZERO)))
+plus (qmult (SUCC (ZERO)) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (mult (SUCC (ZERO)) (ZERO)) (SUCC (plus (ZERO) (ZERO)))
 plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (mult (ZERO) (ZERO)) (SUCC (plus (ZERO) (ZERO)))
-plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (mult (ZERO) (ZERO)) (SUCC (plus (ZERO) (ZERO)))
-plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (mult (ZERO) (ZERO)) (SUCC (plus (ZERO) (ZERO)))
-Simplifying took 0.000116 seconds
+Simplifying took 0.000136 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (nat2:nat) (nat4:nat) (nat5:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2)))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -973,11 +961,10 @@ rewrite lemma3 in goal at 0
 reflexivity
 simpl in goal
 rewrite <- IH1 in goal at 0
-advanced_generalize done
 Lemma : forall (arg2:nat) (nat2:nat) (nat5:nat), plus (plus (arg2) (nat2)) (SUCC (nat5)) = plus (arg2) (SUCC (plus (nat5) (nat2)))
-Model : arg2: ZERO, nat2: SUCC (SUCC (ZERO)), nat5: ZERO
+Model : arg2: SUCC (ZERO), nat2: SUCC (SUCC (ZERO)), nat5: ZERO
 Model : arg2: ZERO, nat2: ZERO, nat5: ZERO
-Model : arg2: SUCC (ZERO), nat2: ZERO, nat5: ZERO
+Model : arg2: ZERO, nat2: ZERO, nat5: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -987,17 +974,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-plus (plus (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (ZERO)) = plus (ZERO) (SUCC (plus (ZERO) (SUCC (SUCC (ZERO)))))
+plus (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (plus (ZERO) (SUCC (SUCC (ZERO)))))
 plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (ZERO) (SUCC (plus (ZERO) (ZERO)))
-plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (plus (ZERO) (ZERO)))
-Simplifying took 0.000157 seconds
+plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (ZERO) (SUCC (plus (ZERO) (ZERO)))
+Simplifying took 0.000134 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (arg2:nat) (nat2:nat) (nat5:nat), plus (plus (arg2) (nat2)) (SUCC (nat5)) = plus (arg2) (SUCC (plus (nat5) (nat2)))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -1151,10 +1133,9 @@ reflexivity
 simpl in goal
 intro nat2
 rewrite IH1 in goal at 0
-advanced_generalize done
 Lemma : forall (nat2:nat) (nat4:nat) (nat5:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = qmult (nat4) (nat2) (SUCC (plus (nat5) (nat2)))
 Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
-Model : nat2: ZERO, nat4: ZERO, nat5: SUCC (ZERO)
+Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
 Model : nat2: ZERO, nat4: ZERO, nat5: ZERO
 Substituting variables...
 Simplifying conditions and property...
@@ -1166,16 +1147,11 @@ let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))
-plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (SUCC (ZERO))) = qmult (ZERO) (ZERO) (SUCC (plus (SUCC (ZERO)) (ZERO)))
 plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))
-Simplifying took 0.000127 seconds
+plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))
+Simplifying took 0.000085 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (nat2:nat) (nat4:nat) (nat5:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = qmult (nat4) (nat2) (SUCC (plus (nat5) (nat2)))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -1331,11 +1307,10 @@ reflexivity
 simpl in goal
 intro nat2
 rewrite <- IH1 in goal at 0
-advanced_generalize done
 Lemma : forall (arg3:nat) (nat2:nat) (nat5:nat), plus (plus (arg3) (nat2)) (SUCC (nat5)) = plus (arg3) (SUCC (plus (nat5) (nat2)))
+Model : arg3: SUCC (SUCC (ZERO)), nat2: ZERO, nat5: ZERO
 Model : arg3: ZERO, nat2: ZERO, nat5: ZERO
-Model : arg3: ZERO, nat2: ZERO, nat5: SUCC (ZERO)
-Model : arg3: ZERO, nat2: ZERO, nat5: ZERO
+Model : arg3: ZERO, nat2: SUCC (ZERO), nat5: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -1345,17 +1320,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)) = plus (SUCC (SUCC (ZERO))) (SUCC (plus (ZERO) (ZERO)))
 plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (ZERO) (SUCC (plus (ZERO) (ZERO)))
-plus (plus (ZERO) (ZERO)) (SUCC (SUCC (ZERO))) = plus (ZERO) (SUCC (plus (SUCC (ZERO)) (ZERO)))
-plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (ZERO) (SUCC (plus (ZERO) (ZERO)))
-Simplifying took 0.000104 seconds
+plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (ZERO) (SUCC (plus (ZERO) (SUCC (ZERO))))
+Simplifying took 0.000149 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (arg3:nat) (nat2:nat) (nat5:nat), plus (plus (arg3) (nat2)) (SUCC (nat5)) = plus (arg3) (SUCC (plus (nat5) (nat2)))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -3171,10 +3141,9 @@ previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 simpl in goal
-advanced_generalize done
 Lemma : forall (arg4:nat), plus (arg4) (SUCC (ZERO)) = plus (plus (arg4) (ZERO)) (SUCC (ZERO))
-Model : arg4: SUCC (SUCC (ZERO))
 Model : arg4: ZERO
+Model : arg4: SUCC (ZERO)
 Model : arg4: ZERO
 Substituting variables...
 Simplifying conditions and property...
@@ -3185,17 +3154,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))
 plus (ZERO) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
+plus (SUCC (ZERO)) (SUCC (ZERO)) = plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))
 plus (ZERO) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
-Simplifying took 0.000127 seconds
+Simplifying took 0.000092 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (arg4:nat), plus (arg4) (SUCC (ZERO)) = plus (plus (arg4) (ZERO)) (SUCC (ZERO))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
@@ -3590,11 +3554,10 @@ plus (qmult (nat4) (SUCC (nat5)) (SUCC (plus (nat5) (SUCC (nat5))))) (SUCC (ZERO
 Tactic List : 0
 previous tactics
 simpl in goal
-advanced_generalize done
 Lemma : forall (arg5:nat) (nat4:nat) (nat5:nat), plus (qmult (nat4) (arg5) (SUCC (plus (nat5) (arg5)))) (SUCC (ZERO)) = plus (plus (mult (nat4) (arg5)) (arg5)) (SUCC (arg5))
 Model : arg5: ZERO, nat4: ZERO, nat5: ZERO
-Model : arg5: ZERO, nat4: ZERO, nat5: ZERO
-Model : arg5: ZERO, nat4: ZERO, nat5: ZERO
+Model : arg5: ZERO, nat4: SUCC (ZERO), nat5: ZERO
+Model : arg5: ZERO, nat4: ZERO, nat5: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -3605,12 +3568,103 @@ let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 plus (qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))) (SUCC (ZERO)) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO))
-plus (qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))) (SUCC (ZERO)) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO))
-plus (qmult (ZERO) (ZERO) (SUCC (plus (ZERO) (ZERO)))) (SUCC (ZERO)) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO))
-Simplifying took 0.000146 seconds
+plus (qmult (SUCC (ZERO)) (ZERO) (SUCC (plus (ZERO) (ZERO)))) (SUCC (ZERO)) = plus (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO))
+plus (qmult (ZERO) (ZERO) (SUCC (plus (SUCC (ZERO)) (ZERO)))) (SUCC (ZERO)) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO))
+Simplifying took 0.000178 seconds
 Result : false
+Lemma : forall (nat5:nat), ZERO = SUCC (nat5)
+Model : nat5: ZERO
+Model : nat5: ZERO
+Model : nat5: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+ZERO = SUCC (ZERO)
+ZERO = SUCC (ZERO)
+ZERO = SUCC (ZERO)
+Simplifying took 0.000016 seconds
+Result : false
+Lemma : forall (nat4:nat) (nat5:nat), plus (qmult (nat4) (SUCC (nat5)) (SUCC (plus (nat5) (SUCC (nat5))))) (SUCC (ZERO)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (SUCC (nat5)))
+Model : nat4: ZERO, nat5: ZERO
+Model : nat4: ZERO, nat5: ZERO
+Model : nat4: ZERO, nat5: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+plus (qmult (ZERO) (SUCC (ZERO)) (SUCC (plus (ZERO) (SUCC (ZERO))))) (SUCC (ZERO)) = plus (plus (mult (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (SUCC (ZERO)))
+plus (qmult (ZERO) (SUCC (ZERO)) (SUCC (plus (ZERO) (SUCC (ZERO))))) (SUCC (ZERO)) = plus (plus (mult (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (SUCC (ZERO)))
+plus (qmult (ZERO) (SUCC (ZERO)) (SUCC (plus (ZERO) (SUCC (ZERO))))) (SUCC (ZERO)) = plus (plus (mult (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (SUCC (ZERO)))
+Simplifying took 0.000203 seconds
+Result : true
+advanced_generalize done
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
+nat5 : nat
+IH2 : forall (nat3:nat), plus (qmult (nat4) (nat5) (plus (nat5) (nat5))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat5)) (nat5)) (SUCC (plus (nat3) (nat5)))
+Inductive2 : nat1 = SUCC (nat5)
+nat3 : nat
+Base1 : nat3 = ZERO
+---------------------------------------
+plus (qmult (nat4) (SUCC (nat5)) (SUCC (plus (nat5) (SUCC (nat5))))) (SUCC (ZERO)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (SUCC (nat5)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
 =================================================
 Progress: 97
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat2) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat2) (nat1)) (SUCC (plus (nat3) (nat1)))
+nat2 : nat
+nat4 : nat
+IH1 : forall (nat1:nat) (nat3:nat), plus (qmult (nat4) (nat1) (nat1)) (SUCC (nat3)) = plus (mult (nat4) (nat1)) (SUCC (plus (nat3) (nat1)))
+Inductive1 : nat2 = SUCC (nat4)
+nat1 : nat
+nat5 : nat
+IH2 : forall (nat3:nat), plus (qmult (nat4) (nat5) (plus (nat5) (nat5))) (SUCC (nat3)) = plus (plus (mult (nat4) (nat5)) (nat5)) (SUCC (plus (nat3) (nat5)))
+Inductive2 : nat1 = SUCC (nat5)
+nat3 : nat
+Base1 : nat3 = ZERO
+---------------------------------------
+plus (qmult (nat4) (SUCC (nat5)) (SUCC (plus (nat5) (SUCC (nat5))))) (SUCC (ZERO)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (SUCC (nat5)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (nat4:nat) (nat5:nat), plus (qmult (nat4) (SUCC (nat5)) (SUCC (plus (nat5) (SUCC (nat5))))) (SUCC (ZERO)) = plus (plus (mult (nat4) (SUCC (nat5))) (SUCC (nat5))) (SUCC (SUCC (nat5)))(rank : 0)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), plus (qmult (nat1) (SUCC (nat2)) (SUCC (plus (nat2) (SUCC (nat2))))) (SUCC (ZERO)) = plus (plus (mult (nat1) (SUCC (nat2))) (SUCC (nat2))) (SUCC (SUCC (nat2)))
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), plus (qmult (nat1) (SUCC (nat2)) (SUCC (plus (nat2) (SUCC (nat2))))) (SUCC (ZERO)) = plus (plus (mult (nat1) (SUCC (nat2))) (SUCC (nat2))) (SUCC (SUCC (nat2)))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+induction nat1(rank:16)
+induction nat2(rank:16)
+=================================================
+Progress: 98
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -3641,7 +3695,7 @@ forall (nat3:nat), SUCC (nat3) = SUCC (nat3)
 Tactic List : 1
 reflexivity(rank:6)
 =================================================
-Progress: 98
+Progress: 99
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -3675,7 +3729,7 @@ Deduplication: 1
 Tactic List : 1
 simpl in goal(rank:6)
 =================================================
-Progress: 99
+Progress: 100
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -3711,7 +3765,7 @@ Tactic List : 2
 induction nat3(rank:15)
 rewrite IH1 in goal at 0(rank:22)
 =================================================
-Progress: 100
+Progress: 101
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -3750,7 +3804,7 @@ SUCC (SUCC (nat4)) = SUCC (SUCC (nat4))
 Tactic List : 1
 reflexivity(rank:6)
 =================================================
-Progress: 101
+Progress: 102
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -3788,7 +3842,7 @@ Deduplication: 1
 Tactic List : 1
 simpl in goal(rank:6)
 =================================================
-Progress: 102
+Progress: 103
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -3824,7 +3878,7 @@ Tactic List : 2
 rewrite <- IH1 in goal at 0(rank:14)
 induction nat2(rank:15)
 =================================================
-Progress: 103
+Progress: 104
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -3859,7 +3913,7 @@ forall (nat2:nat), plus (nat2) (SUCC (SUCC (nat4))) = SUCC (plus (nat2) (SUCC (n
 Tactic List : 1
 induction nat2(rank:7)
 =================================================
-Progress: 104
+Progress: 105
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -3896,7 +3950,7 @@ plus (ZERO) (SUCC (SUCC (nat4))) = SUCC (plus (ZERO) (SUCC (nat4)))
 Tactic List : 1
 reflexivity(rank:6)
 =================================================
-Progress: 105
+Progress: 106
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -3938,7 +3992,7 @@ Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:6)
 =================================================
-Progress: 106
+Progress: 107
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -3983,7 +4037,7 @@ rewrite IH2 in goal at 0(rank:14)
 rewrite IH1 in goal at 0(rank:22)
 rewrite <- IH2 in goal at 0(rank:14)
 =================================================
-Progress: 107
+Progress: 108
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4026,7 +4080,7 @@ SUCC (SUCC (plus (nat5) (SUCC (nat4)))) = SUCC (SUCC (plus (nat5) (SUCC (nat4)))
 Tactic List : 1
 reflexivity(rank:5)
 =================================================
-Progress: 108
+Progress: 109
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4064,7 +4118,7 @@ Deduplication: 5
 Tactic List : 1
 simpl in goal(rank:5)
 =================================================
-Progress: 109
+Progress: 110
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4095,7 +4149,7 @@ forall (nat2:nat) (nat3:nat), SUCC (plus (plus (nat4) (nat2)) (SUCC (nat3))) = S
 Tactic List : 1
 induction nat3(rank:6)
 =================================================
-Progress: 110
+Progress: 111
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4128,7 +4182,7 @@ forall (nat2:nat), SUCC (plus (plus (nat4) (nat2)) (SUCC (ZERO))) = SUCC (plus (
 Tactic List : 1
 simpl in goal(rank:6)
 =================================================
-Progress: 111
+Progress: 112
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4164,7 +4218,7 @@ Tactic List : 2
 intro nat2(rank:6)
 rewrite IH1 in goal at 0(rank:14)
 =================================================
-Progress: 112
+Progress: 113
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4200,7 +4254,7 @@ SUCC (plus (plus (nat4) (nat2)) (SUCC (ZERO))) = SUCC (plus (nat4) (SUCC (nat2))
 Tactic List : 1
 rewrite IH1 in goal at 0(rank:6)
 =================================================
-Progress: 113
+Progress: 114
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4237,7 +4291,7 @@ SUCC (plus (nat4) (SUCC (plus (ZERO) (nat2)))) = SUCC (plus (nat4) (SUCC (nat2))
 Tactic List : 1
 reflexivity(rank:5)
 =================================================
-Progress: 114
+Progress: 115
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4276,7 +4330,7 @@ Deduplication: 1
 Tactic List : 1
 simpl in goal(rank:5)
 =================================================
-Progress: 115
+Progress: 116
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4316,7 +4370,7 @@ Tactic List : 2
 intro nat2(rank:5)
 rewrite IH1 in goal at 0(rank:13)
 =================================================
-Progress: 116
+Progress: 117
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4356,7 +4410,7 @@ SUCC (plus (plus (nat4) (nat2)) (SUCC (SUCC (nat5)))) = SUCC (plus (nat4) (SUCC 
 Tactic List : 1
 rewrite IH1 in goal at 0(rank:5)
 =================================================
-Progress: 117
+Progress: 118
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4397,7 +4451,7 @@ SUCC (plus (nat4) (SUCC (plus (SUCC (nat5)) (nat2)))) = SUCC (plus (nat4) (SUCC 
 Tactic List : 1
 reflexivity(rank:3)
 =================================================
-Progress: 118
+Progress: 119
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (SUCC (nat3)) = plus (nat1) (SUCC (plus (nat3) (nat2)))
@@ -4441,7 +4495,7 @@ rewrite IH1 in goal at 1(rank:11)
 rewrite lemma4 in goal at 0(rank:11)
 rewrite <- lemma4 in goal at 0(rank:11)
 =================================================
-Progress: 119
+Progress: 120
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -4483,7 +4537,7 @@ rewrite IH1 in goal at 1(rank:11)
 rewrite lemma4 in goal at 0(rank:11)
 rewrite <- lemma4 in goal at 0(rank:11)
 =================================================
-Progress: 120
+Progress: 121
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -4522,7 +4576,7 @@ forall (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (mult 
 Tactic List : 1
 rewrite <- lemma4 in goal at 0(rank:3)
 =================================================
-Progress: 121
+Progress: 122
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -4561,7 +4615,7 @@ forall (nat2:nat), plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (plus 
 Tactic List : 1
 intro nat2(rank:3)
 =================================================
-Progress: 122
+Progress: 123
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -4607,11 +4661,10 @@ reflexivity
 rewrite IH1 in goal at 1
 rewrite <- lemma4 in goal at 0
 intro nat2
-advanced_generalize done
 Lemma : forall (arg6:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (nat2)) (arg6) = plus (plus (mult (nat4) (nat2)) (nat2)) (arg6)
-Model : arg6: ZERO, nat2: ZERO, nat4: ZERO
 Model : arg6: ZERO, nat2: ZERO, nat4: SUCC (ZERO)
-Model : arg6: SUCC (ZERO), nat2: ZERO, nat4: ZERO
+Model : arg6: ZERO, nat2: ZERO, nat4: ZERO
+Model : arg6: ZERO, nat2: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -4621,17 +4674,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)
 plus (qmult (SUCC (ZERO)) (ZERO) (ZERO)) (ZERO) = plus (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)
-plus (qmult (ZERO) (ZERO) (ZERO)) (SUCC (ZERO)) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO))
-Simplifying took 0.000154 seconds
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)
+plus (qmult (ZERO) (ZERO) (ZERO)) (ZERO) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)
+Simplifying took 0.000104 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (arg6:nat) (nat2:nat) (nat4:nat), plus (qmult (nat4) (nat2) (nat2)) (arg6) = plus (plus (mult (nat4) (nat2)) (nat2)) (arg6)
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -4651,7 +4699,7 @@ plus (qmult (nat4) (nat2) (nat2)) (SUCC (nat5)) = plus (plus (mult (nat4) (nat2)
 
 0 conjecture(s) more...
 =================================================
-Progress: 123
+Progress: 124
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -4684,7 +4732,7 @@ forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1
 Tactic List : 1
 induction nat3(rank:6)
 =================================================
-Progress: 124
+Progress: 125
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
@@ -4710,7 +4758,7 @@ forall (nat1:nat) (nat2:nat), plus (qmult (ZERO) (nat2) (nat2)) (nat1) = plus (p
 Tactic List : 1
 reflexivity(rank:5)
 =================================================
-Progress: 125
+Progress: 126
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
@@ -4740,7 +4788,7 @@ Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:5)
 =================================================
-Progress: 126
+Progress: 127
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
@@ -4771,7 +4819,7 @@ forall (nat1:nat) (nat2:nat), plus (qmult (nat4) (nat2) (plus (nat2) (nat2))) (n
 Tactic List : 1
 induction nat2(rank:6)
 =================================================
-Progress: 127
+Progress: 128
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
@@ -4804,7 +4852,7 @@ forall (nat1:nat), plus (qmult (nat4) (ZERO) (plus (ZERO) (ZERO))) (nat1) = plus
 Tactic List : 1
 simpl in goal(rank:6)
 =================================================
-Progress: 128
+Progress: 129
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
@@ -4841,7 +4889,7 @@ intro nat1(rank:6)
 rewrite IH1 in goal at 0(rank:14)
 rewrite <- IH1 in goal at 0(rank:14)
 =================================================
-Progress: 129
+Progress: 130
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (qmult (nat3) (nat2) (nat2)) (nat1) = plus (plus (mult (nat3) (nat2)) (nat2)) (nat1)
@@ -4879,7 +4927,7 @@ rewrite IH1 in goal at 0(rank:14)
 rewrite lemma3 in goal at 0(rank:14)
 rewrite <- IH1 in goal at 0(rank:14)
 =================================================
-Progress: 130
+Progress: 131
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)
@@ -4918,7 +4966,7 @@ forall (nat2:nat), plus (mult (nat4) (nat2)) (SUCC (plus (nat5) (nat2))) = plus 
 Tactic List : 1
 reflexivity(rank:0)
 =================================================
-Progress: 131
+Progress: 132
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (mult (nat1) (nat2)) (nat3) = qmult (nat1) (nat2) (nat3)

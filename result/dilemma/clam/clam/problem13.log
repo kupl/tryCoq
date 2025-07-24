@@ -108,11 +108,10 @@ half (SUCC (plus (nat2) (SUCC (nat2)))) = SUCC (nat2)
 Tactic List : 0
 previous tactics
 simpl in goal
-advanced_generalize done
 Lemma : forall (arg1:nat) (nat2:nat), half (SUCC (plus (nat2) (arg1))) = arg1
 Model : arg1: ZERO, nat2: ZERO
 Model : arg1: ZERO, nat2: ZERO
-Model : arg1: SUCC (SUCC (ZERO)), nat2: ZERO
+Model : arg1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -124,9 +123,331 @@ let lst_eq lst1 lst2 =
 prop list:
 half (SUCC (plus (ZERO) (ZERO))) = ZERO
 half (SUCC (plus (ZERO) (ZERO))) = ZERO
-half (SUCC (plus (ZERO) (SUCC (SUCC (ZERO))))) = SUCC (SUCC (ZERO))
-Simplifying took 0.000070 seconds
+half (SUCC (plus (ZERO) (ZERO))) = ZERO
+Simplifying took 0.000052 seconds
+Result : true
+advanced_generalize done
+
+
+1st goal of : forall (nat1:nat), half (plus (nat1) (nat1)) = nat1
+nat1 : nat
+nat2 : nat
+IH1 : half (plus (nat2) (nat2)) = nat2
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+half (SUCC (plus (nat2) (SUCC (nat2)))) = SUCC (nat2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 5
+
+
+1st goal of : forall (nat1:nat), half (plus (nat1) (nat1)) = nat1
+nat1 : nat
+nat2 : nat
+IH1 : half (plus (nat2) (nat2)) = nat2
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+half (SUCC (plus (nat2) (SUCC (nat2)))) = SUCC (nat2)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (arg1:nat) (nat2:nat), half (SUCC (plus (nat2) (arg1))) = arg1(rank : 0)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction nat2(rank:6)
+=================================================
+Progress: 6
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction nat2(rank : 6)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+nat2 : nat
+Base1 : nat2 = ZERO
+---------------------------------------
+forall (nat1:nat), half (SUCC (plus (ZERO) (nat1))) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6)
+=================================================
+Progress: 7
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+nat2 : nat
+Base1 : nat2 = ZERO
+---------------------------------------
+forall (nat1:nat), half (SUCC (plus (ZERO) (nat1))) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+nat2 : nat
+Base1 : nat2 = ZERO
+---------------------------------------
+forall (nat1:nat), half (SUCC (nat1)) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:6)
+=================================================
+Progress: 8
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+nat2 : nat
+Base1 : nat2 = ZERO
+---------------------------------------
+forall (nat1:nat), half (SUCC (nat1)) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro nat1(rank : 6)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+nat2 : nat
+Base1 : nat2 = ZERO
+nat1 : nat
+---------------------------------------
+half (SUCC (nat1)) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro nat1
+Lemma : forall (nat1:nat), half (SUCC (nat1)) = nat1
+Model : nat1: SUCC (ZERO)
+Model : nat1: ZERO
+Model : nat1: SUCC (ZERO)
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+half (SUCC (SUCC (ZERO))) = SUCC (ZERO)
+half (SUCC (ZERO)) = ZERO
+half (SUCC (SUCC (ZERO))) = SUCC (ZERO)
+Simplifying took 0.000051 seconds
+Result : true
+advanced_generalize done
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+nat2 : nat
+Base1 : nat2 = ZERO
+nat1 : nat
+---------------------------------------
+half (SUCC (nat1)) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 9
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), half (SUCC (plus (nat2) (nat1))) = nat1
+nat2 : nat
+Base1 : nat2 = ZERO
+nat1 : nat
+---------------------------------------
+half (SUCC (nat1)) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (nat1:nat), half (SUCC (nat1)) = nat1(rank : 0)
+
+
+1st goal of : forall (nat1:nat), half (SUCC (nat1)) = nat1
+
+---------------------------------------
+forall (nat1:nat), half (SUCC (nat1)) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:7)
+=================================================
+Progress: 10
+
+
+1st goal of : forall (nat1:nat), half (SUCC (nat1)) = nat1
+
+---------------------------------------
+forall (nat1:nat), half (SUCC (nat1)) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat1(rank : 7)
+
+
+1st goal of : forall (nat1:nat), half (SUCC (nat1)) = nat1
+nat1 : nat
+---------------------------------------
+half (SUCC (nat1)) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+Lemma : forall (nat1:nat), half (SUCC (nat1)) = nat1
+Model : nat1: ZERO
+Model : nat1: SUCC (ZERO)
+Model : nat1: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+half (SUCC (ZERO)) = ZERO
+half (SUCC (SUCC (ZERO))) = SUCC (ZERO)
+half (SUCC (ZERO)) = ZERO
+Simplifying took 0.000042 seconds
+Result : true
+advanced_generalize done
+
+
+1st goal of : forall (nat1:nat), half (SUCC (nat1)) = nat1
+nat1 : nat
+---------------------------------------
+half (SUCC (nat1)) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+=================================================
+Progress: 11
+
+
+1st goal of : forall (nat1:nat), half (SUCC (nat1)) = nat1
+nat1 : nat
+---------------------------------------
+half (SUCC (nat1)) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> assert forall (nat1:nat), half (SUCC (nat1)) = nat1(rank : 0)
+
+
+1st goal of : forall (nat1:nat), half (SUCC (nat1)) = nat1
+
+---------------------------------------
+forall (nat1:nat), half (SUCC (nat1)) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:9)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (nat1:nat), half (SUCC (nat1)) = nat1
+
+---------------------------------------
+forall (nat1:nat), half (SUCC (nat1)) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro nat1(rank : 9)
+
+
+1st goal of : forall (nat1:nat), half (SUCC (nat1)) = nat1
+nat1 : nat
+---------------------------------------
+half (SUCC (nat1)) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 0
+Lemma : forall (nat1:nat), half (SUCC (nat1)) = nat1
+Model : nat1: ZERO
+Model : nat1: ZERO
+Model : nat1: SUCC (SUCC (SUCC (ZERO)))
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+half (SUCC (ZERO)) = ZERO
+half (SUCC (ZERO)) = ZERO
+half (SUCC (SUCC (SUCC (SUCC (ZERO))))) = SUCC (SUCC (SUCC (ZERO)))
+Simplifying took 0.000059 seconds
 Result : false
+Lemma : forall (nat1:nat), half (SUCC (nat1)) = nat1
+Model : nat1: ZERO
+Model : nat1: ZERO
+Model : nat1: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+half (SUCC (ZERO)) = ZERO
+half (SUCC (ZERO)) = ZERO
+half (SUCC (ZERO)) = ZERO
+Simplifying took 0.000030 seconds
+Result : true
+advanced_generalize done
 File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
@@ -138,5 +459,5 @@ Here is an example of a case that is not matched:
 []
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 288, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 291, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

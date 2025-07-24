@@ -112,60 +112,6 @@ Tactic List : 0
 previous tactics
 simpl in goal
 advanced_generalize done
-Lemma : forall (any_list2:any list), mk_rhs1 ((Nil)) (any_list2) = any_list2
-Model : any_list2: (Nil)
-Model : any_list2: (7::(Nil))
-Model : any_list2: (0::(Nil))
-Substituting variables...
-Simplifying conditions and property...
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-let rec mk_rhs1 arg_1 arg_2 =
-match (arg_1) with
-| Nil  -> arg_2
-| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_2))
-prop list:
-mk_rhs1 ((Nil)) ((Nil)) = (Nil)
-mk_rhs1 ((Nil)) ((7::(Nil))) = (7::(Nil))
-mk_rhs1 ((Nil)) ((0::(Nil))) = (0::(Nil))
-Simplifying took 0.000073 seconds
-Result : true
-Lemma : forall (tl:any list) (hd:any) (any_list2:any list), mk_rhs1 ((hd::tl)) (any_list2) = mk_rhs1 (tl) ((hd::any_list2))
-Model : tl: (1::(Nil)), hd: 8, any_list2: (Nil)
-Model : tl: (Nil), hd: 4, any_list2: (6::(Nil))
-Model : tl: (Nil), hd: 1, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-let rec mk_rhs1 arg_1 arg_2 =
-match (arg_1) with
-| Nil  -> arg_2
-| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_2))
-prop list:
-mk_rhs1 ((8::(1::(Nil)))) ((Nil)) = mk_rhs1 ((1::(Nil))) ((8::(Nil)))
-mk_rhs1 ((4::(Nil))) ((6::(Nil))) = mk_rhs1 ((Nil)) ((4::(6::(Nil))))
-mk_rhs1 ((1::(Nil))) ((Nil)) = mk_rhs1 ((Nil)) ((1::(Nil)))
-Simplifying took 0.000347 seconds
-Result : true
-Lemma : forall (any_list2:any list) (lst:any list), reverse (qreva (any_list2) (lst)) = mk_rhs1 (lst) (any_list2)
-Model : any_list2: (Nil), lst: (Nil)
-Model : any_list2: (8::(Nil)), lst: (Nil)
-Model : any_list2: (Nil), lst: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-let rec mk_rhs1 arg_1 arg_2 =
-match (arg_1) with
-| Nil  -> arg_2
-| Cons hd tl -> mk_rhs1 (tl) ((hd::arg_2))
-prop list:
-reverse (qreva ((Nil)) ((Nil))) = mk_rhs1 ((Nil)) ((Nil))
-reverse (qreva ((8::(Nil))) ((Nil))) = mk_rhs1 ((Nil)) ((8::(Nil)))
-reverse (qreva ((Nil)) ((Nil))) = mk_rhs1 ((Nil)) ((Nil))
-Simplifying took 0.000176 seconds
-Result : true
 New Env
 let rec mk_rhs1 arg_1 arg_2 =
 match (arg_1) with
@@ -414,9 +360,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-advanced_generalize done
 Lemma : forall (any_list3:any list) (arg3:any list), (mk_rhs1 (any_list3) ((Nil)) @ arg3) = mk_rhs1 (any_list3) (arg3)
-Model : any_list3: (2::(5::(1::(Nil)))), arg3: (6::(Nil))
+Model : any_list3: (Nil), arg3: (0::(Nil))
 Model : any_list3: (Nil), arg3: (Nil)
 Model : any_list3: (Nil), arg3: (Nil)
 Substituting variables...
@@ -428,17 +373,12 @@ match (arg_1) with
 | Nil  -> arg_2
 | Cons hd tl -> mk_rhs1 (tl) ((hd::arg_2))
 prop list:
-(mk_rhs1 ((2::(5::(1::(Nil))))) ((Nil)) @ (6::(Nil))) = mk_rhs1 ((2::(5::(1::(Nil))))) ((6::(Nil)))
+(mk_rhs1 ((Nil)) ((Nil)) @ (0::(Nil))) = mk_rhs1 ((Nil)) ((0::(Nil)))
 (mk_rhs1 ((Nil)) ((Nil)) @ (Nil)) = mk_rhs1 ((Nil)) ((Nil))
 (mk_rhs1 ((Nil)) ((Nil)) @ (Nil)) = mk_rhs1 ((Nil)) ((Nil))
-Simplifying took 0.000571 seconds
+Simplifying took 0.000064 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (any_list3:any list) (arg3:any list), (mk_rhs1 (any_list3) ((Nil)) @ arg3) = mk_rhs1 (any_list3) (arg3)
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), reverse (qreva (any_list1) (any_list2)) = mk_rhs1 (any_list2) (any_list1)
@@ -645,10 +585,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 intro any_list2
-advanced_generalize done
 Lemma : forall (any_list2:any list), reverse (any_list2) = mk_rhs1 (any_list2) ((Nil))
 Model : any_list2: (Nil)
-Model : any_list2: (Nil)
+Model : any_list2: (8::(Nil))
 Model : any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
@@ -660,16 +599,11 @@ match (arg_1) with
 | Cons hd tl -> mk_rhs1 (tl) ((hd::arg_2))
 prop list:
 reverse ((Nil)) = mk_rhs1 ((Nil)) ((Nil))
+reverse ((8::(Nil))) = mk_rhs1 ((8::(Nil))) ((Nil))
 reverse ((Nil)) = mk_rhs1 ((Nil)) ((Nil))
-reverse ((Nil)) = mk_rhs1 ((Nil)) ((Nil))
-Simplifying took 0.000039 seconds
+Simplifying took 0.000142 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (any_list2:any list), reverse (any_list2) = mk_rhs1 (any_list2) ((Nil))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), reverse (qreva (any_list1) (any_list2)) = mk_rhs1 (any_list2) (any_list1)
@@ -887,11 +821,10 @@ rewrite <- IH1 in goal at 1
 rewrite <- IH1 in goal at 1
 intro any_list2
 rewrite <- IH1 in goal at 2
-advanced_generalize done
 Lemma : forall (any1:any) (any_list2:any list) (arg4:any list), (((arg4 @ (Nil)) @ (any1::(Nil))) @ any_list2) = (arg4 @ (any1::any_list2))
-Model : any1: 3, any_list2: (3::(Nil)), arg4: (Nil)
-Model : any1: 8, any_list2: (Nil), arg4: (Nil)
-Model : any1: 8, any_list2: (7::(Nil)), arg4: (Nil)
+Model : any1: 0, any_list2: (2::(Nil)), arg4: (6::(Nil))
+Model : any1: 0, any_list2: (Nil), arg4: (5::(Nil))
+Model : any1: 2, any_list2: (4::(Nil)), arg4: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let lst_eq lst1 lst2 =
@@ -901,17 +834,12 @@ match (arg_1) with
 | Nil  -> arg_2
 | Cons hd tl -> mk_rhs1 (tl) ((hd::arg_2))
 prop list:
-((((Nil) @ (Nil)) @ (3::(Nil))) @ (3::(Nil))) = ((Nil) @ (3::(3::(Nil))))
-((((Nil) @ (Nil)) @ (8::(Nil))) @ (Nil)) = ((Nil) @ (8::(Nil)))
-((((Nil) @ (Nil)) @ (8::(Nil))) @ (7::(Nil))) = ((Nil) @ (8::(7::(Nil))))
-Simplifying took 0.000386 seconds
+((((6::(Nil)) @ (Nil)) @ (0::(Nil))) @ (2::(Nil))) = ((6::(Nil)) @ (0::(2::(Nil))))
+((((5::(Nil)) @ (Nil)) @ (0::(Nil))) @ (Nil)) = ((5::(Nil)) @ (0::(Nil)))
+((((Nil) @ (Nil)) @ (2::(Nil))) @ (4::(Nil))) = ((Nil) @ (2::(4::(Nil))))
+Simplifying took 0.000471 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (any1:any) (any_list2:any list) (arg4:any list), (((arg4 @ (Nil)) @ (any1::(Nil))) @ any_list2) = (arg4 @ (any1::any_list2))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), (mk_rhs1 (any_list1) ((Nil)) @ any_list2) = mk_rhs1 (any_list1) (any_list2)

@@ -127,9 +127,8 @@ ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (nat2) (ZERO) then ZERO 
 Tactic List : 0
 previous tactics
 simpl in goal
-advanced_generalize done
 Lemma : forall (nat2:nat), ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (nat2) (ZERO) then ZERO else innerLoop (ZERO) (nat2) (nat2)
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
@@ -141,16 +140,53 @@ match (n1) with
 let rec natmul n1 n2 =
 if || (nat_eq (n1) (ZERO)) (nat_eq (n2) (ZERO)) then ZERO else innerLoop (n1) (n2) (n2)
 prop list:
+ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (ZERO) (ZERO) then ZERO else innerLoop (ZERO) (ZERO) (ZERO)
+ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (ZERO) (ZERO) then ZERO else innerLoop (ZERO) (ZERO) (ZERO)
+ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (ZERO) (ZERO) then ZERO else innerLoop (ZERO) (ZERO) (ZERO)
+Simplifying took 0.000018 seconds
+Result : false
+Lemma : forall (nat2:nat), ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (nat2) (ZERO) then ZERO else innerLoop (ZERO) (nat2) (nat2)
+Model : nat2: ZERO
+Model : nat2: ZERO
+Model : nat2: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec innerLoop n1 n2 maintain =
+match (n1) with
+| SUCC ZERO  -> n2
+| SUCC sub_count -> innerLoop (sub_count) (natadd (maintain) (n2)) (maintain)
+let rec natmul n1 n2 =
+if || (nat_eq (n1) (ZERO)) (nat_eq (n2) (ZERO)) then ZERO else innerLoop (n1) (n2) (n2)
+prop list:
+ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (ZERO) (ZERO) then ZERO else innerLoop (ZERO) (ZERO) (ZERO)
+ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (ZERO) (ZERO) then ZERO else innerLoop (ZERO) (ZERO) (ZERO)
+ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (ZERO) (ZERO) then ZERO else innerLoop (ZERO) (ZERO) (ZERO)
+Simplifying took 0.000014 seconds
+Result : false
+Lemma : forall (nat2:nat), ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (nat2) (ZERO) then ZERO else innerLoop (ZERO) (nat2) (nat2)
+Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec innerLoop n1 n2 maintain =
+match (n1) with
+| SUCC ZERO  -> n2
+| SUCC sub_count -> innerLoop (sub_count) (natadd (maintain) (n2)) (maintain)
+let rec natmul n1 n2 =
+if || (nat_eq (n1) (ZERO)) (nat_eq (n2) (ZERO)) then ZERO else innerLoop (n1) (n2) (n2)
+prop list:
+ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (ZERO) (ZERO) then ZERO else innerLoop (ZERO) (ZERO) (ZERO)
 ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (SUCC (ZERO)) (ZERO) then ZERO else innerLoop (ZERO) (SUCC (ZERO)) (SUCC (ZERO))
 ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (ZERO) (ZERO) then ZERO else innerLoop (ZERO) (ZERO) (ZERO)
-ZERO = if if nat_eq (ZERO) (ZERO) then true else nat_eq (ZERO) (ZERO) then ZERO else innerLoop (ZERO) (ZERO) (ZERO)
-Simplifying took 0.000022 seconds
+Simplifying took 0.000014 seconds
 Result : false
+advanced_generalize done
 File "_none_", lines 14-16, characters 2-73:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
 ZERO
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 288, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 291, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

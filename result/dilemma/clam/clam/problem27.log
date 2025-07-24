@@ -145,10 +145,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-advanced_generalize done
 Lemma : forall (arg1:any list) (nat_list2:nat list), (qreva (nat_list2) ((Nil)) @ arg1) = qreva (nat_list2) (arg1)
-Model : arg1: (Nil), nat_list2: (Nil)
-Model : arg1: (7::(Nil)), nat_list2: (Nil)
+Model : arg1: (Nil), nat_list2: (ZERO::(Nil))
+Model : arg1: (6::(Nil)), nat_list2: (Nil)
 Model : arg1: (Nil), nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
@@ -159,17 +158,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+(qreva ((ZERO::(Nil))) ((Nil)) @ (Nil)) = qreva ((ZERO::(Nil))) ((Nil))
+(qreva ((Nil)) ((Nil)) @ (6::(Nil))) = qreva ((Nil)) ((6::(Nil)))
 (qreva ((Nil)) ((Nil)) @ (Nil)) = qreva ((Nil)) ((Nil))
-(qreva ((Nil)) ((Nil)) @ (7::(Nil))) = qreva ((Nil)) ((7::(Nil)))
-(qreva ((Nil)) ((Nil)) @ (Nil)) = qreva ((Nil)) ((Nil))
-Simplifying took 0.000102 seconds
+Simplifying took 0.000127 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (arg1:any list) (nat_list2:nat list), (qreva (nat_list2) ((Nil)) @ arg1) = qreva (nat_list2) (arg1)
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat_list1:nat list), reverse (nat_list1) = qreva (nat_list1) ((Nil))
@@ -519,10 +513,9 @@ rewrite <- IH1 in goal at 1
 rewrite <- IH1 in goal at 1
 intro any_list1
 rewrite <- IH1 in goal at 2
-advanced_generalize done
 Lemma : forall (any_list1:any list) (arg2:any list) (nat1:nat), (((arg2 @ (Nil)) @ (nat1::(Nil))) @ any_list1) = (arg2 @ (nat1::any_list1))
-Model : any_list1: (Nil), arg2: (0::(Nil)), nat1: ZERO
-Model : any_list1: (Nil), arg2: (Nil), nat1: ZERO
+Model : any_list1: (Nil), arg2: (Nil), nat1: SUCC (ZERO)
+Model : any_list1: (1::(8::(0::(Nil)))), arg2: (Nil), nat1: ZERO
 Model : any_list1: (Nil), arg2: (Nil), nat1: ZERO
 Substituting variables...
 Simplifying conditions and property...
@@ -533,17 +526,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-((((0::(Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)) = ((0::(Nil)) @ (ZERO::(Nil)))
+((((Nil) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (Nil)) = ((Nil) @ (SUCC (ZERO)::(Nil)))
+((((Nil) @ (Nil)) @ (ZERO::(Nil))) @ (1::(8::(0::(Nil))))) = ((Nil) @ (ZERO::(1::(8::(0::(Nil))))))
 ((((Nil) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)) = ((Nil) @ (ZERO::(Nil)))
-((((Nil) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)) = ((Nil) @ (ZERO::(Nil)))
-Simplifying took 0.000194 seconds
+Simplifying took 0.000232 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (any_list1:any list) (arg2:any list) (nat1:nat), (((arg2 @ (Nil)) @ (nat1::(Nil))) @ any_list1) = (arg2 @ (nat1::any_list1))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (any_list1:any list) (nat_list1:nat list), (qreva (nat_list1) ((Nil)) @ any_list1) = qreva (nat_list1) (any_list1)

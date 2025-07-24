@@ -153,7 +153,7 @@ let rec progress worklist statelist lemma_set =
         (">>> " ^ Proof.pp_tactic work.tactic ^ "(rank : " ^ string_of_int work.rank ^ ")")
     in
     let _ = Proof.pp_t work.next_t.t |> print_endline in
-    (* let _ = if i = 11 then Proof.proof_top work.next_t.t in *)
+    let _ = if i = 170 then Proof.proof_top work.next_t.t in
     let lemma_set =
       match is_end_of_conj work.t.t work.next_t.t with
       | true ->

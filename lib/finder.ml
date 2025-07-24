@@ -42,11 +42,6 @@ let rec pp_subtree (subtree : subtree) : string =
 ;;
 
 let rec difference_of_subtree induction_vars subtree1 subtree2 =
-  (*
-     have to convert here!!!
-     have to fill with lower => None
-     have to fill with mk tl => Sub_None
-  *)
   match subtree2.desc with
   | Some (Sub_Call (name, args)) ->
     if equal_with_induction_vars induction_vars subtree1 subtree2
@@ -1183,6 +1178,36 @@ let rec generalize_common_subterm goal =
       generalize_common_subterm new_goal))
 ;;
 
+let rec get_child_pair lhs rhs =
+  match lhs.Ir.desc, rhs.Ir.desc with
+  | Call (name1, args1), Call (name2, args2) when name1 = name2 ->
+    List.fold_left2
+      (fun acc arg1 arg2 ->
+         let child_pair = get_child_pair arg1 arg2 in
+         child_pair @ acc)
+      []
+      args1
+      args2
+  | _ when Ir.is_equal_expr lhs rhs -> []
+  | _ -> [ lhs, rhs ]
+;;
+
+let generalize_child goal : lemma list =
+  let lhs = Proof.get_lhs goal in
+  let rhs = Proof.get_rhs goal in
+  let child_pairs = get_child_pair lhs rhs in
+  List.map (fun (lhs, rhs) -> Proof.Eq (lhs, rhs)) child_pairs
+;;
+
+let make_goal_no_free_var facts goal =
+  let goal = if List.is_empty facts then goal else Proof.Imply (facts, goal) in
+  let goal =
+    let qvars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
+    Proof.Forall (qvars, goal)
+  in
+  goal
+;;
+
 let naive_generalize t : lemma list =
   let state = Proof.get_first_state t in
   let facts, goal, _ = state in
@@ -1199,18 +1224,23 @@ let naive_generalize t : lemma list =
       | _ -> goal
     in
     let generalize_common_subterm = generalize_common_subterm goal in
-    let generalize_common_subterm =
-      if List.is_empty facts
-      then generalize_common_subterm
-      else Proof.Imply (facts, generalize_common_subterm)
-    in
     let generalize_common_subterm_goal =
-      let qvars =
-        collect_free_var_in_prop generalize_common_subterm [] |> List.sort_uniq compare
-      in
-      [ Proof.Forall (qvars, generalize_common_subterm) ]
+      make_goal_no_free_var facts generalize_common_subterm
     in
-    generalize_common_subterm_goal)
+    match Validate.validate t.env generalize_common_subterm_goal with
+    | true -> [ generalize_common_subterm_goal ]
+    | false ->
+      let generalize_child_goals = generalize_child goal in
+      let generalize_child_goals =
+        List.map (make_goal_no_free_var facts) generalize_child_goals
+      in
+      (match List.for_all (Validate.validate t.env) generalize_child_goals with
+       | true -> generalize_child_goals
+       | false ->
+         let just_generalize_goal = make_goal_no_free_var facts goal in
+         (match Validate.validate t.env just_generalize_goal with
+          | true -> [ just_generalize_goal ]
+          | false -> [])))
 ;;
 
 let rec is_trivial goal =
@@ -1296,56 +1326,46 @@ let find_lemma (t : proof_node) lemma_set : (proof_node * lemma list) list =
   let t_lemmas_list =
     List.fold_left
       (fun acc ((new_t : proof_node), lemmas) ->
-         let false_lemmas =
-           List.filter
+         if
+           List.for_all
              (fun lemma ->
-                let t = new_t.Prover.t in
-                not (Validate.validate t.Proof.env lemma))
+                Prover.LemmaSet.exists
+                  (fun (goal', lemma', _) -> original_goal = goal' && lemma = lemma')
+                  lemma_set)
              lemmas
-         in
-         match false_lemmas with
-         | _ :: _ -> acc
-         | _ ->
-           if
-             List.for_all
+           && not (List.is_empty lemmas)
+         then acc
+         else if
+           List.for_all
+             (fun lemma ->
+                Prover.LemmaSet.exists
+                  (fun (_, lemma', tactic) ->
+                     lemma = lemma' && not (List.is_empty tactic))
+                  lemma_set)
+             lemmas
+           && not (List.is_empty lemmas)
+         then (
+           let pre_lemmas =
+             List.map
                (fun lemma ->
-                  Prover.LemmaSet.exists
-                    (fun (goal', lemma', _) -> original_goal = goal' && lemma = lemma')
-                    lemma_set)
-               lemmas
-             && not (List.is_empty lemmas)
-           then acc
-           else if
-             List.for_all
-               (fun lemma ->
-                  Prover.LemmaSet.exists
+                  List.find
                     (fun (_, lemma', tactic) ->
                        lemma = lemma' && not (List.is_empty tactic))
-                    lemma_set)
+                    (lemma_set |> Prover.LemmaSet.to_list))
                lemmas
-             && not (List.is_empty lemmas)
-           then (
-             let pre_lemmas =
-               List.map
-                 (fun lemma ->
-                    List.find
-                      (fun (_, lemma', tactic) ->
-                         lemma = lemma' && not (List.is_empty tactic))
-                      (lemma_set |> Prover.LemmaSet.to_list))
-                 lemmas
-             in
-             let new_t =
-               List.fold_left
-                 (fun acc (_, _, tactic) ->
-                    List.fold_left
-                      (fun acc tactic -> Prover.just_apply_tactic acc tactic)
-                      acc
-                      tactic)
-                 new_t
-                 pre_lemmas
-             in
-             (new_t, []) :: acc)
-           else (new_t, lemmas) :: acc)
+           in
+           let new_t =
+             List.fold_left
+               (fun acc (_, _, tactic) ->
+                  List.fold_left
+                    (fun acc tactic -> Prover.just_apply_tactic acc tactic)
+                    acc
+                    tactic)
+               new_t
+               pre_lemmas
+           in
+           (new_t, []) :: acc)
+         else (new_t, lemmas) :: acc)
       []
       t_lemmas_list
   in

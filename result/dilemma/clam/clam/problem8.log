@@ -887,10 +887,9 @@ previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 rewrite IH2 in goal at 0
-advanced_generalize done
 Lemma : forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (nat5) (drop (SUCC (nat3)) (nat_list2)) = drop (SUCC (nat5)) (drop (nat3) (nat_list2))
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (ZERO::(Nil))
-Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (SUCC (ZERO)::(Nil))
+Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
+Model : nat3: SUCC (ZERO), nat5: ZERO, nat_list2: (Nil)
 Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
@@ -901,17 +900,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-drop (ZERO) (drop (SUCC (ZERO)) ((ZERO::(Nil)))) = drop (SUCC (ZERO)) (drop (ZERO) ((ZERO::(Nil))))
-drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((SUCC (ZERO)::(Nil)))) = drop (SUCC (SUCC (ZERO))) (drop (ZERO) ((SUCC (ZERO)::(Nil))))
 drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil))) = drop (SUCC (SUCC (ZERO))) (drop (ZERO) ((Nil)))
-Simplifying took 0.000169 seconds
+drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil))) = drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil)))
+drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil))) = drop (SUCC (SUCC (ZERO))) (drop (ZERO) ((Nil)))
+Simplifying took 0.000122 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (nat5) (drop (SUCC (nat3)) (nat_list2)) = drop (SUCC (nat5)) (drop (nat3) (nat_list2))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), drop (nat1) (drop (nat2) (nat_list1)) = drop (nat2) (drop (nat1) (nat_list1))
@@ -1024,11 +1018,10 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH2 in goal at 0
-advanced_generalize done
 Lemma : forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (nat5) (drop (SUCC (nat3)) (nat_list2)) = drop (nat3) (drop (SUCC (nat5)) (nat_list2))
+Model : nat3: SUCC (ZERO), nat5: ZERO, nat_list2: (Nil)
 Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (SUCC (ZERO)::(Nil))
+Model : nat3: ZERO, nat5: SUCC (SUCC (ZERO)), nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -1038,17 +1031,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil))) = drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil)))
 drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil)))
-drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
-drop (ZERO) (drop (SUCC (ZERO)) ((SUCC (ZERO)::(Nil)))) = drop (ZERO) (drop (SUCC (ZERO)) ((SUCC (ZERO)::(Nil))))
-Simplifying took 0.000129 seconds
+drop (SUCC (SUCC (ZERO))) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (SUCC (SUCC (ZERO)))) ((Nil)))
+Simplifying took 0.000125 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (nat5) (drop (SUCC (nat3)) (nat_list2)) = drop (nat3) (drop (SUCC (nat5)) (nat_list2))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), drop (nat1) (drop (nat2) (nat_list1)) = drop (nat2) (drop (nat1) (nat_list1))
@@ -1834,11 +1822,10 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 0
-advanced_generalize done
 Lemma : forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (SUCC (nat5)) (drop (nat3) (nat_list2)) = drop (nat5) (drop (SUCC (nat3)) (nat_list2))
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (ZERO::(Nil))
-Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
+Model : nat3: SUCC (ZERO), nat5: ZERO, nat_list2: (Nil)
+Model : nat3: SUCC (ZERO), nat5: ZERO, nat_list2: (Nil)
+Model : nat3: SUCC (ZERO), nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -1848,17 +1835,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-drop (SUCC (ZERO)) (drop (ZERO) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
-drop (SUCC (ZERO)) (drop (ZERO) ((ZERO::(Nil)))) = drop (ZERO) (drop (SUCC (ZERO)) ((ZERO::(Nil))))
-drop (SUCC (ZERO)) (drop (ZERO) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
-Simplifying took 0.000133 seconds
+drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil)))
+drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil)))
+drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil)))
+Simplifying took 0.000110 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (SUCC (nat5)) (drop (nat3) (nat_list2)) = drop (nat5) (drop (SUCC (nat3)) (nat_list2))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), drop (nat1) (drop (nat2) (nat_list1)) = drop (nat2) (drop (nat1) (nat_list1))
@@ -1971,10 +1953,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH2 in goal at 0
-advanced_generalize done
 Lemma : forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (nat3) (drop (SUCC (nat5)) (nat_list2)) = drop (nat5) (drop (SUCC (nat3)) (nat_list2))
-Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
 Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
+Model : nat3: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
 Model : nat3: ZERO, nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
@@ -1985,17 +1966,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
 drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil))) = drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil)))
 drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
-drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
-Simplifying took 0.000104 seconds
+Simplifying took 0.000099 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (nat3:nat) (nat5:nat) (nat_list2:nat list), drop (nat3) (drop (SUCC (nat5)) (nat_list2)) = drop (nat5) (drop (SUCC (nat3)) (nat_list2))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), drop (nat1) (drop (nat2) (nat_list1)) = drop (nat2) (drop (nat1) (nat_list1))
@@ -2907,10 +2883,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 1
-advanced_generalize done
 Lemma : forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (nat5) (drop (SUCC (nat4)) (nat_list2)) = drop (nat4) (drop (SUCC (nat5)) (nat_list2))
-Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
 Model : nat4: ZERO, nat5: ZERO, nat_list2: (ZERO::(Nil))
+Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
 Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
@@ -2921,17 +2896,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
 drop (ZERO) (drop (SUCC (ZERO)) ((ZERO::(Nil)))) = drop (ZERO) (drop (SUCC (ZERO)) ((ZERO::(Nil))))
 drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
-Simplifying took 0.000124 seconds
+drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
+Simplifying took 0.000115 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (nat5) (drop (SUCC (nat4)) (nat_list2)) = drop (nat4) (drop (SUCC (nat5)) (nat_list2))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), drop (nat1) (drop (nat2) (nat_list1)) = drop (nat2) (drop (nat1) (nat_list1))
@@ -3044,11 +3014,10 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 2
-advanced_generalize done
 Lemma : forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (SUCC (nat4)) (drop (nat5) (nat_list2)) = drop (SUCC (nat5)) (drop (nat4) (nat_list2))
+Model : nat4: ZERO, nat5: SUCC (SUCC (ZERO)), nat_list2: (ZERO::(ZERO::(Nil)))
 Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
 Model : nat4: ZERO, nat5: ZERO, nat_list2: (ZERO::(Nil))
-Model : nat4: SUCC (ZERO), nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -3058,17 +3027,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+drop (SUCC (ZERO)) (drop (SUCC (SUCC (ZERO))) ((ZERO::(ZERO::(Nil))))) = drop (SUCC (SUCC (SUCC (ZERO)))) (drop (ZERO) ((ZERO::(ZERO::(Nil)))))
 drop (SUCC (ZERO)) (drop (ZERO) ((Nil))) = drop (SUCC (ZERO)) (drop (ZERO) ((Nil)))
 drop (SUCC (ZERO)) (drop (ZERO) ((ZERO::(Nil)))) = drop (SUCC (ZERO)) (drop (ZERO) ((ZERO::(Nil))))
-drop (SUCC (SUCC (ZERO))) (drop (ZERO) ((Nil))) = drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil)))
-Simplifying took 0.000140 seconds
+Simplifying took 0.000203 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (SUCC (nat4)) (drop (nat5) (nat_list2)) = drop (SUCC (nat5)) (drop (nat4) (nat_list2))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), drop (nat1) (drop (nat2) (nat_list1)) = drop (nat2) (drop (nat1) (nat_list1))
@@ -3481,11 +3445,10 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 1
-advanced_generalize done
 Lemma : forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (SUCC (nat5)) (drop (nat4) (nat_list2)) = drop (SUCC (nat4)) (drop (nat5) (nat_list2))
-Model : nat4: ZERO, nat5: ZERO, nat_list2: (SUCC (ZERO)::(Nil))
-Model : nat4: SUCC (ZERO), nat5: ZERO, nat_list2: (ZERO::(Nil))
+Model : nat4: SUCC (ZERO), nat5: ZERO, nat_list2: (Nil)
 Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
+Model : nat4: ZERO, nat5: ZERO, nat_list2: (ZERO::(Nil))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -3495,17 +3458,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-drop (SUCC (ZERO)) (drop (ZERO) ((SUCC (ZERO)::(Nil)))) = drop (SUCC (ZERO)) (drop (ZERO) ((SUCC (ZERO)::(Nil))))
-drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((ZERO::(Nil)))) = drop (SUCC (SUCC (ZERO))) (drop (ZERO) ((ZERO::(Nil))))
+drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil))) = drop (SUCC (SUCC (ZERO))) (drop (ZERO) ((Nil)))
 drop (SUCC (ZERO)) (drop (ZERO) ((Nil))) = drop (SUCC (ZERO)) (drop (ZERO) ((Nil)))
-Simplifying took 0.000168 seconds
+drop (SUCC (ZERO)) (drop (ZERO) ((ZERO::(Nil)))) = drop (SUCC (ZERO)) (drop (ZERO) ((ZERO::(Nil))))
+Simplifying took 0.000127 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (SUCC (nat5)) (drop (nat4) (nat_list2)) = drop (SUCC (nat4)) (drop (nat5) (nat_list2))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), drop (nat1) (drop (nat2) (nat_list1)) = drop (nat2) (drop (nat1) (nat_list1))
@@ -3618,11 +3576,10 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 2
-advanced_generalize done
 Lemma : forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (nat4) (drop (SUCC (nat5)) (nat_list2)) = drop (nat5) (drop (SUCC (nat4)) (nat_list2))
+Model : nat4: ZERO, nat5: SUCC (SUCC (SUCC (ZERO))), nat_list2: (Nil)
+Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
 Model : nat4: ZERO, nat5: SUCC (ZERO), nat_list2: (Nil)
-Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
-Model : nat4: ZERO, nat5: ZERO, nat_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -3632,17 +3589,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+drop (ZERO) (drop (SUCC (SUCC (SUCC (SUCC (ZERO))))) ((Nil))) = drop (SUCC (SUCC (SUCC (ZERO)))) (drop (SUCC (ZERO)) ((Nil)))
+drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
 drop (ZERO) (drop (SUCC (SUCC (ZERO))) ((Nil))) = drop (SUCC (ZERO)) (drop (SUCC (ZERO)) ((Nil)))
-drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
-drop (ZERO) (drop (SUCC (ZERO)) ((Nil))) = drop (ZERO) (drop (SUCC (ZERO)) ((Nil)))
-Simplifying took 0.000109 seconds
+Simplifying took 0.000113 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (nat4:nat) (nat5:nat) (nat_list2:nat list), drop (nat4) (drop (SUCC (nat5)) (nat_list2)) = drop (nat5) (drop (SUCC (nat4)) (nat_list2))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), drop (nat1) (drop (nat2) (nat_list1)) = drop (nat2) (drop (nat1) (nat_list1))

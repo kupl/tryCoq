@@ -145,11 +145,10 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-advanced_generalize done
 Lemma : forall (arg1:any list) (int1:int), len (insort (int1) (arg1)) = SUCC (len (arg1))
+Model : arg1: (Nil), int1: 0
 Model : arg1: (Nil), int1: -0
-Model : arg1: (Nil), int1: 0
-Model : arg1: (Nil), int1: 0
+Model : arg1: (0::(6::(1::(4::(Nil))))), int1: 0
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -159,17 +158,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+len (insort (0) ((Nil))) = SUCC (len ((Nil)))
 len (insort (-0) ((Nil))) = SUCC (len ((Nil)))
-len (insort (0) ((Nil))) = SUCC (len ((Nil)))
-len (insort (0) ((Nil))) = SUCC (len ((Nil)))
-Simplifying took 0.000088 seconds
+len (insort (0) ((0::(6::(1::(4::(Nil))))))) = SUCC (len ((0::(6::(1::(4::(Nil)))))))
+Simplifying took 0.000747 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (arg1:any list) (int1:int), len (insort (int1) (arg1)) = SUCC (len (arg1))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (int_list1:int list), len (sort (int_list1)) = len (int_list1)

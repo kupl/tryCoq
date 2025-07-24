@@ -111,10 +111,9 @@ rotate (len (any_list2)) ((any_list2 @ (any1::(Nil)))) = (any1::any_list2)
 Tactic List : 0
 previous tactics
 simpl in goal
-advanced_generalize done
 Lemma : forall (any1:any) (any_list2:any list), rotate (len (any_list2)) ((any_list2 @ (any1::(Nil)))) = (any1::any_list2)
-Model : any1: 4, any_list2: (6::(Nil))
-Model : any1: 8, any_list2: (Nil)
+Model : any1: 3, any_list2: (Nil)
+Model : any1: 2, any_list2: (Nil)
 Model : any1: 6, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
@@ -125,17 +124,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-rotate (len ((6::(Nil)))) (((6::(Nil)) @ (4::(Nil)))) = (4::(6::(Nil)))
-rotate (len ((Nil))) (((Nil) @ (8::(Nil)))) = (8::(Nil))
+rotate (len ((Nil))) (((Nil) @ (3::(Nil)))) = (3::(Nil))
+rotate (len ((Nil))) (((Nil) @ (2::(Nil)))) = (2::(Nil))
 rotate (len ((Nil))) (((Nil) @ (6::(Nil)))) = (6::(Nil))
-Simplifying took 0.000408 seconds
+Simplifying took 0.000170 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (any1:any) (any_list2:any list), rotate (len (any_list2)) ((any_list2 @ (any1::(Nil)))) = (any1::any_list2)
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (any_list1:any list), rotate (len (any_list1)) (any_list1) = any_list1
@@ -342,11 +336,10 @@ previous tactics
 simpl in goal
 intro any1
 rewrite <- IH1 in goal at 0
-advanced_generalize done
 Lemma : forall (any1:any) (any_list2:any list) (arg1:any list) (arg2:nat), rotate (arg2) (((any_list2 @ (any1::(Nil))) @ arg1)) = (any1::rotate (arg2) ((any_list2 @ arg1)))
-Model : any1: 4, any_list2: (Nil), arg1: (Nil), arg2: SUCC (ZERO)
-Model : any1: 2, any_list2: (6::(Nil)), arg1: (Nil), arg2: ZERO
-Model : any1: 8, any_list2: (7::(Nil)), arg1: (Nil), arg2: ZERO
+Model : any1: 3, any_list2: (Nil), arg1: (Nil), arg2: ZERO
+Model : any1: 2, any_list2: (Nil), arg1: (Nil), arg2: ZERO
+Model : any1: 3, any_list2: (Nil), arg1: (Nil), arg2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -356,13 +349,811 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-rotate (SUCC (ZERO)) ((((Nil) @ (4::(Nil))) @ (Nil))) = (4::rotate (SUCC (ZERO)) (((Nil) @ (Nil))))
-rotate (ZERO) ((((6::(Nil)) @ (2::(Nil))) @ (Nil))) = (2::rotate (ZERO) (((6::(Nil)) @ (Nil))))
-rotate (ZERO) ((((7::(Nil)) @ (8::(Nil))) @ (Nil))) = (8::rotate (ZERO) (((7::(Nil)) @ (Nil))))
-Simplifying took 0.000739 seconds
-Result : false
+rotate (ZERO) ((((Nil) @ (3::(Nil))) @ (Nil))) = (3::rotate (ZERO) (((Nil) @ (Nil))))
+rotate (ZERO) ((((Nil) @ (2::(Nil))) @ (Nil))) = (2::rotate (ZERO) (((Nil) @ (Nil))))
+rotate (ZERO) ((((Nil) @ (3::(Nil))) @ (Nil))) = (3::rotate (ZERO) (((Nil) @ (Nil))))
+Simplifying took 0.000278 seconds
+Result : true
+advanced_generalize done
+
+
+1st goal of : forall (any1:any) (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (any1::(Nil)))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), rotate (len (any_list2)) ((any_list2 @ (any1::(Nil)))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+rotate (len (any_list2)) (((any_list2 @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::rotate (len (any_list2)) ((any_list2 @ (any2::(Nil)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
 =================================================
 Progress: 11
+
+
+1st goal of : forall (any1:any) (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (any1::(Nil)))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), rotate (len (any_list2)) ((any_list2 @ (any1::(Nil)))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+rotate (len (any_list2)) (((any_list2 @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::rotate (len (any_list2)) ((any_list2 @ (any2::(Nil)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (any1:any) (any_list2:any list) (arg1:any list) (arg2:nat), rotate (arg2) (((any_list2 @ (any1::(Nil))) @ arg1)) = (any1::rotate (arg2) ((any_list2 @ arg1)))(rank : 0)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:8)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction any_list1(rank : 8)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any_list2:any list) (nat1:nat), rotate (nat1) ((((Nil) @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) (((Nil) @ any_list2)))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:8)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any_list2:any list) (nat1:nat), rotate (nat1) ((((Nil) @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) (((Nil) @ any_list2)))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 8)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any_list2:any list) (nat1:nat), rotate (nat1) ((any1::any_list2)) = (any1::rotate (nat1) (any_list2))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+induction any_list2(rank:9)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any_list2:any list) (nat1:nat), rotate (nat1) ((any1::any_list2)) = (any1::rotate (nat1) (any_list2))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction any_list2(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+---------------------------------------
+forall (any1:any) (nat1:nat), rotate (nat1) ((any1::(Nil))) = (any1::rotate (nat1) ((Nil)))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+induction nat1(rank:10)
+=================================================
+Progress: 15
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+---------------------------------------
+forall (any1:any) (nat1:nat), rotate (nat1) ((any1::(Nil))) = (any1::rotate (nat1) ((Nil)))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction nat1(rank : 10)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+Base3 : nat1 = ZERO
+---------------------------------------
+forall (any1:any), rotate (ZERO) ((any1::(Nil))) = (any1::rotate (ZERO) ((Nil)))
+
+3 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:9)
+=================================================
+Progress: 16
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+Base3 : nat1 = ZERO
+---------------------------------------
+forall (any1:any), rotate (ZERO) ((any1::(Nil))) = (any1::rotate (ZERO) ((Nil)))
+
+3 goal(s) more...
+
+2 conjecture(s) more...
+>>> reflexivity(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (SUCC (nat2)) ((any1::(Nil))) = (any1::rotate (SUCC (nat2)) ((Nil)))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:9)
+=================================================
+Progress: 17
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (SUCC (nat2)) ((any1::(Nil))) = (any1::rotate (SUCC (nat2)) ((Nil)))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+intro any1(rank:9)
+rewrite IH1 in goal at 0(rank:25)
+=================================================
+Progress: 18
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro any1(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+rotate (nat2) ((any1::(Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:9)
+=================================================
+Progress: 19
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+rotate (nat2) ((any1::(Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+(any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+rewrite IH1 in goal at 0
+Lemma : forall (any1:any) (nat2:nat), (any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+Model : any1: 2, nat2: ZERO
+Model : any1: 8, nat2: ZERO
+Model : any1: 0, nat2: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(2::rotate (ZERO) ((Nil))) = (2::(Nil))
+(8::rotate (ZERO) ((Nil))) = (8::(Nil))
+(0::rotate (ZERO) ((Nil))) = (0::(Nil))
+Simplifying took 0.000078 seconds
+Result : true
+advanced_generalize done
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+(any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+=================================================
+Progress: 20
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+(any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> assert forall (any1:any) (nat2:nat), (any1::rotate (nat2) ((Nil))) = (any1::(Nil))(rank : 0)
+
+
+1st goal of : forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
+
+---------------------------------------
+forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+induction nat1(rank:10)
+=================================================
+Progress: 21
+
+
+1st goal of : forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
+
+---------------------------------------
+forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> induction nat1(rank : 10)
+
+
+1st goal of : forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+forall (any1:any), (any1::rotate (ZERO) ((Nil))) = (any1::(Nil))
+
+1 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:9)
+=================================================
+Progress: 22
+
+
+1st goal of : forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+forall (any1:any), (any1::rotate (ZERO) ((Nil))) = (any1::(Nil))
+
+1 goal(s) more...
+
+3 conjecture(s) more...
+>>> reflexivity(rank : 9)
+
+
+1st goal of : forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), (any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), (any1::rotate (SUCC (nat2)) ((Nil))) = (any1::(Nil))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+reflexivity(rank:9)
+=================================================
+Progress: 23
+
+
+1st goal of : forall (any1:any) (nat1:nat), (any1::rotate (nat1) ((Nil))) = (any1::(Nil))
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), (any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), (any1::rotate (SUCC (nat2)) ((Nil))) = (any1::(Nil))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> reflexivity(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+(any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+rewrite lemma3 in goal at 0(rank:9)
+=================================================
+Progress: 24
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+(any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite lemma3 in goal at 0(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+(any1::(Nil)) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:8)
+=================================================
+Progress: 25
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+(any1::(Nil)) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> reflexivity(rank : 8)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (nat1:nat), rotate (nat1) ((any1::any_list3)) = (any1::rotate (nat1) (any_list3))
+Inductive1 : any_list2 = (any2::any_list3)
+---------------------------------------
+forall (any1:any) (nat1:nat), rotate (nat1) ((any1::(any2::any_list3))) = (any1::rotate (nat1) ((any2::any_list3)))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Deduplication: 1
+Tactic List : 1
+induction nat1(rank:9)
+=================================================
+Progress: 26
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (nat1:nat), rotate (nat1) ((any1::any_list3)) = (any1::rotate (nat1) (any_list3))
+Inductive1 : any_list2 = (any2::any_list3)
+---------------------------------------
+forall (any1:any) (nat1:nat), rotate (nat1) ((any1::(any2::any_list3))) = (any1::rotate (nat1) ((any2::any_list3)))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction nat1(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (nat1:nat), rotate (nat1) ((any1::any_list3)) = (any1::rotate (nat1) (any_list3))
+Inductive1 : any_list2 = (any2::any_list3)
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+forall (any1:any), rotate (ZERO) ((any1::(any2::any_list3))) = (any1::rotate (ZERO) ((any2::any_list3)))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:8)
+=================================================
+Progress: 27
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (nat1:nat), rotate (nat1) ((any1::any_list3)) = (any1::rotate (nat1) (any_list3))
+Inductive1 : any_list2 = (any2::any_list3)
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+forall (any1:any), rotate (ZERO) ((any1::(any2::any_list3))) = (any1::rotate (ZERO) ((any2::any_list3)))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> reflexivity(rank : 8)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (nat1:nat), rotate (nat1) ((any1::any_list3)) = (any1::rotate (nat1) (any_list3))
+Inductive1 : any_list2 = (any2::any_list3)
+nat1 : nat
+nat2 : nat
+IH2 : forall (any1:any), rotate (nat2) ((any1::(any2::any_list3))) = (any1::rotate (nat2) ((any2::any_list3)))
+Inductive2 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (SUCC (nat2)) ((any1::(any2::any_list3))) = (any1::rotate (SUCC (nat2)) ((any2::any_list3)))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:8)
+=================================================
+Progress: 28
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (nat1:nat), rotate (nat1) ((any1::any_list3)) = (any1::rotate (nat1) (any_list3))
+Inductive1 : any_list2 = (any2::any_list3)
+nat1 : nat
+nat2 : nat
+IH2 : forall (any1:any), rotate (nat2) ((any1::(any2::any_list3))) = (any1::rotate (nat2) ((any2::any_list3)))
+Inductive2 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (SUCC (nat2)) ((any1::(any2::any_list3))) = (any1::rotate (SUCC (nat2)) ((any2::any_list3)))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 8)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (nat1:nat), rotate (nat1) ((any1::any_list3)) = (any1::rotate (nat1) (any_list3))
+Inductive1 : any_list2 = (any2::any_list3)
+nat1 : nat
+nat2 : nat
+IH2 : forall (any1:any), rotate (nat2) ((any1::(any2::any_list3))) = (any1::rotate (nat2) ((any2::any_list3)))
+Inductive2 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (nat2) ((any2::(any_list3 @ (any1::(Nil))))) = (any1::rotate (nat2) ((any_list3 @ (any2::(Nil)))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro any1(rank:8)
+=================================================
+Progress: 29
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (nat1:nat), rotate (nat1) ((any1::any_list3)) = (any1::rotate (nat1) (any_list3))
+Inductive1 : any_list2 = (any2::any_list3)
+nat1 : nat
+nat2 : nat
+IH2 : forall (any1:any), rotate (nat2) ((any1::(any2::any_list3))) = (any1::rotate (nat2) ((any2::any_list3)))
+Inductive2 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (nat2) ((any2::(any_list3 @ (any1::(Nil))))) = (any1::rotate (nat2) ((any_list3 @ (any2::(Nil)))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro any1(rank : 8)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (nat1:nat), rotate (nat1) ((any1::any_list3)) = (any1::rotate (nat1) (any_list3))
+Inductive1 : any_list2 = (any2::any_list3)
+nat1 : nat
+nat2 : nat
+IH2 : forall (any1:any), rotate (nat2) ((any1::(any2::any_list3))) = (any1::rotate (nat2) ((any2::any_list3)))
+Inductive2 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+rotate (nat2) ((any2::(any_list3 @ (any1::(Nil))))) = (any1::rotate (nat2) ((any_list3 @ (any2::(Nil)))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+Lemma : forall (any1:any) (any2:any) (any_list3:any list) (nat2:nat), rotate (nat2) ((any2::(any_list3 @ (any1::(Nil))))) = (any1::rotate (nat2) ((any_list3 @ (any2::(Nil)))))
+Model : any1: 2, any2: 3, any_list3: (0::(Nil)), nat2: ZERO
+Model : any1: 8, any2: 4, any_list3: (3::(Nil)), nat2: ZERO
+Model : any1: 8, any2: 2, any_list3: (Nil), nat2: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+rotate (ZERO) ((3::((0::(Nil)) @ (2::(Nil))))) = (2::rotate (ZERO) (((0::(Nil)) @ (3::(Nil)))))
+rotate (ZERO) ((4::((3::(Nil)) @ (8::(Nil))))) = (8::rotate (ZERO) (((3::(Nil)) @ (4::(Nil)))))
+rotate (ZERO) ((2::((Nil) @ (8::(Nil))))) = (8::rotate (ZERO) (((Nil) @ (2::(Nil)))))
+Simplifying took 0.000530 seconds
+Result : false
+Lemma : forall (any1:any) (any2:any) (any_list3:any list) (nat2:nat), rotate (nat2) ((any2::(any_list3 @ (any1::(Nil))))) = (any1::rotate (nat2) ((any_list3 @ (any2::(Nil)))))
+Model : any1: 4, any2: 6, any_list3: (Nil), nat2: ZERO
+Model : any1: 0, any2: 0, any_list3: (3::(Nil)), nat2: ZERO
+Model : any1: 5, any2: 2, any_list3: (Nil), nat2: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+rotate (ZERO) ((6::((Nil) @ (4::(Nil))))) = (4::rotate (ZERO) (((Nil) @ (6::(Nil)))))
+rotate (ZERO) ((0::((3::(Nil)) @ (0::(Nil))))) = (0::rotate (ZERO) (((3::(Nil)) @ (0::(Nil)))))
+rotate (ZERO) ((2::((Nil) @ (5::(Nil))))) = (5::rotate (ZERO) (((Nil) @ (2::(Nil)))))
+Simplifying took 0.000393 seconds
+Result : false
+Lemma : forall (any1:any) (any2:any) (any_list3:any list) (nat2:nat), rotate (nat2) ((any2::(any_list3 @ (any1::(Nil))))) = (any1::rotate (nat2) ((any_list3 @ (any2::(Nil)))))
+Model : any1: 7, any2: 0, any_list3: (Nil), nat2: ZERO
+Model : any1: 2, any2: 5, any_list3: (Nil), nat2: ZERO
+Model : any1: 3, any2: 8, any_list3: (4::(4::(Nil))), nat2: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+rotate (ZERO) ((0::((Nil) @ (7::(Nil))))) = (7::rotate (ZERO) (((Nil) @ (0::(Nil)))))
+rotate (ZERO) ((5::((Nil) @ (2::(Nil))))) = (2::rotate (ZERO) (((Nil) @ (5::(Nil)))))
+rotate (ZERO) ((8::((4::(4::(Nil))) @ (3::(Nil))))) = (3::rotate (ZERO) (((4::(4::(Nil))) @ (8::(Nil)))))
+Simplifying took 0.001122 seconds
+Result : false
+advanced_generalize done
+=================================================
+Progress: 30
 
 
 1st goal of : forall (any1:any) (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (any1::(Nil)))) = (any1::any_list1)
@@ -396,11 +1187,10 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-advanced_generalize done
 Lemma : forall (any1:any) (any_list2:any list) (arg3:any list) (arg4:nat), rotate (arg4) (((any_list2 @ (any1::(Nil))) @ arg3)) = (any1::rotate (arg4) ((any_list2 @ arg3)))
-Model : any1: 7, any_list2: (Nil), arg3: (Nil), arg4: SUCC (SUCC (ZERO))
-Model : any1: 7, any_list2: (Nil), arg3: (Nil), arg4: SUCC (ZERO)
-Model : any1: 0, any_list2: (2::(Nil)), arg3: (7::(Nil)), arg4: ZERO
+Model : any1: 3, any_list2: (Nil), arg3: (Nil), arg4: ZERO
+Model : any1: 4, any_list2: (Nil), arg3: (Nil), arg4: ZERO
+Model : any1: 0, any_list2: (Nil), arg3: (Nil), arg4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -410,11 +1200,411 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-rotate (SUCC (SUCC (ZERO))) ((((Nil) @ (7::(Nil))) @ (Nil))) = (7::rotate (SUCC (SUCC (ZERO))) (((Nil) @ (Nil))))
-rotate (SUCC (ZERO)) ((((Nil) @ (7::(Nil))) @ (Nil))) = (7::rotate (SUCC (ZERO)) (((Nil) @ (Nil))))
-rotate (ZERO) ((((2::(Nil)) @ (0::(Nil))) @ (7::(Nil)))) = (0::rotate (ZERO) (((2::(Nil)) @ (7::(Nil)))))
-Simplifying took 0.000770 seconds
-Result : false
+rotate (ZERO) ((((Nil) @ (3::(Nil))) @ (Nil))) = (3::rotate (ZERO) (((Nil) @ (Nil))))
+rotate (ZERO) ((((Nil) @ (4::(Nil))) @ (Nil))) = (4::rotate (ZERO) (((Nil) @ (Nil))))
+rotate (ZERO) ((((Nil) @ (0::(Nil))) @ (Nil))) = (0::rotate (ZERO) (((Nil) @ (Nil))))
+Simplifying took 0.000233 seconds
+Result : true
+advanced_generalize done
+
+
+1st goal of : forall (any1:any) (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (any1::(Nil)))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), rotate (len (any_list2)) ((any_list2 @ (any1::(Nil)))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), rotate (len (any_list2)) (((any_list2 @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::rotate (len (any_list2)) ((any_list2 @ (any2::(Nil)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 31
+
+
+1st goal of : forall (any1:any) (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (any1::(Nil)))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), rotate (len (any_list2)) ((any_list2 @ (any1::(Nil)))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), rotate (len (any_list2)) (((any_list2 @ (any1::(Nil))) @ (any2::(Nil)))) = (any1::rotate (len (any_list2)) ((any_list2 @ (any2::(Nil)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (any1:any) (any_list2:any list) (arg3:any list) (arg4:nat), rotate (arg4) (((any_list2 @ (any1::(Nil))) @ arg3)) = (any1::rotate (arg4) ((any_list2 @ arg3)))(rank : 0)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:8)
+=================================================
+Progress: 32
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction any_list1(rank : 8)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any_list2:any list) (nat1:nat), rotate (nat1) ((((Nil) @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) (((Nil) @ any_list2)))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:8)
+=================================================
+Progress: 33
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any_list2:any list) (nat1:nat), rotate (nat1) ((((Nil) @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) (((Nil) @ any_list2)))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 8)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any_list2:any list) (nat1:nat), rotate (nat1) ((any1::any_list2)) = (any1::rotate (nat1) (any_list2))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+induction any_list2(rank:9)
+=================================================
+Progress: 34
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any_list2:any list) (nat1:nat), rotate (nat1) ((any1::any_list2)) = (any1::rotate (nat1) (any_list2))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction any_list2(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+---------------------------------------
+forall (any1:any) (nat1:nat), rotate (nat1) ((any1::(Nil))) = (any1::rotate (nat1) ((Nil)))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+induction nat1(rank:10)
+=================================================
+Progress: 35
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+---------------------------------------
+forall (any1:any) (nat1:nat), rotate (nat1) ((any1::(Nil))) = (any1::rotate (nat1) ((Nil)))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction nat1(rank : 10)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+Base3 : nat1 = ZERO
+---------------------------------------
+forall (any1:any), rotate (ZERO) ((any1::(Nil))) = (any1::rotate (ZERO) ((Nil)))
+
+3 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:9)
+=================================================
+Progress: 36
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+Base3 : nat1 = ZERO
+---------------------------------------
+forall (any1:any), rotate (ZERO) ((any1::(Nil))) = (any1::rotate (ZERO) ((Nil)))
+
+3 goal(s) more...
+
+2 conjecture(s) more...
+>>> reflexivity(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (SUCC (nat2)) ((any1::(Nil))) = (any1::rotate (SUCC (nat2)) ((Nil)))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:9)
+=================================================
+Progress: 37
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (SUCC (nat2)) ((any1::(Nil))) = (any1::rotate (SUCC (nat2)) ((Nil)))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+intro any1(rank:9)
+rewrite IH1 in goal at 0(rank:25)
+=================================================
+Progress: 38
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro any1(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+rotate (nat2) ((any1::(Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:9)
+=================================================
+Progress: 39
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+rotate (nat2) ((any1::(Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+any1 : any
+---------------------------------------
+(any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+rewrite IH1 in goal at 0
+Lemma : forall (any1:any) (nat2:nat), (any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+Model : any1: 7, nat2: SUCC (ZERO)
+Model : any1: 1, nat2: SUCC (ZERO)
+Model : any1: 6, nat2: SUCC (SUCC (ZERO))
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(7::rotate (SUCC (ZERO)) ((Nil))) = (7::(Nil))
+(1::rotate (SUCC (ZERO)) ((Nil))) = (1::(Nil))
+(6::rotate (SUCC (SUCC (ZERO))) ((Nil))) = (6::(Nil))
+Simplifying took 0.000094 seconds
+Result : true
+advanced_generalize done
+=================================================
+Progress: 40
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 25)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+Base2 : any_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+IH1 : forall (any1:any), rotate (nat2) ((any1::(Nil))) = (any1::rotate (nat2) ((Nil)))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+forall (any1:any), (any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite IH1 in goal at 0
+Lemma : forall (any1:any) (nat2:nat), (any1::rotate (nat2) ((Nil))) = (any1::(Nil))
+Model : any1: 8, nat2: ZERO
+Model : any1: 0, nat2: ZERO
+Model : any1: 0, nat2: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil  -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+(8::rotate (ZERO) ((Nil))) = (8::(Nil))
+(0::rotate (ZERO) ((Nil))) = (0::(Nil))
+(0::rotate (ZERO) ((Nil))) = (0::(Nil))
+Simplifying took 0.000076 seconds
+Result : true
+advanced_generalize done
 File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
@@ -426,5 +1616,5 @@ Here is an example of a case that is not matched:
 []
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 288, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 291, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

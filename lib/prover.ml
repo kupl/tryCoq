@@ -897,7 +897,7 @@ let rank_tactic (t : proof_node) tactic (next_t : proof_node) valid_tactics stat
     else Some 1
   | Proof.SimplIn "goal" -> Some 0
   | Proof.SimplIn _ -> None
-  | Proof.RewriteInAt (src, target, _) ->
+  | Proof.RewriteInAt (src, target, i) ->
     if String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"Case" target
     then (
       match apply_tactic next_t Proof.Discriminate with
@@ -914,13 +914,15 @@ let rank_tactic (t : proof_node) tactic (next_t : proof_node) valid_tactics stat
       in
       let lhs = Proof.get_lhs src_fact in
       let rhs = Proof.get_rhs src_fact in
-      if Ir.is_contained lhs rhs
-      then None
+      if Ir.is_contained lhs rhs (* then if i = 0 then None else Some 2 *)
+      then (
+        ignore i;
+        None)
       else (
         let _, goal, _ = Proof.get_first_state t in
         let _, new_goal, _ = Proof.get_first_state next_t.t in
         if is_more_similar goal new_goal then Some 1 else Some 2))
-  | Proof.RewriteReverse (src, target, _) ->
+  | Proof.RewriteReverse (src, target, i) ->
     if String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"Case" target
     then (
       match apply_tactic next_t Proof.Discriminate with
@@ -939,8 +941,10 @@ let rank_tactic (t : proof_node) tactic (next_t : proof_node) valid_tactics stat
       in
       let lhs = Proof.get_lhs src_fact in
       let rhs = Proof.get_rhs src_fact in
-      if Ir.is_contained rhs lhs
-      then None
+      if Ir.is_contained rhs lhs (* then if i = 0 then None else Some 2 *)
+      then (
+        ignore i;
+        None)
       else (
         let _, goal, _ = Proof.get_first_state t in
         let _, new_goal, _ = Proof.get_first_state next_t.t in

@@ -214,11 +214,10 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-advanced_generalize done
 Lemma : forall (any1:any) (arg1:any list), len ((arg1 @ (any1::(Nil)))) = SUCC (len (arg1))
-Model : any1: 5, arg1: (6::(4::(0::(Nil))))
-Model : any1: 3, arg1: (Nil)
-Model : any1: 8, arg1: (Nil)
+Model : any1: 0, arg1: (Nil)
+Model : any1: 5, arg1: (Nil)
+Model : any1: 4, arg1: (1::(Nil))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
@@ -228,17 +227,12 @@ match (lst1) with
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-len (((6::(4::(0::(Nil)))) @ (5::(Nil)))) = SUCC (len ((6::(4::(0::(Nil))))))
-len (((Nil) @ (3::(Nil)))) = SUCC (len ((Nil)))
-len (((Nil) @ (8::(Nil)))) = SUCC (len ((Nil)))
-Simplifying took 0.000536 seconds
+len (((Nil) @ (0::(Nil)))) = SUCC (len ((Nil)))
+len (((Nil) @ (5::(Nil)))) = SUCC (len ((Nil)))
+len (((1::(Nil)) @ (4::(Nil)))) = SUCC (len ((1::(Nil))))
+Simplifying took 0.000192 seconds
 Result : true
-New Env
-
-;;
-Lemma List
-forall (any1:any) (arg1:any list), len ((arg1 @ (any1::(Nil)))) = SUCC (len (arg1))
-End of Lemma List
+advanced_generalize done
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), len (reverse ((any_list1 @ any_list2))) = plus (len (any_list1)) (len (any_list2))
