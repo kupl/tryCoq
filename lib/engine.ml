@@ -111,21 +111,32 @@ let apply_and_get_lemmas (new_t : Prover.proof_node) assert_list (work : Prover.
     new_t, Proof.SimplIn "goal", -1, assert_list |> List.map snd
   | _ ->
     let new_env = List.filter (fun x -> not (List.mem x work.next_t.t.env)) new_t.t.env in
-    let _ = print_endline "New Env" in
-    let _ = new_env |> Ir.pp_t |> print_endline in
-    let _ = print_endline "Lemma List" in
-    let _ = assert_list |> List.iter (fun x -> Proof.pp_prop x |> print_endline) in
-    let _ = print_endline "End of Lemma List" in
-    let heads, tl = split_tale assert_list in
-    let new_t =
-      List.fold_left
-        (fun t lemma ->
-           let t = Prover.just_apply_tactic t (Proof.Assert lemma) in
-           Prover.just_apply_tactic ~is_lhs:(Some (is_lhs lemma)) t Proof.Reflexivity)
-        new_t
-        heads
-    in
-    new_t, Proof.mk_assert tl, 0, assert_list
+    (match new_env with
+     | [] ->
+       let heads, tl = split_tale assert_list in
+       let new_t =
+         List.fold_left
+           (fun t lemma -> Prover.just_apply_tactic t (Proof.Assert lemma))
+           new_t
+           heads
+       in
+       new_t, Proof.mk_assert tl, 0, assert_list
+     | _ ->
+       let _ = print_endline "New Env" in
+       let _ = new_env |> Ir.pp_t |> print_endline in
+       let _ = print_endline "Lemma List" in
+       let _ = assert_list |> List.iter (fun x -> Proof.pp_prop x |> print_endline) in
+       let _ = print_endline "End of Lemma List" in
+       let heads, tl = split_tale assert_list in
+       let new_t =
+         List.fold_left
+           (fun t lemma ->
+              let t = Prover.just_apply_tactic t (Proof.Assert lemma) in
+              Prover.just_apply_tactic ~is_lhs:(Some (is_lhs lemma)) t Proof.Reflexivity)
+           new_t
+           heads
+       in
+       new_t, Proof.mk_assert tl, 0, assert_list)
 ;;
 
 let rec progress worklist statelist lemma_set =
@@ -183,24 +194,16 @@ let rec progress worklist statelist lemma_set =
         | true ->
           let previous_states = get_previous_state work.next_t statelist in
           let t_lemmas_list =
-            List.map
-              (fun t -> Finder.make_lemmas_by_advanced_generalize t lemma_set)
-              previous_states
+            List.map (fun t -> Finder.find_lemma t lemma_set) previous_states
+            |> List.concat
           in
           let pattern_lemmas =
-            List.fold_left
-              (fun acc t_lemmas ->
-                 match t_lemmas with
-                 | Some (t, lemmas) when List.length lemmas > 1 -> (t, lemmas) :: acc
-                 | _ -> acc)
-              []
-              t_lemmas_list
+            List.filter (fun (_, lemmas) -> List.length lemmas > 1) t_lemmas_list
           in
           (match pattern_lemmas with
            | [] ->
-             let t_lemma = List.hd t_lemmas_list in
-             (match t_lemma with
-              | Some (new_t, assert_list) ->
+             (match t_lemmas_list with
+              | (new_t, assert_list) :: _ ->
                 let new_t, tactic, r, assert_list =
                   apply_and_get_lemmas new_t assert_list work
                 in
@@ -223,7 +226,7 @@ let rec progress worklist statelist lemma_set =
                      })
                   (Prover.ProofSet.add new_state.id new_state statelist)
                   lemma_set
-              | None -> progress prev_worklist statelist lemma_set)
+              | [] -> progress prev_worklist statelist lemma_set)
            | _ ->
              let new_worklist, new_state_list, new_lemma_set =
                List.fold_left

@@ -1180,24 +1180,15 @@ let rec generalize_common_subterm goal =
           0
           false
       in
-      (* if
-        List.exists
-          (fun (name, typ) ->
-             match typ with
-             | Proof.Type typ -> Proof.is_contained Ir.{ desc = Var name; typ } new_goal
-             | _ -> false)
-          free_vars
-      then goal
-      else *)
       generalize_common_subterm new_goal))
 ;;
 
-let naive_generalize t =
+let naive_generalize t : lemma list =
   let state = Proof.get_first_state t in
   let facts, goal, _ = state in
   let vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
   if List.is_empty vars
-  then None
+  then []
   else (
     let facts = filtering_concerned_fact facts goal in
     let facts = List.map snd facts in
@@ -1217,7 +1208,7 @@ let naive_generalize t =
       let qvars =
         collect_free_var_in_prop generalize_common_subterm [] |> List.sort_uniq compare
       in
-      Some (Proof.Forall (qvars, generalize_common_subterm))
+      [ Proof.Forall (qvars, generalize_common_subterm) ]
     in
     generalize_common_subterm_goal)
 ;;
@@ -1266,11 +1257,11 @@ let get_induction_var (state : state) =
   induction_var
 ;;
 
-let advanced_generalize (t : proof_node) : (proof_node * lemma list) option =
+let advanced_generalize (t : proof_node) : (proof_node * lemma list) list =
   let first_state = Proof.get_first_state t.t in
   let facts, goal, _ = first_state in
   match is_trivial goal with
-  | true -> None
+  | true -> []
   | false ->
     let ih =
       List.find_opt
@@ -1279,10 +1270,7 @@ let advanced_generalize (t : proof_node) : (proof_node * lemma list) option =
     in
     let state_list = fast_execution 2 t.t in
     (match state_list with
-     | [] ->
-       (match naive_generalize t.t with
-        | Some lemma -> Some (t, [ lemma ])
-        | _ -> None)
+     | [] -> List.map (fun lemma -> t, [ lemma ]) (naive_generalize t.t)
      | _ ->
        let induction_vars = List.map get_induction_var state_list in
        let new_env, lemma_list =
@@ -1290,81 +1278,76 @@ let advanced_generalize (t : proof_node) : (proof_node * lemma list) option =
        in
        let new_env = List.map Ir.rename_decl new_env in
        if List.is_empty lemma_list
-       then (
-         match naive_generalize t.t with
-         | Some lemma -> Some (t, [ lemma ])
-         | _ -> None)
+       then List.map (fun lemma -> t, [ lemma ]) (naive_generalize t.t)
        else (
          let new_t =
-           try
-             List.fold_left
-               (fun acc decl -> Prover.just_apply_tactic acc (Proof.Define decl))
-               t
-               new_env
-           with
-           | _ ->
-             let _ = Proof.proof_top t.t in
-             failwith "asdf"
+           List.fold_left
+             (fun acc decl -> Prover.just_apply_tactic acc (Proof.Define decl))
+             t
+             new_env
          in
-         Some (new_t, lemma_list)))
+         [ new_t, lemma_list ]))
 ;;
 
-let make_lemmas_by_advanced_generalize (t : proof_node) lemma_set
-  : (proof_node * lemma list) option
-  =
-  let t_lemma = advanced_generalize t in
+let find_lemma (t : proof_node) lemma_set : (proof_node * lemma list) list =
+  let t_lemmas_list = advanced_generalize t in
   let original_goal = Proof.get_conj_list t.t |> List.hd |> snd in
   let _ = Printf.printf "advanced_generalize done\n" in
-  let t_lemma =
-    match t_lemma with
-    | Some (new_t, lemmas) ->
-      let false_lemmas =
-        List.filter (fun lemma -> not (Validate.validate new_t.t.env lemma)) lemmas
-      in
-      (match false_lemmas with
-       | _ :: _ -> None
-       | _ ->
-         if
-           List.for_all
+  let t_lemmas_list =
+    List.fold_left
+      (fun acc ((new_t : proof_node), lemmas) ->
+         let false_lemmas =
+           List.filter
              (fun lemma ->
-                Prover.LemmaSet.exists
-                  (fun (goal', lemma', _) -> original_goal = goal' && lemma = lemma')
-                  lemma_set)
+                let t = new_t.Prover.t in
+                not (Validate.validate t.Proof.env lemma))
              lemmas
-           && not (List.is_empty lemmas)
-         then None
-         else if
-           List.for_all
-             (fun lemma ->
-                Prover.LemmaSet.exists
-                  (fun (_, lemma', tactic) ->
-                     lemma = lemma' && not (List.is_empty tactic))
-                  lemma_set)
-             lemmas
-           && not (List.is_empty lemmas)
-         then (
-           let pre_lemmas =
-             List.map
+         in
+         match false_lemmas with
+         | _ :: _ -> acc
+         | _ ->
+           if
+             List.for_all
                (fun lemma ->
-                  List.find
+                  Prover.LemmaSet.exists
+                    (fun (goal', lemma', _) -> original_goal = goal' && lemma = lemma')
+                    lemma_set)
+               lemmas
+             && not (List.is_empty lemmas)
+           then acc
+           else if
+             List.for_all
+               (fun lemma ->
+                  Prover.LemmaSet.exists
                     (fun (_, lemma', tactic) ->
                        lemma = lemma' && not (List.is_empty tactic))
-                    (lemma_set |> Prover.LemmaSet.to_list))
+                    lemma_set)
                lemmas
-           in
-           let new_t =
-             List.fold_left
-               (fun acc (_, _, tactic) ->
-                  List.fold_left
-                    (fun acc tactic -> Prover.just_apply_tactic acc tactic)
-                    acc
-                    tactic)
-               new_t
-               pre_lemmas
-           in
-           Some (new_t, []))
-         else t_lemma)
-    | None -> None
+             && not (List.is_empty lemmas)
+           then (
+             let pre_lemmas =
+               List.map
+                 (fun lemma ->
+                    List.find
+                      (fun (_, lemma', tactic) ->
+                         lemma = lemma' && not (List.is_empty tactic))
+                      (lemma_set |> Prover.LemmaSet.to_list))
+                 lemmas
+             in
+             let new_t =
+               List.fold_left
+                 (fun acc (_, _, tactic) ->
+                    List.fold_left
+                      (fun acc tactic -> Prover.just_apply_tactic acc tactic)
+                      acc
+                      tactic)
+                 new_t
+                 pre_lemmas
+             in
+             (new_t, []) :: acc)
+           else (new_t, lemmas) :: acc)
+      []
+      t_lemmas_list
   in
-  t_lemma
+  t_lemmas_list
 ;;
