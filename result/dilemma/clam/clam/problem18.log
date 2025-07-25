@@ -176,23 +176,24 @@ Inductive1 : nat_list2 = (nat1::nat_list3)
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (arg1:any list), arg1 = (arg1 @ (Nil))
-Model : arg1: (Nil)
+Model : arg1: (8::(4::(Nil)))
 Model : arg1: (Nil)
 Model : arg1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+(8::(4::(Nil))) = ((8::(4::(Nil))) @ (Nil))
 (Nil) = ((Nil) @ (Nil))
 (Nil) = ((Nil) @ (Nil))
-(Nil) = ((Nil) @ (Nil))
-Simplifying took 0.000029 seconds
+Simplifying took 0.000140 seconds
 Result : true
 advanced_generalize done
 
@@ -738,23 +739,24 @@ reverse (((reverse (nat_list3) @ (nat1::(Nil))) @ (nat2::nat_list4))) = ((revers
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat2:nat) (nat_list3:nat list) (nat_list4:nat list), reverse (((reverse (nat_list3) @ (nat1::(Nil))) @ (nat2::nat_list4))) = ((reverse (nat_list4) @ (nat2::(Nil))) @ (nat1::nat_list3))
-Model : nat1: SUCC (ZERO), nat2: ZERO, nat_list3: (Nil), nat_list4: (Nil)
-Model : nat1: ZERO, nat2: SUCC (ZERO), nat_list3: (Nil), nat_list4: (Nil)
-Model : nat1: ZERO, nat2: SUCC (ZERO), nat_list3: (Nil), nat_list4: (Nil)
+Model : nat1: ZERO, nat2: ZERO, nat_list3: (Nil), nat_list4: (Nil)
+Model : nat1: ZERO, nat2: ZERO, nat_list3: (ZERO::(ZERO::(ZERO::(Nil)))), nat_list4: (Nil)
+Model : nat1: ZERO, nat2: ZERO, nat_list3: (Nil), nat_list4: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse (((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
-reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = ((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
-reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = ((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
-Simplifying took 0.000363 seconds
+reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+reverse (((reverse ((ZERO::(ZERO::(ZERO::(Nil))))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))
+reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Simplifying took 0.000802 seconds
 Result : true
 advanced_generalize done
 
@@ -1051,23 +1053,24 @@ Tactic List : 0
 previous tactics
 simpl in goal
 intro nat2
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat_list3:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::(nat1::(nat3::nat_list3)))
+Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (Nil)
+Model : nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO), nat_list3: (Nil)
 Model : nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO, nat_list3: (Nil)
-Model : nat1: SUCC (ZERO), nat2: ZERO, nat3: SUCC (ZERO), nat_list3: (Nil)
-Model : nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO, nat_list3: (ZERO::(Nil))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(Nil))))
+reverse ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(SUCC (ZERO)::(Nil))))
 reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::(ZERO::(ZERO::(Nil))))
-reverse ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))
-reverse ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))
-Simplifying took 0.000676 seconds
+Simplifying took 0.000614 seconds
 Result : true
 advanced_generalize done
 
@@ -1162,23 +1165,24 @@ previous tactics
 simpl in goal
 intro nat1
 intro nat2
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat_list3:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::(nat1::(nat3::nat_list3)))
+Model : nat1: SUCC (ZERO), nat2: ZERO, nat3: SUCC (SUCC (SUCC (ZERO))), nat_list3: (SUCC (ZERO)::(ZERO::(Nil)))
 Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (Nil)
-Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat_list3: (Nil)
-Model : nat1: ZERO, nat2: SUCC (SUCC (SUCC (ZERO))), nat3: ZERO, nat_list3: (Nil)
+Model : nat1: SUCC (SUCC (ZERO)), nat2: ZERO, nat3: ZERO, nat_list3: (ZERO::(Nil))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+reverse ((((reverse ((SUCC (ZERO)::(ZERO::(Nil)))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(ZERO::(Nil))))))
 reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(Nil))))
-reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(Nil))))
-reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))) = (SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil))))
-Simplifying took 0.000578 seconds
+reverse ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))
+Simplifying took 0.001254 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -1526,23 +1530,24 @@ previous tactics
 simpl in goal
 intro nat3
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg2:any list) (nat1:nat) (nat2:nat), reverse (((arg2 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg2 @ (nat1::(Nil)))))
 Model : arg2: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg2: (Nil), nat1: SUCC (ZERO), nat2: ZERO
-Model : arg2: (8::(Nil)), nat1: ZERO, nat2: ZERO
+Model : arg2: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg2: (Nil), nat1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
-reverse ((((8::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((8::(Nil)) @ (ZERO::(Nil)))))
-Simplifying took 0.000589 seconds
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Simplifying took 0.000325 seconds
 Result : true
 advanced_generalize done
 
@@ -1669,23 +1674,24 @@ simpl in goal
 intro nat1
 intro nat3
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg3:any list) (nat1:nat) (nat2:nat), reverse (((arg3 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg3 @ (nat1::(Nil)))))
-Model : arg3: (8::(Nil)), nat1: SUCC (ZERO), nat2: ZERO
+Model : arg3: (Nil), nat1: SUCC (ZERO), nat2: ZERO
 Model : arg3: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg3: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg3: (Nil), nat1: SUCC (ZERO), nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse ((((8::(Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((8::(Nil)) @ (SUCC (ZERO)::(Nil)))))
+reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-Simplifying took 0.000627 seconds
+reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
+Simplifying took 0.000370 seconds
 Result : true
 advanced_generalize done
 
@@ -1776,23 +1782,24 @@ simpl in goal
 intro nat2
 intro nat3
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg4:any list) (nat1:nat) (nat2:nat), reverse (((arg4 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg4 @ (nat1::(Nil)))))
-Model : arg4: (Nil), nat1: ZERO, nat2: SUCC (SUCC (ZERO))
 Model : arg4: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg4: (Nil), nat1: ZERO, nat2: SUCC (ZERO)
 Model : arg4: (Nil), nat1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse ((((Nil) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))) = (SUCC (SUCC (ZERO))::reverse (((Nil) @ (ZERO::(Nil)))))
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((Nil) @ (ZERO::(Nil)))))
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-Simplifying took 0.000319 seconds
+Simplifying took 0.000363 seconds
 Result : true
 advanced_generalize done
 
@@ -1886,23 +1893,24 @@ intro nat1
 intro nat2
 intro nat3
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg5:any list) (nat1:nat) (nat2:nat), reverse (((arg5 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg5 @ (nat1::(Nil)))))
 Model : arg5: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg5: (Nil), nat1: SUCC (ZERO), nat2: ZERO
+Model : arg5: (8::(Nil)), nat1: SUCC (ZERO), nat2: ZERO
 Model : arg5: (Nil), nat1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
+reverse ((((8::(Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((8::(Nil)) @ (SUCC (ZERO)::(Nil)))))
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-Simplifying took 0.000310 seconds
+Simplifying took 0.000659 seconds
 Result : true
 advanced_generalize done
 
@@ -3525,23 +3533,24 @@ reverse (((reverse (nat_list3) @ (nat1::(Nil))) @ (Nil))) = (nat1::nat_list3)
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat_list3:nat list), reverse (((reverse (nat_list3) @ (nat1::(Nil))) @ (Nil))) = (nat1::nat_list3)
 Model : nat1: ZERO, nat_list3: (Nil)
-Model : nat1: ZERO, nat_list3: (Nil)
+Model : nat1: ZERO, nat_list3: (ZERO::(Nil))
 Model : nat1: ZERO, nat_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(Nil))
+reverse (((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(ZERO::(Nil)))
 reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(Nil))
-reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(Nil))
-Simplifying took 0.000151 seconds
+Simplifying took 0.000226 seconds
 Result : true
 advanced_generalize done
 
@@ -3754,23 +3763,24 @@ previous tactics
 simpl in goal
 intro nat1
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg6:any list) (nat1:nat), reverse (((arg6 @ (nat1::(Nil))) @ (Nil))) = (nat1::reverse ((arg6 @ (Nil))))
 Model : arg6: (Nil), nat1: ZERO
-Model : arg6: (0::(4::(Nil))), nat1: ZERO
 Model : arg6: (Nil), nat1: ZERO
+Model : arg6: (5::(Nil)), nat1: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
-reverse ((((0::(4::(Nil))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((0::(4::(Nil))) @ (Nil))))
 reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
-Simplifying took 0.000536 seconds
+reverse ((((5::(Nil)) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((5::(Nil)) @ (Nil))))
+Simplifying took 0.000364 seconds
 Result : true
 advanced_generalize done
 
@@ -4052,23 +4062,24 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg7:any list) (nat1:nat), reverse (((arg7 @ (nat1::(Nil))) @ (Nil))) = (nat1::reverse ((arg7 @ (Nil))))
-Model : arg7: (Nil), nat1: SUCC (ZERO)
 Model : arg7: (Nil), nat1: ZERO
-Model : arg7: (4::(Nil)), nat1: ZERO
+Model : arg7: (Nil), nat1: ZERO
+Model : arg7: (5::(Nil)), nat1: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (Nil))) = (SUCC (ZERO)::reverse (((Nil) @ (Nil))))
 reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
-reverse ((((4::(Nil)) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((4::(Nil)) @ (Nil))))
-Simplifying took 0.000423 seconds
+reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
+reverse ((((5::(Nil)) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((5::(Nil)) @ (Nil))))
+Simplifying took 0.000412 seconds
 Result : true
 advanced_generalize done
 
@@ -4648,23 +4659,24 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg8:any list) (nat1:nat) (nat2:nat), reverse (((arg8 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg8 @ (nat1::(Nil)))))
 Model : arg8: (Nil), nat1: ZERO, nat2: ZERO
 Model : arg8: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg8: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg8: (Nil), nat1: SUCC (SUCC (ZERO)), nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-Simplifying took 0.000381 seconds
+reverse ((((Nil) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (SUCC (ZERO))::(Nil)))))
+Simplifying took 0.000505 seconds
 Result : true
 advanced_generalize done
 
@@ -5134,23 +5146,24 @@ previous tactics
 simpl in goal
 intro nat1
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg9:any list) (nat1:nat) (nat2:nat), reverse (((arg9 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg9 @ (nat1::(Nil)))))
+Model : arg9: (Nil), nat1: ZERO, nat2: ZERO
 Model : arg9: (Nil), nat1: ZERO, nat2: SUCC (ZERO)
-Model : arg9: (7::(0::(6::(Nil)))), nat1: ZERO, nat2: SUCC (ZERO)
 Model : arg9: (Nil), nat1: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse ((((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((Nil) @ (ZERO::(Nil)))))
-reverse ((((7::(0::(6::(Nil)))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((7::(0::(6::(Nil)))) @ (ZERO::(Nil)))))
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-Simplifying took 0.001478 seconds
+reverse ((((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((Nil) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Simplifying took 0.000340 seconds
 Result : true
 advanced_generalize done
 
@@ -5577,23 +5590,24 @@ previous tactics
 simpl in goal
 intro nat2
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg10:any list) (nat1:nat) (nat2:nat), reverse (((arg10 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg10 @ (nat1::(Nil)))))
-Model : arg10: (Nil), nat1: SUCC (SUCC (ZERO)), nat2: ZERO
+Model : arg10: (0::(Nil)), nat1: ZERO, nat2: ZERO
 Model : arg10: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg10: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg10: (Nil), nat1: ZERO, nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse ((((Nil) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (SUCC (ZERO))::(Nil)))))
+reverse ((((0::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((0::(Nil)) @ (ZERO::(Nil)))))
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-Simplifying took 0.000347 seconds
+reverse ((((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((Nil) @ (ZERO::(Nil)))))
+Simplifying took 0.000548 seconds
 Result : true
 advanced_generalize done
 
@@ -6023,23 +6037,24 @@ simpl in goal
 intro nat1
 intro nat2
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg11:any list) (nat1:nat) (nat2:nat), reverse (((arg11 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((arg11 @ (nat1::(Nil)))))
 Model : arg11: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg11: (Nil), nat1: ZERO, nat2: ZERO
-Model : arg11: (Nil), nat1: ZERO, nat2: ZERO
+Model : arg11: (8::(6::(1::(Nil)))), nat1: ZERO, nat2: SUCC (SUCC (SUCC (ZERO)))
+Model : arg11: (Nil), nat1: SUCC (ZERO), nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
-Simplifying took 0.000313 seconds
+reverse ((((8::(6::(1::(Nil)))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))) = (SUCC (SUCC (SUCC (ZERO)))::reverse (((8::(6::(1::(Nil)))) @ (ZERO::(Nil)))))
+reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
+Simplifying took 0.001796 seconds
 Result : true
 advanced_generalize done
 
@@ -6812,23 +6827,24 @@ rewrite lemma5 in goal at 0
 reflexivity
 simpl in goal
 intro nat2
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list3:nat list) (nat_list4:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
-Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat4: ZERO, nat_list3: (ZERO::(Nil)), nat_list4: (Nil)
-Model : nat1: SUCC (ZERO), nat2: SUCC (SUCC (SUCC (ZERO))), nat3: ZERO, nat4: ZERO, nat_list3: (ZERO::(Nil)), nat_list4: (ZERO::(Nil))
-Model : nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO), nat4: SUCC (ZERO), nat_list3: (Nil), nat_list4: (ZERO::(Nil))
+Model : nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO), nat4: ZERO, nat_list3: (Nil), nat_list4: (SUCC (ZERO)::(ZERO::(Nil)))
+Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat4: SUCC (ZERO), nat_list3: (ZERO::(Nil)), nat_list4: (Nil)
+Model : nat1: ZERO, nat2: SUCC (ZERO), nat3: SUCC (SUCC (ZERO)), nat4: ZERO, nat_list3: (Nil), nat_list4: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(ZERO::(Nil)))))
-reverse ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil)))))) = (((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))
-reverse ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) = (((reverse ((ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
-Simplifying took 0.001883 seconds
+reverse ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) = (((reverse ((SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
+reverse ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))) = (((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(ZERO::(Nil)))))
+reverse ((((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil))))
+Simplifying took 0.001740 seconds
 Result : true
 advanced_generalize done
 
@@ -6943,23 +6959,24 @@ reflexivity
 simpl in goal
 intro nat1
 intro nat2
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list3:nat list) (nat_list4:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
-Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat4: SUCC (ZERO), nat_list3: (ZERO::(Nil)), nat_list4: (Nil)
-Model : nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO), nat4: SUCC (SUCC (ZERO)), nat_list3: (SUCC (SUCC (ZERO))::(Nil)), nat_list4: (Nil)
+Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat4: ZERO, nat_list3: (Nil), nat_list4: (Nil)
+Model : nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO), nat4: SUCC (ZERO), nat_list3: (Nil), nat_list4: (Nil)
 Model : nat1: ZERO, nat2: ZERO, nat3: ZERO, nat4: ZERO, nat_list3: (Nil), nat_list4: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))) = (((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(ZERO::(Nil)))))
-reverse ((((reverse ((SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil))))) = (((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil)))))
 reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-Simplifying took 0.001410 seconds
+reverse ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))) = (((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
+reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Simplifying took 0.001038 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -7564,23 +7581,24 @@ previous tactics
 simpl in goal
 intro nat4
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg12:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg12 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg12 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
+Model : arg12: (1::(Nil)), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Model : arg12: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg12: (8::(Nil)), nat1: ZERO, nat2: ZERO, nat3: SUCC (SUCC (SUCC (ZERO)))
 Model : arg12: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+(((1::(Nil)) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((1::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
 (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-(((8::(Nil)) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) = (((8::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))
 (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-Simplifying took 0.000450 seconds
+Simplifying took 0.000389 seconds
 Result : true
 advanced_generalize done
 
@@ -7804,23 +7822,24 @@ simpl in goal
 intro nat1
 intro nat4
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg13:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg13 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg13 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
 Model : arg13: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg13: (Nil), nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO)
-Model : arg13: (Nil), nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO)
+Model : arg13: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg13: (Nil), nat1: SUCC (SUCC (SUCC (ZERO))), nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
-(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
-Simplifying took 0.000270 seconds
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))
+Simplifying took 0.000303 seconds
 Result : true
 advanced_generalize done
 
@@ -7961,23 +7980,24 @@ simpl in goal
 intro nat2
 intro nat4
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg14:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg14 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg14 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
-Model : arg14: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: SUCC (ZERO)
-Model : arg14: (Nil), nat1: SUCC (ZERO), nat2: SUCC (ZERO), nat3: ZERO
-Model : arg14: (Nil), nat1: SUCC (SUCC (ZERO)), nat2: ZERO, nat3: ZERO
+Model : arg14: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg14: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg14: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-(((Nil) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
-(((Nil) @ (SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
-(((Nil) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(ZERO::(Nil))))
-Simplifying took 0.000305 seconds
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Simplifying took 0.000299 seconds
 Result : true
 advanced_generalize done
 
@@ -8076,23 +8096,24 @@ simpl in goal
 intro nat3
 intro nat4
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg15:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg15 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg15 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
-Model : arg15: (Nil), nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO)
-Model : arg15: (Nil), nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO)
-Model : arg15: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO
+Model : arg15: (0::(Nil)), nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO
+Model : arg15: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg15: (4::(Nil)), nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
-(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
-(((Nil) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(ZERO::(Nil))))
-Simplifying took 0.000283 seconds
+(((0::(Nil)) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((0::(Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((4::(Nil)) @ (ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((4::(Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Simplifying took 0.000521 seconds
 Result : true
 advanced_generalize done
 
@@ -8238,23 +8259,24 @@ intro nat1
 intro nat2
 intro nat4
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg16:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg16 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg16 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
-Model : arg16: (6::(2::(Nil))), nat1: ZERO, nat2: SUCC (ZERO), nat3: SUCC (SUCC (ZERO))
-Model : arg16: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg16: (8::(Nil)), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg16: (Nil), nat1: ZERO, nat2: ZERO, nat3: SUCC (SUCC (ZERO))
+Model : arg16: (2::(Nil)), nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO
+Model : arg16: (Nil), nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-(((6::(2::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (SUCC (SUCC (ZERO))::(Nil))) = (((6::(2::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil))))
-(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-(((8::(Nil)) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((8::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-Simplifying took 0.000835 seconds
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (SUCC (ZERO))::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil))))
+(((2::(Nil)) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((2::(Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Simplifying took 0.000420 seconds
 Result : true
 advanced_generalize done
 
@@ -8358,23 +8380,24 @@ intro nat1
 intro nat3
 intro nat4
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg17:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg17 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg17 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
+Model : arg17: (0::(7::(Nil))), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Model : arg17: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg17: (1::(7::(1::(Nil)))), nat1: ZERO, nat2: SUCC (SUCC (ZERO)), nat3: ZERO
-Model : arg17: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg17: (Nil), nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+(((0::(7::(Nil))) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((0::(7::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
 (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-(((1::(7::(1::(Nil)))) @ (SUCC (SUCC (ZERO))::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((1::(7::(1::(Nil)))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(ZERO::(Nil))))
-(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-Simplifying took 0.000807 seconds
+(((Nil) @ (ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Simplifying took 0.000597 seconds
 Result : true
 advanced_generalize done
 
@@ -8478,23 +8501,24 @@ intro nat2
 intro nat3
 intro nat4
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg18:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg18 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg18 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
+Model : arg18: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: SUCC (ZERO)
 Model : arg18: (Nil), nat1: SUCC (ZERO), nat2: ZERO, nat3: ZERO
-Model : arg18: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg18: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg18: (0::(Nil)), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+(((Nil) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
 (((Nil) @ (ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
-(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-Simplifying took 0.000276 seconds
+(((0::(Nil)) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((0::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Simplifying took 0.000384 seconds
 Result : true
 advanced_generalize done
 
@@ -8601,23 +8625,24 @@ intro nat2
 intro nat3
 intro nat4
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg19:any list) (nat1:nat) (nat2:nat) (nat3:nat), ((arg19 @ (nat2::(nat1::(Nil)))) @ (nat3::(Nil))) = ((arg19 @ (nat2::(Nil))) @ (nat1::(nat3::(Nil))))
-Model : arg19: (8::(Nil)), nat1: ZERO, nat2: ZERO, nat3: ZERO
+Model : arg19: (Nil), nat1: ZERO, nat2: SUCC (ZERO), nat3: ZERO
 Model : arg19: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
-Model : arg19: (Nil), nat1: ZERO, nat2: ZERO, nat3: SUCC (ZERO)
+Model : arg19: (Nil), nat1: ZERO, nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-(((8::(Nil)) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((8::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+(((Nil) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(ZERO::(Nil))))
 (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
-(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
-Simplifying took 0.000432 seconds
+(((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Simplifying took 0.000276 seconds
 Result : true
 advanced_generalize done
 
@@ -16339,23 +16364,24 @@ simpl in goal
 intro nat1
 rewrite <- lemma5 in goal at 2
 rewrite <- lemma4 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg20:any list) (arg21:any list) (arg22:nat list) (nat2:nat) (nat5:nat) (nat_list3:nat list), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ arg20) @ arg21) @ (nat2::arg22))) = reverse (((((reverse ((nat5::nat_list3)) @ arg20) @ arg21) @ (nat2::(Nil))) @ arg22))
-Model : arg20: (Nil), arg21: (Nil), arg22: (ZERO::(Nil)), nat2: ZERO, nat5: SUCC (ZERO), nat_list3: (Nil)
-Model : arg20: (6::(Nil)), arg21: (Nil), arg22: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
-Model : arg20: (Nil), arg21: (Nil), arg22: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (ZERO::(ZERO::(Nil)))
+Model : arg20: (Nil), arg21: (Nil), arg22: (Nil), nat2: ZERO, nat5: SUCC (ZERO), nat_list3: (ZERO::(Nil))
+Model : arg20: (Nil), arg21: (Nil), arg22: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
+Model : arg20: (Nil), arg21: (Nil), arg22: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(ZERO::(Nil))))) = reverse (((((reverse ((SUCC (ZERO)::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))))
-reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (6::(Nil))) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (6::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
-reverse (((((reverse ((ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
-Simplifying took 0.002022 seconds
+reverse (((((reverse ((ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+Simplifying took 0.001161 seconds
 Result : true
 advanced_generalize done
 
@@ -17060,23 +17086,24 @@ simpl in goal
 intro nat2
 rewrite <- lemma5 in goal at 2
 rewrite <- lemma4 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg23:any list) (arg24:any list) (arg25:nat list) (nat2:nat) (nat5:nat) (nat_list3:nat list), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ arg23) @ arg24) @ (nat2::arg25))) = reverse (((((reverse ((nat5::nat_list3)) @ arg23) @ arg24) @ (nat2::(Nil))) @ arg25))
-Model : arg23: (Nil), arg24: (Nil), arg25: (SUCC (ZERO)::(ZERO::(Nil))), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
-Model : arg23: (7::(Nil)), arg24: (Nil), arg25: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
+Model : arg23: (Nil), arg24: (Nil), arg25: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
 Model : arg23: (Nil), arg24: (0::(Nil)), arg25: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
+Model : arg23: (Nil), arg24: (Nil), arg25: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil)))))
-reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (7::(Nil))) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (7::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
 reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (0::(Nil))) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (0::(Nil))) @ (ZERO::(Nil))) @ (Nil)))
-Simplifying took 0.001834 seconds
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+Simplifying took 0.001002 seconds
 Result : true
 advanced_generalize done
 
@@ -17781,23 +17808,24 @@ simpl in goal
 intro nat3
 rewrite <- lemma5 in goal at 2
 rewrite <- lemma4 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg26:any list) (arg27:any list) (arg28:nat list) (nat2:nat) (nat5:nat) (nat_list3:nat list), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ arg26) @ arg27) @ (nat2::arg28))) = reverse (((((reverse ((nat5::nat_list3)) @ arg26) @ arg27) @ (nat2::(Nil))) @ arg28))
-Model : arg26: (Nil), arg27: (1::(Nil)), arg28: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
-Model : arg26: (6::(Nil)), arg27: (Nil), arg28: (Nil), nat2: SUCC (ZERO), nat5: ZERO, nat_list3: (Nil)
-Model : arg26: (Nil), arg27: (Nil), arg28: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (ZERO::(Nil))
+Model : arg26: (Nil), arg27: (4::(Nil)), arg28: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
+Model : arg26: (Nil), arg27: (Nil), arg28: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
+Model : arg26: (7::(4::(0::(Nil)))), arg27: (Nil), arg28: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (1::(Nil))) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (1::(Nil))) @ (ZERO::(Nil))) @ (Nil)))
-reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (6::(Nil))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (6::(Nil))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (Nil)))
-reverse (((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
-Simplifying took 0.001803 seconds
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (4::(Nil))) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (4::(Nil))) @ (ZERO::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (7::(4::(0::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (7::(4::(0::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+Simplifying took 0.003089 seconds
 Result : true
 advanced_generalize done
 
@@ -18502,23 +18530,24 @@ simpl in goal
 intro nat4
 rewrite <- lemma5 in goal at 2
 rewrite <- lemma4 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg29:any list) (arg30:any list) (arg31:nat list) (nat2:nat) (nat5:nat) (nat_list3:nat list), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ arg29) @ arg30) @ (nat2::arg31))) = reverse (((((reverse ((nat5::nat_list3)) @ arg29) @ arg30) @ (nat2::(Nil))) @ arg31))
-Model : arg29: (Nil), arg30: (Nil), arg31: (Nil), nat2: SUCC (ZERO), nat5: ZERO, nat_list3: (Nil)
-Model : arg29: (Nil), arg30: (Nil), arg31: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (SUCC (SUCC (ZERO))::(Nil))
-Model : arg29: (Nil), arg30: (Nil), arg31: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (ZERO::(SUCC (ZERO)::(Nil)))
+Model : arg29: (Nil), arg30: (Nil), arg31: (Nil), nat2: SUCC (ZERO), nat5: SUCC (ZERO), nat_list3: (Nil)
+Model : arg29: (Nil), arg30: (Nil), arg31: (ZERO::(Nil)), nat2: SUCC (ZERO), nat5: ZERO, nat_list3: (Nil)
+Model : arg29: (Nil), arg30: (Nil), arg31: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (ZERO::(Nil))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (SUCC (ZERO)::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (Nil)))
-reverse (((((reverse ((SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(SUCC (SUCC (ZERO))::(Nil)))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
-reverse (((((reverse ((ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
-Simplifying took 0.001702 seconds
+reverse (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (Nil)) @ (Nil)) @ (SUCC (ZERO)::(Nil)))) = reverse (((((reverse ((SUCC (ZERO)::(Nil))) @ (Nil)) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (SUCC (ZERO)::(ZERO::(Nil))))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))))
+reverse (((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+Simplifying took 0.001308 seconds
 Result : true
 advanced_generalize done
 
@@ -19885,6 +19914,763 @@ forall (nat1:nat) (nat3:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) 
 1 goal(s) more...
 
 2 conjecture(s) more...
+Tactic List : 1
+rewrite <- lemma6 in goal at 0(rank:8)
+=================================================
+Progress: 503
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat2 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat3:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(Nil))))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite <- lemma6 in goal at 0(rank : 8)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat2 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat3:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(nat2::(Nil)))) @ (nat4::(Nil)))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite <- lemma6 in goal at 0(rank:8)
+=================================================
+Progress: 504
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat2 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat3:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(nat2::(Nil)))) @ (nat4::(Nil)))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite <- lemma6 in goal at 0(rank : 8)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat2 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat3:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(nat1::(Nil)))) @ (nat2::(Nil))) @ (nat4::(Nil)))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+rewrite <- lemma6 in goal at 0(rank:16)
+rewrite lemma4 in goal at 1(rank:24)
+=================================================
+Progress: 505
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat3 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(Nil))))) = reverse ((((reverse ((nat3::(nat5::nat_list3))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite <- lemma6 in goal at 0(rank : 16)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat3 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(nat2::(Nil)))) @ (nat4::(Nil)))) = reverse ((((reverse ((nat3::(nat5::nat_list3))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+rewrite <- lemma6 in goal at 0(rank:16)
+rewrite lemma4 in goal at 0(rank:24)
+=================================================
+Progress: 506
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat3 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(Nil))))) = (nat4::reverse ((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil)))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite <- lemma4 in goal at 0(rank : 16)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat3 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(Nil))))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite <- lemma6 in goal at 0(rank:8)
+=================================================
+Progress: 507
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat3 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(Nil))))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite <- lemma6 in goal at 0(rank : 8)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat3 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(nat2::(Nil)))) @ (nat4::(Nil)))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite <- lemma6 in goal at 0(rank:8)
+=================================================
+Progress: 508
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat3 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(nat2::(Nil)))) @ (nat4::(Nil)))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite <- lemma6 in goal at 0(rank : 8)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat3 : nat
+nat4 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(nat1::(Nil)))) @ (nat2::(Nil))) @ (nat4::(Nil)))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+rewrite <- lemma6 in goal at 0(rank:16)
+rewrite lemma4 in goal at 1(rank:24)
+=================================================
+Progress: 509
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+nat3 : nat
+---------------------------------------
+forall (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(Nil))))) = reverse ((((reverse ((nat3::(nat5::nat_list3))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite <- lemma6 in goal at 0(rank : 16)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+nat3 : nat
+---------------------------------------
+forall (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(nat2::(Nil)))) @ (nat4::(Nil)))) = reverse ((((reverse ((nat3::(nat5::nat_list3))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+rewrite <- lemma6 in goal at 0(rank:16)
+rewrite lemma4 in goal at 0(rank:24)
+=================================================
+Progress: 510
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+nat3 : nat
+---------------------------------------
+forall (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(Nil))))) = (nat4::reverse ((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil)))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite <- lemma4 in goal at 0(rank : 16)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+nat3 : nat
+---------------------------------------
+forall (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(Nil))))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro nat1
+intro nat2
+intro nat3
+rewrite <- lemma5 in goal at 2
+rewrite <- lemma4 in goal at 0
+validate generalize_common_subterm_goal
+Lemma : forall (arg32:any list) (arg33:any list) (arg34:nat list) (nat2:nat) (nat5:nat) (nat_list3:nat list), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ arg32) @ arg33) @ (nat2::arg34))) = reverse (((((reverse ((nat5::nat_list3)) @ arg32) @ arg33) @ (nat2::(Nil))) @ arg34))
+Model : arg32: (0::(0::(5::(8::(Nil))))), arg33: (Nil), arg34: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
+Model : arg32: (Nil), arg33: (Nil), arg34: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
+Model : arg32: (Nil), arg33: (Nil), arg34: (Nil), nat2: ZERO, nat5: ZERO, nat_list3: (Nil)
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (0::(0::(5::(8::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (0::(0::(5::(8::(Nil)))))) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil)))) = reverse (((((reverse ((ZERO::(Nil))) @ (Nil)) @ (Nil)) @ (ZERO::(Nil))) @ (Nil)))
+Simplifying took 0.004431 seconds
+Result : true
+advanced_generalize done
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+nat3 : nat
+---------------------------------------
+forall (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(Nil))))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+=================================================
+Progress: 511
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+nat1 : nat
+nat2 : nat
+nat3 : nat
+---------------------------------------
+forall (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(Nil))))) = reverse (((((reverse ((nat5::nat_list3)) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil))) @ (nat4::(Nil))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> assert forall (arg32:any list) (arg33:any list) (arg34:nat list) (nat2:nat) (nat5:nat) (nat_list3:nat list), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ arg32) @ arg33) @ (nat2::arg34))) = reverse (((((reverse ((nat5::nat_list3)) @ arg32) @ arg33) @ (nat2::(Nil))) @ arg34))(rank : 0)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:9)
+=================================================
+Progress: 512
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> simpl in goal(rank : 9)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse ((((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+induction nat_list2(rank:10)
+=================================================
+Progress: 513
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse ((((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> induction nat_list2(rank : 10)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat), reverse (((((reverse ((Nil)) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse ((((((reverse ((Nil)) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+
+1 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:10)
+=================================================
+Progress: 514
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat), reverse (((((reverse ((Nil)) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse ((((((reverse ((Nil)) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+
+1 goal(s) more...
+
+3 conjecture(s) more...
+>>> simpl in goal(rank : 10)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse (((any_list1 @ any_list2) @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse ((((any_list1 @ any_list2) @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+
+1 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:11)
+=================================================
+Progress: 515
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+---------------------------------------
+forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse (((any_list1 @ any_list2) @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse ((((any_list1 @ any_list2) @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+
+1 goal(s) more...
+
+3 conjecture(s) more...
+>>> induction any_list1(rank : 11)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+---------------------------------------
+forall (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((((Nil) @ any_list2) @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((((Nil) @ any_list2) @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:11)
+=================================================
+Progress: 516
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+---------------------------------------
+forall (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((((Nil) @ any_list2) @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((((Nil) @ any_list2) @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
+>>> simpl in goal(rank : 11)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+---------------------------------------
+forall (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((any_list2 @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((any_list2 @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+induction any_list2(rank:12)
+=================================================
+Progress: 517
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+---------------------------------------
+forall (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((any_list2 @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((any_list2 @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
+>>> induction any_list2(rank : 12)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+any_list2 : any list
+Base3 : any_list2 = (Nil)
+---------------------------------------
+forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse (((Nil) @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse ((((Nil) @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+
+3 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:11)
+=================================================
+Progress: 518
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+any_list2 : any list
+Base3 : any_list2 = (Nil)
+---------------------------------------
+forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse (((Nil) @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse ((((Nil) @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+
+3 goal(s) more...
+
+3 conjecture(s) more...
+>>> reflexivity(rank : 11)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+any_list2 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((any_list3 @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+Inductive1 : any_list2 = (any1::any_list3)
+---------------------------------------
+forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse (((any1::any_list3) @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse ((((any1::any_list3) @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:11)
+=================================================
+Progress: 519
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+any_list2 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((any_list3 @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+Inductive1 : any_list2 = (any1::any_list3)
+---------------------------------------
+forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse (((any1::any_list3) @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse ((((any1::any_list3) @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
+>>> simpl in goal(rank : 11)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+any_list2 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((any_list3 @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+Inductive1 : any_list2 = (any1::any_list3)
+---------------------------------------
+forall (nat_list1:nat list) (nat1:nat) (nat2:nat), ((reverse ((any_list3 @ (nat1::nat_list1))) @ (any1::(Nil))) @ (nat2::(Nil))) = ((reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (any1::(Nil))) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 5
+intro nat1(rank:11)
+intro nat_list1(rank:11)
+rewrite IH1 in goal at 0(rank:19)
+rewrite <- IH1 in goal at 0(rank:19)
+intro nat2(rank:11)
+=================================================
+Progress: 520
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+any_list2 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((any_list3 @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+Inductive1 : any_list2 = (any1::any_list3)
+---------------------------------------
+forall (nat_list1:nat list) (nat1:nat) (nat2:nat), ((reverse ((any_list3 @ (nat1::nat_list1))) @ (any1::(Nil))) @ (nat2::(Nil))) = ((reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (any1::(Nil))) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro nat1(rank : 11)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+any_list2 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((any_list3 @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+Inductive1 : any_list2 = (any1::any_list3)
+nat1 : nat
+---------------------------------------
+forall (nat_list1:nat list) (nat2:nat), ((reverse ((any_list3 @ (nat1::nat_list1))) @ (any1::(Nil))) @ (nat2::(Nil))) = ((reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (any1::(Nil))) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 4
+intro nat2(rank:11)
+intro nat_list1(rank:11)
+rewrite IH1 in goal at 0(rank:19)
+rewrite <- IH1 in goal at 0(rank:19)
+=================================================
+Progress: 521
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+any_list2 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((any_list3 @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+Inductive1 : any_list2 = (any1::any_list3)
+---------------------------------------
+forall (nat_list1:nat list) (nat1:nat) (nat2:nat), ((reverse ((any_list3 @ (nat1::nat_list1))) @ (any1::(Nil))) @ (nat2::(Nil))) = ((reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (any1::(Nil))) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro nat2(rank : 11)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list) (nat_list1:nat list) (nat1:nat) (nat2:nat) (nat_list2:nat list), reverse (((((reverse (nat_list2) @ (nat2::(Nil))) @ any_list1) @ any_list2) @ (nat1::nat_list1))) = reverse (((((reverse ((nat2::nat_list2)) @ any_list1) @ any_list2) @ (nat1::(Nil))) @ nat_list1))
+nat_list2 : nat list
+Base1 : nat_list2 = (Nil)
+any_list1 : any list
+Base2 : any_list1 = (Nil)
+any_list2 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (nat_list1:nat list) (nat1:nat) (nat2:nat), (reverse ((any_list3 @ (nat1::nat_list1))) @ (nat2::(Nil))) = (reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (nat2::(Nil)))
+Inductive1 : any_list2 = (any1::any_list3)
+nat2 : nat
+---------------------------------------
+forall (nat_list1:nat list) (nat1:nat), ((reverse ((any_list3 @ (nat1::nat_list1))) @ (any1::(Nil))) @ (nat2::(Nil))) = ((reverse (((any_list3 @ (nat1::(Nil))) @ nat_list1)) @ (any1::(Nil))) @ (nat2::(Nil)))
+
+2 goal(s) more...
+
+3 conjecture(s) more...
 Dilemma timed out for benchmark clam with problem 18.File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:

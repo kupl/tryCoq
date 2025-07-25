@@ -796,7 +796,7 @@ let decl_of_subtree_difference fun_name base_case subtree_differnce =
   let increase_typ = collect_free_var_in_subtree (List.hd subtree_differnce) [] in
   let increase_typ =
     match increase_typ with
-    | [] -> base_case.typ
+    | [] -> Ir.Talgebraic ("unit", [])
     | (_, typ) :: _ ->
       (match typ with
        | Proof.Type typ -> typ
@@ -826,12 +826,16 @@ let decl_of_subtree_difference fun_name base_case subtree_differnce =
       (List.hd subtree_differnce)
   in
   let inductive_pattern =
-    Ir.Case (Pat_Constr ("Cons", [ Pat_Var "hd"; Pat_Var "tl" ]), inductive_expr)
+    match increase_typ with
+    | Ir.Talgebraic ("unit", []) ->
+      Ir.Case
+        (Pat_Constr ("Cons", [ Pat_Constr ("Unit", []); Pat_Var "tl" ]), inductive_expr)
+    | _ -> Ir.Case (Pat_Constr ("Cons", [ Pat_Var "hd"; Pat_Var "tl" ]), inductive_expr)
   in
   let fun_body =
     Ir.
       { desc = Match ([ increase_arg ], [ base_pattern; inductive_pattern ])
-      ; typ = Ir.Tany
+      ; typ = inductive_expr.typ
       }
   in
   Ir.Rec (fun_name, "lst" :: base_case_var, fun_body)
@@ -970,7 +974,11 @@ let make_helper_function_and_lemma
         (List.nth common_subtree 1)
         (List.nth expr_list 1 |> subtree_of_expr)
     in
-    let typ = base_case.typ in
+    let typ =
+      match helper_decl with
+      | Ir.Rec (_, _, body) -> Ir.get_type_in_expr "lst" body |> Option.get
+      | _ -> failwith "not implemented"
+    in
     let lst = Ir.{ desc = Var "lst"; typ } in
     let expr = fill_subtreewith_expr head lst in
     [], [], expr
@@ -1180,14 +1188,9 @@ let rec generalize_common_subterm goal =
 
 let rec get_child_pair lhs rhs =
   match lhs.Ir.desc, rhs.Ir.desc with
-  | Call (name1, args1), Call (name2, args2) when name1 = name2 ->
-    List.fold_left2
-      (fun acc arg1 arg2 ->
-         let child_pair = get_child_pair arg1 arg2 in
-         child_pair @ acc)
-      []
-      args1
-      args2
+  | Call (name1, [ arg1 ]), Call (name2, [ arg2 ]) when name1 = name2 ->
+    let child_pair = get_child_pair arg1 arg2 in
+    child_pair
   | _ when Ir.is_equal_expr lhs rhs -> []
   | _ -> [ lhs, rhs ]
 ;;
@@ -1208,7 +1211,7 @@ let make_goal_no_free_var facts goal =
   goal
 ;;
 
-let naive_generalize t : lemma list =
+let naive_generalize t is_worklist_empty : lemma list =
   let state = Proof.get_first_state t in
   let facts, goal, _ = state in
   let vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
@@ -1224,23 +1227,31 @@ let naive_generalize t : lemma list =
       | _ -> goal
     in
     let generalize_common_subterm = generalize_common_subterm goal in
+    let is_changed = goal <> generalize_common_subterm in
     let generalize_common_subterm_goal =
       make_goal_no_free_var facts generalize_common_subterm
     in
-    match Validate.validate t.env generalize_common_subterm_goal with
+    let _ = print_endline "validate generalize_common_subterm_goal" in
+    match is_changed && Validate.validate t.env generalize_common_subterm_goal with
     | true -> [ generalize_common_subterm_goal ]
     | false ->
       let generalize_child_goals = generalize_child goal in
+      let is_changed = goal <> List.hd generalize_child_goals in
       let generalize_child_goals =
         List.map (make_goal_no_free_var facts) generalize_child_goals
       in
-      (match List.for_all (Validate.validate t.env) generalize_child_goals with
+      (match
+         is_changed && List.for_all (Validate.validate t.env) generalize_child_goals
+       with
        | true -> generalize_child_goals
        | false ->
          let just_generalize_goal = make_goal_no_free_var facts goal in
+         let _ = is_worklist_empty in
          (match Validate.validate t.env just_generalize_goal with
           | true -> [ just_generalize_goal ]
-          | false -> [])))
+          | false ->
+            let _ = print_endline "asdf" in
+            [])))
 ;;
 
 let rec is_trivial goal =
@@ -1287,7 +1298,9 @@ let get_induction_var (state : state) =
   induction_var
 ;;
 
-let advanced_generalize (t : proof_node) : (proof_node * lemma list) list =
+let advanced_generalize (t : proof_node) (is_worklist_empty : bool)
+  : (proof_node * lemma list) list
+  =
   let first_state = Proof.get_first_state t.t in
   let facts, goal, _ = first_state in
   match is_trivial goal with
@@ -1300,7 +1313,7 @@ let advanced_generalize (t : proof_node) : (proof_node * lemma list) list =
     in
     let state_list = fast_execution 2 t.t in
     (match state_list with
-     | [] -> List.map (fun lemma -> t, [ lemma ]) (naive_generalize t.t)
+     | [] -> List.map (fun lemma -> t, [ lemma ]) (naive_generalize t.t is_worklist_empty)
      | _ ->
        let induction_vars = List.map get_induction_var state_list in
        let new_env, lemma_list =
@@ -1308,7 +1321,7 @@ let advanced_generalize (t : proof_node) : (proof_node * lemma list) list =
        in
        let new_env = List.map Ir.rename_decl new_env in
        if List.is_empty lemma_list
-       then List.map (fun lemma -> t, [ lemma ]) (naive_generalize t.t)
+       then List.map (fun lemma -> t, [ lemma ]) (naive_generalize t.t is_worklist_empty)
        else (
          let new_t =
            List.fold_left
@@ -1319,8 +1332,10 @@ let advanced_generalize (t : proof_node) : (proof_node * lemma list) list =
          [ new_t, lemma_list ]))
 ;;
 
-let find_lemma (t : proof_node) lemma_set : (proof_node * lemma list) list =
-  let t_lemmas_list = advanced_generalize t in
+let find_lemma (t : proof_node) lemma_set is_worklist_empty
+  : (proof_node * lemma list) list
+  =
+  let t_lemmas_list = advanced_generalize t is_worklist_empty in
   let original_goal = Proof.get_conj_list t.t |> List.hd |> snd in
   let _ = Printf.printf "advanced_generalize done\n" in
   let t_lemmas_list =

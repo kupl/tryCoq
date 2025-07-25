@@ -277,23 +277,24 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (nat2)))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (SUCC (nat2)))
+Model : nat2: SUCC (SUCC (ZERO))
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (ZERO)))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000181 seconds
+Simplifying took 0.000302 seconds
 Result : true
 advanced_generalize done
 
@@ -603,23 +604,24 @@ simpl in goal
 intro Cond1
 rewrite Cond1 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true -> even (plus (nat2) (SUCC (nat2))) = true
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) = true
+even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
-even (plus (ZERO) (SUCC (ZERO))) = true
-even (plus (ZERO) (SUCC (ZERO))) = true
-Simplifying took 0.000154 seconds
+Simplifying took 0.000302 seconds
 Result : true
 advanced_generalize done
 
@@ -1002,23 +1004,24 @@ case even (plus (nat2) (SUCC (SUCC (nat2))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = false -> even (plus (nat2) (SUCC (SUCC (nat2)))) = true
-Model : nat2: SUCC (SUCC (ZERO))
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
+even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-Simplifying took 0.000350 seconds
+Simplifying took 0.000361 seconds
 Result : true
 advanced_generalize done
 
@@ -1335,6 +1338,7 @@ intro Cond1
 intro Cond2
 rewrite Cond2 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -1343,7 +1347,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -1351,7 +1355,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.000229 seconds
+Simplifying took 0.000361 seconds
 Result : true
 advanced_generalize done
 
@@ -1829,6 +1833,7 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
 Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
@@ -1837,7 +1842,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -1845,7 +1850,7 @@ prop list:
 false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.000417 seconds
+Simplifying took 0.000457 seconds
 Result : true
 advanced_generalize done
 
@@ -2277,6 +2282,7 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->false = false->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -2285,7 +2291,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -2293,7 +2299,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000277 seconds
+Simplifying took 0.000284 seconds
 Result : true
 advanced_generalize done
 
@@ -2690,23 +2696,24 @@ intro Cond1
 intro Cond2
 rewrite Cond2 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (nat2)))) = true
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = true
+even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-Simplifying took 0.000398 seconds
+Simplifying took 0.000705 seconds
 Result : true
 advanced_generalize done
 
@@ -3027,6 +3034,7 @@ intro Cond2
 intro Cond3
 rewrite Cond3 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->false = false->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -3035,7 +3043,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -3043,7 +3051,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.000311 seconds
+Simplifying took 0.000514 seconds
 Result : true
 advanced_generalize done
 
@@ -3545,23 +3553,24 @@ rewrite <- IH1 in goal at 0
 case even (plus (nat2) (SUCC (nat2)))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (SUCC (nat2)))
 Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (ZERO)))
+false = even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (ZERO)))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
-Simplifying took 0.000174 seconds
+Simplifying took 0.000412 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -3891,23 +3900,24 @@ case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.000566 seconds
+even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
+Simplifying took 0.000465 seconds
 Result : true
 advanced_generalize done
 
@@ -4269,23 +4279,24 @@ intro Cond2
 intro Cond3
 rewrite Cond3 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 Model : nat2: ZERO
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000873 seconds
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
+Simplifying took 0.001168 seconds
 Result : true
 advanced_generalize done
 
@@ -4642,6 +4653,7 @@ previous tactics
 simpl in goal
 case even (plus (nat2) (SUCC (nat2)))
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (SUCC (nat2)))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -4650,7 +4662,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -4658,7 +4670,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (ZERO)))
 false = even (plus (ZERO) (SUCC (ZERO)))
 false = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000110 seconds
+Simplifying took 0.000121 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -4697,6 +4709,7 @@ previous tactics
 simpl in goal
 case even (plus (nat2) (SUCC (nat2)))
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -4705,7 +4718,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -4713,7 +4726,7 @@ prop list:
 false = even (plus (ZERO) (ZERO))
 false = even (plus (ZERO) (ZERO))
 false = even (plus (ZERO) (ZERO))
-Simplifying took 0.000086 seconds
+Simplifying took 0.000094 seconds
 Result : true
 advanced_generalize done
 
@@ -5206,23 +5219,24 @@ reflexivity
 reflexivity
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (SUCC (nat2))) = true
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
-even (plus (ZERO) (SUCC (ZERO))) = true
-Simplifying took 0.000198 seconds
+Simplifying took 0.000318 seconds
 Result : true
 advanced_generalize done
 
@@ -5539,23 +5553,24 @@ intro Cond1
 intro Cond2
 rewrite Cond2 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> false = even (plus (nat2) (SUCC (nat2)))
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (ZERO)))
-false = even (plus (ZERO) (SUCC (ZERO)))
-false = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000287 seconds
+Simplifying took 0.000531 seconds
 Result : true
 advanced_generalize done
 
@@ -5986,23 +6001,24 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->false = false->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
-Model : nat2: ZERO
-Model : nat2: ZERO
 Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000420 seconds
+false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
+false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
+Simplifying took 0.000587 seconds
 Result : true
 advanced_generalize done
 
@@ -6404,23 +6420,24 @@ intro Cond2
 intro Cond3
 rewrite Cond3 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->false = false->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (nat2)))) = true
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-Simplifying took 0.000555 seconds
+even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
+Simplifying took 0.000467 seconds
 Result : true
 advanced_generalize done
 
@@ -6975,23 +6992,24 @@ case even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->false = false->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true
 Model : nat2: ZERO
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-Simplifying took 0.000398 seconds
+even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) = true
+even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
+Simplifying took 0.000914 seconds
 Result : true
 advanced_generalize done
 
@@ -7400,23 +7418,24 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->false = false->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-Simplifying took 0.000539 seconds
+false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
+Simplifying took 0.000620 seconds
 Result : true
 advanced_generalize done
 
@@ -7938,23 +7957,24 @@ simpl in goal
 rewrite <- IH1 in goal at 1
 case even (plus (nat2) (SUCC (nat2)))
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (SUCC (nat2)))
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (ZERO)))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000272 seconds
+false = even (plus (ZERO) (SUCC (ZERO)))
+Simplifying took 0.000128 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -7994,23 +8014,24 @@ simpl in goal
 rewrite <- IH1 in goal at 1
 case even (plus (nat2) (SUCC (nat2)))
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (ZERO))
 false = even (plus (ZERO) (ZERO))
-false = even (plus (SUCC (ZERO)) (SUCC (ZERO)))
-Simplifying took 0.000143 seconds
+false = even (plus (ZERO) (ZERO))
+Simplifying took 0.000099 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -8215,23 +8236,24 @@ case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->false = false->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.000477 seconds
+even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
+Simplifying took 0.000639 seconds
 Result : true
 advanced_generalize done
 
@@ -8640,6 +8662,7 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->false = false->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -8648,7 +8671,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -8656,7 +8679,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000548 seconds
+Simplifying took 0.000862 seconds
 Result : true
 advanced_generalize done
 
@@ -9061,6 +9084,7 @@ intro Cond1
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 reflexivity
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = false -> even (plus (nat2) (SUCC (SUCC (nat2)))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -9069,7 +9093,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -9077,7 +9101,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-Simplifying took 0.000183 seconds
+Simplifying took 0.000199 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -9232,23 +9256,24 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = true->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
-Model : nat2: ZERO
 Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000864 seconds
+false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
+Simplifying took 0.000896 seconds
 Result : true
 advanced_generalize done
 
@@ -9610,23 +9635,24 @@ intro Cond1
 case even (plus (nat2) (SUCC (nat2)))
 reflexivity
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (SUCC (nat2))) = true
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
-Simplifying took 0.000306 seconds
+even (plus (ZERO) (SUCC (ZERO))) = true
+Simplifying took 0.000248 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -9709,6 +9735,7 @@ intro Cond2
 intro Cond3
 rewrite Cond3 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true then false else true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -9717,7 +9744,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -9725,7 +9752,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.000993 seconds
+Simplifying took 0.001107 seconds
 Result : true
 advanced_generalize done
 
@@ -10218,23 +10245,24 @@ intro Cond1
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 reflexivity
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = false -> even (plus (nat2) (SUCC (nat2))) = true
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (ZERO))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
-Simplifying took 0.000228 seconds
+even (plus (ZERO) (SUCC (ZERO))) = true
+Simplifying took 0.000163 seconds
 Result : true
 advanced_generalize done
 
@@ -10683,23 +10711,24 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.000447 seconds
+false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
+Simplifying took 0.000334 seconds
 Result : true
 advanced_generalize done
 
@@ -11157,23 +11186,24 @@ intro Cond2
 intro Cond3
 rewrite Cond3 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (nat2)))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.000551 seconds
+even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
+Simplifying took 0.000452 seconds
 Result : true
 advanced_generalize done
 
@@ -11656,6 +11686,7 @@ case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -11664,7 +11695,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -11672,7 +11703,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.000564 seconds
+Simplifying took 0.000501 seconds
 Result : true
 advanced_generalize done
 
@@ -12137,23 +12168,24 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000986 seconds
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
+Simplifying took 0.000864 seconds
 Result : true
 advanced_generalize done
 
@@ -12679,6 +12711,7 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->false = false->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true = true->even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true -> false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -12687,7 +12720,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -12695,7 +12728,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
-Simplifying took 0.000863 seconds
+Simplifying took 0.000818 seconds
 Result : true
 advanced_generalize done
 
@@ -13233,6 +13266,7 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->false = false->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -13241,7 +13275,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -13249,7 +13283,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-Simplifying took 0.000688 seconds
+Simplifying took 0.001158 seconds
 Result : true
 advanced_generalize done
 
@@ -13808,6 +13842,7 @@ reflexivity
 reflexivity
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -13816,7 +13851,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -13824,7 +13859,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.000437 seconds
+Simplifying took 0.000485 seconds
 Result : true
 advanced_generalize done
 
@@ -14242,23 +14277,24 @@ intro Cond2
 intro Cond3
 rewrite Cond3 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
-Model : nat2: SUCC (ZERO)
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000796 seconds
+false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
+false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
+Simplifying took 0.000572 seconds
 Result : true
 advanced_generalize done
 
@@ -14740,23 +14776,24 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->true = true->false = false->even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true -> false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-Simplifying took 0.000654 seconds
+Simplifying took 0.001004 seconds
 Result : true
 advanced_generalize done
 
@@ -15207,23 +15244,24 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true then false else true = true->true = true->false = false->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: SUCC (SUCC (ZERO))
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) = true
-Simplifying took 0.001066 seconds
+even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
+Simplifying took 0.000798 seconds
 Result : true
 advanced_generalize done
 
@@ -15830,6 +15868,7 @@ intro Cond1
 case even (plus (nat2) (SUCC (nat2)))
 reflexivity
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (nat2)) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -15838,7 +15877,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -15846,7 +15885,7 @@ prop list:
 even (plus (ZERO) (ZERO)) = true
 even (plus (ZERO) (ZERO)) = true
 even (plus (ZERO) (ZERO)) = true
-Simplifying took 0.000190 seconds
+Simplifying took 0.000284 seconds
 Result : true
 advanced_generalize done
 
@@ -16239,23 +16278,24 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (nat2)))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (SUCC (nat2)))
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (ZERO)))
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (ZERO)))
-false = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000331 seconds
+Simplifying took 0.000531 seconds
 Result : true
 advanced_generalize done
 
@@ -16657,23 +16697,24 @@ intro Cond2
 intro Cond3
 rewrite Cond3 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true -> even (plus (nat2) (SUCC (nat2))) = true
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: SUCC (SUCC (ZERO))
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (ZERO))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) = true
+even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
-Simplifying took 0.000655 seconds
+Simplifying took 0.000883 seconds
 Result : true
 advanced_generalize done
 
@@ -17156,6 +17197,7 @@ case even (plus (nat2) (SUCC (SUCC (nat2))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = false->true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = false -> even (plus (nat2) (SUCC (SUCC (nat2)))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -17164,7 +17206,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -17172,7 +17214,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-Simplifying took 0.000576 seconds
+Simplifying took 0.000874 seconds
 Result : true
 advanced_generalize done
 
@@ -17581,23 +17623,24 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = false->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
-Model : nat2: SUCC (SUCC (ZERO))
+Model : nat2: ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.001067 seconds
+false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
+Simplifying took 0.000806 seconds
 Result : true
 advanced_generalize done
 
@@ -18003,6 +18046,7 @@ rewrite IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 discriminate
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = false -> even (plus (nat2) (SUCC (SUCC (nat2)))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -18011,7 +18055,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -18019,7 +18063,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-Simplifying took 0.000198 seconds
+Simplifying took 0.000298 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -18183,23 +18227,24 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = true->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
-Model : nat2: SUCC (SUCC (ZERO))
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.001363 seconds
+false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
+false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
+Simplifying took 0.000708 seconds
 Result : true
 advanced_generalize done
 
@@ -18650,23 +18695,24 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.001068 seconds
+even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
+Simplifying took 0.001206 seconds
 Result : true
 advanced_generalize done
 
@@ -19206,6 +19252,7 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->false = false->even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true -> false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -19214,7 +19261,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -19222,7 +19269,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-Simplifying took 0.000575 seconds
+Simplifying took 0.000665 seconds
 Result : true
 advanced_generalize done
 
@@ -19729,23 +19776,24 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false->false = false->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true
-Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-Simplifying took 0.000695 seconds
+Simplifying took 0.001152 seconds
 Result : true
 advanced_generalize done
 
@@ -20111,6 +20159,7 @@ rewrite IH1 in goal at 0
 reflexivity
 reflexivity
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (SUCC (nat2))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -20119,7 +20168,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -20127,7 +20176,7 @@ prop list:
 even (plus (ZERO) (SUCC (ZERO))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
-Simplifying took 0.000211 seconds
+Simplifying took 0.000230 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -20291,23 +20340,24 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = false->if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
-Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.001020 seconds
+Simplifying took 0.001104 seconds
 Result : true
 advanced_generalize done
 
@@ -20758,23 +20808,24 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true then false else true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = false->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (nat2)))) = true
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
+even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-Simplifying took 0.001317 seconds
+Simplifying took 0.001372 seconds
 Result : true
 advanced_generalize done
 
@@ -21267,6 +21318,7 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->false = false->true = true->false = false->even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) = true -> false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -21275,7 +21327,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -21283,7 +21335,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
-Simplifying took 0.000756 seconds
+Simplifying took 0.000738 seconds
 Result : true
 advanced_generalize done
 
@@ -21785,23 +21837,24 @@ intro Cond4
 intro Cond5
 rewrite Cond5 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->false = false->true = true->false = false->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) = true
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
-even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
-even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
-Simplifying took 0.000604 seconds
+even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) = true
+Simplifying took 0.000907 seconds
 Result : true
 advanced_generalize done
 
@@ -22364,6 +22417,7 @@ rewrite IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 discriminate
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = false -> even (plus (nat2) (SUCC (nat2))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -22372,7 +22426,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -22380,7 +22434,7 @@ prop list:
 even (plus (ZERO) (SUCC (ZERO))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
-Simplifying took 0.000154 seconds
+Simplifying took 0.000163 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -22553,6 +22607,7 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->true = true->false = false->even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true -> false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -22561,7 +22616,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -22569,7 +22624,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-Simplifying took 0.000628 seconds
+Simplifying took 0.000653 seconds
 Result : true
 advanced_generalize done
 
@@ -23127,23 +23182,24 @@ intro Cond4
 intro Cond5
 rewrite Cond5 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false->true = true->false = false->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-Simplifying took 0.000889 seconds
+even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) = true
+Simplifying took 0.001111 seconds
 Result : true
 advanced_generalize done
 
@@ -23553,23 +23609,24 @@ rewrite IH1 in goal at 0
 reflexivity
 reflexivity
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (nat2)) = true
 Model : nat2: ZERO
 Model : nat2: SUCC (ZERO)
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (ZERO)) = true
 even (plus (SUCC (ZERO)) (SUCC (ZERO))) = true
-even (plus (SUCC (ZERO)) (SUCC (ZERO))) = true
-Simplifying took 0.000379 seconds
+even (plus (ZERO) (ZERO)) = true
+Simplifying took 0.000287 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -23742,23 +23799,24 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = false->true = true->false = false->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
+false = even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000721 seconds
+Simplifying took 0.001253 seconds
 Result : true
 advanced_generalize done
 
@@ -24260,23 +24318,24 @@ intro Cond4
 intro Cond5
 rewrite Cond5 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true then false else true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = false->true = true->false = false->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
+even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-Simplifying took 0.001247 seconds
+Simplifying took 0.001098 seconds
 Result : true
 advanced_generalize done
 
@@ -24786,23 +24845,24 @@ rewrite <- IH1 in goal at 0
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.000309 seconds
+Simplifying took 0.000472 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -24912,6 +24972,7 @@ simpl in goal
 intro Cond1
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -24920,7 +24981,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -24928,7 +24989,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.000309 seconds
+Simplifying took 0.000331 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -24973,6 +25034,7 @@ intro Cond1
 intro Cond2
 case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->false = false->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -24981,7 +25043,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -24989,7 +25051,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000264 seconds
+Simplifying took 0.000283 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -25270,23 +25332,24 @@ case even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true then false else true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = true->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
-Simplifying took 0.001447 seconds
+even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
+even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
+Simplifying took 0.000999 seconds
 Result : true
 advanced_generalize done
 
@@ -25695,23 +25758,24 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))))) then false else true then false else true then false else true then false else true then false else true then false else true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = true->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-Simplifying took 0.001605 seconds
+false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
+Simplifying took 0.001395 seconds
 Result : true
 advanced_generalize done
 
@@ -26188,23 +26252,24 @@ case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite <- IH1 in goal at 1
 rewrite Cond1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg1:nat) (nat2:nat), false = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> even (plus (nat2) (SUCC (arg1))) = even (plus (nat2) (arg1))
-Model : arg1: ZERO, nat2: SUCC (SUCC (SUCC (ZERO)))
-Model : arg1: ZERO, nat2: ZERO
-Model : arg1: ZERO, nat2: ZERO
+Model : arg1: SUCC (ZERO), nat2: ZERO
+Model : arg1: ZERO, nat2: SUCC (SUCC (ZERO))
+Model : arg1: SUCC (ZERO), nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (plus (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))) = even (plus (SUCC (SUCC (SUCC (ZERO)))) (ZERO))
-even (plus (ZERO) (SUCC (ZERO))) = even (plus (ZERO) (ZERO))
-even (plus (ZERO) (SUCC (ZERO))) = even (plus (ZERO) (ZERO))
-Simplifying took 0.000506 seconds
+even (plus (ZERO) (SUCC (SUCC (ZERO)))) = even (plus (ZERO) (SUCC (ZERO)))
+even (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) = even (plus (SUCC (SUCC (ZERO))) (ZERO))
+even (plus (ZERO) (SUCC (SUCC (ZERO)))) = even (plus (ZERO) (SUCC (ZERO)))
+Simplifying took 0.000417 seconds
 Result : true
 advanced_generalize done
 
@@ -26614,23 +26679,24 @@ discriminate
 discriminate
 discriminate
 rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = false -> even (plus (nat2) (nat2)) = true
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
+Model : nat2: SUCC (SUCC (ZERO))
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+even (plus (SUCC (ZERO)) (SUCC (ZERO))) = true
+even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (ZERO)) = true
-even (plus (ZERO) (ZERO)) = true
-even (plus (ZERO) (ZERO)) = true
-Simplifying took 0.000125 seconds
+Simplifying took 0.000516 seconds
 Result : true
 advanced_generalize done
 
@@ -27494,23 +27560,24 @@ intro Cond1
 intro Cond2
 rewrite lemma3 in goal at 0
 rewrite <- IH1 in goal at 2
+validate generalize_common_subterm_goal
 Lemma : forall (arg2:nat) (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> if even (arg2) then false else true = even (arg2)
-Model : arg2: ZERO, nat2: ZERO
-Model : arg2: ZERO, nat2: ZERO
-Model : arg2: ZERO, nat2: ZERO
+Model : arg2: ZERO, nat2: SUCC (ZERO)
+Model : arg2: SUCC (ZERO), nat2: ZERO
+Model : arg2: SUCC (SUCC (SUCC (ZERO))), nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 if even (ZERO) then false else true = even (ZERO)
-if even (ZERO) then false else true = even (ZERO)
-if even (ZERO) then false else true = even (ZERO)
-Simplifying took 0.000180 seconds
+if even (SUCC (ZERO)) then false else true = even (SUCC (ZERO))
+if even (SUCC (SUCC (SUCC (ZERO)))) then false else true = even (SUCC (SUCC (SUCC (ZERO))))
+Simplifying took 0.000507 seconds
 Result : true
 advanced_generalize done
 
@@ -27743,23 +27810,24 @@ intro Cond1
 intro Cond2
 rewrite <- IH1 in goal at 2
 rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg3:nat) (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> if even (arg3) then false else true = even (arg3)
 Model : arg3: ZERO, nat2: ZERO
-Model : arg3: SUCC (SUCC (ZERO)), nat2: ZERO
+Model : arg3: ZERO, nat2: SUCC (ZERO)
 Model : arg3: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 if even (ZERO) then false else true = even (ZERO)
-if even (SUCC (SUCC (ZERO))) then false else true = even (SUCC (SUCC (ZERO)))
 if even (ZERO) then false else true = even (ZERO)
-Simplifying took 0.000224 seconds
+if even (ZERO) then false else true = even (ZERO)
+Simplifying took 0.000257 seconds
 Result : true
 advanced_generalize done
 
@@ -28539,23 +28607,24 @@ intro Cond1
 intro Cond2
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
-Model : nat2: SUCC (SUCC (ZERO))
-Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
+Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.000686 seconds
+false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
+Simplifying took 0.000509 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -28598,23 +28667,24 @@ intro Cond1
 rewrite IH1 in goal at 0
 case even (plus (nat2) (SUCC (nat2)))
 rewrite <- IH1 in goal at 1
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (plus (SUCC (ZERO)) (SUCC (ZERO)))
 false = even (plus (ZERO) (ZERO))
 false = even (plus (ZERO) (ZERO))
-false = even (plus (ZERO) (ZERO))
-Simplifying took 0.000178 seconds
+Simplifying took 0.000402 seconds
 Result : true
 advanced_generalize done
 
@@ -29287,23 +29357,24 @@ reflexivity
 reflexivity
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (SUCC (nat2))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (ZERO))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
-even (plus (ZERO) (SUCC (ZERO))) = true
-Simplifying took 0.000328 seconds
+even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO))))) = true
+Simplifying took 0.000943 seconds
 Result : true
 advanced_generalize done
 
@@ -29665,23 +29736,24 @@ intro Cond2
 intro Cond3
 rewrite Cond3 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> false = even (plus (nat2) (SUCC (nat2)))
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (ZERO)))
+false = even (plus (ZERO) (SUCC (ZERO)))
 false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
-Simplifying took 0.001165 seconds
+Simplifying took 0.000797 seconds
 Result : true
 advanced_generalize done
 
@@ -30163,23 +30235,24 @@ rewrite <- IH1 in goal at 2
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->false = false->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.000523 seconds
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
+Simplifying took 0.001073 seconds
 Result : true
 advanced_generalize done
 
@@ -30630,6 +30703,7 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->false = false->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = true -> even (plus (nat2) (SUCC (SUCC (nat2)))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -30638,7 +30712,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -30646,7 +30720,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-Simplifying took 0.000966 seconds
+Simplifying took 0.000726 seconds
 Result : true
 advanced_generalize done
 
@@ -31088,23 +31162,24 @@ intro Cond2
 case even (plus (nat2) (SUCC (nat2)))
 reflexivity
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (SUCC (nat2))) = true
-Model : nat2: SUCC (SUCC (ZERO))
+Model : nat2: ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
 even (plus (ZERO) (SUCC (ZERO))) = true
-Simplifying took 0.000650 seconds
+even (plus (ZERO) (SUCC (ZERO))) = true
+Simplifying took 0.000564 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -31320,23 +31395,24 @@ case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->false = false->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
 Model : nat2: ZERO
-Model : nat2: SUCC (SUCC (ZERO))
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-Simplifying took 0.001329 seconds
+even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
+even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
+Simplifying took 0.001225 seconds
 Result : true
 advanced_generalize done
 
@@ -31794,23 +31870,24 @@ intro Cond4
 intro Cond5
 rewrite Cond5 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true then false else true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->false = false->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.001064 seconds
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
+Simplifying took 0.001456 seconds
 Result : true
 advanced_generalize done
 
@@ -32261,23 +32338,24 @@ intro Cond1
 rewrite IH1 in goal at 0
 case even (plus (nat2) (SUCC (nat2)))
 rewrite <- IH1 in goal at 2
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = true -> even (plus (nat2) (nat2)) = false
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (ZERO)) = false
-even (plus (SUCC (ZERO)) (SUCC (ZERO))) = false
 even (plus (ZERO) (ZERO)) = false
-Simplifying took 0.000291 seconds
+even (plus (ZERO) (ZERO)) = false
+Simplifying took 0.000188 seconds
 Result : true
 advanced_generalize done
 
@@ -32950,23 +33028,24 @@ reflexivity
 reflexivity
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = false -> true = even (plus (nat2) (SUCC (nat2)))
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-true = even (plus (ZERO) (SUCC (ZERO)))
+true = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
 true = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
 true = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000511 seconds
+Simplifying took 0.000654 seconds
 Result : true
 advanced_generalize done
 
@@ -33328,6 +33407,7 @@ intro Cond2
 intro Cond3
 rewrite Cond3 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> even (plus (nat2) (SUCC (nat2))) = false
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -33336,7 +33416,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -33344,7 +33424,7 @@ prop list:
 even (plus (ZERO) (SUCC (ZERO))) = false
 even (plus (ZERO) (SUCC (ZERO))) = false
 even (plus (ZERO) (SUCC (ZERO))) = false
-Simplifying took 0.000481 seconds
+Simplifying took 0.000496 seconds
 Result : true
 advanced_generalize done
 
@@ -33826,6 +33906,7 @@ rewrite IH1 in goal at 1
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->false = false->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> even (plus (nat2) (SUCC (SUCC (nat2)))) = false
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -33834,7 +33915,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -33842,7 +33923,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = false
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = false
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = false
-Simplifying took 0.000672 seconds
+Simplifying took 0.000729 seconds
 Result : true
 advanced_generalize done
 
@@ -34293,6 +34374,7 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->false = false->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = true -> true = even (plus (nat2) (SUCC (SUCC (nat2))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -34301,7 +34383,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -34309,7 +34391,7 @@ prop list:
 true = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 true = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 true = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.000698 seconds
+Simplifying took 0.000816 seconds
 Result : true
 advanced_generalize done
 
@@ -34751,6 +34833,7 @@ intro Cond2
 case even (plus (nat2) (SUCC (nat2)))
 reflexivity
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = false -> true = even (plus (nat2) (SUCC (nat2)))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -34759,7 +34842,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -34767,7 +34850,7 @@ prop list:
 true = even (plus (ZERO) (SUCC (ZERO)))
 true = even (plus (ZERO) (SUCC (ZERO)))
 true = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000533 seconds
+Simplifying took 0.000354 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -34983,23 +35066,24 @@ case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 discriminate
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->false = false->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = false -> true = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+true = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 true = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
 true = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-true = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000668 seconds
+Simplifying took 0.001116 seconds
 Result : true
 advanced_generalize done
 
@@ -35457,6 +35541,7 @@ intro Cond4
 intro Cond5
 rewrite Cond5 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true then false else true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->false = false->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = false -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = false
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -35465,7 +35550,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -35473,7 +35558,7 @@ prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = false
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = false
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = false
-Simplifying took 0.000841 seconds
+Simplifying took 0.001047 seconds
 Result : true
 advanced_generalize done
 
@@ -35926,6 +36011,7 @@ intro Cond1
 intro Cond2
 case even (plus (nat2) (SUCC (nat2)))
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (SUCC (nat2)))
 Model : nat2: ZERO
 Model : nat2: SUCC (ZERO)
@@ -35934,7 +36020,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -35942,7 +36028,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (ZERO)))
 false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000505 seconds
+Simplifying took 0.000533 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -36096,23 +36182,24 @@ intro Cond2
 case even (plus (nat2) (SUCC (nat2)))
 rewrite <- Case1 in goal at 0
 rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (plus (SUCC (ZERO)) (SUCC (ZERO)))
+false = even (plus (SUCC (ZERO)) (SUCC (ZERO)))
 false = even (plus (ZERO) (ZERO))
-false = even (plus (ZERO) (ZERO))
-false = even (plus (ZERO) (ZERO))
-Simplifying took 0.000231 seconds
+Simplifying took 0.000501 seconds
 Result : true
 advanced_generalize done
 
@@ -36968,23 +37055,24 @@ intro Cond2
 intro Cond3
 rewrite lemma3 in goal at 0
 rewrite IH1 in goal at 1
+validate generalize_common_subterm_goal
 Lemma : forall (arg4:nat) (nat2:nat), true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true -> even (arg4) = if even (arg4) then false else true
-Model : arg4: ZERO, nat2: ZERO
-Model : arg4: SUCC (SUCC (ZERO)), nat2: ZERO
+Model : arg4: SUCC (ZERO), nat2: ZERO
+Model : arg4: SUCC (ZERO), nat2: ZERO
 Model : arg4: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+even (SUCC (ZERO)) = if even (SUCC (ZERO)) then false else true
+even (SUCC (ZERO)) = if even (SUCC (ZERO)) then false else true
 even (ZERO) = if even (ZERO) then false else true
-even (SUCC (SUCC (ZERO))) = if even (SUCC (SUCC (ZERO))) then false else true
-even (ZERO) = if even (ZERO) then false else true
-Simplifying took 0.000370 seconds
+Simplifying took 0.000367 seconds
 Result : true
 advanced_generalize done
 
@@ -37441,23 +37529,24 @@ intro Cond2
 intro Cond3
 rewrite IH1 in goal at 1
 rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg5:nat) (nat2:nat), true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true -> even (arg5) = if even (arg5) then false else true
 Model : arg5: ZERO, nat2: ZERO
-Model : arg5: SUCC (ZERO), nat2: SUCC (ZERO)
 Model : arg5: ZERO, nat2: ZERO
+Model : arg5: ZERO, nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (ZERO) = if even (ZERO) then false else true
-even (SUCC (ZERO)) = if even (SUCC (ZERO)) then false else true
 even (ZERO) = if even (ZERO) then false else true
-Simplifying took 0.000454 seconds
+even (ZERO) = if even (ZERO) then false else true
+Simplifying took 0.000421 seconds
 Result : true
 advanced_generalize done
 
@@ -38331,23 +38420,24 @@ simpl in goal
 intro Cond1
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (nat2)))
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (ZERO)))
 false = even (plus (ZERO) (SUCC (ZERO)))
-false = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000374 seconds
+false = even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO)))))
+Simplifying took 0.000613 seconds
 Result : true
 advanced_generalize done
 
@@ -38974,23 +39064,24 @@ intro Cond2
 case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 reflexivity
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
-Model : nat2: SUCC (ZERO)
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.000744 seconds
+even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
+even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
+Simplifying took 0.000495 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -39145,6 +39236,7 @@ rewrite <- IH1 in goal at 0
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -39153,7 +39245,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -39161,7 +39253,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-Simplifying took 0.000318 seconds
+Simplifying took 0.000461 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -39282,23 +39374,24 @@ intro Cond3
 case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 reflexivity
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
-Model : nat2: ZERO
 Model : nat2: SUCC (SUCC (ZERO))
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
 even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.000731 seconds
+even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
+Simplifying took 0.000843 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -39594,23 +39687,24 @@ case even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true then false else true = true->true = true->false = false->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) = true
-Simplifying took 0.001187 seconds
+even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = true
+Simplifying took 0.000804 seconds
 Result : true
 advanced_generalize done
 
@@ -40068,23 +40162,24 @@ intro Cond4
 intro Cond5
 rewrite Cond5 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))))) then false else true then false else true then false else true then false else true then false else true then false else true = true->true = true->false = false->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))
 Model : nat2: ZERO
-Model : nat2: ZERO
 Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
-false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
 false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))
-Simplifying took 0.001524 seconds
+false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
+Simplifying took 0.001244 seconds
 Result : true
 advanced_generalize done
 
@@ -40647,6 +40742,7 @@ rewrite <- IH1 in goal at 0
 case even (plus (nat2) (SUCC (nat2)))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (SUCC (nat2)))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -40655,7 +40751,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -40663,7 +40759,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (ZERO)))
 false = even (plus (ZERO) (SUCC (ZERO)))
 false = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000355 seconds
+Simplifying took 0.000381 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -40784,23 +40880,24 @@ intro Cond3
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 reflexivity
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = false->true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = false -> even (plus (nat2) (SUCC (SUCC (nat2)))) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
 even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-even (plus (ZERO) (SUCC (SUCC (ZERO)))) = true
-Simplifying took 0.000487 seconds
+even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = true
+Simplifying took 0.000736 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -41096,23 +41193,24 @@ case even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = true->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) = true
 Model : nat2: ZERO
-Model : nat2: SUCC (SUCC (ZERO))
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-Simplifying took 0.001727 seconds
+even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
+Simplifying took 0.000997 seconds
 Result : true
 advanced_generalize done
 
@@ -41570,6 +41668,7 @@ intro Cond4
 intro Cond5
 rewrite Cond5 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))))) then false else true then false else true then false else true then false else true then false else true = false->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = true->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -41578,7 +41677,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -41586,7 +41685,7 @@ prop list:
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-Simplifying took 0.001534 seconds
+Simplifying took 0.001589 seconds
 Result : true
 advanced_generalize done
 
@@ -42266,23 +42365,24 @@ case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true then false else true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = false->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true then false else true = true->true = true->even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = false -> even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
 Model : nat2: SUCC (ZERO)
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
-even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) = true
 even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
-Simplifying took 0.001911 seconds
+even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = true
+Simplifying took 0.001827 seconds
 Result : true
 advanced_generalize done
 
@@ -42740,23 +42840,24 @@ intro Cond4
 intro Cond5
 rewrite Cond5 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))))) then false else true then false else true then false else true then false else true then false else true then false else true = true->if if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true then false else true = false->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true then false else true = true->true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true = false -> false = even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))
 Model : nat2: SUCC (SUCC (ZERO))
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.002176 seconds
+false = even (plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
+Simplifying took 0.002012 seconds
 Result : true
 advanced_generalize done
 
@@ -43207,23 +43308,24 @@ intro Cond1
 rewrite <- IH1 in goal at 1
 case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), if if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true then false else true = true->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (SUCC (nat2))))
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
-false = even (plus (ZERO) (SUCC (SUCC (ZERO))))
 false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
-Simplifying took 0.000443 seconds
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
+Simplifying took 0.000690 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -43343,6 +43445,7 @@ intro Cond1
 intro Cond2
 rewrite <- IH1 in goal at 0
 rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg6:nat) (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> if even (arg6) then false else even (arg6) = even (arg6)
 Model : arg6: ZERO, nat2: ZERO
 Model : arg6: ZERO, nat2: ZERO
@@ -43351,7 +43454,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -43359,7 +43462,7 @@ prop list:
 if even (ZERO) then false else even (ZERO) = even (ZERO)
 if even (ZERO) then false else even (ZERO) = even (ZERO)
 if even (ZERO) then false else even (ZERO) = even (ZERO)
-Simplifying took 0.000181 seconds
+Simplifying took 0.000198 seconds
 Result : true
 advanced_generalize done
 
@@ -44073,23 +44176,24 @@ intro Cond1
 intro Cond2
 rewrite <- IH1 in goal at 1
 rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> if even (plus (nat2) (nat2)) then false else even (plus (nat2) (nat2)) = true
-Model : nat2: ZERO
-Model : nat2: ZERO
 Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-if even (plus (ZERO) (ZERO)) then false else even (plus (ZERO) (ZERO)) = true
-if even (plus (ZERO) (ZERO)) then false else even (plus (ZERO) (ZERO)) = true
 if even (plus (SUCC (ZERO)) (SUCC (ZERO))) then false else even (plus (SUCC (ZERO)) (SUCC (ZERO))) = true
-Simplifying took 0.000274 seconds
+if even (plus (ZERO) (ZERO)) then false else even (plus (ZERO) (ZERO)) = true
+if even (plus (ZERO) (ZERO)) then false else even (plus (ZERO) (ZERO)) = true
+Simplifying took 0.000286 seconds
 Result : true
 advanced_generalize done
 
@@ -60016,23 +60120,24 @@ rewrite <- IH1 in goal at 2
 rewrite <- lemma3 in goal at 2
 rewrite <- lemma3 in goal at 1
 rewrite Cond2 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> false = even (plus (nat2) (SUCC (nat2)))
+Model : nat2: SUCC (SUCC (ZERO))
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
-Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO)))))
 false = even (plus (ZERO) (SUCC (ZERO)))
-false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
-false = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000309 seconds
+false = even (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO)))))
+Simplifying took 0.000590 seconds
 Result : true
 advanced_generalize done
 
@@ -60920,23 +61025,24 @@ case even (plus (nat2) (SUCC (nat2)))
 reflexivity
 rewrite <- Case1 in goal at 0
 rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (nat2)) = true
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (ZERO)) = true
 even (plus (ZERO) (ZERO)) = true
-even (plus (SUCC (ZERO)) (SUCC (ZERO))) = true
-Simplifying took 0.000427 seconds
+even (plus (ZERO) (ZERO)) = true
+Simplifying took 0.000291 seconds
 Result : true
 advanced_generalize done
 
@@ -62128,23 +62234,24 @@ intro Cond2
 rewrite lemma3 in goal at 0
 rewrite lemma3 in goal at 0
 rewrite IH1 in goal at 1
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false -> even (plus (nat2) (SUCC (nat2))) = if even (plus (nat2) (nat2)) then false else true
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) = if even (plus (SUCC (ZERO)) (SUCC (ZERO))) then false else true
 even (plus (ZERO) (SUCC (ZERO))) = if even (plus (ZERO) (ZERO)) then false else true
-even (plus (ZERO) (SUCC (ZERO))) = if even (plus (ZERO) (ZERO)) then false else true
-even (plus (ZERO) (SUCC (ZERO))) = if even (plus (ZERO) (ZERO)) then false else true
-Simplifying took 0.000267 seconds
+even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) = if even (plus (SUCC (ZERO)) (SUCC (ZERO))) then false else true
+Simplifying took 0.000508 seconds
 Result : true
 advanced_generalize done
 
@@ -64153,23 +64260,24 @@ case even (plus (nat2) (SUCC (SUCC (nat2))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
 rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false->even (plus (nat2) (SUCC (SUCC (nat2)))) = true -> false = even (plus (nat2) (SUCC (nat2)))
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
-Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
 false = even (plus (ZERO) (SUCC (ZERO)))
-false = even (plus (ZERO) (SUCC (ZERO)))
-false = even (plus (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000280 seconds
+false = even (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))
+Simplifying took 0.000859 seconds
 Result : true
 advanced_generalize done
 
@@ -64903,23 +65011,24 @@ case even (plus (nat2) (SUCC (nat2)))
 reflexivity
 rewrite <- Case1 in goal at 0
 rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = true->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (nat2)) = true
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 even (plus (ZERO) (ZERO)) = true
-even (plus (SUCC (ZERO)) (SUCC (ZERO))) = true
 even (plus (ZERO) (ZERO)) = true
-Simplifying took 0.000544 seconds
+even (plus (ZERO) (ZERO)) = true
+Simplifying took 0.000454 seconds
 Result : true
 advanced_generalize done
 
@@ -66152,23 +66261,24 @@ intro Cond2
 intro Cond3
 rewrite lemma3 in goal at 0
 rewrite <- IH1 in goal at 2
+validate generalize_common_subterm_goal
 Lemma : forall (arg7:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (arg7) then false else true = even (arg7)
 Model : arg7: ZERO, nat2: ZERO
 Model : arg7: ZERO, nat2: ZERO
-Model : arg7: SUCC (ZERO), nat2: ZERO
+Model : arg7: ZERO, nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 if even (ZERO) then false else true = even (ZERO)
 if even (ZERO) then false else true = even (ZERO)
-if even (SUCC (ZERO)) then false else true = even (SUCC (ZERO))
-Simplifying took 0.000378 seconds
+if even (ZERO) then false else true = even (ZERO)
+Simplifying took 0.000643 seconds
 Result : true
 advanced_generalize done
 
@@ -66293,6 +66403,1076 @@ Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) th
 forall (nat1:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
 
 0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+intro Cond3(rank:13)
+=================================================
+Progress: 1713
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+---------------------------------------
+forall (nat1:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> intro Cond3(rank : 13)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+---------------------------------------
+forall (nat1:nat), if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+induction nat1(rank:14)
+=================================================
+Progress: 1714
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+---------------------------------------
+forall (nat1:nat), if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> induction nat1(rank : 14)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+if even (ZERO) then false else true = even (ZERO)
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:14)
+=================================================
+Progress: 1715
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+if even (ZERO) then false else true = even (ZERO)
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+>>> simpl in goal(rank : 14)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+false = true
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+advanced_generalize done
+=================================================
+Progress: 1716
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = false -> even (plus (nat1) (nat1)) = true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (nat2)) = true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+---------------------------------------
+if even (plus (nat2) (SUCC (nat2))) then false else true = even (plus (nat2) (nat2))
+
+3 goal(s) more...
+
+4 conjecture(s) more...
+>>> rewrite lemma3 in goal at 0(rank : 24)
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = false -> even (plus (nat1) (nat1)) = true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (nat2)) = true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+---------------------------------------
+if even (plus (nat2) (nat2)) then false else true = even (plus (nat2) (nat2))
+
+5 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
+intro Cond2
+intro Cond3
+rewrite <- IH1 in goal at 2
+rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
+Lemma : forall (arg8:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (arg8) then false else true = even (arg8)
+Model : arg8: ZERO, nat2: ZERO
+Model : arg8: SUCC (SUCC (ZERO)), nat2: ZERO
+Model : arg8: ZERO, nat2: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+if even (ZERO) then false else true = even (ZERO)
+if even (SUCC (SUCC (ZERO))) then false else true = even (SUCC (SUCC (ZERO)))
+if even (ZERO) then false else true = even (ZERO)
+Simplifying took 0.000429 seconds
+Result : true
+advanced_generalize done
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = false -> even (plus (nat1) (nat1)) = true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (nat2)) = true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+---------------------------------------
+if even (plus (nat2) (nat2)) then false else true = even (plus (nat2) (nat2))
+
+5 goal(s) more...
+
+4 conjecture(s) more...
+=================================================
+Progress: 1717
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = false -> even (plus (nat1) (nat1)) = true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (nat2)) = true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+---------------------------------------
+if even (plus (nat2) (nat2)) then false else true = even (plus (nat2) (nat2))
+
+5 goal(s) more...
+
+4 conjecture(s) more...
+>>> assert forall (arg8:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (arg8) then false else true = even (arg8)(rank : 0)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:13)
+=================================================
+Progress: 1718
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> intro nat2(rank : 13)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+---------------------------------------
+forall (nat1:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:13)
+=================================================
+Progress: 1719
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+---------------------------------------
+forall (nat1:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> intro Cond1(rank : 13)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+---------------------------------------
+forall (nat1:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:13)
+=================================================
+Progress: 1720
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+---------------------------------------
+forall (nat1:nat), if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> intro Cond2(rank : 13)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+---------------------------------------
+forall (nat1:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+intro Cond3(rank:13)
+=================================================
+Progress: 1721
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+---------------------------------------
+forall (nat1:nat), if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> intro Cond3(rank : 13)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+---------------------------------------
+forall (nat1:nat), if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+induction nat1(rank:14)
+=================================================
+Progress: 1722
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+---------------------------------------
+forall (nat1:nat), if even (nat1) then false else true = even (nat1)
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> induction nat1(rank : 14)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+if even (ZERO) then false else true = even (ZERO)
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:14)
+=================================================
+Progress: 1723
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+if even (ZERO) then false else true = even (ZERO)
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+>>> simpl in goal(rank : 14)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false -> if even (nat1) then false else true = even (nat1)
+nat2 : nat
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+false = true
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+advanced_generalize done
+=================================================
+Progress: 1724
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = false -> even (plus (nat1) (nat1)) = true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (nat2)) = true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+---------------------------------------
+if even (plus (nat2) (SUCC (nat2))) then false else true = even (plus (nat2) (nat2))
+
+3 goal(s) more...
+
+4 conjecture(s) more...
+>>> rewrite <- lemma3 in goal at 2(rank : 24)
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = false -> even (plus (nat1) (nat1)) = true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = false -> even (plus (nat2) (nat2)) = true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+---------------------------------------
+if even (plus (nat2) (SUCC (nat2))) then false else true = even (plus (nat2) (SUCC (nat2)))
+
+5 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 3
+rewrite <- lemma3 in goal at 0(rank:34)
+rewrite <- lemma3 in goal at 1(rank:34)
+rewrite <- lemma3 in goal at 2(rank:34)
+=================================================
+Progress: 1725
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = false -> even (plus (nat1) (nat1)) = true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = false -> true = true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+Case1 : even (plus (nat2) (nat2)) = true
+---------------------------------------
+false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2))))))
+
+11 goal(s) more...
+
+4 conjecture(s) more...
+>>> rewrite <- lemma3 in goal at 0(rank : 24)
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = false -> even (plus (nat1) (nat1)) = true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = false -> true = true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = false
+Case1 : even (plus (nat2) (nat2)) = true
+---------------------------------------
+false = even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))
+
+13 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+rewrite <- lemma3 in goal at 0(rank:26)
+=================================================
+Progress: 1726
+
+
+1st goal of : forall (nat1:nat), true = true->if even (plus (nat1) (SUCC (SUCC (SUCC (nat1))))) then false else true = false -> false = even (plus (nat1) (SUCC (nat1)))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> false = even (plus (nat2) (SUCC (nat2)))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false
+Case1 : even (plus (nat2) (SUCC (SUCC (nat2)))) = true
+---------------------------------------
+if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = even (plus (nat2) (SUCC (nat2)))
+
+5 goal(s) more...
+
+3 conjecture(s) more...
+>>> rewrite lemma3 in goal at 1(rank : 24)
+
+
+1st goal of : forall (nat1:nat), true = true->if even (plus (nat1) (SUCC (SUCC (SUCC (nat1))))) then false else true = false -> false = even (plus (nat1) (SUCC (nat1)))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> false = even (plus (nat2) (SUCC (nat2)))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false
+Case1 : even (plus (nat2) (SUCC (SUCC (nat2)))) = true
+---------------------------------------
+if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = even (plus (nat2) (SUCC (nat2)))
+
+7 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 7
+rewrite Case1 in goal at 0(rank:24)
+rewrite lemma3 in goal at 1(rank:26)
+rewrite lemma3 in goal at 2(rank:34)
+rewrite <- lemma3 in goal at 2(rank:26)
+rewrite <- Case1 in goal at 0(rank:32)
+rewrite <- lemma3 in goal at 0(rank:34)
+rewrite lemma3 in goal at 0(rank:34)
+=================================================
+Progress: 1727
+
+
+1st goal of : forall (nat1:nat), true = true->if even (plus (nat1) (SUCC (SUCC (SUCC (nat1))))) then false else true = false -> false = even (plus (nat1) (SUCC (nat1)))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> false = even (plus (nat2) (SUCC (nat2)))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false
+Case1 : even (plus (nat2) (SUCC (SUCC (nat2)))) = true
+---------------------------------------
+if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = even (plus (nat2) (SUCC (nat2)))
+
+5 goal(s) more...
+
+3 conjecture(s) more...
+>>> rewrite <- lemma3 in goal at 2(rank : 24)
+
+
+1st goal of : forall (nat1:nat), true = true->if even (plus (nat1) (SUCC (SUCC (SUCC (nat1))))) then false else true = false -> false = even (plus (nat1) (SUCC (nat1)))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> false = even (plus (nat2) (SUCC (nat2)))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false
+Case1 : even (plus (nat2) (SUCC (SUCC (nat2)))) = true
+---------------------------------------
+if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = even (plus (nat2) (SUCC (SUCC (nat2))))
+
+7 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 6
+case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))(rank:17)
+rewrite Case1 in goal at 0(rank:32)
+rewrite <- Case1 in goal at 0(rank:32)
+rewrite <- lemma3 in goal at 0(rank:34)
+rewrite <- lemma3 in goal at 1(rank:34)
+rewrite <- lemma3 in goal at 2(rank:26)
+=================================================
+Progress: 1728
+
+
+1st goal of : forall (nat1:nat), true = true->if even (plus (nat1) (SUCC (SUCC (SUCC (nat1))))) then false else true = false -> false = even (plus (nat1) (SUCC (nat1)))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = false -> false = even (plus (nat2) (SUCC (nat2)))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false
+Case1 : even (plus (nat2) (SUCC (SUCC (nat2)))) = true
+---------------------------------------
+if even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) then false else true = even (plus (nat2) (SUCC (SUCC (nat2))))
+
+7 goal(s) more...
+
+3 conjecture(s) more...
+>>> case even (plus (nat2) (SUCC (SUCC (SUCC (nat2)))))(rank : 17)
+
+
+1st goal of : forall (nat1:nat), true = true->if even (plus (nat1) (SUCC (SUCC (SUCC (nat1))))) then false else true = false -> false = even (plus (nat1) (SUCC (nat1)))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->false = false -> false = even (plus (nat2) (SUCC (nat2)))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false
+Case1 : even (plus (nat2) (SUCC (SUCC (nat2)))) = true
+Case2 : even (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) = true
+---------------------------------------
+false = even (plus (nat2) (SUCC (SUCC (nat2))))
+
+8 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 4
+rewrite Case1 in goal at 0(rank:25)
+rewrite IH1 in goal at 0(rank:27)
+rewrite lemma3 in goal at 0(rank:27)
+rewrite <- lemma3 in goal at 0(rank:35)
+=================================================
+Progress: 1729
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false -> even (plus (nat1) (SUCC (nat1))) = if even (plus (nat1) (nat1)) then false else true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false -> true = if even (plus (nat2) (nat2)) then false else true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Case1 : even (plus (nat2) (SUCC (nat2))) = true
+---------------------------------------
+false = even (plus (nat2) (SUCC (nat2)))
+
+3 goal(s) more...
+
+4 conjecture(s) more...
+>>> rewrite lemma3 in goal at 0(rank : 24)
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false -> even (plus (nat1) (SUCC (nat1))) = if even (plus (nat1) (nat1)) then false else true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false -> true = if even (plus (nat2) (nat2)) then false else true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Case1 : even (plus (nat2) (SUCC (nat2))) = true
+---------------------------------------
+false = even (plus (nat2) (nat2))
+
+5 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
+intro Cond2
+rewrite lemma3 in goal at 1
+case even (plus (nat2) (SUCC (nat2)))
+rewrite <- Case1 in goal at 0
+rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
+Lemma : forall (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Model : nat2: ZERO
+Model : nat2: ZERO
+Model : nat2: ZERO
+Substituting variables...
+Simplifying conditions and property...
+let rec lst_subset lst1 lst2 =
+match (lst1) with
+| Nil -> true
+| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
+let lst_eq lst1 lst2 =
+&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
+prop list:
+false = even (plus (ZERO) (ZERO))
+false = even (plus (ZERO) (ZERO))
+false = even (plus (ZERO) (ZERO))
+Simplifying took 0.000458 seconds
+Result : true
+advanced_generalize done
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false -> even (plus (nat1) (SUCC (nat1))) = if even (plus (nat1) (nat1)) then false else true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false -> true = if even (plus (nat2) (nat2)) then false else true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Case1 : even (plus (nat2) (SUCC (nat2))) = true
+---------------------------------------
+false = even (plus (nat2) (nat2))
+
+5 goal(s) more...
+
+4 conjecture(s) more...
+=================================================
+Progress: 1730
+
+
+1st goal of : forall (nat1:nat), true = true->if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (nat1)))))) then false else true then false else true = false -> even (plus (nat1) (SUCC (nat1))) = if even (plus (nat1) (nat1)) then false else true
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) then false else true then false else true = false -> true = if even (plus (nat2) (nat2)) then false else true
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false
+Case1 : even (plus (nat2) (SUCC (nat2))) = true
+---------------------------------------
+false = even (plus (nat2) (nat2))
+
+5 goal(s) more...
+
+4 conjecture(s) more...
+>>> assert forall (nat2:nat), true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))(rank : 0)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+
+---------------------------------------
+forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+induction nat1(rank:14)
+=================================================
+Progress: 1731
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+
+---------------------------------------
+forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> induction nat1(rank : 14)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+true = true->if if if even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) then false else true then false else true then false else true = false->even (plus (ZERO) (SUCC (ZERO))) = true -> false = even (plus (ZERO) (ZERO))
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:14)
+=================================================
+Progress: 1732
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+true = true->if if if even (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) then false else true then false else true then false else true = false->even (plus (ZERO) (SUCC (ZERO))) = true -> false = even (plus (ZERO) (ZERO))
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+>>> simpl in goal(rank : 14)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+true = true->true = false->false = true -> false = true
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:14)
+=================================================
+Progress: 1733
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+true = true->true = false->false = true -> false = true
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+>>> intro Cond1(rank : 14)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+Base1 : nat1 = ZERO
+Cond1 : true = true
+---------------------------------------
+true = false->false = true -> false = true
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+discriminate(rank:13)
+=================================================
+Progress: 1734
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+Base1 : nat1 = ZERO
+Cond1 : true = true
+---------------------------------------
+true = false->false = true -> false = true
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+>>> discriminate(rank : 13)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+true = true->if if if even (plus (SUCC (nat2)) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true = false->even (plus (SUCC (nat2)) (SUCC (SUCC (nat2)))) = true -> false = even (plus (SUCC (nat2)) (SUCC (nat2)))
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:13)
+=================================================
+Progress: 1735
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+true = true->if if if even (plus (SUCC (nat2)) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true = false->even (plus (SUCC (nat2)) (SUCC (SUCC (nat2)))) = true -> false = even (plus (SUCC (nat2)) (SUCC (nat2)))
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> simpl in goal(rank : 13)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true -> false = if even (plus (nat2) (SUCC (nat2))) then false else true
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:13)
+=================================================
+Progress: 1736
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+true = true->if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true -> false = if even (plus (nat2) (SUCC (nat2))) then false else true
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> intro Cond1(rank : 13)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+---------------------------------------
+if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true -> false = if even (plus (nat2) (SUCC (nat2))) then false else true
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:13)
+=================================================
+Progress: 1737
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+---------------------------------------
+if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false->if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true -> false = if even (plus (nat2) (SUCC (nat2))) then false else true
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> intro Cond2(rank : 13)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false
+---------------------------------------
+if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true -> false = if even (plus (nat2) (SUCC (nat2))) then false else true
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+intro Cond3(rank:13)
+=================================================
+Progress: 1738
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false
+---------------------------------------
+if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true -> false = if even (plus (nat2) (SUCC (nat2))) then false else true
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> intro Cond3(rank : 13)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true
+---------------------------------------
+false = if even (plus (nat2) (SUCC (nat2))) then false else true
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 6
+case even (plus (nat2) (SUCC (nat2)))(rank:14)
+rewrite lemma3 in goal at 0(rank:23)
+rewrite IH1 in goal at 2(rank:32)
+rewrite IH1 in goal at 1(rank:24)
+rewrite IH1 in goal at 0(rank:32)
+rewrite <- lemma3 in goal at 0(rank:31)
+=================================================
+Progress: 1739
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true
+---------------------------------------
+false = if even (plus (nat2) (SUCC (nat2))) then false else true
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> case even (plus (nat2) (SUCC (nat2)))(rank : 14)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->true = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true
+Case1 : even (plus (nat2) (SUCC (nat2))) = true
+---------------------------------------
+false = false
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:13)
+=================================================
+Progress: 1740
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->true = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true
+Case1 : even (plus (nat2) (SUCC (nat2))) = true
+---------------------------------------
+false = false
+
+1 goal(s) more...
+
+5 conjecture(s) more...
+>>> reflexivity(rank : 13)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->false = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true
+Case1 : even (plus (nat2) (SUCC (nat2))) = false
+---------------------------------------
+false = true
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Deduplication: 0
+Tactic List : 2
+rewrite <- Case1 in goal at 0(rank:29)
+rewrite IH1 in goal at 0(rank:32)
+=================================================
+Progress: 1741
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true
+---------------------------------------
+false = if even (plus (nat2) (SUCC (nat2))) then false else true
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+>>> rewrite lemma3 in goal at 0(rank : 23)
+
+
+1st goal of : forall (nat1:nat), true = true->if if if even (plus (nat1) (SUCC (SUCC (SUCC (SUCC (SUCC (nat1))))))) then false else true then false else true then false else true = false->even (plus (nat1) (SUCC (nat1))) = true -> false = even (plus (nat1) (nat1))
+nat1 : nat
+nat2 : nat
+IH1 : true = true->if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) then false else true then false else true then false else true = false->even (plus (nat2) (SUCC (nat2))) = true -> false = even (plus (nat2) (nat2))
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+Cond2 : if if if if even (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) then false else true then false else true then false else true then false else true = false
+Cond3 : if even (plus (nat2) (SUCC (SUCC (nat2)))) then false else true = true
+---------------------------------------
+false = if even (plus (nat2) (nat2)) then false else true
+
+2 goal(s) more...
 
 5 conjecture(s) more...
 Dilemma timed out for benchmark clam with problem 16.File "_none_", lines 88-90, characters 2-22:

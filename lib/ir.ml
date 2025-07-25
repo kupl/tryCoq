@@ -272,7 +272,9 @@ and pp_case case =
 and pp_pattern pattern =
   match pattern with
   | Pat_Constr (name, patterns) ->
-    name ^ " " ^ String.concat " " (List.map pp_pattern patterns)
+    (match patterns with
+     | [] -> name
+     | _ -> name ^ " " ^ String.concat " " (List.map pp_pattern patterns))
   | Pat_Var name -> name
   | Pat_Expr expr -> pp_expr expr
   | Pat_Tuple patterns -> "(" ^ String.concat ", " (List.map pp_pattern patterns) ^ ")"

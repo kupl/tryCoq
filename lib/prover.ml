@@ -941,7 +941,7 @@ let rank_tactic (t : proof_node) tactic (next_t : proof_node) valid_tactics stat
       in
       let lhs = Proof.get_lhs src_fact in
       let rhs = Proof.get_rhs src_fact in
-      if Ir.is_contained rhs lhs (* then if i = 0 then None else Some 2 *)
+      if Ir.is_contained rhs lhs && not (String.starts_with ~prefix:"lhs_lemma" src)
       then (
         ignore i;
         None)

@@ -290,23 +290,24 @@ rewrite <- IH1 in goal at 2
 case even (len ((any_list2 @ (any1::any_list2))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list2:any list), even (len ((any_list2 @ (any1::any_list2)))) = true -> false = even (len ((any_list2 @ (any1::any_list2))))
-Model : any1: 1, any_list2: (Nil)
-Model : any1: 1, any_list2: (Nil)
+Model : any1: 5, any_list2: (Nil)
 Model : any1: 0, any_list2: (Nil)
+Model : any1: 5, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (len (((Nil) @ (1::(Nil)))))
-false = even (len (((Nil) @ (1::(Nil)))))
+false = even (len (((Nil) @ (5::(Nil)))))
 false = even (len (((Nil) @ (0::(Nil)))))
-Simplifying took 0.000213 seconds
+false = even (len (((Nil) @ (5::(Nil)))))
+Simplifying took 0.000301 seconds
 Result : true
 advanced_generalize done
 
@@ -671,60 +672,26 @@ simpl in goal
 intro Cond1
 rewrite Cond1 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list2:any list), even (len ((any_list2 @ (any1::any_list2)))) = true
-Model : any1: 0, any_list2: (7::(Nil))
-Model : any1: 0, any_list2: (Nil)
-Model : any1: 6, any_list2: (Nil)
+Model : any1: 4, any_list2: (1::(Nil))
+Model : any1: 6, any_list2: (8::(Nil))
+Model : any1: 4, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((7::(Nil)) @ (0::(7::(Nil)))))) = true
-even (len (((Nil) @ (0::(Nil))))) = true
-even (len (((Nil) @ (6::(Nil))))) = true
-Simplifying took 0.000294 seconds
+even (len (((1::(Nil)) @ (4::(1::(Nil)))))) = true
+even (len (((8::(Nil)) @ (6::(8::(Nil)))))) = true
+even (len (((Nil) @ (4::(Nil))))) = true
+Simplifying took 0.000505 seconds
 Result : false
-Lemma : forall (any1:any) (any_list2:any list), even (len ((any_list2 @ (any1::any_list2)))) = true
-Model : any1: 3, any_list2: (Nil)
-Model : any1: 7, any_list2: (Nil)
-Model : any1: 0, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-even (len (((Nil) @ (3::(Nil))))) = true
-even (len (((Nil) @ (7::(Nil))))) = true
-even (len (((Nil) @ (0::(Nil))))) = true
-Simplifying took 0.000137 seconds
-Result : false
-Lemma : forall (any1:any) (any_list2:any list), even (len ((any_list2 @ (any1::any_list2)))) = true
-Model : any1: 8, any_list2: (0::(Nil))
-Model : any1: 6, any_list2: (Nil)
-Model : any1: 1, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-even (len (((0::(Nil)) @ (8::(0::(Nil)))))) = true
-even (len (((Nil) @ (6::(Nil))))) = true
-even (len (((Nil) @ (1::(Nil))))) = true
-Simplifying took 0.000241 seconds
-Result : false
+asdf
 advanced_generalize done
 =================================================
 Progress: 20
@@ -926,23 +893,24 @@ case even (len ((any_list2 @ (any1::(any2::any_list2)))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any_list2:any list), true = true->even (len ((any_list2 @ (any1::(any2::any_list2))))) = false -> even (len ((any_list2 @ (any1::(any2::any_list2))))) = true
-Model : any1: 1, any2: 3, any_list2: (Nil)
-Model : any1: 1, any2: 2, any_list2: (4::(0::(Nil)))
-Model : any1: 2, any2: 8, any_list2: (Nil)
+Model : any1: 1, any2: 0, any_list2: (8::(Nil))
+Model : any1: 3, any2: 5, any_list2: (Nil)
+Model : any1: 7, any2: 1, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((Nil) @ (1::(3::(Nil)))))) = true
-even (len (((4::(0::(Nil))) @ (1::(2::(4::(0::(Nil)))))))) = true
-even (len (((Nil) @ (2::(8::(Nil)))))) = true
-Simplifying took 0.001509 seconds
+even (len (((8::(Nil)) @ (1::(0::(8::(Nil))))))) = true
+even (len (((Nil) @ (3::(5::(Nil)))))) = true
+even (len (((Nil) @ (7::(1::(Nil)))))) = true
+Simplifying took 0.001114 seconds
 Result : true
 advanced_generalize done
 
@@ -1358,60 +1326,26 @@ intro Cond1
 intro Cond2
 rewrite Cond2 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any_list2:any list), true = true -> false = even (len ((any_list2 @ (any1::(any2::any_list2)))))
-Model : any1: 6, any2: 4, any_list2: (Nil)
-Model : any1: 3, any2: 0, any_list2: (Nil)
-Model : any1: 2, any2: 6, any_list2: (Nil)
+Model : any1: 6, any2: 3, any_list2: (Nil)
+Model : any1: 6, any2: 6, any_list2: (1::(6::(5::(Nil))))
+Model : any1: 1, any2: 0, any_list2: (5::(Nil))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (len (((Nil) @ (6::(4::(Nil))))))
-false = even (len (((Nil) @ (3::(0::(Nil))))))
-false = even (len (((Nil) @ (2::(6::(Nil))))))
-Simplifying took 0.000318 seconds
+false = even (len (((Nil) @ (6::(3::(Nil))))))
+false = even (len (((1::(6::(5::(Nil)))) @ (6::(6::(1::(6::(5::(Nil)))))))))
+false = even (len (((5::(Nil)) @ (1::(0::(5::(Nil)))))))
+Simplifying took 0.001642 seconds
 Result : false
-Lemma : forall (any1:any) (any2:any) (any_list2:any list), true = true -> false = even (len ((any_list2 @ (any1::(any2::any_list2)))))
-Model : any1: 0, any2: 7, any_list2: (Nil)
-Model : any1: 6, any2: 1, any_list2: (Nil)
-Model : any1: 1, any2: 8, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-false = even (len (((Nil) @ (0::(7::(Nil))))))
-false = even (len (((Nil) @ (6::(1::(Nil))))))
-false = even (len (((Nil) @ (1::(8::(Nil))))))
-Simplifying took 0.000324 seconds
-Result : false
-Lemma : forall (any1:any) (any2:any) (any_list2:any list), true = true -> false = even (len ((any_list2 @ (any1::(any2::any_list2)))))
-Model : any1: 2, any2: 6, any_list2: (Nil)
-Model : any1: 5, any2: 8, any_list2: (Nil)
-Model : any1: 3, any2: 3, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-false = even (len (((Nil) @ (2::(6::(Nil))))))
-false = even (len (((Nil) @ (5::(8::(Nil))))))
-false = even (len (((Nil) @ (3::(3::(Nil))))))
-Simplifying took 0.000343 seconds
-Result : false
+asdf
 advanced_generalize done
 =================================================
 Progress: 36
@@ -1589,23 +1523,24 @@ rewrite <- IH1 in goal at 2
 case even (len ((any_list2 @ (any1::(any2::(any3::any_list2))))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any3:any) (any_list2:any list), true = true->false = false->even (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = true -> false = even (len ((any_list2 @ (any1::(any2::(any3::any_list2))))))
-Model : any1: 0, any2: 8, any3: 8, any_list2: (Nil)
-Model : any1: 2, any2: 2, any3: 6, any_list2: (Nil)
-Model : any1: 0, any2: 4, any3: 1, any_list2: (Nil)
+Model : any1: 3, any2: 4, any3: 3, any_list2: (Nil)
+Model : any1: 0, any2: 0, any3: 0, any_list2: (Nil)
+Model : any1: 3, any2: 6, any3: 1, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (len (((Nil) @ (0::(8::(8::(Nil)))))))
-false = even (len (((Nil) @ (2::(2::(6::(Nil)))))))
-false = even (len (((Nil) @ (0::(4::(1::(Nil)))))))
-Simplifying took 0.000984 seconds
+false = even (len (((Nil) @ (3::(4::(3::(Nil)))))))
+false = even (len (((Nil) @ (0::(0::(0::(Nil)))))))
+false = even (len (((Nil) @ (3::(6::(1::(Nil)))))))
+Simplifying took 0.000881 seconds
 Result : true
 advanced_generalize done
 
@@ -2168,60 +2103,26 @@ intro Cond2
 intro Cond3
 rewrite Cond3 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any3:any) (any_list2:any list), true = true->false = false -> even (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = true
-Model : any1: 6, any2: 6, any3: 3, any_list2: (Nil)
-Model : any1: 7, any2: 7, any3: 2, any_list2: (Nil)
-Model : any1: 4, any2: 7, any3: 0, any_list2: (Nil)
+Model : any1: 0, any2: 1, any3: 0, any_list2: (Nil)
+Model : any1: 1, any2: 4, any3: 6, any_list2: (Nil)
+Model : any1: 0, any2: 0, any3: 2, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((Nil) @ (6::(6::(3::(Nil))))))) = true
-even (len (((Nil) @ (7::(7::(2::(Nil))))))) = true
-even (len (((Nil) @ (4::(7::(0::(Nil))))))) = true
-Simplifying took 0.000527 seconds
+even (len (((Nil) @ (0::(1::(0::(Nil))))))) = true
+even (len (((Nil) @ (1::(4::(6::(Nil))))))) = true
+even (len (((Nil) @ (0::(0::(2::(Nil))))))) = true
+Simplifying took 0.000653 seconds
 Result : false
-Lemma : forall (any1:any) (any2:any) (any3:any) (any_list2:any list), true = true->false = false -> even (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = true
-Model : any1: 0, any2: 5, any3: 0, any_list2: (Nil)
-Model : any1: 2, any2: 2, any3: 7, any_list2: (Nil)
-Model : any1: 7, any2: 0, any3: 0, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-even (len (((Nil) @ (0::(5::(0::(Nil))))))) = true
-even (len (((Nil) @ (2::(2::(7::(Nil))))))) = true
-even (len (((Nil) @ (7::(0::(0::(Nil))))))) = true
-Simplifying took 0.000408 seconds
-Result : false
-Lemma : forall (any1:any) (any2:any) (any3:any) (any_list2:any list), true = true->false = false -> even (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = true
-Model : any1: 2, any2: 0, any3: 2, any_list2: (Nil)
-Model : any1: 1, any2: 3, any3: 0, any_list2: (Nil)
-Model : any1: 4, any2: 1, any3: 2, any_list2: (1::(Nil))
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-even (len (((Nil) @ (2::(0::(2::(Nil))))))) = true
-even (len (((Nil) @ (1::(3::(0::(Nil))))))) = true
-even (len (((1::(Nil)) @ (4::(1::(2::(1::(Nil)))))))) = true
-Simplifying took 0.000578 seconds
-Result : false
+asdf
 advanced_generalize done
 =================================================
 Progress: 54
@@ -2365,23 +2266,24 @@ rewrite <- IH1 in goal at 0
 case even (len ((any_list2 @ (any1::any_list2))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list2:any list), even (len ((any_list2 @ (any1::any_list2)))) = true -> false = even (len ((any_list2 @ (any1::any_list2))))
-Model : any1: 1, any_list2: (Nil)
-Model : any1: 0, any_list2: (Nil)
-Model : any1: 0, any_list2: (5::(Nil))
+Model : any1: 8, any_list2: (Nil)
+Model : any1: 6, any_list2: (Nil)
+Model : any1: 5, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (len (((Nil) @ (1::(Nil)))))
-false = even (len (((Nil) @ (0::(Nil)))))
-false = even (len (((5::(Nil)) @ (0::(5::(Nil))))))
-Simplifying took 0.000562 seconds
+false = even (len (((Nil) @ (8::(Nil)))))
+false = even (len (((Nil) @ (6::(Nil)))))
+false = even (len (((Nil) @ (5::(Nil)))))
+Simplifying took 0.000384 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -2490,23 +2392,24 @@ previous tactics
 simpl in goal
 case even (len ((any_list2 @ (any1::any_list2))))
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list2:any list), even (len ((any_list2 @ (any1::any_list2)))) = true -> false = even (len ((any_list2 @ (any1::any_list2))))
-Model : any1: 0, any_list2: (Nil)
-Model : any1: 0, any_list2: (0::(Nil))
-Model : any1: 7, any_list2: (4::(Nil))
+Model : any1: 1, any_list2: (6::(Nil))
+Model : any1: 8, any_list2: (Nil)
+Model : any1: 3, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (len (((Nil) @ (0::(Nil)))))
-false = even (len (((0::(Nil)) @ (0::(0::(Nil))))))
-false = even (len (((4::(Nil)) @ (7::(4::(Nil))))))
-Simplifying took 0.000894 seconds
+false = even (len (((6::(Nil)) @ (1::(6::(Nil))))))
+false = even (len (((Nil) @ (8::(Nil)))))
+false = even (len (((Nil) @ (3::(Nil)))))
+Simplifying took 0.000703 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -2547,60 +2450,26 @@ previous tactics
 simpl in goal
 case even (len ((any_list2 @ (any1::any_list2))))
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any_list2:any list), false = even (len ((any_list2 @ any_list2)))
+Model : any_list2: (Nil)
+Model : any_list2: (Nil)
 Model : any_list2: (6::(Nil))
-Model : any_list2: (Nil)
-Model : any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+false = even (len (((Nil) @ (Nil))))
+false = even (len (((Nil) @ (Nil))))
 false = even (len (((6::(Nil)) @ (6::(Nil)))))
-false = even (len (((Nil) @ (Nil))))
-false = even (len (((Nil) @ (Nil))))
-Simplifying took 0.000168 seconds
+Simplifying took 0.000195 seconds
 Result : false
-Lemma : forall (any_list2:any list), false = even (len ((any_list2 @ any_list2)))
-Model : any_list2: (Nil)
-Model : any_list2: (Nil)
-Model : any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-false = even (len (((Nil) @ (Nil))))
-false = even (len (((Nil) @ (Nil))))
-false = even (len (((Nil) @ (Nil))))
-Simplifying took 0.000039 seconds
-Result : false
-Lemma : forall (any_list2:any list), false = even (len ((any_list2 @ any_list2)))
-Model : any_list2: (Nil)
-Model : any_list2: (Nil)
-Model : any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-false = even (len (((Nil) @ (Nil))))
-false = even (len (((Nil) @ (Nil))))
-false = even (len (((Nil) @ (Nil))))
-Simplifying took 0.000039 seconds
-Result : false
+asdf
 advanced_generalize done
 =================================================
 Progress: 62
@@ -2844,23 +2713,24 @@ case even (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))))
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list2:any list), true = true->false = false->true = true->even (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = false -> even (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = true
-Model : any1: 8, any2: 3, any3: 4, any4: 7, any_list2: (Nil)
-Model : any1: 0, any2: 8, any3: 8, any4: 0, any_list2: (Nil)
-Model : any1: 5, any2: 6, any3: 6, any4: 4, any_list2: (Nil)
+Model : any1: 5, any2: 0, any3: 5, any4: 1, any_list2: (Nil)
+Model : any1: 4, any2: 0, any3: 8, any4: 1, any_list2: (Nil)
+Model : any1: 4, any2: 0, any3: 4, any4: 0, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((Nil) @ (8::(3::(4::(7::(Nil)))))))) = true
-even (len (((Nil) @ (0::(8::(8::(0::(Nil)))))))) = true
-even (len (((Nil) @ (5::(6::(6::(4::(Nil)))))))) = true
-Simplifying took 0.001626 seconds
+even (len (((Nil) @ (5::(0::(5::(1::(Nil)))))))) = true
+even (len (((Nil) @ (4::(0::(8::(1::(Nil)))))))) = true
+even (len (((Nil) @ (4::(0::(4::(0::(Nil)))))))) = true
+Simplifying took 0.001413 seconds
 Result : true
 advanced_generalize done
 
@@ -3482,60 +3352,26 @@ intro Cond3
 intro Cond4
 rewrite Cond4 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list2:any list), true = true->false = false->true = true -> false = even (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))))
-Model : any1: 4, any2: 0, any3: 4, any4: 4, any_list2: (Nil)
-Model : any1: 0, any2: 6, any3: 3, any4: 0, any_list2: (Nil)
-Model : any1: 0, any2: 0, any3: 1, any4: 1, any_list2: (2::(3::(Nil)))
+Model : any1: 0, any2: 6, any3: 0, any4: 1, any_list2: (Nil)
+Model : any1: 6, any2: 0, any3: 7, any4: 5, any_list2: (Nil)
+Model : any1: 7, any2: 1, any3: 2, any4: 0, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (len (((Nil) @ (4::(0::(4::(4::(Nil))))))))
-false = even (len (((Nil) @ (0::(6::(3::(0::(Nil))))))))
-false = even (len (((2::(3::(Nil))) @ (0::(0::(1::(1::(2::(3::(Nil))))))))))
-Simplifying took 0.001233 seconds
+false = even (len (((Nil) @ (0::(6::(0::(1::(Nil))))))))
+false = even (len (((Nil) @ (6::(0::(7::(5::(Nil))))))))
+false = even (len (((Nil) @ (7::(1::(2::(0::(Nil))))))))
+Simplifying took 0.001098 seconds
 Result : false
-Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list2:any list), true = true->false = false->true = true -> false = even (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))))
-Model : any1: 1, any2: 5, any3: 1, any4: 2, any_list2: (Nil)
-Model : any1: 8, any2: 2, any3: 4, any4: 0, any_list2: (Nil)
-Model : any1: 0, any2: 0, any3: 4, any4: 5, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-false = even (len (((Nil) @ (1::(5::(1::(2::(Nil))))))))
-false = even (len (((Nil) @ (8::(2::(4::(0::(Nil))))))))
-false = even (len (((Nil) @ (0::(0::(4::(5::(Nil))))))))
-Simplifying took 0.000646 seconds
-Result : false
-Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list2:any list), true = true->false = false->true = true -> false = even (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))))
-Model : any1: 1, any2: 6, any3: 8, any4: 6, any_list2: (2::(Nil))
-Model : any1: 0, any2: 5, any3: 8, any4: 0, any_list2: (Nil)
-Model : any1: 0, any2: 5, any3: 1, any4: 5, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-false = even (len (((2::(Nil)) @ (1::(6::(8::(6::(2::(Nil)))))))))
-false = even (len (((Nil) @ (0::(5::(8::(0::(Nil))))))))
-false = even (len (((Nil) @ (0::(5::(1::(5::(Nil))))))))
-Simplifying took 0.001256 seconds
-Result : false
+asdf
 advanced_generalize done
 =================================================
 Progress: 82
@@ -3576,23 +3412,24 @@ simpl in goal
 rewrite <- IH1 in goal at 1
 case even (len ((any_list2 @ (any1::any_list2))))
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list2:any list), even (len ((any_list2 @ (any1::any_list2)))) = true -> false = even (len ((any_list2 @ (any1::any_list2))))
-Model : any1: 1, any_list2: (Nil)
-Model : any1: 1, any_list2: (0::(Nil))
-Model : any1: 5, any_list2: (Nil)
+Model : any1: 7, any_list2: (Nil)
+Model : any1: 5, any_list2: (7::(Nil))
+Model : any1: 6, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (len (((Nil) @ (1::(Nil)))))
-false = even (len (((0::(Nil)) @ (1::(0::(Nil))))))
-false = even (len (((Nil) @ (5::(Nil)))))
-Simplifying took 0.000504 seconds
+false = even (len (((Nil) @ (7::(Nil)))))
+false = even (len (((7::(Nil)) @ (5::(7::(Nil))))))
+false = even (len (((Nil) @ (6::(Nil)))))
+Simplifying took 0.000882 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -3634,60 +3471,26 @@ simpl in goal
 rewrite <- IH1 in goal at 1
 case even (len ((any_list2 @ (any1::any_list2))))
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any_list2:any list), false = even (len ((any_list2 @ any_list2)))
 Model : any_list2: (Nil)
 Model : any_list2: (Nil)
-Model : any_list2: (Nil)
+Model : any_list2: (0::(0::(Nil)))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 false = even (len (((Nil) @ (Nil))))
 false = even (len (((Nil) @ (Nil))))
-false = even (len (((Nil) @ (Nil))))
-Simplifying took 0.000045 seconds
+false = even (len (((0::(0::(Nil))) @ (0::(0::(Nil))))))
+Simplifying took 0.000186 seconds
 Result : false
-Lemma : forall (any_list2:any list), false = even (len ((any_list2 @ any_list2)))
-Model : any_list2: (1::(Nil))
-Model : any_list2: (5::(Nil))
-Model : any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-false = even (len (((1::(Nil)) @ (1::(Nil)))))
-false = even (len (((5::(Nil)) @ (5::(Nil)))))
-false = even (len (((Nil) @ (Nil))))
-Simplifying took 0.000234 seconds
-Result : false
-Lemma : forall (any_list2:any list), false = even (len ((any_list2 @ any_list2)))
-Model : any_list2: (Nil)
-Model : any_list2: (6::(Nil))
-Model : any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-false = even (len (((Nil) @ (Nil))))
-false = even (len (((6::(Nil)) @ (6::(Nil)))))
-false = even (len (((Nil) @ (Nil))))
-Simplifying took 0.000164 seconds
-Result : false
+asdf
 advanced_generalize done
 =================================================
 Progress: 84
@@ -3733,23 +3536,24 @@ intro Cond1
 case even (len ((any_list2 @ (any1::(any2::any_list2)))))
 reflexivity
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any_list2:any list), true = true->even (len ((any_list2 @ (any1::(any2::any_list2))))) = false -> even (len ((any_list2 @ (any1::(any2::any_list2))))) = true
-Model : any1: 8, any2: 5, any_list2: (Nil)
-Model : any1: 5, any2: 5, any_list2: (Nil)
-Model : any1: 1, any2: 3, any_list2: (Nil)
+Model : any1: 8, any2: 1, any_list2: (Nil)
+Model : any1: 5, any2: 1, any_list2: (6::(3::(Nil)))
+Model : any1: 0, any2: 4, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((Nil) @ (8::(5::(Nil)))))) = true
-even (len (((Nil) @ (5::(5::(Nil)))))) = true
-even (len (((Nil) @ (1::(3::(Nil)))))) = true
-Simplifying took 0.000798 seconds
+even (len (((Nil) @ (8::(1::(Nil)))))) = true
+even (len (((6::(3::(Nil))) @ (5::(1::(6::(3::(Nil)))))))) = true
+even (len (((Nil) @ (0::(4::(Nil)))))) = true
+Simplifying took 0.001775 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -3988,60 +3792,26 @@ intro Cond1
 case even (len ((any_list2 @ (any1::(any2::any_list2)))))
 reflexivity
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list2:any list), true = true -> even (len ((any_list2 @ (any1::any_list2)))) = true
-Model : any1: 8, any_list2: (Nil)
-Model : any1: 4, any_list2: (Nil)
-Model : any1: 6, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-even (len (((Nil) @ (8::(Nil))))) = true
-even (len (((Nil) @ (4::(Nil))))) = true
-even (len (((Nil) @ (6::(Nil))))) = true
-Simplifying took 0.000276 seconds
-Result : false
-Lemma : forall (any1:any) (any_list2:any list), true = true -> even (len ((any_list2 @ (any1::any_list2)))) = true
-Model : any1: 1, any_list2: (Nil)
-Model : any1: 5, any_list2: (Nil)
-Model : any1: 5, any_list2: (8::(Nil))
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-even (len (((Nil) @ (1::(Nil))))) = true
-even (len (((Nil) @ (5::(Nil))))) = true
-even (len (((8::(Nil)) @ (5::(8::(Nil)))))) = true
-Simplifying took 0.000342 seconds
-Result : false
-Lemma : forall (any1:any) (any_list2:any list), true = true -> even (len ((any_list2 @ (any1::any_list2)))) = true
-Model : any1: 3, any_list2: (Nil)
-Model : any1: 8, any_list2: (0::(Nil))
+Model : any1: 0, any_list2: (8::(Nil))
+Model : any1: 0, any_list2: (Nil)
 Model : any1: 7, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((Nil) @ (3::(Nil))))) = true
-even (len (((0::(Nil)) @ (8::(0::(Nil)))))) = true
+even (len (((8::(Nil)) @ (0::(8::(Nil)))))) = true
+even (len (((Nil) @ (0::(Nil))))) = true
 even (len (((Nil) @ (7::(Nil))))) = true
-Simplifying took 0.000255 seconds
+Simplifying took 0.000344 seconds
 Result : false
+asdf
 advanced_generalize done
 =================================================
 Progress: 91
@@ -4088,23 +3858,24 @@ rewrite IH1 in goal at 2
 case even (len ((any_list2 @ (any1::(any2::any_list2)))))
 discriminate
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any_list2:any list), true = true->even (len ((any_list2 @ (any1::(any2::any_list2))))) = false -> even (len ((any_list2 @ (any1::(any2::any_list2))))) = true
-Model : any1: 5, any2: 8, any_list2: (Nil)
-Model : any1: 5, any2: 3, any_list2: (Nil)
-Model : any1: 8, any2: 1, any_list2: (Nil)
+Model : any1: 2, any2: 7, any_list2: (Nil)
+Model : any1: 3, any2: 5, any_list2: (6::(Nil))
+Model : any1: 0, any2: 7, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((Nil) @ (5::(8::(Nil)))))) = true
-even (len (((Nil) @ (5::(3::(Nil)))))) = true
-even (len (((Nil) @ (8::(1::(Nil)))))) = true
-Simplifying took 0.000622 seconds
+even (len (((Nil) @ (2::(7::(Nil)))))) = true
+even (len (((6::(Nil)) @ (3::(5::(6::(Nil))))))) = true
+even (len (((Nil) @ (0::(7::(Nil)))))) = true
+Simplifying took 0.001143 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -4317,23 +4088,24 @@ rewrite <- IH1 in goal at 2
 case even (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2))))))))
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list2:any list), true = true->false = false->true = true->false = false->even (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = true -> false = even (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2))))))))
-Model : any1: 4, any2: 1, any3: 8, any4: 8, any5: 6, any_list2: (Nil)
-Model : any1: 2, any2: 4, any3: 0, any4: 8, any5: 8, any_list2: (Nil)
-Model : any1: 7, any2: 6, any3: 1, any4: 5, any5: 0, any_list2: (Nil)
+Model : any1: 0, any2: 6, any3: 1, any4: 8, any5: 4, any_list2: (Nil)
+Model : any1: 6, any2: 4, any3: 3, any4: 0, any5: 8, any_list2: (Nil)
+Model : any1: 3, any2: 7, any3: 7, any4: 3, any5: 7, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (len (((Nil) @ (4::(1::(8::(8::(6::(Nil)))))))))
-false = even (len (((Nil) @ (2::(4::(0::(8::(8::(Nil)))))))))
-false = even (len (((Nil) @ (7::(6::(1::(5::(0::(Nil)))))))))
-Simplifying took 0.002285 seconds
+false = even (len (((Nil) @ (0::(6::(1::(8::(4::(Nil)))))))))
+false = even (len (((Nil) @ (6::(4::(3::(0::(8::(Nil)))))))))
+false = even (len (((Nil) @ (3::(7::(7::(3::(7::(Nil)))))))))
+Simplifying took 0.002508 seconds
 Result : true
 advanced_generalize done
 
@@ -5126,60 +4898,26 @@ intro Cond4
 intro Cond5
 rewrite Cond5 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list2:any list), true = true->false = false->true = true->false = false -> even (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = true
-Model : any1: 6, any2: 4, any3: 0, any4: 0, any5: 7, any_list2: (Nil)
-Model : any1: 6, any2: 1, any3: 0, any4: 7, any5: 2, any_list2: (Nil)
-Model : any1: 1, any2: 3, any3: 8, any4: 6, any5: 7, any_list2: (Nil)
+Model : any1: 7, any2: 5, any3: 5, any4: 4, any5: 8, any_list2: (Nil)
+Model : any1: 0, any2: 1, any3: 3, any4: 8, any5: 4, any_list2: (Nil)
+Model : any1: 2, any2: 7, any3: 0, any4: 3, any5: 7, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((Nil) @ (6::(4::(0::(0::(7::(Nil))))))))) = true
-even (len (((Nil) @ (6::(1::(0::(7::(2::(Nil))))))))) = true
-even (len (((Nil) @ (1::(3::(8::(6::(7::(Nil))))))))) = true
-Simplifying took 0.001579 seconds
+even (len (((Nil) @ (7::(5::(5::(4::(8::(Nil))))))))) = true
+even (len (((Nil) @ (0::(1::(3::(8::(4::(Nil))))))))) = true
+even (len (((Nil) @ (2::(7::(0::(3::(7::(Nil))))))))) = true
+Simplifying took 0.001245 seconds
 Result : false
-Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list2:any list), true = true->false = false->true = true->false = false -> even (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = true
-Model : any1: 1, any2: 0, any3: 5, any4: 2, any5: 8, any_list2: (Nil)
-Model : any1: 4, any2: 0, any3: 0, any4: 8, any5: 8, any_list2: (Nil)
-Model : any1: 0, any2: 2, any3: 6, any4: 4, any5: 5, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-even (len (((Nil) @ (1::(0::(5::(2::(8::(Nil))))))))) = true
-even (len (((Nil) @ (4::(0::(0::(8::(8::(Nil))))))))) = true
-even (len (((Nil) @ (0::(2::(6::(4::(5::(Nil))))))))) = true
-Simplifying took 0.001111 seconds
-Result : false
-Lemma : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list2:any list), true = true->false = false->true = true->false = false -> even (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = true
-Model : any1: 5, any2: 8, any3: 4, any4: 7, any5: 8, any_list2: (Nil)
-Model : any1: 1, any2: 1, any3: 3, any4: 7, any5: 3, any_list2: (Nil)
-Model : any1: 8, any2: 7, any3: 0, any4: 4, any5: 2, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-even (len (((Nil) @ (5::(8::(4::(7::(8::(Nil))))))))) = true
-even (len (((Nil) @ (1::(1::(3::(7::(3::(Nil))))))))) = true
-even (len (((Nil) @ (8::(7::(0::(4::(2::(Nil))))))))) = true
-Simplifying took 0.001165 seconds
-Result : false
+asdf
 advanced_generalize done
 =================================================
 Progress: 114
@@ -5226,60 +4964,26 @@ rewrite IH1 in goal at 2
 case even (len ((any_list2 @ (any1::(any2::any_list2)))))
 discriminate
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list2:any list), true = true -> even (len ((any_list2 @ (any1::any_list2)))) = true
-Model : any1: 7, any_list2: (Nil)
-Model : any1: 8, any_list2: (Nil)
-Model : any1: 0, any_list2: (4::(Nil))
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-even (len (((Nil) @ (7::(Nil))))) = true
-even (len (((Nil) @ (8::(Nil))))) = true
-even (len (((4::(Nil)) @ (0::(4::(Nil)))))) = true
-Simplifying took 0.000282 seconds
-Result : false
-Lemma : forall (any1:any) (any_list2:any list), true = true -> even (len ((any_list2 @ (any1::any_list2)))) = true
-Model : any1: 8, any_list2: (Nil)
 Model : any1: 0, any_list2: (Nil)
-Model : any1: 1, any_list2: (1::(Nil))
+Model : any1: 2, any_list2: (Nil)
+Model : any1: 7, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((Nil) @ (8::(Nil))))) = true
 even (len (((Nil) @ (0::(Nil))))) = true
-even (len (((1::(Nil)) @ (1::(1::(Nil)))))) = true
-Simplifying took 0.000243 seconds
+even (len (((Nil) @ (2::(Nil))))) = true
+even (len (((Nil) @ (7::(Nil))))) = true
+Simplifying took 0.000149 seconds
 Result : false
-Lemma : forall (any1:any) (any_list2:any list), true = true -> even (len ((any_list2 @ (any1::any_list2)))) = true
-Model : any1: 1, any_list2: (Nil)
-Model : any1: 0, any_list2: (2::(Nil))
-Model : any1: 3, any_list2: (1::(2::(Nil)))
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-even (len (((Nil) @ (1::(Nil))))) = true
-even (len (((2::(Nil)) @ (0::(2::(Nil)))))) = true
-even (len (((1::(2::(Nil))) @ (3::(1::(2::(Nil))))))) = true
-Simplifying took 0.000531 seconds
-Result : false
+asdf
 advanced_generalize done
 =================================================
 Progress: 115
@@ -5329,23 +5033,24 @@ intro Cond1
 intro Cond2
 case even (len ((any_list2 @ (any1::(any2::(any3::any_list2))))))
 rewrite <- Case1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any2:any) (any3:any) (any_list2:any list), true = true->false = false->even (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = true -> false = even (len ((any_list2 @ (any1::(any2::(any3::any_list2))))))
-Model : any1: 3, any2: 6, any3: 7, any_list2: (Nil)
-Model : any1: 8, any2: 0, any3: 2, any_list2: (Nil)
-Model : any1: 3, any2: 7, any3: 3, any_list2: (7::(0::(Nil)))
+Model : any1: 2, any2: 0, any3: 7, any_list2: (Nil)
+Model : any1: 5, any2: 7, any3: 0, any_list2: (Nil)
+Model : any1: 2, any2: 3, any3: 0, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-false = even (len (((Nil) @ (3::(6::(7::(Nil)))))))
-false = even (len (((Nil) @ (8::(0::(2::(Nil)))))))
-false = even (len (((7::(0::(Nil))) @ (3::(7::(3::(7::(0::(Nil)))))))))
-Simplifying took 0.002139 seconds
+false = even (len (((Nil) @ (2::(0::(7::(Nil)))))))
+false = even (len (((Nil) @ (5::(7::(0::(Nil)))))))
+false = even (len (((Nil) @ (2::(3::(0::(Nil)))))))
+Simplifying took 0.000947 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -5472,23 +5177,24 @@ case even (len ((any_list2 @ (any1::(any2::any_list2)))))
 rewrite <- IH1 in goal at 1
 rewrite Cond1 in goal at 0
 rewrite <- Case1 in goal at 0
-Lemma : forall (any1:any) (any2:any) (any_list2:any list), false = true->even (len ((any_list2 @ (any1::(any2::any_list2))))) = true -> even (len ((any_list2 @ (any1::(any2::any_list2))))) = even (len ((any_list2 @ (any1::any_list2))))
-Model : any1: 8, any2: 1, any_list2: (0::(Nil))
-Model : any1: 4, any2: 1, any_list2: (Nil)
-Model : any1: 0, any2: 2, any_list2: (Nil)
+validate generalize_common_subterm_goal
+Lemma : forall (any1:any) (any2:any) (any_list2:any list), false = true->even (len ((any_list2 @ (any1::(any2::any_list2))))) = true -> (any_list2 @ (any1::(any2::any_list2))) = (any_list2 @ (any1::any_list2))
+Model : any1: 1, any2: 3, any_list2: (Nil)
+Model : any1: 0, any2: 0, any_list2: (Nil)
+Model : any1: 0, any2: 6, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((0::(Nil)) @ (8::(1::(0::(Nil))))))) = even (len (((0::(Nil)) @ (8::(0::(Nil))))))
-even (len (((Nil) @ (4::(1::(Nil)))))) = even (len (((Nil) @ (4::(Nil)))))
-even (len (((Nil) @ (0::(2::(Nil)))))) = even (len (((Nil) @ (0::(Nil)))))
-Simplifying took 0.001370 seconds
+((Nil) @ (1::(3::(Nil)))) = ((Nil) @ (1::(Nil)))
+((Nil) @ (0::(0::(Nil)))) = ((Nil) @ (0::(Nil)))
+((Nil) @ (0::(6::(Nil)))) = ((Nil) @ (0::(Nil)))
+Simplifying took 0.000407 seconds
 Result : true
 advanced_generalize done
 
@@ -5527,13 +5233,13 @@ even (len ((any_list2 @ (any1::(any2::any_list2))))) = even (len ((any_list2 @ (
 3 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (any1:any) (any2:any) (any_list2:any list), false = true->even (len ((any_list2 @ (any1::(any2::any_list2))))) = true -> even (len ((any_list2 @ (any1::(any2::any_list2))))) = even (len ((any_list2 @ (any1::any_list2))))(rank : 0)
+>>> assert forall (any1:any) (any2:any) (any_list2:any list), false = true->even (len ((any_list2 @ (any1::(any2::any_list2))))) = true -> (any_list2 @ (any1::(any2::any_list2))) = (any_list2 @ (any1::any_list2))(rank : 0)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), false = true->even (len ((any_list1 @ (any1::(any2::any_list1))))) = true -> even (len ((any_list1 @ (any1::(any2::any_list1))))) = even (len ((any_list1 @ (any1::any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), false = true->even (len ((any_list1 @ (any1::(any2::any_list1))))) = true -> (any_list1 @ (any1::(any2::any_list1))) = (any_list1 @ (any1::any_list1))
 
 ---------------------------------------
-forall (any1:any) (any2:any) (any_list1:any list), false = true->even (len ((any_list1 @ (any1::(any2::any_list1))))) = true -> even (len ((any_list1 @ (any1::(any2::any_list1))))) = even (len ((any_list1 @ (any1::any_list1))))
+forall (any1:any) (any2:any) (any_list1:any list), false = true->even (len ((any_list1 @ (any1::(any2::any_list1))))) = true -> (any_list1 @ (any1::(any2::any_list1))) = (any_list1 @ (any1::any_list1))
 
 0 goal(s) more...
 
@@ -5544,10 +5250,10 @@ discriminate(rank:8)
 Progress: 120
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), false = true->even (len ((any_list1 @ (any1::(any2::any_list1))))) = true -> even (len ((any_list1 @ (any1::(any2::any_list1))))) = even (len ((any_list1 @ (any1::any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), false = true->even (len ((any_list1 @ (any1::(any2::any_list1))))) = true -> (any_list1 @ (any1::(any2::any_list1))) = (any_list1 @ (any1::any_list1))
 
 ---------------------------------------
-forall (any1:any) (any2:any) (any_list1:any list), false = true->even (len ((any_list1 @ (any1::(any2::any_list1))))) = true -> even (len ((any_list1 @ (any1::(any2::any_list1))))) = even (len ((any_list1 @ (any1::any_list1))))
+forall (any1:any) (any2:any) (any_list1:any list), false = true->even (len ((any_list1 @ (any1::(any2::any_list1))))) = true -> (any_list1 @ (any1::(any2::any_list1))) = (any_list1 @ (any1::any_list1))
 
 0 goal(s) more...
 
@@ -5729,6 +5435,45 @@ even (len ((any_list2 @ (any1::(any2::any_list2))))) = true
 2 goal(s) more...
 
 1 conjecture(s) more...
+Tactic List : 1
+rewrite lemma3 in goal at 0(rank:9)
+=================================================
+Progress: 125
+
+
+1st goal of : forall (any1:any) (any_list1:any list), even (len ((any_list1 @ (any1::any_list1)))) = true -> false = even (len ((any_list1 @ (any1::any_list1))))
+any1 : any
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : even (len ((any_list2 @ (any1::any_list2)))) = true -> false = even (len ((any_list2 @ (any1::any_list2))))
+Inductive1 : any_list1 = (any2::any_list2)
+Cond1 : true = true
+Case1 : even (len ((any_list2 @ (any1::(any2::any_list2))))) = false
+---------------------------------------
+even (len ((any_list2 @ (any1::(any2::any_list2))))) = true
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite lemma3 in goal at 0(rank : 9)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), even (len ((any_list1 @ (any1::any_list1)))) = true -> false = even (len ((any_list1 @ (any1::any_list1))))
+any1 : any
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : even (len ((any_list2 @ (any1::any_list2)))) = true -> false = even (len ((any_list2 @ (any1::any_list2))))
+Inductive1 : any_list1 = (any2::any_list2)
+Cond1 : true = true
+Case1 : even (len ((any_list2 @ (any1::(any2::any_list2))))) = false
+---------------------------------------
+even (len ((any_list2 @ (any1::any_list2)))) = true
+
+4 goal(s) more...
+
+1 conjecture(s) more...
 Tactic List : 0
 previous tactics
 simpl in goal
@@ -5738,30 +5483,33 @@ case even (len ((any_list2 @ (any1::(any2::any_list2)))))
 rewrite <- IH1 in goal at 1
 rewrite Cond1 in goal at 0
 rewrite <- Case1 in goal at 0
-assert forall (any1:any) (any2:any) (any_list1:any list), false = true->even (len ((any_list1 @ (any1::(any2::any_list1))))) = true -> even (len ((any_list1 @ (any1::(any2::any_list1))))) = even (len ((any_list1 @ (any1::any_list1))))
+assert forall (any1:any) (any2:any) (any_list1:any list), false = true->even (len ((any_list1 @ (any1::(any2::any_list1))))) = true -> (any_list1 @ (any1::(any2::any_list1))) = (any_list1 @ (any1::any_list1))
 discriminate
 discriminate
 discriminate
 rewrite <- IH1 in goal at 0
 rewrite <- Case1 in goal at 0
-Lemma : forall (any1:any) (any2:any) (any_list2:any list), true = true->even (len ((any_list2 @ (any1::(any2::any_list2))))) = false -> even (len ((any_list2 @ (any1::(any2::any_list2))))) = true
-Model : any1: 3, any2: 4, any_list2: (0::(Nil))
-Model : any1: 6, any2: 8, any_list2: (Nil)
-Model : any1: 7, any2: 8, any_list2: (Nil)
+rewrite lemma3 in goal at 0
+validate generalize_common_subterm_goal
+Lemma : forall (any1:any) (any_list2:any list), true = true -> even (len ((any_list2 @ (any1::any_list2)))) = true
+Model : any1: 8, any_list2: (Nil)
+Model : any1: 2, any_list2: (Nil)
+Model : any1: 5, any_list2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-even (len (((0::(Nil)) @ (3::(4::(0::(Nil))))))) = true
-even (len (((Nil) @ (6::(8::(Nil)))))) = true
-even (len (((Nil) @ (7::(8::(Nil)))))) = true
-Simplifying took 0.000961 seconds
-Result : true
+even (len (((Nil) @ (8::(Nil))))) = true
+even (len (((Nil) @ (2::(Nil))))) = true
+even (len (((Nil) @ (5::(Nil))))) = true
+Simplifying took 0.000173 seconds
+Result : false
+asdf
 advanced_generalize done
 File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
@@ -5774,5 +5522,5 @@ Here is an example of a case that is not matched:
 []
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 291, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 292, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

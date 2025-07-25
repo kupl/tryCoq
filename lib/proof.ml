@@ -408,6 +408,19 @@ let add_indices_with_custom_offsets offset_fn lst =
   aux lst StringMap.empty []
 ;;
 
+let add_indices (state : state) (map : 'a StringMap.t) (typ : Ir.typ)
+  : expr * 'a StringMap.t
+  =
+  let current_count =
+    match StringMap.find_opt (typ |> Ir.var_of_typ) map with
+    | Some n -> n + 1
+    | None -> variable_index state typ
+  in
+  let map' = StringMap.add (typ |> Ir.var_of_typ) current_count map in
+  let var_name = (typ |> Ir.var_of_typ) ^ string_of_int current_count in
+  Ir.{ desc = Var var_name; typ }, map'
+;;
+
 let substitute_expr_in_expr pred convert target expr_from expr_to i is_rewrite result =
   Ir.substitute_expr pred convert target expr_from expr_to i is_rewrite result
 ;;
@@ -655,18 +668,31 @@ let apply_induction name (state : state) t : state list =
     List.map
       (fun (constr, arg_types) ->
          let rec_args = List.filter (fun arg -> typ = arg) arg_types in
-         let new_vars =
-           add_indices_with_custom_offsets (variable_index state) arg_types
+         let new_args, _ =
+           List.fold_left
+             (fun (acc, map) typ ->
+                match typ with
+                | Ir.Talgebraic (name, _) ->
+                  (match Ir.find_decl name env with
+                   | Some decl ->
+                     (match Ir.get_typ_decl decl with
+                      | [], [ (Constructor constr, []) ] ->
+                        acc @ [ Ir.{ desc = Call (constr, []); typ } ], map
+                      | _ ->
+                        let var, map = add_indices state map typ in
+                        acc @ [ var ], map)
+                   | _ -> failwith ("cannot found such type : " ^ name))
+                | _ ->
+                  let var, map = add_indices state map typ in
+                  acc @ [ var ], map)
+             ([], StringMap.empty)
+             arg_types
          in
-         let arg_bind = List.combine new_vars arg_types in
          match rec_args with
          | [] ->
            let base_case =
              match constr with
-             | Ir.Constructor constr ->
-               Ir.Call
-                 ( constr
-                 , List.map (fun (name, typ) -> Ir.{ desc = Var name; typ }) arg_bind )
+             | Ir.Constructor constr -> Ir.Call (constr, new_args)
            in
            let base_fact =
              let fact_name = "Base" ^ string_of_int (fact_index t "Base") in
@@ -701,16 +727,21 @@ let apply_induction name (state : state) t : state list =
                   name, prop)
                facts
            in
-           let typ_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
+           let typ_facts =
+             List.fold_left
+               (fun acc expr ->
+                  match expr.Ir.desc with
+                  | Var name -> acc @ [ name, Type expr.Ir.typ ]
+                  | _ -> acc)
+               []
+               new_args
+           in
            ( facts @ (first_fact :: typ_facts) @ [ base_fact ]
            , new_goal
            , graph_of_prop new_goal )
          | _ ->
-           let new_args, new_rec_args =
-             partition_and_transform
-               (fun (_, typ) -> List.mem typ rec_args)
-               (fun (name, typ) -> Ir.{ desc = Var name; typ })
-               arg_bind
+           let new_rec_args =
+             List.filter (fun arg -> List.mem arg.Ir.typ rec_args) new_args
            in
            let inductive_case =
              match constr with
@@ -772,12 +803,12 @@ let apply_induction name (state : state) t : state list =
                facts
            in
            let typ_facts =
-             List.map
-               (fun exp ->
-                  ( (match exp.Ir.desc with
-                     | Var name -> name
-                     | _ -> failwith "dead point")
-                  , Type exp.Ir.typ ))
+             List.fold_left
+               (fun acc expr ->
+                  match expr.Ir.desc with
+                  | Var name -> acc @ [ name, Type expr.Ir.typ ]
+                  | _ -> acc)
+               []
                new_args
            in
            facts @ (first_fact :: typ_facts) @ new_facts, new_goal, graph_of_prop new_goal)

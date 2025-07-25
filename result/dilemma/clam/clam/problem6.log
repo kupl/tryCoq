@@ -214,23 +214,24 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (arg1:any list), len ((arg1 @ (any1::(Nil)))) = SUCC (len (arg1))
-Model : any1: 0, arg1: (Nil)
-Model : any1: 5, arg1: (Nil)
-Model : any1: 4, arg1: (1::(Nil))
+Model : any1: 1, arg1: (Nil)
+Model : any1: 8, arg1: (0::(6::(Nil)))
+Model : any1: 1, arg1: (2::(Nil))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-len (((Nil) @ (0::(Nil)))) = SUCC (len ((Nil)))
-len (((Nil) @ (5::(Nil)))) = SUCC (len ((Nil)))
-len (((1::(Nil)) @ (4::(Nil)))) = SUCC (len ((1::(Nil))))
-Simplifying took 0.000192 seconds
+len (((Nil) @ (1::(Nil)))) = SUCC (len ((Nil)))
+len (((0::(6::(Nil))) @ (8::(Nil)))) = SUCC (len ((0::(6::(Nil)))))
+len (((2::(Nil)) @ (1::(Nil)))) = SUCC (len ((2::(Nil))))
+Simplifying took 0.000460 seconds
 Result : true
 advanced_generalize done
 

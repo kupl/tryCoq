@@ -324,23 +324,24 @@ simpl in goal
 rewrite IH1 in goal at 0
 rewrite <- IH1 in goal at 2
 intro nat1
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat4:nat), mult (qexp (nat1) (nat4) (nat1)) (ZERO) = mult (exp (nat1) (nat4)) (ZERO)
 Model : nat1: ZERO, nat4: ZERO
-Model : nat1: ZERO, nat4: ZERO
 Model : nat1: ZERO, nat4: SUCC (ZERO)
+Model : nat1: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (qexp (ZERO) (ZERO) (ZERO)) (ZERO) = mult (exp (ZERO) (ZERO)) (ZERO)
-mult (qexp (ZERO) (ZERO) (ZERO)) (ZERO) = mult (exp (ZERO) (ZERO)) (ZERO)
 mult (qexp (ZERO) (SUCC (ZERO)) (ZERO)) (ZERO) = mult (exp (ZERO) (SUCC (ZERO))) (ZERO)
-Simplifying took 0.000266 seconds
+mult (qexp (ZERO) (ZERO) (ZERO)) (ZERO) = mult (exp (ZERO) (ZERO)) (ZERO)
+Simplifying took 0.000142 seconds
 Result : true
 advanced_generalize done
 
@@ -747,23 +748,24 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg1:nat) (nat1:nat), mult (mult (arg1) (nat1)) (ZERO) = mult (arg1) (ZERO)
 Model : arg1: ZERO, nat1: ZERO
-Model : arg1: ZERO, nat1: SUCC (ZERO)
+Model : arg1: SUCC (ZERO), nat1: SUCC (ZERO)
 Model : arg1: ZERO, nat1: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (mult (ZERO) (ZERO)) (ZERO) = mult (ZERO) (ZERO)
-mult (mult (ZERO) (SUCC (ZERO))) (ZERO) = mult (ZERO) (ZERO)
+mult (mult (SUCC (ZERO)) (SUCC (ZERO))) (ZERO) = mult (SUCC (ZERO)) (ZERO)
 mult (mult (ZERO) (ZERO)) (ZERO) = mult (ZERO) (ZERO)
-Simplifying took 0.000057 seconds
+Simplifying took 0.000093 seconds
 Result : true
 advanced_generalize done
 
@@ -932,22 +934,23 @@ Tactic List : 0
 previous tactics
 simpl in goal
 intro nat2
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat) (nat3:nat), mult (plus (mult (nat3) (nat2)) (nat2)) (ZERO) = plus (mult (nat3) (ZERO)) (ZERO)
 Model : nat2: ZERO, nat3: ZERO
 Model : nat2: ZERO, nat3: ZERO
-Model : nat2: SUCC (ZERO), nat3: ZERO
+Model : nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO) = plus (mult (ZERO) (ZERO)) (ZERO)
 mult (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO) = plus (mult (ZERO) (ZERO)) (ZERO)
-mult (plus (mult (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (mult (ZERO) (ZERO)) (ZERO)
+mult (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO) = plus (mult (ZERO) (ZERO)) (ZERO)
 Simplifying took 0.000087 seconds
 Result : true
 advanced_generalize done
@@ -1282,23 +1285,24 @@ rewrite IH1 in goal at 0
 reflexivity
 simpl in goal
 intro nat1
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat3:nat), mult (plus (plus (mult (nat3) (nat1)) (nat1)) (nat1)) (ZERO) = plus (plus (mult (nat3) (ZERO)) (ZERO)) (ZERO)
 Model : nat1: ZERO, nat3: ZERO
-Model : nat1: ZERO, nat3: ZERO
-Model : nat1: ZERO, nat3: ZERO
+Model : nat1: SUCC (ZERO), nat3: SUCC (ZERO)
+Model : nat1: SUCC (ZERO), nat3: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)
-mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)
-mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)
-Simplifying took 0.000095 seconds
+mult (plus (plus (mult (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)
+mult (plus (plus (mult (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)
+Simplifying took 0.000299 seconds
 Result : true
 advanced_generalize done
 
@@ -1496,23 +1500,24 @@ plus (mult (plus (nat3) (SUCC (nat3))) (ZERO)) (ZERO) = ZERO
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat3:nat), plus (mult (plus (nat3) (SUCC (nat3))) (ZERO)) (ZERO) = ZERO
 Model : nat3: ZERO
-Model : nat3: SUCC (ZERO)
+Model : nat3: ZERO
 Model : nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 plus (mult (plus (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO) = ZERO
-plus (mult (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO) = ZERO
 plus (mult (plus (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000128 seconds
+plus (mult (plus (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO) = ZERO
+Simplifying took 0.000098 seconds
 Result : true
 advanced_generalize done
 
@@ -1600,23 +1605,24 @@ previous tactics
 simpl in goal
 intro nat1
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat4:nat), mult (qexp (nat1) (nat4) (nat1)) (ZERO) = qexp (nat1) (nat4) (ZERO)
-Model : nat1: ZERO, nat4: ZERO
-Model : nat1: ZERO, nat4: ZERO
-Model : nat1: ZERO, nat4: ZERO
+Model : nat1: SUCC (ZERO), nat4: ZERO
+Model : nat1: ZERO, nat4: SUCC (ZERO)
+Model : nat1: SUCC (SUCC (ZERO)), nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-mult (qexp (ZERO) (ZERO) (ZERO)) (ZERO) = qexp (ZERO) (ZERO) (ZERO)
-mult (qexp (ZERO) (ZERO) (ZERO)) (ZERO) = qexp (ZERO) (ZERO) (ZERO)
-mult (qexp (ZERO) (ZERO) (ZERO)) (ZERO) = qexp (ZERO) (ZERO) (ZERO)
-Simplifying took 0.000060 seconds
+mult (qexp (SUCC (ZERO)) (ZERO) (SUCC (ZERO))) (ZERO) = qexp (SUCC (ZERO)) (ZERO) (ZERO)
+mult (qexp (ZERO) (SUCC (ZERO)) (ZERO)) (ZERO) = qexp (ZERO) (SUCC (ZERO)) (ZERO)
+mult (qexp (SUCC (SUCC (ZERO))) (ZERO) (SUCC (SUCC (ZERO)))) (ZERO) = qexp (SUCC (SUCC (ZERO))) (ZERO) (ZERO)
+Simplifying took 0.000152 seconds
 Result : true
 advanced_generalize done
 
@@ -1958,23 +1964,24 @@ previous tactics
 simpl in goal
 intro nat1
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg2:nat) (nat1:nat), mult (mult (arg2) (nat1)) (ZERO) = mult (arg2) (ZERO)
 Model : arg2: ZERO, nat1: ZERO
 Model : arg2: ZERO, nat1: ZERO
-Model : arg2: ZERO, nat1: ZERO
+Model : arg2: ZERO, nat1: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (mult (ZERO) (ZERO)) (ZERO) = mult (ZERO) (ZERO)
 mult (mult (ZERO) (ZERO)) (ZERO) = mult (ZERO) (ZERO)
-mult (mult (ZERO) (ZERO)) (ZERO) = mult (ZERO) (ZERO)
-Simplifying took 0.000060 seconds
+mult (mult (ZERO) (SUCC (SUCC (ZERO)))) (ZERO) = mult (ZERO) (ZERO)
+Simplifying took 0.000063 seconds
 Result : true
 advanced_generalize done
 
@@ -2145,23 +2152,24 @@ Tactic List : 0
 previous tactics
 simpl in goal
 intro nat2
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat) (nat3:nat), mult (plus (mult (nat3) (nat2)) (nat2)) (ZERO) = plus (mult (nat3) (ZERO)) (ZERO)
-Model : nat2: SUCC (ZERO), nat3: SUCC (ZERO)
+Model : nat2: ZERO, nat3: ZERO
 Model : nat2: SUCC (ZERO), nat3: ZERO
-Model : nat2: SUCC (ZERO), nat3: ZERO
+Model : nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-mult (plus (mult (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (mult (SUCC (ZERO)) (ZERO)) (ZERO)
+mult (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO) = plus (mult (ZERO) (ZERO)) (ZERO)
 mult (plus (mult (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (mult (ZERO) (ZERO)) (ZERO)
-mult (plus (mult (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (mult (ZERO) (ZERO)) (ZERO)
-Simplifying took 0.000164 seconds
+mult (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO) = plus (mult (ZERO) (ZERO)) (ZERO)
+Simplifying took 0.000093 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -2252,23 +2260,24 @@ plus (plus (mult (plus (nat2) (SUCC (SUCC (nat2)))) (ZERO)) (ZERO)) (ZERO) = ZER
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), plus (plus (mult (plus (nat2) (SUCC (SUCC (nat2)))) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 plus (plus (mult (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO)) (ZERO) = ZERO
+plus (plus (mult (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO) = ZERO
 plus (plus (mult (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO)) (ZERO) = ZERO
-plus (plus (mult (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000134 seconds
+Simplifying took 0.000247 seconds
 Result : true
 advanced_generalize done
 
@@ -2494,23 +2503,24 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg3:nat) (nat3:nat) (nat4:nat), mult (qexp (arg3) (nat3) (plus (mult (nat4) (arg3)) (arg3))) (ZERO) = qexp (arg3) (nat3) (ZERO)
-Model : arg3: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
+Model : arg3: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: SUCC (ZERO)
 Model : arg3: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg3: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg3: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-mult (qexp (ZERO) (ZERO) (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO))) (ZERO) = qexp (ZERO) (ZERO) (ZERO)
+mult (qexp (ZERO) (SUCC (SUCC (ZERO))) (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO))) (ZERO) = qexp (ZERO) (SUCC (SUCC (ZERO))) (ZERO)
 mult (qexp (ZERO) (ZERO) (plus (mult (ZERO) (ZERO)) (ZERO))) (ZERO) = qexp (ZERO) (ZERO) (ZERO)
-mult (qexp (ZERO) (ZERO) (plus (mult (ZERO) (ZERO)) (ZERO))) (ZERO) = qexp (ZERO) (ZERO) (ZERO)
-Simplifying took 0.000101 seconds
+mult (qexp (ZERO) (SUCC (ZERO)) (plus (mult (ZERO) (ZERO)) (ZERO))) (ZERO) = qexp (ZERO) (SUCC (ZERO)) (ZERO)
+Simplifying took 0.000186 seconds
 Result : true
 advanced_generalize done
 
@@ -2938,6 +2948,7 @@ rewrite IH1 in goal at 0
 reflexivity
 simpl in goal
 intro nat1
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat4:nat), mult (plus (plus (mult (nat4) (nat1)) (nat1)) (nat1)) (ZERO) = ZERO
 Model : nat1: ZERO, nat4: ZERO
 Model : nat1: ZERO, nat4: ZERO
@@ -2946,7 +2957,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -2954,7 +2965,7 @@ prop list:
 mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000065 seconds
+Simplifying took 0.000071 seconds
 Result : true
 advanced_generalize done
 
@@ -3156,6 +3167,7 @@ plus (mult (plus (nat3) (SUCC (nat3))) (ZERO)) (ZERO) = ZERO
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat3:nat), plus (mult (plus (nat3) (SUCC (nat3))) (ZERO)) (ZERO) = ZERO
 Model : nat3: ZERO
 Model : nat3: ZERO
@@ -3164,7 +3176,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -3172,7 +3184,7 @@ prop list:
 plus (mult (plus (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO) = ZERO
 plus (mult (plus (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO) = ZERO
 plus (mult (plus (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000085 seconds
+Simplifying took 0.000091 seconds
 Result : true
 advanced_generalize done
 
@@ -3308,23 +3320,24 @@ plus (plus (mult (plus (nat2) (SUCC (SUCC (nat2)))) (ZERO)) (ZERO)) (ZERO) = ZER
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), plus (plus (mult (plus (nat2) (SUCC (SUCC (nat2)))) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 plus (plus (mult (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO)) (ZERO) = ZERO
 plus (plus (mult (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO)) (ZERO) = ZERO
-plus (plus (mult (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000135 seconds
+plus (plus (mult (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (ZERO)) (ZERO) = ZERO
+Simplifying took 0.000344 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -3486,23 +3499,24 @@ plus (plus (plus (mult (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) (ZERO)) (ZERO))
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), plus (plus (plus (mult (plus (nat2) (SUCC (SUCC (SUCC (nat2))))) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
-Model : nat2: SUCC (SUCC (ZERO))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
+plus (plus (plus (mult (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-plus (plus (plus (mult (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000309 seconds
+Simplifying took 0.000404 seconds
 Result : true
 advanced_generalize done
 
@@ -3699,23 +3713,24 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg4:nat) (nat3:nat) (nat4:nat), mult (qexp (arg4) (nat3) (plus (mult (nat4) (arg4)) (arg4))) (ZERO) = mult (qexp (arg4) (nat3) (arg4)) (ZERO)
 Model : arg4: ZERO, nat3: ZERO, nat4: ZERO
 Model : arg4: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg4: ZERO, nat3: ZERO, nat4: SUCC (SUCC (ZERO))
+Model : arg4: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (qexp (ZERO) (ZERO) (plus (mult (ZERO) (ZERO)) (ZERO))) (ZERO) = mult (qexp (ZERO) (ZERO) (ZERO)) (ZERO)
 mult (qexp (ZERO) (ZERO) (plus (mult (ZERO) (ZERO)) (ZERO))) (ZERO) = mult (qexp (ZERO) (ZERO) (ZERO)) (ZERO)
-mult (qexp (ZERO) (ZERO) (plus (mult (SUCC (SUCC (ZERO))) (ZERO)) (ZERO))) (ZERO) = mult (qexp (ZERO) (ZERO) (ZERO)) (ZERO)
-Simplifying took 0.000148 seconds
+mult (qexp (ZERO) (ZERO) (plus (mult (ZERO) (ZERO)) (ZERO))) (ZERO) = mult (qexp (ZERO) (ZERO) (ZERO)) (ZERO)
+Simplifying took 0.000102 seconds
 Result : true
 advanced_generalize done
 
@@ -3909,23 +3924,24 @@ plus (plus (plus (plus (mult (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) (Z
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), plus (plus (plus (plus (mult (plus (nat2) (SUCC (SUCC (SUCC (SUCC (nat2)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 plus (plus (plus (plus (mult (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000297 seconds
+Simplifying took 0.000350 seconds
 Result : true
 advanced_generalize done
 
@@ -4140,23 +4156,24 @@ mult (plus (plus (mult (nat4) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat4:nat), mult (plus (plus (mult (nat4) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Model : nat4: SUCC (SUCC (ZERO))
+Model : nat4: ZERO
 Model : nat4: ZERO
 Model : nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-mult (plus (plus (mult (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000086 seconds
+mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
+Simplifying took 0.000069 seconds
 Result : true
 advanced_generalize done
 
@@ -4296,6 +4313,7 @@ mult (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZER
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), mult (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -4304,7 +4322,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -4312,7 +4330,7 @@ prop list:
 mult (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000074 seconds
+Simplifying took 0.000079 seconds
 Result : true
 advanced_generalize done
 
@@ -4444,23 +4462,24 @@ mult (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), mult (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
+mult (plus (plus (plus (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-mult (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000106 seconds
+Simplifying took 0.000102 seconds
 Result : true
 advanced_generalize done
 
@@ -4592,23 +4611,24 @@ mult (plus (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) 
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), mult (plus (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-mult (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000105 seconds
+mult (plus (plus (plus (plus (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
+Simplifying took 0.000113 seconds
 Result : true
 advanced_generalize done
 
@@ -4740,6 +4760,7 @@ mult (plus (plus (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (Z
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), mult (plus (plus (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -4748,7 +4769,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -4756,7 +4777,7 @@ prop list:
 mult (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000105 seconds
+Simplifying took 0.000114 seconds
 Result : true
 advanced_generalize done
 
@@ -5141,23 +5162,24 @@ plus (plus (plus (plus (plus (mult (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (n
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), plus (plus (plus (plus (plus (mult (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Model : nat2: SUCC (ZERO)
+Model : nat2: ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-plus (plus (plus (plus (plus (mult (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 plus (plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 plus (plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000412 seconds
+plus (plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
+Simplifying took 0.000372 seconds
 Result : true
 advanced_generalize done
 
@@ -5289,6 +5311,7 @@ mult (plus (plus (plus (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZER
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), mult (plus (plus (plus (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -5297,7 +5320,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -5305,7 +5328,7 @@ prop list:
 mult (plus (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000133 seconds
+Simplifying took 0.000130 seconds
 Result : true
 advanced_generalize done
 
@@ -5437,6 +5460,7 @@ plus (plus (plus (plus (plus (plus (mult (plus (nat2) (SUCC (SUCC (SUCC (SUCC (S
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), plus (plus (plus (plus (plus (plus (mult (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2)))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -5445,7 +5469,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -5453,7 +5477,7 @@ prop list:
 plus (plus (plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 plus (plus (plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 plus (plus (plus (plus (plus (plus (mult (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000458 seconds
+Simplifying took 0.000520 seconds
 Result : true
 advanced_generalize done
 
@@ -5585,23 +5609,24 @@ mult (plus (plus (plus (plus (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), mult (plus (plus (plus (plus (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (SUCC (ZERO))
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (plus (plus (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
+mult (plus (plus (plus (plus (plus (plus (plus (plus (mult (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-mult (plus (plus (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000132 seconds
+Simplifying took 0.000176 seconds
 Result : true
 advanced_generalize done
 
@@ -5682,59 +5707,42 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg5:nat), arg5 = mult (arg5) (ZERO)
-Model : arg5: ZERO
 Model : arg5: SUCC (ZERO)
 Model : arg5: ZERO
+Model : arg5: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-ZERO = mult (ZERO) (ZERO)
 SUCC (ZERO) = mult (SUCC (ZERO)) (ZERO)
 ZERO = mult (ZERO) (ZERO)
+ZERO = mult (ZERO) (ZERO)
 Simplifying took 0.000042 seconds
-Result : false
-Lemma : forall (nat3:nat), exp (ZERO) (nat3) = mult (exp (ZERO) (nat3)) (ZERO)
-Model : nat3: SUCC (ZERO)
-Model : nat3: SUCC (ZERO)
-Model : nat3: ZERO
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil  -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-exp (ZERO) (SUCC (ZERO)) = mult (exp (ZERO) (SUCC (ZERO))) (ZERO)
-exp (ZERO) (SUCC (ZERO)) = mult (exp (ZERO) (SUCC (ZERO))) (ZERO)
-exp (ZERO) (ZERO) = mult (exp (ZERO) (ZERO)) (ZERO)
-Simplifying took 0.000158 seconds
 Result : false
 Lemma : forall (nat3:nat), mult (exp (ZERO) (nat3)) (ZERO) = mult (mult (exp (ZERO) (nat3)) (ZERO)) (ZERO)
 Model : nat3: ZERO
 Model : nat3: ZERO
-Model : nat3: ZERO
+Model : nat3: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (exp (ZERO) (ZERO)) (ZERO) = mult (mult (exp (ZERO) (ZERO)) (ZERO)) (ZERO)
 mult (exp (ZERO) (ZERO)) (ZERO) = mult (mult (exp (ZERO) (ZERO)) (ZERO)) (ZERO)
-mult (exp (ZERO) (ZERO)) (ZERO) = mult (mult (exp (ZERO) (ZERO)) (ZERO)) (ZERO)
-Simplifying took 0.000138 seconds
+mult (exp (ZERO) (SUCC (ZERO))) (ZERO) = mult (mult (exp (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO)
+Simplifying took 0.000168 seconds
 Result : true
 advanced_generalize done
 
@@ -6054,23 +6062,24 @@ reflexivity
 rewrite <- lemma3 in goal at 0
 reflexivity
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (arg6:nat) (nat3:nat) (nat4:nat), mult (qexp (arg6) (nat3) (plus (mult (nat4) (arg6)) (arg6))) (ZERO) = mult (mult (exp (arg6) (nat3)) (arg6)) (ZERO)
-Model : arg6: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
-Model : arg6: ZERO, nat3: SUCC (ZERO), nat4: ZERO
+Model : arg6: ZERO, nat3: ZERO, nat4: ZERO
+Model : arg6: ZERO, nat3: SUCC (ZERO), nat4: SUCC (ZERO)
 Model : arg6: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-mult (qexp (ZERO) (ZERO) (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO))) (ZERO) = mult (mult (exp (ZERO) (ZERO)) (ZERO)) (ZERO)
+mult (qexp (ZERO) (ZERO) (plus (mult (ZERO) (ZERO)) (ZERO))) (ZERO) = mult (mult (exp (ZERO) (ZERO)) (ZERO)) (ZERO)
+mult (qexp (ZERO) (SUCC (ZERO)) (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO))) (ZERO) = mult (mult (exp (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO)
 mult (qexp (ZERO) (SUCC (ZERO)) (plus (mult (ZERO) (ZERO)) (ZERO))) (ZERO) = mult (mult (exp (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO)
-mult (qexp (ZERO) (SUCC (ZERO)) (plus (mult (ZERO) (ZERO)) (ZERO))) (ZERO) = mult (mult (exp (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO)
-Simplifying took 0.000194 seconds
+Simplifying took 0.000219 seconds
 Result : true
 advanced_generalize done
 
@@ -6347,6 +6356,7 @@ mult (plus (plus (mult (nat4) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat4:nat), mult (plus (plus (mult (nat4) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat4: ZERO
 Model : nat4: ZERO
@@ -6355,7 +6365,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -6363,7 +6373,7 @@ prop list:
 mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000063 seconds
+Simplifying took 0.000067 seconds
 Result : true
 advanced_generalize done
 
@@ -6503,23 +6513,24 @@ mult (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZER
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), mult (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
-Model : nat2: ZERO
+Model : nat2: SUCC (ZERO)
 Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 mult (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
+mult (plus (plus (plus (mult (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-mult (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000124 seconds
+Simplifying took 0.000090 seconds
 Result : true
 advanced_generalize done
 =================================================
@@ -6863,23 +6874,24 @@ plus (plus (plus (plus (plus (plus (plus (mult (plus (nat2) (SUCC (SUCC (SUCC (S
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), plus (plus (plus (plus (plus (plus (plus (mult (plus (nat2) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (nat2))))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
-Model : nat2: SUCC (ZERO)
-Model : nat2: SUCC (SUCC (ZERO))
+Model : nat2: ZERO
+Model : nat2: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 plus (plus (plus (plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-plus (plus (plus (plus (plus (plus (plus (mult (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-plus (plus (plus (plus (plus (plus (plus (mult (plus (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000683 seconds
+plus (plus (plus (plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
+plus (plus (plus (plus (plus (plus (plus (mult (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
+Simplifying took 0.000510 seconds
 Result : true
 advanced_generalize done
 
@@ -7011,6 +7023,7 @@ mult (plus (plus (plus (plus (plus (plus (plus (plus (plus (mult (nat2) (ZERO)) 
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat), mult (plus (plus (plus (plus (plus (plus (plus (plus (plus (mult (nat2) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Model : nat2: ZERO
 Model : nat2: ZERO
@@ -7019,7 +7032,7 @@ Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
@@ -7027,7 +7040,7 @@ prop list:
 mult (plus (plus (plus (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 mult (plus (plus (plus (plus (plus (plus (plus (plus (plus (mult (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Simplifying took 0.000141 seconds
+Simplifying took 0.000151 seconds
 Result : true
 advanced_generalize done
 

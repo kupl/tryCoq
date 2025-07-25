@@ -42,10 +42,10 @@ let rec generator =
        let i = Random.int 10 in
        let typ =
          match i < 2 with
-         | true ->
+         | true when rec_typ_decl <> [] ->
            let i = Random.int (List.length rec_typ_decl) in
            List.nth rec_typ_decl i
-         | false ->
+         | _ ->
            let i = Random.int (List.length non_rec_typ_decl) in
            List.nth non_rec_typ_decl i
        in

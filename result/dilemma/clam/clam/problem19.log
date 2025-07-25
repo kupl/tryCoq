@@ -175,23 +175,24 @@ Inductive1 : nat_list2 = (nat1::nat_list3)
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (nat1:nat) (nat_list3:nat list), (nat1::nat_list3) = reverse ((reverse (nat_list3) @ (nat1::(Nil))))
-Model : nat1: SUCC (ZERO), nat_list3: (Nil)
+Model : nat1: ZERO, nat_list3: (Nil)
 Model : nat1: ZERO, nat_list3: (Nil)
 Model : nat1: ZERO, nat_list3: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-(SUCC (ZERO)::(Nil)) = reverse ((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))))
 (ZERO::(Nil)) = reverse ((reverse ((Nil)) @ (ZERO::(Nil))))
 (ZERO::(Nil)) = reverse ((reverse ((Nil)) @ (ZERO::(Nil))))
-Simplifying took 0.000111 seconds
+(ZERO::(Nil)) = reverse ((reverse ((Nil)) @ (ZERO::(Nil))))
+Simplifying took 0.000118 seconds
 Result : true
 advanced_generalize done
 
@@ -404,23 +405,24 @@ previous tactics
 simpl in goal
 intro nat1
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg1:any list) (nat1:nat), (nat1::reverse (arg1)) = reverse ((arg1 @ (nat1::(Nil))))
+Model : arg1: (7::(Nil)), nat1: SUCC (ZERO)
 Model : arg1: (Nil), nat1: ZERO
-Model : arg1: (Nil), nat1: ZERO
-Model : arg1: (Nil), nat1: ZERO
+Model : arg1: (8::(Nil)), nat1: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+(SUCC (ZERO)::reverse ((7::(Nil)))) = reverse (((7::(Nil)) @ (SUCC (ZERO)::(Nil))))
 (ZERO::reverse ((Nil))) = reverse (((Nil) @ (ZERO::(Nil))))
-(ZERO::reverse ((Nil))) = reverse (((Nil) @ (ZERO::(Nil))))
-(ZERO::reverse ((Nil))) = reverse (((Nil) @ (ZERO::(Nil))))
-Simplifying took 0.000103 seconds
+(SUCC (ZERO)::reverse ((8::(Nil)))) = reverse (((8::(Nil)) @ (SUCC (ZERO)::(Nil))))
+Simplifying took 0.000514 seconds
 Result : true
 advanced_generalize done
 
@@ -702,21 +704,22 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg2:any list) (nat1:nat), (nat1::reverse (arg2)) = reverse ((arg2 @ (nat1::(Nil))))
+Model : arg2: (Nil), nat1: SUCC (SUCC (SUCC (ZERO)))
 Model : arg2: (Nil), nat1: ZERO
-Model : arg2: (Nil), nat1: SUCC (ZERO)
 Model : arg2: (Nil), nat1: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+(SUCC (SUCC (SUCC (ZERO)))::reverse ((Nil))) = reverse (((Nil) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))))
 (ZERO::reverse ((Nil))) = reverse (((Nil) @ (ZERO::(Nil))))
-(SUCC (ZERO)::reverse ((Nil))) = reverse (((Nil) @ (SUCC (ZERO)::(Nil))))
 (ZERO::reverse ((Nil))) = reverse (((Nil) @ (ZERO::(Nil))))
 Simplifying took 0.000130 seconds
 Result : true

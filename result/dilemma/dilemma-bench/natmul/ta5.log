@@ -1092,23 +1092,24 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- IH2 in goal at 0
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg1:nat) (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (natadd (nat3) (arg1))) = natadd (SUCC (nat3)) (natadd_ta1 (nat4) (arg1))
+Model : arg1: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: ZERO
 Model : arg1: ZERO, nat3: ZERO, nat4: ZERO
-Model : arg1: ZERO, nat3: SUCC (SUCC (ZERO)), nat4: SUCC (ZERO)
 Model : arg1: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec natadd n1 n2 =
 match (n2) with
-| ZERO  -> n1
+| ZERO -> n1
 | SUCC n -> SUCC (natadd (n1) (n))
 let rec natmul n1 n2 =
 match (n2) with
-| ZERO  -> ZERO
+| ZERO -> ZERO
 | SUCC n -> natadd (n1) (natmul (n1) (n))
 prop list:
+SUCC (natadd_ta1 (ZERO) (natadd (SUCC (SUCC (ZERO))) (ZERO))) = natadd (SUCC (SUCC (SUCC (ZERO)))) (natadd_ta1 (ZERO) (ZERO))
 SUCC (natadd_ta1 (ZERO) (natadd (ZERO) (ZERO))) = natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (ZERO))
-SUCC (natadd_ta1 (SUCC (ZERO)) (natadd (SUCC (SUCC (ZERO))) (ZERO))) = natadd (SUCC (SUCC (SUCC (ZERO)))) (natadd_ta1 (SUCC (ZERO)) (ZERO))
 SUCC (natadd_ta1 (ZERO) (natadd (ZERO) (ZERO))) = natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (ZERO))
 Simplifying took 0.000051 seconds
 Result : true
@@ -1396,25 +1397,26 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- IH2 in goal at 0
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg2:nat) (nat3:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (natadd (nat3) (arg2))) = natadd (SUCC (nat3)) (natadd_ta1 (nat4) (arg2))
-Model : arg2: ZERO, nat3: SUCC (ZERO), nat4: ZERO
 Model : arg2: ZERO, nat3: ZERO, nat4: SUCC (ZERO)
-Model : arg2: SUCC (ZERO), nat3: ZERO, nat4: ZERO
+Model : arg2: ZERO, nat3: ZERO, nat4: SUCC (SUCC (SUCC (ZERO)))
+Model : arg2: ZERO, nat3: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec natadd n1 n2 =
 match (n2) with
-| ZERO  -> n1
+| ZERO -> n1
 | SUCC n -> SUCC (natadd (n1) (n))
 let rec natmul n1 n2 =
 match (n2) with
-| ZERO  -> ZERO
+| ZERO -> ZERO
 | SUCC n -> natadd (n1) (natmul (n1) (n))
 prop list:
-SUCC (natadd_ta1 (ZERO) (natadd (SUCC (ZERO)) (ZERO))) = natadd (SUCC (SUCC (ZERO))) (natadd_ta1 (ZERO) (ZERO))
 SUCC (natadd_ta1 (SUCC (ZERO)) (natadd (ZERO) (ZERO))) = natadd (SUCC (ZERO)) (natadd_ta1 (SUCC (ZERO)) (ZERO))
-SUCC (natadd_ta1 (ZERO) (natadd (ZERO) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (SUCC (ZERO)))
-Simplifying took 0.000056 seconds
+SUCC (natadd_ta1 (SUCC (SUCC (SUCC (ZERO)))) (natadd (ZERO) (ZERO))) = natadd (SUCC (ZERO)) (natadd_ta1 (SUCC (SUCC (SUCC (ZERO)))) (ZERO))
+SUCC (natadd_ta1 (ZERO) (natadd (ZERO) (ZERO))) = natadd (SUCC (ZERO)) (natadd_ta1 (ZERO) (ZERO))
+Simplifying took 0.000086 seconds
 Result : true
 advanced_generalize done
 
@@ -2122,25 +2124,26 @@ Tactic List : 0
 previous tactics
 simpl in goal
 intro nat2
-Lemma : forall (nat2:nat) (nat4:nat), SUCC (SUCC (natadd (nat2) (nat4))) = SUCC (natadd (SUCC (nat2)) (nat4))
+validate generalize_common_subterm_goal
+Lemma : forall (nat2:nat) (nat4:nat), SUCC (natadd (nat2) (nat4)) = natadd (SUCC (nat2)) (nat4)
 Model : nat2: ZERO, nat4: ZERO
 Model : nat2: ZERO, nat4: ZERO
-Model : nat2: SUCC (ZERO), nat4: ZERO
+Model : nat2: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec natadd n1 n2 =
 match (n2) with
-| ZERO  -> n1
+| ZERO -> n1
 | SUCC n -> SUCC (natadd (n1) (n))
 let rec natmul n1 n2 =
 match (n2) with
-| ZERO  -> ZERO
+| ZERO -> ZERO
 | SUCC n -> natadd (n1) (natmul (n1) (n))
 prop list:
-SUCC (SUCC (natadd (ZERO) (ZERO))) = SUCC (natadd (SUCC (ZERO)) (ZERO))
-SUCC (SUCC (natadd (ZERO) (ZERO))) = SUCC (natadd (SUCC (ZERO)) (ZERO))
-SUCC (SUCC (natadd (SUCC (ZERO)) (ZERO))) = SUCC (natadd (SUCC (SUCC (ZERO))) (ZERO))
-Simplifying took 0.000037 seconds
+SUCC (natadd (ZERO) (ZERO)) = natadd (SUCC (ZERO)) (ZERO)
+SUCC (natadd (ZERO) (ZERO)) = natadd (SUCC (ZERO)) (ZERO)
+SUCC (natadd (ZERO) (ZERO)) = natadd (SUCC (ZERO)) (ZERO)
+Simplifying took 0.000027 seconds
 Result : true
 advanced_generalize done
 
@@ -2177,13 +2180,13 @@ SUCC (SUCC (natadd (nat2) (nat4))) = SUCC (natadd (SUCC (nat2)) (nat4))
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (nat2:nat) (nat4:nat), SUCC (SUCC (natadd (nat2) (nat4))) = SUCC (natadd (SUCC (nat2)) (nat4))(rank : 0)
+>>> assert forall (nat2:nat) (nat4:nat), SUCC (natadd (nat2) (nat4)) = natadd (SUCC (nat2)) (nat4)(rank : 0)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 
 0 goal(s) more...
 
@@ -2194,10 +2197,10 @@ induction nat2(rank:8)
 Progress: 62
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 
 0 goal(s) more...
 
@@ -2205,11 +2208,11 @@ forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd 
 >>> induction nat2(rank : 8)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 nat2 : nat
 Base1 : nat2 = ZERO
 ---------------------------------------
-forall (nat1:nat), SUCC (SUCC (natadd (nat1) (ZERO))) = SUCC (natadd (SUCC (nat1)) (ZERO))
+forall (nat1:nat), SUCC (natadd (nat1) (ZERO)) = natadd (SUCC (nat1)) (ZERO)
 
 1 goal(s) more...
 
@@ -2220,11 +2223,11 @@ reflexivity(rank:7)
 Progress: 63
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 nat2 : nat
 Base1 : nat2 = ZERO
 ---------------------------------------
-forall (nat1:nat), SUCC (SUCC (natadd (nat1) (ZERO))) = SUCC (natadd (SUCC (nat1)) (ZERO))
+forall (nat1:nat), SUCC (natadd (nat1) (ZERO)) = natadd (SUCC (nat1)) (ZERO)
 
 1 goal(s) more...
 
@@ -2232,13 +2235,13 @@ forall (nat1:nat), SUCC (SUCC (natadd (nat1) (ZERO))) = SUCC (natadd (SUCC (nat1
 >>> reflexivity(rank : 7)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 nat2 : nat
 nat3 : nat
-IH1 : forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
+IH1 : forall (nat1:nat), SUCC (natadd (nat1) (nat3)) = natadd (SUCC (nat1)) (nat3)
 Inductive1 : nat2 = SUCC (nat3)
 ---------------------------------------
-forall (nat1:nat), SUCC (SUCC (natadd (nat1) (SUCC (nat3)))) = SUCC (natadd (SUCC (nat1)) (SUCC (nat3)))
+forall (nat1:nat), SUCC (natadd (nat1) (SUCC (nat3))) = natadd (SUCC (nat1)) (SUCC (nat3))
 
 0 goal(s) more...
 
@@ -2250,13 +2253,13 @@ simpl in goal(rank:7)
 Progress: 64
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 nat2 : nat
 nat3 : nat
-IH1 : forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
+IH1 : forall (nat1:nat), SUCC (natadd (nat1) (nat3)) = natadd (SUCC (nat1)) (nat3)
 Inductive1 : nat2 = SUCC (nat3)
 ---------------------------------------
-forall (nat1:nat), SUCC (SUCC (natadd (nat1) (SUCC (nat3)))) = SUCC (natadd (SUCC (nat1)) (SUCC (nat3)))
+forall (nat1:nat), SUCC (natadd (nat1) (SUCC (nat3))) = natadd (SUCC (nat1)) (SUCC (nat3))
 
 0 goal(s) more...
 
@@ -2264,13 +2267,13 @@ forall (nat1:nat), SUCC (SUCC (natadd (nat1) (SUCC (nat3)))) = SUCC (natadd (SUC
 >>> simpl in goal(rank : 7)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 nat2 : nat
 nat3 : nat
-IH1 : forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
+IH1 : forall (nat1:nat), SUCC (natadd (nat1) (nat3)) = natadd (SUCC (nat1)) (nat3)
 Inductive1 : nat2 = SUCC (nat3)
 ---------------------------------------
-forall (nat1:nat), SUCC (SUCC (SUCC (natadd (nat1) (nat3)))) = SUCC (SUCC (natadd (SUCC (nat1)) (nat3)))
+forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
 
 0 goal(s) more...
 
@@ -2285,13 +2288,13 @@ rewrite IH1 in goal at 0(rank:23)
 Progress: 65
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 nat2 : nat
 nat3 : nat
-IH1 : forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
+IH1 : forall (nat1:nat), SUCC (natadd (nat1) (nat3)) = natadd (SUCC (nat1)) (nat3)
 Inductive1 : nat2 = SUCC (nat3)
 ---------------------------------------
-forall (nat1:nat), SUCC (SUCC (SUCC (natadd (nat1) (nat3)))) = SUCC (SUCC (natadd (SUCC (nat1)) (nat3)))
+forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
 
 0 goal(s) more...
 
@@ -2299,14 +2302,14 @@ forall (nat1:nat), SUCC (SUCC (SUCC (natadd (nat1) (nat3)))) = SUCC (SUCC (natad
 >>> intro nat1(rank : 7)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 nat2 : nat
 nat3 : nat
-IH1 : forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
+IH1 : forall (nat1:nat), SUCC (natadd (nat1) (nat3)) = natadd (SUCC (nat1)) (nat3)
 Inductive1 : nat2 = SUCC (nat3)
 nat1 : nat
 ---------------------------------------
-SUCC (SUCC (SUCC (natadd (nat1) (nat3)))) = SUCC (SUCC (natadd (SUCC (nat1)) (nat3)))
+SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
 
 0 goal(s) more...
 
@@ -2522,38 +2525,39 @@ Tactic List : 0
 previous tactics
 simpl in goal
 intro nat2
-Lemma : forall (nat2:nat) (nat4:nat), SUCC (SUCC (natadd (nat2) (nat4))) = SUCC (natadd (SUCC (nat2)) (nat4))
-Model : nat2: ZERO, nat4: ZERO
-Model : nat2: ZERO, nat4: ZERO
-Model : nat2: ZERO, nat4: ZERO
+validate generalize_common_subterm_goal
+Lemma : forall (nat2:nat) (nat4:nat), SUCC (natadd (nat2) (nat4)) = natadd (SUCC (nat2)) (nat4)
+Model : nat2: SUCC (ZERO), nat4: ZERO
+Model : nat2: SUCC (ZERO), nat4: ZERO
+Model : nat2: ZERO, nat4: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec natadd n1 n2 =
 match (n2) with
-| ZERO  -> n1
+| ZERO -> n1
 | SUCC n -> SUCC (natadd (n1) (n))
 let rec natmul n1 n2 =
 match (n2) with
-| ZERO  -> ZERO
+| ZERO -> ZERO
 | SUCC n -> natadd (n1) (natmul (n1) (n))
 prop list:
-SUCC (SUCC (natadd (ZERO) (ZERO))) = SUCC (natadd (SUCC (ZERO)) (ZERO))
-SUCC (SUCC (natadd (ZERO) (ZERO))) = SUCC (natadd (SUCC (ZERO)) (ZERO))
-SUCC (SUCC (natadd (ZERO) (ZERO))) = SUCC (natadd (SUCC (ZERO)) (ZERO))
-Simplifying took 0.000026 seconds
+SUCC (natadd (SUCC (ZERO)) (ZERO)) = natadd (SUCC (SUCC (ZERO))) (ZERO)
+SUCC (natadd (SUCC (ZERO)) (ZERO)) = natadd (SUCC (SUCC (ZERO))) (ZERO)
+SUCC (natadd (ZERO) (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (ZERO))
+Simplifying took 0.000045 seconds
 Result : true
 advanced_generalize done
 =================================================
 Progress: 72
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 nat2 : nat
 nat3 : nat
-IH1 : forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
+IH1 : forall (nat1:nat), SUCC (natadd (nat1) (nat3)) = natadd (SUCC (nat1)) (nat3)
 Inductive1 : nat2 = SUCC (nat3)
 ---------------------------------------
-forall (nat1:nat), SUCC (SUCC (SUCC (natadd (nat1) (nat3)))) = SUCC (SUCC (natadd (SUCC (nat1)) (nat3)))
+forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
 
 0 goal(s) more...
 
@@ -2561,13 +2565,13 @@ forall (nat1:nat), SUCC (SUCC (SUCC (natadd (nat1) (nat3)))) = SUCC (SUCC (natad
 >>> rewrite IH1 in goal at 1(rank : 15)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 nat2 : nat
 nat3 : nat
-IH1 : forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
+IH1 : forall (nat1:nat), SUCC (natadd (nat1) (nat3)) = natadd (SUCC (nat1)) (nat3)
 Inductive1 : nat2 = SUCC (nat3)
 ---------------------------------------
-forall (nat1:nat), SUCC (SUCC (natadd (SUCC (nat1)) (nat3))) = SUCC (SUCC (natadd (SUCC (nat1)) (nat3)))
+forall (nat1:nat), SUCC (natadd (SUCC (nat1)) (nat3)) = SUCC (natadd (SUCC (nat1)) (nat3))
 
 0 goal(s) more...
 
@@ -2578,13 +2582,13 @@ reflexivity(rank:6)
 Progress: 73
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+1st goal of : forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 nat2 : nat
 nat3 : nat
-IH1 : forall (nat1:nat), SUCC (SUCC (natadd (nat1) (nat3))) = SUCC (natadd (SUCC (nat1)) (nat3))
+IH1 : forall (nat1:nat), SUCC (natadd (nat1) (nat3)) = natadd (SUCC (nat1)) (nat3)
 Inductive1 : nat2 = SUCC (nat3)
 ---------------------------------------
-forall (nat1:nat), SUCC (SUCC (natadd (SUCC (nat1)) (nat3))) = SUCC (SUCC (natadd (SUCC (nat1)) (nat3)))
+forall (nat1:nat), SUCC (natadd (SUCC (nat1)) (nat3)) = SUCC (natadd (SUCC (nat1)) (nat3))
 
 0 goal(s) more...
 
@@ -2607,9 +2611,11 @@ SUCC (SUCC (natadd (nat2) (nat4))) = SUCC (natadd (SUCC (nat2)) (nat4))
 
 1 conjecture(s) more...
 Deduplication: 7
-Tactic List : 2
-rewrite lemma3 in goal at 0(rank:14)
+Tactic List : 4
+rewrite lemma3 in goal at 1(rank:14)
+rewrite lemma3 in goal at 0(rank:22)
 rewrite <- lemma3 in goal at 0(rank:14)
+rewrite lemma3 in goal at 2(rank:22)
 =================================================
 Progress: 74
 
@@ -2628,7 +2634,7 @@ SUCC (SUCC (natadd (nat2) (nat4))) = SUCC (natadd (SUCC (nat2)) (nat4))
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> rewrite lemma3 in goal at 0(rank : 14)
+>>> rewrite lemma3 in goal at 1(rank : 14)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), SUCC (natadd_ta1 (nat3) (natadd (nat2) (nat1))) = natadd (SUCC (nat2)) (natadd_ta1 (nat3) (nat1))
@@ -2683,7 +2689,7 @@ forall (nat2:nat), SUCC (natadd_ta1 (SUCC (nat5)) (SUCC (natadd (nat2) (nat4))))
 0 goal(s) more...
 
 1 conjecture(s) more...
-Deduplication: 1
+Deduplication: 3
 Tactic List : 1
 simpl in goal(rank:5)
 =================================================
@@ -2723,11 +2729,14 @@ forall (nat2:nat), SUCC (SUCC (natadd_ta1 (nat5) (SUCC (natadd (nat2) (nat4)))))
 0 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 4
+Tactic List : 7
 intro nat2(rank:5)
-rewrite IH2 in goal at 0(rank:13)
+rewrite lemma3 in goal at 1(rank:13)
 rewrite <- IH2 in goal at 0(rank:13)
+rewrite lemma3 in goal at 2(rank:21)
 rewrite <- lemma3 in goal at 0(rank:13)
+rewrite lemma3 in goal at 0(rank:21)
+rewrite IH2 in goal at 0(rank:13)
 =================================================
 Progress: 77
 
@@ -2766,10 +2775,13 @@ SUCC (SUCC (natadd_ta1 (nat5) (SUCC (natadd (nat2) (nat4))))) = SUCC (natadd (SU
 0 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 3
+Tactic List : 6
 rewrite IH2 in goal at 0(rank:13)
+rewrite lemma3 in goal at 1(rank:13)
+rewrite lemma3 in goal at 2(rank:21)
 rewrite <- IH2 in goal at 0(rank:13)
 rewrite <- lemma3 in goal at 0(rank:13)
+rewrite lemma3 in goal at 0(rank:21)
 =================================================
 Progress: 78
 
@@ -2846,9 +2858,10 @@ SUCC (natadd_ta1 (nat4) (natadd (nat3) (natmul (nat3) (nat4)))) = natadd (SUCC (
 0 goal(s) more...
 
 0 conjecture(s) more...
-Deduplication: 5
-Tactic List : 2
+Deduplication: 11
+Tactic List : 3
 rewrite lemma4 in goal at 0(rank:11)
+rewrite <- lemma3 in goal at 0(rank:11)
 rewrite <- lemma4 in goal at 0(rank:11)
 =================================================
 Progress: 80
@@ -2944,13 +2957,13 @@ simpl in goal
 induction nat3
 simpl in goal
 intro nat2
-assert forall (nat1:nat) (nat2:nat), SUCC (SUCC (natadd (nat1) (nat2))) = SUCC (natadd (SUCC (nat1)) (nat2))
+assert forall (nat1:nat) (nat2:nat), SUCC (natadd (nat1) (nat2)) = natadd (SUCC (nat1)) (nat2)
 induction nat2
 reflexivity
 simpl in goal
 rewrite IH1 in goal at 1
 reflexivity
-rewrite lemma3 in goal at 0
+rewrite lemma3 in goal at 1
 reflexivity
 simpl in goal
 rewrite IH2 in goal at 0

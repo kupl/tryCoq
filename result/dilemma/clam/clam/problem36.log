@@ -145,23 +145,24 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg1:any list) (int1:int), len (insort (int1) (arg1)) = SUCC (len (arg1))
 Model : arg1: (Nil), int1: 0
+Model : arg1: (Nil), int1: 0
 Model : arg1: (Nil), int1: -0
-Model : arg1: (0::(6::(1::(4::(Nil))))), int1: 0
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
 len (insort (0) ((Nil))) = SUCC (len ((Nil)))
+len (insort (0) ((Nil))) = SUCC (len ((Nil)))
 len (insort (-0) ((Nil))) = SUCC (len ((Nil)))
-len (insort (0) ((0::(6::(1::(4::(Nil))))))) = SUCC (len ((0::(6::(1::(4::(Nil)))))))
-Simplifying took 0.000747 seconds
+Simplifying took 0.000096 seconds
 Result : true
 advanced_generalize done
 
@@ -291,10 +292,10 @@ IH1 : forall (int1:int), len (insort (int1) (any_list2)) = SUCC (len (any_list2)
 Inductive1 : any_list1 = (any1::any_list2)
 ---------------------------------------
 forall (int1:int), len (if match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -317,10 +318,10 @@ IH1 : forall (int1:int), len (insort (int1) (any_list2)) = SUCC (len (any_list2)
 Inductive1 : any_list1 = (any1::any_list2)
 ---------------------------------------
 forall (int1:int), len (if match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -341,10 +342,10 @@ Inductive1 : any_list1 = (any1::any_list2)
 int1 : int
 ---------------------------------------
 len (if match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -355,10 +356,10 @@ len (if match (int1, any1) with
 1 conjecture(s) more...
 Tactic List : 1
 case match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -376,10 +377,10 @@ Inductive1 : any_list1 = (any1::any_list2)
 int1 : int
 ---------------------------------------
 len (if match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -389,10 +390,10 @@ len (if match (int1, any1) with
 
 1 conjecture(s) more...
 >>> case match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -407,10 +408,10 @@ IH1 : forall (int1:int), len (insort (int1) (any_list2)) = SUCC (len (any_list2)
 Inductive1 : any_list1 = (any1::any_list2)
 int1 : int
 Case1 : match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -435,10 +436,10 @@ IH1 : forall (int1:int), len (insort (int1) (any_list2)) = SUCC (len (any_list2)
 Inductive1 : any_list1 = (any1::any_list2)
 int1 : int
 Case1 : match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -460,10 +461,10 @@ IH1 : forall (int1:int), len (insort (int1) (any_list2)) = SUCC (len (any_list2)
 Inductive1 : any_list1 = (any1::any_list2)
 int1 : int
 Case1 : match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -489,10 +490,10 @@ IH1 : forall (int1:int), len (insort (int1) (any_list2)) = SUCC (len (any_list2)
 Inductive1 : any_list1 = (any1::any_list2)
 int1 : int
 Case1 : match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -514,10 +515,10 @@ IH1 : forall (int1:int), len (insort (int1) (any_list2)) = SUCC (len (any_list2)
 Inductive1 : any_list1 = (any1::any_list2)
 int1 : int
 Case1 : match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -542,10 +543,10 @@ IH1 : forall (int1:int), len (insort (int1) (any_list2)) = SUCC (len (any_list2)
 Inductive1 : any_list1 = (any1::any_list2)
 int1 : int
 Case1 : match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
@@ -640,10 +641,10 @@ reflexivity
 simpl in goal
 intro int1
 case match (int1, any1) with
-| (Zero , Pos _) -> true
-| (Zero , _) -> false
-| (Neg _, Zero ) -> true
-| (_, Zero ) -> false
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false

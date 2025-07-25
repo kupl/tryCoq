@@ -316,25 +316,26 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg1:nat), arg1 = natadd (arg1) (ZERO)
+Model : arg1: SUCC (SUCC (ZERO))
 Model : arg1: ZERO
 Model : arg1: ZERO
-Model : arg1: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 let rec natadd n1 n2 =
 match (n1) with
-| ZERO  -> n2
+| ZERO -> n2
 | SUCC n -> SUCC (natadd (n) (n2))
 let rec natmul n1 n2 =
 match (n1) with
-| ZERO  -> ZERO
+| ZERO -> ZERO
 | SUCC n -> natadd (natmul (n) (n2)) (n2)
 prop list:
+SUCC (SUCC (ZERO)) = natadd (SUCC (SUCC (ZERO))) (ZERO)
 ZERO = natadd (ZERO) (ZERO)
 ZERO = natadd (ZERO) (ZERO)
-SUCC (ZERO) = natadd (SUCC (ZERO)) (ZERO)
-Simplifying took 0.000021 seconds
+Simplifying took 0.000027 seconds
 Result : true
 advanced_generalize done
 
@@ -693,25 +694,26 @@ rewrite <- lemma3 in goal at 0
 reflexivity
 simpl in goal
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg2:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (arg2)) = natadd (arg2) (SUCC (nat4))
-Model : arg2: ZERO, nat4: SUCC (SUCC (ZERO))
+Model : arg2: SUCC (ZERO), nat4: ZERO
 Model : arg2: ZERO, nat4: ZERO
-Model : arg2: ZERO, nat4: SUCC (ZERO)
+Model : arg2: ZERO, nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec natadd n1 n2 =
 match (n1) with
-| ZERO  -> n2
+| ZERO -> n2
 | SUCC n -> SUCC (natadd (n) (n2))
 let rec natmul n1 n2 =
 match (n1) with
-| ZERO  -> ZERO
+| ZERO -> ZERO
 | SUCC n -> natadd (natmul (n) (n2)) (n2)
 prop list:
-SUCC (natadd_ta1 (SUCC (SUCC (ZERO))) (ZERO)) = natadd (ZERO) (SUCC (SUCC (SUCC (ZERO))))
+SUCC (natadd_ta1 (ZERO) (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (ZERO))
 SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
-SUCC (natadd_ta1 (SUCC (ZERO)) (ZERO)) = natadd (ZERO) (SUCC (SUCC (ZERO)))
-Simplifying took 0.000035 seconds
+SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
+Simplifying took 0.000030 seconds
 Result : true
 advanced_generalize done
 
@@ -810,24 +812,25 @@ rewrite <- lemma3 in goal at 0
 reflexivity
 simpl in goal
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (arg3:nat) (nat4:nat), SUCC (natadd_ta1 (nat4) (arg3)) = natadd (arg3) (SUCC (nat4))
 Model : arg3: ZERO, nat4: ZERO
+Model : arg3: ZERO, nat4: SUCC (ZERO)
 Model : arg3: ZERO, nat4: ZERO
-Model : arg3: SUCC (ZERO), nat4: ZERO
 Substituting variables...
 Simplifying conditions and property...
 let rec natadd n1 n2 =
 match (n1) with
-| ZERO  -> n2
+| ZERO -> n2
 | SUCC n -> SUCC (natadd (n) (n2))
 let rec natmul n1 n2 =
 match (n1) with
-| ZERO  -> ZERO
+| ZERO -> ZERO
 | SUCC n -> natadd (natmul (n) (n2)) (n2)
 prop list:
 SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
+SUCC (natadd_ta1 (SUCC (ZERO)) (ZERO)) = natadd (ZERO) (SUCC (SUCC (ZERO)))
 SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
-SUCC (natadd_ta1 (ZERO) (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (ZERO))
 Simplifying took 0.000030 seconds
 Result : true
 advanced_generalize done

@@ -176,23 +176,24 @@ qreva (any_list3) ((any1::(Nil))) = ((reverse (any_list3) @ (any1::(Nil))) @ (Ni
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (any_list3:any list) (arg1:any list), qreva (any_list3) (arg1) = ((reverse (any_list3) @ arg1) @ (Nil))
-Model : any_list3: (Nil), arg1: (0::(Nil))
-Model : any_list3: (Nil), arg1: (5::(Nil))
+Model : any_list3: (Nil), arg1: (7::(Nil))
+Model : any_list3: (Nil), arg1: (Nil)
 Model : any_list3: (Nil), arg1: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-qreva ((Nil)) ((0::(Nil))) = ((reverse ((Nil)) @ (0::(Nil))) @ (Nil))
-qreva ((Nil)) ((5::(Nil))) = ((reverse ((Nil)) @ (5::(Nil))) @ (Nil))
+qreva ((Nil)) ((7::(Nil))) = ((reverse ((Nil)) @ (7::(Nil))) @ (Nil))
 qreva ((Nil)) ((Nil)) = ((reverse ((Nil)) @ (Nil)) @ (Nil))
-Simplifying took 0.000168 seconds
+qreva ((Nil)) ((Nil)) = ((reverse ((Nil)) @ (Nil)) @ (Nil))
+Simplifying took 0.000141 seconds
 Result : true
 advanced_generalize done
 
@@ -578,23 +579,24 @@ reflexivity
 simpl in goal
 intro any_list2
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list2:any list) (arg2:any list), ((arg2 @ (any1::any_list2)) @ (Nil)) = (((arg2 @ (any1::(Nil))) @ any_list2) @ (Nil))
-Model : any1: 7, any_list2: (7::(Nil)), arg2: (Nil)
 Model : any1: 2, any_list2: (Nil), arg2: (Nil)
-Model : any1: 0, any_list2: (6::(Nil)), arg2: (0::(Nil))
+Model : any1: 3, any_list2: (Nil), arg2: (8::(Nil))
+Model : any1: 2, any_list2: (4::(Nil)), arg2: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-(((Nil) @ (7::(7::(Nil)))) @ (Nil)) = ((((Nil) @ (7::(Nil))) @ (7::(Nil))) @ (Nil))
 (((Nil) @ (2::(Nil))) @ (Nil)) = ((((Nil) @ (2::(Nil))) @ (Nil)) @ (Nil))
-(((0::(Nil)) @ (0::(6::(Nil)))) @ (Nil)) = ((((0::(Nil)) @ (0::(Nil))) @ (6::(Nil))) @ (Nil))
-Simplifying took 0.000766 seconds
+(((8::(Nil)) @ (3::(Nil))) @ (Nil)) = ((((8::(Nil)) @ (3::(Nil))) @ (Nil)) @ (Nil))
+(((Nil) @ (2::(4::(Nil)))) @ (Nil)) = ((((Nil) @ (2::(Nil))) @ (4::(Nil))) @ (Nil))
+Simplifying took 0.000696 seconds
 Result : true
 advanced_generalize done
 
@@ -1002,7 +1004,7 @@ advanced_generalize done
 New Env
 let rec mk_rhs1 arg_3 arg_4 =
 match (arg_3) with
-| Nil  -> arg_4
+| Nil -> arg_4
 | Cons hd tl -> mk_rhs1 (tl) ((hd::arg_4))
 ;;
 Lemma List
@@ -1149,23 +1151,24 @@ rewrite <- IH1 in goal at 0
 reflexivity
 simpl in goal
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list2:any list) (arg5:any list), ((arg5 @ (any1::any_list2)) @ (Nil)) = (((arg5 @ (any1::(Nil))) @ any_list2) @ (Nil))
-Model : any1: 0, any_list2: (6::(Nil)), arg5: (Nil)
-Model : any1: 0, any_list2: (7::(Nil)), arg5: (6::(Nil))
-Model : any1: 8, any_list2: (Nil), arg5: (Nil)
+Model : any1: 0, any_list2: (Nil), arg5: (Nil)
+Model : any1: 3, any_list2: (Nil), arg5: (Nil)
+Model : any1: 6, any_list2: (Nil), arg5: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-(((Nil) @ (0::(6::(Nil)))) @ (Nil)) = ((((Nil) @ (0::(Nil))) @ (6::(Nil))) @ (Nil))
-(((6::(Nil)) @ (0::(7::(Nil)))) @ (Nil)) = ((((6::(Nil)) @ (0::(Nil))) @ (7::(Nil))) @ (Nil))
-(((Nil) @ (8::(Nil))) @ (Nil)) = ((((Nil) @ (8::(Nil))) @ (Nil)) @ (Nil))
-Simplifying took 0.000798 seconds
+(((Nil) @ (0::(Nil))) @ (Nil)) = ((((Nil) @ (0::(Nil))) @ (Nil)) @ (Nil))
+(((Nil) @ (3::(Nil))) @ (Nil)) = ((((Nil) @ (3::(Nil))) @ (Nil)) @ (Nil))
+(((Nil) @ (6::(Nil))) @ (Nil)) = ((((Nil) @ (6::(Nil))) @ (Nil)) @ (Nil))
+Simplifying took 0.000326 seconds
 Result : true
 advanced_generalize done
 
@@ -1850,23 +1853,24 @@ Inductive2 : any_list2 = (any2::any_list4)
 Tactic List : 0
 previous tactics
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list3:any list) (arg6:any list), ((arg6 @ (any1::(Nil))) @ any_list3) = (arg6 @ (any1::any_list3))
+Model : any1: 3, any_list3: (Nil), arg6: (Nil)
+Model : any1: 5, any_list3: (Nil), arg6: (1::(Nil))
 Model : any1: 0, any_list3: (Nil), arg6: (Nil)
-Model : any1: 8, any_list3: (4::(Nil)), arg6: (Nil)
-Model : any1: 1, any_list3: (Nil), arg6: (Nil)
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
+(((Nil) @ (3::(Nil))) @ (Nil)) = ((Nil) @ (3::(Nil)))
+(((1::(Nil)) @ (5::(Nil))) @ (Nil)) = ((1::(Nil)) @ (5::(Nil)))
 (((Nil) @ (0::(Nil))) @ (Nil)) = ((Nil) @ (0::(Nil)))
-(((Nil) @ (8::(Nil))) @ (4::(Nil))) = ((Nil) @ (8::(4::(Nil))))
-(((Nil) @ (1::(Nil))) @ (Nil)) = ((Nil) @ (1::(Nil)))
-Simplifying took 0.000224 seconds
+Simplifying took 0.000310 seconds
 Result : true
 advanced_generalize done
 
@@ -2417,23 +2421,24 @@ previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 simpl in goal
+validate generalize_common_subterm_goal
 Lemma : forall (any1:any) (any_list3:any list) (arg7:any list), ((arg7 @ (any1::(Nil))) @ any_list3) = (arg7 @ (any1::any_list3))
-Model : any1: 6, any_list3: (Nil), arg7: (Nil)
-Model : any1: 4, any_list3: (Nil), arg7: (Nil)
-Model : any1: 3, any_list3: (Nil), arg7: (Nil)
+Model : any1: 8, any_list3: (Nil), arg7: (Nil)
+Model : any1: 1, any_list3: (Nil), arg7: (Nil)
+Model : any1: 6, any_list3: (Nil), arg7: (5::(5::(Nil)))
 Substituting variables...
 Simplifying conditions and property...
 let rec lst_subset lst1 lst2 =
 match (lst1) with
-| Nil  -> true
+| Nil -> true
 | Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
 let lst_eq lst1 lst2 =
 && (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
 prop list:
-(((Nil) @ (6::(Nil))) @ (Nil)) = ((Nil) @ (6::(Nil)))
-(((Nil) @ (4::(Nil))) @ (Nil)) = ((Nil) @ (4::(Nil)))
-(((Nil) @ (3::(Nil))) @ (Nil)) = ((Nil) @ (3::(Nil)))
-Simplifying took 0.000227 seconds
+(((Nil) @ (8::(Nil))) @ (Nil)) = ((Nil) @ (8::(Nil)))
+(((Nil) @ (1::(Nil))) @ (Nil)) = ((Nil) @ (1::(Nil)))
+(((5::(5::(Nil))) @ (6::(Nil))) @ (Nil)) = ((5::(5::(Nil))) @ (6::(Nil)))
+Simplifying took 0.000570 seconds
 Result : true
 advanced_generalize done
 

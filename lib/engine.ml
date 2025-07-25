@@ -153,7 +153,7 @@ let rec progress worklist statelist lemma_set =
         (">>> " ^ Proof.pp_tactic work.tactic ^ "(rank : " ^ string_of_int work.rank ^ ")")
     in
     let _ = Proof.pp_t work.next_t.t |> print_endline in
-    let _ = if i = 170 then Proof.proof_top work.next_t.t in
+    (* let _ = if i = 194 then Proof.proof_top work.next_t.t in *)
     let lemma_set =
       match is_end_of_conj work.t.t work.next_t.t with
       | true ->
@@ -193,8 +193,9 @@ let rec progress worklist statelist lemma_set =
        (match is_stuck with
         | true ->
           let previous_states = get_previous_state work.next_t statelist in
+          let is_empty = Prover.WorkList.is_empty prev_worklist in
           let t_lemmas_list =
-            List.map (fun t -> Finder.find_lemma t lemma_set) previous_states
+            List.map (fun t -> Finder.find_lemma t lemma_set is_empty) previous_states
             |> List.concat
           in
           let pattern_lemmas =

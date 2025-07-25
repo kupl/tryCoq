@@ -240,22 +240,23 @@ simpl in goal
 rewrite IH1 in goal at 0
 rewrite <- IH1 in goal at 2
 intro nat2
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat) (nat3:nat), SUCC (natadd (nat3) (nat2)) = natadd_ta1 (nat3) (SUCC (nat2))
 Model : nat2: ZERO, nat3: ZERO
-Model : nat2: ZERO, nat3: SUCC (ZERO)
-Model : nat2: ZERO, nat3: SUCC (ZERO)
+Model : nat2: ZERO, nat3: ZERO
+Model : nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 type nat = ZERO | SUCC of nat
 let rec natadd n1 n2 =
 match (n1) with
-| ZERO  -> n2
+| ZERO -> n2
 | SUCC n -> natadd (n) (SUCC (n2))
 prop list:
 SUCC (natadd (ZERO) (ZERO)) = natadd_ta1 (ZERO) (SUCC (ZERO))
-SUCC (natadd (SUCC (ZERO)) (ZERO)) = natadd_ta1 (SUCC (ZERO)) (SUCC (ZERO))
-SUCC (natadd (SUCC (ZERO)) (ZERO)) = natadd_ta1 (SUCC (ZERO)) (SUCC (ZERO))
-Simplifying took 0.000040 seconds
+SUCC (natadd (ZERO) (ZERO)) = natadd_ta1 (ZERO) (SUCC (ZERO))
+SUCC (natadd (ZERO) (ZERO)) = natadd_ta1 (ZERO) (SUCC (ZERO))
+Simplifying took 0.000027 seconds
 Result : true
 advanced_generalize done
 
@@ -456,8 +457,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat) (nat3:nat), SUCC (natadd_ta1 (nat3) (nat2)) = natadd_ta1 (nat3) (SUCC (nat2))
-Model : nat2: ZERO, nat3: ZERO
+Model : nat2: SUCC (ZERO), nat3: SUCC (ZERO)
 Model : nat2: ZERO, nat3: ZERO
 Model : nat2: ZERO, nat3: ZERO
 Substituting variables...
@@ -465,13 +467,13 @@ Simplifying conditions and property...
 type nat = ZERO | SUCC of nat
 let rec natadd n1 n2 =
 match (n1) with
-| ZERO  -> n2
+| ZERO -> n2
 | SUCC n -> natadd (n) (SUCC (n2))
 prop list:
+SUCC (natadd_ta1 (SUCC (ZERO)) (SUCC (ZERO))) = natadd_ta1 (SUCC (ZERO)) (SUCC (SUCC (ZERO)))
 SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd_ta1 (ZERO) (SUCC (ZERO))
 SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd_ta1 (ZERO) (SUCC (ZERO))
-SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd_ta1 (ZERO) (SUCC (ZERO))
-Simplifying took 0.000024 seconds
+Simplifying took 0.000034 seconds
 Result : true
 advanced_generalize done
 
@@ -677,22 +679,23 @@ previous tactics
 simpl in goal
 intro nat2
 rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat) (nat3:nat), SUCC (natadd (nat3) (nat2)) = natadd (nat3) (SUCC (nat2))
+Model : nat2: SUCC (ZERO), nat3: ZERO
 Model : nat2: ZERO, nat3: ZERO
-Model : nat2: ZERO, nat3: ZERO
-Model : nat2: ZERO, nat3: ZERO
+Model : nat2: ZERO, nat3: SUCC (ZERO)
 Substituting variables...
 Simplifying conditions and property...
 type nat = ZERO | SUCC of nat
 let rec natadd n1 n2 =
 match (n1) with
-| ZERO  -> n2
+| ZERO -> n2
 | SUCC n -> natadd (n) (SUCC (n2))
 prop list:
+SUCC (natadd (ZERO) (SUCC (ZERO))) = natadd (ZERO) (SUCC (SUCC (ZERO)))
 SUCC (natadd (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
-SUCC (natadd (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
-SUCC (natadd (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
-Simplifying took 0.000024 seconds
+SUCC (natadd (SUCC (ZERO)) (ZERO)) = natadd (SUCC (ZERO)) (SUCC (ZERO))
+Simplifying took 0.000035 seconds
 Result : true
 advanced_generalize done
 
@@ -900,22 +903,23 @@ previous tactics
 simpl in goal
 intro nat2
 rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
 Lemma : forall (nat2:nat) (nat3:nat), SUCC (natadd_ta1 (nat3) (nat2)) = natadd_ta1 (nat3) (SUCC (nat2))
 Model : nat2: ZERO, nat3: ZERO
-Model : nat2: SUCC (SUCC (ZERO)), nat3: SUCC (ZERO)
-Model : nat2: ZERO, nat3: SUCC (ZERO)
+Model : nat2: ZERO, nat3: ZERO
+Model : nat2: ZERO, nat3: ZERO
 Substituting variables...
 Simplifying conditions and property...
 type nat = ZERO | SUCC of nat
 let rec natadd n1 n2 =
 match (n1) with
-| ZERO  -> n2
+| ZERO -> n2
 | SUCC n -> natadd (n) (SUCC (n2))
 prop list:
 SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd_ta1 (ZERO) (SUCC (ZERO))
-SUCC (natadd_ta1 (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) = natadd_ta1 (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
-SUCC (natadd_ta1 (SUCC (ZERO)) (ZERO)) = natadd_ta1 (SUCC (ZERO)) (SUCC (ZERO))
-Simplifying took 0.000047 seconds
+SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd_ta1 (ZERO) (SUCC (ZERO))
+SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd_ta1 (ZERO) (SUCC (ZERO))
+Simplifying took 0.000027 seconds
 Result : true
 advanced_generalize done
 =================================================
