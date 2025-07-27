@@ -1144,7 +1144,7 @@ let rank_tactics
       List.filter
         (fun (tactic, _) ->
            match tactic with
-           | Proof.SimplIn _ -> true
+           | Proof.SimplIn "goal" -> true
            | _ -> false)
         non_trivial
     in

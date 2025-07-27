@@ -29,6 +29,17 @@ let rec to_sub expr =
   | _ -> { desc = None; typ = Tany }
 ;;
 
+let rec is_equal_subtree s1 s2 =
+  match s1.desc, s2.desc with
+  | Some (Sub_Var name1), Some (Sub_Var name2) -> name1 = name2
+  | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
+    name1 = name2 && List.for_all2 is_equal_subtree args1 args2
+  | Some (Sub_None args1), Some (Sub_None args2) ->
+    List.for_all2 is_equal_subtree args1 args2
+  | None, None -> true
+  | _ -> false
+;;
+
 let rec pp_subtree (subtree : subtree) : string =
   match subtree.desc with
   | Some (Sub_Var name) -> name
@@ -44,7 +55,9 @@ let rec pp_subtree (subtree : subtree) : string =
 let rec difference_of_subtree induction_vars subtree1 subtree2 =
   match subtree2.desc with
   | Some (Sub_Call (name, args)) ->
-    if equal_with_induction_vars induction_vars subtree1 subtree2
+    if is_equal_subtree subtree1 subtree2
+    then { desc = Some (Sub_None []); typ = subtree2.typ }
+    else if equal_with_induction_vars induction_vars subtree1 subtree2
     then convert subtree1 subtree2
     else (
       let new_args =
@@ -52,11 +65,13 @@ let rec difference_of_subtree induction_vars subtree1 subtree2 =
       in
       { desc = Some (Sub_Call (name, new_args)); typ = subtree2.typ })
   | Some (Sub_Var _) ->
-    if subtree1 = subtree2
+    if is_equal_subtree subtree1 subtree2
     then { desc = Some (Sub_None []); typ = subtree2.typ }
     else subtree2
   | Some (Sub_None args) ->
-    if equal_with_induction_vars induction_vars subtree1 subtree2
+    if is_equal_subtree subtree1 subtree2
+    then { desc = Some (Sub_None []); typ = subtree2.typ }
+    else if equal_with_induction_vars induction_vars subtree1 subtree2
     then convert subtree1 subtree2
     else (
       let new_args =
@@ -80,12 +95,14 @@ and equal_with_induction_vars induction_vars subtree1 subtree2 =
     name1 = name2
     || (List.exists (fun var -> var |> to_sub = subtree1) induction_vars
         && List.exists (fun var -> var |> to_sub = subtree2) induction_vars)
-  | _ -> subtree1 = subtree2
+  | _ -> is_equal_subtree subtree1 subtree2
 
 and convert subtree1 subtree2 =
+  let _ = subtree1 |> pp_subtree |> print_endline in
+  let _ = subtree2 |> pp_subtree |> print_endline in
   match subtree1.desc, subtree2.desc with
   | Some (Sub_Call (_, args1)), Some (Sub_Call (_, args2)) ->
-    if subtree1 = subtree2
+    if is_equal_subtree subtree1 subtree2
     then { desc = Some (Sub_None []); typ = subtree2.typ }
     else if List.exists (fun arg -> arg.desc = None) args1
     then (
@@ -100,10 +117,7 @@ and convert subtree1 subtree2 =
   | Some (Sub_Var _), Some (Sub_Var _) ->
     { desc = Some (Sub_None []); typ = subtree2.typ }
   | _, None -> subtree2
-  | _ ->
-    let _ = subtree1 |> pp_subtree |> print_endline in
-    let _ = subtree2 |> pp_subtree |> print_endline in
-    failwith "not implemented: convert"
+  | _ -> failwith "not implemented: convert"
 ;;
 
 let find_common_subterm expr1 expr2 : expr list =
@@ -461,10 +475,11 @@ let is_proper_subset subtree1 subtree2 =
   let rec is_proper_subset subtree1 subtree2 =
     match subtree2.desc with
     | Some (Sub_Call (_, args)) ->
-      subtree1 = subtree2 || List.exists (fun arg -> is_proper_subset subtree1 arg) args
-    | _ -> subtree1 = subtree2
+      is_equal_subtree subtree1 subtree2
+      || List.exists (fun arg -> is_proper_subset subtree1 arg) args
+    | _ -> is_equal_subtree subtree1 subtree2
   in
-  if subtree1 = subtree2 then false else is_proper_subset subtree1 subtree2
+  if is_equal_subtree subtree1 subtree2 then false else is_proper_subset subtree1 subtree2
 ;;
 
 let rec is_strict_large subtree1 subtree2 =
@@ -474,7 +489,7 @@ let rec is_strict_large subtree1 subtree2 =
       (name1 = name2 && List.for_all2 is_matched args1 args2)
       || List.exists (fun arg -> is_matched subtree1 arg) args2
     | None, _ -> true
-    | _, _ -> subtree1 = subtree2
+    | _, _ -> is_equal_subtree subtree1 subtree2
   in
   (* here *)
   match subtree1.desc, subtree2.desc with
@@ -983,7 +998,17 @@ let make_helper_function_and_lemma
     let expr = fill_subtreewith_expr head lst in
     [], [], expr
   | false ->
+    let _ = print_endline "helper function" in
+    (* Print the helper function for debugging purposes *)
+    let _ = helper_decl |> Ir.sexp_of_decl |> Sexplib.Sexp.to_string |> print_endline in
     let lemma = helper_function_lemma helper_decl in
+    let _ = print_endline "helper function lemma" in
+    (* Print the lemma for debugging purposes *)
+    let _ =
+      lemma
+      |> List.iter (fun lemma ->
+        Proof.sexp_of_prop lemma |> Sexplib.Sexp.to_string |> print_endline)
+    in
     let increase_arg =
       match helper_decl with
       | Ir.Rec (_, args, body) ->
@@ -1069,6 +1094,11 @@ let pattern_recognition env ih induction_vars state_list : env * lemma list =
     | None -> rhs_list
   in
   let lhs_common_subtree, lhs_base = catch_recursive_pattern induction_vars lhs_list in
+  let _ =
+    rhs_list
+    |> List.iter (fun expr ->
+      expr |> Ir.sexp_of_expr |> Sexplib.Sexp.to_string |> print_endline)
+  in
   let rhs_common_subtree, rhs_base = catch_recursive_pattern induction_vars rhs_list in
   if
     List.length lhs_common_subtree <> List.length rhs_common_subtree
@@ -1076,6 +1106,7 @@ let pattern_recognition env ih induction_vars state_list : env * lemma list =
   then [], []
   else (
     let range = Proof.range 0 (List.length lhs_common_subtree - 1) in
+    let _ = print_endline "1" in
     let lhs_increase_subtree =
       List.map
         (fun i ->
@@ -1086,6 +1117,12 @@ let pattern_recognition env ih induction_vars state_list : env * lemma list =
         range
     in
     let lhs_increase_subtree = add_none lhs_increase_subtree in
+    let _ = print_endline "2" in
+    let _ =
+      rhs_common_subtree
+      |> List.iter (fun sub ->
+        print_endline (sexp_of_subtree sub |> Sexplib.Sexp.to_string))
+    in
     let rhs_increase_subtree =
       List.map
         (fun i ->
