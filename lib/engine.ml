@@ -73,22 +73,21 @@ let is_lhs lemma =
   | _ -> false
 ;;
 
-let count_tale_rewrite_simpl tactics =
-  let rec count_tale_rewrite_simpl tactics =
+let count_tale_rewrite tactics =
+  let rec count_tale_rewrite tactics =
     match tactics with
     | hd :: tl ->
       (match hd with
-       | Proof.RewriteInAt _ | Proof.RewriteReverse _ -> 1 + count_tale_rewrite_simpl tl
-       | Proof.SimplIn _ -> 1 + count_tale_rewrite_simpl tl
+       | Proof.RewriteInAt _ | Proof.RewriteReverse _ -> 1 + count_tale_rewrite tl
        | _ -> 1)
     | [] -> 1
   in
-  count_tale_rewrite_simpl (List.rev tactics)
+  count_tale_rewrite (List.rev tactics)
 ;;
 
 let get_previous_state (t : Prover.proof_node) statelist =
   let prev_tactics = Proof.get_tactic_history t.t in
-  let index = count_tale_rewrite_simpl prev_tactics in
+  let index = count_tale_rewrite prev_tactics in
   let rec get_previous_state (t : Prover.proof_node) statelist i =
     match i with
     | 1 -> [ t ]
@@ -153,7 +152,7 @@ let rec progress worklist statelist lemma_set =
         (">>> " ^ Proof.pp_tactic work.tactic ^ "(rank : " ^ string_of_int work.rank ^ ")")
     in
     let _ = Proof.pp_t work.next_t.t |> print_endline in
-    let _ = if i = 329 then Proof.proof_top work.next_t.t in
+    let _ = if i = 307 then Proof.proof_top work.next_t.t in
     let lemma_set =
       match is_end_of_conj work.t.t work.next_t.t with
       | true ->

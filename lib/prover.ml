@@ -925,8 +925,10 @@ let rank_tactic (t : proof_node) tactic (next_t : proof_node) valid_tactics stat
   | Proof.RewriteReverse (src, target, i) ->
     if String.starts_with ~prefix:"Case" src && String.starts_with ~prefix:"Case" target
     then (
-      match apply_tactic next_t Proof.Discriminate with
-      | Some _ -> Some 0
+      try
+        let _ = Proof.apply_tactic next_t.t Proof.Discriminate in
+        Some 0
+      with
       | _ -> None)
     else if String.starts_with ~prefix:"rhs_lemma" src
     then None
@@ -960,6 +962,7 @@ let rank_tactic (t : proof_node) tactic (next_t : proof_node) valid_tactics stat
         then Some 1
         else if String.starts_with ~prefix:"lhs_lemma" src
         then Some 1
+        (* have to down this tactic *)
         else Some 2))
   | Proof.Destruct _ -> None
   | Proof.Case expr ->
@@ -1121,7 +1124,7 @@ let rank_tactics
       valid_tactics
       (new_worklist : (tactic * proof_node) list)
       stateset
-  : workelt list
+  : workelt list * proof_node ProofSet.t
   =
   let trivial, non_trivial =
     split
@@ -1160,8 +1163,9 @@ let rank_tactics
        in
        (match second_helper_tactic with
         | (rewrite_tactic, next_t) :: _ ->
-          [ { t; tactic = rewrite_tactic; next_t; rank = 0; order = order_counter () } ]
-        | [] -> [ { t; tactic; next_t; rank = 0; order = order_counter () } ])
+          ( [ { t; tactic = rewrite_tactic; next_t; rank = 0; order = order_counter () } ]
+          , stateset )
+        | [] -> [ { t; tactic; next_t; rank = 0; order = order_counter () } ], stateset)
      | [] ->
        (match non_decreasing_vars with
         | [] ->
@@ -1179,11 +1183,13 @@ let rank_tactics
                   Proof.mk_intro ("Cond" ^ string_of_int (Proof.fact_index t.t "Cond"))
                 in
                 let next_t = apply_tactic t tactic |> Option.get in
-                [ { t; tactic; next_t; rank = 0; order = order_counter () } ]
+                let stateset = ProofSet.add next_t.id next_t stateset in
+                [ { t; tactic; next_t; rank = 0; order = order_counter () } ], stateset
               | hd :: _ ->
                 let tactic = Proof.Induction hd in
                 let next_t = apply_tactic t tactic |> Option.get in
-                [ { t; tactic; next_t; rank = 0; order = order_counter () } ])
+                let stateset = ProofSet.add next_t.id next_t stateset in
+                [ { t; tactic; next_t; rank = 0; order = order_counter () } ], stateset)
            | _ ->
              let cond_var = collect_var_in_ifthenelse_prop goal in
              let cond_var = List.filter (fun v -> List.mem v qvars) cond_var in
@@ -1194,7 +1200,8 @@ let rank_tactics
               | hd :: _ ->
                 let tactic = Proof.Intro hd in
                 let next_t = apply_tactic t tactic |> Option.get in
-                [ { t; tactic; next_t; rank = 0; order = order_counter () } ]
+                let stateset = ProofSet.add next_t.id next_t stateset in
+                [ { t; tactic; next_t; rank = 0; order = order_counter () } ], stateset
               | _ ->
                 (match contain_if_then_else_in_prop goal with
                  | true ->
@@ -1220,7 +1227,8 @@ let rank_tactics
                           non_trivial
                       in
                       (match case_tactic with
-                       | [] -> make_worklist t valid_tactics rewrite_tactic stateset
+                       | [] ->
+                         make_worklist t valid_tactics rewrite_tactic stateset, stateset
                        | _ ->
                          let common_case_tactic =
                            List.filter
@@ -1236,22 +1244,21 @@ let rank_tactics
                          in
                          (match common_case_tactic with
                           | (common, next_t) :: _ ->
-                            [ { t
-                              ; tactic = common
-                              ; next_t
-                              ; rank = 0
-                              ; order = order_counter ()
-                              }
-                            ]
+                            ( [ { t
+                                ; tactic = common
+                                ; next_t
+                                ; rank = 0
+                                ; order = order_counter ()
+                                }
+                              ]
+                            , stateset )
                           | _ ->
-                            make_worklist
-                              t
-                              valid_tactics
-                              (rewrite_tactic @ case_tactic)
-                              stateset))
-                      (* (match rewrite_tactic with
-                       | [] -> make_worklist t valid_tactics case_tactic stateset
-                       | _ -> make_worklist t valid_tactics rewrite_tactic stateset) *)
+                            ( make_worklist
+                                t
+                                valid_tactics
+                                (rewrite_tactic @ case_tactic)
+                                stateset
+                            , stateset )))
                     | hd :: _ ->
                       let facts, _, _ = Proof.get_first_state t.t in
                       let lemma_stack = Proof.get_lemma_stack t.t in
@@ -1271,21 +1278,26 @@ let rank_tactics
                       in
                       (match lhs_to_rhs_tactic with
                        | (tactic, next_t) :: _ ->
-                         [ { t; tactic; next_t; rank = 0; order = order_counter () } ]
+                         ( [ { t; tactic; next_t; rank = 0; order = order_counter () } ]
+                         , stateset )
                        | [] ->
                          (match List.mem hd qvars with
                           | true ->
                             let tactic = Proof.Induction hd in
                             let next_t = apply_tactic t tactic |> Option.get in
-                            [ { t; tactic; next_t; rank = 0; order = order_counter () } ]
-                          | false -> make_worklist t valid_tactics non_trivial stateset)))
-                 | false -> make_worklist t valid_tactics non_trivial stateset)))
+                            let stateset = ProofSet.add next_t.id next_t stateset in
+                            ( [ { t; tactic; next_t; rank = 0; order = order_counter () } ]
+                            , stateset )
+                          | false ->
+                            make_worklist t valid_tactics non_trivial stateset, stateset)))
+                 | false -> make_worklist t valid_tactics non_trivial stateset, stateset)))
         | hd :: _ ->
           (match contain_if_then_else_in_prop goal with
            | true ->
              let tactic = Proof.Intro hd in
              let next_t = apply_tactic t tactic |> Option.get in
-             [ { t; tactic; next_t; rank = 0; order = order_counter () } ]
+             let stateset = ProofSet.add next_t.id next_t stateset in
+             [ { t; tactic; next_t; rank = 0; order = order_counter () } ], stateset
            | false ->
              (match goal with
               | Proof.Forall (_, Proof.Imply (cond_list, _)) | Proof.Imply (cond_list, _)
@@ -1304,26 +1316,31 @@ let rank_tactics
                      Proof.mk_intro ("Cond" ^ string_of_int (Proof.fact_index t.t "Cond"))
                    in
                    let next_t = apply_tactic t tactic |> Option.get in
-                   [ { t; tactic; next_t; rank = 0; order = order_counter () } ]
+                   let stateset = ProofSet.add next_t.id next_t stateset in
+                   [ { t; tactic; next_t; rank = 0; order = order_counter () } ], stateset
                  | hd :: _ ->
                    (* have to convert this part *)
                    (match List.mem hd decreasing_vars_body with
-                    | true -> make_worklist t valid_tactics non_trivial stateset
+                    | true -> make_worklist t valid_tactics non_trivial stateset, stateset
                     | false ->
                       let tactic = Proof.Intro hd in
                       let next_t = apply_tactic t tactic |> Option.get in
-                      [ { t; tactic; next_t; rank = 0; order = order_counter () } ]))
+                      let stateset = ProofSet.add next_t.id next_t stateset in
+                      ( [ { t; tactic; next_t; rank = 0; order = order_counter () } ]
+                      , stateset )))
               | _ ->
                 let decreasing_qvars =
                   List.filter (fun v -> List.mem v decreasing_vars_body) qvars
                 in
                 (match decreasing_qvars with
-                 | [] -> make_worklist t valid_tactics non_trivial stateset
+                 | [] -> make_worklist t valid_tactics non_trivial stateset, stateset
                  | hd :: _ ->
                    let tactic = Proof.Induction hd in
                    let next_t = apply_tactic t tactic |> Option.get in
-                   [ { t; tactic; next_t; rank = 0; order = order_counter () } ])))))
-  | (tactic, next_t) :: _ -> [ { t; tactic; next_t; rank = 0; order = order_counter () } ]
+                   let stateset = ProofSet.add next_t.id next_t stateset in
+                   [ { t; tactic; next_t; rank = 0; order = order_counter () } ], stateset)))))
+  | (tactic, next_t) :: _ ->
+    [ { t; tactic; next_t; rank = 0; order = order_counter () } ], stateset
 ;;
 
 let prune_rank_worklist_update_state_list t candidates statelist =
@@ -1348,7 +1365,7 @@ let prune_rank_worklist_update_state_list t candidates statelist =
       ([], statelist)
       new_worklist
   in
-  let worklist = rank_tactics t valid_tactics new_worklist statelist in
+  let worklist, statelist = rank_tactics t valid_tactics new_worklist statelist in
   let worklist =
     List.map
       (fun { t; tactic; next_t; rank; order } ->

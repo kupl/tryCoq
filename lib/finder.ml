@@ -98,8 +98,6 @@ and equal_with_induction_vars induction_vars subtree1 subtree2 =
   | _ -> is_equal_subtree subtree1 subtree2
 
 and convert subtree1 subtree2 =
-  let _ = subtree1 |> pp_subtree |> print_endline in
-  let _ = subtree2 |> pp_subtree |> print_endline in
   match subtree1.desc, subtree2.desc with
   | Some (Sub_Call (_, args1)), Some (Sub_Call (_, args2)) ->
     if is_equal_subtree subtree1 subtree2
@@ -998,17 +996,7 @@ let make_helper_function_and_lemma
     let expr = fill_subtreewith_expr head lst in
     [], [], expr
   | false ->
-    let _ = print_endline "helper function" in
-    (* Print the helper function for debugging purposes *)
-    let _ = helper_decl |> Ir.sexp_of_decl |> Sexplib.Sexp.to_string |> print_endline in
     let lemma = helper_function_lemma helper_decl in
-    let _ = print_endline "helper function lemma" in
-    (* Print the lemma for debugging purposes *)
-    let _ =
-      lemma
-      |> List.iter (fun lemma ->
-        Proof.sexp_of_prop lemma |> Sexplib.Sexp.to_string |> print_endline)
-    in
     let increase_arg =
       match helper_decl with
       | Ir.Rec (_, args, body) ->
@@ -1094,11 +1082,6 @@ let pattern_recognition env ih induction_vars state_list : env * lemma list =
     | None -> rhs_list
   in
   let lhs_common_subtree, lhs_base = catch_recursive_pattern induction_vars lhs_list in
-  let _ =
-    rhs_list
-    |> List.iter (fun expr ->
-      expr |> Ir.sexp_of_expr |> Sexplib.Sexp.to_string |> print_endline)
-  in
   let rhs_common_subtree, rhs_base = catch_recursive_pattern induction_vars rhs_list in
   if
     List.length lhs_common_subtree <> List.length rhs_common_subtree
@@ -1106,7 +1089,6 @@ let pattern_recognition env ih induction_vars state_list : env * lemma list =
   then [], []
   else (
     let range = Proof.range 0 (List.length lhs_common_subtree - 1) in
-    let _ = print_endline "1" in
     let lhs_increase_subtree =
       List.map
         (fun i ->
@@ -1117,12 +1099,6 @@ let pattern_recognition env ih induction_vars state_list : env * lemma list =
         range
     in
     let lhs_increase_subtree = add_none lhs_increase_subtree in
-    let _ = print_endline "2" in
-    let _ =
-      rhs_common_subtree
-      |> List.iter (fun sub ->
-        print_endline (sexp_of_subtree sub |> Sexplib.Sexp.to_string))
-    in
     let rhs_increase_subtree =
       List.map
         (fun i ->
@@ -1374,7 +1350,6 @@ let find_lemma (t : proof_node) lemma_set is_worklist_empty
   =
   let t_lemmas_list = advanced_generalize t is_worklist_empty in
   let original_goal = Proof.get_conj_list t.t |> List.hd |> snd in
-  let _ = Printf.printf "advanced_generalize done\n" in
   let t_lemmas_list =
     List.fold_left
       (fun acc ((new_t : proof_node), lemmas) ->

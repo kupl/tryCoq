@@ -41,7 +41,7 @@ let rec generator =
        let _ = Random.self_init () in
        let i = Random.int 10 in
        let typ =
-         match i < 2 with
+         match i < 3 with
          | true when rec_typ_decl <> [] ->
            let i = Random.int (List.length rec_typ_decl) in
            List.nth rec_typ_decl i
