@@ -1927,34 +1927,3 @@ if sub_check (lambda2) ((Nil)) then sub_check (lambda3) ((Nil)) else false = if 
 
 
 No conjecture
-Proof Success
-Proof
-assert forall (lambda1:lambda), check_ta1 (lambda1) = check (lambda1)
-simpl in goal
-induction lambda1
-reflexivity
-simpl in goal
-assert forall (string_list1:string list) (lambda1:lambda), sub_check_ta1 (lambda1) (string_list1) = sub_check (lambda1) (string_list1)
-induction lambda1
-simpl in goal
-induction string_list1
-reflexivity
-simpl in goal
-case string_eq (string2) (string1)
-reflexivity
-rewrite IH1 in goal at 0
-reflexivity
-simpl in goal
-rewrite IH1 in goal at 0
-reflexivity
-simpl in goal
-intro string_list1
-rewrite IH2 in goal at 0
-rewrite <- IH1 in goal at 0
-reflexivity
-rewrite lemma3 in goal at 0
-reflexivity
-simpl in goal
-rewrite lemma3 in goal at 0
-reflexivity
-Qed

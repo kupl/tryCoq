@@ -238,7 +238,7 @@ let rec l_of_expr : Ir.expr -> L.t =
         (fun case ->
            let (Ir.Case (pat, _)) = case in
            let pat_vars = Ir.collect_var_in_pat pat in
-           List.is_empty pat_vars)
+           List.is_empty pat_vars && not (pat = Ir.Pat_any))
         case_list
     then (
       let match_list = List.map l_of_expr match_list in

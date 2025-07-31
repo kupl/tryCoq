@@ -1671,7 +1671,7 @@ let apply_simpl t target : state =
     facts, goal, graph
 ;;
 
-let apply_assert prop t : t =
+let make_lemma_consistent prop =
   let prop = rename_prop prop in
   let prop =
     match prop with
@@ -1714,6 +1714,11 @@ let apply_assert prop t : t =
       Forall (new_var_list, new_prop)
     | _ -> prop
   in
+  prop
+;;
+
+let apply_assert prop t : t =
+  let prop = make_lemma_consistent prop in
   let conj = [ [], prop, graph_of_prop prop ], prop in
   let lemma_stack, conj_list, tactic_list = t.proof in
   { t with proof = lemma_stack, conj :: conj_list, tactic_list @ [ mk_assert prop ] }

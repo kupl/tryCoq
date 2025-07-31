@@ -73,8 +73,6 @@ let validate_prop prop =
 
 let validate =
   fun (env : env) (prop : prop) : bool ->
-  let _ = Printf.printf "Lemma : %s\n" (Proof.pp_prop prop) in
-  let _ = flush stdout in
   let vars, prop =
     match prop with
     | Proof.Forall (vars, prop) -> vars, prop
@@ -95,11 +93,8 @@ let validate =
              | _ -> failwith "unexpected type in variable")
           vars
       in
-      let _ = Printf.printf "Model : %s\n" (pp_model vars) in
-      let _ = flush stdout in
       vars)
   in
-  let _ = Printf.printf "Substituting variables...\n" in
   let _ = flush stdout in
   let conds_list =
     List.map
@@ -147,18 +142,10 @@ let validate =
            vars)
       vars_list
   in
-  let start = Sys.time () in
-  let _ = Printf.printf "Simplifying conditions and property...\n" in
-  let _ = flush stdout in
   let conds_list =
     List.map (fun conds -> List.map (Proof.simplify_prop env) conds) conds_list
   in
-  let _ = Printf.printf "prop list:\n" in
-  let _ = List.iter (fun prop -> Proof.pp_prop prop |> print_endline) prop_list in
   let prop_list = List.map (Proof.simplify_prop env) prop_list in
-  let end_time = Sys.time () in
-  let _ = Printf.printf "Simplifying took %f seconds\n" (end_time -. start) in
-  let _ = flush stdout in
   let result =
     List.for_all2
       (fun conds prop ->
@@ -166,6 +153,5 @@ let validate =
       conds_list
       prop_list
   in
-  let _ = Printf.printf "Result : %b\n" result in
   result
 ;;

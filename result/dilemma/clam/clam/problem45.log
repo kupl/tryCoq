@@ -7,7 +7,7 @@ Progress: 1
 
 
 No conjecture
->>> assert forall (x:any list) (y:any list), qreva (qreva (x) (y)) ((Nil)) = (reverse (y) @ x)(rank : 0)
+>>> assert forall (x:any list) (y:any list), qreva (qreva (x) (y)) ((Nil)) = (reverse (y) @ x)(rank : 0.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -19,8 +19,8 @@ forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_
 
 0 conjecture(s) more...
 Tactic List : 2
-induction any_list1(rank:12)
-induction any_list2(rank:12)
+induction any_list1(rank:12.)
+induction any_list2(rank:12.)
 =================================================
 Progress: 2
 
@@ -33,7 +33,7 @@ forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> induction any_list1(rank : 12)
+>>> induction any_list1(rank : 12.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -46,7 +46,7 @@ forall (any_list2:any list), qreva (qreva ((Nil)) (any_list2)) ((Nil)) = (revers
 
 0 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:4)
+simpl in goal(rank:4.)
 =================================================
 Progress: 3
 
@@ -60,7 +60,7 @@ forall (any_list2:any list), qreva (qreva ((Nil)) (any_list2)) ((Nil)) = (revers
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 4)
+>>> simpl in goal(rank : 4.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -73,7 +73,7 @@ forall (any_list2:any list), qreva (any_list2) ((Nil)) = (reverse (any_list2) @ 
 
 0 conjecture(s) more...
 Tactic List : 1
-induction any_list2(rank:5)
+induction any_list2(rank:5.)
 =================================================
 Progress: 4
 
@@ -87,7 +87,7 @@ forall (any_list2:any list), qreva (any_list2) ((Nil)) = (reverse (any_list2) @ 
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> induction any_list2(rank : 5)
+>>> induction any_list2(rank : 5.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -102,7 +102,7 @@ qreva ((Nil)) ((Nil)) = (reverse ((Nil)) @ (Nil))
 
 0 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:4)
+reflexivity(rank:4.)
 =================================================
 Progress: 5
 
@@ -118,7 +118,7 @@ qreva ((Nil)) ((Nil)) = (reverse ((Nil)) @ (Nil))
 2 goal(s) more...
 
 0 conjecture(s) more...
->>> reflexivity(rank : 4)
+>>> reflexivity(rank : 4.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -137,7 +137,7 @@ qreva ((any1::any_list3)) ((Nil)) = (reverse ((any1::any_list3)) @ (Nil))
 0 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:4)
+simpl in goal(rank:4.)
 =================================================
 Progress: 6
 
@@ -156,7 +156,7 @@ qreva ((any1::any_list3)) ((Nil)) = (reverse ((any1::any_list3)) @ (Nil))
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 4)
+>>> simpl in goal(rank : 4.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -176,26 +176,9 @@ qreva (any_list3) ((any1::(Nil))) = ((reverse (any_list3) @ (any1::(Nil))) @ (Ni
 Tactic List : 0
 previous tactics
 simpl in goal
-validate generalize_common_subterm_goal
-Lemma : forall (any_list3:any list) (arg1:any list), qreva (any_list3) (arg1) = ((reverse (any_list3) @ arg1) @ (Nil))
-Model : any_list3: (Nil), arg1: (7::(Nil))
-Model : any_list3: (Nil), arg1: (Nil)
-Model : any_list3: (Nil), arg1: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-qreva ((Nil)) ((7::(Nil))) = ((reverse ((Nil)) @ (7::(Nil))) @ (Nil))
-qreva ((Nil)) ((Nil)) = ((reverse ((Nil)) @ (Nil)) @ (Nil))
-qreva ((Nil)) ((Nil)) = ((reverse ((Nil)) @ (Nil)) @ (Nil))
-Simplifying took 0.000141 seconds
-Result : true
-advanced_generalize done
+Lemma List
+forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
+End of Lemma List
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -230,7 +213,7 @@ qreva (any_list3) ((any1::(Nil))) = ((reverse (any_list3) @ (any1::(Nil))) @ (Ni
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (any_list3:any list) (arg1:any list), qreva (any_list3) (arg1) = ((reverse (any_list3) @ arg1) @ (Nil))(rank : 0)
+>>> assert forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))(rank : 0.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -242,7 +225,7 @@ forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) 
 
 1 conjecture(s) more...
 Tactic List : 1
-induction any_list1(rank:6)
+induction any_list1(rank:6.)
 =================================================
 Progress: 8
 
@@ -255,7 +238,7 @@ forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> induction any_list1(rank : 6)
+>>> induction any_list1(rank : 6.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -268,7 +251,7 @@ forall (any_list2:any list), qreva ((Nil)) (any_list2) = ((reverse ((Nil)) @ any
 
 1 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:6)
+simpl in goal(rank:6.)
 =================================================
 Progress: 9
 
@@ -282,7 +265,7 @@ forall (any_list2:any list), qreva ((Nil)) (any_list2) = ((reverse ((Nil)) @ any
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 6)
+>>> simpl in goal(rank : 6.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -295,7 +278,7 @@ forall (any_list2:any list), any_list2 = (any_list2 @ (Nil))
 
 1 conjecture(s) more...
 Tactic List : 1
-induction any_list2(rank:7)
+induction any_list2(rank:7.)
 =================================================
 Progress: 10
 
@@ -309,7 +292,7 @@ forall (any_list2:any list), any_list2 = (any_list2 @ (Nil))
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> induction any_list2(rank : 7)
+>>> induction any_list2(rank : 7.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -324,7 +307,7 @@ Base2 : any_list2 = (Nil)
 
 1 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:6)
+reflexivity(rank:6.)
 =================================================
 Progress: 11
 
@@ -340,7 +323,7 @@ Base2 : any_list2 = (Nil)
 2 goal(s) more...
 
 1 conjecture(s) more...
->>> reflexivity(rank : 6)
+>>> reflexivity(rank : 6.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -359,7 +342,7 @@ Inductive1 : any_list2 = (any1::any_list3)
 1 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:6)
+simpl in goal(rank:6.)
 =================================================
 Progress: 12
 
@@ -378,7 +361,7 @@ Inductive1 : any_list2 = (any1::any_list3)
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 6)
+>>> simpl in goal(rank : 6.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -396,7 +379,7 @@ Inductive1 : any_list2 = (any1::any_list3)
 
 1 conjecture(s) more...
 Tactic List : 1
-rewrite <- IH1 in goal at 0(rank:6)
+rewrite <- IH1 in goal at 0(rank:6.)
 =================================================
 Progress: 13
 
@@ -415,7 +398,7 @@ Inductive1 : any_list2 = (any1::any_list3)
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> rewrite <- IH1 in goal at 0(rank : 6)
+>>> rewrite <- IH1 in goal at 0(rank : 6.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -433,7 +416,7 @@ Inductive1 : any_list2 = (any1::any_list3)
 
 1 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:5)
+reflexivity(rank:5.)
 =================================================
 Progress: 14
 
@@ -452,7 +435,7 @@ Inductive1 : any_list2 = (any1::any_list3)
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> reflexivity(rank : 5)
+>>> reflexivity(rank : 5.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -469,7 +452,7 @@ forall (any_list2:any list), qreva ((any1::any_list3)) (any_list2) = ((reverse (
 1 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:5)
+simpl in goal(rank:5.)
 =================================================
 Progress: 15
 
@@ -486,7 +469,7 @@ forall (any_list2:any list), qreva ((any1::any_list3)) (any_list2) = ((reverse (
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 5)
+>>> simpl in goal(rank : 5.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -502,8 +485,8 @@ forall (any_list2:any list), qreva (any_list3) ((any1::any_list2)) = (((reverse 
 
 1 conjecture(s) more...
 Tactic List : 2
-intro any_list2(rank:5)
-rewrite IH1 in goal at 0(rank:13)
+intro any_list2(rank:5.)
+rewrite IH1 in goal at 0(rank:13.)
 =================================================
 Progress: 16
 
@@ -520,7 +503,7 @@ forall (any_list2:any list), qreva (any_list3) ((any1::any_list2)) = (((reverse 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro any_list2(rank : 5)
+>>> intro any_list2(rank : 5.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -537,7 +520,7 @@ qreva (any_list3) ((any1::any_list2)) = (((reverse (any_list3) @ (any1::(Nil))) 
 
 1 conjecture(s) more...
 Tactic List : 1
-rewrite IH1 in goal at 0(rank:5)
+rewrite IH1 in goal at 0(rank:5.)
 =================================================
 Progress: 17
 
@@ -555,7 +538,7 @@ qreva (any_list3) ((any1::any_list2)) = (((reverse (any_list3) @ (any1::(Nil))) 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 5)
+>>> rewrite IH1 in goal at 0(rank : 5.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -579,26 +562,16 @@ reflexivity
 simpl in goal
 intro any_list2
 rewrite IH1 in goal at 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+reflexivity
+simpl in goal
+intro any_list2
 validate generalize_common_subterm_goal
-Lemma : forall (any1:any) (any_list2:any list) (arg2:any list), ((arg2 @ (any1::any_list2)) @ (Nil)) = (((arg2 @ (any1::(Nil))) @ any_list2) @ (Nil))
-Model : any1: 2, any_list2: (Nil), arg2: (Nil)
-Model : any1: 3, any_list2: (Nil), arg2: (8::(Nil))
-Model : any1: 2, any_list2: (4::(Nil)), arg2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-(((Nil) @ (2::(Nil))) @ (Nil)) = ((((Nil) @ (2::(Nil))) @ (Nil)) @ (Nil))
-(((8::(Nil)) @ (3::(Nil))) @ (Nil)) = ((((8::(Nil)) @ (3::(Nil))) @ (Nil)) @ (Nil))
-(((Nil) @ (2::(4::(Nil)))) @ (Nil)) = ((((Nil) @ (2::(Nil))) @ (4::(Nil))) @ (Nil))
-Simplifying took 0.000696 seconds
-Result : true
-advanced_generalize done
+Lemma List
+forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
+End of Lemma List
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -631,7 +604,7 @@ any_list2 : any list
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (any1:any) (any_list2:any list) (arg2:any list), ((arg2 @ (any1::any_list2)) @ (Nil)) = (((arg2 @ (any1::(Nil))) @ any_list2) @ (Nil))(rank : 0)
+>>> assert forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))(rank : 0.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
@@ -643,7 +616,7 @@ forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1
 
 2 conjecture(s) more...
 Tactic List : 1
-induction any_list2(rank:8)
+induction any_list2(rank:8.)
 =================================================
 Progress: 19
 
@@ -656,7 +629,7 @@ forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> induction any_list2(rank : 8)
+>>> induction any_list2(rank : 8.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
@@ -669,7 +642,7 @@ forall (any1:any) (any_list1:any list), (((Nil) @ (any1::any_list1)) @ (Nil)) = 
 
 2 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:7)
+reflexivity(rank:7.)
 =================================================
 Progress: 20
 
@@ -683,7 +656,7 @@ forall (any1:any) (any_list1:any list), (((Nil) @ (any1::any_list1)) @ (Nil)) = 
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> reflexivity(rank : 7)
+>>> reflexivity(rank : 7.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
@@ -700,7 +673,7 @@ forall (any1:any) (any_list1:any list), (((any2::any_list3) @ (any1::any_list1))
 2 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:7)
+simpl in goal(rank:7.)
 =================================================
 Progress: 21
 
@@ -717,7 +690,7 @@ forall (any1:any) (any_list1:any list), (((any2::any_list3) @ (any1::any_list1))
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> simpl in goal(rank : 7)
+>>> simpl in goal(rank : 7.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
@@ -733,10 +706,10 @@ forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) 
 
 2 conjecture(s) more...
 Tactic List : 4
-intro any1(rank:7)
-intro any_list1(rank:7)
-rewrite IH1 in goal at 0(rank:15)
-rewrite <- IH1 in goal at 0(rank:15)
+intro any1(rank:7.)
+intro any_list1(rank:7.)
+rewrite IH1 in goal at 0(rank:15.)
+rewrite <- IH1 in goal at 0(rank:15.)
 =================================================
 Progress: 22
 
@@ -753,7 +726,7 @@ forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro any1(rank : 7)
+>>> intro any1(rank : 7.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
@@ -770,9 +743,9 @@ forall (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) =
 
 2 conjecture(s) more...
 Tactic List : 3
-intro any_list1(rank:7)
-rewrite IH1 in goal at 0(rank:15)
-rewrite <- IH1 in goal at 0(rank:15)
+intro any_list1(rank:7.)
+rewrite IH1 in goal at 0(rank:15.)
+rewrite <- IH1 in goal at 0(rank:15.)
 =================================================
 Progress: 23
 
@@ -789,7 +762,7 @@ forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro any_list1(rank : 7)
+>>> intro any_list1(rank : 7.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
@@ -806,8 +779,8 @@ forall (any1:any), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) = (any2::((
 
 2 conjecture(s) more...
 Tactic List : 2
-rewrite IH1 in goal at 0(rank:15)
-rewrite <- IH1 in goal at 0(rank:15)
+rewrite IH1 in goal at 0(rank:15.)
+rewrite <- IH1 in goal at 0(rank:15.)
 =================================================
 Progress: 24
 
@@ -825,7 +798,7 @@ forall (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) =
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro any_list1(rank : 7)
+>>> intro any_list1(rank : 7.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
@@ -843,8 +816,8 @@ any_list1 : any list
 
 2 conjecture(s) more...
 Tactic List : 2
-rewrite IH1 in goal at 0(rank:15)
-rewrite <- IH1 in goal at 0(rank:15)
+rewrite IH1 in goal at 0(rank:15.)
+rewrite <- IH1 in goal at 0(rank:15.)
 =================================================
 Progress: 25
 
@@ -857,7 +830,7 @@ forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> induction any_list2(rank : 12)
+>>> induction any_list2(rank : 12.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -870,7 +843,7 @@ forall (any_list1:any list), qreva (qreva (any_list1) ((Nil))) ((Nil)) = (revers
 
 0 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:4)
+simpl in goal(rank:4.)
 =================================================
 Progress: 26
 
@@ -884,7 +857,7 @@ forall (any_list1:any list), qreva (qreva (any_list1) ((Nil))) ((Nil)) = (revers
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 4)
+>>> simpl in goal(rank : 4.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -897,7 +870,7 @@ forall (any_list1:any list), qreva (qreva (any_list1) ((Nil))) ((Nil)) = any_lis
 
 0 conjecture(s) more...
 Tactic List : 1
-induction any_list1(rank:5)
+induction any_list1(rank:5.)
 =================================================
 Progress: 27
 
@@ -911,7 +884,7 @@ forall (any_list1:any list), qreva (qreva (any_list1) ((Nil))) ((Nil)) = any_lis
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> induction any_list1(rank : 5)
+>>> induction any_list1(rank : 5.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -926,7 +899,7 @@ qreva (qreva ((Nil)) ((Nil))) ((Nil)) = (Nil)
 
 0 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:4)
+reflexivity(rank:4.)
 =================================================
 Progress: 28
 
@@ -942,7 +915,7 @@ qreva (qreva ((Nil)) ((Nil))) ((Nil)) = (Nil)
 2 goal(s) more...
 
 0 conjecture(s) more...
->>> reflexivity(rank : 4)
+>>> reflexivity(rank : 4.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -961,7 +934,7 @@ qreva (qreva ((any1::any_list3)) ((Nil))) ((Nil)) = (any1::any_list3)
 0 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:4)
+simpl in goal(rank:4.)
 =================================================
 Progress: 29
 
@@ -980,7 +953,7 @@ qreva (qreva ((any1::any_list3)) ((Nil))) ((Nil)) = (any1::any_list3)
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 4)
+>>> simpl in goal(rank : 4.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1000,7 +973,6 @@ qreva (qreva (any_list3) ((any1::(Nil)))) ((Nil)) = (any1::any_list3)
 Tactic List : 0
 previous tactics
 simpl in goal
-advanced_generalize done
 New Env
 let rec mk_rhs1 arg_3 arg_4 =
 match (arg_3) with
@@ -1008,9 +980,9 @@ match (arg_3) with
 | Cons hd tl -> mk_rhs1 (tl) ((hd::arg_4))
 ;;
 Lemma List
-forall (any_list3:any list), mk_rhs1 ((Nil)) (any_list3) = any_list3
-forall (tl:any list) (hd:any) (any_list3:any list), mk_rhs1 ((hd::tl)) (any_list3) = mk_rhs1 (tl) ((hd::any_list3))
-forall (any_list3:any list) (lst:any list), qreva (qreva (any_list3) (lst)) ((Nil)) = mk_rhs1 (lst) (any_list3)
+forall (any_list1:any list), mk_rhs1 ((Nil)) (any_list1) = any_list1
+forall (any_list1:any list) (any1:any) (any_list2:any list), mk_rhs1 ((any1::any_list1)) (any_list2) = mk_rhs1 (any_list1) ((any1::any_list2))
+forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = mk_rhs1 (any_list2) (any_list1)
 End of Lemma List
 
 
@@ -1046,7 +1018,7 @@ qreva (qreva (any_list3) ((any1::(Nil)))) ((Nil)) = (any1::any_list3)
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (any_list3:any list) (lst:any list), qreva (qreva (any_list3) (lst)) ((Nil)) = mk_rhs1 (lst) (any_list3)(rank : 0)
+>>> assert forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = mk_rhs1 (any_list2) (any_list1)(rank : 0.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = mk_rhs1 (any_list2) (any_list1)
@@ -1058,7 +1030,7 @@ forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_
 
 1 conjecture(s) more...
 Tactic List : 1
-induction any_list1(rank:6)
+induction any_list1(rank:6.)
 =================================================
 Progress: 31
 
@@ -1071,7 +1043,7 @@ forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> induction any_list1(rank : 6)
+>>> induction any_list1(rank : 6.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = mk_rhs1 (any_list2) (any_list1)
@@ -1084,7 +1056,7 @@ forall (any_list2:any list), qreva (qreva ((Nil)) (any_list2)) ((Nil)) = mk_rhs1
 
 1 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:6)
+simpl in goal(rank:6.)
 =================================================
 Progress: 32
 
@@ -1098,7 +1070,7 @@ forall (any_list2:any list), qreva (qreva ((Nil)) (any_list2)) ((Nil)) = mk_rhs1
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 6)
+>>> simpl in goal(rank : 6.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = mk_rhs1 (any_list2) (any_list1)
@@ -1111,8 +1083,8 @@ forall (any_list2:any list), qreva (any_list2) ((Nil)) = mk_rhs1 (any_list2) ((N
 
 1 conjecture(s) more...
 Tactic List : 2
-induction any_list2(rank:15)
-intro any_list2(rank:22)
+induction any_list2(rank:15.)
+intro any_list2(rank:22.)
 =================================================
 Progress: 33
 
@@ -1129,7 +1101,7 @@ forall (any_list2:any list), qreva (any_list3) ((any1::any_list2)) = (((reverse 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 13)
+>>> rewrite IH1 in goal at 0(rank : 13.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
@@ -1151,434 +1123,231 @@ rewrite <- IH1 in goal at 0
 reflexivity
 simpl in goal
 rewrite IH1 in goal at 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+reflexivity
+simpl in goal
 validate generalize_common_subterm_goal
-Lemma : forall (any1:any) (any_list2:any list) (arg5:any list), ((arg5 @ (any1::any_list2)) @ (Nil)) = (((arg5 @ (any1::(Nil))) @ any_list2) @ (Nil))
-Model : any1: 0, any_list2: (Nil), arg5: (Nil)
-Model : any1: 3, any_list2: (Nil), arg5: (Nil)
-Model : any1: 6, any_list2: (Nil), arg5: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-(((Nil) @ (0::(Nil))) @ (Nil)) = ((((Nil) @ (0::(Nil))) @ (Nil)) @ (Nil))
-(((Nil) @ (3::(Nil))) @ (Nil)) = ((((Nil) @ (3::(Nil))) @ (Nil)) @ (Nil))
-(((Nil) @ (6::(Nil))) @ (Nil)) = ((((Nil) @ (6::(Nil))) @ (Nil)) @ (Nil))
-Simplifying took 0.000326 seconds
-Result : true
-advanced_generalize done
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
-any_list1 : any list
-any1 : any
-any_list3 : any list
-IH1 : forall (any_list2:any list), qreva (any_list3) (any_list2) = ((reverse (any_list3) @ any_list2) @ (Nil))
-Inductive1 : any_list1 = (any1::any_list3)
----------------------------------------
-forall (any_list2:any list), ((reverse (any_list3) @ (any1::any_list2)) @ (Nil)) = (((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
 =================================================
 Progress: 34
 
 
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
-any_list1 : any list
-any1 : any
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
+any_list2 : any list
+any2 : any
 any_list3 : any list
-IH1 : forall (any_list2:any list), qreva (any_list3) (any_list2) = ((reverse (any_list3) @ any_list2) @ (Nil))
-Inductive1 : any_list1 = (any1::any_list3)
+IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
+Inductive1 : any_list2 = (any2::any_list3)
 ---------------------------------------
-forall (any_list2:any list), ((reverse (any_list3) @ (any1::any_list2)) @ (Nil)) = (((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil))
+forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
 
 0 goal(s) more...
 
-1 conjecture(s) more...
->>> assert forall (any1:any) (any_list2:any list) (arg5:any list), ((arg5 @ (any1::any_list2)) @ (Nil)) = (((arg5 @ (any1::(Nil))) @ any_list2) @ (Nil))(rank : 0)
+2 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 15.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
+Inductive1 : any_list2 = (any2::any_list3)
 ---------------------------------------
-forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
+forall (any1:any) (any_list1:any list), (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
 Tactic List : 1
-induction any_list2(rank:8)
+reflexivity(rank:5.)
 =================================================
 Progress: 35
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-
+any_list2 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
+Inductive1 : any_list2 = (any2::any_list3)
 ---------------------------------------
-forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
+forall (any1:any) (any_list1:any list), (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> induction any_list2(rank : 8)
+>>> reflexivity(rank : 5.)
 
 
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
+1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (any_list2:any list), qreva (any_list3) (any_list2) = ((reverse (any_list3) @ any_list2) @ (Nil))
+Inductive1 : any_list1 = (any1::any_list3)
 any_list2 : any list
-Base1 : any_list2 = (Nil)
 ---------------------------------------
-forall (any1:any) (any_list1:any list), (((Nil) @ (any1::any_list1)) @ (Nil)) = ((((Nil) @ (any1::(Nil))) @ any_list1) @ (Nil))
+((reverse (any_list3) @ (any1::any_list2)) @ (Nil)) = (((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil))
 
-1 goal(s) more...
+0 goal(s) more...
 
-2 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:7)
+1 conjecture(s) more...
+original goal
+forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
+lemma
+forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
+tactics
+assert forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
+induction any_list2
+reflexivity
+simpl in goal
+rewrite IH1 in goal at 0
+reflexivity
+Deduplication: 7
+Tactic List : 2
+rewrite lemma3 in goal at 0(rank:13.)
+rewrite <- lemma3 in goal at 0(rank:13.)
 =================================================
 Progress: 36
 
 
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-Base1 : any_list2 = (Nil)
----------------------------------------
-forall (any1:any) (any_list1:any list), (((Nil) @ (any1::any_list1)) @ (Nil)) = ((((Nil) @ (any1::(Nil))) @ any_list1) @ (Nil))
-
-1 goal(s) more...
-
-2 conjecture(s) more...
->>> reflexivity(rank : 7)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-any2 : any
+1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
+any_list1 : any list
+any1 : any
 any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
+IH1 : forall (any_list2:any list), qreva (any_list3) (any_list2) = ((reverse (any_list3) @ any_list2) @ (Nil))
+Inductive1 : any_list1 = (any1::any_list3)
+any_list2 : any list
 ---------------------------------------
-forall (any1:any) (any_list1:any list), (((any2::any_list3) @ (any1::any_list1)) @ (Nil)) = ((((any2::any_list3) @ (any1::(Nil))) @ any_list1) @ (Nil))
+((reverse (any_list3) @ (any1::any_list2)) @ (Nil)) = (((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil))
 
 0 goal(s) more...
 
-2 conjecture(s) more...
-Deduplication: 0
+1 conjecture(s) more...
+>>> rewrite lemma3 in goal at 0(rank : 13.)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
+any_list1 : any list
+any1 : any
+any_list3 : any list
+IH1 : forall (any_list2:any list), qreva (any_list3) (any_list2) = ((reverse (any_list3) @ any_list2) @ (Nil))
+Inductive1 : any_list1 = (any1::any_list3)
+any_list2 : any list
+---------------------------------------
+(((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil)) = (((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:7)
+reflexivity(rank:4.)
 =================================================
 Progress: 37
 
 
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-any2 : any
+1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
+any_list1 : any list
+any1 : any
 any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
+IH1 : forall (any_list2:any list), qreva (any_list3) (any_list2) = ((reverse (any_list3) @ any_list2) @ (Nil))
+Inductive1 : any_list1 = (any1::any_list3)
+any_list2 : any list
 ---------------------------------------
-forall (any1:any) (any_list1:any list), (((any2::any_list3) @ (any1::any_list1)) @ (Nil)) = ((((any2::any_list3) @ (any1::(Nil))) @ any_list1) @ (Nil))
+(((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil)) = (((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil))
 
 0 goal(s) more...
 
-2 conjecture(s) more...
->>> simpl in goal(rank : 7)
+1 conjecture(s) more...
+>>> reflexivity(rank : 4.)
 
 
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
+1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
+any_list1 : any list
+Base1 : any_list1 = (Nil)
 any_list2 : any list
-any2 : any
+any1 : any
 any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
+IH1 : qreva (any_list3) ((Nil)) = (reverse (any_list3) @ (Nil))
+Inductive1 : any_list2 = (any1::any_list3)
 ---------------------------------------
-forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
+qreva (any_list3) ((any1::(Nil))) = ((reverse (any_list3) @ (any1::(Nil))) @ (Nil))
 
-0 goal(s) more...
+1 goal(s) more...
 
-2 conjecture(s) more...
-Tactic List : 4
-intro any1(rank:7)
-intro any_list1(rank:7)
-rewrite IH1 in goal at 0(rank:15)
-rewrite <- IH1 in goal at 0(rank:15)
+0 conjecture(s) more...
+original goal
+forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
+lemma
+forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
+tactics
+assert forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
+induction any_list1
+simpl in goal
+induction any_list2
+reflexivity
+simpl in goal
+rewrite <- IH1 in goal at 0
+reflexivity
+simpl in goal
+intro any_list2
+rewrite IH1 in goal at 0
+assert forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
+induction any_list2
+reflexivity
+simpl in goal
+rewrite IH1 in goal at 0
+reflexivity
+rewrite lemma3 in goal at 0
+reflexivity
+Deduplication: 1
+Tactic List : 3
+rewrite lemma4 in goal at 0(rank:12.)
+rewrite lemma3 in goal at 0(rank:20.)
+rewrite <- lemma4 in goal at 0(rank:12.)
 =================================================
 Progress: 38
 
 
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
+1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
+any_list1 : any list
+Base1 : any_list1 = (Nil)
 any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
----------------------------------------
-forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro any1(rank : 7)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
 any1 : any
+any_list3 : any list
+IH1 : qreva (any_list3) ((Nil)) = (reverse (any_list3) @ (Nil))
+Inductive1 : any_list2 = (any1::any_list3)
 ---------------------------------------
-forall (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
+qreva (any_list3) ((any1::(Nil))) = ((reverse (any_list3) @ (any1::(Nil))) @ (Nil))
 
-0 goal(s) more...
+1 goal(s) more...
 
-2 conjecture(s) more...
-Tactic List : 3
-intro any_list1(rank:7)
-rewrite IH1 in goal at 0(rank:15)
-rewrite <- IH1 in goal at 0(rank:15)
+0 conjecture(s) more...
+>>> rewrite lemma4 in goal at 0(rank : 12.)
+
+
+1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+any_list2 : any list
+any1 : any
+any_list3 : any list
+IH1 : qreva (any_list3) ((Nil)) = (reverse (any_list3) @ (Nil))
+Inductive1 : any_list2 = (any1::any_list3)
+---------------------------------------
+((reverse (any_list3) @ (any1::(Nil))) @ (Nil)) = ((reverse (any_list3) @ (any1::(Nil))) @ (Nil))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:3.)
 =================================================
 Progress: 39
 
 
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
----------------------------------------
-forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro any_list1(rank : 7)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
-any_list1 : any list
----------------------------------------
-forall (any1:any), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 2
-rewrite IH1 in goal at 0(rank:15)
-rewrite <- IH1 in goal at 0(rank:15)
-=================================================
-Progress: 40
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
-any1 : any
----------------------------------------
-forall (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro any_list1(rank : 7)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
-any1 : any
-any_list1 : any list
----------------------------------------
-(any2::((any_list3 @ (any1::any_list1)) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 2
-rewrite IH1 in goal at 0(rank:15)
-rewrite <- IH1 in goal at 0(rank:15)
-=================================================
-Progress: 41
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
----------------------------------------
-forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::any_list1)) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 15)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
----------------------------------------
-forall (any1:any) (any_list1:any list), (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:5)
-=================================================
-Progress: 42
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::any_list1)) @ (Nil)) = (((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))
-Inductive1 : any_list2 = (any2::any_list3)
----------------------------------------
-forall (any1:any) (any_list1:any list), (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil))) = (any2::(((any_list3 @ (any1::(Nil))) @ any_list1) @ (Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> reflexivity(rank : 5)
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
-any_list1 : any list
-any1 : any
-any_list3 : any list
-IH1 : forall (any_list2:any list), qreva (any_list3) (any_list2) = ((reverse (any_list3) @ any_list2) @ (Nil))
-Inductive1 : any_list1 = (any1::any_list3)
-any_list2 : any list
----------------------------------------
-((reverse (any_list3) @ (any1::any_list2)) @ (Nil)) = (((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Deduplication: 7
-Tactic List : 2
-rewrite lemma3 in goal at 0(rank:13)
-rewrite <- lemma3 in goal at 0(rank:13)
-=================================================
-Progress: 43
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
-any_list1 : any list
-any1 : any
-any_list3 : any list
-IH1 : forall (any_list2:any list), qreva (any_list3) (any_list2) = ((reverse (any_list3) @ any_list2) @ (Nil))
-Inductive1 : any_list1 = (any1::any_list3)
-any_list2 : any list
----------------------------------------
-((reverse (any_list3) @ (any1::any_list2)) @ (Nil)) = (((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite lemma3 in goal at 0(rank : 13)
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
-any_list1 : any list
-any1 : any
-any_list3 : any list
-IH1 : forall (any_list2:any list), qreva (any_list3) (any_list2) = ((reverse (any_list3) @ any_list2) @ (Nil))
-Inductive1 : any_list1 = (any1::any_list3)
-any_list2 : any list
----------------------------------------
-(((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil)) = (((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:4)
-=================================================
-Progress: 44
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
-any_list1 : any list
-any1 : any
-any_list3 : any list
-IH1 : forall (any_list2:any list), qreva (any_list3) (any_list2) = ((reverse (any_list3) @ any_list2) @ (Nil))
-Inductive1 : any_list1 = (any1::any_list3)
-any_list2 : any list
----------------------------------------
-(((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil)) = (((reverse (any_list3) @ (any1::(Nil))) @ any_list2) @ (Nil))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 4)
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
-any_list1 : any list
-Base1 : any_list1 = (Nil)
-any_list2 : any list
-any1 : any
-any_list3 : any list
-IH1 : qreva (any_list3) ((Nil)) = (reverse (any_list3) @ (Nil))
-Inductive1 : any_list2 = (any1::any_list3)
----------------------------------------
-qreva (any_list3) ((any1::(Nil))) = ((reverse (any_list3) @ (any1::(Nil))) @ (Nil))
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Deduplication: 9
-Tactic List : 3
-rewrite lemma4 in goal at 0(rank:12)
-rewrite lemma3 in goal at 0(rank:20)
-rewrite <- lemma4 in goal at 0(rank:12)
-=================================================
-Progress: 45
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
-any_list1 : any list
-Base1 : any_list1 = (Nil)
-any_list2 : any list
-any1 : any
-any_list3 : any list
-IH1 : qreva (any_list3) ((Nil)) = (reverse (any_list3) @ (Nil))
-Inductive1 : any_list2 = (any1::any_list3)
----------------------------------------
-qreva (any_list3) ((any1::(Nil))) = ((reverse (any_list3) @ (any1::(Nil))) @ (Nil))
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> rewrite lemma4 in goal at 0(rank : 12)
-
-
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
 any_list1 : any list
 Base1 : any_list1 = (Nil)
@@ -1593,27 +1362,7 @@ Inductive1 : any_list2 = (any1::any_list3)
 1 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:3)
-=================================================
-Progress: 46
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
-any_list1 : any list
-Base1 : any_list1 = (Nil)
-any_list2 : any list
-any1 : any
-any_list3 : any list
-IH1 : qreva (any_list3) ((Nil)) = (reverse (any_list3) @ (Nil))
-Inductive1 : any_list2 = (any1::any_list3)
----------------------------------------
-((reverse (any_list3) @ (any1::(Nil))) @ (Nil)) = ((reverse (any_list3) @ (any1::(Nil))) @ (Nil))
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> reflexivity(rank : 3)
+>>> reflexivity(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1630,9 +1379,9 @@ forall (any_list2:any list), qreva (qreva ((any1::any_list3)) (any_list2)) ((Nil
 0 conjecture(s) more...
 Deduplication: 2
 Tactic List : 1
-simpl in goal(rank:3)
+simpl in goal(rank:3.)
 =================================================
-Progress: 47
+Progress: 40
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1647,7 +1396,7 @@ forall (any_list2:any list), qreva (qreva ((any1::any_list3)) (any_list2)) ((Nil
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 3)
+>>> simpl in goal(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1663,12 +1412,12 @@ forall (any_list2:any list), qreva (qreva (any_list3) ((any1::any_list2))) ((Nil
 
 0 conjecture(s) more...
 Tactic List : 4
-rewrite IH1 in goal at 0(rank:11)
-induction any_list2(rank:12)
-rewrite lemma4 in goal at 0(rank:19)
-rewrite lemma4 in goal at 2(rank:19)
+rewrite IH1 in goal at 0(rank:11.)
+induction any_list2(rank:12.)
+rewrite lemma4 in goal at 0(rank:19.)
+rewrite lemma4 in goal at 2(rank:19.)
 =================================================
-Progress: 48
+Progress: 41
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1683,7 +1432,7 @@ forall (any_list2:any list), qreva (qreva (any_list3) ((any1::any_list2))) ((Nil
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 11)
+>>> rewrite IH1 in goal at 0(rank : 11.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1699,9 +1448,9 @@ forall (any_list2:any list), (reverse ((any1::any_list2)) @ any_list3) = (revers
 
 0 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:3)
+simpl in goal(rank:3.)
 =================================================
-Progress: 49
+Progress: 42
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1716,7 +1465,7 @@ forall (any_list2:any list), (reverse ((any1::any_list2)) @ any_list3) = (revers
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 3)
+>>> simpl in goal(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1732,9 +1481,9 @@ forall (any_list2:any list), ((reverse (any_list2) @ (any1::(Nil))) @ any_list3)
 
 0 conjecture(s) more...
 Tactic List : 1
-induction any_list2(rank:4)
+induction any_list2(rank:4.)
 =================================================
-Progress: 50
+Progress: 43
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1749,7 +1498,7 @@ forall (any_list2:any list), ((reverse (any_list2) @ (any1::(Nil))) @ any_list3)
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> induction any_list2(rank : 4)
+>>> induction any_list2(rank : 4.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1767,9 +1516,9 @@ Base1 : any_list2 = (Nil)
 
 0 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:3)
+reflexivity(rank:3.)
 =================================================
-Progress: 51
+Progress: 44
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1786,7 +1535,7 @@ Base1 : any_list2 = (Nil)
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> reflexivity(rank : 3)
+>>> reflexivity(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1808,9 +1557,9 @@ Inductive2 : any_list2 = (any2::any_list4)
 0 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:3)
+simpl in goal(rank:3.)
 =================================================
-Progress: 52
+Progress: 45
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1830,7 +1579,7 @@ Inductive2 : any_list2 = (any2::any_list4)
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 3)
+>>> simpl in goal(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1853,26 +1602,9 @@ Inductive2 : any_list2 = (any2::any_list4)
 Tactic List : 0
 previous tactics
 simpl in goal
-validate generalize_common_subterm_goal
-Lemma : forall (any1:any) (any_list3:any list) (arg6:any list), ((arg6 @ (any1::(Nil))) @ any_list3) = (arg6 @ (any1::any_list3))
-Model : any1: 3, any_list3: (Nil), arg6: (Nil)
-Model : any1: 5, any_list3: (Nil), arg6: (1::(Nil))
-Model : any1: 0, any_list3: (Nil), arg6: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-(((Nil) @ (3::(Nil))) @ (Nil)) = ((Nil) @ (3::(Nil)))
-(((1::(Nil)) @ (5::(Nil))) @ (Nil)) = ((1::(Nil)) @ (5::(Nil)))
-(((Nil) @ (0::(Nil))) @ (Nil)) = ((Nil) @ (0::(Nil)))
-Simplifying took 0.000310 seconds
-Result : true
-advanced_generalize done
+Lemma List
+forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
+End of Lemma List
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1893,7 +1625,7 @@ Inductive2 : any_list2 = (any2::any_list4)
 
 0 conjecture(s) more...
 =================================================
-Progress: 53
+Progress: 46
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -1913,7 +1645,7 @@ Inductive2 : any_list2 = (any2::any_list4)
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (any1:any) (any_list3:any list) (arg6:any list), ((arg6 @ (any1::(Nil))) @ any_list3) = (arg6 @ (any1::any_list3))(rank : 0)
+>>> assert forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))(rank : 0.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -1925,9 +1657,9 @@ forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1
 
 1 conjecture(s) more...
 Tactic List : 1
-induction any_list2(rank:6)
+induction any_list2(rank:6.)
 =================================================
-Progress: 54
+Progress: 47
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -1938,7 +1670,7 @@ forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> induction any_list2(rank : 6)
+>>> induction any_list2(rank : 6.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -1951,9 +1683,9 @@ forall (any1:any) (any_list1:any list), (((Nil) @ (any1::(Nil))) @ any_list1) = 
 
 1 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:5)
+reflexivity(rank:5.)
 =================================================
-Progress: 55
+Progress: 48
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -1965,7 +1697,7 @@ forall (any1:any) (any_list1:any list), (((Nil) @ (any1::(Nil))) @ any_list1) = 
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> reflexivity(rank : 5)
+>>> reflexivity(rank : 5.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -1982,9 +1714,9 @@ forall (any1:any) (any_list1:any list), (((any2::any_list3) @ (any1::(Nil))) @ a
 1 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:5)
+simpl in goal(rank:5.)
 =================================================
-Progress: 56
+Progress: 49
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -1999,7 +1731,7 @@ forall (any1:any) (any_list1:any list), (((any2::any_list3) @ (any1::(Nil))) @ a
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 5)
+>>> simpl in goal(rank : 5.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -2015,14 +1747,14 @@ forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ an
 
 1 conjecture(s) more...
 Tactic List : 6
-intro any1(rank:5)
-rewrite IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 2(rank:13)
-rewrite <- IH1 in goal at 1(rank:21)
-intro any_list1(rank:5)
+intro any1(rank:5.)
+rewrite IH1 in goal at 0(rank:13.)
+rewrite <- IH1 in goal at 0(rank:13.)
+rewrite <- IH1 in goal at 2(rank:13.)
+rewrite <- IH1 in goal at 1(rank:21.)
+intro any_list1(rank:5.)
 =================================================
-Progress: 57
+Progress: 50
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -2037,7 +1769,7 @@ forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ an
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro any1(rank : 5)
+>>> intro any1(rank : 5.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -2054,13 +1786,13 @@ forall (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ any_list1)) =
 
 1 conjecture(s) more...
 Tactic List : 5
-intro any_list1(rank:5)
-rewrite <- IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 1(rank:21)
-rewrite <- IH1 in goal at 2(rank:13)
-rewrite IH1 in goal at 0(rank:13)
+intro any_list1(rank:5.)
+rewrite <- IH1 in goal at 0(rank:13.)
+rewrite <- IH1 in goal at 1(rank:21.)
+rewrite <- IH1 in goal at 2(rank:13.)
+rewrite IH1 in goal at 0(rank:13.)
 =================================================
-Progress: 58
+Progress: 51
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -2075,7 +1807,7 @@ forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ an
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro any_list1(rank : 5)
+>>> intro any_list1(rank : 5.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -2092,12 +1824,12 @@ forall (any1:any), (any2::((any_list3 @ (any1::(Nil))) @ any_list1)) = (any2::(a
 
 1 conjecture(s) more...
 Tactic List : 4
-rewrite IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 2(rank:13)
-rewrite <- IH1 in goal at 1(rank:21)
+rewrite IH1 in goal at 0(rank:13.)
+rewrite <- IH1 in goal at 0(rank:13.)
+rewrite <- IH1 in goal at 2(rank:13.)
+rewrite <- IH1 in goal at 1(rank:21.)
 =================================================
-Progress: 59
+Progress: 52
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -2113,7 +1845,7 @@ forall (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ any_list1)) =
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro any_list1(rank : 5)
+>>> intro any_list1(rank : 5.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -2131,12 +1863,12 @@ any_list1 : any list
 
 1 conjecture(s) more...
 Tactic List : 4
-rewrite IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 2(rank:13)
-rewrite <- IH1 in goal at 1(rank:21)
+rewrite IH1 in goal at 0(rank:13.)
+rewrite <- IH1 in goal at 0(rank:13.)
+rewrite <- IH1 in goal at 2(rank:13.)
+rewrite <- IH1 in goal at 1(rank:21.)
 =================================================
-Progress: 60
+Progress: 53
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2151,7 +1883,7 @@ forall (any_list2:any list), qreva (qreva (any_list3) ((any1::any_list2))) ((Nil
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> induction any_list2(rank : 12)
+>>> induction any_list2(rank : 12.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2169,9 +1901,9 @@ qreva (qreva (any_list3) ((any1::(Nil)))) ((Nil)) = (reverse ((Nil)) @ (any1::an
 
 0 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:4)
+simpl in goal(rank:4.)
 =================================================
-Progress: 61
+Progress: 54
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2188,7 +1920,7 @@ qreva (qreva (any_list3) ((any1::(Nil)))) ((Nil)) = (reverse ((Nil)) @ (any1::an
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 4)
+>>> simpl in goal(rank : 4.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2206,11 +1938,11 @@ qreva (qreva (any_list3) ((any1::(Nil)))) ((Nil)) = (any1::any_list3)
 
 0 conjecture(s) more...
 Tactic List : 3
-rewrite IH1 in goal at 0(rank:12)
-rewrite lemma4 in goal at 0(rank:20)
-rewrite lemma4 in goal at 2(rank:20)
+rewrite IH1 in goal at 0(rank:12.)
+rewrite lemma4 in goal at 0(rank:20.)
+rewrite lemma4 in goal at 2(rank:20.)
 =================================================
-Progress: 62
+Progress: 55
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2227,7 +1959,7 @@ qreva (qreva (any_list3) ((any1::(Nil)))) ((Nil)) = (any1::any_list3)
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 12)
+>>> rewrite IH1 in goal at 0(rank : 12.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2245,9 +1977,9 @@ Base1 : any_list2 = (Nil)
 
 0 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:3)
+reflexivity(rank:3.)
 =================================================
-Progress: 63
+Progress: 56
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2264,7 +1996,7 @@ Base1 : any_list2 = (Nil)
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> reflexivity(rank : 3)
+>>> reflexivity(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2286,9 +2018,9 @@ qreva (qreva (any_list3) ((any1::(any2::any_list4)))) ((Nil)) = (reverse ((any2:
 0 conjecture(s) more...
 Deduplication: 2
 Tactic List : 1
-simpl in goal(rank:3)
+simpl in goal(rank:3.)
 =================================================
-Progress: 64
+Progress: 57
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2308,7 +2040,7 @@ qreva (qreva (any_list3) ((any1::(any2::any_list4)))) ((Nil)) = (reverse ((any2:
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 3)
+>>> simpl in goal(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2329,11 +2061,11 @@ qreva (qreva (any_list3) ((any1::(any2::any_list4)))) ((Nil)) = ((reverse (any_l
 
 0 conjecture(s) more...
 Tactic List : 3
-rewrite IH1 in goal at 0(rank:11)
-rewrite lemma4 in goal at 0(rank:19)
-rewrite lemma4 in goal at 2(rank:19)
+rewrite IH1 in goal at 0(rank:11.)
+rewrite lemma4 in goal at 0(rank:19.)
+rewrite lemma4 in goal at 2(rank:19.)
 =================================================
-Progress: 65
+Progress: 58
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2353,7 +2085,7 @@ qreva (qreva (any_list3) ((any1::(any2::any_list4)))) ((Nil)) = ((reverse (any_l
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 11)
+>>> rewrite IH1 in goal at 0(rank : 11.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2374,9 +2106,9 @@ Inductive2 : any_list2 = (any2::any_list4)
 
 0 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:3)
+simpl in goal(rank:3.)
 =================================================
-Progress: 66
+Progress: 59
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2396,7 +2128,7 @@ Inductive2 : any_list2 = (any2::any_list4)
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 3)
+>>> simpl in goal(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2421,153 +2153,8 @@ previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 simpl in goal
-validate generalize_common_subterm_goal
-Lemma : forall (any1:any) (any_list3:any list) (arg7:any list), ((arg7 @ (any1::(Nil))) @ any_list3) = (arg7 @ (any1::any_list3))
-Model : any1: 8, any_list3: (Nil), arg7: (Nil)
-Model : any1: 1, any_list3: (Nil), arg7: (Nil)
-Model : any1: 6, any_list3: (Nil), arg7: (5::(5::(Nil)))
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-(((Nil) @ (8::(Nil))) @ (Nil)) = ((Nil) @ (8::(Nil)))
-(((Nil) @ (1::(Nil))) @ (Nil)) = ((Nil) @ (1::(Nil)))
-(((5::(5::(Nil))) @ (6::(Nil))) @ (Nil)) = ((5::(5::(Nil))) @ (6::(Nil)))
-Simplifying took 0.000570 seconds
-Result : true
-advanced_generalize done
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
-any_list1 : any list
-any1 : any
-any_list3 : any list
-IH1 : forall (any_list2:any list), qreva (qreva (any_list3) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list3)
-Inductive1 : any_list1 = (any1::any_list3)
-any_list2 : any list
-any2 : any
-any_list4 : any list
-IH2 : qreva (qreva (any_list3) ((any1::any_list4))) ((Nil)) = (reverse (any_list4) @ (any1::any_list3))
-Inductive2 : any_list2 = (any2::any_list4)
----------------------------------------
-(((reverse (any_list4) @ (any2::(Nil))) @ (any1::(Nil))) @ any_list3) = ((reverse (any_list4) @ (any2::(Nil))) @ (any1::any_list3))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
 =================================================
-Progress: 67
-
-
-1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
-any_list1 : any list
-any1 : any
-any_list3 : any list
-IH1 : forall (any_list2:any list), qreva (qreva (any_list3) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list3)
-Inductive1 : any_list1 = (any1::any_list3)
-any_list2 : any list
-any2 : any
-any_list4 : any list
-IH2 : qreva (qreva (any_list3) ((any1::any_list4))) ((Nil)) = (reverse (any_list4) @ (any1::any_list3))
-Inductive2 : any_list2 = (any2::any_list4)
----------------------------------------
-(((reverse (any_list4) @ (any2::(Nil))) @ (any1::(Nil))) @ any_list3) = ((reverse (any_list4) @ (any2::(Nil))) @ (any1::any_list3))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (any1:any) (any_list3:any list) (arg7:any list), ((arg7 @ (any1::(Nil))) @ any_list3) = (arg7 @ (any1::any_list3))(rank : 0)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-
----------------------------------------
-forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-induction any_list2(rank:6)
-=================================================
-Progress: 68
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-
----------------------------------------
-forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> induction any_list2(rank : 6)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-Base1 : any_list2 = (Nil)
----------------------------------------
-forall (any1:any) (any_list1:any list), (((Nil) @ (any1::(Nil))) @ any_list1) = ((Nil) @ (any1::any_list1))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:5)
-=================================================
-Progress: 69
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-Base1 : any_list2 = (Nil)
----------------------------------------
-forall (any1:any) (any_list1:any list), (((Nil) @ (any1::(Nil))) @ any_list1) = ((Nil) @ (any1::any_list1))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 5)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::(Nil))) @ any_list1) = (any_list3 @ (any1::any_list1))
-Inductive1 : any_list2 = (any2::any_list3)
----------------------------------------
-forall (any1:any) (any_list1:any list), (((any2::any_list3) @ (any1::(Nil))) @ any_list1) = ((any2::any_list3) @ (any1::any_list1))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Deduplication: 0
-Tactic List : 1
-simpl in goal(rank:5)
-=================================================
-Progress: 70
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::(Nil))) @ any_list1) = (any_list3 @ (any1::any_list1))
-Inductive1 : any_list2 = (any2::any_list3)
----------------------------------------
-forall (any1:any) (any_list1:any list), (((any2::any_list3) @ (any1::(Nil))) @ any_list1) = ((any2::any_list3) @ (any1::any_list1))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 5)
+Progress: 60
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -2582,144 +2169,7 @@ forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ an
 0 goal(s) more...
 
 1 conjecture(s) more...
-Tactic List : 6
-intro any1(rank:5)
-rewrite IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 2(rank:13)
-rewrite <- IH1 in goal at 1(rank:21)
-intro any_list1(rank:5)
-=================================================
-Progress: 71
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::(Nil))) @ any_list1) = (any_list3 @ (any1::any_list1))
-Inductive1 : any_list2 = (any2::any_list3)
----------------------------------------
-forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ any_list1)) = (any2::(any_list3 @ (any1::any_list1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro any1(rank : 5)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::(Nil))) @ any_list1) = (any_list3 @ (any1::any_list1))
-Inductive1 : any_list2 = (any2::any_list3)
-any1 : any
----------------------------------------
-forall (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ any_list1)) = (any2::(any_list3 @ (any1::any_list1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 5
-intro any_list1(rank:5)
-rewrite <- IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 1(rank:21)
-rewrite <- IH1 in goal at 2(rank:13)
-rewrite IH1 in goal at 0(rank:13)
-=================================================
-Progress: 72
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::(Nil))) @ any_list1) = (any_list3 @ (any1::any_list1))
-Inductive1 : any_list2 = (any2::any_list3)
----------------------------------------
-forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ any_list1)) = (any2::(any_list3 @ (any1::any_list1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro any_list1(rank : 5)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::(Nil))) @ any_list1) = (any_list3 @ (any1::any_list1))
-Inductive1 : any_list2 = (any2::any_list3)
-any_list1 : any list
----------------------------------------
-forall (any1:any), (any2::((any_list3 @ (any1::(Nil))) @ any_list1)) = (any2::(any_list3 @ (any1::any_list1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 4
-rewrite IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 2(rank:13)
-rewrite <- IH1 in goal at 1(rank:21)
-=================================================
-Progress: 73
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::(Nil))) @ any_list1) = (any_list3 @ (any1::any_list1))
-Inductive1 : any_list2 = (any2::any_list3)
-any1 : any
----------------------------------------
-forall (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ any_list1)) = (any2::(any_list3 @ (any1::any_list1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro any_list1(rank : 5)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::(Nil))) @ any_list1) = (any_list3 @ (any1::any_list1))
-Inductive1 : any_list2 = (any2::any_list3)
-any1 : any
-any_list1 : any list
----------------------------------------
-(any2::((any_list3 @ (any1::(Nil))) @ any_list1)) = (any2::(any_list3 @ (any1::any_list1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 4
-rewrite IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 0(rank:13)
-rewrite <- IH1 in goal at 2(rank:13)
-rewrite <- IH1 in goal at 1(rank:21)
-=================================================
-Progress: 74
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
-any_list2 : any list
-any2 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any_list1:any list), ((any_list3 @ (any1::(Nil))) @ any_list1) = (any_list3 @ (any1::any_list1))
-Inductive1 : any_list2 = (any2::any_list3)
----------------------------------------
-forall (any1:any) (any_list1:any list), (any2::((any_list3 @ (any1::(Nil))) @ any_list1)) = (any2::(any_list3 @ (any1::any_list1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 13)
+>>> rewrite IH1 in goal at 0(rank : 13.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -2735,9 +2185,9 @@ forall (any1:any) (any_list1:any list), (any2::(any_list3 @ (any1::any_list1))) 
 
 1 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:3)
+reflexivity(rank:3.)
 =================================================
-Progress: 75
+Progress: 61
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
@@ -2752,7 +2202,7 @@ forall (any1:any) (any_list1:any list), (any2::(any_list3 @ (any1::any_list1))) 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> reflexivity(rank : 3)
+>>> reflexivity(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2772,18 +2222,29 @@ Inductive2 : any_list2 = (any2::any_list4)
 0 goal(s) more...
 
 0 conjecture(s) more...
+original goal
+forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
+lemma
+forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
+tactics
+assert forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
+induction any_list2
+reflexivity
+simpl in goal
+rewrite IH1 in goal at 0
+reflexivity
 Deduplication: 15
 Tactic List : 8
-rewrite lemma5 in goal at 1(rank:11)
-rewrite <- lemma5 in goal at 0(rank:11)
-rewrite <- lemma5 in goal at 3(rank:11)
-rewrite <- lemma5 in goal at 2(rank:19)
-rewrite lemma5 in goal at 2(rank:19)
-rewrite lemma5 in goal at 3(rank:19)
-rewrite <- lemma5 in goal at 1(rank:19)
-rewrite lemma5 in goal at 0(rank:19)
+rewrite lemma5 in goal at 1(rank:11.)
+rewrite <- lemma5 in goal at 0(rank:11.)
+rewrite <- lemma5 in goal at 3(rank:11.)
+rewrite <- lemma5 in goal at 2(rank:19.)
+rewrite lemma5 in goal at 2(rank:19.)
+rewrite lemma5 in goal at 3(rank:19.)
+rewrite <- lemma5 in goal at 1(rank:19.)
+rewrite lemma5 in goal at 0(rank:19.)
 =================================================
-Progress: 76
+Progress: 62
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2803,7 +2264,7 @@ Inductive2 : any_list2 = (any2::any_list4)
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> rewrite lemma5 in goal at 1(rank : 11)
+>>> rewrite lemma5 in goal at 1(rank : 11.)
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2824,9 +2285,9 @@ Inductive2 : any_list2 = (any2::any_list4)
 
 0 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:0)
+reflexivity(rank:0.)
 =================================================
-Progress: 77
+Progress: 63
 
 
 1st goal of : forall (any_list1:any list) (any_list2:any list), qreva (qreva (any_list1) (any_list2)) ((Nil)) = (reverse (any_list2) @ any_list1)
@@ -2846,7 +2307,7 @@ Inductive2 : any_list2 = (any2::any_list4)
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> reflexivity(rank : 0)
+>>> reflexivity(rank : 0.)
 
 
 No conjecture

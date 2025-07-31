@@ -20,6 +20,12 @@ and sub_desc =
   | Sub_None of subtree list
 [@@deriving sexp]
 
+type generalize_type =
+  | Child
+  | Subterm
+  | Just
+  | Pattern
+
 let rec to_sub expr =
   match expr.Ir.desc with
   | Var name -> { desc = Some (Sub_Var name); typ = expr.typ }
@@ -1081,11 +1087,18 @@ let pattern_recognition env ih induction_vars state_list : env * lemma list =
     | Some rhs -> rhs :: rhs_list
     | None -> rhs_list
   in
-  let lhs_common_subtree, lhs_base = catch_recursive_pattern induction_vars lhs_list in
-  let rhs_common_subtree, rhs_base = catch_recursive_pattern induction_vars rhs_list in
+  let lhs_common_subtree, lhs_base =
+    try catch_recursive_pattern induction_vars lhs_list with
+    | _ -> [], { desc = None; typ = Ir.Tany }
+  in
+  let rhs_common_subtree, rhs_base =
+    try catch_recursive_pattern induction_vars rhs_list with
+    | _ -> [], { desc = None; typ = Ir.Tany }
+  in
   if
     List.length lhs_common_subtree <> List.length rhs_common_subtree
     || List.is_empty lhs_common_subtree
+    || List.is_empty rhs_common_subtree
   then [], []
   else (
     let range = Proof.range 0 (List.length lhs_common_subtree - 1) in
@@ -1224,12 +1237,12 @@ let make_goal_no_free_var facts goal =
   goal
 ;;
 
-let naive_generalize t is_worklist_empty : lemma list =
+let naive_generalize t : lemma list * generalize_type =
   let state = Proof.get_first_state t in
   let facts, goal, _ = state in
   let vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
   if List.is_empty vars
-  then []
+  then [], Just
   else (
     let facts = filtering_concerned_fact facts goal in
     let facts = List.map snd facts in
@@ -1241,30 +1254,33 @@ let naive_generalize t is_worklist_empty : lemma list =
     in
     let generalize_common_subterm = generalize_common_subterm goal in
     let is_changed = goal <> generalize_common_subterm in
-    let generalize_common_subterm_goal =
-      make_goal_no_free_var facts generalize_common_subterm
-    in
-    let _ = print_endline "validate generalize_common_subterm_goal" in
-    match is_changed && Validate.validate t.env generalize_common_subterm_goal with
-    | true -> [ generalize_common_subterm_goal ]
+    let no_fact_goal = make_goal_no_free_var [] generalize_common_subterm in
+    match is_changed && Validate.validate t.env no_fact_goal with
+    | true -> [ no_fact_goal ], Subterm
     | false ->
-      let generalize_child_goals = generalize_child goal in
-      let is_changed = goal <> List.hd generalize_child_goals in
-      let generalize_child_goals =
-        List.map (make_goal_no_free_var facts) generalize_child_goals
+      let generalize_common_subterm_goal =
+        make_goal_no_free_var facts generalize_common_subterm
       in
-      (match
-         is_changed && List.for_all (Validate.validate t.env) generalize_child_goals
-       with
-       | true -> generalize_child_goals
+      let _ = print_endline "validate generalize_common_subterm_goal" in
+      (match is_changed && Validate.validate t.env generalize_common_subterm_goal with
+       | true -> [ generalize_common_subterm_goal ], Subterm
        | false ->
-         let just_generalize_goal = make_goal_no_free_var facts goal in
-         let _ = is_worklist_empty in
-         (match Validate.validate t.env just_generalize_goal with
-          | true -> [ just_generalize_goal ]
+         let generalize_child_goals = generalize_child goal in
+         let is_changed = goal <> List.hd generalize_child_goals in
+         let generalize_child_goals =
+           List.map (make_goal_no_free_var facts) generalize_child_goals
+         in
+         (match
+            is_changed && List.for_all (Validate.validate t.env) generalize_child_goals
+          with
+          | true -> generalize_child_goals, Child
           | false ->
-            let _ = print_endline "asdf" in
-            [])))
+            let just_generalize_goal = make_goal_no_free_var facts goal in
+            (match Validate.validate t.env just_generalize_goal with
+             | true -> [ just_generalize_goal ], Just
+             | false ->
+               let _ = print_endline "asdf" in
+               [], Just))))
 ;;
 
 let rec is_trivial goal =
@@ -1311,13 +1327,13 @@ let get_induction_var (state : state) =
   induction_var
 ;;
 
-let advanced_generalize (t : proof_node) (is_worklist_empty : bool)
-  : (proof_node * lemma list) list
+let advanced_generalize (t : proof_node)
+  : (proof_node * lemma list * generalize_type) option
   =
   let first_state = Proof.get_first_state t.t in
   let facts, goal, _ = first_state in
   match is_trivial goal with
-  | true -> []
+  | true -> None
   | false ->
     let ih =
       List.find_opt
@@ -1326,7 +1342,11 @@ let advanced_generalize (t : proof_node) (is_worklist_empty : bool)
     in
     let state_list = fast_execution 2 t.t in
     (match state_list with
-     | [] -> List.map (fun lemma -> t, [ lemma ]) (naive_generalize t.t is_worklist_empty)
+     | [] ->
+       let lemmas, generalize_type = naive_generalize t.t in
+       (match lemmas with
+        | [] -> None
+        | _ -> Some (t, lemmas, generalize_type))
      | _ ->
        let induction_vars = List.map get_induction_var state_list in
        let new_env, lemma_list =
@@ -1334,7 +1354,11 @@ let advanced_generalize (t : proof_node) (is_worklist_empty : bool)
        in
        let new_env = List.map Ir.rename_decl new_env in
        if List.is_empty lemma_list
-       then List.map (fun lemma -> t, [ lemma ]) (naive_generalize t.t is_worklist_empty)
+       then (
+         let lemmas, generalize_type = naive_generalize t.t in
+         match lemmas with
+         | [] -> None
+         | _ -> Some (t, lemmas, generalize_type))
        else (
          let new_t =
            List.fold_left
@@ -1342,22 +1366,57 @@ let advanced_generalize (t : proof_node) (is_worklist_empty : bool)
              t
              new_env
          in
-         [ new_t, lemma_list ]))
+         Some (new_t, lemma_list, Pattern)))
 ;;
 
-let find_lemma (t : proof_node) lemma_set is_worklist_empty
-  : (proof_node * lemma list) list
-  =
-  let t_lemmas_list = advanced_generalize t is_worklist_empty in
-  let original_goal = Proof.get_conj_list t.t |> List.hd |> snd in
+let find_lemma (states : proof_node list) lemma_set : (proof_node * lemma list) list =
+  let t_lemmas_list =
+    List.fold_left
+      (fun acc t ->
+         match advanced_generalize t with
+         | Some t_lemma -> t_lemma :: acc
+         | None -> acc)
+      []
+      states
+  in
+  let pattern_lemmas, subterm_lemmas, child_lemmas, just_lemmas =
+    List.fold_left
+      (fun (p_acc, s_acc, c_acc, j_acc) (t, lemmas, generalize_type) ->
+         match generalize_type with
+         | Pattern -> (t, lemmas) :: p_acc, s_acc, c_acc, j_acc
+         | Subterm -> p_acc, (t, lemmas) :: s_acc, c_acc, j_acc
+         | Child -> p_acc, s_acc, (t, lemmas) :: c_acc, j_acc
+         | Just -> p_acc, s_acc, c_acc, (t, lemmas) :: j_acc)
+      ([], [], [], [])
+      t_lemmas_list
+  in
+  let original_goal = Proof.get_conj_list (List.hd states).t |> List.hd |> snd in
+  let t_lemmas_list =
+    match pattern_lemmas with
+    | [] ->
+      (match subterm_lemmas with
+       | [] ->
+         (match child_lemmas with
+          | [] -> just_lemmas
+          | _ -> child_lemmas)
+       | _ -> subterm_lemmas)
+    | hd :: _ -> [ hd ]
+  in
+  let t_lemmas_list =
+    List.map
+      (fun (t, lemmas) -> t, List.map Proof.make_lemma_consistent lemmas)
+      t_lemmas_list
+  in
   let t_lemmas_list =
     List.fold_left
       (fun acc ((new_t : proof_node), lemmas) ->
          if
            List.for_all
              (fun lemma ->
+                let lemma = Proof.make_lemma_consistent lemma in
                 Prover.LemmaSet.exists
-                  (fun (goal', lemma', _) -> original_goal = goal' && lemma = lemma')
+                  (fun lemmaelt ->
+                     original_goal = lemmaelt.original_goal && lemma = lemmaelt.lemma)
                   lemma_set)
              lemmas
            && not (List.is_empty lemmas)
@@ -1366,8 +1425,8 @@ let find_lemma (t : proof_node) lemma_set is_worklist_empty
            List.for_all
              (fun lemma ->
                 Prover.LemmaSet.exists
-                  (fun (_, lemma', tactic) ->
-                     lemma = lemma' && not (List.is_empty tactic))
+                  (fun lemmaelt ->
+                     lemma = lemmaelt.lemma && not (List.is_empty lemmaelt.tactics))
                   lemma_set)
              lemmas
            && not (List.is_empty lemmas)
@@ -1376,18 +1435,27 @@ let find_lemma (t : proof_node) lemma_set is_worklist_empty
              List.map
                (fun lemma ->
                   List.find
-                    (fun (_, lemma', tactic) ->
-                       lemma = lemma' && not (List.is_empty tactic))
+                    (fun lemmaelt ->
+                       lemma = lemmaelt.Prover.lemma
+                       && not (List.is_empty lemmaelt.tactics))
                     (lemma_set |> Prover.LemmaSet.to_list))
                lemmas
            in
            let new_t =
              List.fold_left
-               (fun acc (_, _, tactic) ->
+               (fun (acc : Prover.proof_node) lemmaelt ->
+                  let _ = print_endline "t is here" in
+                  let _ = Proof.pp_t acc.Prover.t |> print_endline in
+                  let _ = print_endline "duplicated tactic" in
+                  let _ =
+                    List.iter
+                      (fun tactic -> print_endline (Proof.pp_tactic tactic))
+                      lemmaelt.Prover.tactics
+                  in
                   List.fold_left
                     (fun acc tactic -> Prover.just_apply_tactic acc tactic)
                     acc
-                    tactic)
+                    lemmaelt.Prover.tactics)
                new_t
                pre_lemmas
            in

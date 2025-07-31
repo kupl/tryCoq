@@ -7,7 +7,7 @@ Progress: 1
 
 
 No conjecture
->>> assert forall (x:int list), sorted (sort (x)) = true(rank : 0)
+>>> assert forall (x:int list), sorted (sort (x)) = true(rank : 0.)
 
 
 1st goal of : forall (int_list1:int list), sorted (sort (int_list1)) = true
@@ -19,7 +19,7 @@ forall (int_list1:int list), sorted (sort (int_list1)) = true
 
 0 conjecture(s) more...
 Tactic List : 1
-induction int_list1(rank:4)
+induction int_list1(rank:4.)
 =================================================
 Progress: 2
 
@@ -32,7 +32,7 @@ forall (int_list1:int list), sorted (sort (int_list1)) = true
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> induction int_list1(rank : 4)
+>>> induction int_list1(rank : 4.)
 
 
 1st goal of : forall (int_list1:int list), sorted (sort (int_list1)) = true
@@ -45,7 +45,7 @@ sorted (sort ((Nil))) = true
 
 0 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:3)
+reflexivity(rank:3.)
 =================================================
 Progress: 3
 
@@ -59,7 +59,7 @@ sorted (sort ((Nil))) = true
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> reflexivity(rank : 3)
+>>> reflexivity(rank : 3.)
 
 
 1st goal of : forall (int_list1:int list), sorted (sort (int_list1)) = true
@@ -76,7 +76,7 @@ sorted (sort ((int1::int_list2))) = true
 0 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:3)
+simpl in goal(rank:3.)
 =================================================
 Progress: 4
 
@@ -93,7 +93,7 @@ sorted (sort ((int1::int_list2))) = true
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 3)
+>>> simpl in goal(rank : 3.)
 
 
 1st goal of : forall (int_list1:int list), sorted (sort (int_list1)) = true
@@ -109,7 +109,7 @@ sorted (insort (int1) (sort (int_list2))) = true
 
 0 conjecture(s) more...
 Tactic List : 1
-rewrite <- IH1 in goal at 0(rank:3)
+rewrite <- IH1 in goal at 0(rank:3.)
 =================================================
 Progress: 5
 
@@ -126,7 +126,7 @@ sorted (insort (int1) (sort (int_list2))) = true
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> rewrite <- IH1 in goal at 0(rank : 3)
+>>> rewrite <- IH1 in goal at 0(rank : 3.)
 
 
 1st goal of : forall (int_list1:int list), sorted (sort (int_list1)) = true
@@ -145,26 +145,12 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+previous tactics
+simpl in goal
 validate generalize_common_subterm_goal
-Lemma : forall (arg1:any list) (int1:int), sorted (insort (int1) (arg1)) = sorted (arg1)
-Model : arg1: (7::(Nil)), int1: 0
-Model : arg1: (6::(2::(Nil))), int1: 0
-Model : arg1: (Nil), int1: 0
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-sorted (insort (0) ((7::(Nil)))) = sorted ((7::(Nil)))
-sorted (insort (0) ((6::(2::(Nil))))) = sorted ((6::(2::(Nil))))
-sorted (insort (0) ((Nil))) = sorted ((Nil))
-Simplifying took 0.000940 seconds
-Result : true
-advanced_generalize done
+Lemma List
+forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
+End of Lemma List
 
 
 1st goal of : forall (int_list1:int list), sorted (sort (int_list1)) = true
@@ -195,7 +181,7 @@ sorted (insort (int1) (sort (int_list2))) = sorted (sort (int_list2))
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (arg1:any list) (int1:int), sorted (insort (int1) (arg1)) = sorted (arg1)(rank : 0)
+>>> assert forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)(rank : 0.)
 
 
 1st goal of : forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
@@ -207,7 +193,7 @@ forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sor
 
 1 conjecture(s) more...
 Tactic List : 1
-induction any_list1(rank:6)
+induction any_list1(rank:6.)
 =================================================
 Progress: 7
 
@@ -220,7 +206,7 @@ forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sor
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> induction any_list1(rank : 6)
+>>> induction any_list1(rank : 6.)
 
 
 1st goal of : forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
@@ -233,7 +219,7 @@ forall (int1:int), sorted (insort (int1) ((Nil))) = sorted ((Nil))
 
 1 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:5)
+reflexivity(rank:5.)
 =================================================
 Progress: 8
 
@@ -247,7 +233,7 @@ forall (int1:int), sorted (insort (int1) ((Nil))) = sorted ((Nil))
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> reflexivity(rank : 5)
+>>> reflexivity(rank : 5.)
 
 
 1st goal of : forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
@@ -264,7 +250,7 @@ forall (int1:int), sorted (insort (int1) ((any1::any_list2))) = sorted ((any1::a
 1 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:5)
+simpl in goal(rank:5.)
 =================================================
 Progress: 9
 
@@ -281,7 +267,7 @@ forall (int1:int), sorted (insort (int1) ((any1::any_list2))) = sorted ((any1::a
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 5)
+>>> simpl in goal(rank : 5.)
 
 
 1st goal of : forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
@@ -305,7 +291,7 @@ forall (int1:int), sorted (if match (int1, any1) with
 
 1 conjecture(s) more...
 Tactic List : 1
-intro int1(rank:5)
+intro int1(rank:5.)
 =================================================
 Progress: 10
 
@@ -330,7 +316,7 @@ forall (int1:int), sorted (if match (int1, any1) with
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro int1(rank : 5)
+>>> intro int1(rank : 5.)
 
 
 1st goal of : forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
@@ -363,7 +349,7 @@ case match (int1, any1) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank:6)
+| (Neg n1', Pos n2') -> true(rank:6.)
 =================================================
 Progress: 11
 
@@ -397,7 +383,7 @@ sorted (if match (int1, any1) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank : 6)
+| (Neg n1', Pos n2') -> true(rank : 6.)
 
 
 1st goal of : forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
@@ -439,7 +425,7 @@ case if match (any1, int1) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then false else true(rank:7)
+| (Neg n1', Pos n2') -> true then false else true(rank:7.)
 =================================================
 Progress: 12
 
@@ -482,7 +468,7 @@ if if match (any1, int1) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then false else true(rank : 7)
+| (Neg n1', Pos n2') -> true then false else true(rank : 7.)
 
 
 1st goal of : forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
@@ -517,7 +503,7 @@ sorted ((any1::any_list2)) = sorted ((any1::any_list2))
 
 1 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:6)
+reflexivity(rank:6.)
 =================================================
 Progress: 13
 
@@ -553,7 +539,7 @@ sorted ((any1::any_list2)) = sorted ((any1::any_list2))
 2 goal(s) more...
 
 1 conjecture(s) more...
->>> reflexivity(rank : 6)
+>>> reflexivity(rank : 6.)
 
 
 1st goal of : forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
@@ -612,26 +598,7 @@ case if match (any1, int1) with
 | (Neg n1', Pos n2') -> true then false else true
 reflexivity
 validate generalize_common_subterm_goal
-Lemma : forall (any1:any) (any_list2:any list), false = sorted ((any1::any_list2))
-Model : any1: 6, any_list2: (Nil)
-Model : any1: 2, any_list2: (Nil)
-Model : any1: 3, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-false = sorted ((6::(Nil)))
-false = sorted ((2::(Nil)))
-false = sorted ((3::(Nil)))
-Simplifying took 0.000077 seconds
-Result : false
 asdf
-advanced_generalize done
 File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
@@ -643,5 +610,5 @@ Here is an example of a case that is not matched:
 []
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 292, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

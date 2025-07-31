@@ -7,7 +7,7 @@ Progress: 1
 
 
 No conjecture
->>> assert forall (x:any list), len ((x @ x)) = double (len (x))(rank : 0)
+>>> assert forall (x:any list), len ((x @ x)) = double (len (x))(rank : 0.)
 
 
 1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
@@ -19,7 +19,7 @@ forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_li
 
 0 conjecture(s) more...
 Tactic List : 1
-induction any_list1(rank:4)
+induction any_list1(rank:4.)
 =================================================
 Progress: 2
 
@@ -32,7 +32,7 @@ forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_li
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> induction any_list1(rank : 4)
+>>> induction any_list1(rank : 4.)
 
 
 1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
@@ -45,7 +45,7 @@ len (((Nil) @ (Nil))) = double (len ((Nil)))
 
 0 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:3)
+reflexivity(rank:3.)
 =================================================
 Progress: 3
 
@@ -59,7 +59,7 @@ len (((Nil) @ (Nil))) = double (len ((Nil)))
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> reflexivity(rank : 3)
+>>> reflexivity(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
@@ -76,7 +76,7 @@ len (((any1::any_list2) @ (any1::any_list2))) = double (len ((any1::any_list2)))
 0 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:3)
+simpl in goal(rank:3.)
 =================================================
 Progress: 4
 
@@ -93,7 +93,7 @@ len (((any1::any_list2) @ (any1::any_list2))) = double (len ((any1::any_list2)))
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 3)
+>>> simpl in goal(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
@@ -109,7 +109,7 @@ SUCC (len ((any_list2 @ (any1::any_list2)))) = SUCC (SUCC (double (len (any_list
 
 0 conjecture(s) more...
 Tactic List : 1
-rewrite <- IH1 in goal at 0(rank:3)
+rewrite <- IH1 in goal at 0(rank:3.)
 =================================================
 Progress: 5
 
@@ -126,7 +126,7 @@ SUCC (len ((any_list2 @ (any1::any_list2)))) = SUCC (SUCC (double (len (any_list
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> rewrite <- IH1 in goal at 0(rank : 3)
+>>> rewrite <- IH1 in goal at 0(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
@@ -146,25 +146,29 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Lemma : forall (any1:any) (any_list2:any list), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any_list2 @ any_list2)))
-Model : any1: 3, any_list2: (Nil)
-Model : any1: 0, any_list2: (3::(Nil))
-Model : any1: 5, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-len (((Nil) @ (3::(Nil)))) = SUCC (len (((Nil) @ (Nil))))
-len (((3::(Nil)) @ (0::(3::(Nil))))) = SUCC (len (((3::(Nil)) @ (3::(Nil)))))
-len (((Nil) @ (5::(Nil)))) = SUCC (len (((Nil) @ (Nil))))
-Simplifying took 0.000353 seconds
-Result : true
-advanced_generalize done
+previous tactics
+simpl in goal
+validate generalize_common_subterm_goal
+Lemma List
+forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+End of Lemma List
+
+
+1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : len ((any_list2 @ any_list2)) = double (len (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+SUCC (len ((any_list2 @ (any1::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Lemma List
+forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+End of Lemma List
 
 
 1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
@@ -190,12 +194,41 @@ any_list2 : any list
 IH1 : len ((any_list2 @ any_list2)) = double (len (any_list2))
 Inductive1 : any_list1 = (any1::any_list2)
 ---------------------------------------
+SUCC (len ((any_list2 @ (any1::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))(rank : 0.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:6.)
+=================================================
+Progress: 7
+
+
+1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : len ((any_list2 @ any_list2)) = double (len (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
 SUCC (len ((any_list2 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (any1:any) (any_list2:any list), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any_list2 @ any_list2)))(rank : 0)
+>>> assert forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))(rank : 0.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
@@ -207,37 +240,197 @@ forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = 
 
 1 conjecture(s) more...
 Tactic List : 1
-induction any_list1(rank:6)
-=================================================
-Progress: 7
-
-
-1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
-
----------------------------------------
-forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> induction any_list1(rank : 6)
-
-
-1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
-any_list1 : any list
-Base1 : any_list1 = (Nil)
----------------------------------------
-forall (any1:any), len (((Nil) @ (any1::(Nil)))) = SUCC (len (((Nil) @ (Nil))))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:5)
+induction any_list1(rank:6.)
 =================================================
 Progress: 8
 
 
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction any_list1(rank : 6.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), len (((Nil) @ (any1::(Nil)))) = SUCC (double (len ((Nil))))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:5.)
+=================================================
+Progress: 9
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), len (((Nil) @ (any1::(Nil)))) = SUCC (double (len ((Nil))))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 5.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (double (len (any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), len (((any2::any_list2) @ (any1::(any2::any_list2)))) = SUCC (double (len ((any2::any_list2))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:5.)
+=================================================
+Progress: 10
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (double (len (any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), len (((any2::any_list2) @ (any1::(any2::any_list2)))) = SUCC (double (len ((any2::any_list2))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 5.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (double (len (any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro any1(rank:5.)
+=================================================
+Progress: 11
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (double (len (any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro any1(rank : 5.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (double (len (any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+validate generalize_common_subterm_goal
+Lemma List
+forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
+End of Lemma List
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (double (len (any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 12
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (double (len (any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (double (len (any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))(rank : 0.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
+
+---------------------------------------
+forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:8.)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction any_list1(rank : 6.)
+
+
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
 any_list1 : any list
 Base1 : any_list1 = (Nil)
@@ -247,7 +440,22 @@ forall (any1:any), len (((Nil) @ (any1::(Nil)))) = SUCC (len (((Nil) @ (Nil))))
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> reflexivity(rank : 5)
+Tactic List : 1
+reflexivity(rank:5.)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), len (((Nil) @ (any1::(Nil)))) = SUCC (len (((Nil) @ (Nil))))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 5.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
@@ -264,9 +472,9 @@ forall (any1:any), len (((any2::any_list2) @ (any1::(any2::any_list2)))) = SUCC 
 1 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:5)
+simpl in goal(rank:5.)
 =================================================
-Progress: 9
+Progress: 15
 
 
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
@@ -281,7 +489,7 @@ forall (any1:any), len (((any2::any_list2) @ (any1::(any2::any_list2)))) = SUCC 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 5)
+>>> simpl in goal(rank : 5.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
@@ -297,10 +505,10 @@ forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (
 
 1 conjecture(s) more...
 Tactic List : 2
-intro any1(rank:5)
-rewrite IH1 in goal at 0(rank:21)
+intro any1(rank:5.)
+rewrite IH1 in goal at 0(rank:21.)
 =================================================
-Progress: 10
+Progress: 16
 
 
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
@@ -315,7 +523,7 @@ forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro any1(rank : 5)
+>>> intro any1(rank : 5.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
@@ -332,9 +540,9 @@ SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (len ((any_lis
 
 1 conjecture(s) more...
 Tactic List : 1
-rewrite IH1 in goal at 0(rank:5)
+rewrite IH1 in goal at 0(rank:5.)
 =================================================
-Progress: 11
+Progress: 17
 
 
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
@@ -350,7 +558,7 @@ SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (len ((any_lis
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 5)
+>>> rewrite IH1 in goal at 0(rank : 5.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
@@ -372,25 +580,12 @@ simpl in goal
 intro any1
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Lemma : forall (any1:any) (any2:any) (any_list2:any list), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
-Model : any1: 6, any2: 8, any_list2: (Nil)
-Model : any1: 2, any2: 1, any_list2: (3::(Nil))
-Model : any1: 0, any2: 0, any_list2: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-len (((Nil) @ (6::(8::(Nil))))) = SUCC (SUCC (len (((Nil) @ (Nil)))))
-len (((3::(Nil)) @ (2::(1::(3::(Nil)))))) = SUCC (SUCC (len (((3::(Nil)) @ (3::(Nil))))))
-len (((Nil) @ (0::(0::(Nil))))) = SUCC (SUCC (len (((Nil) @ (Nil)))))
-Simplifying took 0.000495 seconds
-Result : true
-advanced_generalize done
+previous tactics
+simpl in goal
+intro any1
+Lemma List
+forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+End of Lemma List
 
 
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
@@ -401,13 +596,13 @@ IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any
 Inductive1 : any_list1 = (any2::any_list2)
 any1 : any
 ---------------------------------------
-SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list2 @ any_list2)))))
+SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (len ((any_list2 @ (any2::any_list2)))))
 
 0 goal(s) more...
 
 1 conjecture(s) more...
 =================================================
-Progress: 12
+Progress: 18
 
 
 1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
@@ -418,177 +613,177 @@ IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any
 Inductive1 : any_list1 = (any2::any_list2)
 any1 : any
 ---------------------------------------
-SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list2 @ any_list2)))))
+SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (len ((any_list2 @ (any2::any_list2)))))
 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (any1:any) (any2:any) (any_list2:any list), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))(rank : 0)
+>>> assert forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))(rank : 0.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
 
 ---------------------------------------
-forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
 Tactic List : 1
-induction any_list1(rank:8)
+induction any_list1(rank:8.)
 =================================================
-Progress: 13
+Progress: 19
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 
 ---------------------------------------
-forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> induction any_list1(rank : 8)
+>>> induction any_list1(rank : 8.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 Base1 : any_list1 = (Nil)
 ---------------------------------------
-forall (any1:any) (any2:any), len (((Nil) @ (any1::(any2::(Nil))))) = SUCC (SUCC (len (((Nil) @ (Nil)))))
+forall (any1:any) (any2:any), len (((Nil) @ (any1::(any2::(Nil))))) = SUCC (SUCC (double (len ((Nil)))))
 
 1 goal(s) more...
 
 2 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:7)
+reflexivity(rank:7.)
 =================================================
-Progress: 14
+Progress: 20
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 Base1 : any_list1 = (Nil)
 ---------------------------------------
-forall (any1:any) (any2:any), len (((Nil) @ (any1::(any2::(Nil))))) = SUCC (SUCC (len (((Nil) @ (Nil)))))
+forall (any1:any) (any2:any), len (((Nil) @ (any1::(any2::(Nil))))) = SUCC (SUCC (double (len ((Nil)))))
 
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> reflexivity(rank : 7)
+>>> reflexivity(rank : 7.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 ---------------------------------------
-forall (any1:any) (any2:any), len (((any3::any_list2) @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (len (((any3::any_list2) @ (any3::any_list2)))))
+forall (any1:any) (any2:any), len (((any3::any_list2) @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (double (len ((any3::any_list2)))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:7)
+simpl in goal(rank:7.)
 =================================================
-Progress: 15
+Progress: 21
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 ---------------------------------------
-forall (any1:any) (any2:any), len (((any3::any_list2) @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (len (((any3::any_list2) @ (any3::any_list2)))))
+forall (any1:any) (any2:any), len (((any3::any_list2) @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (double (len ((any3::any_list2)))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> simpl in goal(rank : 7)
+>>> simpl in goal(rank : 7.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 ---------------------------------------
-forall (any1:any) (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+forall (any1:any) (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
 Tactic List : 2
-intro any1(rank:7)
-intro any2(rank:7)
+intro any1(rank:7.)
+intro any2(rank:7.)
 =================================================
-Progress: 16
+Progress: 22
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 ---------------------------------------
-forall (any1:any) (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+forall (any1:any) (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro any1(rank : 7)
+>>> intro any1(rank : 7.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 any1 : any
 ---------------------------------------
-forall (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+forall (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
 Tactic List : 1
-intro any2(rank:7)
+intro any2(rank:7.)
 =================================================
-Progress: 17
+Progress: 23
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 ---------------------------------------
-forall (any1:any) (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+forall (any1:any) (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro any2(rank : 7)
+>>> intro any2(rank : 7.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 any2 : any
 ---------------------------------------
-forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
 
 0 goal(s) more...
 
@@ -598,100 +793,84 @@ previous tactics
 simpl in goal
 intro any2
 validate generalize_common_subterm_goal
-Lemma : forall (any1:any) (any2:any) (any_list2:any list) (arg1:any list), SUCC (len ((any_list2 @ (any1::(any2::arg1))))) = SUCC (SUCC (SUCC (len ((any_list2 @ arg1)))))
-Model : any1: 7, any2: 7, any_list2: (Nil), arg1: (Nil)
-Model : any1: 0, any2: 3, any_list2: (2::(6::(2::(Nil)))), arg1: (Nil)
-Model : any1: 5, any2: 4, any_list2: (Nil), arg1: (Nil)
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-SUCC (len (((Nil) @ (7::(7::(Nil)))))) = SUCC (SUCC (SUCC (len (((Nil) @ (Nil))))))
-SUCC (len (((2::(6::(2::(Nil)))) @ (0::(3::(Nil)))))) = SUCC (SUCC (SUCC (len (((2::(6::(2::(Nil)))) @ (Nil))))))
-SUCC (len (((Nil) @ (5::(4::(Nil)))))) = SUCC (SUCC (SUCC (len (((Nil) @ (Nil))))))
-Simplifying took 0.001368 seconds
-Result : true
-advanced_generalize done
+Lemma List
+forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+End of Lemma List
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 any2 : any
 ---------------------------------------
-forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
 =================================================
-Progress: 18
+Progress: 24
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 any2 : any
 ---------------------------------------
-forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> assert forall (any1:any) (any2:any) (any_list2:any list) (arg1:any list), SUCC (len ((any_list2 @ (any1::(any2::arg1))))) = SUCC (SUCC (SUCC (len ((any_list2 @ arg1)))))(rank : 0)
+>>> assert forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))(rank : 0.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
 
 ---------------------------------------
-forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
+forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
 
 0 goal(s) more...
 
 3 conjecture(s) more...
 Tactic List : 1
-induction any_list1(rank:10)
+induction any_list1(rank:10.)
 =================================================
-Progress: 19
+Progress: 25
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 any1 : any
 ---------------------------------------
-forall (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+forall (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro any2(rank : 7)
+>>> intro any2(rank : 7.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (double (len (any_list1))))
 any_list1 : any list
 any3 : any
 any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (double (len (any_list2))))
 Inductive1 : any_list1 = (any3::any_list2)
 any1 : any
 any2 : any
 ---------------------------------------
-SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
 
 0 goal(s) more...
 
@@ -702,635 +881,1473 @@ simpl in goal
 intro any1
 intro any2
 validate generalize_common_subterm_goal
-Lemma : forall (any1:any) (any2:any) (any_list2:any list) (arg2:any list), SUCC (len ((any_list2 @ (any1::(any2::arg2))))) = SUCC (SUCC (SUCC (len ((any_list2 @ arg2)))))
-Model : any1: 3, any2: 0, any_list2: (Nil), arg2: (Nil)
-Model : any1: 0, any2: 4, any_list2: (Nil), arg2: (7::(Nil))
-Model : any1: 6, any2: 3, any_list2: (Nil), arg2: (7::(Nil))
-Substituting variables...
-Simplifying conditions and property...
-let rec lst_subset lst1 lst2 =
-match (lst1) with
-| Nil -> true
-| Cons x xs -> && (lst_subset (xs) (lst2)) (mem (x) (lst2))
-let lst_eq lst1 lst2 =
-&& (lst_subset (lst1) (lst2)) (lst_subset (lst2) (lst1))
-prop list:
-SUCC (len (((Nil) @ (3::(0::(Nil)))))) = SUCC (SUCC (SUCC (len (((Nil) @ (Nil))))))
-SUCC (len (((Nil) @ (0::(4::(7::(Nil))))))) = SUCC (SUCC (SUCC (len (((Nil) @ (7::(Nil)))))))
-SUCC (len (((Nil) @ (6::(3::(7::(Nil))))))) = SUCC (SUCC (SUCC (len (((Nil) @ (7::(Nil)))))))
-Simplifying took 0.000739 seconds
-Result : true
-advanced_generalize done
+=================================================
+Progress: 26
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
-any_list1 : any list
-any3 : any
-any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
-Inductive1 : any_list1 = (any3::any_list2)
-any1 : any
-any2 : any
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+
 ---------------------------------------
-SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
 
 0 goal(s) more...
 
 2 conjecture(s) more...
-=================================================
-Progress: 20
+>>> induction any_list1(rank : 8.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
 any_list1 : any list
-any3 : any
-any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
-Inductive1 : any_list1 = (any3::any_list2)
-any1 : any
-any2 : any
+Base1 : any_list1 = (Nil)
 ---------------------------------------
-SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
+forall (any1:any) (any_list2:any list), SUCC (len (((Nil) @ (any1::any_list2)))) = SUCC (SUCC (len (((Nil) @ any_list2))))
 
-0 goal(s) more...
+1 goal(s) more...
 
 2 conjecture(s) more...
->>> assert forall (any1:any) (any2:any) (any_list2:any list) (arg2:any list), SUCC (len ((any_list2 @ (any1::(any2::arg2))))) = SUCC (SUCC (SUCC (len ((any_list2 @ arg2)))))(rank : 0)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-
----------------------------------------
-forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
 Tactic List : 1
-induction any_list1(rank:10)
+reflexivity(rank:7.)
 =================================================
-Progress: 21
+Progress: 27
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-
----------------------------------------
-forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> induction any_list1(rank : 10)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
 any_list1 : any list
 Base1 : any_list1 = (Nil)
 ---------------------------------------
-forall (any1:any) (any2:any) (any_list2:any list), SUCC (len (((Nil) @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len (((Nil) @ any_list2)))))
+forall (any1:any) (any_list2:any list), SUCC (len (((Nil) @ (any1::any_list2)))) = SUCC (SUCC (len (((Nil) @ any_list2))))
 
 1 goal(s) more...
 
-3 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:9)
-=================================================
-Progress: 22
+2 conjecture(s) more...
+>>> reflexivity(rank : 7.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
 any_list1 : any list
-Base1 : any_list1 = (Nil)
----------------------------------------
-forall (any1:any) (any2:any) (any_list2:any list), SUCC (len (((Nil) @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len (((Nil) @ any_list2)))))
-
-1 goal(s) more...
-
-3 conjecture(s) more...
->>> reflexivity(rank : 9)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
+any2 : any
 any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
 ---------------------------------------
-forall (any1:any) (any2:any) (any_list2:any list), SUCC (len (((any3::any_list3) @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len (((any3::any_list3) @ any_list2)))))
+forall (any1:any) (any_list2:any list), SUCC (len (((any2::any_list3) @ (any1::any_list2)))) = SUCC (SUCC (len (((any2::any_list3) @ any_list2))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 28
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+---------------------------------------
+forall (any1:any) (any_list2:any list), SUCC (len (((any2::any_list3) @ (any1::any_list2)))) = SUCC (SUCC (len (((any2::any_list3) @ any_list2))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+---------------------------------------
+forall (any1:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 3
+intro any1(rank:7.)
+intro any_list2(rank:7.)
+rewrite IH1 in goal at 0(rank:15.)
+=================================================
+Progress: 29
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+---------------------------------------
+forall (any1:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro any1(rank : 7.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+any1 : any
+---------------------------------------
+forall (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+intro any_list2(rank:7.)
+rewrite IH1 in goal at 0(rank:15.)
+=================================================
+Progress: 30
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+---------------------------------------
+forall (any1:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro any_list2(rank : 7.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+any_list2 : any list
+---------------------------------------
+forall (any1:any), SUCC (SUCC (len ((any_list3 @ (any1::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:7.)
+=================================================
+Progress: 31
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+any1 : any
+---------------------------------------
+forall (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro any_list2(rank : 7.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+any1 : any
+any_list2 : any list
+---------------------------------------
+SUCC (SUCC (len ((any_list3 @ (any1::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:7.)
+=================================================
+Progress: 32
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+any_list2 : any list
+---------------------------------------
+forall (any1:any), SUCC (SUCC (len ((any_list3 @ (any1::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 7.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+any_list2 : any list
+---------------------------------------
+forall (any1:any), SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:5.)
+=================================================
+Progress: 33
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+any_list1 : any list
+any2 : any
+any_list3 : any list
+IH1 : forall (any1:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list3 @ any_list2))))
+Inductive1 : any_list1 = (any2::any_list3)
+any_list2 : any list
+---------------------------------------
+forall (any1:any), SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> reflexivity(rank : 5.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any_list2 @ any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (len ((any_list2 @ (any2::any_list2)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+original goal
+forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+lemma
+forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+tactics
+assert forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+induction any_list1
+reflexivity
+simpl in goal
+intro any_list2
+rewrite IH1 in goal at 0
+reflexivity
+Deduplication: 3
+Tactic List : 3
+rewrite lemma3 in goal at 1(rank:13.)
+rewrite IH1 in goal at 0(rank:21.)
+rewrite lemma3 in goal at 0(rank:21.)
+=================================================
+Progress: 34
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> induction any_list1(rank : 10.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any), len (((Nil) @ (any1::(any2::(any3::(Nil)))))) = SUCC (SUCC (SUCC (double (len ((Nil))))))
+
+1 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:9.)
+=================================================
+Progress: 35
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any), len (((Nil) @ (any1::(any2::(any3::(Nil)))))) = SUCC (SUCC (SUCC (double (len ((Nil))))))
+
+1 goal(s) more...
+
+3 conjecture(s) more...
+>>> reflexivity(rank : 9.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any), len (((any4::any_list2) @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (double (len ((any4::any_list2))))))
 
 0 goal(s) more...
 
 3 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:9)
+simpl in goal(rank:9.)
 =================================================
-Progress: 23
+Progress: 36
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
 any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
 ---------------------------------------
-forall (any1:any) (any2:any) (any_list2:any list), SUCC (len (((any3::any_list3) @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len (((any3::any_list3) @ any_list2)))))
+forall (any1:any) (any2:any) (any3:any), len (((any4::any_list2) @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (double (len ((any4::any_list2))))))
 
 0 goal(s) more...
 
 3 conjecture(s) more...
->>> simpl in goal(rank : 9)
+>>> simpl in goal(rank : 9.)
 
 
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
 any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
 ---------------------------------------
-forall (any1:any) (any2:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 4
-intro any1(rank:9)
-intro any2(rank:9)
-intro any_list2(rank:9)
-rewrite IH1 in goal at 0(rank:17)
-=================================================
-Progress: 24
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
----------------------------------------
-forall (any1:any) (any2:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro any1(rank : 9)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any1 : any
----------------------------------------
-forall (any2:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
+forall (any1:any) (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
 
 0 goal(s) more...
 
 3 conjecture(s) more...
 Tactic List : 3
-intro any2(rank:9)
-intro any_list2(rank:9)
-rewrite IH1 in goal at 0(rank:17)
-=================================================
-Progress: 25
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
----------------------------------------
-forall (any1:any) (any2:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro any2(rank : 9)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any2 : any
----------------------------------------
-forall (any1:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 2
-intro any_list2(rank:9)
-rewrite IH1 in goal at 0(rank:17)
-=================================================
-Progress: 26
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
----------------------------------------
-forall (any1:any) (any2:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro any_list2(rank : 9)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any_list2 : any list
----------------------------------------
-forall (any1:any) (any2:any), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:9)
-=================================================
-Progress: 27
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any1 : any
----------------------------------------
-forall (any2:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro any2(rank : 9)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any1 : any
-any2 : any
----------------------------------------
-forall (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 2
-intro any_list2(rank:9)
-rewrite IH1 in goal at 0(rank:17)
-=================================================
-Progress: 28
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any1 : any
----------------------------------------
-forall (any2:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro any_list2(rank : 9)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any1 : any
-any_list2 : any list
----------------------------------------
-forall (any2:any), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:9)
-=================================================
-Progress: 29
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any2 : any
----------------------------------------
-forall (any1:any) (any_list2:any list), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro any_list2(rank : 9)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any2 : any
-any_list2 : any list
----------------------------------------
-forall (any1:any), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:9)
-=================================================
-Progress: 30
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any_list2 : any list
----------------------------------------
-forall (any1:any) (any2:any), SUCC (SUCC (len ((any_list3 @ (any1::(any2::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 9)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any_list2 : any list
----------------------------------------
-forall (any1:any) (any2:any), SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:7)
-=================================================
-Progress: 31
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
-any_list1 : any list
-any3 : any
-any_list3 : any list
-IH1 : forall (any1:any) (any2:any) (any_list2:any list), SUCC (len ((any_list3 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))
-Inductive1 : any_list1 = (any3::any_list3)
-any_list2 : any list
----------------------------------------
-forall (any1:any) (any2:any), SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2)))))) = SUCC (SUCC (SUCC (SUCC (len ((any_list3 @ any_list2))))))
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> reflexivity(rank : 7)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
-any_list1 : any list
-any3 : any
-any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
-Inductive1 : any_list1 = (any3::any_list2)
-any2 : any
----------------------------------------
-forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Deduplication: 7
-Tactic List : 2
-intro any1(rank:7)
-rewrite lemma3 in goal at 0(rank:15)
-=================================================
-Progress: 32
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
-any_list1 : any list
-any3 : any
-any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
-Inductive1 : any_list1 = (any3::any_list2)
-any2 : any
----------------------------------------
-forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro any1(rank : 7)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
-any_list1 : any list
-any3 : any
-any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
-Inductive1 : any_list1 = (any3::any_list2)
-any2 : any
-any1 : any
----------------------------------------
-SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-rewrite lemma3 in goal at 0(rank:7)
-=================================================
-Progress: 33
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
-any_list1 : any list
-any3 : any
-any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
-Inductive1 : any_list1 = (any3::any_list2)
-any2 : any
-any1 : any
----------------------------------------
-SUCC (len ((any_list2 @ (any1::(any2::(any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> rewrite lemma3 in goal at 0(rank : 7)
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
-any_list1 : any list
-any3 : any
-any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
-Inductive1 : any_list1 = (any3::any_list2)
-any2 : any
-any1 : any
----------------------------------------
-SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:5)
-=================================================
-Progress: 34
-
-
-1st goal of : forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
-any_list1 : any list
-any3 : any
-any_list2 : any list
-IH1 : forall (any1:any) (any2:any), len ((any_list2 @ (any1::(any2::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
-Inductive1 : any_list1 = (any3::any_list2)
-any2 : any
-any1 : any
----------------------------------------
-SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2)))))) = SUCC (SUCC (SUCC (len ((any_list2 @ (any3::any_list2))))))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> reflexivity(rank : 5)
-
-
-1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any_list2 @ any_list2)))
-Inductive1 : any_list1 = (any2::any_list2)
-any1 : any
----------------------------------------
-SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list2 @ any_list2)))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Deduplication: 2
-Tactic List : 1
-rewrite lemma3 in goal at 0(rank:5)
-=================================================
-Progress: 35
-
-
-1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any_list2 @ any_list2)))
-Inductive1 : any_list1 = (any2::any_list2)
-any1 : any
----------------------------------------
-SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list2 @ any_list2)))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite lemma3 in goal at 0(rank : 5)
-
-
-1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any_list2 @ any_list2)))
-Inductive1 : any_list1 = (any2::any_list2)
-any1 : any
----------------------------------------
-SUCC (SUCC (SUCC (len ((any_list2 @ any_list2))))) = SUCC (SUCC (SUCC (len ((any_list2 @ any_list2)))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:3)
-=================================================
-Progress: 36
-
-
-1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any_list2 @ any_list2)))
-Inductive1 : any_list1 = (any2::any_list2)
-any1 : any
----------------------------------------
-SUCC (SUCC (SUCC (len ((any_list2 @ any_list2))))) = SUCC (SUCC (SUCC (len ((any_list2 @ any_list2)))))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 3)
-
-
-1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : len ((any_list2 @ any_list2)) = double (len (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
----------------------------------------
-SUCC (len ((any_list2 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Deduplication: 1
-Tactic List : 1
-rewrite lemma5 in goal at 0(rank:3)
+intro any1(rank:9.)
+intro any2(rank:9.)
+intro any3(rank:9.)
 =================================================
 Progress: 37
 
 
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro any1(rank : 9.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any1 : any
+---------------------------------------
+forall (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 2
+intro any2(rank:9.)
+intro any3(rank:9.)
+=================================================
+Progress: 38
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro any2(rank : 9.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any2 : any
+---------------------------------------
+forall (any1:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro any3(rank:9.)
+=================================================
+Progress: 39
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro any3(rank : 9.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any3 : any
+---------------------------------------
+forall (any1:any) (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any3
+validate generalize_common_subterm_goal
+Lemma List
+forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+End of Lemma List
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any3 : any
+---------------------------------------
+forall (any1:any) (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+=================================================
+Progress: 40
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any3 : any
+---------------------------------------
+forall (any1:any) (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> assert forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))(rank : 0.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:12.)
+=================================================
+Progress: 41
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any1 : any
+---------------------------------------
+forall (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro any2(rank : 9.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any1 : any
+any2 : any
+---------------------------------------
+forall (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro any3(rank:9.)
+=================================================
+Progress: 42
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any1 : any
+---------------------------------------
+forall (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro any3(rank : 9.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any1 : any
+any3 : any
+---------------------------------------
+forall (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+intro any3
+validate generalize_common_subterm_goal
+=================================================
+Progress: 43
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any2 : any
+---------------------------------------
+forall (any1:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro any3(rank : 9.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any2 : any
+any3 : any
+---------------------------------------
+forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any2
+intro any3
+validate generalize_common_subterm_goal
+=================================================
+Progress: 44
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any1 : any
+any2 : any
+---------------------------------------
+forall (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro any3(rank : 9.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::any_list1))))) = SUCC (SUCC (SUCC (double (len (any_list1)))))
+any_list1 : any list
+any4 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any), len ((any_list2 @ (any1::(any2::(any3::any_list2))))) = SUCC (SUCC (SUCC (double (len (any_list2)))))
+Inductive1 : any_list1 = (any4::any_list2)
+any1 : any
+any2 : any
+any3 : any
+---------------------------------------
+SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2)))))))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+intro any2
+intro any3
+validate generalize_common_subterm_goal
+=================================================
+Progress: 45
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> induction any_list1(rank : 12.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any), len (((Nil) @ (any1::(any2::(any3::(any4::(Nil))))))) = SUCC (SUCC (SUCC (SUCC (double (len ((Nil)))))))
+
+1 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:11.)
+=================================================
+Progress: 46
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any), len (((Nil) @ (any1::(any2::(any3::(any4::(Nil))))))) = SUCC (SUCC (SUCC (SUCC (double (len ((Nil)))))))
+
+1 goal(s) more...
+
+4 conjecture(s) more...
+>>> reflexivity(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any), len (((any5::any_list2) @ (any1::(any2::(any3::(any4::(any5::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (double (len ((any5::any_list2)))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:11.)
+=================================================
+Progress: 47
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any), len (((any5::any_list2) @ (any1::(any2::(any3::(any4::(any5::any_list2))))))) = SUCC (SUCC (SUCC (SUCC (double (len ((any5::any_list2)))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> simpl in goal(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 4
+intro any1(rank:11.)
+intro any2(rank:11.)
+intro any3(rank:11.)
+intro any4(rank:11.)
+=================================================
+Progress: 48
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any1(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+---------------------------------------
+forall (any2:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 3
+intro any2(rank:11.)
+intro any3(rank:11.)
+intro any4(rank:11.)
+=================================================
+Progress: 49
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any2(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any2 : any
+---------------------------------------
+forall (any1:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 2
+intro any3(rank:11.)
+intro any4(rank:11.)
+=================================================
+Progress: 50
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any3(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any3 : any
+---------------------------------------
+forall (any1:any) (any2:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+intro any4(rank:11.)
+=================================================
+Progress: 51
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any4(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any4 : any
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any4
+validate generalize_common_subterm_goal
+Lemma List
+forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::(any5::any_list1))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list1)))))))
+End of Lemma List
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any4 : any
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+=================================================
+Progress: 52
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any4 : any
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> assert forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::(any5::any_list1))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list1)))))))(rank : 0.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::(any5::any_list1))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list1)))))))
+
+---------------------------------------
+forall (any1:any) (any2:any) (any3:any) (any4:any) (any5:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::(any5::any_list1))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list1)))))))
+
+0 goal(s) more...
+
+5 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:14.)
+=================================================
+Progress: 53
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+---------------------------------------
+forall (any2:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any2(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any2 : any
+---------------------------------------
+forall (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 2
+intro any3(rank:11.)
+intro any4(rank:11.)
+=================================================
+Progress: 54
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+---------------------------------------
+forall (any2:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any3(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any3 : any
+---------------------------------------
+forall (any2:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+intro any4(rank:11.)
+=================================================
+Progress: 55
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+---------------------------------------
+forall (any2:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any4(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any4 : any
+---------------------------------------
+forall (any2:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+intro any4
+validate generalize_common_subterm_goal
+=================================================
+Progress: 56
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any2 : any
+---------------------------------------
+forall (any1:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any3(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any2 : any
+any3 : any
+---------------------------------------
+forall (any1:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+intro any4(rank:11.)
+=================================================
+Progress: 57
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any2 : any
+---------------------------------------
+forall (any1:any) (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any4(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any2 : any
+any4 : any
+---------------------------------------
+forall (any1:any) (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any2
+intro any4
+validate generalize_common_subterm_goal
+=================================================
+Progress: 58
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any3 : any
+---------------------------------------
+forall (any1:any) (any2:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any4(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any3 : any
+any4 : any
+---------------------------------------
+forall (any1:any) (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any3
+intro any4
+validate generalize_common_subterm_goal
+=================================================
+Progress: 59
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any2 : any
+---------------------------------------
+forall (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any3(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any2 : any
+any3 : any
+---------------------------------------
+forall (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+intro any4(rank:11.)
+=================================================
+Progress: 60
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any2 : any
+---------------------------------------
+forall (any3:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any4(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any2 : any
+any4 : any
+---------------------------------------
+forall (any3:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+intro any2
+intro any4
+validate generalize_common_subterm_goal
+=================================================
+Progress: 61
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any3 : any
+---------------------------------------
+forall (any2:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any4(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any3 : any
+any4 : any
+---------------------------------------
+forall (any2:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+intro any3
+intro any4
+validate generalize_common_subterm_goal
+=================================================
+Progress: 62
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any2 : any
+any3 : any
+---------------------------------------
+forall (any1:any) (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any4(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any2 : any
+any3 : any
+any4 : any
+---------------------------------------
+forall (any1:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any2
+intro any3
+intro any4
+validate generalize_common_subterm_goal
+=================================================
+Progress: 63
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any2 : any
+any3 : any
+---------------------------------------
+forall (any4:any), SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any4(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any2:any) (any3:any) (any4:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::(any3::(any4::any_list1)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list1))))))
+any_list1 : any list
+any5 : any
+any_list2 : any list
+IH1 : forall (any1:any) (any2:any) (any3:any) (any4:any), len ((any_list2 @ (any1::(any2::(any3::(any4::any_list2)))))) = SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))
+Inductive1 : any_list1 = (any5::any_list2)
+any1 : any
+any2 : any
+any3 : any
+any4 : any
+---------------------------------------
+SUCC (len ((any_list2 @ (any1::(any2::(any3::(any4::(any5::any_list2)))))))) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (double (len (any_list2))))))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+intro any2
+intro any3
+intro any4
+validate generalize_common_subterm_goal
+=================================================
+Progress: 64
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any_list2 @ any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+SUCC (len ((any_list2 @ (any1::(any2::any_list2))))) = SUCC (SUCC (len ((any_list2 @ (any2::any_list2)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite lemma3 in goal at 1(rank : 13.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any_list2 @ any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+SUCC (SUCC (len ((any_list2 @ (any2::any_list2))))) = SUCC (SUCC (len ((any_list2 @ (any2::any_list2)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:3.)
+=================================================
+Progress: 65
+
+
+1st goal of : forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), len ((any_list2 @ (any1::any_list2))) = SUCC (len ((any_list2 @ any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+SUCC (SUCC (len ((any_list2 @ (any2::any_list2))))) = SUCC (SUCC (len ((any_list2 @ (any2::any_list2)))))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 3.)
+
+
 1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
 any_list1 : any list
 any1 : any
@@ -1343,7 +2360,45 @@ SUCC (len ((any_list2 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> rewrite lemma5 in goal at 0(rank : 3)
+original goal
+forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
+lemma
+forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+tactics
+assert forall (any1:any) (any_list1:any list), len ((any_list1 @ (any1::any_list1))) = SUCC (len ((any_list1 @ any_list1)))
+induction any_list1
+reflexivity
+simpl in goal
+intro any1
+assert forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
+induction any_list1
+reflexivity
+simpl in goal
+intro any_list2
+rewrite IH1 in goal at 0
+reflexivity
+rewrite lemma3 in goal at 1
+reflexivity
+Deduplication: 3
+Tactic List : 1
+rewrite lemma3 in goal at 0(rank:3.)
+=================================================
+Progress: 66
+
+
+1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : len ((any_list2 @ any_list2)) = double (len (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+SUCC (len ((any_list2 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_list2))))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite lemma3 in goal at 0(rank : 3.)
 
 
 1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
@@ -1359,9 +2414,9 @@ SUCC (SUCC (len ((any_list2 @ any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_
 
 0 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:0)
+reflexivity(rank:0.)
 =================================================
-Progress: 38
+Progress: 67
 
 
 1st goal of : forall (any_list1:any list), len ((any_list1 @ any_list1)) = double (len (any_list1))
@@ -1376,7 +2431,7 @@ SUCC (SUCC (len ((any_list2 @ any_list2)))) = SUCC (SUCC (len ((any_list2 @ any_
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> reflexivity(rank : 0)
+>>> reflexivity(rank : 0.)
 
 
 No conjecture
@@ -1392,25 +2447,16 @@ induction any_list1
 reflexivity
 simpl in goal
 intro any1
-rewrite IH1 in goal at 0
-assert forall (any1:any) (any2:any) (any_list1:any list), len ((any_list1 @ (any1::(any2::any_list1)))) = SUCC (SUCC (len ((any_list1 @ any_list1))))
-induction any_list1
-reflexivity
-simpl in goal
-intro any2
-assert forall (any1:any) (any2:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::(any2::any_list2))))) = SUCC (SUCC (SUCC (len ((any_list1 @ any_list2)))))
+assert forall (any1:any) (any_list1:any list) (any_list2:any list), SUCC (len ((any_list1 @ (any1::any_list2)))) = SUCC (SUCC (len ((any_list1 @ any_list2))))
 induction any_list1
 reflexivity
 simpl in goal
 intro any_list2
 rewrite IH1 in goal at 0
 reflexivity
-intro any1
-rewrite lemma3 in goal at 0
+rewrite lemma3 in goal at 1
 reflexivity
 rewrite lemma3 in goal at 0
-reflexivity
-rewrite lemma5 in goal at 0
 reflexivity
 Qed
 File "_none_", lines 88-90, characters 2-22:
