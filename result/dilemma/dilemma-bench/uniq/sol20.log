@@ -7,7 +7,7 @@ Progress: 1
 
 
 No conjecture
->>> assert forall (lst:int list), uniq_ta1 (lst) = uniq (lst)(rank : 0)
+>>> assert forall (lst:int list), uniq_ta1 (lst) = uniq (lst)(rank : 0.)
 
 
 1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
@@ -19,7 +19,7 @@ forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
 
 0 conjecture(s) more...
 Tactic List : 1
-induction int_list1(rank:4)
+induction int_list1(rank:4.)
 =================================================
 Progress: 2
 
@@ -32,7 +32,7 @@ forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> induction int_list1(rank : 4)
+>>> induction int_list1(rank : 4.)
 
 
 1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
@@ -45,7 +45,7 @@ uniq_ta1 ((Nil)) = uniq ((Nil))
 
 0 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:3)
+reflexivity(rank:3.)
 =================================================
 Progress: 3
 
@@ -59,7 +59,7 @@ uniq_ta1 ((Nil)) = uniq ((Nil))
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> reflexivity(rank : 3)
+>>> reflexivity(rank : 3.)
 
 
 1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
@@ -76,7 +76,7 @@ uniq_ta1 ((int1::int_list2)) = uniq ((int1::int_list2))
 0 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:3)
+simpl in goal(rank:3.)
 =================================================
 Progress: 4
 
@@ -93,7 +93,7 @@ uniq_ta1 ((int1::int_list2)) = uniq ((int1::int_list2))
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> simpl in goal(rank : 3)
+>>> simpl in goal(rank : 3.)
 
 
 1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
@@ -104,14 +104,14 @@ IH1 : uniq_ta1 (int_list2) = uniq (int_list2)
 Inductive1 : int_list1 = (int1::int_list2)
 ---------------------------------------
 (int1::remove_elem_ta1 (int1) (uniq_ta1 (int_list2))) = match (rev_aux ((int1::(Nil))) (int_list2)) with
-| Nil  -> (Nil)
+| Nil -> (Nil)
 | Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-rewrite IH1 in goal at 0(rank:3)
+rewrite IH1 in goal at 0(rank:3.)
 =================================================
 Progress: 5
 
@@ -124,13 +124,13 @@ IH1 : uniq_ta1 (int_list2) = uniq (int_list2)
 Inductive1 : int_list1 = (int1::int_list2)
 ---------------------------------------
 (int1::remove_elem_ta1 (int1) (uniq_ta1 (int_list2))) = match (rev_aux ((int1::(Nil))) (int_list2)) with
-| Nil  -> (Nil)
+| Nil -> (Nil)
 | Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 3)
+>>> rewrite IH1 in goal at 0(rank : 3.)
 
 
 1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
@@ -141,7 +141,7 @@ IH1 : uniq_ta1 (int_list2) = uniq (int_list2)
 Inductive1 : int_list1 = (int1::int_list2)
 ---------------------------------------
 (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = match (rev_aux ((int1::(Nil))) (int_list2)) with
-| Nil  -> (Nil)
+| Nil -> (Nil)
 | Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
 
 0 goal(s) more...
@@ -151,259 +151,13 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-New Env
-
-;;
-Lemma List
-forall (int1:int) (int_list2:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = match (rev_aux ((int1::(Nil))) (int_list2)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-End of Lemma List
-
-
-1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
-int_list1 : int list
-int1 : int
-int_list2 : int list
-IH1 : uniq_ta1 (int_list2) = uniq (int_list2)
-Inductive1 : int_list1 = (int1::int_list2)
----------------------------------------
-(int1::remove_elem_ta1 (int1) (uniq (int_list2))) = match (rev_aux ((int1::(Nil))) (int_list2)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-=================================================
-Progress: 6
-
-
-1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
-int_list1 : int list
-int1 : int
-int_list2 : int list
-IH1 : uniq_ta1 (int_list2) = uniq (int_list2)
-Inductive1 : int_list1 = (int1::int_list2)
----------------------------------------
-(int1::remove_elem_ta1 (int1) (uniq (int_list2))) = match (rev_aux ((int1::(Nil))) (int_list2)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (int1:int) (int_list2:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list2))) = match (rev_aux ((int1::(Nil))) (int_list2)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))(rank : 0)
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
----------------------------------------
-forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro int1(rank:5)
-=================================================
-Progress: 7
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
----------------------------------------
-forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro int1(rank : 5)
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-int1 : int
----------------------------------------
-forall (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro int_list1(rank:5)
-=================================================
-Progress: 8
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-int1 : int
----------------------------------------
-forall (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro int_list1(rank : 5)
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-int1 : int
-int_list1 : int list
----------------------------------------
-(int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 0
-New Env
-
-;;
-Lemma List
-forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-End of Lemma List
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-int1 : int
-int_list1 : int list
----------------------------------------
-(int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-=================================================
-Progress: 9
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-int1 : int
-int_list1 : int list
----------------------------------------
-(int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> assert forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))(rank : 0)
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
----------------------------------------
-forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro int1(rank:7)
-=================================================
-Progress: 10
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
----------------------------------------
-forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro int1(rank : 7)
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-int1 : int
----------------------------------------
-forall (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro int_list1(rank:7)
-=================================================
-Progress: 11
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-int1 : int
----------------------------------------
-forall (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro int_list1(rank : 7)
-
-
-1st goal of : forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-int1 : int
-int_list1 : int list
----------------------------------------
-(int1::remove_elem_ta1 (int1) (uniq (int_list1))) = match (rev_aux ((int1::(Nil))) (int_list1)) with
-| Nil  -> (Nil)
-| Cons hd tl -> if find (hd) (tl) then uniq (rev (tl)) else (uniq (rev (tl)) @ (hd::(Nil)))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
+validate generalize_common_subterm_goal
+asdf
+previous tactics
+simpl in goal
+validate generalize_common_subterm_goal
+asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 196, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

@@ -56,14 +56,38 @@ let get_fun_name decl =
 ;;
 
 let get_mk_index t =
-  List.fold_left
-    (fun acc decl ->
-       match decl with
-       | NonRec (name, _, _) | Rec (name, _, _) ->
-         if String.starts_with ~prefix:"mk_lhs" name then acc + 1 else acc
-       | _ -> acc)
-    0
-    t
+  let t = List.rev t in
+  let i, _ =
+    List.fold_left
+      (fun (i, is_done) decl ->
+         match is_done with
+         | true -> i, true
+         | false ->
+           (match decl with
+            | (Rec (name, _, _) | NonRec (name, _, _))
+              when String.starts_with ~prefix:"mk_" name ->
+              let i = String.sub name 6 (String.length name - 6) |> int_of_string in
+              i + 1, true
+            | _ -> i, false))
+      (0, false)
+      t
+  in
+  i
+;;
+
+let get_is_rec_list decl =
+  match decl with
+  | NonRec _ | Rec _ -> failwith "get_is_rec_list: input should be a type declaration"
+  | TypeDecl (name, _, typ_decl) ->
+    List.map
+      (fun (_, typ_list) ->
+         List.exists
+           (fun typ ->
+              match typ with
+              | Talgebraic (typ_name, _) -> name = typ_name
+              | _ -> false)
+           typ_list)
+      typ_decl
 ;;
 
 let rec collect_var_in_pat pat =
@@ -129,7 +153,7 @@ let rec expr_of_pattern pattern =
       , List.map (fun pattern -> { desc = expr_of_pattern pattern; typ = Tany }) patterns
       )
   | Pat_Var name -> Var name
-  | _ -> failwith "Not implemented"
+  | _ -> failwith "Not implemented : expr_of_pattern"
 ;;
 
 let char_of_ascii i = Char.chr i
@@ -144,7 +168,8 @@ let expr_of_string string =
       (fun c acc ->
          { desc =
              Call
-               ("Concat", [ { desc = expr_of_int c; typ = Talgebraic ("int", []) }; acc ])
+               ( "Concat"
+               , [ { desc = expr_of_int (c - 97); typ = Talgebraic ("int", []) }; acc ] )
          ; typ = Talgebraic ("string", [])
          })
       char_list
@@ -172,7 +197,7 @@ let rec pp_string expr =
   match expr.desc with
   | Call ("EmptyString", []) -> ""
   | Call ("Concat", [ ascii; tale ]) ->
-    let ascii = oint_of_int ascii in
+    let ascii = oint_of_int ascii + 97 in
     (char_of_ascii ascii |> Char.escaped) ^ pp_string tale
   | _ -> failwith "pp_string: not a string expression"
 ;;
@@ -229,6 +254,8 @@ and pp_expr expr =
        ^ ")"
      | "Concat" | "EmptyString" -> "\"" ^ pp_string expr ^ "\""
      | "Cons" | "Nil" -> "(" ^ pp_list expr ^ ")"
+     | "Pos" | "Zero" | "Neg" -> pp_int expr
+     | "S" | "Z" -> pp_nat expr
      | _ ->
        (match args with
         | [] -> name
@@ -245,7 +272,9 @@ and pp_case case =
 and pp_pattern pattern =
   match pattern with
   | Pat_Constr (name, patterns) ->
-    name ^ " " ^ String.concat " " (List.map pp_pattern patterns)
+    (match patterns with
+     | [] -> name
+     | _ -> name ^ " " ^ String.concat " " (List.map pp_pattern patterns))
   | Pat_Var name -> name
   | Pat_Expr expr -> pp_expr expr
   | Pat_Tuple patterns -> "(" ^ String.concat ", " (List.map pp_pattern patterns) ^ ")"
@@ -279,6 +308,26 @@ and pp_list expr =
     let tail_str = pp_expr tail in
     head_str ^ "::" ^ tail_str
   | _ -> failwith "pp_list: not a list expression"
+
+and pp_int expr =
+  match expr.desc with
+  | Call ("Zero", []) -> "0"
+  | Call ("Pos", [ n ]) -> pp_expr n
+  | Call ("Neg", [ n ]) -> "-" ^ pp_expr n
+  | _ -> failwith "pp_int: not an integer expression"
+
+and pp_nat expr =
+  match expr.desc with
+  | Call ("Z", []) -> "0"
+  | Call ("S", [ n ]) ->
+    if is_constant n then string_of_int (oint_of_nat n) else "S(" ^ pp_expr n ^ ")"
+  | _ -> failwith "pp_nat: not a natural number expression"
+
+and is_constant expr =
+  match expr.desc with
+  | Call ("Z", []) -> true
+  | Call ("S", [ n ]) -> is_constant n
+  | _ -> false
 ;;
 
 let var_of_typ typ =
@@ -331,10 +380,11 @@ and typ_of_ctype ctype =
   | Ttyp_any -> Tany
   | Ttyp_var _ -> Tany
   | Ttyp_constr (_, lident, lst) ->
-    Talgebraic (Longident.last lident.txt, List.map typ_of_ctype lst)
+    let typ_name = Longident.last lident.txt in
+    Talgebraic (typ_name, List.map typ_of_ctype lst)
   | Ttyp_tuple l ->
     failwith ("tuple" ^ string_of_int (List.length l) ^ " is not implemented")
-  | _ -> failwith "Not implemented"
+  | _ -> failwith "Not implemented : typ_of_ctype"
 
 and decl_of_item item : decl list =
   match item.Typedtree.str_desc with
@@ -357,11 +407,11 @@ and decl_of_item item : decl list =
                   let args_list =
                     match constr_decl.Typedtree.cd_args with
                     | Cstr_tuple args_list -> List.map typ_of_ctype args_list
-                    | _ -> failwith "Not implemented"
+                    | _ -> failwith "Not implemented : decl_of_item: no Cstr_tuple"
                   in
                   constr_name, args_list)
                constructor_list
-           | _ -> failwith "Not implemented")
+           | _ -> failwith "Not implemented : decl_of_item : no type_variant")
         typ_decls
     in
     let decl_list =
@@ -384,7 +434,7 @@ and decl_of_item item : decl list =
              match binding.Typedtree.vb_pat.pat_desc with
              | Tpat_var (name, _, _) -> Ident.name name
              | Tpat_alias (_, name, _, _) -> Ident.name name
-             | _ -> failwith "Not implemented"
+             | _ -> failwith "Not implemented : decl_of_item: no Tpat_var or Tpat_alias"
            in
            let args = get_args binding.Typedtree.vb_expr.exp_desc in
            let fun_body = get_fun_body binding.Typedtree.vb_expr.exp_desc in
@@ -396,21 +446,21 @@ and decl_of_item item : decl list =
        List.map (fun (fname, args, body) -> NonRec (fname, args, body)) fun_decl
      | Asttypes.Recursive ->
        List.map (fun (fname, args, body) -> Rec (fname, args, body)) fun_decl)
-  | _ -> failwith "Not implemented"
+  | _ -> failwith "Not implemented : decl_of_item : not a Tstr_type or Tstr_value"
 
 and get_args expr_desc =
   match expr_desc with
   | Texp_function (params, _) ->
     List.map (fun param -> Ident.name param.Typedtree.fp_param) params
-  | _ -> failwith "Not implemented"
+  | _ -> failwith "Not implemented : get_args"
 
 and get_fun_body expr_desc =
   match expr_desc with
   | Typedtree.Texp_function (_, body) ->
     (match body with
      | Tfunction_body expr -> get_expr expr
-     | _ -> failwith "Not implemented")
-  | _ -> failwith "Not implemented"
+     | _ -> failwith "Not implemented : get_fun_body : not a Tfunction_body")
+  | _ -> failwith "Not implemented : get_fun_body : not a Texp_function"
 
 and get_expr expr =
   let typ = get_type expr in
@@ -447,7 +497,7 @@ and get_expr expr =
       let fname =
         match (get_expr func).desc with
         | Var name -> name
-        | _ -> failwith "Not implemented"
+        | _ -> failwith "Not implemented : get_expr : not a Var"
       in
       let fname =
         match fname with
@@ -464,7 +514,7 @@ and get_expr expr =
           (fun (_, expr) ->
              match expr with
              | Some expr -> get_expr expr
-             | None -> failwith "Not implemented")
+             | None -> failwith "Not implemented : get_expr : no argument")
           args
       in
       Call (fname, args')
@@ -478,7 +528,7 @@ and get_expr expr =
            ( [ cond ]
            , [ Case (Pat_Constr ("true", []), e1); Case (Pat_Constr ("false", []), e2) ]
            )
-       | None -> failwith "Not implemented")
+       | None -> failwith "Not implemented : get_expr : no else branch")
     | Texp_tuple [ a; b ] ->
       let a' = get_expr a in
       let b' = get_expr b in
@@ -489,7 +539,7 @@ and get_expr expr =
        | Const_int i -> expr_of_int i
        | Const_char char -> expr_of_string (String.make 1 char)
        | Const_string (str, _, _) -> expr_of_string str
-       | _ -> failwith "Not implemented")
+       | _ -> failwith "Not implemented : get_expr : other constant is not implemented")
     | Texp_let (_, bindings, body) ->
       LetIn
         ( List.map
@@ -498,13 +548,13 @@ and get_expr expr =
                  match binding.Typedtree.vb_pat.pat_desc with
                  | Tpat_var (name, _, _) -> Ident.name name
                  | Tpat_alias (_, name, _, _) -> Ident.name name
-                 | _ -> failwith "Not implemented"
+                 | _ -> failwith "Not implemented : get_expr : no Tpat_var or Tpat_alias"
                in
                let var_body = get_expr binding.Typedtree.vb_expr in
                var_name, var_body)
             bindings
         , get_expr body )
-    | _ -> failwith "Not implemented"
+    | _ -> failwith "Not implemented : get_expr : other expression is not implemented"
   in
   { desc; typ }
 
@@ -525,7 +575,7 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
   | Tpat_var (name, _, _) -> Pat_Var (Ident.name name)
   | Tpat_tuple patterns -> Pat_Tuple (List.map get_pattern patterns)
   | Tpat_any -> Pat_any
-  | _ -> failwith "Not implemented"
+  | _ -> failwith "Not implemented : get_pattern : other pattern is not implemented"
 
 and get_type (expr : Typedtree.expression) =
   let rec pr_type type_expr =
@@ -554,7 +604,7 @@ and get_type (expr : Typedtree.expression) =
       let b' = b |> Types.get_desc |> pr_type in
       Talgebraic ("tuple2", [ a'; b' ])
     | Ttuple _ -> failwith "more than tuple2 is not implemented yet"
-    | _ -> failwith "Not implemented"
+    | _ -> failwith "Not implemented : get_type"
   in
   expr.exp_type |> Types.get_desc |> pr_type
 ;;
@@ -843,7 +893,7 @@ let search_constr_type name t =
       (fun decl ->
          match decl with
          | TypeDecl (_, _, decl) -> is_in decl
-         | _ -> failwith "not implemented")
+         | _ -> failwith "not implemented : search_constr_type")
       typ_decl
   in
   match decl with
@@ -875,7 +925,7 @@ let rec pattern_of_parsetree pat =
   | Ppat_var name -> Pat_Var name.Location.txt
   | Ppat_tuple patterns -> Pat_Tuple (List.map pattern_of_parsetree patterns)
   | Ppat_any -> Pat_any
-  | _ -> failwith "Not implemented"
+  | _ -> failwith "Not implemented : pattern_of_parsetree"
 ;;
 
 let get_fun_arg_types binding name t =
@@ -1046,7 +1096,7 @@ let rename_decl decl =
            ( "arg_" ^ string_of_int (get_global_cnt ())
            , match get_type_in_expr arg body with
              | Some typ -> typ
-             | _ -> failwith "not implemented" ))
+             | _ -> failwith "Not implemented : rename_decl : no type found" ))
         args
     in
     let new_body =
@@ -1076,7 +1126,7 @@ let rename_decl decl =
            ( "arg_" ^ string_of_int (get_global_cnt ())
            , match get_type_in_expr arg body with
              | Some typ -> typ
-             | _ -> failwith "not implemented" ))
+             | _ -> failwith "Not implemented : rename_decl" ))
         args
     in
     let new_body =

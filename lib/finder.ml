@@ -1,6 +1,7 @@
 open Sexplib.Std
 
 type t = Proof.t
+type proof_node = Prover.proof_node
 type env = Proof.env
 type state = Proof.state
 type lemma_stack = Proof.lemma_stack
@@ -19,6 +20,12 @@ and sub_desc =
   | Sub_None of subtree list
 [@@deriving sexp]
 
+type generalize_type =
+  | Child
+  | Subterm
+  | Just
+  | Pattern
+
 let rec to_sub expr =
   match expr.Ir.desc with
   | Var name -> { desc = Some (Sub_Var name); typ = expr.typ }
@@ -26,6 +33,17 @@ let rec to_sub expr =
     let args = List.map to_sub args in
     { desc = Some (Sub_Call (name, args)); typ = expr.typ }
   | _ -> { desc = None; typ = Tany }
+;;
+
+let rec is_equal_subtree s1 s2 =
+  match s1.desc, s2.desc with
+  | Some (Sub_Var name1), Some (Sub_Var name2) -> name1 = name2
+  | Some (Sub_Call (name1, args1)), Some (Sub_Call (name2, args2)) ->
+    name1 = name2 && List.for_all2 is_equal_subtree args1 args2
+  | Some (Sub_None args1), Some (Sub_None args2) ->
+    List.for_all2 is_equal_subtree args1 args2
+  | None, None -> true
+  | _ -> false
 ;;
 
 let rec pp_subtree (subtree : subtree) : string =
@@ -41,14 +59,11 @@ let rec pp_subtree (subtree : subtree) : string =
 ;;
 
 let rec difference_of_subtree induction_vars subtree1 subtree2 =
-  (*
-     have to convert here!!!
-     have to fill with lower => None
-     have to fill with mk tl => Sub_None
-  *)
   match subtree2.desc with
   | Some (Sub_Call (name, args)) ->
-    if equal_with_induction_vars induction_vars subtree1 subtree2
+    if is_equal_subtree subtree1 subtree2
+    then { desc = Some (Sub_None []); typ = subtree2.typ }
+    else if equal_with_induction_vars induction_vars subtree1 subtree2
     then convert subtree1 subtree2
     else (
       let new_args =
@@ -56,11 +71,13 @@ let rec difference_of_subtree induction_vars subtree1 subtree2 =
       in
       { desc = Some (Sub_Call (name, new_args)); typ = subtree2.typ })
   | Some (Sub_Var _) ->
-    if subtree1 = subtree2
+    if is_equal_subtree subtree1 subtree2
     then { desc = Some (Sub_None []); typ = subtree2.typ }
     else subtree2
   | Some (Sub_None args) ->
-    if equal_with_induction_vars induction_vars subtree1 subtree2
+    if is_equal_subtree subtree1 subtree2
+    then { desc = Some (Sub_None []); typ = subtree2.typ }
+    else if equal_with_induction_vars induction_vars subtree1 subtree2
     then convert subtree1 subtree2
     else (
       let new_args =
@@ -84,12 +101,12 @@ and equal_with_induction_vars induction_vars subtree1 subtree2 =
     name1 = name2
     || (List.exists (fun var -> var |> to_sub = subtree1) induction_vars
         && List.exists (fun var -> var |> to_sub = subtree2) induction_vars)
-  | _ -> subtree1 = subtree2
+  | _ -> is_equal_subtree subtree1 subtree2
 
 and convert subtree1 subtree2 =
   match subtree1.desc, subtree2.desc with
   | Some (Sub_Call (_, args1)), Some (Sub_Call (_, args2)) ->
-    if subtree1 = subtree2
+    if is_equal_subtree subtree1 subtree2
     then { desc = Some (Sub_None []); typ = subtree2.typ }
     else if List.exists (fun arg -> arg.desc = None) args1
     then (
@@ -104,10 +121,7 @@ and convert subtree1 subtree2 =
   | Some (Sub_Var _), Some (Sub_Var _) ->
     { desc = Some (Sub_None []); typ = subtree2.typ }
   | _, None -> subtree2
-  | _ ->
-    let _ = subtree1 |> pp_subtree |> print_endline in
-    let _ = subtree2 |> pp_subtree |> print_endline in
-    failwith "not implemented: convert"
+  | _ -> failwith "not implemented: convert"
 ;;
 
 let find_common_subterm expr1 expr2 : expr list =
@@ -465,10 +479,11 @@ let is_proper_subset subtree1 subtree2 =
   let rec is_proper_subset subtree1 subtree2 =
     match subtree2.desc with
     | Some (Sub_Call (_, args)) ->
-      subtree1 = subtree2 || List.exists (fun arg -> is_proper_subset subtree1 arg) args
-    | _ -> subtree1 = subtree2
+      is_equal_subtree subtree1 subtree2
+      || List.exists (fun arg -> is_proper_subset subtree1 arg) args
+    | _ -> is_equal_subtree subtree1 subtree2
   in
-  if subtree1 = subtree2 then false else is_proper_subset subtree1 subtree2
+  if is_equal_subtree subtree1 subtree2 then false else is_proper_subset subtree1 subtree2
 ;;
 
 let rec is_strict_large subtree1 subtree2 =
@@ -478,7 +493,7 @@ let rec is_strict_large subtree1 subtree2 =
       (name1 = name2 && List.for_all2 is_matched args1 args2)
       || List.exists (fun arg -> is_matched subtree1 arg) args2
     | None, _ -> true
-    | _, _ -> subtree1 = subtree2
+    | _, _ -> is_equal_subtree subtree1 subtree2
   in
   (* here *)
   match subtree1.desc, subtree2.desc with
@@ -800,7 +815,7 @@ let decl_of_subtree_difference fun_name base_case subtree_differnce =
   let increase_typ = collect_free_var_in_subtree (List.hd subtree_differnce) [] in
   let increase_typ =
     match increase_typ with
-    | [] -> base_case.typ
+    | [] -> Ir.Talgebraic ("unit", [])
     | (_, typ) :: _ ->
       (match typ with
        | Proof.Type typ -> typ
@@ -830,12 +845,16 @@ let decl_of_subtree_difference fun_name base_case subtree_differnce =
       (List.hd subtree_differnce)
   in
   let inductive_pattern =
-    Ir.Case (Pat_Constr ("Cons", [ Pat_Var "hd"; Pat_Var "tl" ]), inductive_expr)
+    match increase_typ with
+    | Ir.Talgebraic ("unit", []) ->
+      Ir.Case
+        (Pat_Constr ("Cons", [ Pat_Constr ("Unit", []); Pat_Var "tl" ]), inductive_expr)
+    | _ -> Ir.Case (Pat_Constr ("Cons", [ Pat_Var "hd"; Pat_Var "tl" ]), inductive_expr)
   in
   let fun_body =
     Ir.
       { desc = Match ([ increase_arg ], [ base_pattern; inductive_pattern ])
-      ; typ = Ir.Tany
+      ; typ = inductive_expr.typ
       }
   in
   Ir.Rec (fun_name, "lst" :: base_case_var, fun_body)
@@ -974,7 +993,11 @@ let make_helper_function_and_lemma
         (List.nth common_subtree 1)
         (List.nth expr_list 1 |> subtree_of_expr)
     in
-    let typ = base_case.typ in
+    let typ =
+      match helper_decl with
+      | Ir.Rec (_, _, body) -> Ir.get_type_in_expr "lst" body |> Option.get
+      | _ -> failwith "not implemented"
+    in
     let lst = Ir.{ desc = Var "lst"; typ } in
     let expr = fill_subtreewith_expr head lst in
     [], [], expr
@@ -1064,11 +1087,18 @@ let pattern_recognition env ih induction_vars state_list : env * lemma list =
     | Some rhs -> rhs :: rhs_list
     | None -> rhs_list
   in
-  let lhs_common_subtree, lhs_base = catch_recursive_pattern induction_vars lhs_list in
-  let rhs_common_subtree, rhs_base = catch_recursive_pattern induction_vars rhs_list in
+  let lhs_common_subtree, lhs_base =
+    try catch_recursive_pattern induction_vars lhs_list with
+    | _ -> [], { desc = None; typ = Ir.Tany }
+  in
+  let rhs_common_subtree, rhs_base =
+    try catch_recursive_pattern induction_vars rhs_list with
+    | _ -> [], { desc = None; typ = Ir.Tany }
+  in
   if
     List.length lhs_common_subtree <> List.length rhs_common_subtree
     || List.is_empty lhs_common_subtree
+    || List.is_empty rhs_common_subtree
   then [], []
   else (
     let range = Proof.range 0 (List.length lhs_common_subtree - 1) in
@@ -1179,24 +1209,40 @@ let rec generalize_common_subterm goal =
           0
           false
       in
-      (* if
-        List.exists
-          (fun (name, typ) ->
-             match typ with
-             | Proof.Type typ -> Proof.is_contained Ir.{ desc = Var name; typ } new_goal
-             | _ -> false)
-          free_vars
-      then goal
-      else *)
       generalize_common_subterm new_goal))
 ;;
 
-let naive_generalize t =
+let rec get_child_pair lhs rhs =
+  match lhs.Ir.desc, rhs.Ir.desc with
+  | Call (name1, [ arg1 ]), Call (name2, [ arg2 ]) when name1 = name2 ->
+    let child_pair = get_child_pair arg1 arg2 in
+    child_pair
+  | _ when Ir.is_equal_expr lhs rhs -> []
+  | _ -> [ lhs, rhs ]
+;;
+
+let generalize_child goal : lemma list =
+  let lhs = Proof.get_lhs goal in
+  let rhs = Proof.get_rhs goal in
+  let child_pairs = get_child_pair lhs rhs in
+  List.map (fun (lhs, rhs) -> Proof.Eq (lhs, rhs)) child_pairs
+;;
+
+let make_goal_no_free_var facts goal =
+  let goal = if List.is_empty facts then goal else Proof.Imply (facts, goal) in
+  let goal =
+    let qvars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
+    Proof.Forall (qvars, goal)
+  in
+  goal
+;;
+
+let naive_generalize t : lemma list * generalize_type =
   let state = Proof.get_first_state t in
   let facts, goal, _ = state in
   let vars = collect_free_var_in_prop goal [] |> List.sort_uniq compare in
   if List.is_empty vars
-  then None
+  then [], Just
   else (
     let facts = filtering_concerned_fact facts goal in
     let facts = List.map snd facts in
@@ -1207,18 +1253,34 @@ let naive_generalize t =
       | _ -> goal
     in
     let generalize_common_subterm = generalize_common_subterm goal in
-    let generalize_common_subterm =
-      if List.is_empty facts
-      then generalize_common_subterm
-      else Proof.Imply (facts, generalize_common_subterm)
-    in
-    let generalize_common_subterm_goal =
-      let qvars =
-        collect_free_var_in_prop generalize_common_subterm [] |> List.sort_uniq compare
+    let is_changed = goal <> generalize_common_subterm in
+    let no_fact_goal = make_goal_no_free_var [] generalize_common_subterm in
+    match is_changed && Validate.validate t.env no_fact_goal with
+    | true -> [ no_fact_goal ], Subterm
+    | false ->
+      let generalize_common_subterm_goal =
+        make_goal_no_free_var facts generalize_common_subterm
       in
-      Some (Proof.Forall (qvars, generalize_common_subterm))
-    in
-    generalize_common_subterm_goal)
+      let _ = print_endline "validate generalize_common_subterm_goal" in
+      (match is_changed && Validate.validate t.env generalize_common_subterm_goal with
+       | true -> [ generalize_common_subterm_goal ], Subterm
+       | false ->
+         let generalize_child_goals = generalize_child goal in
+         let is_changed = goal <> List.hd generalize_child_goals in
+         let generalize_child_goals =
+           List.map (make_goal_no_free_var facts) generalize_child_goals
+         in
+         (match
+            is_changed && List.for_all (Validate.validate t.env) generalize_child_goals
+          with
+          | true -> generalize_child_goals, Child
+          | false ->
+            let just_generalize_goal = make_goal_no_free_var facts goal in
+            (match Validate.validate t.env just_generalize_goal with
+             | true -> [ just_generalize_goal ], Just
+             | false ->
+               let _ = print_endline "asdf" in
+               [], Just))))
 ;;
 
 let rec is_trivial goal =
@@ -1265,8 +1327,10 @@ let get_induction_var (state : state) =
   induction_var
 ;;
 
-let advanced_generalize t : (t * lemma list) option =
-  let first_state = Proof.get_first_state t in
+let advanced_generalize (t : proof_node)
+  : (proof_node * lemma list * generalize_type) option
+  =
+  let first_state = Proof.get_first_state t.t in
   let facts, goal, _ = first_state in
   match is_trivial goal with
   | true -> None
@@ -1276,73 +1340,129 @@ let advanced_generalize t : (t * lemma list) option =
         (fun (name, _) -> String.starts_with ~prefix:"IH" name)
         (List.rev facts)
     in
-    let state_list = fast_execution 2 t in
+    let state_list = fast_execution 2 t.t in
     (match state_list with
      | [] ->
-       (match naive_generalize t with
-        | Some lemma -> Some (t, [ lemma ])
-        | _ -> None)
+       let lemmas, generalize_type = naive_generalize t.t in
+       (match lemmas with
+        | [] -> None
+        | _ -> Some (t, lemmas, generalize_type))
      | _ ->
        let induction_vars = List.map get_induction_var state_list in
-       let new_env, lemma_list = pattern_recognition t.env ih induction_vars state_list in
+       let new_env, lemma_list =
+         pattern_recognition t.t.env ih induction_vars state_list
+       in
        let new_env = List.map Ir.rename_decl new_env in
        if List.is_empty lemma_list
        then (
-         match naive_generalize t with
-         | Some lemma -> Some (t, [ lemma ])
-         | _ -> None)
+         let lemmas, generalize_type = naive_generalize t.t in
+         match lemmas with
+         | [] -> None
+         | _ -> Some (t, lemmas, generalize_type))
        else (
          let new_t =
            List.fold_left
-             (fun acc decl -> Proof.apply_tactic acc (Proof.Define decl))
+             (fun acc decl -> Prover.just_apply_tactic acc (Proof.Define decl))
              t
              new_env
          in
-         Some (new_t, lemma_list)))
+         Some (new_t, lemma_list, Pattern)))
 ;;
 
-let make_lemmas_by_advanced_generalize (t : t) lemma_set : (t * lemma list) option =
-  let t_lemma = advanced_generalize t in
-  let original_goal = Proof.get_conj_list t |> List.hd |> snd in
-  let t_lemma =
-    match t_lemma with
-    | Some (new_t, lemmas) ->
-      if
-        List.for_all
-          (fun lemma ->
-             Prover.LemmaSet.exists
-               (fun (goal', lemma', _) -> original_goal = goal' && lemma = lemma')
-               lemma_set)
-          lemmas
-        && not (List.is_empty lemmas)
-      then None
-      else if
-        List.for_all
-          (fun lemma ->
-             Prover.LemmaSet.exists
-               (fun (_, lemma', tactic) -> lemma = lemma' && not (List.is_empty tactic))
-               lemma_set)
-          lemmas
-        && not (List.is_empty lemmas)
-      then (
-        let pre_lemmas =
-          List.map
-            (fun lemma ->
-               List.find
-                 (fun (_, lemma', tactic) -> lemma = lemma' && not (List.is_empty tactic))
-                 (lemma_set |> Prover.LemmaSet.to_list))
-            lemmas
-        in
-        let new_t =
-          List.fold_left
-            (fun acc (_, _, tactic) ->
-               List.fold_left (fun acc tactic -> Proof.apply_tactic acc tactic) acc tactic)
-            new_t
-            pre_lemmas
-        in
-        Some (new_t, []))
-      else t_lemma
-    | None -> None
+let find_lemma (states : proof_node list) lemma_set : (proof_node * lemma list) list =
+  let t_lemmas_list =
+    List.fold_left
+      (fun acc t ->
+         match advanced_generalize t with
+         | Some t_lemma -> t_lemma :: acc
+         | None -> acc)
+      []
+      states
   in
-  t_lemma
+  let pattern_lemmas, subterm_lemmas, child_lemmas, just_lemmas =
+    List.fold_left
+      (fun (p_acc, s_acc, c_acc, j_acc) (t, lemmas, generalize_type) ->
+         match generalize_type with
+         | Pattern -> (t, lemmas) :: p_acc, s_acc, c_acc, j_acc
+         | Subterm -> p_acc, (t, lemmas) :: s_acc, c_acc, j_acc
+         | Child -> p_acc, s_acc, (t, lemmas) :: c_acc, j_acc
+         | Just -> p_acc, s_acc, c_acc, (t, lemmas) :: j_acc)
+      ([], [], [], [])
+      t_lemmas_list
+  in
+  let original_goal = Proof.get_conj_list (List.hd states).t |> List.hd |> snd in
+  let t_lemmas_list =
+    match pattern_lemmas with
+    | [] ->
+      (match subterm_lemmas with
+       | [] ->
+         (match child_lemmas with
+          | [] -> just_lemmas
+          | _ -> child_lemmas)
+       | _ -> subterm_lemmas)
+    | hd :: _ -> [ hd ]
+  in
+  let t_lemmas_list =
+    List.map
+      (fun (t, lemmas) -> t, List.map Proof.make_lemma_consistent lemmas)
+      t_lemmas_list
+  in
+  let t_lemmas_list =
+    List.fold_left
+      (fun acc ((new_t : proof_node), lemmas) ->
+         if
+           List.for_all
+             (fun lemma ->
+                let lemma = Proof.make_lemma_consistent lemma in
+                Prover.LemmaSet.exists
+                  (fun lemmaelt ->
+                     original_goal = lemmaelt.original_goal && lemma = lemmaelt.lemma)
+                  lemma_set)
+             lemmas
+           && not (List.is_empty lemmas)
+         then acc
+         else if
+           List.for_all
+             (fun lemma ->
+                Prover.LemmaSet.exists
+                  (fun lemmaelt ->
+                     lemma = lemmaelt.lemma && not (List.is_empty lemmaelt.tactics))
+                  lemma_set)
+             lemmas
+           && not (List.is_empty lemmas)
+         then (
+           let pre_lemmas =
+             List.map
+               (fun lemma ->
+                  List.find
+                    (fun lemmaelt ->
+                       lemma = lemmaelt.Prover.lemma
+                       && not (List.is_empty lemmaelt.tactics))
+                    (lemma_set |> Prover.LemmaSet.to_list))
+               lemmas
+           in
+           let new_t =
+             List.fold_left
+               (fun (acc : Prover.proof_node) lemmaelt ->
+                  let _ = print_endline "t is here" in
+                  let _ = Proof.pp_t acc.Prover.t |> print_endline in
+                  let _ = print_endline "duplicated tactic" in
+                  let _ =
+                    List.iter
+                      (fun tactic -> print_endline (Proof.pp_tactic tactic))
+                      lemmaelt.Prover.tactics
+                  in
+                  List.fold_left
+                    (fun acc tactic -> Prover.just_apply_tactic acc tactic)
+                    acc
+                    lemmaelt.Prover.tactics)
+               new_t
+               pre_lemmas
+           in
+           (new_t, []) :: acc)
+         else (new_t, lemmas) :: acc)
+      []
+      t_lemmas_list
+  in
+  t_lemmas_list
 ;;
