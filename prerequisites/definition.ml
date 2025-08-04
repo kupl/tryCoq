@@ -22,6 +22,8 @@ type string =
   | Concat of int * string
 
 type ('a, 'b) tuple2 = Tuple2 of 'a * 'b
+type ('a, 'b, 'c) tuple3 = Tuple3 of 'a * 'b * 'c
+type ('a, 'b, 'c, 'd) tuple4 = Tuple4 of 'a * 'b * 'c * 'd
 
 let rec natural_eq n1 n2 =
   match n1, n2 with

@@ -475,7 +475,7 @@ and get_expr expr =
       let cases' =
         List.map
           (fun case ->
-             let pattern = get_pattern case.Typedtree.c_lhs in
+             let pattern = get_pattern case.Typedtree.c_lhs expr in
              Case (pattern, case.Typedtree.c_rhs |> get_expr))
           cases
       in
@@ -558,10 +558,10 @@ and get_expr expr =
   in
   { desc; typ }
 
-and get_pattern : type k. k Typedtree.general_pattern -> pattern =
-  fun pattern ->
+and get_pattern : type k. k Typedtree.general_pattern -> Typedtree.expression -> pattern =
+  fun pattern expr ->
   match pattern.pat_desc with
-  | Tpat_value p -> (p :> Typedtree.pattern) |> get_pattern
+  | Tpat_value p -> get_pattern (p :> Typedtree.pattern) expr
   | Tpat_construct (lident_loc, _, args, _) ->
     let name = Longident.last lident_loc.txt in
     let name =
@@ -570,10 +570,19 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
       | "[]" -> "Nil"
       | _ -> name
     in
-    let args' = List.map (fun arg -> get_pattern arg) args in
+    let args' = List.map (fun arg -> get_pattern arg expr) args in
     Pat_Constr (name, args')
   | Tpat_var (name, _, _) -> Pat_Var (Ident.name name)
-  | Tpat_tuple patterns -> Pat_Tuple (List.map get_pattern patterns)
+  | Tpat_tuple patterns ->
+    (match expr.exp_desc with
+     | Texp_tuple _ ->
+       Pat_Tuple (List.map (fun pattern -> get_pattern pattern expr) patterns)
+     | _ ->
+       let args = List.map (fun pattern -> get_pattern pattern expr) patterns in
+       let arg_len = List.length args in
+       if arg_len > 4
+       then failwith ("tuple" ^ string_of_int arg_len ^ " is not implemented")
+       else Pat_Constr ("tuple" ^ string_of_int arg_len, args))
   | Tpat_any -> Pat_any
   | _ -> failwith "Not implemented : get_pattern : other pattern is not implemented"
 
