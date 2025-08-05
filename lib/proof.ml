@@ -1478,6 +1478,24 @@ let rec get_case_match env expr_list pat =
            l
        in
        result, ambiguity
+     | Ir.Pat_Constr (constr, pat_list) when String.starts_with ~prefix:"tuple" constr ->
+       let result, ambiguity, _ =
+         List.fold_left2
+           (fun (acc, ambiguity, is_done) e p ->
+              if is_done || ambiguity
+              then [], ambiguity, true
+              else (
+                let next, new_ambiguity = get_case_match env [ e ] p in
+                if new_ambiguity
+                then [], true, true
+                else if next = []
+                then [], false, true
+                else acc @ next, false, false))
+           ([], false, false)
+           expr_list
+           pat_list
+       in
+       result, ambiguity
      | _ -> failwith "pattern matching is ill-formed")
 ;;
 
@@ -2240,7 +2258,8 @@ let parse_tactic (t : t) src =
         []
         facts
     in
-    Case (parse_expr binding (String.concat " " args) env)
+    let expr = parse_expr binding (String.concat " " args) env in
+    Case expr
   | "assert" ->
     let assertion = parse_prop (String.concat " " args) [] env in
     Assert assertion

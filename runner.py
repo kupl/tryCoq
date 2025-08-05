@@ -108,6 +108,41 @@ def run_dilemma(benchmark_name):
                     if e.stderr:                            
                         f.write(f"An error occurred while running Dilemma on benchmark {benchmark_name}: {e}")
                         f.write(e.stderr.decode("utf-8"))
+    elif benchmark_name == 'optimization':
+        for problem in dir_list:
+            output_dir = os.path.join(result_path,problem)
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir, exist_ok=True)
+            file_list = os.listdir(os.path.join(file_path, problem))
+            input_file = os.path.join(file_path, problem, [i for i in file_list if i.endswith('input')][0])
+            with open(input_file, 'r') as f:
+                assertion = f.read()
+            rest_programs = [i for i in file_list if  i.endswith('.ml')]
+            for program in rest_programs:
+                base, _ = os.path.splitext(program)
+                output_path_by_problem = os.path.join(output_dir, base + '.log')
+                program = os.path.join(file_path, problem, program)
+                input_text = '\n'.join([program, program, assertion]) + '\n'
+                print(f"Here is input text: {input_text}")
+                try:
+                    result = subprocess.run(['dune', 'exec', 'dilemma'],input=input_text,text=True,timeout=TIMEOUT,capture_output=True)
+                    with open(output_path_by_problem,"w") as f:
+                        f.write(result.stdout)
+                        f.write(result.stderr)
+                except subprocess.TimeoutExpired as e:
+                    with open(output_path_by_problem, "w") as f:
+                        if e.stdout:
+                            f.write(e.stdout.decode("utf-8"))
+                        if e.stderr:                            
+                            f.write(f"Dilemma timed out for benchmark {benchmark_name} with problem {problem}.")
+                            f.write(e.stderr.decode("utf-8"))
+                except Exception as e:
+                    with open(output_path_by_problem, "w") as f:
+                        if e.stdout:
+                                f.write(e.stdout.decode("utf-8"))
+                        if e.stderr:                            
+                            f.write(f"An error occurred while running Dilemma on benchmark {benchmark_name}: {e}")
+                            f.write(e.stderr.decode("utf-8"))
     else:
         print(f"Benchmark {benchmark_name} is not supported for Dilemma.")
         return

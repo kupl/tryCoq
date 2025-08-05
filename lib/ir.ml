@@ -532,7 +532,7 @@ and get_expr expr =
     | Texp_tuple [ a; b ] ->
       let a' = get_expr a in
       let b' = get_expr b in
-      Call ("tuple2", [ a'; b' ])
+      Call ("Tuple2", [ a'; b' ])
     | Texp_tuple _ -> failwith "more than tuple2 are not implemented"
     | Texp_constant constant ->
       (match constant with
@@ -582,7 +582,7 @@ and get_pattern : type k. k Typedtree.general_pattern -> Typedtree.expression ->
        let arg_len = List.length args in
        if arg_len > 4
        then failwith ("tuple" ^ string_of_int arg_len ^ " is not implemented")
-       else Pat_Constr ("tuple" ^ string_of_int arg_len, args))
+       else Pat_Constr ("Tuple" ^ string_of_int arg_len, args))
   | Tpat_any -> Pat_any
   | _ -> failwith "Not implemented : get_pattern : other pattern is not implemented"
 
