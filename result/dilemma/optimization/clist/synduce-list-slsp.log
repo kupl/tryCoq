@@ -2,15 +2,154 @@ Enter the definition file path (1/2) :
 > Enter the definition file path (2/2) : 
 > Choose the proof type :
 1) Interactive Mode 	 2) Auto Mode
-Enter the goal : Fatal error: exception Failure("more than tuple2 is not implemented yet")
+Enter the goal : =================================================
+Progress: 1
+
+
+No conjecture
+>>> assert forall (lst:clist), main (lst) = mainNew (lst)(rank : 0.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+
+---------------------------------------
+forall (clist1:clist), main (clist1) = mainNew (clist1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:3.)
+=================================================
+Progress: 2
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+
+---------------------------------------
+forall (clist1:clist), main (clist1) = mainNew (clist1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+
+---------------------------------------
+forall (clist1:clist), match (tf4 (tf2 (clist1))) with
+| Tuple2 a _ -> a = match (tf6 (clist1)) with
+| Tuple4 a _ _ _ -> a
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+intro clist1(rank:3.)
+=================================================
+Progress: 3
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+
+---------------------------------------
+forall (clist1:clist), match (tf4 (tf2 (clist1))) with
+| Tuple2 a _ -> a = match (tf6 (clist1)) with
+| Tuple4 a _ _ _ -> a
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> intro clist1(rank : 3.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+---------------------------------------
+match (tf4 (tf2 (clist1))) with
+| Tuple2 a _ -> a = match (tf6 (clist1)) with
+| Tuple4 a _ _ _ -> a
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 2
+case tf4 (tf2 (clist1))(rank:3.)
+case tf6 (clist1)(rank:3.)
+=================================================
+Progress: 4
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+---------------------------------------
+match (tf4 (tf2 (clist1))) with
+| Tuple2 a _ -> a = match (tf6 (clist1)) with
+| Tuple4 a _ _ _ -> a
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> case tf4 (tf2 (clist1))(rank : 3.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+Case1 : tf4 (tf2 (clist1)) = Tuple2 (nat1) (nat2)
+---------------------------------------
+nat1 = match (tf6 (clist1)) with
+| Tuple4 a _ _ _ -> a
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: ZERO = match (tf6 (Cat (Sglt (ZERO)) (ZERO) (Sglt (ZERO)))) with
+| Tuple4 a _ _ _ -> a
+Prop: ZERO = match (tf6 (Cat (Cat (Sglt (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO) (Cat (Sglt (ZERO)) (ZERO) (Sglt (ZERO)))) (ZERO) (Sglt (SUCC (ZERO))))) with
+| Tuple4 a _ _ _ -> a
+Prop: ZERO = match (tf6 (Cat (Cat (Sglt (ZERO)) (ZERO) (Cat (Cat (Sglt (ZERO)) (ZERO) (Sglt (ZERO))) (ZERO) (Sglt (ZERO)))) (ZERO) (Cat (Sglt (SUCC (ZERO))) (ZERO) (Sglt (ZERO))))) with
+| Tuple4 a _ _ _ -> a
+asdf
+=================================================
+Progress: 5
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+---------------------------------------
+match (tf4 (tf2 (clist1))) with
+| Tuple2 a _ -> a = match (tf6 (clist1)) with
+| Tuple4 a _ _ _ -> a
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> case tf6 (clist1)(rank : 3.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+Case1 : tf6 (clist1) = Tuple4 (nat1) (nat2) (nat3) (nat4)
+---------------------------------------
+match (tf4 (tf2 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: match (tf4 (tf2 (Sglt (ZERO)))) with
+| Tuple2 a _ -> a = SUCC (ZERO)
+Prop: match (tf4 (tf2 (Sglt (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a = SUCC (SUCC (SUCC (SUCC (ZERO))))
+Prop: match (tf4 (tf2 (Sglt (ZERO)))) with
+| Tuple2 a _ -> a = ZERO
+asdf
+Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Ir.get_expr in file "lib/ir.ml", line 466, characters 12-25
-Called from Dilemma__Ir.get_expr in file "lib/ir.ml", line 473, characters 17-28
-Called from Dilemma__Ir.decl_of_item.(fun) in file "lib/ir.ml", line 440, characters 26-73
-Called from Stdlib__List.map in file "list.ml", line 83, characters 15-19
-Called from Dilemma__Ir.decl_of_item in file "lib/ir.ml", lines 431-442, characters 6-16
-Called from Stdlib__List.map in file "list.ml", line 87, characters 15-19
-Called from Stdlib__List.map in file "list.ml", line 88, characters 14-21
-Called from Dilemma__Ir.t_of_typedtree in file "lib/ir.ml", line 375, characters 14-60
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 265, characters 18-48
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

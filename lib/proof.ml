@@ -1496,7 +1496,10 @@ let rec get_case_match env expr_list pat =
            pat_list
        in
        result, ambiguity
-     | _ -> failwith "pattern matching is ill-formed")
+     | _ ->
+       let _ = expr_list |> List.iter (fun e -> Printf.printf "%s\n" (Ir.pp_expr e)) in
+       let _ = Printf.printf "Pattern: %s\n" (Ir.pp_pattern pat) in
+       failwith "pattern matching is ill-formed")
 ;;
 
 let convert_in_simpl (target : expr) expr_from expr_to : expr * 'a list =

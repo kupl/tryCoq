@@ -475,7 +475,7 @@ and get_expr expr =
       let cases' =
         List.map
           (fun case ->
-             let pattern = get_pattern case.Typedtree.c_lhs expr in
+             let pattern = get_pattern case.Typedtree.c_lhs e1 in
              Case (pattern, case.Typedtree.c_rhs |> get_expr))
           cases
       in
@@ -529,11 +529,12 @@ and get_expr expr =
            , [ Case (Pat_Constr ("true", []), e1); Case (Pat_Constr ("false", []), e2) ]
            )
        | None -> failwith "Not implemented : get_expr : no else branch")
-    | Texp_tuple [ a; b ] ->
-      let a' = get_expr a in
-      let b' = get_expr b in
-      Call ("Tuple2", [ a'; b' ])
-    | Texp_tuple _ -> failwith "more than tuple2 are not implemented"
+    | Texp_tuple l ->
+      let l = List.map get_expr l in
+      let len = List.length l in
+      if len > 4
+      then failwith ("tuple" ^ string_of_int len ^ " is not implemented")
+      else Call ("Tuple" ^ string_of_int len, l)
     | Texp_constant constant ->
       (match constant with
        | Const_int i -> expr_of_int i
@@ -608,11 +609,12 @@ and get_type (expr : Typedtree.expression) =
         | _ -> Tarrow [ arg_typ; e2' ]
       in
       new_typ
-    | Ttuple [ a; b ] ->
-      let a' = a |> Types.get_desc |> pr_type in
-      let b' = b |> Types.get_desc |> pr_type in
-      Talgebraic ("tuple2", [ a'; b' ])
-    | Ttuple _ -> failwith "more than tuple2 is not implemented yet"
+    | Ttuple l ->
+      let l = List.map (fun arg -> arg |> Types.get_desc |> pr_type) l in
+      let len = List.length l in
+      if len > 4
+      then failwith ("tuple" ^ string_of_int len ^ " is not implemented")
+      else Talgebraic ("tuple" ^ string_of_int (List.length l), l)
     | _ -> failwith "Not implemented : get_type"
   in
   expr.exp_type |> Types.get_desc |> pr_type

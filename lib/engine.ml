@@ -297,7 +297,6 @@ let proof_top definition axiom program_a program_b =
   let definition = definition |> Ir.t_of_typedtree in
   let program_a = program_a |> Ir.t_of_typedtree in
   let program_b = program_b |> Ir.t_of_typedtree in
-  let _ = Ir.pp_t program_a |> print_endline in
   let env = definition @ program_a @ program_b in
   let axiom = axiom |> axiom_to_prop env in
   let init_t = Proof.create_t env ~proof:(axiom, [], []) () in
