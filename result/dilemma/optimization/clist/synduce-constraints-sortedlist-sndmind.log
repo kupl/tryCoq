@@ -99,10 +99,10 @@ Tactic List : 0
 validate generalize_common_subterm_goal
 Prop: match (tf4 (tf2 (tf10 (Ctwo (SUCC (ZERO)) (ZERO))))) with
 | Tuple2 _ b -> b = tf12 (Ctwo (SUCC (ZERO)) (ZERO))
-Prop: match (tf4 (tf2 (tf10 (Ctwo (ZERO) (ZERO))))) with
-| Tuple2 _ b -> b = tf12 (Ctwo (ZERO) (ZERO))
-Prop: match (tf4 (tf2 (tf10 (Ctwo (ZERO) (SUCC (SUCC (SUCC (ZERO)))))))) with
-| Tuple2 _ b -> b = tf12 (Ctwo (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
+Prop: match (tf4 (tf2 (tf10 (Concats (Ctwo (ZERO) (SUCC (ZERO))) (Ctwo (ZERO) (SUCC (ZERO))))))) with
+| Tuple2 _ b -> b = tf12 (Concats (Ctwo (ZERO) (SUCC (ZERO))) (Ctwo (ZERO) (SUCC (ZERO))))
+Prop: match (tf4 (tf2 (tf10 (Concats (Ctwo (ZERO) (ZERO)) (Concats (Ctwo (SUCC (ZERO)) (ZERO)) (Ctwo (ZERO) (ZERO))))))) with
+| Tuple2 _ b -> b = tf12 (Concats (Ctwo (ZERO) (ZERO)) (Concats (Ctwo (SUCC (ZERO)) (ZERO)) (Ctwo (ZERO) (ZERO))))
 Lemma List
 forall (clist1:clist), tf9 (tf2 (clist1)) = true -> match (tf4 (tf2 (tf10 (clist1)))) with
 | Tuple2 _ b -> b = tf12 (clist1)
@@ -210,10 +210,10 @@ Tactic List : 0
 validate generalize_common_subterm_goal
 Prop: match (tf4 (tf2 (tf10 (Ctwo (SUCC (ZERO)) (SUCC (ZERO)))))) with
 | Tuple2 _ b -> b = tf12 (Ctwo (SUCC (ZERO)) (SUCC (ZERO)))
-Prop: match (tf4 (tf2 (tf10 (Ctwo (ZERO) (SUCC (ZERO)))))) with
-| Tuple2 _ b -> b = tf12 (Ctwo (ZERO) (SUCC (ZERO)))
-Prop: match (tf4 (tf2 (tf10 (Ctwo (ZERO) (ZERO))))) with
-| Tuple2 _ b -> b = tf12 (Ctwo (ZERO) (ZERO))
+Prop: match (tf4 (tf2 (tf10 (Ctwo (ZERO) (SUCC (SUCC (SUCC (ZERO)))))))) with
+| Tuple2 _ b -> b = tf12 (Ctwo (ZERO) (SUCC (SUCC (SUCC (ZERO)))))
+Prop: match (tf4 (tf2 (tf10 (Concats (Concats (Concats (Ctwo (ZERO) (SUCC (SUCC (ZERO)))) (Ctwo (SUCC (SUCC (ZERO))) (SUCC (ZERO)))) (Concats (Ctwo (ZERO) (ZERO)) (Ctwo (ZERO) (ZERO)))) (Ctwo (ZERO) (ZERO)))))) with
+| Tuple2 _ b -> b = tf12 (Concats (Concats (Concats (Ctwo (ZERO) (SUCC (SUCC (ZERO)))) (Ctwo (SUCC (SUCC (ZERO))) (SUCC (ZERO)))) (Concats (Ctwo (ZERO) (ZERO)) (Ctwo (ZERO) (ZERO)))) (Ctwo (ZERO) (ZERO)))
 Lemma List
 forall (clist1:clist), tf9 (tf2 (clist1)) = true -> match (tf4 (tf2 (tf10 (clist1)))) with
 | Tuple2 _ b -> b = tf12 (clist1)
@@ -321,3 +321,13 @@ match (tf4 (tf2 (tf10 (clist1)))) with
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
+Prop: match (tf4 (tf2 (tf10 (Ctwo (SUCC (SUCC (SUCC (ZERO)))) (ZERO))))) with
+| Tuple2 _ b -> b = tf12 (Ctwo (SUCC (SUCC (SUCC (ZERO)))) (ZERO))
+Prop: match (tf4 (tf2 (tf10 (Ctwo (ZERO) (SUCC (SUCC (ZERO))))))) with
+| Tuple2 _ b -> b = tf12 (Ctwo (ZERO) (SUCC (SUCC (ZERO))))
+Prop: match (tf4 (tf2 (tf10 (Concats (Ctwo (ZERO) (ZERO)) (Ctwo (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))))))) with
+| Tuple2 _ b -> b = tf12 (Concats (Ctwo (ZERO) (ZERO)) (Ctwo (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
+Fatal error: exception Failure("worklist is empty")
+Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

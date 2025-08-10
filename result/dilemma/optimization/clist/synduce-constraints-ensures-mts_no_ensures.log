@@ -106,11 +106,11 @@ nat1 = match (tf6 (clist1)) with
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: ZERO = match (tf6 (Cnil)) with
+Prop: ZERO = match (tf6 (ConCats (ConCats (ConCats (Cnil) (ConCats (ConCats (Single (ZERO)) (Single (ZERO))) (ConCats (ConCats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))) (Cnil)))) (Single (ZERO))) (Single (SUCC (SUCC (ZERO)))))) with
 | Tuple2 a _ -> a
-Prop: SUCC (SUCC (ZERO)) = match (tf6 (Single (ZERO))) with
+Prop: ZERO = match (tf6 (ConCats (ConCats (Cnil) (ConCats (Cnil) (Single (ZERO)))) (Cnil))) with
 | Tuple2 a _ -> a
-Prop: SUCC (SUCC (ZERO)) = match (tf6 (Cnil)) with
+Prop: SUCC (SUCC (ZERO)) = match (tf6 (ConCats (Cnil) (Cnil))) with
 | Tuple2 a _ -> a
 asdf
 =================================================
@@ -142,12 +142,160 @@ match (tf0 (tf4 (clist1))) with
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: match (tf0 (tf4 (ConCats (Single (ZERO)) (Cnil)))) with
-| Tuple2 a _ -> a = SUCC (ZERO)
-Prop: match (tf0 (tf4 (Single (ZERO)))) with
-| Tuple2 a _ -> a = SUCC (ZERO)
-Prop: match (tf0 (tf4 (ConCats (Single (ZERO)) (Cnil)))) with
+Prop: match (tf0 (tf4 (Cnil))) with
 | Tuple2 a _ -> a = ZERO
+Prop: match (tf0 (tf4 (Cnil))) with
+| Tuple2 a _ -> a = ZERO
+Prop: match (tf0 (tf4 (Single (ZERO)))) with
+| Tuple2 a _ -> a = ZERO
+Lemma List
+forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+End of Lemma List
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+Case1 : tf6 (clist1) = Tuple2 (nat1) (nat2)
+---------------------------------------
+match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 6
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+Case1 : tf6 (clist1) = Tuple2 (nat1) (nat2)
+---------------------------------------
+match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1(rank : 0.)
+
+
+1st goal of : forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+---------------------------------------
+forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+intro clist1(rank:5.)
+intro nat1(rank:5.)
+=================================================
+Progress: 7
+
+
+1st goal of : forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+---------------------------------------
+forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist1(rank : 5.)
+
+
+1st goal of : forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+clist1 : clist
+---------------------------------------
+forall (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:5.)
+=================================================
+Progress: 8
+
+
+1st goal of : forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+---------------------------------------
+forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro nat1(rank : 5.)
+
+
+1st goal of : forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+nat1 : nat
+---------------------------------------
+forall (clist1:clist), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: match (tf0 (tf4 (Cnil))) with
+| Tuple2 a _ -> a = ZERO
+Prop: match (tf0 (tf4 (Single (SUCC (ZERO))))) with
+| Tuple2 a _ -> a = ZERO
+Prop: match (tf0 (tf4 (Single (ZERO)))) with
+| Tuple2 a _ -> a = ZERO
+asdf
+=================================================
+Progress: 9
+
+
+1st goal of : forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+clist1 : clist
+---------------------------------------
+forall (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro nat1(rank : 5.)
+
+
+1st goal of : forall (clist1:clist) (nat1:nat), match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+clist1 : clist
+nat1 : nat
+---------------------------------------
+match (tf0 (tf4 (clist1))) with
+| Tuple2 a _ -> a = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: match (tf0 (tf4 (Cnil))) with
+| Tuple2 a _ -> a = ZERO
+Prop: match (tf0 (tf4 (ConCats (ConCats (Single (SUCC (ZERO))) (Cnil)) (Single (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a = ZERO
+Prop: match (tf0 (tf4 (Cnil))) with
+| Tuple2 a _ -> a = SUCC (ZERO)
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

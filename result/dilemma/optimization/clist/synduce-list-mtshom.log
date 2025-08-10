@@ -106,11 +106,11 @@ nat1 = match (tf6 (clist1)) with
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: ZERO = match (tf6 (Cnil)) with
+Prop: SUCC (ZERO) = match (tf6 (Cnil)) with
 | Tuple2 a _ -> a
-Prop: SUCC (ZERO) = match (tf6 (Single (ZERO))) with
+Prop: ZERO = match (tf6 (Concats (Single (SUCC (ZERO))) (Cnil))) with
 | Tuple2 a _ -> a
-Prop: ZERO = match (tf6 (Single (ZERO))) with
+Prop: SUCC (ZERO) = match (tf6 (Cnil)) with
 | Tuple2 a _ -> a
 asdf
 =================================================
@@ -142,12 +142,12 @@ match (tf0 (tf4 (clist1))) with
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: match (tf0 (tf4 (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Concats (Concats (Concats (Concats (Cnil) (Concats (Cnil) (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) (Cnil)) (Cnil)) (Single (ZERO)))))) with
+Prop: match (tf0 (tf4 (Single (ZERO)))) with
 | Tuple2 a _ -> a = ZERO
 Prop: match (tf0 (tf4 (Cnil))) with
 | Tuple2 a _ -> a = ZERO
-Prop: match (tf0 (tf4 (Single (ZERO)))) with
-| Tuple2 a _ -> a = ZERO
+Prop: match (tf0 (tf4 (Cnil))) with
+| Tuple2 a _ -> a = SUCC (ZERO)
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

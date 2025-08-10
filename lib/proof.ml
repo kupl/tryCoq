@@ -63,6 +63,11 @@ type debug_tactic =
   | AllTactic
 [@@deriving sexp]
 
+type ambiguity =
+  | Ok
+  | No
+  | Ambiguous
+
 let is_equal_fact (fact1 : fact) (fact2 : fact) =
   let name1, prop1 = fact1 in
   let name2, prop2 = fact2 in
@@ -1419,11 +1424,11 @@ let rec get_type_in_prop name prop =
   | Type typ -> Some typ
 ;;
 
-let rec get_case_match env expr_list pat =
+let rec get_case_match env expr_list pat : (expr * expr) list * ambiguity =
   match expr_list with
   | [ expr ] ->
     (match expr.Ir.desc, pat with
-     | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ], false
+     | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ], Ok
      (* we need to check type *)
      | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
        if constr = constr'
@@ -1433,73 +1438,67 @@ let rec get_case_match env expr_list pat =
            ( [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
                , Ir.{ desc = Call (constr, []); typ = expr.typ } )
              ]
-           , false )
+           , Ok )
          | _ ->
-           let result, ambiguity, _ =
+           let result, ambiguity =
              List.fold_left2
-               (fun (acc, ambiguity, is_done) e p ->
-                  if is_done || ambiguity
-                  then [], ambiguity, true
-                  else (
+               (fun (acc, ambiguity) e p ->
+                  match ambiguity with
+                  | No -> [], No
+                  | _ ->
                     let next, new_ambiguity = get_case_match env [ e ] p in
-                    if new_ambiguity
-                    then [], true, true
-                    else if next = []
-                    then [], false, true
-                    else acc @ next, false, false))
-               ([], false, false)
+                    (match new_ambiguity with
+                     | No -> [], No
+                     | Ok -> acc @ next, Ok
+                     | Ambiguous -> acc @ next, Ambiguous))
+               ([], Ok)
                arg_list
                pat_list
            in
            result, ambiguity)
        else if Ir.is_constructor constr env
-       then [], false
-       else [], true
-     | _, Pat_any -> [ Ir.{ desc = Var "dummy"; typ = expr.typ }, expr ], false
+       then [], No
+       else [], Ambiguous
+     | _, Pat_any -> [ Ir.{ desc = Var "dummy"; typ = expr.typ }, expr ], Ok
      (* any must return something *)
-     | _ -> [], true)
+     | _ -> [], Ambiguous)
   | _ ->
     (match pat with
      | Ir.Pat_Tuple l ->
-       let result, ambiguity, _ =
+       let result, ambiguity =
          List.fold_left2
-           (fun (acc, ambiguity, is_done) e p ->
-              if is_done || ambiguity
-              then [], ambiguity, true
-              else (
+           (fun (acc, ambiguity) e p ->
+              match ambiguity with
+              | No -> [], No
+              | _ ->
                 let next, new_ambiguity = get_case_match env [ e ] p in
-                if new_ambiguity
-                then [], true, true
-                else if next = []
-                then [], false, true
-                else acc @ next, false, false))
-           ([], false, false)
+                (match new_ambiguity with
+                 | No -> [], No
+                 | Ok -> acc @ next, Ok
+                 | Ambiguous -> acc @ next, Ambiguous))
+           ([], Ok)
            expr_list
            l
        in
        result, ambiguity
      | Ir.Pat_Constr (constr, pat_list) when String.starts_with ~prefix:"tuple" constr ->
-       let result, ambiguity, _ =
+       let result, ambiguity =
          List.fold_left2
-           (fun (acc, ambiguity, is_done) e p ->
-              if is_done || ambiguity
-              then [], ambiguity, true
-              else (
+           (fun (acc, ambiguity) e p ->
+              match ambiguity with
+              | No -> [], No
+              | _ ->
                 let next, new_ambiguity = get_case_match env [ e ] p in
-                if new_ambiguity
-                then [], true, true
-                else if next = []
-                then [], false, true
-                else acc @ next, false, false))
-           ([], false, false)
+                (match new_ambiguity with
+                 | No -> [], No
+                 | Ok -> acc @ next, Ok
+                 | Ambiguous -> acc @ next, Ambiguous))
+           ([], Ok)
            expr_list
            pat_list
        in
        result, ambiguity
-     | _ ->
-       let _ = expr_list |> List.iter (fun e -> Printf.printf "%s\n" (Ir.pp_expr e)) in
-       let _ = Printf.printf "Pattern: %s\n" (Ir.pp_pattern pat) in
-       failwith "pattern matching is ill-formed")
+     | _ -> failwith "pattern matching is ill-formed")
 ;;
 
 let convert_in_simpl (target : expr) expr_from expr_to : expr * 'a list =
@@ -1573,41 +1572,40 @@ let rec simplify_expr (env : Ir.t) expr =
     let match_list = List.map (simplify_expr env) match_list in
     let new_expr, _ =
       List.fold_left
-        (fun (acc, is_ambiguous) case ->
-           match acc with
-           | Some _ -> acc, is_ambiguous
-           | None ->
-             if is_ambiguous
-             then None, is_ambiguous
-             else (
-               match case with
-               | Ir.Case (pat, pat_body) ->
-                 let expr_match_list, is_ambiguous = get_case_match env match_list pat in
-                 if expr_match_list = []
-                 then None, is_ambiguous
-                 else if is_ambiguous
-                 then None, is_ambiguous
-                 else (
-                   let new_expr =
-                     List.fold_left
-                       (fun e (e1, e2) ->
-                          let exp, _, _ =
-                            substitute_expr_in_expr
-                              Ir.is_equal_expr_partrial_fun
-                              convert_in_simpl
-                              e
-                              e1
-                              e2
-                              0
-                              false
-                              []
-                          in
-                          exp)
-                       pat_body
-                       expr_match_list
-                   in
-                   Some new_expr, is_ambiguous)))
-        (None, false)
+        (fun (acc, ambiguity) case ->
+           match acc, ambiguity with
+           | Some _, _ -> acc, ambiguity
+           | None, Ambiguous -> None, ambiguity
+           | _ ->
+             (match case with
+              | Ir.Case (pat, pat_body) ->
+                let expr_match_list, ambiguity = get_case_match env match_list pat in
+                if expr_match_list = []
+                then None, ambiguity
+                else (
+                  match ambiguity with
+                  | Ambiguous -> None, ambiguity
+                  | _ ->
+                    let new_expr =
+                      List.fold_left
+                        (fun e (e1, e2) ->
+                           let exp, _, _ =
+                             substitute_expr_in_expr
+                               Ir.is_equal_expr_partrial_fun
+                               convert_in_simpl
+                               e
+                               e1
+                               e2
+                               0
+                               false
+                               []
+                           in
+                           exp)
+                        pat_body
+                        expr_match_list
+                    in
+                    Some new_expr, ambiguity)))
+        (None, Ok)
         cases
     in
     (match new_expr with
