@@ -145,9 +145,37 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+Prop: len (insort (0) ((Nil))) = SUCC (len ((Nil)))
+Prop: len (insort (0) ((1::(Nil)))) = SUCC (len ((1::(Nil))))
+Prop: len (insort (-0) ((Nil))) = SUCC (len ((Nil)))
 previous tactics
 simpl in goal
+parent
+insort (int1) (sort (int_list2))
+lower
+insort(_, sort(int_list2))
+upper
+len(_)
+remove upper
+sort(int_list2)
+remove lower
+sort(int_list2)
+remove upper
+insort(int1, sort(int_list2))
+remove lower
+insort(int1, sort(int_list2))
+remove upper
+insort(int1, insort(int2, sort(int_list3)))
+remove lower
+insort(int1, insort(int2, sort(int_list3)))
+remove upper
+insort(int1, insort(int2, insort(int3, sort(int_list4))))
+remove lower
+insort(int1, insort(int2, insort(int3, sort(int_list4))))
 validate generalize_common_subterm_goal
+Prop: len (insort (0) (sort ((0::(Nil))))) = SUCC (len ((0::(Nil))))
+Prop: len (insort (0) (sort ((0::(Nil))))) = SUCC (len ((0::(Nil))))
+Prop: len (insort (0) (sort ((Nil)))) = SUCC (len ((Nil)))
 Lemma List
 forall (any_list1:any list) (int1:int), len (insort (int1) (any_list1)) = SUCC (len (any_list1))
 End of Lemma List

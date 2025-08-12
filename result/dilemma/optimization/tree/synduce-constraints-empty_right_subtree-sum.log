@@ -238,9 +238,9 @@ plus(plus(targetNew(tree6), nat3), nat2)
 remove lower
 plus(plus(targetNew(_), nat3), nat2)
 validate generalize_common_subterm_goal
-Prop: plus (SUCC (SUCC (ZERO))) (plus (spec (target (Leaf (SUCC (SUCC (ZERO)))))) (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Node (ZERO) (Node (ZERO) (Tnil) (Tnil)) (Tnil)) (Tnil)) (Tnil))))) = plus (targetNew (Leaf (SUCC (SUCC (ZERO))))) (SUCC (SUCC (ZERO)))
-Prop: plus (ZERO) (plus (spec (target (Tnil))) (spec (Tnil))) = plus (targetNew (Tnil)) (ZERO)
-Prop: plus (ZERO) (plus (spec (target (Leaf (ZERO)))) (spec (Tnil))) = plus (targetNew (Leaf (ZERO))) (ZERO)
+Prop: plus (ZERO) (plus (spec (target (Tnil))) (spec (Node (ZERO) (Tnil) (Leaf (ZERO))))) = plus (targetNew (Tnil)) (ZERO)
+Prop: plus (SUCC (ZERO)) (plus (spec (target (Leaf (ZERO)))) (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) = plus (targetNew (Leaf (ZERO))) (SUCC (ZERO))
+Prop: plus (SUCC (ZERO)) (plus (spec (target (Leaf (ZERO)))) (spec (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))))) = plus (targetNew (Leaf (ZERO))) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 End of Lemma List
@@ -779,8 +779,8 @@ previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: ZERO = ZERO
-Prop: ZERO = ZERO
-Prop: ZERO = ZERO
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (ZERO) = ZERO
 Lemma List
 forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
 End of Lemma List
@@ -884,8 +884,8 @@ nat1 = ZERO
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: ZERO = ZERO
-Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (SUCC (ZERO)) = ZERO
+Prop: SUCC (SUCC (ZERO)) = ZERO
 Prop: ZERO = ZERO
 Lemma List
 forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
@@ -979,8 +979,8 @@ nat1 = ZERO
 Tactic List : 0
 validate generalize_common_subterm_goal
 Prop: ZERO = ZERO
-Prop: SUCC (ZERO) = ZERO
 Prop: ZERO = ZERO
+Prop: SUCC (ZERO) = ZERO
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69

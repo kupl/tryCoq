@@ -185,19 +185,112 @@ previous tactics
 simpl in goal
 case chk (int_list2) (int1)
 rewrite IH1 in goal at 0
-Fatal error: exception Failure("type not found : a")
-Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Stdlib__List.map in file "list.ml", line 86, characters 15-19
-Called from Dilemma__Validate.generator in file "lib/validate.ml", line 54, characters 27-85
-Called from Dilemma__Validate.validate.(fun) in file "lib/validate.ml", line 92, characters 34-52
-Called from Stdlib__List.map in file "list.ml", line 86, characters 15-19
-Called from Stdlib__List.init in file "list.ml", line 67, characters 13-20
-Called from Dilemma__Validate.validate in file "lib/validate.ml", lines 87-96, characters 4-11
-Called from Dilemma__Finder.naive_generalize in file "lib/finder.ml", line 1258, characters 24-60
-Called from Dilemma__Finder.advanced_generalize in file "lib/finder.ml", line 1346, characters 37-57
-Called from Dilemma__Finder.find_lemma.(fun) in file "lib/finder.ml", line 1376, characters 15-36
-Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
-Called from Dilemma__Finder.find_lemma in file "lib/finder.ml", lines 1374-1380, characters 4-12
-Called from Dilemma__Engine.progress in file "lib/engine.ml", line 219, characters 30-73
+Prop: (2::remove_elem_ta1 (2) ((Nil))) = (2::(Nil))
+Prop: (0::remove_elem_ta1 (0) ((Nil))) = (0::(Nil))
+Prop: (0::remove_elem_ta1 (0) ((Nil))) = (0::(Nil))
+previous tactics
+simpl in goal
+case chk (int_list2) (int1)
+parent
+(int1::remove_elem_ta1 (int1) (uniq_ta1 (int_list2)))
+lower
+Cons(_, remove_elem_ta1(int1, uniq_ta1(int_list2)))
+upper
+_
+remove upper
+uniq_ta1(int_list2)
+remove lower
+uniq_ta1(int_list2)
+remove upper
+Cons(int1, remove_elem_ta1(int1, uniq_ta1(int_list2)))
+remove lower
+Cons(int1, remove_elem_ta1(int1, uniq_ta1(int_list2)))
+remove upper
+Cons(int1, _)
+remove lower
+Cons(int1, _)
+remove upper
+Cons(int1, _)
+remove lower
+Cons(int1, _)
+parent
+(int1::uniq (int_list2))
+lower
+Cons(_, uniq(int_list2))
+upper
+_
+remove upper
+uniq(int_list2)
+remove lower
+uniq(int_list2)
+remove upper
+Cons(int1, uniq(int_list2))
+remove lower
+Cons(int1, uniq(int_list2))
+remove upper
+Cons(int1, _)
+remove lower
+Cons(int1, _)
+remove upper
+Cons(int1, _)
+remove lower
+Cons(int1, _)
+validate generalize_common_subterm_goal
+Prop: (0::remove_elem_ta1 (0) (uniq_ta1 ((Nil)))) = (0::uniq ((Nil)))
+Prop: (-0::remove_elem_ta1 (-0) (uniq_ta1 ((0::(Nil))))) = (-0::uniq ((0::(Nil))))
+Prop: (0::remove_elem_ta1 (0) (uniq_ta1 ((0::(Nil))))) = (0::uniq ((0::(Nil))))
+asdf
+Lemma List
+forall (a_list1:a list) (int1:int), (int1::remove_elem_ta1 (int1) (a_list1)) = (int1::a_list1)
+End of Lemma List
+
+
+1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
+int_list1 : int list
+int1 : int
+int_list2 : int list
+IH1 : uniq_ta1 (int_list2) = uniq (int_list2)
+Inductive1 : int_list1 = (int1::int_list2)
+Case1 : chk (int_list2) (int1) = true
+---------------------------------------
+(int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (int_list2))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 7
+
+
+1st goal of : forall (int_list1:int list), uniq_ta1 (int_list1) = uniq (int_list1)
+int_list1 : int list
+int1 : int
+int_list2 : int list
+IH1 : uniq_ta1 (int_list2) = uniq (int_list2)
+Inductive1 : int_list1 = (int1::int_list2)
+Case1 : chk (int_list2) (int1) = true
+---------------------------------------
+(int1::remove_elem_ta1 (int1) (uniq (int_list2))) = (int1::uniq (int_list2))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (a_list1:a list) (int1:int), (int1::remove_elem_ta1 (int1) (a_list1)) = (int1::a_list1)(rank : 0.)
+
+
+1st goal of : forall (a_list1:a list) (int1:int), (int1::remove_elem_ta1 (int1) (a_list1)) = (int1::a_list1)
+
+---------------------------------------
+forall (a_list1:a list) (int1:int), (int1::remove_elem_ta1 (int1) (a_list1)) = (int1::a_list1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Fatal error: exception Invalid_argument("option is None")
+Raised at Stdlib.invalid_arg in file "stdlib.ml", line 30, characters 20-45
+Called from Stdlib__Option.get in file "option.ml" (inlined), line 21, characters 41-69
+Called from Dilemma__Prover.rank_tactics in file "lib/prover.ml", line 1390, characters 32-67
+Called from Dilemma__Prover.prune_rank_worklist_update_state_list in file "lib/prover.ml", line 1421, characters 4-65
+Called from Dilemma__Engine.progress in file "lib/engine.ml", lines 198-202, characters 9-20
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

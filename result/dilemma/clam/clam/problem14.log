@@ -145,9 +145,37 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+Prop: sorted (insort (-0) ((0::(Nil)))) = sorted ((0::(Nil)))
+Prop: sorted (insort (-0) ((Nil))) = sorted ((Nil))
+Prop: sorted (insort (0) ((Nil))) = sorted ((Nil))
 previous tactics
 simpl in goal
+parent
+insort (int1) (sort (int_list2))
+lower
+insort(_, sort(int_list2))
+upper
+sorted(_)
+remove upper
+sort(int_list2)
+remove lower
+sort(int_list2)
+remove upper
+insort(int1, sort(int_list2))
+remove lower
+insort(int1, sort(int_list2))
+remove upper
+insort(int1, insort(int2, sort(int_list3)))
+remove lower
+insort(int1, insort(int2, sort(int_list3)))
+remove upper
+insort(int1, insort(int2, insort(int3, sort(int_list4))))
+remove lower
+insort(int1, insort(int2, insort(int3, sort(int_list4))))
 validate generalize_common_subterm_goal
+Prop: sorted (insort (0) (sort ((0::(Nil))))) = true
+Prop: sorted (insort (0) (sort ((0::(Nil))))) = true
+Prop: sorted (insort (0) (sort ((Nil)))) = true
 Lemma List
 forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
 End of Lemma List
@@ -598,6 +626,9 @@ case if match (any1, int1) with
 | (Neg n1', Pos n2') -> true then false else true
 reflexivity
 validate generalize_common_subterm_goal
+Prop: false = sorted ((3::(Nil)))
+Prop: false = sorted ((0::(Nil)))
+Prop: false = sorted ((4::(Nil)))
 asdf
 File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.

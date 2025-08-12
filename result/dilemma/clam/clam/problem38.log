@@ -304,7 +304,13 @@ case match (int2, int1) with
 | (Neg Z, Zero) -> true
 | (_, _) -> false
 rewrite <- IH1 in goal at 0
+Prop: count (0) (insort (-0) ((0::(7::(Nil))))) = SUCC (count (0) ((0::(7::(Nil)))))
+Prop: count (0) (insort (0) ((Nil))) = SUCC (count (0) ((Nil)))
+Prop: count (0) (insort (-0) ((Nil))) = SUCC (count (0) ((Nil)))
 validate generalize_common_subterm_goal
+Prop: count (0) (insort (0) ((5::(3::(Nil))))) = SUCC (count (0) ((5::(3::(Nil)))))
+Prop: count (0) (insort (-0) ((4::(Nil)))) = SUCC (count (0) ((4::(Nil))))
+Prop: count (0) (insort (0) ((Nil))) = SUCC (count (0) ((Nil)))
 previous tactics
 simpl in goal
 intro int1
@@ -318,6 +324,9 @@ case match (int2, int1) with
 | (Neg Z, Zero) -> true
 | (_, _) -> false
 validate generalize_common_subterm_goal
+Prop: count (0) (insort (-0) (sort ((0::(Nil))))) = SUCC (count (0) ((0::(Nil))))
+Prop: count (-0) (insort (-0) (sort ((Nil)))) = SUCC (count (-0) ((Nil)))
+Prop: count (0) (insort (0) (sort ((0::(Nil))))) = SUCC (count (0) ((0::(Nil))))
 Lemma List
 forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 | (Zero, Zero) -> true
@@ -2560,6 +2569,33 @@ case match (int2, any1) with
 | (Neg n1', Pos n2') -> true
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: if match (0, 0) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (0) ((2::(Nil)))) else count (0) ((2::(Nil))) = SUCC (if int_eq (2) (0) then SUCC (count (0) ((Nil))) else count (0) ((Nil)))
+Prop: if match (0, -0) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (-0) ((5::(2::(Nil))))) else count (-0) ((5::(2::(Nil)))) = SUCC (if int_eq (5) (-0) then SUCC (count (-0) ((2::(Nil)))) else count (-0) ((2::(Nil))))
+Prop: if match (0, -0) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (-0) ((0::(8::(5::(Nil)))))) else count (-0) ((0::(8::(5::(Nil))))) = SUCC (if int_eq (0) (-0) then SUCC (count (-0) ((8::(5::(Nil))))) else count (-0) ((8::(5::(Nil)))))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
@@ -2573,6 +2609,33 @@ case match (int2, any1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: if match (0, -0) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (-0) ((3::(4::(Nil))))) else count (-0) ((3::(4::(Nil)))) = SUCC (if int_eq (3) (-0) then count (-0) (insort (0) ((4::(Nil)))) else count (-0) ((4::(Nil))))
+Prop: if match (0, -0) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (-0) ((1::(Nil)))) else count (-0) ((1::(Nil))) = SUCC (if int_eq (1) (-0) then count (-0) (insort (0) ((Nil))) else count (-0) ((Nil)))
+Prop: if match (0, -0) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (-0) ((3::(Nil)))) else count (-0) ((3::(Nil))) = SUCC (if int_eq (3) (-0) then count (-0) (insort (0) ((Nil))) else count (-0) ((Nil)))
 Lemma List
 forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 | (Zero, Zero) -> true
@@ -8120,7 +8183,16 @@ rewrite Case1 in goal at 0
 reflexivity
 rewrite <- IH1 in goal at 0
 rewrite lemma3 in goal at 0
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
+Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
 validate generalize_common_subterm_goal
+Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (count (-0) (sort ((0::(Nil))))) = count (-0) (sort ((0::(Nil))))
+Prop: SUCC (count (0) (sort ((Nil)))) = count (0) (sort ((Nil)))
+Prop: SUCC (count (-0) (sort ((Nil)))) = count (-0) (sort ((Nil)))
 asdf
 previous tactics
 simpl in goal
@@ -8145,7 +8217,13 @@ reflexivity
 rewrite Case1 in goal at 0
 reflexivity
 rewrite <- IH1 in goal at 0
+Prop: count (-0) (insort (0) ((Nil))) = count (-0) ((Nil))
+Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
+Prop: count (0) (insort (0) ((7::(Nil)))) = count (0) ((7::(Nil)))
 validate generalize_common_subterm_goal
+Prop: count (0) (insort (-0) ((1::(Nil)))) = count (0) ((1::(Nil)))
+Prop: count (0) (insort (0) ((8::(Nil)))) = count (0) ((8::(Nil)))
+Prop: count (0) (insort (0) ((3::(Nil)))) = count (0) ((3::(Nil)))
 previous tactics
 simpl in goal
 case match (int2, any1) with
@@ -8169,6 +8247,9 @@ reflexivity
 rewrite Case1 in goal at 0
 reflexivity
 validate generalize_common_subterm_goal
+Prop: count (0) (insort (0) (sort ((-0::(Nil))))) = count (0) ((-0::(Nil)))
+Prop: count (0) (insort (0) (sort ((Nil)))) = count (0) ((Nil))
+Prop: count (0) (insort (0) (sort ((Nil)))) = count (0) ((Nil))
 Lemma List
 forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 | (Zero, Zero) -> true
@@ -8572,7 +8653,16 @@ rewrite Case1 in goal at 0
 reflexivity
 rewrite lemma3 in goal at 0
 rewrite IH1 in goal at 0
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
+Prop: SUCC (ZERO) = ZERO
 validate generalize_common_subterm_goal
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (count (0) ((Nil))) = count (0) ((Nil))
+Prop: SUCC (count (0) ((Nil))) = count (0) ((Nil))
+Prop: SUCC (count (0) ((Nil))) = count (0) ((Nil))
 asdf
 previous tactics
 simpl in goal
@@ -8598,6 +8688,9 @@ rewrite Case1 in goal at 0
 reflexivity
 rewrite lemma3 in goal at 0
 validate generalize_common_subterm_goal
+Prop: SUCC (count (0) (sort ((Nil)))) = count (0) ((Nil))
+Prop: SUCC (count (0) (sort ((Nil)))) = count (0) ((Nil))
+Prop: SUCC (count (0) (sort ((-1::(Nil))))) = count (0) ((-1::(Nil)))
 asdf
 previous tactics
 simpl in goal
@@ -8622,6 +8715,9 @@ reflexivity
 rewrite Case1 in goal at 0
 reflexivity
 validate generalize_common_subterm_goal
+Prop: count (-0) (insort (0) (sort ((Nil)))) = count (-0) ((Nil))
+Prop: count (-4) (insort (-0) (sort ((Nil)))) = count (-4) ((Nil))
+Prop: count (0) (insort (0) (sort ((0::(Nil))))) = count (0) ((0::(Nil)))
 Lemma List
 forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
 | (Zero, Zero) -> true
@@ -14495,7 +14591,16 @@ reflexivity
 rewrite IH1 in goal at 0
 reflexivity
 rewrite lemma3 in goal at 0
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
 validate generalize_common_subterm_goal
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (count (-0) (sort ((Nil)))) = count (-0) (sort ((Nil)))
+Prop: SUCC (count (0) (sort ((Nil)))) = count (0) (sort ((Nil)))
+Prop: SUCC (count (-0) (sort ((Nil)))) = count (-0) (sort ((Nil)))
 asdf
 previous tactics
 simpl in goal
@@ -14515,7 +14620,13 @@ rewrite IH1 in goal at 0
 reflexivity
 rewrite IH1 in goal at 0
 reflexivity
+Prop: count (0) (insort (-0) ((Nil))) = count (0) ((Nil))
+Prop: count (0) (insort (-0) ((Nil))) = count (0) ((Nil))
+Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
 validate generalize_common_subterm_goal
+Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
+Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
+Prop: count (0) (insort (-0) ((Nil))) = count (0) ((Nil))
 =================================================
 Progress: 150
 

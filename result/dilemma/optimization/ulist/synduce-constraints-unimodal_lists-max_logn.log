@@ -551,9 +551,9 @@ _
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: spec (tf1 ((ZERO::(ZERO::tf1 ((Nil)) (Usplit (Unil) (ZERO) (ZERO) (Unil))))) (target (Usplit (Uelt (ZERO)) (ZERO) (ZERO) (Unil)))) = targetNew (Usplit (Uelt (ZERO)) (ZERO) (ZERO) (Unil))
-Prop: spec (tf1 ((ZERO::(ZERO::tf1 ((Nil)) (Usplit (Usplit (Unil) (ZERO) (ZERO) (Usplit (Usplit (Unil) (ZERO) (ZERO) (Uelt (ZERO))) (ZERO) (ZERO) (Unil))) (ZERO) (SUCC (SUCC (ZERO))) (Usplit (Unil) (ZERO) (ZERO) (Uelt (SUCC (SUCC (ZERO))))))))) (target (Uelt (SUCC (SUCC (ZERO)))))) = targetNew (Uelt (SUCC (SUCC (ZERO))))
-Prop: spec (tf1 ((ZERO::(SUCC (ZERO)::tf1 ((Nil)) (Uelt (ZERO))))) (target (Usplit (Unil) (ZERO) (SUCC (ZERO)) (Unil)))) = targetNew (Usplit (Unil) (ZERO) (SUCC (ZERO)) (Unil))
+Prop: spec (tf1 ((ZERO::(SUCC (ZERO)::tf1 ((Nil)) (Usplit (Usplit (Usplit (Unil) (SUCC (ZERO)) (ZERO) (Unil)) (ZERO) (SUCC (SUCC (ZERO))) (Unil)) (SUCC (ZERO)) (SUCC (ZERO)) (Uelt (SUCC (ZERO))))))) (target (Uelt (SUCC (ZERO))))) = targetNew (Uelt (SUCC (ZERO)))
+Prop: spec (tf1 ((ZERO::(ZERO::tf1 ((Nil)) (Usplit (Unil) (ZERO) (SUCC (ZERO)) (Unil))))) (target (Usplit (Usplit (Usplit (Uelt (ZERO)) (ZERO) (SUCC (ZERO)) (Usplit (Usplit (Uelt (SUCC (SUCC (ZERO)))) (ZERO) (SUCC (ZERO)) (Uelt (ZERO))) (ZERO) (ZERO) (Unil))) (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Unil)) (SUCC (ZERO)) (SUCC (ZERO)) (Usplit (Uelt (ZERO)) (SUCC (SUCC (ZERO))) (ZERO) (Usplit (Usplit (Unil) (ZERO) (ZERO) (Unil)) (ZERO) (ZERO) (Uelt (ZERO))))))) = targetNew (Usplit (Usplit (Usplit (Uelt (ZERO)) (ZERO) (SUCC (ZERO)) (Usplit (Usplit (Uelt (SUCC (SUCC (ZERO)))) (ZERO) (SUCC (ZERO)) (Uelt (ZERO))) (ZERO) (ZERO) (Unil))) (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Unil)) (SUCC (ZERO)) (SUCC (ZERO)) (Usplit (Uelt (ZERO)) (SUCC (SUCC (ZERO))) (ZERO) (Usplit (Usplit (Unil) (ZERO) (ZERO) (Unil)) (ZERO) (ZERO) (Uelt (ZERO)))))
+Prop: spec (tf1 ((ZERO::(SUCC (ZERO)::tf1 ((Nil)) (Usplit (Usplit (Unil) (ZERO) (ZERO) (Uelt (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (ZERO) (SUCC (SUCC (ZERO))) (Unil))))) (target (Uelt (ZERO)))) = targetNew (Uelt (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
@@ -1721,6 +1721,152 @@ case lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))
 case lq (nat1) (nat2)
 validate generalize_common_subterm_goal
 Prop: ZERO = SUCC (ZERO)
+Prop: ZERO = SUCC (ZERO)
+Prop: ZERO = SUCC (ZERO)
+Lemma List
+forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+End of Lemma List
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+nat1 : nat
+nat2 : nat
+ulist1 : ulist
+nat3 : nat
+Base1 : ulist1 = Uelt (nat3)
+ulist2 : ulist
+Base2 : ulist2 = Unil
+Cond1 : if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true
+Cond2 : gq (nat1) (nat2) = true
+Cond3 : lq (nat1) (nat3) = true
+Case1 : lq (nat3) (nat2) = true
+Case2 : lq (nat1) (nat2) = true
+---------------------------------------
+nat2 = nat3
+
+5 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 39
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+nat1 : nat
+nat2 : nat
+ulist1 : ulist
+nat3 : nat
+Base1 : ulist1 = Uelt (nat3)
+ulist2 : ulist
+Base2 : ulist2 = Unil
+Cond1 : if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true
+Cond2 : gq (nat1) (nat2) = true
+Cond3 : lq (nat1) (nat3) = true
+Case1 : lq (nat3) (nat2) = true
+Case2 : lq (nat1) (nat2) = true
+---------------------------------------
+nat2 = nat3
+
+5 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:7.)
+=================================================
+Progress: 40
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat1(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:7.)
+=================================================
+Progress: 41
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat2(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+nat1 : nat
+nat2 : nat
+---------------------------------------
+lq (nat2) (nat1) = true -> nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:7.)
+=================================================
+Progress: 42
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+nat1 : nat
+nat2 : nat
+---------------------------------------
+lq (nat2) (nat1) = true -> nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond1(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = true -> nat1 = nat2
+nat1 : nat
+nat2 : nat
+Cond1 : lq (nat2) (nat1) = true
+---------------------------------------
+nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: ZERO = ZERO
 Prop: ZERO = ZERO
 Prop: SUCC (ZERO) = ZERO
 asdf

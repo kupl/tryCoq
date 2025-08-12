@@ -258,12 +258,12 @@ case if match (nat1) with
 | Tuple2 _ b -> b
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: tf4 (ZERO) (match (ZERO) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
 Prop: tf4 (SUCC (SUCC (ZERO))) (match (SUCC (SUCC (ZERO))) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
-Prop: tf4 (SUCC (SUCC (SUCC (ZERO)))) (match (SUCC (SUCC (SUCC (ZERO)))) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((ZERO::(Nil))) ((ZERO::(Nil)))) = tf4 (false) (ZERO) (tf1 ((ZERO::(Nil))) ((ZERO::(Nil))))
 Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
@@ -302,13 +302,13 @@ Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = match (tf6 ((Nil))) with
 | Tuple2 a _ -> a
-Prop: tf4 (ZERO) (match (ZERO) with
+Prop: tf4 (SUCC (SUCC (ZERO))) (match (SUCC (SUCC (ZERO))) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = match (tf6 ((Nil))) with
 | Tuple2 a _ -> a
-Prop: tf4 (SUCC (ZERO)) (match (SUCC (ZERO)) with
+Prop: tf4 (SUCC (SUCC (ZERO))) (match (SUCC (SUCC (ZERO))) with
 | true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((ZERO::(Nil))) ((ZERO::(Nil)))) = match (tf6 ((ZERO::(Nil)))) with
+| false -> ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))) = match (tf6 ((SUCC (ZERO)::(Nil)))) with
 | Tuple2 a _ -> a
 Lemma List
 forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
@@ -824,7 +824,7 @@ previous tactics
 simpl in goal
 intro Cond1
 validate generalize_common_subterm_goal
-Prop: match (SUCC (ZERO)) with
+Prop: match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 Prop: match (ZERO) with
@@ -1339,10 +1339,10 @@ validate generalize_common_subterm_goal
 Prop: match (SUCC (ZERO)) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
-Prop: match (SUCC (ZERO)) with
+Prop: match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
-Prop: match (SUCC (SUCC (ZERO))) with
+Prop: match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 =================================================
@@ -1436,7 +1436,7 @@ match (nat1) with
 3 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: match (ZERO) with
+Prop: match (SUCC (ZERO)) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 Prop: match (SUCC (ZERO)) with
@@ -1551,12 +1551,12 @@ validate generalize_common_subterm_goal
 Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
-Prop: tf4 (ZERO) (match (ZERO) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
-Prop: tf4 (ZERO) (match (ZERO) with
+Prop: tf4 (SUCC (SUCC (SUCC (SUCC (ZERO))))) (match (SUCC (SUCC (SUCC (SUCC (ZERO))))) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((SUCC (SUCC (ZERO))::(Nil))) ((SUCC (SUCC (ZERO))::(Nil)))) = tf4 (false) (ZERO) (tf1 ((SUCC (SUCC (ZERO))::(Nil))) ((SUCC (SUCC (ZERO))::(Nil))))
+Prop: tf4 (ZERO) (match (ZERO) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))) = tf4 (false) (ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil))))
 asdf
 previous tactics
 simpl in goal
@@ -1590,15 +1590,15 @@ tf4(nat3, _, tf1(nat_list4, nat_list4))
 remove lower
 tf4(nat3, _, tf1(nat_list4, nat_list4))
 validate generalize_common_subterm_goal
-Prop: tf4 (SUCC (ZERO)) (match (SUCC (ZERO)) with
+Prop: tf4 (ZERO) (match (ZERO) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))) = ZERO
+Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = ZERO
-Prop: tf4 (SUCC (ZERO)) (match (SUCC (ZERO)) with
+Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((Nil)) ((Nil))) = ZERO
-Prop: tf4 (SUCC (ZERO)) (match (SUCC (ZERO)) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((Nil)) ((Nil))) = ZERO
+| false -> ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))) = ZERO
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

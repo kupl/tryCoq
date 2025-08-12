@@ -195,10 +195,22 @@ previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (-0::remove_elem_ta1 (-0) (match ((0::(Nil))) with
+| Nil -> (Nil)
+| _ -> reverse (finder ((0::(Nil))) ((Nil))))) = reverse (finder ((0::(Nil))) ((-0::(Nil))))
+Prop: (-0::remove_elem_ta1 (-0) (match ((-0::(Nil))) with
+| Nil -> (Nil)
+| _ -> reverse (finder ((-0::(Nil))) ((Nil))))) = reverse (finder ((-0::(Nil))) ((-0::(Nil))))
+Prop: (0::remove_elem_ta1 (0) (match ((0::(-0::(0::(Nil))))) with
+| Nil -> (Nil)
+| _ -> reverse (finder ((0::(-0::(0::(Nil))))) ((Nil))))) = reverse (finder ((0::(-0::(0::(Nil))))) ((0::(Nil))))
 asdf
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: (-0::remove_elem_ta1 (-0) (uniq_ta1 ((Nil)))) = reverse (finder ((Nil)) ((-0::(Nil))))
+Prop: (-0::remove_elem_ta1 (-0) (uniq_ta1 ((Nil)))) = reverse (finder ((Nil)) ((-0::(Nil))))
+Prop: (-0::remove_elem_ta1 (-0) (uniq_ta1 ((Nil)))) = reverse (finder ((Nil)) ((-0::(Nil))))
 Lemma List
 forall (int1:int) (int_list1:int list), (int1::remove_elem_ta1 (int1) (uniq_ta1 (int_list1))) = reverse (finder (int_list1) ((int1::(Nil))))
 End of Lemma List
@@ -341,7 +353,16 @@ int1 : int
 Tactic List : 0
 previous tactics
 intro int1
+Prop: (-0::remove_elem_ta1 (-0) (uniq_ta1 ((1::(Nil))))) = reverse (finder ((1::(Nil))) ((-0::(Nil))))
+Prop: (0::remove_elem_ta1 (0) (uniq_ta1 ((Nil)))) = reverse (finder ((Nil)) ((0::(Nil))))
+Prop: (0::remove_elem_ta1 (0) (uniq_ta1 ((Nil)))) = reverse (finder ((Nil)) ((0::(Nil))))
 validate generalize_common_subterm_goal
+Prop: (0::remove_elem_ta1 (0) (uniq_ta1 ((0::(Nil))))) = reverse (finder ((0::(Nil))) ((0::(Nil))))
+Prop: (0::remove_elem_ta1 (0) (uniq_ta1 ((Nil)))) = reverse (finder ((Nil)) ((0::(Nil))))
+Prop: (0::remove_elem_ta1 (0) (uniq_ta1 ((Nil)))) = reverse (finder ((Nil)) ((0::(Nil))))
+Prop: (0::remove_elem_ta1 (0) (uniq_ta1 ((-2::(-0::(Nil)))))) = reverse (finder ((-2::(-0::(Nil)))) ((0::(Nil))))
+Prop: (0::remove_elem_ta1 (0) (uniq_ta1 ((0::(-0::(Nil)))))) = reverse (finder ((0::(-0::(Nil)))) ((0::(Nil))))
+Prop: (-0::remove_elem_ta1 (-0) (uniq_ta1 ((-0::(Nil))))) = reverse (finder ((-0::(Nil))) ((-0::(Nil))))
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

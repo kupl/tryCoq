@@ -175,7 +175,42 @@ Inductive1 : nat_list2 = (nat1::nat_list3)
 Tactic List : 0
 previous tactics
 simpl in goal
+parent
+(nat1::nat_list3)
+lower
+Cons(_, nat_list3)
+upper
+_
+remove upper
+nat_list3
+remove lower
+_
+remove upper
+Cons(nat1, nat_list3)
+remove lower
+Cons(nat1, _)
+remove upper
+Cons(nat1, Cons(nat2, nat_list4))
+remove lower
+Cons(nat1, Cons(nat2, _))
+remove upper
+Cons(nat1, Cons(nat2, Cons(nat3, nat_list5)))
+remove lower
+Cons(nat1, Cons(nat2, Cons(nat3, _)))
+parent
+(nat1::(Nil))
+lower
+Cons(_, Nil())
+upper
+reverse(@(reverse(nat_list3), _))
+remove upper
+Cons(nat1, Nil())
+remove lower
+Cons(nat1, Nil())
 validate generalize_common_subterm_goal
+Prop: (ZERO::(Nil)) = reverse ((reverse ((Nil)) @ (ZERO::(Nil))))
+Prop: (SUCC (SUCC (ZERO))::(Nil)) = reverse ((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))))
+Prop: (ZERO::(Nil)) = reverse ((reverse ((Nil)) @ (ZERO::(Nil))))
 Lemma List
 forall (nat1:nat) (nat_list1:nat list), (nat1::nat_list1) = reverse ((reverse (nat_list1) @ (nat1::(Nil))))
 End of Lemma List
@@ -389,10 +424,16 @@ previous tactics
 simpl in goal
 intro nat1
 rewrite IH1 in goal at 0
+Prop: (ZERO::reverse ((3::(Nil)))) = reverse (((3::(Nil)) @ (ZERO::(Nil))))
+Prop: (ZERO::reverse ((0::(Nil)))) = reverse (((0::(Nil)) @ (ZERO::(Nil))))
+Prop: (ZERO::reverse ((Nil))) = reverse (((Nil) @ (ZERO::(Nil))))
 previous tactics
 simpl in goal
 intro nat1
 validate generalize_common_subterm_goal
+Prop: (SUCC (ZERO)::(ZERO::(Nil))) = reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))))
+Prop: (ZERO::(ZERO::(ZERO::(ZERO::(Nil))))) = reverse (((reverse ((ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (ZERO::(Nil))))
+Prop: (ZERO::(ZERO::(Nil))) = reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))))
 Lemma List
 forall (any_list1:any list) (nat1:nat), (nat1::reverse (any_list1)) = reverse ((any_list1 @ (nat1::(Nil))))
 End of Lemma List
@@ -687,9 +728,43 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
+Prop: (SUCC (ZERO)::reverse ((Nil))) = reverse (((Nil) @ (SUCC (ZERO)::(Nil))))
+Prop: (SUCC (SUCC (SUCC (SUCC (ZERO))))::reverse ((Nil))) = reverse (((Nil) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))))
+Prop: (ZERO::reverse ((2::(3::(4::(6::(Nil))))))) = reverse (((2::(3::(4::(6::(Nil))))) @ (ZERO::(Nil))))
 previous tactics
 simpl in goal
+parent
+(nat2::nat_list2)
+lower
+Cons(_, nat_list2)
+upper
+Cons(nat1, _)
+remove upper
+Cons(nat2, nat_list2)
+remove lower
+Cons(nat2, _)
+remove upper
+Cons(nat2, Cons(nat3, nat_list3))
+remove lower
+Cons(nat2, Cons(nat3, _))
+remove upper
+Cons(nat2, Cons(nat3, Cons(nat4, nat_list4)))
+remove lower
+Cons(nat2, Cons(nat3, Cons(nat4, _)))
+parent
+(nat2::(Nil))
+lower
+Cons(_, Nil())
+upper
+reverse(@(@(reverse(nat_list2), _), Cons(nat1, Nil())))
+remove upper
+Cons(nat2, Nil())
+remove lower
+Cons(nat2, Nil())
 validate generalize_common_subterm_goal
+Prop: (ZERO::(ZERO::(Nil))) = reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))))
+Prop: (SUCC (SUCC (SUCC (SUCC (ZERO))))::(ZERO::(Nil))) = reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))))
+Prop: (SUCC (ZERO)::(ZERO::(Nil))) = reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))))
 =================================================
 Progress: 21
 

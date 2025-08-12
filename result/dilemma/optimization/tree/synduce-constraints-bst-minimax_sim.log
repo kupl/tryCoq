@@ -776,12 +776,12 @@ tmax(_)
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))
 Lemma List
 forall (nat1:nat) (tree1:tree) (tree2:tree), if geq (nat1) (tmax (tree1)) then if leq (nat1) (tmax (tree2)) then if isbst (tree1) then isbst (tree2) else false else false else false = true->lq (nat1) (if lq (match (spec (tree1)) with
 | Tuple2 _ b -> b) (match (spec (tree2)) with
@@ -1187,12 +1187,12 @@ tmax(_)
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Lemma List
 forall (nat1:nat) (tree1:tree) (tree2:tree), if geq (nat1) (tmax (tree1)) then if leq (nat1) (tmax (tree2)) then if isbst (tree1) then isbst (tree2) else false else false else false = true->lq (nat1) (match (spec (tree2)) with
 | Tuple2 a _ -> a) = true->lq (match (spec (tree1)) with
@@ -1596,10 +1596,10 @@ tmax(_)
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO)))))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO))))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Lemma List
@@ -2873,8 +2873,8 @@ intro Cond2
 intro Cond3
 intro Cond4
 validate generalize_common_subterm_goal
-Prop: Tuple2 (ZERO) (SUCC (ZERO)) = Tuple2 (ZERO) (ZERO)
-Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (SUCC (SUCC (ZERO))) (ZERO)
+Prop: Tuple2 (SUCC (ZERO)) (ZERO) = Tuple2 (ZERO) (SUCC (ZERO))
+Prop: Tuple2 (SUCC (SUCC (ZERO))) (ZERO) = Tuple2 (ZERO) (SUCC (SUCC (ZERO)))
 Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat), if geq (nat1) (nat2) then if leq (nat1) (tmax (Leaf (nat3))) then if isbst (Leaf (nat2)) then isbst (Leaf (nat3)) else false else false else false = true->lq (nat1) (if lq (nat2) (nat3) then match (spec (Leaf (nat2))) with
@@ -3032,7 +3032,7 @@ intro Cond2
 intro Cond3
 intro Cond4
 validate generalize_common_subterm_goal
-Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
+Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (SUCC (SUCC (SUCC (SUCC (ZERO))))) (ZERO)
 Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
 Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
 Lemma List
@@ -3191,9 +3191,9 @@ intro Cond2
 intro Cond3
 intro Cond4
 validate generalize_common_subterm_goal
-Prop: Tuple2 (SUCC (ZERO)) (ZERO) = Tuple2 (SUCC (ZERO)) (SUCC (ZERO))
-Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
-Prop: Tuple2 (SUCC (ZERO)) (ZERO) = Tuple2 (SUCC (SUCC (ZERO))) (SUCC (ZERO))
+Prop: Tuple2 (SUCC (ZERO)) (SUCC (ZERO)) = Tuple2 (ZERO) (SUCC (ZERO))
+Prop: Tuple2 (ZERO) (SUCC (ZERO)) = Tuple2 (SUCC (ZERO)) (ZERO)
+Prop: Tuple2 (ZERO) (SUCC (ZERO)) = Tuple2 (ZERO) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat), if geq (nat1) (nat2) then if leq (nat1) (tmax (Leaf (nat3))) then if isbst (Leaf (nat2)) then isbst (Leaf (nat3)) else false else false else false = true->lq (nat1) (nat3) = true->lq (nat1) (if lq (nat2) (nat3) then match (spec (Leaf (nat2))) with
 | Tuple2 _ b -> b else match (spec (Leaf (nat3))) with
@@ -3993,9 +3993,9 @@ Tuple2 (nat3) (nat1) = Tuple2 (nat2) (nat3)
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (SUCC (SUCC (ZERO))) (ZERO)
 Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
 Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (SUCC (ZERO)) (ZERO)
+Prop: Tuple2 (SUCC (ZERO)) (ZERO) = Tuple2 (ZERO) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat), if geq (nat1) (nat2) then if leq (nat1) (tmax (Leaf (nat3))) then if isbst (Leaf (nat2)) then isbst (Leaf (nat3)) else false else false else false = true->lq (nat1) (if lq (nat2) (nat3) then match (spec (Leaf (nat2))) with
 | Tuple2 _ b -> b else match (spec (Leaf (nat3))) with
@@ -4106,9 +4106,9 @@ Tuple2 (nat3) (nat1) = Tuple2 (nat2) (nat3)
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
 Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (SUCC (SUCC (ZERO))) (ZERO)
-Prop: Tuple2 (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (ZERO)) = Tuple2 (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (SUCC (SUCC (ZERO))) (ZERO)
+Prop: Tuple2 (ZERO) (SUCC (ZERO)) = Tuple2 (ZERO) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat), if geq (nat1) (nat2) then if leq (nat1) (tmax (Leaf (nat3))) then if isbst (Leaf (nat2)) then isbst (Leaf (nat3)) else false else false else false = true->lq (nat1) (nat3) = true->lq (nat2) (nat3) = true->lq (nat1) (if lq (nat2) (nat3) then match (spec (Leaf (nat2))) with
 | Tuple2 _ b -> b else match (spec (Leaf (nat3))) with
@@ -4219,9 +4219,9 @@ Tuple2 (nat3) (nat1) = Tuple2 (nat2) (nat3)
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: Tuple2 (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO)) = Tuple2 (ZERO) (SUCC (SUCC (SUCC (ZERO))))
-Prop: Tuple2 (ZERO) (SUCC (SUCC (ZERO))) = Tuple2 (ZERO) (ZERO)
+Prop: Tuple2 (SUCC (ZERO)) (SUCC (ZERO)) = Tuple2 (SUCC (ZERO)) (SUCC (ZERO))
 Prop: Tuple2 (SUCC (ZERO)) (ZERO) = Tuple2 (ZERO) (SUCC (ZERO))
+Prop: Tuple2 (SUCC (ZERO)) (SUCC (SUCC (ZERO))) = Tuple2 (SUCC (ZERO)) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat), if geq (nat1) (nat2) then if leq (nat1) (tmax (Leaf (nat3))) then if isbst (Leaf (nat2)) then isbst (Leaf (nat3)) else false else false else false = true->lq (nat1) (nat3) = true->lq (nat1) (if lq (nat2) (nat3) then match (spec (Leaf (nat2))) with
 | Tuple2 _ b -> b else match (spec (Leaf (nat3))) with
@@ -5001,9 +5001,9 @@ Tuple2 (nat3) (nat1) = Tuple2 (nat2) (nat3)
 3 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
+Prop: Tuple2 (SUCC (ZERO)) (ZERO) = Tuple2 (SUCC (ZERO)) (SUCC (ZERO))
+Prop: Tuple2 (SUCC (ZERO)) (SUCC (ZERO)) = Tuple2 (ZERO) (SUCC (ZERO))
 Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
-Prop: Tuple2 (ZERO) (SUCC (ZERO)) = Tuple2 (ZERO) (ZERO)
-Prop: Tuple2 (SUCC (ZERO)) (SUCC (ZERO)) = Tuple2 (SUCC (ZERO)) (SUCC (ZERO))
 =================================================
 Progress: 91
 
@@ -5048,9 +5048,9 @@ Tuple2 (nat3) (nat1) = Tuple2 (nat2) (nat3)
 3 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: Tuple2 (ZERO) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (SUCC (ZERO)) (ZERO)
+Prop: Tuple2 (ZERO) (SUCC (ZERO)) = Tuple2 (ZERO) (ZERO)
 Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
-Prop: Tuple2 (ZERO) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (ZERO) (ZERO)
+Prop: Tuple2 (SUCC (SUCC (ZERO))) (ZERO) = Tuple2 (SUCC (ZERO)) (SUCC (SUCC (ZERO)))
 =================================================
 Progress: 92
 
@@ -5095,7 +5095,7 @@ Tuple2 (nat3) (nat1) = Tuple2 (nat2) (nat3)
 3 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
+Prop: Tuple2 (SUCC (ZERO)) (ZERO) = Tuple2 (ZERO) (SUCC (ZERO))
 Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
 Prop: Tuple2 (ZERO) (ZERO) = Tuple2 (ZERO) (ZERO)
 Fatal error: exception Failure("worklist is empty")

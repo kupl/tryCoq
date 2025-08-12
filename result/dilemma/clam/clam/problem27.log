@@ -145,8 +145,46 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
+Prop: (qreva ((Nil)) ((Nil)) @ (Nil)) = qreva ((Nil)) ((Nil))
+Prop: (qreva ((ZERO::(Nil))) ((Nil)) @ (Nil)) = qreva ((ZERO::(Nil))) ((Nil))
+Prop: (qreva ((Nil)) ((Nil)) @ (Nil)) = qreva ((Nil)) ((Nil))
 previous tactics
 simpl in goal
+parent
+(nat1::(Nil))
+lower
+Cons(_, Nil())
+upper
+@(reverse(nat_list2), _)
+remove upper
+Cons(nat1, Nil())
+remove lower
+Cons(nat1, Nil())
+parent
+(nat1::(Nil))
+lower
+Cons(_, Nil())
+upper
+qreva(nat_list2, _)
+remove upper
+Nil()
+remove lower
+Nil()
+remove upper
+Cons(nat1, Nil())
+remove lower
+Cons(nat1, Nil())
+remove upper
+Cons(nat2, Cons(nat1, Nil()))
+remove lower
+Cons(nat2, Cons(nat1, Nil()))
+remove upper
+Cons(nat3, Cons(nat2, Cons(nat1, Nil())))
+remove lower
+Cons(nat3, Cons(nat2, Cons(nat1, Nil())))
+Prop: (reverse ((ZERO::(Nil))) @ (7::(2::(Nil)))) = qreva ((ZERO::(Nil))) ((7::(2::(Nil))))
+Prop: (reverse ((Nil)) @ (Nil)) = qreva ((Nil)) ((Nil))
+Prop: (reverse ((ZERO::(ZERO::(Nil)))) @ (Nil)) = qreva ((ZERO::(ZERO::(Nil)))) ((Nil))
 Lemma List
 forall (any_list1:any list) (nat_list1:nat list), (reverse (nat_list1) @ any_list1) = qreva (nat_list1) (any_list1)
 End of Lemma List
@@ -600,6 +638,9 @@ rewrite IH1 in goal at 0
 rewrite <- IH1 in goal at 2
 intro any_list1
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(Nil))) @ (7::(Nil))) = (reverse ((Nil)) @ (ZERO::(7::(Nil))))
+Prop: (qreva ((ZERO::(SUCC (SUCC (ZERO))::(Nil)))) ((ZERO::(Nil))) @ (Nil)) = (reverse ((ZERO::(SUCC (SUCC (ZERO))::(Nil)))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) = (reverse ((Nil)) @ (ZERO::(Nil)))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat_list1:nat list), (qreva (nat_list1) ((nat1::(Nil))) @ any_list1) = (reverse (nat_list1) @ (nat1::any_list1))
 End of Lemma List
@@ -884,10 +925,16 @@ simpl in goal
 intro nat1
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (8::(6::(Nil)))) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(8::(6::(Nil)))))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) = ((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat) (nat_list1:nat list), (qreva (nat_list1) ((nat2::(nat1::(Nil)))) @ any_list1) = ((reverse (nat_list1) @ (nat2::(Nil))) @ (nat1::any_list1))
 End of Lemma List
@@ -1026,11 +1073,17 @@ intro any_list1
 intro nat1
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (7::(Nil))) = ((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(7::(Nil))))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))) @ (7::(5::(Nil)))) = ((qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(Nil))) @ (Nil)) @ (ZERO::(7::(5::(Nil)))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat1
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) = ((reverse ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 30
 
@@ -1377,10 +1430,16 @@ simpl in goal
 intro nat2
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (0::(0::(5::(1::(Nil)))))) = ((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(0::(0::(5::(1::(Nil)))))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat2
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (1::(Nil))) = (((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(1::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))) @ (Nil)) = (((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (0::(Nil))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat) (nat3:nat) (nat_list1:nat list), (qreva (nat_list1) ((nat3::(nat2::(nat1::(Nil))))) @ any_list1) = (((reverse (nat_list1) @ (nat3::(Nil))) @ (nat2::(Nil))) @ (nat1::any_list1))
 End of Lemma List
@@ -1557,11 +1616,17 @@ intro any_list1
 intro nat2
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (0::(6::(Nil)))) = ((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(0::(6::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (2::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(2::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat2
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = (((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) = (((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (SUCC (ZERO))::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) = (((reverse ((SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 44
 
@@ -1604,11 +1669,17 @@ intro nat1
 intro nat2
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (7::(7::(Nil)))) = ((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(7::(7::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))) @ (6::(Nil))) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (SUCC (SUCC (SUCC (ZERO)))::(6::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) = (((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (4::(Nil))) = (((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(4::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 45
 
@@ -1654,12 +1725,18 @@ intro nat1
 intro nat2
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (1::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(1::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat1
 intro nat2
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (4::(5::(4::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(4::(5::(4::(Nil))))))
 =================================================
 Progress: 46
 
@@ -2006,10 +2083,16 @@ simpl in goal
 intro nat2
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat2
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat) (nat3:nat) (nat_list1:nat list), (qreva (nat_list1) ((nat3::(nat2::(nat1::(Nil))))) @ any_list1) = ((qreva (nat_list1) ((nat3::(nat2::(Nil)))) @ (Nil)) @ (nat1::any_list1))
 End of Lemma List
@@ -2186,11 +2269,17 @@ intro any_list1
 intro nat2
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (3::(Nil))) = (((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(3::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat2
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 60
 
@@ -2233,11 +2322,17 @@ intro nat1
 intro nat2
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (1::(Nil))) = (((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(1::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((SUCC (ZERO)::(Nil))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (4::(Nil))) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(4::(Nil))))
 =================================================
 Progress: 61
 
@@ -2283,12 +2378,18 @@ intro nat1
 intro nat2
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (4::(Nil))) = (((qreva ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(4::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat1
 intro nat2
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (2::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(2::(Nil))))
+Prop: (qreva ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil)))))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil)))))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 62
 
@@ -2784,10 +2885,16 @@ simpl in goal
 intro nat3
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (4::(Nil))) = ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(4::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (0::(Nil))) = ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list), (qreva (nat_list1) ((nat4::(nat3::(nat2::(nat1::(Nil)))))) @ any_list1) = ((((reverse (nat_list1) @ (nat4::(Nil))) @ (nat3::(Nil))) @ (nat2::(Nil))) @ (nat1::any_list1))
 End of Lemma List
@@ -3041,11 +3148,17 @@ intro any_list1
 intro nat3
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (8::(7::(Nil)))) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(8::(7::(Nil)))))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))::(ZERO::(Nil)))))) @ (0::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))::(Nil))))) @ (Nil)) @ (ZERO::(0::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (6::(Nil))) = ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(6::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 82
 
@@ -3126,11 +3239,17 @@ intro nat1
 intro nat3
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 84
 
@@ -3173,11 +3292,17 @@ intro nat2
 intro nat3
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (3::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(3::(Nil))))
 previous tactics
 simpl in goal
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (SUCC (ZERO))::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (5::(Nil))) = ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(5::(Nil))))
 =================================================
 Progress: 85
 
@@ -3263,12 +3388,18 @@ intro nat1
 intro nat3
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (3::(0::(Nil)))) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(3::(0::(Nil)))))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (3::(Nil))) = ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(3::(Nil))))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (3::(4::(Nil)))) = ((((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(3::(4::(Nil)))))
 =================================================
 Progress: 87
 
@@ -3314,12 +3445,18 @@ intro nat2
 intro nat3
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 88
 
@@ -3365,12 +3502,18 @@ intro nat2
 intro nat3
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (8::(1::(4::(Nil))))) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(8::(1::(4::(Nil))))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 89
 
@@ -3419,6 +3562,9 @@ intro nat2
 intro nat3
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -3426,6 +3572,9 @@ intro nat1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 90
 
@@ -3921,10 +4070,16 @@ simpl in goal
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(Nil)))))) @ (6::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(6::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (SUCC (ZERO))))::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (0::(Nil))) = ((qreva ((Nil)) ((SUCC (SUCC (SUCC (SUCC (ZERO))))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(0::(Nil))))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list), (qreva (nat_list1) ((nat4::(nat3::(nat2::(nat1::(Nil)))))) @ any_list1) = ((qreva (nat_list1) ((nat4::(nat3::(nat2::(Nil))))) @ (Nil)) @ (nat1::any_list1))
 End of Lemma List
@@ -4178,11 +4333,17 @@ intro any_list1
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) ((SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) ((SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (3::(Nil))) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(3::(Nil))))
 =================================================
 Progress: 110
 
@@ -4263,11 +4424,17 @@ intro nat1
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (0::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (8::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(8::(Nil))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 112
 
@@ -4310,11 +4477,17 @@ intro nat2
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
 previous tactics
 simpl in goal
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 113
 
@@ -4400,12 +4573,18 @@ intro nat1
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (6::(3::(Nil)))) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(6::(3::(Nil)))))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 115
 
@@ -4451,12 +4630,18 @@ intro nat2
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (6::(8::(Nil)))) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(6::(8::(Nil)))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (7::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(7::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil)))))) @ (7::(6::(Nil)))) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))) @ (Nil)) @ (ZERO::(7::(6::(Nil)))))
 =================================================
 Progress: 116
 
@@ -4502,12 +4687,18 @@ intro nat2
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (0::(Nil))) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 117
 
@@ -4556,6 +4747,9 @@ intro nat2
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (7::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(7::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -4563,6 +4757,9 @@ intro nat1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (4::(Nil))) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(4::(Nil))))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 118
 
@@ -5058,10 +5255,16 @@ simpl in goal
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (6::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(6::(Nil))))
 =================================================
 Progress: 132
 
@@ -5219,11 +5422,17 @@ intro any_list1
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (2::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(2::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 136
 
@@ -5304,11 +5513,17 @@ intro nat1
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (4::(6::(Nil)))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(4::(6::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (5::(Nil))) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(5::(Nil))))
 =================================================
 Progress: 138
 
@@ -5351,11 +5566,17 @@ intro nat2
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (2::(Nil))) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(2::(Nil))))
 =================================================
 Progress: 139
 
@@ -5441,12 +5662,18 @@ intro nat1
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (2::(2::(1::(0::(0::(Nil))))))) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(2::(2::(1::(0::(0::(Nil))))))))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (1::(Nil))) = (((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(1::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (0::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 141
 
@@ -5492,12 +5719,18 @@ intro nat2
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (SUCC (ZERO))::(Nil))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = (((qreva ((SUCC (SUCC (ZERO))::(Nil))) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))
 =================================================
 Progress: 142
 
@@ -5543,12 +5776,18 @@ intro nat2
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (3::(Nil))) = ((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(3::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (0::(4::(Nil)))) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(0::(4::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (6::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(6::(Nil))))
 =================================================
 Progress: 143
 
@@ -5597,6 +5836,9 @@ intro nat2
 intro nat3
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -5604,6 +5846,9 @@ intro nat1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 144
 
@@ -5839,6 +6084,9 @@ previous tactics
 simpl in goal
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list), (qreva (nat_list1) ((nat4::(nat3::(nat2::(nat1::(Nil)))))) @ any_list1) = (((qreva (nat_list1) ((nat4::(nat3::(Nil)))) @ (Nil)) @ (nat2::(Nil))) @ (nat1::any_list1))
 End of Lemma List
@@ -6000,6 +6248,9 @@ simpl in goal
 intro any_list1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (0::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (0::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
 =================================================
 Progress: 155
 
@@ -6076,6 +6327,9 @@ simpl in goal
 intro nat1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (8::(0::(Nil)))) = (((qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(8::(0::(Nil)))))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 157
 
@@ -6116,6 +6370,9 @@ simpl in goal
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (3::(4::(Nil)))) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(3::(4::(Nil)))))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 158
 
@@ -6197,6 +6454,9 @@ intro any_list1
 intro nat1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 160
 
@@ -6240,6 +6500,9 @@ intro any_list1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 161
 
@@ -6283,6 +6546,9 @@ intro nat1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (4::(4::(Nil)))) = (((qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(4::(4::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (1::(Nil))) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(1::(Nil))))
 =================================================
 Progress: 162
 
@@ -6329,6 +6595,9 @@ intro nat1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil)))))) @ (0::(Nil))) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (1::(Nil))) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(Nil)))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(1::(Nil))))
 =================================================
 Progress: 163
 
@@ -6364,9 +6633,47 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+Prop: (((Nil) @ (ZERO::(Nil))) @ (Nil)) = ((Nil) @ (ZERO::(Nil)))
+Prop: (((3::(3::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (Nil)) = ((3::(3::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (((Nil) @ (ZERO::(Nil))) @ (7::(Nil))) = ((Nil) @ (ZERO::(7::(Nil))))
 previous tactics
 simpl in goal
+parent
+(nat1::(Nil))
+lower
+Cons(_, Nil())
+upper
+@(@(reverse(nat_list2), _), any_list1)
+remove upper
+Cons(nat1, Nil())
+remove lower
+Cons(nat1, Nil())
+parent
+(nat1::any_list1)
+lower
+Cons(_, any_list1)
+upper
+qreva(nat_list2, _)
+remove upper
+any_list1
+remove lower
+any_list1
+remove upper
+Cons(nat1, any_list1)
+remove lower
+Cons(nat1, any_list1)
+remove upper
+Cons(nat2, Cons(nat1, any_list1))
+remove lower
+Cons(nat2, Cons(nat1, any_list1))
+remove upper
+Cons(nat3, Cons(nat2, Cons(nat1, any_list1)))
+remove lower
+Cons(nat3, Cons(nat2, Cons(nat1, any_list1)))
 validate generalize_common_subterm_goal
+Prop: ((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) = qreva ((Nil)) ((ZERO::(Nil)))
+Prop: ((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (Nil)) = qreva ((Nil)) ((SUCC (SUCC (ZERO))::(Nil)))
+Prop: ((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) = qreva ((Nil)) ((ZERO::(Nil)))
 Lemma List
 forall (any_list1:any list) (any_list2:any list) (nat1:nat), ((any_list2 @ (nat1::(Nil))) @ any_list1) = (any_list2 @ (nat1::any_list1))
 End of Lemma List
@@ -6661,10 +6968,16 @@ simpl in goal
 intro any_list1
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) = qreva ((Nil)) ((ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(Nil))) @ (5::(Nil))) = qreva ((ZERO::(Nil))) ((ZERO::(5::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(Nil))) @ (0::(Nil))) = qreva ((Nil)) ((SUCC (ZERO)::(0::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 validate generalize_common_subterm_goal
+Prop: ((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) = qreva ((Nil)) ((ZERO::(Nil)))
+Prop: ((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) = qreva ((Nil)) ((ZERO::(Nil)))
+Prop: ((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (1::(0::(0::(Nil))))) = qreva ((Nil)) ((SUCC (SUCC (ZERO))::(1::(0::(0::(Nil))))))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat_list1:nat list), ((reverse (nat_list1) @ (nat1::(Nil))) @ any_list1) = qreva (nat_list1) ((nat1::any_list1))
 End of Lemma List
@@ -7205,10 +7518,16 @@ previous tactics
 simpl in goal
 intro any_list1
 rewrite <- IH1 in goal at 0
+Prop: (((Nil) @ (ZERO::(Nil))) @ (Nil)) = ((Nil) @ (ZERO::(Nil)))
+Prop: (((Nil) @ (ZERO::(Nil))) @ (Nil)) = ((Nil) @ (ZERO::(Nil)))
+Prop: (((Nil) @ (ZERO::(Nil))) @ (Nil)) = ((Nil) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 validate generalize_common_subterm_goal
+Prop: ((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) = qreva ((Nil)) ((ZERO::(Nil)))
+Prop: ((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil)) = qreva ((Nil)) ((ZERO::(Nil)))
+Prop: ((reverse ((ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (5::(Nil))) = qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(5::(Nil))))
 =================================================
 Progress: 187
 
@@ -7893,10 +8212,16 @@ simpl in goal
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (SUCC (ZERO))::(Nil))) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (SUCC (ZERO))::(Nil))) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (0::(Nil))) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(0::(Nil))))
+Prop: (qreva ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((ZERO::(ZERO::(ZERO::(Nil))))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat5:nat) (nat_list1:nat list), (qreva (nat_list1) ((nat5::(nat4::(nat3::(nat2::(nat1::(Nil))))))) @ any_list1) = (((((reverse (nat_list1) @ (nat5::(Nil))) @ (nat4::(Nil))) @ (nat3::(Nil))) @ (nat2::(Nil))) @ (nat1::any_list1))
 End of Lemma List
@@ -8267,11 +8592,17 @@ intro any_list1
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (5::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(5::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil)))) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((((reverse ((ZERO::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil)))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
 =================================================
 Progress: 215
 
@@ -8429,11 +8760,17 @@ intro nat1
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (SUCC (ZERO))::(Nil))) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((((reverse ((SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 219
 
@@ -8514,11 +8851,17 @@ intro nat2
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (0::(6::(Nil)))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(0::(6::(Nil)))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (2::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(2::(Nil))))
 previous tactics
 simpl in goal
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 221
 
@@ -8561,11 +8904,17 @@ intro nat3
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (3::(2::(Nil)))) = (((((reverse ((SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(3::(2::(Nil)))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (0::(Nil))) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (0::(Nil))) = (((((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(0::(Nil))))
 =================================================
 Progress: 222
 
@@ -8732,12 +9081,18 @@ intro nat1
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (6::(Nil))) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(6::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil))))))) @ (3::(1::(Nil)))) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (ZERO))::(3::(1::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))
 =================================================
 Progress: 226
 
@@ -8823,12 +9178,18 @@ intro nat2
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (1::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(1::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (1::(Nil))) = (((((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(1::(Nil))))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 228
 
@@ -8874,12 +9235,18 @@ intro nat3
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (6::(1::(Nil)))) = ((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(6::(1::(Nil)))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((((reverse ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (1::(Nil))) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(1::(Nil))))
 =================================================
 Progress: 229
 
@@ -8965,12 +9332,18 @@ intro nat2
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (7::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(7::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((SUCC (SUCC (ZERO))::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (SUCC (ZERO))::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 231
 
@@ -9016,12 +9389,18 @@ intro nat3
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (6::(1::(Nil)))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(6::(1::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (5::(1::(7::(Nil))))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(5::(1::(7::(Nil))))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (4::(8::(Nil)))) = (((((reverse ((SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(4::(8::(Nil)))))
+Prop: (qreva ((ZERO::(SUCC (ZERO)::(Nil)))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 232
 
@@ -9067,12 +9446,18 @@ intro nat3
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (SUCC (ZERO))::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (SUCC (ZERO))::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (SUCC (SUCC (SUCC (ZERO))))::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (5::(Nil))) = ((qreva ((ZERO::(Nil))) ((SUCC (SUCC (SUCC (SUCC (ZERO))))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(5::(Nil))))
 previous tactics
 simpl in goal
 intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (0::(Nil))) = (((((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(0::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 233
 
@@ -9163,6 +9548,9 @@ intro nat2
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (0::(0::(0::(6::(Nil)))))) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(0::(0::(0::(6::(Nil)))))))
 previous tactics
 simpl in goal
 intro any_list1
@@ -9170,6 +9558,9 @@ intro nat1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (8::(1::(Nil)))) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(8::(1::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (4::(Nil))) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(4::(Nil))))
 =================================================
 Progress: 235
 
@@ -9218,6 +9609,9 @@ intro nat3
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -9225,6 +9619,9 @@ intro nat1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((((reverse ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 236
 
@@ -9273,6 +9670,9 @@ intro nat3
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (7::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(7::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -9280,6 +9680,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (6::(Nil))) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(6::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (1::(Nil))) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(1::(Nil))))
 =================================================
 Progress: 237
 
@@ -9328,6 +9731,9 @@ intro nat3
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
@@ -9335,6 +9741,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((((reverse ((ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (5::(Nil))) = (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(5::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (0::(Nil))) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(0::(Nil))))
 =================================================
 Progress: 238
 
@@ -9386,6 +9795,9 @@ intro nat3
 intro nat4
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -9394,6 +9806,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (6::(Nil))) = (((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(6::(Nil))))
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (5::(7::(Nil)))) = (((((reverse ((ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(5::(7::(Nil)))))
 =================================================
 Progress: 239
 
@@ -10078,10 +10493,16 @@ simpl in goal
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (8::(Nil))) = (((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(8::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (8::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(8::(Nil))))
 previous tactics
 simpl in goal
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (0::(Nil))) = ((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat5:nat) (nat_list1:nat list), (qreva (nat_list1) ((nat5::(nat4::(nat3::(nat2::(nat1::(Nil))))))) @ any_list1) = ((qreva (nat_list1) ((nat5::(nat4::(nat3::(nat2::(Nil)))))) @ (Nil)) @ (nat1::any_list1))
 End of Lemma List
@@ -10452,11 +10873,17 @@ intro any_list1
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 267
 
@@ -10614,11 +11041,17 @@ intro nat1
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 271
 
@@ -10699,11 +11132,17 @@ intro nat2
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (5::(Nil))) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(5::(Nil))))
 previous tactics
 simpl in goal
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (1::(4::(Nil)))) = ((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(1::(4::(Nil)))))
 =================================================
 Progress: 273
 
@@ -10746,11 +11185,17 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (0::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (0::(7::(Nil)))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(0::(7::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 274
 
@@ -10917,12 +11362,18 @@ intro nat1
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (6::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(6::(Nil))))
 =================================================
 Progress: 278
 
@@ -11008,12 +11459,18 @@ intro nat2
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (5::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(5::(Nil))))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (2::(Nil))) = ((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(2::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 280
 
@@ -11059,12 +11516,18 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (6::(8::(2::(Nil))))) = (((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(6::(8::(2::(Nil))))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (4::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(4::(Nil))))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 281
 
@@ -11150,12 +11613,18 @@ intro nat2
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (5::(2::(6::(Nil))))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(5::(2::(6::(Nil))))))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 283
 
@@ -11201,12 +11670,18 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (2::(Nil))) = ((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(2::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (2::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(2::(Nil))))
 =================================================
 Progress: 284
 
@@ -11252,12 +11727,18 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 285
 
@@ -11348,6 +11829,9 @@ intro nat2
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (5::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(5::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -11355,6 +11839,9 @@ intro nat1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 287
 
@@ -11403,6 +11890,9 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -11410,6 +11900,9 @@ intro nat1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 288
 
@@ -11458,6 +11951,9 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (4::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(4::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -11465,6 +11961,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (5::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(5::(Nil))))
 =================================================
 Progress: 289
 
@@ -11513,6 +12012,9 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (0::(Nil))) = (((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
 previous tactics
 simpl in goal
 intro nat1
@@ -11520,6 +12022,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (4::(3::(0::(Nil))))) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(4::(3::(0::(Nil))))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 290
 
@@ -11571,6 +12076,9 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -11579,6 +12087,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (5::(8::(Nil)))) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(5::(8::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (0::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (8::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(8::(Nil))))
 =================================================
 Progress: 291
 
@@ -12263,10 +12774,16 @@ simpl in goal
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (1::(Nil))) = (((qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(1::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (3::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(3::(Nil))))
 previous tactics
 simpl in goal
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (1::(4::(6::(2::(Nil)))))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(1::(4::(6::(2::(Nil)))))))
+Prop: (qreva ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 310
 
@@ -12541,11 +13058,17 @@ intro any_list1
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 317
 
@@ -12703,11 +13226,17 @@ intro nat1
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (0::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(0::(Nil))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (0::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 321
 
@@ -12788,11 +13317,17 @@ intro nat2
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (7::(Nil))) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(7::(Nil))))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(SUCC (ZERO)::(Nil))))))) @ (6::(Nil))) = ((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(6::(Nil))))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 323
 
@@ -12835,11 +13370,17 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(SUCC (ZERO)::(Nil))))))) @ (4::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))) @ (SUCC (ZERO)::(4::(Nil))))
+Prop: (qreva ((ZERO::(SUCC (SUCC (ZERO))::(Nil)))) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(SUCC (SUCC (ZERO))::(Nil)))) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 324
 
@@ -13006,12 +13547,18 @@ intro nat1
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (2::(0::(Nil)))) = ((qreva ((ZERO::(ZERO::(Nil)))) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(2::(0::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))::(ZERO::(Nil))))))) @ (4::(1::(Nil)))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))::(Nil)))))) @ (Nil)) @ (ZERO::(4::(1::(Nil)))))
 =================================================
 Progress: 328
 
@@ -13097,12 +13644,18 @@ intro nat2
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (6::(Nil))) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(6::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (4::(3::(Nil)))) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(4::(3::(Nil)))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (0::(2::(Nil)))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(0::(2::(Nil)))))
+Prop: (qreva ((ZERO::(SUCC (ZERO)::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(SUCC (ZERO)::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 330
 
@@ -13148,12 +13701,18 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (0::(Nil))) = (((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(0::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (1::(Nil))) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(1::(Nil))))
 =================================================
 Progress: 331
 
@@ -13239,12 +13798,18 @@ intro nat2
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (3::(Nil))) = (((qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(3::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (8::(4::(Nil)))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(8::(4::(Nil)))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (6::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(6::(Nil))))
+Prop: (qreva ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))))) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
 =================================================
 Progress: 333
 
@@ -13290,12 +13855,18 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (5::(8::(Nil)))) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(5::(8::(Nil)))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (8::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(8::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 334
 
@@ -13341,12 +13912,18 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (8::(Nil))) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(8::(Nil))))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (7::(Nil))) = (((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(7::(Nil))))
 previous tactics
 simpl in goal
 intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))) ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (2::(0::(Nil)))) = ((qreva ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))) ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(2::(0::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 335
 
@@ -13437,6 +14014,9 @@ intro nat2
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (7::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(7::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -13444,6 +14024,9 @@ intro nat1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(ZERO::(Nil)))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (0::(Nil))) = ((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 337
 
@@ -13492,6 +14075,9 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -13499,6 +14085,9 @@ intro nat1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (7::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(7::(Nil))))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (8::(0::(Nil)))) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(8::(0::(Nil)))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (4::(Nil))) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(4::(Nil))))
 =================================================
 Progress: 338
 
@@ -13547,6 +14136,9 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (8::(Nil))) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(8::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (4::(Nil))) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(4::(Nil))))
 previous tactics
 simpl in goal
 intro any_list1
@@ -13554,6 +14146,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (7::(Nil))) = ((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(7::(Nil))))
 =================================================
 Progress: 339
 
@@ -13602,6 +14197,9 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (3::(7::(6::(4::(Nil)))))) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(3::(7::(6::(4::(Nil)))))))
 previous tactics
 simpl in goal
 intro nat1
@@ -13609,6 +14207,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (6::(Nil))) = ((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(6::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 340
 
@@ -13660,6 +14261,9 @@ intro nat3
 intro nat4
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
@@ -13668,6 +14272,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = ((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) @ (Nil)) @ (ZERO::(Nil)))
 =================================================
 Progress: 341
 
@@ -13941,6 +14548,9 @@ previous tactics
 simpl in goal
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))))) @ (5::(Nil))) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(5::(Nil))))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat5:nat) (nat_list1:nat list), (qreva (nat_list1) ((nat5::(nat4::(nat3::(nat2::(nat1::(Nil))))))) @ any_list1) = (((qreva (nat_list1) ((nat5::(nat4::(nat3::(Nil))))) @ (Nil)) @ (nat2::(Nil))) @ (nat1::any_list1))
 End of Lemma List
@@ -14140,6 +14750,9 @@ simpl in goal
 intro any_list1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (6::(6::(Nil)))) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(6::(6::(Nil)))))
 =================================================
 Progress: 354
 
@@ -14253,6 +14866,9 @@ simpl in goal
 intro nat1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (0::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
 =================================================
 Progress: 357
 
@@ -14329,6 +14945,9 @@ simpl in goal
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 359
 
@@ -14369,6 +14988,9 @@ simpl in goal
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil))))))) @ (0::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (ZERO))::(0::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))
 =================================================
 Progress: 360
 
@@ -14489,6 +15111,9 @@ intro any_list1
 intro nat1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (0::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(0::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(Nil))))))) @ (0::(Nil))) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (SUCC (ZERO))::(0::(Nil))))
 =================================================
 Progress: 363
 
@@ -14570,6 +15195,9 @@ intro any_list1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (0::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(0::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 365
 
@@ -14613,6 +15241,9 @@ intro any_list1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 366
 
@@ -14694,6 +15325,9 @@ intro nat1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (0::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(0::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (3::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(3::(Nil))))
 =================================================
 Progress: 368
 
@@ -14737,6 +15371,9 @@ intro nat1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (8::(0::(3::(Nil))))) = (((qreva ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(8::(0::(3::(Nil))))))
 =================================================
 Progress: 369
 
@@ -14780,6 +15417,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (8::(Nil))) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(8::(Nil))))
+Prop: (qreva ((ZERO::(SUCC (ZERO)::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(SUCC (ZERO)::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 370
 
@@ -14866,6 +15506,9 @@ intro nat1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 372
 
@@ -14912,6 +15555,9 @@ intro nat1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (3::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(3::(Nil))))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (0::(1::(Nil)))) = (((qreva ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(0::(1::(Nil)))))
 =================================================
 Progress: 373
 
@@ -14958,6 +15604,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (6::(Nil))) = (((qreva ((ZERO::(Nil))) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(6::(Nil))))
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(ZERO::(Nil)))) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 374
 
@@ -15004,6 +15653,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (0::(0::(6::(Nil))))) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(0::(0::(6::(Nil))))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 375
 
@@ -15053,6 +15705,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 376
 
@@ -15326,6 +15981,9 @@ previous tactics
 simpl in goal
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 384
 
@@ -15477,6 +16135,9 @@ simpl in goal
 intro any_list1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(ZERO::(Nil)))) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 388
 
@@ -15590,6 +16251,9 @@ simpl in goal
 intro nat1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (2::(Nil))) = (((qreva ((SUCC (ZERO)::(ZERO::(Nil)))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(2::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 391
 
@@ -15666,6 +16330,9 @@ simpl in goal
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
 =================================================
 Progress: 393
 
@@ -15706,6 +16373,9 @@ simpl in goal
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(SUCC (ZERO)::(Nil)))) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (1::(Nil))) = (((qreva ((ZERO::(SUCC (ZERO)::(Nil)))) ((SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(1::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil)))
 =================================================
 Progress: 394
 
@@ -15826,6 +16496,9 @@ intro any_list1
 intro nat1
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 397
 
@@ -15907,6 +16580,9 @@ intro any_list1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (8::(Nil))) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(8::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 399
 
@@ -15950,6 +16626,9 @@ intro any_list1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (1::(Nil))) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(1::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 400
 
@@ -16031,6 +16710,9 @@ intro nat1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 402
 
@@ -16074,6 +16756,9 @@ intro nat1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(ZERO::(Nil)))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(ZERO::(Nil)))) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (8::(Nil))) = (((qreva ((ZERO::(Nil))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(8::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 403
 
@@ -16117,6 +16802,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 404
 
@@ -16203,6 +16891,9 @@ intro nat1
 intro nat2
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))) @ (6::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(6::(Nil))))
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))) @ (5::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(5::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 406
 
@@ -16249,6 +16940,9 @@ intro nat1
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil)))
+Prop: (qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (ZERO)::(Nil))) ((ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 407
 
@@ -16295,6 +16989,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (1::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(1::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))::(SUCC (ZERO)::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))::(Nil))) @ (SUCC (ZERO)::(Nil)))
 =================================================
 Progress: 408
 
@@ -16341,6 +17038,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (8::(Nil))) = (((qreva ((Nil)) ((SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(8::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil))))))) @ (0::(Nil))) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(0::(Nil))))
 =================================================
 Progress: 409
 
@@ -16390,6 +17090,9 @@ intro nat2
 intro nat3
 intro nat4
 validate generalize_common_subterm_goal
+Prop: (qreva ((SUCC (SUCC (SUCC (ZERO)))::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((SUCC (SUCC (SUCC (ZERO)))::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(ZERO::(ZERO::(Nil))))) @ (Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(Nil))))))) @ (Nil)) = (((qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))) @ (Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))
 =================================================
 Progress: 410
 
@@ -16426,9 +17129,47 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (0::(Nil))) = ((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(0::(Nil))))
 previous tactics
 simpl in goal
+parent
+(nat2::(nat1::(Nil)))
+lower
+Cons(_, Cons(nat1, Nil()))
+upper
+@(qreva(nat_list2, _), any_list1)
+remove upper
+Cons(nat1, Nil())
+remove lower
+Cons(nat1, Nil())
+remove upper
+Cons(nat2, Cons(nat1, Nil()))
+remove lower
+Cons(nat2, Cons(nat1, Nil()))
+remove upper
+Cons(nat3, Cons(nat2, Cons(nat1, Nil())))
+remove lower
+Cons(nat3, Cons(nat2, Cons(nat1, Nil())))
+remove upper
+Cons(nat4, Cons(nat3, Cons(nat2, Cons(nat1, Nil()))))
+remove lower
+Cons(nat4, Cons(nat3, Cons(nat2, Cons(nat1, Nil()))))
+parent
+(nat2::(Nil))
+lower
+Cons(_, Nil())
+upper
+@(@(reverse(nat_list2), _), Cons(nat1, any_list1))
+remove upper
+Cons(nat2, Nil())
+remove lower
+Cons(nat2, Nil())
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (8::(Nil))) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(8::(Nil))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 =================================================
 Progress: 411
 
@@ -16468,10 +17209,16 @@ simpl in goal
 intro any_list1
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((ZERO::(SUCC (SUCC (ZERO))::(Nil)))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (SUCC (SUCC (ZERO))::(Nil)))
+Prop: (qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(ZERO::(Nil)))) @ (2::(0::(4::(3::(Nil)))))) = ((qreva ((ZERO::(Nil))) ((SUCC (ZERO)::(Nil))) @ (Nil)) @ (ZERO::(2::(0::(4::(3::(Nil)))))))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((qreva ((Nil)) ((ZERO::(Nil))) @ (Nil)) @ (ZERO::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 validate generalize_common_subterm_goal
+Prop: (qreva ((Nil)) ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))) @ (7::(2::(Nil)))) = ((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(7::(2::(Nil)))))
+Prop: (qreva ((SUCC (SUCC (SUCC (ZERO)))::(Nil))) ((ZERO::(ZERO::(Nil)))) @ (Nil)) = ((reverse ((SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: (qreva ((Nil)) ((ZERO::(ZERO::(Nil)))) @ (6::(Nil))) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(6::(Nil))))
 =================================================
 Progress: 412
 

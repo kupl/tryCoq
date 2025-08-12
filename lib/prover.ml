@@ -124,15 +124,14 @@ let rec collect_fname_in_expr env expr =
       []
       assign_list
     @ collect_fname_in_expr env body
-  | Ir.Match (_, case_list) ->
-    (* List.fold_left (fun acc exp -> acc @ collect_fname_in_expr env exp) [] match_list
-    @  *)
-    List.fold_left
-      (fun acc case ->
-         match case with
-         | Ir.Case (_, exp) -> acc @ collect_fname_in_expr env exp)
-      []
-      case_list
+  | Ir.Match (match_list, case_list) ->
+    List.fold_left (fun acc exp -> acc @ collect_fname_in_expr env exp) [] match_list
+    @ List.fold_left
+        (fun acc case ->
+           match case with
+           | Ir.Case (_, exp) -> acc @ collect_fname_in_expr env exp)
+        []
+        case_list
 ;;
 
 let rec collect_fname_in_prop env goal =
@@ -375,13 +374,13 @@ let rec collect_var_in_ifthenelse_prop prop =
 
 let rec collect_decreasing_var_in_body env expr =
   match expr.Ir.desc with
-  | Ir.Match (_, case_list) ->
-    List.fold_left
-      (fun acc case ->
-         match case with
-         | Ir.Case (_, exp) -> acc @ collect_decreasing_var_in_body env exp)
-      []
-      case_list
+  | Ir.Match
+      ( _
+      , [ Case (Pat_Constr ("true", _), true_case)
+        ; Case (Pat_Constr ("false", _), false_case)
+        ] ) ->
+    collect_decreasing_var_in_body env true_case
+    @ collect_decreasing_var_in_body env false_case
   | _ -> collect_decreasing_arg_in_expr env expr
 ;;
 

@@ -245,9 +245,9 @@ targetNew(_)
 remove upper
 plus(plus(targetNew(tree4), targetNew(tree4)), _)
 validate generalize_common_subterm_goal
-Prop: SUCC (plus (spec (target (Node (ZERO) (Leaf) (Node (ZERO) (Leaf) (Node (SUCC (ZERO)) (Leaf) (Leaf)))))) (spec (target (Leaf)))) = plus (plus (targetNew (Node (ZERO) (Leaf) (Node (ZERO) (Leaf) (Node (SUCC (ZERO)) (Leaf) (Leaf))))) (targetNew (Node (ZERO) (Leaf) (Node (ZERO) (Leaf) (Node (SUCC (ZERO)) (Leaf) (Leaf)))))) (SUCC (ZERO))
 Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Node (ZERO) (Leaf) (Leaf))))) = plus (plus (targetNew (Leaf)) (targetNew (Leaf))) (SUCC (ZERO))
-Prop: SUCC (plus (spec (target (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf)))) (spec (target (Leaf)))) = plus (plus (targetNew (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf))) (targetNew (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf)))) (SUCC (ZERO))
+Prop: SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Leaf)))) = plus (plus (targetNew (Node (ZERO) (Leaf) (Leaf))) (targetNew (Node (ZERO) (Leaf) (Leaf)))) (SUCC (ZERO))
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = plus (plus (targetNew (Leaf)) (targetNew (Leaf))) (SUCC (ZERO))
 Lemma List
 forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
 End of Lemma List
@@ -599,30 +599,30 @@ intro Cond1
 intro Cond2
 rewrite <- IH1 in goal at 0
 Prop: SUCC (SUCC (plus (ZERO) (spec (target (Leaf))))) = SUCC (ZERO)
-Prop: SUCC (SUCC (plus (SUCC (ZERO)) (spec (target (Leaf))))) = SUCC (SUCC (ZERO))
 Prop: SUCC (SUCC (plus (ZERO) (spec (target (Leaf))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (SUCC (ZERO)) (spec (target (Leaf))))) = SUCC (SUCC (ZERO))
 validate generalize_common_subterm_goal
 Prop: SUCC (SUCC (plus (ZERO) (spec (target (Leaf))))) = SUCC (ZERO)
 Prop: SUCC (SUCC (plus (ZERO) (spec (target (Leaf))))) = SUCC (ZERO)
 Prop: SUCC (SUCC (plus (SUCC (ZERO)) (spec (target (Leaf))))) = SUCC (SUCC (ZERO))
-Prop: SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Node (ZERO) (Leaf) (Leaf))))) = spec (target (Node (ZERO) (Leaf) (Leaf)))
-Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = spec (target (Leaf))
-Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = spec (target (Leaf))
-Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Leaf))))) = SUCC (spec (target (Node (ZERO) (Leaf) (Leaf))))
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Node (ZERO) (Leaf) (Leaf))))) = spec (target (Leaf))
+Prop: SUCC (plus (spec (target (Node (ZERO) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf) (Leaf)) (Leaf)))) (spec (target (Leaf)))) = spec (target (Node (ZERO) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf) (Leaf)) (Leaf)))
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf) (Leaf))))) = spec (target (Leaf))
+Prop: SUCC (SUCC (plus (spec (target (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf) (Leaf)) (Leaf)))) (spec (target (Leaf))))) = SUCC (spec (target (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf) (Leaf)) (Leaf))))
+Prop: SUCC (SUCC (plus (spec (target (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf)))) (spec (target (Node (ZERO) (Leaf) (Leaf)))))) = SUCC (spec (target (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf))))
 Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (spec (target (Leaf)))
-Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Node (ZERO) (Leaf) (Leaf)))))) = SUCC (spec (target (Leaf)))
 asdf
 previous tactics
 simpl in goal
 intro Cond1
 intro Cond2
 validate generalize_common_subterm_goal
+Prop: SUCC (plus (spec (target (Node (SUCC (ZERO)) (Leaf) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Leaf))))) (spec (target (Leaf)))) = ZERO
+Prop: SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Node (ZERO) (Leaf) (Leaf))))) = ZERO
 Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = ZERO
-Prop: SUCC (plus (spec (target (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Leaf)) (Leaf)))) (spec (target (Leaf)))) = ZERO
-Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = ZERO
-Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Leaf) (Node (ZERO) (Leaf) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Node (ZERO) (Leaf) (Leaf))))))) (spec (target (Leaf))))) = SUCC (ZERO)
 Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (ZERO)
-Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Node (SUCC (ZERO)) (Leaf) (Leaf)))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Leaf)))) (spec (target (Leaf))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (ZERO)
 asdf
 =================================================
 Progress: 17
@@ -673,30 +673,30 @@ simpl in goal
 intro Cond1
 intro Cond2
 rewrite <- IH2 in goal at 0
-Prop: SUCC (SUCC (plus (spec (target (Node (SUCC (ZERO)) (Leaf) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf) (Leaf)) (Leaf))))) (SUCC (SUCC (ZERO))))) = SUCC (SUCC (SUCC (ZERO)))
-Prop: SUCC (SUCC (plus (spec (target (Leaf))) (ZERO))) = SUCC (ZERO)
-Prop: SUCC (SUCC (plus (spec (target (Leaf))) (ZERO))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (ZERO))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (SUCC (ZERO)))) = SUCC (SUCC (ZERO))
+Prop: SUCC (SUCC (plus (spec (target (Node (SUCC (ZERO)) (Leaf) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf)) (Leaf))))) (ZERO))) = SUCC (ZERO)
 validate generalize_common_subterm_goal
-Prop: SUCC (SUCC (plus (spec (target (Leaf))) (SUCC (ZERO)))) = SUCC (SUCC (ZERO))
-Prop: SUCC (SUCC (plus (spec (target (Leaf))) (ZERO))) = SUCC (ZERO)
-Prop: SUCC (SUCC (plus (spec (target (Node (SUCC (ZERO)) (Leaf) (Node (SUCC (ZERO)) (Leaf) (Leaf))))) (ZERO))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (ZERO))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf)))) (ZERO))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (SUCC (SUCC (ZERO))))) = SUCC (SUCC (SUCC (ZERO)))
 Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = spec (target (Leaf))
 Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = spec (target (Leaf))
-Prop: SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Node (ZERO) (Node (SUCC (ZERO)) (Leaf) (Leaf)) (Leaf))))) = spec (target (Node (ZERO) (Node (SUCC (ZERO)) (Leaf) (Leaf)) (Leaf)))
-Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf) (Leaf)))))) = SUCC (spec (target (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf) (Leaf))))
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = spec (target (Leaf))
 Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (spec (target (Leaf)))
-Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Node (SUCC (ZERO)) (Leaf) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Node (SUCC (ZERO)) (Leaf) (Leaf))))))) (spec (target (Leaf))))) = SUCC (spec (target (Leaf)))
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Node (SUCC (ZERO)) (Leaf) (Leaf)))))) = SUCC (spec (target (Node (SUCC (ZERO)) (Leaf) (Leaf))))
+Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Node (ZERO) (Leaf) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Leaf))))))) = SUCC (spec (target (Node (ZERO) (Leaf) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Leaf)))))
 asdf
 previous tactics
 simpl in goal
 intro Cond1
 intro Cond2
 validate generalize_common_subterm_goal
-Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Node (ZERO) (Leaf) (Leaf))))) = ZERO
 Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = ZERO
 Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = ZERO
-Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Leaf))))) = SUCC (ZERO)
-Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (ZERO)
+Prop: SUCC (plus (spec (target (Node (ZERO) (Leaf) (Node (SUCC (ZERO)) (Leaf) (Leaf))))) (spec (target (Node (ZERO) (Leaf) (Leaf))))) = ZERO
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Leaf) (Leaf)))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf)))) (spec (target (Leaf))))) = SUCC (ZERO)
 Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (ZERO)
 asdf
 Fatal error: exception Failure("worklist is empty")

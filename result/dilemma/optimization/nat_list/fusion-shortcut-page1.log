@@ -761,17 +761,17 @@ case mainNew (nat_list2)
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: if geq (ZERO) (ZERO) then mainNew ((Nil)) else false = lq (ZERO) (SUCC (ZERO))
-Prop: if geq (ZERO) (ZERO) then mainNew ((Nil)) else false = lq (ZERO) (SUCC (ZERO))
 Prop: if geq (ZERO) (SUCC (ZERO)) then mainNew ((Nil)) else false = lq (SUCC (ZERO)) (SUCC (ZERO))
+Prop: if geq (ZERO) (SUCC (ZERO)) then mainNew ((Nil)) else false = lq (SUCC (ZERO)) (SUCC (ZERO))
+Prop: if geq (ZERO) (ZERO) then mainNew ((SUCC (ZERO)::(Nil))) else false = lq (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal
 case mainNew (nat_list2)
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: if geq (ZERO) (ZERO) then true else false = lq (ZERO) (SUCC (ZERO))
-Prop: if geq (ZERO) (ZERO) then true else false = lq (ZERO) (SUCC (ZERO))
 Prop: if geq (ZERO) (SUCC (ZERO)) then true else false = lq (SUCC (ZERO)) (SUCC (ZERO))
+Prop: if geq (ZERO) (SUCC (ZERO)) then true else false = lq (SUCC (ZERO)) (SUCC (ZERO))
+Prop: if geq (ZERO) (SUCC (SUCC (ZERO))) then true else false = lq (SUCC (SUCC (ZERO))) (SUCC (ZERO))
 previous tactics
 simpl in goal
 case mainNew (nat_list2)
@@ -798,9 +798,9 @@ lq(nat1, SUCC(ZERO()))
 remove lower
 lq(nat1, SUCC(ZERO()))
 validate generalize_common_subterm_goal
-Prop: if geq (ZERO) (SUCC (ZERO)) then all (map ((Nil))) else false = lq (SUCC (ZERO)) (SUCC (ZERO))
-Prop: if geq (ZERO) (ZERO) then all (map ((Nil))) else false = lq (ZERO) (SUCC (ZERO))
-Prop: if geq (ZERO) (ZERO) then all (map ((Nil))) else false = lq (ZERO) (SUCC (ZERO))
+Prop: if geq (ZERO) (ZERO) then all (map ((ZERO::(ZERO::(Nil))))) else false = lq (ZERO) (SUCC (ZERO))
+Prop: if geq (ZERO) (ZERO) then all (map ((ZERO::(Nil)))) else false = lq (ZERO) (SUCC (ZERO))
+Prop: if geq (ZERO) (ZERO) then all (map ((ZERO::(Nil)))) else false = lq (ZERO) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat_list1:nat list), mainNew (nat_list1) = true -> if geq (ZERO) (nat1) then all (map (nat_list1)) else false = lq (nat1) (SUCC (ZERO))
 End of Lemma List
@@ -2212,24 +2212,24 @@ rewrite <- Case1 in goal at 3
 validate generalize_common_subterm_goal
 Prop: if geq (ZERO) (ZERO) then false else false = mainNew ((Nil))
 Prop: if geq (ZERO) (ZERO) then false else false = mainNew ((Nil))
-Prop: if geq (ZERO) (SUCC (ZERO)) then false else false = mainNew ((ZERO::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))
+Prop: if geq (ZERO) (ZERO) then false else false = mainNew ((ZERO::(ZERO::(Nil))))
 previous tactics
 reflexivity
 rewrite lemma3 in goal at 0
 reflexivity
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: if geq (ZERO) (ZERO) then false else false = false
-Prop: if geq (ZERO) (ZERO) then false else false = false
-Prop: if geq (ZERO) (ZERO) then false else false = false
+Prop: if geq (ZERO) (SUCC (SUCC (ZERO))) then false else false = false
+Prop: if geq (ZERO) (SUCC (ZERO)) then false else false = false
+Prop: if geq (ZERO) (SUCC (ZERO)) then false else false = false
 previous tactics
 reflexivity
 rewrite lemma3 in goal at 0
 reflexivity
 validate generalize_common_subterm_goal
 Prop: if geq (ZERO) (ZERO) then all (map ((Nil))) else false = false
-Prop: if geq (ZERO) (ZERO) then all (map ((ZERO::(SUCC (ZERO)::(Nil))))) else false = false
-Prop: if geq (ZERO) (ZERO) then all (map ((ZERO::(ZERO::(ZERO::(Nil)))))) else false = false
+Prop: if geq (ZERO) (ZERO) then all (map ((Nil))) else false = false
+Prop: if geq (ZERO) (ZERO) then all (map ((Nil))) else false = false
 Lemma List
 forall (nat1:nat) (nat_list1:nat list), mainNew (nat_list1) = false -> if geq (ZERO) (nat1) then all (map (nat_list1)) else false = false
 End of Lemma List

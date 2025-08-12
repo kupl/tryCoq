@@ -176,6 +176,41 @@ qreva (any_list3) ((any1::(Nil))) = ((reverse (any_list3) @ (any1::(Nil))) @ (Ni
 Tactic List : 0
 previous tactics
 simpl in goal
+parent
+(any1::(Nil))
+lower
+Cons(_, Nil())
+upper
+qreva(any_list3, _)
+remove upper
+Nil()
+remove lower
+Nil()
+remove upper
+Cons(any1, Nil())
+remove lower
+Cons(any1, Nil())
+remove upper
+Cons(any2, Cons(any1, Nil()))
+remove lower
+Cons(any2, Cons(any1, Nil()))
+remove upper
+Cons(any3, Cons(any2, Cons(any1, Nil())))
+remove lower
+Cons(any3, Cons(any2, Cons(any1, Nil())))
+parent
+(any1::(Nil))
+lower
+Cons(_, Nil())
+upper
+@(@(reverse(any_list3), _), Nil())
+remove upper
+Cons(any1, Nil())
+remove lower
+Cons(any1, Nil())
+Prop: qreva ((Nil)) ((Nil)) = ((reverse ((Nil)) @ (Nil)) @ (Nil))
+Prop: qreva ((Nil)) ((8::(Nil))) = ((reverse ((Nil)) @ (8::(Nil))) @ (Nil))
+Prop: qreva ((Nil)) ((Nil)) = ((reverse ((Nil)) @ (Nil)) @ (Nil))
 Lemma List
 forall (any_list1:any list) (any_list2:any list), qreva (any_list1) (any_list2) = ((reverse (any_list1) @ any_list2) @ (Nil))
 End of Lemma List
@@ -562,6 +597,9 @@ reflexivity
 simpl in goal
 intro any_list2
 rewrite IH1 in goal at 0
+Prop: (((Nil) @ (5::(Nil))) @ (Nil)) = ((((Nil) @ (5::(Nil))) @ (Nil)) @ (Nil))
+Prop: (((Nil) @ (2::(Nil))) @ (Nil)) = ((((Nil) @ (2::(Nil))) @ (Nil)) @ (Nil))
+Prop: (((7::(Nil)) @ (0::(3::(Nil)))) @ (Nil)) = ((((7::(Nil)) @ (0::(Nil))) @ (3::(Nil))) @ (Nil))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
@@ -569,6 +607,9 @@ reflexivity
 simpl in goal
 intro any_list2
 validate generalize_common_subterm_goal
+Prop: qreva ((8::(7::(1::(Nil))))) ((4::(6::(Nil)))) = (((reverse ((8::(7::(1::(Nil))))) @ (4::(Nil))) @ (6::(Nil))) @ (Nil))
+Prop: qreva ((Nil)) ((0::(Nil))) = (((reverse ((Nil)) @ (0::(Nil))) @ (Nil)) @ (Nil))
+Prop: qreva ((8::(Nil))) ((6::(Nil))) = (((reverse ((8::(Nil))) @ (6::(Nil))) @ (Nil)) @ (Nil))
 Lemma List
 forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::any_list1)) @ (Nil)) = (((any_list2 @ (any1::(Nil))) @ any_list1) @ (Nil))
 End of Lemma List
@@ -973,6 +1014,50 @@ qreva (qreva (any_list3) ((any1::(Nil)))) ((Nil)) = (any1::any_list3)
 Tactic List : 0
 previous tactics
 simpl in goal
+parent
+(any1::(Nil))
+lower
+Cons(_, Nil())
+upper
+qreva(qreva(any_list3, _), Nil())
+remove upper
+Nil()
+remove lower
+Nil()
+remove upper
+Cons(any1, Nil())
+remove lower
+Cons(any1, Nil())
+remove upper
+Cons(any2, Cons(any1, Nil()))
+remove lower
+Cons(any2, Cons(any1, Nil()))
+remove upper
+Cons(any3, Cons(any2, Cons(any1, Nil())))
+remove lower
+Cons(any3, Cons(any2, Cons(any1, Nil())))
+parent
+(any1::any_list3)
+lower
+Cons(_, any_list3)
+upper
+_
+remove upper
+any_list3
+remove lower
+_
+remove upper
+Cons(any1, any_list3)
+remove lower
+Cons(any1, _)
+remove upper
+Cons(any1, Cons(any2, any_list4))
+remove lower
+Cons(any1, Cons(any2, _))
+remove upper
+Cons(any1, Cons(any2, Cons(any3, any_list5)))
+remove lower
+Cons(any1, Cons(any2, Cons(any3, _)))
 New Env
 let rec mk_rhs1 arg_3 arg_4 =
 match (arg_3) with
@@ -1123,12 +1208,18 @@ rewrite <- IH1 in goal at 0
 reflexivity
 simpl in goal
 rewrite IH1 in goal at 0
+Prop: (((Nil) @ (4::(Nil))) @ (Nil)) = ((((Nil) @ (4::(Nil))) @ (Nil)) @ (Nil))
+Prop: (((Nil) @ (4::(Nil))) @ (Nil)) = ((((Nil) @ (4::(Nil))) @ (Nil)) @ (Nil))
+Prop: (((Nil) @ (6::(Nil))) @ (Nil)) = ((((Nil) @ (6::(Nil))) @ (Nil)) @ (Nil))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: qreva ((Nil)) ((2::(Nil))) = (((reverse ((Nil)) @ (2::(Nil))) @ (Nil)) @ (Nil))
+Prop: qreva ((Nil)) ((0::(Nil))) = (((reverse ((Nil)) @ (0::(Nil))) @ (Nil)) @ (Nil))
+Prop: qreva ((Nil)) ((5::(Nil))) = (((reverse ((Nil)) @ (5::(Nil))) @ (Nil)) @ (Nil))
 =================================================
 Progress: 34
 
@@ -1602,6 +1693,29 @@ Inductive2 : any_list2 = (any2::any_list4)
 Tactic List : 0
 previous tactics
 simpl in goal
+parent
+(any2::(Nil))
+lower
+Cons(_, Nil())
+upper
+@(@(@(reverse(any_list4), _), Cons(any1, Nil())), any_list3)
+remove upper
+Cons(any2, Nil())
+remove lower
+Cons(any2, Nil())
+parent
+(any2::(Nil))
+lower
+Cons(_, Nil())
+upper
+@(@(reverse(any_list4), _), Cons(any1, any_list3))
+remove upper
+Cons(any2, Nil())
+remove lower
+Cons(any2, Nil())
+Prop: (((7::(Nil)) @ (2::(Nil))) @ (Nil)) = ((7::(Nil)) @ (2::(Nil)))
+Prop: (((6::(0::(Nil))) @ (8::(Nil))) @ (Nil)) = ((6::(0::(Nil))) @ (8::(Nil)))
+Prop: (((Nil) @ (8::(Nil))) @ (Nil)) = ((Nil) @ (8::(Nil)))
 Lemma List
 forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
 End of Lemma List
@@ -2153,6 +2267,9 @@ previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 simpl in goal
+Prop: (((8::(Nil)) @ (4::(Nil))) @ (Nil)) = ((8::(Nil)) @ (4::(Nil)))
+Prop: (((Nil) @ (1::(Nil))) @ (Nil)) = ((Nil) @ (1::(Nil)))
+Prop: (((2::(Nil)) @ (2::(Nil))) @ (Nil)) = ((2::(Nil)) @ (2::(Nil)))
 =================================================
 Progress: 60
 

@@ -242,15 +242,15 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 0
-Prop: spec (tf3 ((Nil)) ((ZERO::(Nil)))) = plus (spec ((ZERO::(Nil)))) (spec ((Nil)))
-Prop: spec (tf3 ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))) ((Nil))) = plus (spec ((Nil))) (spec ((SUCC (ZERO)::(ZERO::(ZERO::(Nil))))))
-Prop: spec (tf3 ((ZERO::(Nil))) ((Nil))) = plus (spec ((Nil))) (spec ((ZERO::(Nil))))
+Prop: spec (tf3 ((Nil)) ((ZERO::(ZERO::(Nil))))) = plus (spec ((ZERO::(ZERO::(Nil))))) (spec ((Nil)))
+Prop: spec (tf3 ((Nil)) ((SUCC (SUCC (ZERO))::(Nil)))) = plus (spec ((SUCC (SUCC (ZERO))::(Nil)))) (spec ((Nil)))
+Prop: spec (tf3 ((Nil)) ((Nil))) = plus (spec ((Nil))) (spec ((Nil)))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-Prop: spec (tf3 (repr (Single (ZERO))) ((Nil))) = plus (spec ((Nil))) (mainNew (Single (ZERO)))
-Prop: spec (tf3 (repr (Single (ZERO))) ((Nil))) = plus (spec ((Nil))) (mainNew (Single (ZERO)))
-Prop: spec (tf3 (repr (Single (ZERO))) ((Nil))) = plus (spec ((Nil))) (mainNew (Single (ZERO)))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) ((Nil))) = plus (spec ((Nil))) (mainNew (Concats (Single (ZERO)) (Single (ZERO))))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) ((Nil))) = plus (spec ((Nil))) (mainNew (Single (SUCC (ZERO))))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) ((Nil))) = plus (spec ((Nil))) (mainNew (Single (SUCC (ZERO))))
 previous tactics
 simpl in goal
 parent
@@ -290,9 +290,9 @@ plus(plus(mainNew(clist6), mainNew(clist7)), mainNew(clist5))
 remove lower
 plus(plus(mainNew(_), mainNew(clist7)), mainNew(clist5))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Concats (Cnil) (Cnil)))) = plus (mainNew (Concats (Cnil) (Cnil))) (mainNew (Single (SUCC (ZERO))))
-Prop: spec (tf3 (repr (Cnil)) (repr (Concats (Cnil) (Single (ZERO))))) = plus (mainNew (Concats (Cnil) (Single (ZERO)))) (mainNew (Cnil))
-Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO)))) (repr (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Concats (Cnil) (Concats (Concats (Single (ZERO)) (Cnil)) (Single (ZERO)))) (Concats (Single (ZERO)) (Cnil)))))))) = plus (mainNew (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Concats (Cnil) (Concats (Concats (Single (ZERO)) (Cnil)) (Single (ZERO)))) (Concats (Single (ZERO)) (Cnil))))))) (mainNew (Concats (Single (SUCC (ZERO))) (Single (ZERO))))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = plus (mainNew (Single (ZERO))) (mainNew (Single (ZERO)))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (repr (Concats (Single (ZERO)) (Cnil)))) = plus (mainNew (Concats (Single (ZERO)) (Cnil))) (mainNew (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Cnil))) = plus (mainNew (Cnil)) (mainNew (Single (SUCC (ZERO))))
 Lemma List
 forall (nat_list1:nat list) (clist1:clist), spec (tf3 (repr (clist1)) (nat_list1)) = plus (spec (nat_list1)) (mainNew (clist1))
 End of Lemma List
@@ -428,9 +428,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH2 in goal at 0
-Prop: spec (tf3 ((SUCC (SUCC (ZERO))::(Nil))) (repr (Concats (Concats (Single (ZERO)) (Cnil)) (Cnil)))) = plus (mainNew (Concats (Concats (Single (ZERO)) (Cnil)) (Cnil))) (spec ((SUCC (SUCC (ZERO))::(Nil))))
-Prop: spec (tf3 ((ZERO::(Nil))) (repr (Single (SUCC (ZERO))))) = plus (mainNew (Single (SUCC (ZERO)))) (spec ((ZERO::(Nil))))
-Prop: spec (tf3 ((ZERO::(Nil))) (repr (Concats (Single (ZERO)) (Single (ZERO))))) = plus (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) (spec ((ZERO::(Nil))))
+Prop: spec (tf3 ((Nil)) (repr (Cnil))) = plus (mainNew (Cnil)) (spec ((Nil)))
+Prop: spec (tf3 ((Nil)) (repr (Concats (Concats (Single (ZERO)) (Cnil)) (Concats (Cnil) (Concats (Single (SUCC (ZERO))) (Concats (Cnil) (Concats (Cnil) (Concats (Single (SUCC (ZERO))) (Cnil))))))))) = plus (mainNew (Concats (Concats (Single (ZERO)) (Cnil)) (Concats (Cnil) (Concats (Single (SUCC (ZERO))) (Concats (Cnil) (Concats (Cnil) (Concats (Single (SUCC (ZERO))) (Cnil)))))))) (spec ((Nil)))
+Prop: spec (tf3 ((Nil)) (repr (Single (ZERO)))) = plus (mainNew (Single (ZERO))) (spec ((Nil)))
 previous tactics
 simpl in goal
 parent
@@ -470,9 +470,9 @@ plus(plus(mainNew(clist6), mainNew(clist7)), mainNew(clist5))
 remove lower
 plus(plus(mainNew(_), mainNew(clist7)), mainNew(clist5))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Concats (Cnil) (Concats (Cnil) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))))) (repr (Cnil))) = plus (mainNew (Cnil)) (mainNew (Concats (Cnil) (Concats (Cnil) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))))
-Prop: spec (tf3 (repr (Concats (Cnil) (Cnil))) (repr (Cnil))) = plus (mainNew (Cnil)) (mainNew (Concats (Cnil) (Cnil)))
-Prop: spec (tf3 (repr (Cnil)) (repr (Concats (Cnil) (Single (ZERO))))) = plus (mainNew (Concats (Cnil) (Single (ZERO)))) (mainNew (Cnil))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (SUCC (ZERO)))))) = plus (mainNew (Single (SUCC (SUCC (ZERO))))) (mainNew (Single (ZERO)))
+Prop: spec (tf3 (repr (Cnil)) (repr (Concats (Concats (Cnil) (Cnil)) (Single (ZERO))))) = plus (mainNew (Concats (Concats (Cnil) (Cnil)) (Single (ZERO)))) (mainNew (Cnil))
+Prop: spec (tf3 (repr (Cnil)) (repr (Single (SUCC (ZERO))))) = plus (mainNew (Single (SUCC (ZERO)))) (mainNew (Cnil))
 Lemma List
 forall (nat_list1:nat list) (clist1:clist), spec (tf3 (nat_list1) (repr (clist1))) = plus (mainNew (clist1)) (spec (nat_list1))
 End of Lemma List

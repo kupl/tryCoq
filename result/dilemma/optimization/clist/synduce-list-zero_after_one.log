@@ -45,7 +45,7 @@ forall (clist1:clist), match (tf5 (repr (clist1))) with
 
 0 conjecture(s) more...
 Tactic List : 1
-intro clist1(rank:3.)
+induction clist1(rank:5.)
 =================================================
 Progress: 3
 
@@ -59,27 +59,48 @@ forall (clist1:clist), match (tf5 (repr (clist1))) with
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro clist1(rank : 3.)
+>>> induction clist1(rank : 5.)
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 clist1 : clist
+Base1 : clist1 = Emp
 ---------------------------------------
-match (tf5 (repr (clist1))) with
+match (tf5 (repr (Emp))) with
 | Tuple3 _ b _ -> b = b1
 
-0 goal(s) more...
+2 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:5.)
+=================================================
+Progress: 4
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+Base1 : clist1 = Emp
+---------------------------------------
+match (tf5 (repr (Emp))) with
+| Tuple3 _ b _ -> b = b1
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 5.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+Base1 : clist1 = Emp
+---------------------------------------
+false = b1
+
+2 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: match (tf5 (repr (Single (true)))) with
-| Tuple3 _ b _ -> b = 4
-Prop: match (tf5 (repr (Emp))) with
-| Tuple3 _ b _ -> b = 7
-Prop: match (tf5 (repr (Emp))) with
-| Tuple3 _ b _ -> b = 4
-asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69

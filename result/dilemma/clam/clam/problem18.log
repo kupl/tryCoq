@@ -176,6 +176,29 @@ Inductive1 : nat_list2 = (nat1::nat_list3)
 Tactic List : 0
 previous tactics
 simpl in goal
+parent
+(nat1::(Nil))
+lower
+Cons(_, Nil())
+upper
+@(reverse(nat_list3), _)
+remove upper
+Cons(nat1, Nil())
+remove lower
+Cons(nat1, Nil())
+parent
+(nat1::(Nil))
+lower
+Cons(_, Nil())
+upper
+@(@(reverse(nat_list3), _), Nil())
+remove upper
+Cons(nat1, Nil())
+remove lower
+Cons(nat1, Nil())
+Prop: (Nil) = ((Nil) @ (Nil))
+Prop: (8::(5::(Nil))) = ((8::(5::(Nil))) @ (Nil))
+Prop: (Nil) = ((Nil) @ (Nil))
 Lemma List
 forall (any_list1:any list), any_list1 = (any_list1 @ (Nil))
 End of Lemma List
@@ -733,7 +756,38 @@ reverse (((reverse (nat_list3) @ (nat1::(Nil))) @ (nat2::nat_list4))) = ((revers
 Tactic List : 0
 previous tactics
 simpl in goal
+parent
+(nat2::nat_list4)
+lower
+Cons(_, nat_list4)
+upper
+reverse(@(@(reverse(nat_list3), Cons(nat1, Nil())), _))
+remove upper
+Cons(nat2, nat_list4)
+remove lower
+Cons(nat2, _)
+remove upper
+Cons(nat2, Cons(nat3, nat_list5))
+remove lower
+Cons(nat2, Cons(nat3, _))
+remove upper
+Cons(nat2, Cons(nat3, Cons(nat4, nat_list6)))
+remove lower
+Cons(nat2, Cons(nat3, Cons(nat4, _)))
+parent
+(nat2::(Nil))
+lower
+Cons(_, Nil())
+upper
+@(@(reverse(nat_list4), _), Cons(nat1, nat_list3))
+remove upper
+Cons(nat2, Nil())
+remove lower
+Cons(nat2, Nil())
 validate generalize_common_subterm_goal
+Prop: reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))) = ((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))
+Prop: reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = ((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
+Prop: reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(ZERO::(Nil)))))) = ((reverse ((ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat_list1:nat list) (nat_list2:nat list), reverse (((reverse (nat_list1) @ (nat1::(Nil))) @ (nat2::nat_list2))) = ((reverse (nat_list2) @ (nat2::(Nil))) @ (nat1::nat_list1))
 End of Lemma List
@@ -1032,6 +1086,9 @@ previous tactics
 simpl in goal
 intro nat2
 validate generalize_common_subterm_goal
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::(ZERO::(ZERO::(Nil))))
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(Nil))))
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(Nil))))
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat) (nat_list1:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::(nat1::(nat3::nat_list1)))
 End of Lemma List
@@ -1128,6 +1185,9 @@ simpl in goal
 intro nat1
 intro nat2
 validate generalize_common_subterm_goal
+Prop: reverse ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(Nil)))))
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil)))) = (SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil))))
 =================================================
 Progress: 32
 
@@ -1473,10 +1533,16 @@ previous tactics
 simpl in goal
 intro nat3
 rewrite <- IH1 in goal at 0
+Prop: reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
+Prop: reverse ((((0::(Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((0::(Nil)) @ (SUCC (ZERO)::(Nil)))))
+Prop: reverse ((((8::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((8::(Nil)) @ (ZERO::(Nil)))))
 previous tactics
 simpl in goal
 intro nat3
 validate generalize_common_subterm_goal
+Prop: reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))
+Prop: reverse (((((reverse ((ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))))
+Prop: reverse (((((reverse ((ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat), reverse (((any_list1 @ (nat1::(Nil))) @ (nat2::(Nil)))) = (nat2::reverse ((any_list1 @ (nat1::(Nil)))))
 End of Lemma List
@@ -1604,11 +1670,17 @@ simpl in goal
 intro nat1
 intro nat3
 rewrite <- IH1 in goal at 0
+Prop: reverse ((((7::(Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((7::(Nil)) @ (SUCC (ZERO)::(Nil)))))
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Prop: reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat3
 validate generalize_common_subterm_goal
+Prop: reverse (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil)))))
+Prop: reverse (((((reverse ((ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))))
+Prop: reverse (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))
 =================================================
 Progress: 45
 
@@ -1650,11 +1722,17 @@ simpl in goal
 intro nat2
 intro nat3
 rewrite <- IH1 in goal at 0
+Prop: reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))) = (SUCC (SUCC (SUCC (ZERO)))::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
+Prop: reverse ((((2::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((2::(Nil)) @ (ZERO::(Nil)))))
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
 previous tactics
 simpl in goal
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: reverse (((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(ZERO::(ZERO::(Nil))))))
+Prop: reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil)))))
+Prop: reverse (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))
 =================================================
 Progress: 46
 
@@ -1699,12 +1777,18 @@ intro nat1
 intro nat2
 intro nat3
 rewrite <- IH1 in goal at 0
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 intro nat3
 validate generalize_common_subterm_goal
+Prop: reverse (((((reverse ((SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::(ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))))
+Prop: reverse (((((reverse ((ZERO::(Nil))) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(SUCC (ZERO)::(ZERO::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(ZERO::(Nil))))))
+Prop: reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))) = (SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(ZERO::(Nil)))))
 =================================================
 Progress: 47
 
@@ -2265,7 +2349,42 @@ reverse (((reverse (nat_list3) @ (nat1::(Nil))) @ (Nil))) = (nat1::nat_list3)
 Tactic List : 0
 previous tactics
 simpl in goal
+parent
+(nat1::(Nil))
+lower
+Cons(_, Nil())
+upper
+reverse(@(@(reverse(nat_list3), _), Nil()))
+remove upper
+Cons(nat1, Nil())
+remove lower
+Cons(nat1, Nil())
+parent
+(nat1::nat_list3)
+lower
+Cons(_, nat_list3)
+upper
+_
+remove upper
+nat_list3
+remove lower
+_
+remove upper
+Cons(nat1, nat_list3)
+remove lower
+Cons(nat1, _)
+remove upper
+Cons(nat1, Cons(nat2, nat_list4))
+remove lower
+Cons(nat1, Cons(nat2, _))
+remove upper
+Cons(nat1, Cons(nat2, Cons(nat3, nat_list5)))
+remove lower
+Cons(nat1, Cons(nat2, Cons(nat3, _)))
 validate generalize_common_subterm_goal
+Prop: reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(Nil))
+Prop: reverse (((reverse ((Nil)) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(Nil))
+Prop: reverse (((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(ZERO::(Nil)))
 Lemma List
 forall (nat1:nat) (nat_list1:nat list), reverse (((reverse (nat_list1) @ (nat1::(Nil))) @ (Nil))) = (nat1::nat_list1)
 End of Lemma List
@@ -2479,10 +2598,16 @@ previous tactics
 simpl in goal
 intro nat1
 rewrite <- IH1 in goal at 0
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
 previous tactics
 simpl in goal
 intro nat1
 validate generalize_common_subterm_goal
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(ZERO::(Nil)))
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(ZERO::(Nil)))
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(ZERO::(Nil)))
 Lemma List
 forall (any_list1:any list) (nat1:nat), reverse (((any_list1 @ (nat1::(Nil))) @ (Nil))) = (nat1::reverse ((any_list1 @ (Nil))))
 End of Lemma List
@@ -2777,9 +2902,43 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::reverse (((Nil) @ (Nil))))
 previous tactics
 simpl in goal
+parent
+(nat2::(Nil))
+lower
+Cons(_, Nil())
+upper
+reverse(@(@(@(reverse(nat_list2), _), Cons(nat1, Nil())), Nil()))
+remove upper
+Cons(nat2, Nil())
+remove lower
+Cons(nat2, Nil())
+parent
+(nat2::nat_list2)
+lower
+Cons(_, nat_list2)
+upper
+Cons(nat1, _)
+remove upper
+Cons(nat2, nat_list2)
+remove lower
+Cons(nat2, _)
+remove upper
+Cons(nat2, Cons(nat3, nat_list3))
+remove lower
+Cons(nat2, Cons(nat3, _))
+remove upper
+Cons(nat2, Cons(nat3, Cons(nat4, nat_list4)))
+remove lower
+Cons(nat2, Cons(nat3, Cons(nat4, _)))
 validate generalize_common_subterm_goal
+Prop: reverse ((((reverse ((ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))
+Prop: reverse ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(SUCC (ZERO)::(Nil)))
+Prop: reverse ((((reverse ((ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (Nil))) = (ZERO::(ZERO::(ZERO::(Nil))))
 =================================================
 Progress: 77
 
@@ -3136,9 +3295,43 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Prop: reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
+Prop: reverse ((((7::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((7::(Nil)) @ (ZERO::(Nil)))))
 previous tactics
 simpl in goal
+parent
+(nat4::(Nil))
+lower
+Cons(_, Nil())
+upper
+reverse(@(@(@(@(reverse(nat_list2), _), Cons(nat3, Nil())), Cons(nat1, Nil())), Cons(nat2, Nil())))
+remove upper
+Cons(nat4, Nil())
+remove lower
+Cons(nat4, Nil())
+parent
+(nat4::nat_list2)
+lower
+Cons(_, nat_list2)
+upper
+Cons(nat2, Cons(nat1, Cons(nat3, _)))
+remove upper
+Cons(nat4, nat_list2)
+remove lower
+Cons(nat4, _)
+remove upper
+Cons(nat4, Cons(nat5, nat_list3))
+remove lower
+Cons(nat4, Cons(nat5, _))
+remove upper
+Cons(nat4, Cons(nat5, Cons(nat6, nat_list4)))
+remove lower
+Cons(nat4, Cons(nat5, Cons(nat6, _)))
 validate generalize_common_subterm_goal
+Prop: reverse (((((reverse ((SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(ZERO::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))))))
+Prop: reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(SUCC (ZERO)::(ZERO::(ZERO::(Nil)))))
+Prop: reverse (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil)))) = (SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))
 =================================================
 Progress: 86
 
@@ -3177,10 +3370,16 @@ previous tactics
 simpl in goal
 intro nat1
 rewrite <- IH1 in goal at 0
+Prop: reverse ((((1::(1::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((1::(1::(Nil))) @ (SUCC (ZERO)::(Nil)))))
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((Nil) @ (ZERO::(Nil)))))
+Prop: reverse ((((8::(Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((8::(Nil)) @ (ZERO::(Nil)))))
 previous tactics
 simpl in goal
 intro nat1
 validate generalize_common_subterm_goal
+Prop: reverse (((((reverse ((Nil)) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))))
+Prop: reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(SUCC (SUCC (ZERO))::(ZERO::(ZERO::(Nil)))))
+Prop: reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil)))) = (SUCC (SUCC (SUCC (SUCC (ZERO))))::(ZERO::(ZERO::(ZERO::(Nil)))))
 =================================================
 Progress: 87
 
@@ -3219,10 +3418,16 @@ previous tactics
 simpl in goal
 intro nat2
 rewrite <- IH1 in goal at 0
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
+Prop: reverse ((((Nil) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (SUCC (ZERO))::(Nil)))))
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (ZERO::(Nil)))))
 previous tactics
 simpl in goal
 intro nat2
 validate generalize_common_subterm_goal
+Prop: reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))
+Prop: reverse (((((reverse ((ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(SUCC (SUCC (ZERO))::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(Nil))))))
+Prop: reverse (((((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (SUCC (ZERO))))::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::(SUCC (SUCC (SUCC (SUCC (ZERO))))::(ZERO::(SUCC (SUCC (ZERO))::(Nil)))))
 =================================================
 Progress: 88
 
@@ -3264,11 +3469,17 @@ simpl in goal
 intro nat1
 intro nat2
 rewrite <- IH1 in goal at 0
+Prop: reverse ((((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil)))) = (SUCC (ZERO)::reverse (((Nil) @ (ZERO::(Nil)))))
+Prop: reverse ((((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((Nil) @ (SUCC (ZERO)::(Nil)))))
+Prop: reverse ((((5::(5::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::reverse (((5::(5::(Nil))) @ (SUCC (ZERO)::(Nil)))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 validate generalize_common_subterm_goal
+Prop: reverse (((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(SUCC (ZERO)::(SUCC (SUCC (ZERO))::(ZERO::(Nil)))))
+Prop: reverse (((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))
+Prop: reverse (((((reverse ((ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil)))) = (ZERO::(ZERO::(SUCC (ZERO)::(SUCC (ZERO)::(ZERO::(Nil))))))
 =================================================
 Progress: 89
 
@@ -3672,6 +3883,9 @@ reflexivity
 simpl in goal
 intro nat2
 validate generalize_common_subterm_goal
+Prop: reverse ((((reverse ((Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
+Prop: reverse ((((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil))))
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))) = (((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(ZERO::(Nil))))
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
 End of Lemma List
@@ -3788,6 +4002,9 @@ simpl in goal
 intro nat1
 intro nat2
 validate generalize_common_subterm_goal
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil))))) = (((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil))))) = (((reverse ((Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: reverse ((((reverse ((Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) = (((reverse ((SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
 =================================================
 Progress: 100
 
@@ -4390,9 +4607,15 @@ previous tactics
 simpl in goal
 intro nat4
 rewrite IH1 in goal at 0
+Prop: (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
 previous tactics
 simpl in goal
 intro nat4
+Prop: (((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((Nil) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) = ((Nil) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil))))
+Prop: (((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((Nil) @ (ZERO::(ZERO::(Nil))))
 Lemma List
 forall (any_list1:any list) (nat1:nat) (nat2:nat), ((any_list1 @ (nat1::(Nil))) @ (nat2::(Nil))) = (any_list1 @ (nat1::(nat2::(Nil))))
 End of Lemma List
@@ -4669,10 +4892,16 @@ simpl in goal
 intro nat1
 intro nat4
 rewrite IH1 in goal at 0
+Prop: (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
+Prop: (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat4
+Prop: (((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((Nil) @ (ZERO::(ZERO::(Nil))))
+Prop: (((4::(Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) = ((4::(Nil)) @ (ZERO::(SUCC (ZERO)::(Nil))))
+Prop: (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) = ((Nil) @ (SUCC (ZERO)::(ZERO::(Nil))))
 =================================================
 Progress: 122
 
@@ -4760,10 +4989,16 @@ simpl in goal
 intro nat2
 intro nat4
 rewrite IH1 in goal at 0
+Prop: (((Nil) @ (ZERO::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))) @ (SUCC (SUCC (ZERO))::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(SUCC (SUCC (ZERO))::(Nil))))
+Prop: (((Nil) @ (ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Prop: (((Nil) @ (SUCC (ZERO)::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
 previous tactics
 simpl in goal
 intro nat2
 intro nat4
+Prop: (((8::(Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) = ((8::(Nil)) @ (ZERO::(SUCC (ZERO)::(Nil))))
+Prop: (((Nil) @ (SUCC (ZERO)::(Nil))) @ (SUCC (ZERO)::(Nil))) = ((Nil) @ (SUCC (ZERO)::(SUCC (ZERO)::(Nil))))
+Prop: (((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((Nil) @ (ZERO::(ZERO::(Nil))))
 =================================================
 Progress: 124
 
@@ -4809,10 +5044,16 @@ simpl in goal
 intro nat3
 intro nat4
 rewrite IH1 in goal at 0
+Prop: (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (SUCC (ZERO)::(SUCC (SUCC (SUCC (ZERO)))::(Nil)))) @ (SUCC (SUCC (ZERO))::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (SUCC (SUCC (SUCC (ZERO)))::(SUCC (SUCC (ZERO))::(Nil))))
 previous tactics
 simpl in goal
 intro nat3
 intro nat4
+Prop: (((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(Nil))) = ((Nil) @ (ZERO::(SUCC (ZERO)::(Nil))))
+Prop: (((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((Nil) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((Nil) @ (ZERO::(ZERO::(Nil))))
 =================================================
 Progress: 125
 
@@ -4905,11 +5146,17 @@ intro nat1
 intro nat2
 intro nat4
 rewrite IH1 in goal at 0
+Prop: (((Nil) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 intro nat4
+Prop: (((8::(Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) = ((8::(Nil)) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Prop: (((Nil) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((Nil) @ (ZERO::(ZERO::(Nil))))
+Prop: (((0::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((0::(Nil)) @ (ZERO::(ZERO::(Nil))))
 =================================================
 Progress: 127
 
@@ -4958,11 +5205,17 @@ intro nat1
 intro nat3
 intro nat4
 rewrite IH1 in goal at 0
+Prop: (((5::(Nil)) @ (SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil)))) @ (SUCC (SUCC (ZERO))::(Nil))) = (((5::(Nil)) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(SUCC (SUCC (ZERO))::(Nil))))
+Prop: (((Nil) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (SUCC (SUCC (ZERO))::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(ZERO::(Nil))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat3
 intro nat4
+Prop: (((7::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((7::(Nil)) @ (ZERO::(ZERO::(Nil))))
+Prop: (((3::(0::(Nil))) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((3::(0::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((Nil) @ (SUCC (SUCC (ZERO))::(Nil))) @ (SUCC (ZERO)::(Nil))) = ((Nil) @ (SUCC (SUCC (ZERO))::(SUCC (ZERO)::(Nil))))
 =================================================
 Progress: 128
 
@@ -5011,11 +5264,17 @@ intro nat2
 intro nat3
 intro nat4
 rewrite IH1 in goal at 0
+Prop: (((4::(Nil)) @ (ZERO::(SUCC (ZERO)::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((4::(Nil)) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(SUCC (ZERO)::(Nil))))
+Prop: (((Nil) @ (SUCC (SUCC (ZERO))::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (SUCC (SUCC (ZERO))::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((5::(4::(2::(0::(Nil))))) @ (SUCC (ZERO)::(ZERO::(Nil)))) @ (SUCC (ZERO)::(Nil))) = (((5::(4::(2::(0::(Nil))))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(SUCC (ZERO)::(Nil))))
 previous tactics
 simpl in goal
 intro nat2
 intro nat3
 intro nat4
+Prop: (((Nil) @ (ZERO::(Nil))) @ (SUCC (SUCC (ZERO))::(Nil))) = ((Nil) @ (ZERO::(SUCC (SUCC (ZERO))::(Nil))))
+Prop: (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) = ((Nil) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Prop: (((0::(Nil)) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) = ((0::(Nil)) @ (SUCC (ZERO)::(ZERO::(Nil))))
 =================================================
 Progress: 129
 
@@ -5067,12 +5326,18 @@ intro nat2
 intro nat3
 intro nat4
 rewrite IH1 in goal at 0
+Prop: (((Nil) @ (ZERO::(SUCC (ZERO)::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Prop: (((Nil) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((Nil) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
+Prop: (((4::(Nil)) @ (ZERO::(ZERO::(Nil)))) @ (ZERO::(Nil))) = (((4::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(ZERO::(Nil))))
 previous tactics
 simpl in goal
 intro nat1
 intro nat2
 intro nat3
 intro nat4
+Prop: (((Nil) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) = ((Nil) @ (SUCC (ZERO)::(ZERO::(Nil))))
+Prop: (((0::(Nil)) @ (ZERO::(Nil))) @ (ZERO::(Nil))) = ((0::(Nil)) @ (ZERO::(ZERO::(Nil))))
+Prop: (((6::(7::(Nil))) @ (SUCC (ZERO)::(Nil))) @ (ZERO::(Nil))) = ((6::(7::(Nil))) @ (SUCC (ZERO)::(ZERO::(Nil))))
 =================================================
 Progress: 130
 
@@ -12901,6 +13166,208 @@ forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_li
 
 2 conjecture(s) more...
 Deduplication: 578
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 311
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+nat6 : nat
+nat_list4 : nat list
+IH2 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+Inductive2 : nat_list2 = (nat6::nat_list4)
+---------------------------------------
+forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(nat6::nat_list4))))) = (((reverse ((nat6::nat_list4)) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+nat6 : nat
+nat_list4 : nat list
+IH2 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+Inductive2 : nat_list2 = (nat6::nat_list4)
+---------------------------------------
+forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(nat6::nat_list4))))) = ((((reverse (nat_list4) @ (nat6::(Nil))) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 11
+intro nat1(rank:7.)
+intro nat3(rank:7.)
+rewrite lemma6 in goal at 0(rank:23.)
+rewrite lemma6 in goal at 1(rank:23.)
+rewrite lemma6 in goal at 2(rank:23.)
+rewrite lemma6 in goal at 3(rank:23.)
+intro nat4(rank:7.)
+intro nat2(rank:7.)
+rewrite <- lemma5 in goal at 0(rank:23.)
+rewrite <- lemma5 in goal at 1(rank:23.)
+rewrite <- lemma5 in goal at 2(rank:23.)
+=================================================
+Progress: 312
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+nat6 : nat
+nat_list4 : nat list
+IH2 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+Inductive2 : nat_list2 = (nat6::nat_list4)
+---------------------------------------
+forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(nat6::nat_list4))))) = ((((reverse (nat_list4) @ (nat6::(Nil))) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat1(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+nat6 : nat
+nat_list4 : nat list
+IH2 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+Inductive2 : nat_list2 = (nat6::nat_list4)
+nat1 : nat
+---------------------------------------
+forall (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(nat6::nat_list4))))) = ((((reverse (nat_list4) @ (nat6::(Nil))) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 10
+intro nat2(rank:7.)
+intro nat4(rank:7.)
+rewrite lemma6 in goal at 1(rank:23.)
+rewrite lemma6 in goal at 2(rank:23.)
+rewrite lemma6 in goal at 3(rank:23.)
+rewrite <- lemma5 in goal at 0(rank:23.)
+rewrite lemma6 in goal at 0(rank:23.)
+intro nat3(rank:7.)
+rewrite <- lemma5 in goal at 1(rank:23.)
+rewrite <- lemma5 in goal at 2(rank:23.)
+=================================================
+Progress: 313
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+nat6 : nat
+nat_list4 : nat list
+IH2 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+Inductive2 : nat_list2 = (nat6::nat_list4)
+---------------------------------------
+forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(nat6::nat_list4))))) = ((((reverse (nat_list4) @ (nat6::(Nil))) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat2(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+nat6 : nat
+nat_list4 : nat list
+IH2 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+Inductive2 : nat_list2 = (nat6::nat_list4)
+nat2 : nat
+---------------------------------------
+forall (nat1:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(nat6::nat_list4))))) = ((((reverse (nat_list4) @ (nat6::(Nil))) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 9
+intro nat3(rank:7.)
+rewrite lemma6 in goal at 0(rank:23.)
+rewrite lemma6 in goal at 2(rank:23.)
+rewrite lemma6 in goal at 3(rank:23.)
+rewrite <- lemma5 in goal at 0(rank:23.)
+rewrite <- lemma5 in goal at 1(rank:23.)
+rewrite lemma6 in goal at 1(rank:23.)
+intro nat4(rank:7.)
+rewrite <- lemma5 in goal at 2(rank:23.)
+=================================================
+Progress: 314
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+nat6 : nat
+nat_list4 : nat list
+IH2 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+Inductive2 : nat_list2 = (nat6::nat_list4)
+---------------------------------------
+forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(nat6::nat_list4))))) = ((((reverse (nat_list4) @ (nat6::(Nil))) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat3(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list1:nat list) (nat_list2:nat list), reverse ((((reverse (nat_list1) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list1)))
+nat_list1 : nat list
+nat5 : nat
+nat_list3 : nat list
+IH1 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat) (nat_list2:nat list), reverse ((((reverse (nat_list3) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list2)))) = (((reverse (nat_list2) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::nat_list3)))
+Inductive1 : nat_list1 = (nat5::nat_list3)
+nat_list2 : nat list
+nat6 : nat
+nat_list4 : nat list
+IH2 : forall (nat1:nat) (nat2:nat) (nat3:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::nat_list4)))) = (((reverse (nat_list4) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+Inductive2 : nat_list2 = (nat6::nat_list4)
+nat3 : nat
+---------------------------------------
+forall (nat1:nat) (nat2:nat) (nat4:nat), reverse (((((reverse (nat_list3) @ (nat5::(Nil))) @ (nat3::(Nil))) @ (nat1::(Nil))) @ (nat2::(nat4::(nat6::nat_list4))))) = ((((reverse (nat_list4) @ (nat6::(Nil))) @ (nat4::(Nil))) @ (nat2::(Nil))) @ (nat1::(nat3::(nat5::nat_list3))))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
 Dilemma timed out for benchmark clam with problem 18.File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:

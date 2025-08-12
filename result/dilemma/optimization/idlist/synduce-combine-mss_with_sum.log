@@ -46,7 +46,7 @@ forall (idlist1:idlist), match (tf3 (repr (idlist1))) with
 
 0 conjecture(s) more...
 Tactic List : 1
-intro idlist1(rank:3.)
+induction idlist1(rank:4.)
 =================================================
 Progress: 3
 
@@ -61,94 +61,317 @@ forall (idlist1:idlist), match (tf3 (repr (idlist1))) with
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro idlist1(rank : 3.)
+>>> induction idlist1(rank : 4.)
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
 ---------------------------------------
-match (tf3 (repr (idlist1))) with
-| Tuple3 _ _ c -> c = match (reprNew (idlist1)) with
+match (tf3 (repr (Ielt (nat1)))) with
+| Tuple3 _ _ c -> c = match (reprNew (Ielt (nat1))) with
 | Tuple2 a _ -> a
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 2
-case reprNew (idlist1)(rank:3.)
-case tf3 (repr (idlist1))(rank:3.)
+Tactic List : 1
+simpl in goal(rank:4.)
 =================================================
 Progress: 4
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
 ---------------------------------------
-match (tf3 (repr (idlist1))) with
-| Tuple3 _ _ c -> c = match (reprNew (idlist1)) with
+match (tf3 (repr (Ielt (nat1)))) with
+| Tuple3 _ _ c -> c = match (reprNew (Ielt (nat1))) with
 | Tuple2 a _ -> a
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
->>> case reprNew (idlist1)(rank : 3.)
+>>> simpl in goal(rank : 4.)
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Case1 : reprNew (idlist1) = Tuple2 (nat1) (nat2)
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
 ---------------------------------------
-match (tf3 (repr (idlist1))) with
+match (if gq (nat1) (ZERO) then Tuple3 (nat1) (nat1) (nat1) else Tuple3 (ZERO) (ZERO) (ZERO)) with
 | Tuple3 _ _ c -> c = nat1
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: match (tf3 (repr (Ielt (ZERO)))) with
-| Tuple3 _ _ c -> c = SUCC (ZERO)
-Prop: match (tf3 (repr (Ielt (ZERO)))) with
-| Tuple3 _ _ c -> c = SUCC (ZERO)
-Prop: match (tf3 (repr (Icons (SUCC (ZERO)) (ZERO) (Ielt (ZERO))))) with
-| Tuple3 _ _ c -> c = SUCC (ZERO)
-asdf
+Tactic List : 1
+case gq (nat1) (ZERO)(rank:5.)
 =================================================
 Progress: 5
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
 ---------------------------------------
-match (tf3 (repr (idlist1))) with
-| Tuple3 _ _ c -> c = match (reprNew (idlist1)) with
-| Tuple2 a _ -> a
+match (if gq (nat1) (ZERO) then Tuple3 (nat1) (nat1) (nat1) else Tuple3 (ZERO) (ZERO) (ZERO)) with
+| Tuple3 _ _ c -> c = nat1
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf3 (repr (idlist1))(rank : 3.)
+>>> case gq (nat1) (ZERO)(rank : 5.)
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Case1 : tf3 (repr (idlist1)) = Tuple3 (nat1) (nat2) (nat3)
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
+Case1 : gq (nat1) (ZERO) = true
 ---------------------------------------
-nat3 = match (reprNew (idlist1)) with
-| Tuple2 a _ -> a
+nat1 = nat1
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:4.)
+=================================================
+Progress: 6
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
+Case1 : gq (nat1) (ZERO) = true
+---------------------------------------
+nat1 = nat1
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 4.)
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
+Case1 : gq (nat1) (ZERO) = false
+---------------------------------------
+ZERO = nat1
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 0
+Tactic List : 0
+previous tactics
+simpl in goal
+case gq (nat1) (ZERO)
+reflexivity
+validate generalize_common_subterm_goal
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
+Prop: ZERO = SUCC (ZERO)
+Lemma List
+forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+End of Lemma List
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
+Case1 : gq (nat1) (ZERO) = false
+---------------------------------------
+ZERO = nat1
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 7
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
+Case1 : gq (nat1) (ZERO) = false
+---------------------------------------
+ZERO = nat1
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1(rank : 0.)
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+
+---------------------------------------
+forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
 
 0 goal(s) more...
 
-0 conjecture(s) more...
+1 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:5.)
+=================================================
+Progress: 8
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+
+---------------------------------------
+forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro nat1(rank : 5.)
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+nat1 : nat
+---------------------------------------
+gq (nat1) (ZERO) = false -> ZERO = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:5.)
+=================================================
+Progress: 9
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+nat1 : nat
+---------------------------------------
+gq (nat1) (ZERO) = false -> ZERO = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 5.)
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+nat1 : nat
+Cond1 : gq (nat1) (ZERO) = false
+---------------------------------------
+ZERO = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: ZERO = match (reprNew (Ielt (ZERO))) with
-| Tuple2 a _ -> a
-Prop: SUCC (ZERO) = match (reprNew (Ielt (ZERO))) with
-| Tuple2 a _ -> a
-Prop: SUCC (SUCC (ZERO)) = match (reprNew (Ielt (ZERO))) with
-| Tuple2 a _ -> a
-asdf
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
+Lemma List
+forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+End of Lemma List
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+nat1 : nat
+Cond1 : gq (nat1) (ZERO) = false
+---------------------------------------
+ZERO = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 10
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+nat1 : nat
+Cond1 : gq (nat1) (ZERO) = false
+---------------------------------------
+ZERO = nat1
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1(rank : 0.)
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+
+---------------------------------------
+forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:7.)
+=================================================
+Progress: 11
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+
+---------------------------------------
+forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat1(rank : 7.)
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+nat1 : nat
+---------------------------------------
+gq (nat1) (ZERO) = false -> ZERO = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:7.)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+nat1 : nat
+---------------------------------------
+gq (nat1) (ZERO) = false -> ZERO = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond1(rank : 7.)
+
+
+1st goal of : forall (nat1:nat), gq (nat1) (ZERO) = false -> ZERO = nat1
+nat1 : nat
+Cond1 : gq (nat1) (ZERO) = false
+---------------------------------------
+ZERO = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
