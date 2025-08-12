@@ -2000,17 +2000,19 @@ let apply_case expr state t : state list =
          let facts =
            List.map
              (fun (name, prop) ->
-                let prop, _, _ =
+                let prop', _, _ =
                   substitute_expr_in_prop
                     Ir.is_equal_expr
                     (fun _ _ expr_to -> expr_to, [])
                     prop
-                    Ir.{ desc = Var name; typ }
+                    expr
                     Ir.{ desc = inductive_case; typ }
                     0
                     false
                 in
-                name, prop)
+                match prop = prop' with
+                | true -> name, prop
+                | false -> name, simplify_prop env prop')
              facts
          in
          facts @ new_facts, new_goal, new_graph)
@@ -2283,28 +2285,4 @@ let parse_tactic (t : t) src =
        Define decl
      | _ -> failwith "syntax error in define")
   | _ -> failwith "wrong tactic"
-;;
-
-let proof_top init =
-  let rec loop ?(debug_tactic : debug_tactic option = None) t =
-    print_newline ();
-    pp_t ~debug_tactic t |> print_endline;
-    print_newline ();
-    print_string ">>> ";
-    match read_line () with
-    | "allstate" -> loop ~debug_tactic:(Some AllState) t
-    | "alllemma" -> loop ~debug_tactic:(Some AllLemma) t
-    | "allconj" -> loop ~debug_tactic:(Some AllConj) t
-    | "alltactic" -> loop ~debug_tactic:(Some AllTactic) t
-    | s ->
-      let t =
-        try apply_tactic t (parse_tactic t s) with
-        | exn ->
-          print_endline (Printexc.to_string exn);
-          t
-      in
-      (* let t = apply_tactic t env (parse_tactic t s env) in *)
-      loop t
-  in
-  loop init
 ;;
