@@ -38,14 +38,14 @@ forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 
 ---------------------------------------
-forall (nat_list1:nat list), tf0 (map (tf6 (nat_list1))) = match (tf8 (Tuple2 (SUCC (ZERO)) (SUCC (ZERO))) (nat_list1)) with
+forall (nat_list1:nat list), maximum (map (tf7 (nat_list1) (nat_list1))) = match (tf9 (Tuple2 (SUCC (ZERO)) (SUCC (ZERO))) (nat_list1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-intro nat_list1(rank:3.)
+induction nat_list1(rank:4.)
 =================================================
 Progress: 3
 
@@ -53,33 +53,56 @@ Progress: 3
 1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 
 ---------------------------------------
-forall (nat_list1:nat list), tf0 (map (tf6 (nat_list1))) = match (tf8 (Tuple2 (SUCC (ZERO)) (SUCC (ZERO))) (nat_list1)) with
+forall (nat_list1:nat list), maximum (map (tf7 (nat_list1) (nat_list1))) = match (tf9 (Tuple2 (SUCC (ZERO)) (SUCC (ZERO))) (nat_list1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro nat_list1(rank : 3.)
+>>> induction nat_list1(rank : 4.)
 
 
 1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
 ---------------------------------------
-tf0 (map (tf6 (nat_list1))) = match (tf8 (Tuple2 (SUCC (ZERO)) (SUCC (ZERO))) (nat_list1)) with
+maximum (map (tf7 ((Nil)) ((Nil)))) = match (tf9 (Tuple2 (SUCC (ZERO)) (SUCC (ZERO))) ((Nil))) with
 | Tuple2 a _ -> a
 
-0 goal(s) more...
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:4.)
+=================================================
+Progress: 4
+
+
+1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
+nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
+---------------------------------------
+maximum (map (tf7 ((Nil)) ((Nil)))) = match (tf9 (Tuple2 (SUCC (ZERO)) (SUCC (ZERO))) ((Nil))) with
+| Tuple2 a _ -> a
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 4.)
+
+
+1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
+nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
+---------------------------------------
+max (SUCC (ZERO)) (ZERO) = SUCC (ZERO)
+
+1 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf0 (map (tf6 ((Nil)))) = match (tf8 (Tuple2 (SUCC (ZERO)) (SUCC (ZERO))) ((Nil))) with
-| Tuple2 a _ -> a
-Prop: tf0 (map (tf6 ((ZERO::(SUCC (ZERO)::(Nil)))))) = match (tf8 (Tuple2 (SUCC (ZERO)) (SUCC (ZERO))) ((ZERO::(SUCC (ZERO)::(Nil))))) with
-| Tuple2 a _ -> a
-Prop: tf0 (map (tf6 ((Nil)))) = match (tf8 (Tuple2 (SUCC (ZERO)) (SUCC (ZERO))) ((Nil))) with
-| Tuple2 a _ -> a
-asdf
+previous tactics
+simpl in goal
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69

@@ -38,8 +38,8 @@ forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 
 ---------------------------------------
-forall (idlist1:idlist), match (tf2 (tf4 (idlist1))) with
-| Tuple3 _ _ c -> c = match (tf6 (idlist1)) with
+forall (idlist1:idlist), match (tf3 (repr (idlist1))) with
+| Tuple3 _ _ c -> c = match (reprNew (idlist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
@@ -54,8 +54,8 @@ Progress: 3
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 
 ---------------------------------------
-forall (idlist1:idlist), match (tf2 (tf4 (idlist1))) with
-| Tuple3 _ _ c -> c = match (tf6 (idlist1)) with
+forall (idlist1:idlist), match (tf3 (repr (idlist1))) with
+| Tuple3 _ _ c -> c = match (reprNew (idlist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
@@ -67,16 +67,16 @@ forall (idlist1:idlist), match (tf2 (tf4 (idlist1))) with
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
 ---------------------------------------
-match (tf2 (tf4 (idlist1))) with
-| Tuple3 _ _ c -> c = match (tf6 (idlist1)) with
+match (tf3 (repr (idlist1))) with
+| Tuple3 _ _ c -> c = match (reprNew (idlist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 2
-case tf2 (tf4 (idlist1))(rank:3.)
-case tf6 (idlist1)(rank:3.)
+case reprNew (idlist1)(rank:3.)
+case tf3 (repr (idlist1))(rank:3.)
 =================================================
 Progress: 4
 
@@ -84,34 +84,34 @@ Progress: 4
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
 ---------------------------------------
-match (tf2 (tf4 (idlist1))) with
-| Tuple3 _ _ c -> c = match (tf6 (idlist1)) with
+match (tf3 (repr (idlist1))) with
+| Tuple3 _ _ c -> c = match (reprNew (idlist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf2 (tf4 (idlist1))(rank : 3.)
+>>> case reprNew (idlist1)(rank : 3.)
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Case1 : tf2 (tf4 (idlist1)) = Tuple3 (nat1) (nat2) (nat3)
+Case1 : reprNew (idlist1) = Tuple2 (nat1) (nat2)
 ---------------------------------------
-nat3 = match (tf6 (idlist1)) with
-| Tuple2 a _ -> a
+match (tf3 (repr (idlist1))) with
+| Tuple3 _ _ c -> c = nat1
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = match (tf6 (Ielt (ZERO))) with
-| Tuple2 a _ -> a
-Prop: SUCC (ZERO) = match (tf6 (Ielt (ZERO))) with
-| Tuple2 a _ -> a
-Prop: ZERO = match (tf6 (Ielt (ZERO))) with
-| Tuple2 a _ -> a
+Prop: match (tf3 (repr (Ielt (ZERO)))) with
+| Tuple3 _ _ c -> c = SUCC (ZERO)
+Prop: match (tf3 (repr (Ielt (ZERO)))) with
+| Tuple3 _ _ c -> c = SUCC (ZERO)
+Prop: match (tf3 (repr (Icons (SUCC (ZERO)) (ZERO) (Ielt (ZERO))))) with
+| Tuple3 _ _ c -> c = SUCC (ZERO)
 asdf
 =================================================
 Progress: 5
@@ -120,34 +120,34 @@ Progress: 5
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
 ---------------------------------------
-match (tf2 (tf4 (idlist1))) with
-| Tuple3 _ _ c -> c = match (tf6 (idlist1)) with
+match (tf3 (repr (idlist1))) with
+| Tuple3 _ _ c -> c = match (reprNew (idlist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf6 (idlist1)(rank : 3.)
+>>> case tf3 (repr (idlist1))(rank : 3.)
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Case1 : tf6 (idlist1) = Tuple2 (nat1) (nat2)
+Case1 : tf3 (repr (idlist1)) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
-match (tf2 (tf4 (idlist1))) with
-| Tuple3 _ _ c -> c = nat1
+nat3 = match (reprNew (idlist1)) with
+| Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: match (tf2 (tf4 (Ielt (SUCC (SUCC (ZERO)))))) with
-| Tuple3 _ _ c -> c = ZERO
-Prop: match (tf2 (tf4 (Ielt (ZERO)))) with
-| Tuple3 _ _ c -> c = SUCC (ZERO)
-Prop: match (tf2 (tf4 (Ielt (SUCC (ZERO))))) with
-| Tuple3 _ _ c -> c = SUCC (ZERO)
+Prop: ZERO = match (reprNew (Ielt (ZERO))) with
+| Tuple2 a _ -> a
+Prop: SUCC (ZERO) = match (reprNew (Ielt (ZERO))) with
+| Tuple2 a _ -> a
+Prop: SUCC (SUCC (ZERO)) = match (reprNew (Ielt (ZERO))) with
+| Tuple2 a _ -> a
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

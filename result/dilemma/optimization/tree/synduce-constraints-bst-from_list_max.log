@@ -38,13 +38,13 @@ forall (tree1:tree), main (tree1) = mainNew (tree1)
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 
 ---------------------------------------
-forall (tree1:tree), if tf4 (tree1) then spec (repr (target (tree1))) else ZERO = if tf4 (tree1) then targetNew (tree1) else ZERO
+forall (tree1:tree), if isbst (tree1) then spec (repr (target (tree1))) else ZERO = if isbst (tree1) then targetNew (tree1) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-intro tree1(rank:3.)
+induction tree1(rank:4.)
 =================================================
 Progress: 3
 
@@ -52,45 +52,55 @@ Progress: 3
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 
 ---------------------------------------
-forall (tree1:tree), if tf4 (tree1) then spec (repr (target (tree1))) else ZERO = if tf4 (tree1) then targetNew (tree1) else ZERO
+forall (tree1:tree), if isbst (tree1) then spec (repr (target (tree1))) else ZERO = if isbst (tree1) then targetNew (tree1) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro tree1(rank : 3.)
+>>> induction tree1(rank : 4.)
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+nat1 : nat
+Base1 : tree1 = Leaf (nat1)
 ---------------------------------------
-if tf4 (tree1) then spec (repr (target (tree1))) else ZERO = if tf4 (tree1) then targetNew (tree1) else ZERO
+if isbst (Leaf (nat1)) then spec (repr (target (Leaf (nat1)))) else ZERO = if isbst (Leaf (nat1)) then targetNew (Leaf (nat1)) else ZERO
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-case tf4 (tree1)(rank:4.)
+reflexivity(rank:3.)
 =================================================
 Progress: 4
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+nat1 : nat
+Base1 : tree1 = Leaf (nat1)
 ---------------------------------------
-if tf4 (tree1) then spec (repr (target (tree1))) else ZERO = if tf4 (tree1) then targetNew (tree1) else ZERO
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> case tf4 (tree1)(rank : 4.)
-
-
-1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
-tree1 : tree
-Case1 : tf4 (tree1) = true
----------------------------------------
-tf10 (tf8 (tf12 (tree1))) = tf14 (tree1)
+if isbst (Leaf (nat1)) then spec (repr (target (Leaf (nat1)))) else ZERO = if isbst (Leaf (nat1)) then targetNew (Leaf (nat1)) else ZERO
 
 1 goal(s) more...
 
 0 conjecture(s) more...
+>>> reflexivity(rank : 3.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if isbst (tree2) then spec (repr (target (tree2))) else ZERO = if isbst (tree2) then targetNew (tree2) else ZERO
+IH2 : if isbst (tree3) then spec (repr (target (tree3))) else ZERO = if isbst (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+---------------------------------------
+if isbst (Node (nat1) (tree2) (tree3)) then spec (repr (target (Node (nat1) (tree2) (tree3)))) else ZERO = if isbst (Node (nat1) (tree2) (tree3)) then targetNew (Node (nat1) (tree2) (tree3)) else ZERO
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 0

@@ -38,13 +38,13 @@ forall (tree1:tree), main (tree1) = mainNew (tree1)
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 
 ---------------------------------------
-forall (tree1:tree), if tf2 (tree1) then spec (target (tree1)) else ZERO = if tf2 (tree1) then targetNew (tree1) else ZERO
+forall (tree1:tree), if balanced (tree1) then spec (target (tree1)) else ZERO = if balanced (tree1) then targetNew (tree1) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-intro tree1(rank:3.)
+induction tree1(rank:4.)
 =================================================
 Progress: 3
 
@@ -52,241 +52,653 @@ Progress: 3
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 
 ---------------------------------------
-forall (tree1:tree), if tf2 (tree1) then spec (target (tree1)) else ZERO = if tf2 (tree1) then targetNew (tree1) else ZERO
+forall (tree1:tree), if balanced (tree1) then spec (target (tree1)) else ZERO = if balanced (tree1) then targetNew (tree1) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro tree1(rank : 3.)
+>>> induction tree1(rank : 4.)
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+Base1 : tree1 = Leaf
 ---------------------------------------
-if tf2 (tree1) then spec (target (tree1)) else ZERO = if tf2 (tree1) then targetNew (tree1) else ZERO
+if balanced (Leaf) then spec (target (Leaf)) else ZERO = if balanced (Leaf) then targetNew (Leaf) else ZERO
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-case tf2 (tree1)(rank:4.)
+reflexivity(rank:3.)
 =================================================
 Progress: 4
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+Base1 : tree1 = Leaf
 ---------------------------------------
-if tf2 (tree1) then spec (target (tree1)) else ZERO = if tf2 (tree1) then targetNew (tree1) else ZERO
+if balanced (Leaf) then spec (target (Leaf)) else ZERO = if balanced (Leaf) then targetNew (Leaf) else ZERO
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 3.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if balanced (tree2) then spec (target (tree2)) else ZERO = if balanced (tree2) then targetNew (tree2) else ZERO
+IH2 : if balanced (tree3) then spec (target (tree3)) else ZERO = if balanced (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+---------------------------------------
+if balanced (Node (nat1) (tree2) (tree3)) then spec (target (Node (nat1) (tree2) (tree3))) else ZERO = if balanced (Node (nat1) (tree2) (tree3)) then targetNew (Node (nat1) (tree2) (tree3)) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf2 (tree1)(rank : 4.)
-
-
-1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
-tree1 : tree
-Case1 : tf2 (tree1) = true
----------------------------------------
-tf4 (tf6 (tree1)) = tf8 (tree1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf4 (tf6 (Leaf)) = tf8 (Leaf)
-Prop: tf4 (tf6 (Leaf)) = tf8 (Leaf)
-Prop: tf4 (tf6 (Leaf)) = tf8 (Leaf)
-Lemma List
-forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
-End of Lemma List
-
-
-1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
-tree1 : tree
-Case1 : tf2 (tree1) = true
----------------------------------------
-tf4 (tf6 (tree1)) = tf8 (tree1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:3.)
 =================================================
 Progress: 5
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
-Case1 : tf2 (tree1) = true
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if balanced (tree2) then spec (target (tree2)) else ZERO = if balanced (tree2) then targetNew (tree2) else ZERO
+IH2 : if balanced (tree3) then spec (target (tree3)) else ZERO = if balanced (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
 ---------------------------------------
-tf4 (tf6 (tree1)) = tf8 (tree1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)(rank : 0.)
-
-
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
-
----------------------------------------
-forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+if balanced (Node (nat1) (tree2) (tree3)) then spec (target (Node (nat1) (tree2) (tree3))) else ZERO = if balanced (Node (nat1) (tree2) (tree3)) then targetNew (Node (nat1) (tree2) (tree3)) else ZERO
 
 0 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if balanced (tree2) then spec (target (tree2)) else ZERO = if balanced (tree2) then targetNew (tree2) else ZERO
+IH2 : if balanced (tree3) then spec (target (tree3)) else ZERO = if balanced (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+---------------------------------------
+if if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false then spec (target (Node (nat1) (tree2) (tree3))) else ZERO = if if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false then targetNew (Node (nat1) (tree2) (tree3)) else ZERO
+
+0 goal(s) more...
+
+0 conjecture(s) more...
 Tactic List : 1
-intro tree1(rank:5.)
+case if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false(rank:4.)
 =================================================
 Progress: 6
 
 
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
-
----------------------------------------
-forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro tree1(rank : 5.)
-
-
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if balanced (tree2) then spec (target (tree2)) else ZERO = if balanced (tree2) then targetNew (tree2) else ZERO
+IH2 : if balanced (tree3) then spec (target (tree3)) else ZERO = if balanced (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
 ---------------------------------------
-tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+if if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false then spec (target (Node (nat1) (tree2) (tree3))) else ZERO = if if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false then targetNew (Node (nat1) (tree2) (tree3)) else ZERO
 
 0 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
+>>> case if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false(rank : 4.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if balanced (tree2) then spec (target (tree2)) else ZERO = if balanced (tree2) then targetNew (tree2) else ZERO
+IH2 : if balanced (tree3) then spec (target (tree3)) else ZERO = if balanced (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false = true
+---------------------------------------
+SUCC (plus (spec (target (tree2))) (spec (target (tree3)))) = plus (plus (targetNew (tree2)) (targetNew (tree2))) (if lq (targetNew (tree2)) (SUCC (ZERO)) then SUCC (ZERO) else targetNew (tree2))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:5.)
+case lq (targetNew (tree2)) (SUCC (ZERO))(rank:5.)
 =================================================
 Progress: 7
 
 
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if balanced (tree2) then spec (target (tree2)) else ZERO = if balanced (tree2) then targetNew (tree2) else ZERO
+IH2 : if balanced (tree3) then spec (target (tree3)) else ZERO = if balanced (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false = true
 ---------------------------------------
-tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+SUCC (plus (spec (target (tree2))) (spec (target (tree3)))) = plus (plus (targetNew (tree2)) (targetNew (tree2))) (if lq (targetNew (tree2)) (SUCC (ZERO)) then SUCC (ZERO) else targetNew (tree2))
 
-0 goal(s) more...
+1 goal(s) more...
 
-1 conjecture(s) more...
->>> intro Cond1(rank : 5.)
+0 conjecture(s) more...
+>>> case lq (targetNew (tree2)) (SUCC (ZERO))(rank : 5.)
 
 
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
-Cond1 : tf2 (tree1) = true
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if balanced (tree2) then spec (target (tree2)) else ZERO = if balanced (tree2) then targetNew (tree2) else ZERO
+IH2 : if balanced (tree3) then spec (target (tree3)) else ZERO = if balanced (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false = true
+Case2 : lq (targetNew (tree2)) (SUCC (ZERO)) = true
 ---------------------------------------
-tf4 (tf6 (tree1)) = tf8 (tree1)
+SUCC (plus (spec (target (tree2))) (spec (target (tree3)))) = plus (plus (targetNew (tree2)) (targetNew (tree2))) (SUCC (ZERO))
 
-0 goal(s) more...
+2 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
 Tactic List : 0
+previous tactics
+simpl in goal
+case if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false
+case lq (targetNew (tree2)) (SUCC (ZERO))
+parent
+target (tree2)
+lower
+target(_)
+upper
+SUCC(plus(spec(_), spec(target(tree3))))
+remove upper
+target(tree2)
+remove lower
+target(_)
+parent
+targetNew (tree2)
+lower
+targetNew(_)
+upper
+plus(plus(_, _), SUCC(ZERO()))
+remove upper
+targetNew(tree2)
+remove lower
+targetNew(_)
+remove upper
+plus(plus(targetNew(tree4), targetNew(tree4)), _)
 validate generalize_common_subterm_goal
-Prop: tf4 (tf6 (Leaf)) = tf8 (Leaf)
-Prop: tf4 (tf6 (Leaf)) = tf8 (Leaf)
-Prop: tf4 (tf6 (Node (SUCC (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Node (ZERO) (Leaf) (Leaf))) (Leaf))) = tf8 (Node (SUCC (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Node (ZERO) (Leaf) (Leaf))) (Leaf))
+Prop: SUCC (plus (spec (target (Node (ZERO) (Leaf) (Node (ZERO) (Leaf) (Node (SUCC (ZERO)) (Leaf) (Leaf)))))) (spec (target (Leaf)))) = plus (plus (targetNew (Node (ZERO) (Leaf) (Node (ZERO) (Leaf) (Node (SUCC (ZERO)) (Leaf) (Leaf))))) (targetNew (Node (ZERO) (Leaf) (Node (ZERO) (Leaf) (Node (SUCC (ZERO)) (Leaf) (Leaf)))))) (SUCC (ZERO))
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Node (ZERO) (Leaf) (Leaf))))) = plus (plus (targetNew (Leaf)) (targetNew (Leaf))) (SUCC (ZERO))
+Prop: SUCC (plus (spec (target (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf)))) (spec (target (Leaf)))) = plus (plus (targetNew (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf))) (targetNew (Node (SUCC (SUCC (ZERO))) (Leaf) (Leaf)))) (SUCC (ZERO))
 Lemma List
-forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
 End of Lemma List
 
 
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
-Cond1 : tf2 (tree1) = true
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if balanced (tree2) then spec (target (tree2)) else ZERO = if balanced (tree2) then targetNew (tree2) else ZERO
+IH2 : if balanced (tree3) then spec (target (tree3)) else ZERO = if balanced (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false = true
+Case2 : lq (targetNew (tree2)) (SUCC (ZERO)) = true
 ---------------------------------------
-tf4 (tf6 (tree1)) = tf8 (tree1)
+SUCC (plus (spec (target (tree2))) (spec (target (tree3)))) = plus (plus (targetNew (tree2)) (targetNew (tree2))) (SUCC (ZERO))
 
-0 goal(s) more...
+2 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
 =================================================
 Progress: 8
 
 
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
-Cond1 : tf2 (tree1) = true
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if balanced (tree2) then spec (target (tree2)) else ZERO = if balanced (tree2) then targetNew (tree2) else ZERO
+IH2 : if balanced (tree3) then spec (target (tree3)) else ZERO = if balanced (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : if nat_eq (height (tree2)) (height (tree3)) then if balanced (tree2) then balanced (tree3) else false else false = true
+Case2 : lq (targetNew (tree2)) (SUCC (ZERO)) = true
 ---------------------------------------
-tf4 (tf6 (tree1)) = tf8 (tree1)
+SUCC (plus (spec (target (tree2))) (spec (target (tree3)))) = plus (plus (targetNew (tree2)) (targetNew (tree2))) (SUCC (ZERO))
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))(rank : 0.)
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+
+---------------------------------------
+forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)(rank : 0.)
-
-
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
-
----------------------------------------
-forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
 Tactic List : 1
-intro tree1(rank:7.)
+induction tree1(rank:6.)
 =================================================
 Progress: 9
 
 
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
 
 ---------------------------------------
-forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
 
 0 goal(s) more...
 
-2 conjecture(s) more...
->>> intro tree1(rank : 7.)
+1 conjecture(s) more...
+>>> induction tree1(rank : 6.)
 
 
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
 tree1 : tree
+Base1 : tree1 = Leaf
 ---------------------------------------
-tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+forall (tree2:tree), if nat_eq (height (Leaf)) (height (tree2)) then if balanced (Leaf) then balanced (tree2) else false else false = true->lq (targetNew (Leaf)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (Leaf))) (spec (target (tree2)))) = plus (plus (targetNew (Leaf)) (targetNew (Leaf))) (SUCC (ZERO))
 
-0 goal(s) more...
+1 goal(s) more...
 
-2 conjecture(s) more...
+1 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:7.)
+simpl in goal(rank:6.)
 =================================================
 Progress: 10
 
 
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
 tree1 : tree
+Base1 : tree1 = Leaf
 ---------------------------------------
-tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+forall (tree2:tree), if nat_eq (height (Leaf)) (height (tree2)) then if balanced (Leaf) then balanced (tree2) else false else false = true->lq (targetNew (Leaf)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (Leaf))) (spec (target (tree2)))) = plus (plus (targetNew (Leaf)) (targetNew (Leaf))) (SUCC (ZERO))
 
-0 goal(s) more...
+1 goal(s) more...
 
-2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
 
 
-1st goal of : forall (tree1:tree), tf2 (tree1) = true -> tf4 (tf6 (tree1)) = tf8 (tree1)
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
 tree1 : tree
-Cond1 : tf2 (tree1) = true
+Base1 : tree1 = Leaf
 ---------------------------------------
-tf4 (tf6 (tree1)) = tf8 (tree1)
+forall (tree2:tree), if nat_eq (ZERO) (height (tree2)) then if balanced (Leaf) then balanced (tree2) else false else false = true->true = true -> SUCC (spec (target (tree2))) = SUCC (ZERO)
 
-0 goal(s) more...
+1 goal(s) more...
 
-2 conjecture(s) more...
+1 conjecture(s) more...
+Tactic List : 1
+induction tree2(rank:7.)
+=================================================
+Progress: 11
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+---------------------------------------
+forall (tree2:tree), if nat_eq (ZERO) (height (tree2)) then if balanced (Leaf) then balanced (tree2) else false else false = true->true = true -> SUCC (spec (target (tree2))) = SUCC (ZERO)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction tree2(rank : 7.)
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+Base2 : tree2 = Leaf
+---------------------------------------
+if nat_eq (ZERO) (height (Leaf)) then if balanced (Leaf) then balanced (Leaf) else false else false = true->true = true -> SUCC (spec (target (Leaf))) = SUCC (ZERO)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:6.)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+Base2 : tree2 = Leaf
+---------------------------------------
+if nat_eq (ZERO) (height (Leaf)) then if balanced (Leaf) then balanced (Leaf) else false else false = true->true = true -> SUCC (spec (target (Leaf))) = SUCC (ZERO)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 6.)
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+---------------------------------------
+if nat_eq (ZERO) (height (Node (nat1) (tree3) (tree4))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true->true = true -> SUCC (spec (target (Node (nat1) (tree3) (tree4)))) = SUCC (ZERO)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+---------------------------------------
+if nat_eq (ZERO) (height (Node (nat1) (tree3) (tree4))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true->true = true -> SUCC (spec (target (Node (nat1) (tree3) (tree4)))) = SUCC (ZERO)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+---------------------------------------
+if nat_eq (ZERO) (SUCC (if lq (height (tree3)) (height (tree4)) then height (tree4) else height (tree3))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true->true = true -> SUCC (SUCC (plus (spec (target (tree3))) (spec (target (tree4))))) = SUCC (ZERO)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:6.)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+---------------------------------------
+if nat_eq (ZERO) (SUCC (if lq (height (tree3)) (height (tree4)) then height (tree4) else height (tree3))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true->true = true -> SUCC (SUCC (plus (spec (target (tree3))) (spec (target (tree4))))) = SUCC (ZERO)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 6.)
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+Cond1 : if nat_eq (ZERO) (SUCC (if lq (height (tree3)) (height (tree4)) then height (tree4) else height (tree3))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true
+---------------------------------------
+true = true -> SUCC (SUCC (plus (spec (target (tree3))) (spec (target (tree4))))) = SUCC (ZERO)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:6.)
+=================================================
+Progress: 15
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+Cond1 : if nat_eq (ZERO) (SUCC (if lq (height (tree3)) (height (tree4)) then height (tree4) else height (tree3))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true
+---------------------------------------
+true = true -> SUCC (SUCC (plus (spec (target (tree3))) (spec (target (tree4))))) = SUCC (ZERO)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond2(rank : 6.)
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+Cond1 : if nat_eq (ZERO) (SUCC (if lq (height (tree3)) (height (tree4)) then height (tree4) else height (tree3))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true
+Cond2 : true = true
+---------------------------------------
+SUCC (SUCC (plus (spec (target (tree3))) (spec (target (tree4))))) = SUCC (ZERO)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+rewrite <- IH1 in goal at 0(rank:16.)
+rewrite <- IH2 in goal at 0(rank:16.)
+=================================================
+Progress: 16
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+Cond1 : if nat_eq (ZERO) (SUCC (if lq (height (tree3)) (height (tree4)) then height (tree4) else height (tree3))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true
+Cond2 : true = true
+---------------------------------------
+SUCC (SUCC (plus (spec (target (tree3))) (spec (target (tree4))))) = SUCC (ZERO)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 16.)
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+Cond1 : if nat_eq (ZERO) (SUCC (if lq (height (tree3)) (height (tree4)) then height (tree4) else height (tree3))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true
+Cond2 : true = true
+---------------------------------------
+SUCC (SUCC (plus (spec (target (tree3))) (spec (target (tree4))))) = SUCC (spec (target (tree3)))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
 Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
+intro Cond2
+rewrite <- IH1 in goal at 0
+Prop: SUCC (SUCC (plus (ZERO) (spec (target (Leaf))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (SUCC (ZERO)) (spec (target (Leaf))))) = SUCC (SUCC (ZERO))
+Prop: SUCC (SUCC (plus (ZERO) (spec (target (Leaf))))) = SUCC (ZERO)
 validate generalize_common_subterm_goal
-Prop: tf4 (tf6 (Leaf)) = tf8 (Leaf)
-Prop: tf4 (tf6 (Leaf)) = tf8 (Leaf)
-Prop: tf4 (tf6 (Leaf)) = tf8 (Leaf)
+Prop: SUCC (SUCC (plus (ZERO) (spec (target (Leaf))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (ZERO) (spec (target (Leaf))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (SUCC (ZERO)) (spec (target (Leaf))))) = SUCC (SUCC (ZERO))
+Prop: SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Node (ZERO) (Leaf) (Leaf))))) = spec (target (Node (ZERO) (Leaf) (Leaf)))
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = spec (target (Leaf))
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = spec (target (Leaf))
+Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Leaf))))) = SUCC (spec (target (Node (ZERO) (Leaf) (Leaf))))
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (spec (target (Leaf)))
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Node (ZERO) (Leaf) (Leaf)))))) = SUCC (spec (target (Leaf)))
+asdf
+previous tactics
+simpl in goal
+intro Cond1
+intro Cond2
+validate generalize_common_subterm_goal
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = ZERO
+Prop: SUCC (plus (spec (target (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Leaf)) (Leaf)))) (spec (target (Leaf)))) = ZERO
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = ZERO
+Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Leaf) (Node (ZERO) (Leaf) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Node (ZERO) (Leaf) (Leaf))))))) (spec (target (Leaf))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Node (SUCC (ZERO)) (Leaf) (Leaf)))))) = SUCC (ZERO)
+asdf
+=================================================
+Progress: 17
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+Cond1 : if nat_eq (ZERO) (SUCC (if lq (height (tree3)) (height (tree4)) then height (tree4) else height (tree3))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true
+Cond2 : true = true
+---------------------------------------
+SUCC (SUCC (plus (spec (target (tree3))) (spec (target (tree4))))) = SUCC (ZERO)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- IH2 in goal at 0(rank : 16.)
+
+
+1st goal of : forall (tree1:tree) (tree2:tree), if nat_eq (height (tree1)) (height (tree2)) then if balanced (tree1) then balanced (tree2) else false else false = true->lq (targetNew (tree1)) (SUCC (ZERO)) = true -> SUCC (plus (spec (target (tree1))) (spec (target (tree2)))) = plus (plus (targetNew (tree1)) (targetNew (tree1))) (SUCC (ZERO))
+tree1 : tree
+Base1 : tree1 = Leaf
+tree2 : tree
+nat1 : nat
+tree3 : tree
+tree4 : tree
+IH1 : if nat_eq (ZERO) (height (tree3)) then if balanced (Leaf) then balanced (tree3) else false else false = true->true = true -> SUCC (spec (target (tree3))) = SUCC (ZERO)
+IH2 : if nat_eq (ZERO) (height (tree4)) then if balanced (Leaf) then balanced (tree4) else false else false = true->true = true -> SUCC (spec (target (tree4))) = SUCC (ZERO)
+Inductive1 : tree2 = Node (nat1) (tree3) (tree4)
+Cond1 : if nat_eq (ZERO) (SUCC (if lq (height (tree3)) (height (tree4)) then height (tree4) else height (tree3))) then if balanced (Leaf) then balanced (Node (nat1) (tree3) (tree4)) else false else false = true
+Cond2 : true = true
+---------------------------------------
+SUCC (SUCC (plus (spec (target (tree3))) (spec (target (tree4))))) = SUCC (spec (target (tree4)))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
+intro Cond2
+rewrite <- IH2 in goal at 0
+Prop: SUCC (SUCC (plus (spec (target (Node (SUCC (ZERO)) (Leaf) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf) (Leaf)) (Leaf))))) (SUCC (SUCC (ZERO))))) = SUCC (SUCC (SUCC (ZERO)))
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (ZERO))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (ZERO))) = SUCC (ZERO)
+validate generalize_common_subterm_goal
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (SUCC (ZERO)))) = SUCC (SUCC (ZERO))
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (ZERO))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Node (SUCC (ZERO)) (Leaf) (Node (SUCC (ZERO)) (Leaf) (Leaf))))) (ZERO))) = SUCC (ZERO)
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = spec (target (Leaf))
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = spec (target (Leaf))
+Prop: SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Node (ZERO) (Node (SUCC (ZERO)) (Leaf) (Leaf)) (Leaf))))) = spec (target (Node (ZERO) (Node (SUCC (ZERO)) (Leaf) (Leaf)) (Leaf)))
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf) (Leaf)))))) = SUCC (spec (target (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf) (Leaf))))
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (spec (target (Leaf)))
+Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Node (SUCC (ZERO)) (Leaf) (Node (ZERO) (Node (ZERO) (Leaf) (Leaf)) (Node (SUCC (ZERO)) (Leaf) (Leaf))))))) (spec (target (Leaf))))) = SUCC (spec (target (Leaf)))
+asdf
+previous tactics
+simpl in goal
+intro Cond1
+intro Cond2
+validate generalize_common_subterm_goal
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Node (ZERO) (Leaf) (Leaf))))) = ZERO
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = ZERO
+Prop: SUCC (plus (spec (target (Leaf))) (spec (target (Leaf)))) = ZERO
+Prop: SUCC (SUCC (plus (spec (target (Node (ZERO) (Leaf) (Leaf)))) (spec (target (Leaf))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (ZERO)
+Prop: SUCC (SUCC (plus (spec (target (Leaf))) (spec (target (Leaf))))) = SUCC (ZERO)
+asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69

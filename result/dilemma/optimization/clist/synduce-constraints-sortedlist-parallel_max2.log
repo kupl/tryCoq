@@ -38,13 +38,13 @@ forall (clist1:clist), main (clist1) = mainNew (clist1)
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 
 ---------------------------------------
-forall (clist1:clist), if tf8 (clist1) then spec (repr (target (clist1))) else ZERO = if tf8 (clist1) then targetNew (clist1) else ZERO
+forall (clist1:clist), if ispart (clist1) then spec (repr (target (clist1))) else ZERO = if ispart (clist1) then targetNew (clist1) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-intro clist1(rank:3.)
+induction clist1(rank:4.)
 =================================================
 Progress: 3
 
@@ -52,147 +52,369 @@ Progress: 3
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 
 ---------------------------------------
-forall (clist1:clist), if tf8 (clist1) then spec (repr (target (clist1))) else ZERO = if tf8 (clist1) then targetNew (clist1) else ZERO
+forall (clist1:clist), if ispart (clist1) then spec (repr (target (clist1))) else ZERO = if ispart (clist1) then targetNew (clist1) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro clist1(rank : 3.)
+>>> induction clist1(rank : 4.)
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
 ---------------------------------------
-if tf8 (clist1) then spec (repr (target (clist1))) else ZERO = if tf8 (clist1) then targetNew (clist1) else ZERO
+if ispart (Single (nat1)) then spec (repr (target (Single (nat1)))) else ZERO = if ispart (Single (nat1)) then targetNew (Single (nat1)) else ZERO
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-case tf8 (clist1)(rank:4.)
+reflexivity(rank:3.)
 =================================================
 Progress: 4
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
 ---------------------------------------
-if tf8 (clist1) then spec (repr (target (clist1))) else ZERO = if tf8 (clist1) then targetNew (clist1) else ZERO
+if ispart (Single (nat1)) then spec (repr (target (Single (nat1)))) else ZERO = if ispart (Single (nat1)) then targetNew (Single (nat1)) else ZERO
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 3.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : if ispart (clist2) then spec (repr (target (clist2))) else ZERO = if ispart (clist2) then targetNew (clist2) else ZERO
+IH2 : if ispart (clist3) then spec (repr (target (clist3))) else ZERO = if ispart (clist3) then targetNew (clist3) else ZERO
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+if ispart (Concats (clist2) (clist3)) then spec (repr (target (Concats (clist2) (clist3)))) else ZERO = if ispart (Concats (clist2) (clist3)) then targetNew (Concats (clist2) (clist3)) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf8 (clist1)(rank : 4.)
-
-
-1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
-clist1 : clist
-Case1 : tf8 (clist1) = true
----------------------------------------
-tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf10 (tf2 (tf12 (Single (ZERO)))) = tf14 (Single (ZERO))
-Prop: tf10 (tf2 (tf12 (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO)))))) = tf14 (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))
-Prop: tf10 (tf2 (tf12 (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (ZERO))))))) = tf14 (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (ZERO)))))
-Lemma List
-forall (clist1:clist), tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
-End of Lemma List
-
-
-1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
-clist1 : clist
-Case1 : tf8 (clist1) = true
----------------------------------------
-tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:3.)
 =================================================
 Progress: 5
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 clist1 : clist
-Case1 : tf8 (clist1) = true
+clist2 : clist
+clist3 : clist
+IH1 : if ispart (clist2) then spec (repr (target (clist2))) else ZERO = if ispart (clist2) then targetNew (clist2) else ZERO
+IH2 : if ispart (clist3) then spec (repr (target (clist3))) else ZERO = if ispart (clist3) then targetNew (clist3) else ZERO
+Inductive1 : clist1 = Concats (clist2) (clist3)
 ---------------------------------------
-tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (clist1:clist), tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)(rank : 0.)
-
-
-1st goal of : forall (clist1:clist), tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
-
----------------------------------------
-forall (clist1:clist), tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
+if ispart (Concats (clist2) (clist3)) then spec (repr (target (Concats (clist2) (clist3)))) else ZERO = if ispart (Concats (clist2) (clist3)) then targetNew (Concats (clist2) (clist3)) else ZERO
 
 0 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : if ispart (clist2) then spec (repr (target (clist2))) else ZERO = if ispart (clist2) then targetNew (clist2) else ZERO
+IH2 : if ispart (clist3) then spec (repr (target (clist3))) else ZERO = if ispart (clist3) then targetNew (clist3) else ZERO
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+if if lq (lmax (clist2)) (lmin (clist3)) then if ispart (clist2) then ispart (clist3) else false else false then spec (repr (target (Concats (clist2) (clist3)))) else ZERO = if if lq (lmax (clist2)) (lmin (clist3)) then if ispart (clist2) then ispart (clist3) else false else false then targetNew (Concats (clist2) (clist3)) else ZERO
+
+0 goal(s) more...
+
+0 conjecture(s) more...
 Tactic List : 1
-intro clist1(rank:5.)
+case if lq (lmax (clist2)) (lmin (clist3)) then if ispart (clist2) then ispart (clist3) else false else false(rank:4.)
 =================================================
 Progress: 6
 
 
-1st goal of : forall (clist1:clist), tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
-
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : if ispart (clist2) then spec (repr (target (clist2))) else ZERO = if ispart (clist2) then targetNew (clist2) else ZERO
+IH2 : if ispart (clist3) then spec (repr (target (clist3))) else ZERO = if ispart (clist3) then targetNew (clist3) else ZERO
+Inductive1 : clist1 = Concats (clist2) (clist3)
 ---------------------------------------
-forall (clist1:clist), tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
+if if lq (lmax (clist2)) (lmin (clist3)) then if ispart (clist2) then ispart (clist3) else false else false then spec (repr (target (Concats (clist2) (clist3)))) else ZERO = if if lq (lmax (clist2)) (lmin (clist3)) then if ispart (clist2) then ispart (clist3) else false else false then targetNew (Concats (clist2) (clist3)) else ZERO
 
 0 goal(s) more...
 
-1 conjecture(s) more...
->>> intro clist1(rank : 5.)
+0 conjecture(s) more...
+>>> case if lq (lmax (clist2)) (lmin (clist3)) then if ispart (clist2) then ispart (clist3) else false else false(rank : 4.)
 
 
-1st goal of : forall (clist1:clist), tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : if ispart (clist2) then spec (repr (target (clist2))) else ZERO = if ispart (clist2) then targetNew (clist2) else ZERO
+IH2 : if ispart (clist3) then spec (repr (target (clist3))) else ZERO = if ispart (clist3) then targetNew (clist3) else ZERO
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : if lq (lmax (clist2)) (lmin (clist3)) then if ispart (clist2) then ispart (clist3) else false else false = true
 ---------------------------------------
-tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
+spec (tf1 (repr (clist3)) (repr (tf13 (clist2) (clist2)))) = targetNew (clist2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+case if lq (lmax (clist2)) (lmin (clist3)) then if ispart (clist2) then ispart (clist3) else false else false
+parent
+tf13 (clist2) (clist2)
+lower
+tf13(_, _)
+upper
+spec(tf1(repr(clist3), repr(_)))
+remove upper
+tf13(clist2, clist2)
+remove lower
+tf13(_, _)
+parent
+targetNew (clist2)
+lower
+targetNew(_)
+upper
+_
+remove upper
+_
+validate generalize_common_subterm_goal
+Prop: spec (tf1 (repr (Single (ZERO))) (repr (tf13 (Single (SUCC (ZERO))) (Single (SUCC (ZERO)))))) = targetNew (Single (SUCC (ZERO)))
+Prop: spec (tf1 (repr (Single (ZERO))) (repr (tf13 (Single (ZERO)) (Single (ZERO))))) = targetNew (Single (ZERO))
+Prop: spec (tf1 (repr (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (ZERO)))) (Single (ZERO)))) (repr (tf13 (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))))) = targetNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))
+Lemma List
+forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+End of Lemma List
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : if ispart (clist2) then spec (repr (target (clist2))) else ZERO = if ispart (clist2) then targetNew (clist2) else ZERO
+IH2 : if ispart (clist3) then spec (repr (target (clist3))) else ZERO = if ispart (clist3) then targetNew (clist3) else ZERO
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : if lq (lmax (clist2)) (lmin (clist3)) then if ispart (clist2) then ispart (clist3) else false else false = true
+---------------------------------------
+spec (tf1 (repr (clist3)) (repr (tf13 (clist2) (clist2)))) = targetNew (clist2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 7
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : if ispart (clist2) then spec (repr (target (clist2))) else ZERO = if ispart (clist2) then targetNew (clist2) else ZERO
+IH2 : if ispart (clist3) then spec (repr (target (clist3))) else ZERO = if ispart (clist3) then targetNew (clist3) else ZERO
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : if lq (lmax (clist2)) (lmin (clist3)) then if ispart (clist2) then ispart (clist3) else false else false = true
+---------------------------------------
+spec (tf1 (repr (clist3)) (repr (tf13 (clist2) (clist2)))) = targetNew (clist2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)(rank : 0.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+
+---------------------------------------
+forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 
 0 goal(s) more...
 
 1 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:5.)
+induction clist1(rank:6.)
 =================================================
-Progress: 7
+Progress: 8
 
 
-1st goal of : forall (clist1:clist), tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
-clist1 : clist
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+
 ---------------------------------------
-tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
+forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro Cond1(rank : 5.)
+>>> induction clist1(rank : 6.)
 
 
-1st goal of : forall (clist1:clist), tf8 (clist1) = true -> tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 clist1 : clist
-Cond1 : tf8 (clist1) = true
+nat1 : nat
+Base1 : clist1 = Single (nat1)
 ---------------------------------------
-tf10 (tf2 (tf12 (clist1))) = tf14 (clist1)
+forall (clist2:clist), if lq (lmax (Single (nat1))) (lmin (clist2)) then if ispart (Single (nat1)) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (Single (nat1)) (Single (nat1))))) = targetNew (Single (nat1))
 
-0 goal(s) more...
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 9
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (clist2:clist), if lq (lmax (Single (nat1))) (lmin (clist2)) then if ispart (Single (nat1)) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (Single (nat1)) (Single (nat1))))) = targetNew (Single (nat1))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (clist2:clist), if lq (nat1) (lmin (clist2)) then if ispart (Single (nat1)) then ispart (clist2) else false else false = true -> max (nat1) (spec (repr (clist2))) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction clist2(rank:7.)
+=================================================
+Progress: 10
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (clist2:clist), if lq (nat1) (lmin (clist2)) then if ispart (Single (nat1)) then ispart (clist2) else false else false = true -> max (nat1) (spec (repr (clist2))) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction clist2(rank : 7.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+---------------------------------------
+if lq (nat1) (lmin (Single (nat2))) then if ispart (Single (nat1)) then ispart (Single (nat2)) else false else false = true -> max (nat1) (spec (repr (Single (nat2)))) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 11
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+---------------------------------------
+if lq (nat1) (lmin (Single (nat2))) then if ispart (Single (nat1)) then ispart (Single (nat2)) else false else false = true -> max (nat1) (spec (repr (Single (nat2)))) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+---------------------------------------
+if lq (nat1) (nat2) then if ispart (Single (nat1)) then ispart (Single (nat2)) else false else false = true -> max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:7.)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+---------------------------------------
+if lq (nat1) (nat2) then if ispart (Single (nat1)) then ispart (Single (nat2)) else false else false = true -> max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 7.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), if lq (lmax (clist1)) (lmin (clist2)) then if ispart (clist1) then ispart (clist2) else false else false = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+Cond1 : if lq (nat1) (nat2) then if ispart (Single (nat1)) then ispart (Single (nat2)) else false else false = true
+---------------------------------------
+max (nat1) (nat2) = nat1
+
+2 goal(s) more...
 
 1 conjecture(s) more...
 Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
 validate generalize_common_subterm_goal
-Prop: tf10 (tf2 (tf12 (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) = tf14 (Concats (Single (ZERO)) (Single (SUCC (ZERO))))
-Prop: tf10 (tf2 (tf12 (Single (ZERO)))) = tf14 (Single (ZERO))
-Prop: tf10 (tf2 (tf12 (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) = tf14 (Concats (Single (ZERO)) (Single (SUCC (ZERO))))
+Prop: max (ZERO) (SUCC (ZERO)) = ZERO
+Prop: max (SUCC (ZERO)) (ZERO) = SUCC (ZERO)
+Prop: max (ZERO) (ZERO) = ZERO
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

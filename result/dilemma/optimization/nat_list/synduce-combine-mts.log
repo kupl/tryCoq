@@ -38,14 +38,14 @@ forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 
 ---------------------------------------
-forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
+forall (nat_list1:nat list), spec (repr (nat_list1)) = match (reprNew (nat_list1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-intro nat_list1(rank:3.)
+induction nat_list1(rank:4.)
 =================================================
 Progress: 3
 
@@ -53,192 +53,169 @@ Progress: 3
 1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 
 ---------------------------------------
-forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
+forall (nat_list1:nat list), spec (repr (nat_list1)) = match (reprNew (nat_list1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro nat_list1(rank : 3.)
+>>> induction nat_list1(rank : 4.)
 
 
 1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
 ---------------------------------------
-tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
+spec (repr ((Nil))) = match (reprNew ((Nil))) with
 | Tuple2 a _ -> a
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf2 (tf4 ((Nil))) = match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
-Prop: tf2 (tf4 ((Nil))) = match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
-Prop: tf2 (tf4 ((Nil))) = match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
-Lemma List
-forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-End of Lemma List
-
-
-1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
-nat_list1 : nat list
----------------------------------------
-tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:3.)
 =================================================
 Progress: 4
 
 
 1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
 ---------------------------------------
-tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
+spec (repr ((Nil))) = match (reprNew ((Nil))) with
+| Tuple2 a _ -> a
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 3.)
+
+
+1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
+nat_list1 : nat list
+nat1 : nat
+nat_list2 : nat list
+IH1 : spec (repr (nat_list2)) = match (reprNew (nat_list2)) with
+| Tuple2 a _ -> a
+Inductive1 : nat_list1 = (nat1::nat_list2)
+---------------------------------------
+spec (repr ((nat1::nat_list2))) = match (reprNew ((nat1::nat_list2))) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a(rank : 0.)
-
-
-1st goal of : forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-
----------------------------------------
-forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-1 conjecture(s) more...
+Deduplication: 0
 Tactic List : 1
-intro nat_list1(rank:5.)
+simpl in goal(rank:3.)
 =================================================
 Progress: 5
 
 
-1st goal of : forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-
----------------------------------------
-forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat_list1(rank : 5.)
-
-
-1st goal of : forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
+1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 nat_list1 : nat list
+nat1 : nat
+nat_list2 : nat list
+IH1 : spec (repr (nat_list2)) = match (reprNew (nat_list2)) with
+| Tuple2 a _ -> a
+Inductive1 : nat_list1 = (nat1::nat_list2)
 ---------------------------------------
-tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
+spec (repr ((nat1::nat_list2))) = match (reprNew ((nat1::nat_list2))) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
-1 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf2 (tf4 ((Nil))) = match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
-Prop: tf2 (tf4 ((Nil))) = match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
-Prop: tf2 (tf4 ((Nil))) = match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
-Lemma List
-forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-End of Lemma List
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3.)
 
 
-1st goal of : forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
+1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 nat_list1 : nat list
----------------------------------------
-tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
+nat1 : nat
+nat_list2 : nat list
+IH1 : spec (repr (nat_list2)) = match (reprNew (nat_list2)) with
 | Tuple2 a _ -> a
+Inductive1 : nat_list1 = (nat1::nat_list2)
+---------------------------------------
+spec (nat1 (repr (nat_list2))) = max (match (reprNew (nat_list2)) with
+| Tuple2 a _ -> a) (plus (nat1) (match (reprNew (nat_list2)) with
+| Tuple2 _ b -> b))
 
 0 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
+Tactic List : 1
+rewrite <- IH1 in goal at 0(rank:3.)
 =================================================
 Progress: 6
 
 
-1st goal of : forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
+1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 nat_list1 : nat list
----------------------------------------
-tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
+nat1 : nat
+nat_list2 : nat list
+IH1 : spec (repr (nat_list2)) = match (reprNew (nat_list2)) with
 | Tuple2 a _ -> a
+Inductive1 : nat_list1 = (nat1::nat_list2)
+---------------------------------------
+spec (nat1 (repr (nat_list2))) = max (match (reprNew (nat_list2)) with
+| Tuple2 a _ -> a) (plus (nat1) (match (reprNew (nat_list2)) with
+| Tuple2 _ b -> b))
 
 0 goal(s) more...
 
-1 conjecture(s) more...
->>> assert forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a(rank : 0.)
+0 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 3.)
 
 
-1st goal of : forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-
----------------------------------------
-forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat_list1(rank:7.)
-=================================================
-Progress: 7
-
-
-1st goal of : forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-
----------------------------------------
-forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat_list1(rank : 7.)
-
-
-1st goal of : forall (nat_list1:nat list), tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
+1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
 nat_list1 : nat list
----------------------------------------
-tf2 (tf4 (nat_list1)) = match (tf6 (nat_list1)) with
+nat1 : nat
+nat_list2 : nat list
+IH1 : spec (repr (nat_list2)) = match (reprNew (nat_list2)) with
 | Tuple2 a _ -> a
+Inductive1 : nat_list1 = (nat1::nat_list2)
+---------------------------------------
+spec (nat1 (repr (nat_list2))) = max (spec (repr (nat_list2))) (plus (nat1) (match (reprNew (nat_list2)) with
+| Tuple2 _ b -> b))
 
 0 goal(s) more...
 
-2 conjecture(s) more...
+0 conjecture(s) more...
 Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: tf2 (tf4 ((Nil))) = match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
-Prop: tf2 (tf4 ((Nil))) = match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
-Prop: tf2 (tf4 ((Nil))) = match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
+Prop: spec (nat1 (repr ((Nil)))) = max (spec (repr ((Nil)))) (plus (SUCC (ZERO)) (match (reprNew ((Nil))) with
+| Tuple2 _ b -> b))
+Prop: spec (nat1 (repr ((Nil)))) = max (spec (repr ((Nil)))) (plus (ZERO) (match (reprNew ((Nil))) with
+| Tuple2 _ b -> b))
+Prop: spec (nat1 (repr ((Nil)))) = max (spec (repr ((Nil)))) (plus (ZERO) (match (reprNew ((Nil))) with
+| Tuple2 _ b -> b))
+asdf
+previous tactics
+simpl in goal
+parent
+plus (nat1) (match (reprNew (nat_list2)) with
+| Tuple2 _ b -> b)
+lower
+plus(_, _)
+upper
+max(_, _)
+remove upper
+plus(nat1, _)
+validate generalize_common_subterm_goal
+Prop: spec (nat1 (repr ((Nil)))) = max (match (reprNew ((Nil))) with
+| Tuple2 a _ -> a) (plus (ZERO) (match (reprNew ((Nil))) with
+| Tuple2 _ b -> b))
+Prop: spec (nat1 (repr ((SUCC (ZERO)::(Nil))))) = max (match (reprNew ((SUCC (ZERO)::(Nil)))) with
+| Tuple2 a _ -> a) (plus (ZERO) (match (reprNew ((SUCC (ZERO)::(Nil)))) with
+| Tuple2 _ b -> b))
+Prop: spec (nat1 (repr ((Nil)))) = max (match (reprNew ((Nil))) with
+| Tuple2 a _ -> a) (plus (ZERO) (match (reprNew ((Nil))) with
+| Tuple2 _ b -> b))
+asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69

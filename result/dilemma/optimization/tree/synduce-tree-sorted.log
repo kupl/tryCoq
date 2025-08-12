@@ -38,8 +38,8 @@ forall (tree1:tree), main (tree1) = mainNew (tree1)
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 
 ---------------------------------------
-forall (tree1:tree), match (tf0 (tf2 (tree1))) with
-| Tuple2 _ b -> b = match (tf4 (tree1)) with
+forall (tree1:tree), match (tf1 (repr (tree1))) with
+| Tuple2 _ b -> b = match (reprNew (tree1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
@@ -54,8 +54,8 @@ Progress: 3
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 
 ---------------------------------------
-forall (tree1:tree), match (tf0 (tf2 (tree1))) with
-| Tuple2 _ b -> b = match (tf4 (tree1)) with
+forall (tree1:tree), match (tf1 (repr (tree1))) with
+| Tuple2 _ b -> b = match (reprNew (tree1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
@@ -67,16 +67,16 @@ forall (tree1:tree), match (tf0 (tf2 (tree1))) with
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
 ---------------------------------------
-match (tf0 (tf2 (tree1))) with
-| Tuple2 _ b -> b = match (tf4 (tree1)) with
+match (tf1 (repr (tree1))) with
+| Tuple2 _ b -> b = match (reprNew (tree1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 2
-case tf0 (tf2 (tree1))(rank:3.)
-case tf4 (tree1)(rank:3.)
+case reprNew (tree1)(rank:3.)
+case tf1 (repr (tree1))(rank:3.)
 =================================================
 Progress: 4
 
@@ -84,34 +84,34 @@ Progress: 4
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
 ---------------------------------------
-match (tf0 (tf2 (tree1))) with
-| Tuple2 _ b -> b = match (tf4 (tree1)) with
+match (tf1 (repr (tree1))) with
+| Tuple2 _ b -> b = match (reprNew (tree1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf0 (tf2 (tree1))(rank : 3.)
+>>> case reprNew (tree1)(rank : 3.)
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
-Case1 : tf0 (tf2 (tree1)) = Tuple2 (nat1) (nat2)
+Case1 : reprNew (tree1) = Tuple2 (bool1) (bool2)
 ---------------------------------------
-nat2 = match (tf4 (tree1)) with
-| Tuple2 a _ -> a
+match (tf1 (repr (tree1))) with
+| Tuple2 _ b -> b = bool1
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: ZERO = match (tf4 (Leaf (ZERO))) with
-| Tuple2 a _ -> a
-Prop: ZERO = match (tf4 (Leaf (ZERO))) with
-| Tuple2 a _ -> a
-Prop: SUCC (ZERO) = match (tf4 (Leaf (ZERO))) with
-| Tuple2 a _ -> a
+Prop: match (tf1 (repr (Leaf (ZERO)))) with
+| Tuple2 _ b -> b = true
+Prop: match (tf1 (repr (Leaf (SUCC (ZERO))))) with
+| Tuple2 _ b -> b = true
+Prop: match (tf1 (repr (Leaf (ZERO)))) with
+| Tuple2 _ b -> b = false
 asdf
 =================================================
 Progress: 5
@@ -120,34 +120,34 @@ Progress: 5
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
 ---------------------------------------
-match (tf0 (tf2 (tree1))) with
-| Tuple2 _ b -> b = match (tf4 (tree1)) with
+match (tf1 (repr (tree1))) with
+| Tuple2 _ b -> b = match (reprNew (tree1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf4 (tree1)(rank : 3.)
+>>> case tf1 (repr (tree1))(rank : 3.)
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
-Case1 : tf4 (tree1) = Tuple2 (bool1) (bool2)
+Case1 : tf1 (repr (tree1)) = Tuple2 (nat1) (nat2)
 ---------------------------------------
-match (tf0 (tf2 (tree1))) with
-| Tuple2 _ b -> b = bool1
+nat2 = match (reprNew (tree1)) with
+| Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: match (tf0 (tf2 (Leaf (SUCC (SUCC (ZERO)))))) with
-| Tuple2 _ b -> b = false
-Prop: match (tf0 (tf2 (Leaf (ZERO)))) with
-| Tuple2 _ b -> b = true
-Prop: match (tf0 (tf2 (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))) with
-| Tuple2 _ b -> b = false
+Prop: ZERO = match (reprNew (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a
+Prop: ZERO = match (reprNew (Leaf (ZERO))) with
+| Tuple2 a _ -> a
+Prop: ZERO = match (reprNew (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

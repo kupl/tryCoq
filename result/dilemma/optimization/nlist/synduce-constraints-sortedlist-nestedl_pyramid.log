@@ -38,7 +38,11 @@ forall (nlist1:nlist), main (nlist1) = mainNew (nlist1)
 1st goal of : forall (nlist1:nlist), main (nlist1) = mainNew (nlist1)
 
 ---------------------------------------
-forall (nlist1:nlist), if tf7 (nlist1) then z else false = if tf7 (nlist1) then x else false
+forall (nlist1:nlist), if match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl) then z else false = if match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl) then x else false
 
 0 goal(s) more...
 
@@ -52,7 +56,11 @@ Progress: 3
 1st goal of : forall (nlist1:nlist), main (nlist1) = mainNew (nlist1)
 
 ---------------------------------------
-forall (nlist1:nlist), if tf7 (nlist1) then z else false = if tf7 (nlist1) then x else false
+forall (nlist1:nlist), if match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl) then z else false = if match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl) then x else false
 
 0 goal(s) more...
 
@@ -63,13 +71,19 @@ forall (nlist1:nlist), if tf7 (nlist1) then z else false = if tf7 (nlist1) then 
 1st goal of : forall (nlist1:nlist), main (nlist1) = mainNew (nlist1)
 nlist1 : nlist
 ---------------------------------------
-if tf7 (nlist1) then z else false = if tf7 (nlist1) then x else false
+if match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl) then z else false = if match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl) then x else false
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-case tf7 (nlist1)(rank:4.)
+case match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl)(rank:4.)
 =================================================
 Progress: 4
 
@@ -77,17 +91,25 @@ Progress: 4
 1st goal of : forall (nlist1:nlist), main (nlist1) = mainNew (nlist1)
 nlist1 : nlist
 ---------------------------------------
-if tf7 (nlist1) then z else false = if tf7 (nlist1) then x else false
+if match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl) then z else false = if match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl) then x else false
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf7 (nlist1)(rank : 4.)
+>>> case match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl)(rank : 4.)
 
 
 1st goal of : forall (nlist1:nlist), main (nlist1) = mainNew (nlist1)
 nlist1 : nlist
-Case1 : tf7 (nlist1) = true
+Case1 : match (nlist1) with
+| Line _ -> true
+| Ncons elst tl -> tf5 (lmax (elst)) (tl) = true
 ---------------------------------------
 z = x
 

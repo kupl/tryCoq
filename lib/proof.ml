@@ -1447,10 +1447,11 @@ let rec get_case_match env expr_list pat : (expr * expr) list * ambiguity =
                   | No -> [], No
                   | _ ->
                     let next, new_ambiguity = get_case_match env [ e ] p in
-                    (match new_ambiguity with
-                     | No -> [], No
-                     | Ok -> acc @ next, Ok
-                     | Ambiguous -> acc @ next, Ambiguous))
+                    (match new_ambiguity, ambiguity with
+                     | No, _ -> [], No
+                     | Ok, Ok -> acc @ next, Ok
+                     | Ok, _ -> [], Ambiguous
+                     | Ambiguous, _ -> [], Ambiguous))
                ([], Ok)
                arg_list
                pat_list
@@ -1472,10 +1473,11 @@ let rec get_case_match env expr_list pat : (expr * expr) list * ambiguity =
               | No -> [], No
               | _ ->
                 let next, new_ambiguity = get_case_match env [ e ] p in
-                (match new_ambiguity with
-                 | No -> [], No
-                 | Ok -> acc @ next, Ok
-                 | Ambiguous -> acc @ next, Ambiguous))
+                (match new_ambiguity, ambiguity with
+                 | No, _ -> [], No
+                 | Ok, Ok -> acc @ next, Ok
+                 | Ok, _ -> [], Ambiguous
+                 | Ambiguous, _ -> [], Ambiguous))
            ([], Ok)
            expr_list
            l
@@ -1489,10 +1491,11 @@ let rec get_case_match env expr_list pat : (expr * expr) list * ambiguity =
               | No -> [], No
               | _ ->
                 let next, new_ambiguity = get_case_match env [ e ] p in
-                (match new_ambiguity with
-                 | No -> [], No
-                 | Ok -> acc @ next, Ok
-                 | Ambiguous -> acc @ next, Ambiguous))
+                (match new_ambiguity, ambiguity with
+                 | No, _ -> [], No
+                 | Ok, Ok -> acc @ next, Ok
+                 | Ok, _ -> [], Ambiguous
+                 | Ambiguous, _ -> [], Ambiguous))
            ([], Ok)
            expr_list
            pat_list

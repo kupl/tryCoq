@@ -38,13 +38,13 @@ forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 
 ---------------------------------------
-forall (idlist1:idlist), if tf2 (idlist1) then spec (repr (target (idlist1))) else ZERO = if tf2 (idlist1) then fst3 (targetNew (idlist1)) else ZERO
+forall (idlist1:idlist), if isindexed (idlist1) then spec (repr (target (idlist1) (idlist1))) else ZERO = if isindexed (idlist1) then fst3 (targetNew (idlist1)) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-intro idlist1(rank:3.)
+induction idlist1(rank:4.)
 =================================================
 Progress: 3
 
@@ -52,281 +52,656 @@ Progress: 3
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 
 ---------------------------------------
-forall (idlist1:idlist), if tf2 (idlist1) then spec (repr (target (idlist1))) else ZERO = if tf2 (idlist1) then fst3 (targetNew (idlist1)) else ZERO
+forall (idlist1:idlist), if isindexed (idlist1) then spec (repr (target (idlist1) (idlist1))) else ZERO = if isindexed (idlist1) then fst3 (targetNew (idlist1)) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro idlist1(rank : 3.)
+>>> induction idlist1(rank : 4.)
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+Base1 : idlist1 = Inil
 ---------------------------------------
-if tf2 (idlist1) then spec (repr (target (idlist1))) else ZERO = if tf2 (idlist1) then fst3 (targetNew (idlist1)) else ZERO
+if isindexed (Inil) then spec (repr (target (Inil) (Inil))) else ZERO = if isindexed (Inil) then fst3 (targetNew (Inil)) else ZERO
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-case tf2 (idlist1)(rank:4.)
+reflexivity(rank:3.)
 =================================================
 Progress: 4
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+Base1 : idlist1 = Inil
 ---------------------------------------
-if tf2 (idlist1) then spec (repr (target (idlist1))) else ZERO = if tf2 (idlist1) then fst3 (targetNew (idlist1)) else ZERO
+if isindexed (Inil) then spec (repr (target (Inil) (Inil))) else ZERO = if isindexed (Inil) then fst3 (targetNew (Inil)) else ZERO
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 3.)
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+---------------------------------------
+if isindexed (Icons (nat1) (nat2) (idlist2)) then spec (repr (target (Icons (nat1) (nat2) (idlist2)) (Icons (nat1) (nat2) (idlist2)))) else ZERO = if isindexed (Icons (nat1) (nat2) (idlist2)) then fst3 (targetNew (Icons (nat1) (nat2) (idlist2))) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf2 (idlist1)(rank : 4.)
-
-
-1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
-idlist1 : idlist
-Case1 : tf2 (idlist1) = true
----------------------------------------
-tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf8 (tf4 (tf10 (Inil))) = match (tf12 (Inil)) with
-| Tuple2 a _ -> a
-Prop: tf8 (tf4 (tf10 (Icons (SUCC (SUCC (ZERO))) (ZERO) (Inil)))) = match (tf12 (Icons (SUCC (SUCC (ZERO))) (ZERO) (Inil))) with
-| Tuple2 a _ -> a
-Prop: tf8 (tf4 (tf10 (Icons (ZERO) (ZERO) (Inil)))) = match (tf12 (Icons (ZERO) (ZERO) (Inil))) with
-| Tuple2 a _ -> a
-Lemma List
-forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-End of Lemma List
-
-
-1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
-idlist1 : idlist
-Case1 : tf2 (idlist1) = true
----------------------------------------
-tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
-1 goal(s) more...
-
-0 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:3.)
 =================================================
 Progress: 5
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Case1 : tf2 (idlist1) = true
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
 ---------------------------------------
-tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a(rank : 0.)
-
-
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
----------------------------------------
-forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
+if isindexed (Icons (nat1) (nat2) (idlist2)) then spec (repr (target (Icons (nat1) (nat2) (idlist2)) (Icons (nat1) (nat2) (idlist2)))) else ZERO = if isindexed (Icons (nat1) (nat2) (idlist2)) then fst3 (targetNew (Icons (nat1) (nat2) (idlist2))) else ZERO
 
 0 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3.)
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+---------------------------------------
+if if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false then spec (repr (target (Icons (nat1) (nat2) (idlist2)) (Icons (nat1) (nat2) (idlist2)))) else ZERO = if if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false then fst3 (targetNew (Icons (nat1) (nat2) (idlist2))) else ZERO
+
+0 goal(s) more...
+
+0 conjecture(s) more...
 Tactic List : 1
-intro idlist1(rank:5.)
+case if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false(rank:4.)
 =================================================
 Progress: 6
 
 
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
----------------------------------------
-forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro idlist1(rank : 5.)
-
-
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
 ---------------------------------------
-tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
+if if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false then spec (repr (target (Icons (nat1) (nat2) (idlist2)) (Icons (nat1) (nat2) (idlist2)))) else ZERO = if if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false then fst3 (targetNew (Icons (nat1) (nat2) (idlist2))) else ZERO
 
 0 goal(s) more...
 
-1 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:5.)
+0 conjecture(s) more...
+>>> case if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false(rank : 4.)
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
+---------------------------------------
+if gq (nat1) (len (repr (target (idlist2) (idlist2)))) then plus (nat1) (spec (repr (target (idlist2) (idlist2)))) else spec (repr (target (idlist2) (idlist2))) = if leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) then fst3 (targetNew (idlist2)) else plus (nat1) (fst3 (targetNew (idlist2)))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 2
+case gq (nat1) (len (repr (target (idlist2) (idlist2))))(rank:5.)
+case leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b)(rank:5.)
 =================================================
 Progress: 7
 
 
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
 ---------------------------------------
-tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
+if gq (nat1) (len (repr (target (idlist2) (idlist2)))) then plus (nat1) (spec (repr (target (idlist2) (idlist2)))) else spec (repr (target (idlist2) (idlist2))) = if leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) then fst3 (targetNew (idlist2)) else plus (nat1) (fst3 (targetNew (idlist2)))
 
-0 goal(s) more...
+1 goal(s) more...
 
-1 conjecture(s) more...
->>> intro Cond1(rank : 5.)
+0 conjecture(s) more...
+>>> case gq (nat1) (len (repr (target (idlist2) (idlist2))))(rank : 5.)
 
 
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Cond1 : tf2 (idlist1) = true
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
+Case2 : gq (nat1) (len (repr (target (idlist2) (idlist2)))) = true
 ---------------------------------------
-tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
+plus (nat1) (spec (repr (target (idlist2) (idlist2)))) = if leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) then fst3 (targetNew (idlist2)) else plus (nat1) (fst3 (targetNew (idlist2)))
 
-0 goal(s) more...
+2 goal(s) more...
 
-1 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf8 (tf4 (tf10 (Inil))) = match (tf12 (Inil)) with
-| Tuple2 a _ -> a
-Prop: tf8 (tf4 (tf10 (Inil))) = match (tf12 (Inil)) with
-| Tuple2 a _ -> a
-Prop: tf8 (tf4 (tf10 (Inil))) = match (tf12 (Inil)) with
-| Tuple2 a _ -> a
-Lemma List
-forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-End of Lemma List
-
-
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-idlist1 : idlist
-Cond1 : tf2 (idlist1) = true
----------------------------------------
-tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-1 conjecture(s) more...
+0 conjecture(s) more...
+Tactic List : 1
+case leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b)(rank:6.)
 =================================================
 Progress: 8
 
 
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Cond1 : tf2 (idlist1) = true
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
 ---------------------------------------
-tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
+if gq (nat1) (len (repr (target (idlist2) (idlist2)))) then plus (nat1) (spec (repr (target (idlist2) (idlist2)))) else spec (repr (target (idlist2) (idlist2))) = if leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) then fst3 (targetNew (idlist2)) else plus (nat1) (fst3 (targetNew (idlist2)))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b)(rank : 5.)
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
+Case2 : leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+if gq (nat1) (len (repr (target (idlist2) (idlist2)))) then plus (nat1) (spec (repr (target (idlist2) (idlist2)))) else spec (repr (target (idlist2) (idlist2))) = match (targetNew (idlist2)) with
+| Tuple2 a _ -> a
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+case gq (nat1) (len (repr (target (idlist2) (idlist2))))(rank:6.)
+=================================================
+Progress: 9
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
+Case2 : gq (nat1) (len (repr (target (idlist2) (idlist2)))) = true
+---------------------------------------
+plus (nat1) (spec (repr (target (idlist2) (idlist2)))) = if leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) then fst3 (targetNew (idlist2)) else plus (nat1) (fst3 (targetNew (idlist2)))
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> case leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b)(rank : 6.)
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
+Case2 : gq (nat1) (len (repr (target (idlist2) (idlist2)))) = true
+Case3 : leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+plus (nat1) (spec (repr (target (idlist2) (idlist2)))) = match (targetNew (idlist2)) with
+| Tuple2 a _ -> a
+
+3 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+case if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false
+case gq (nat1) (len (repr (target (idlist2) (idlist2))))
+case leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b)
+parent
+plus (nat1) (spec (repr (target (idlist2) (idlist2))))
+lower
+plus(_, spec(repr(target(idlist2, idlist2))))
+upper
+_
+remove upper
+_
+validate generalize_common_subterm_goal
+Prop: plus (ZERO) (spec (repr (target (Inil) (Inil)))) = match (targetNew (Inil)) with
+| Tuple2 a _ -> a
+Prop: plus (ZERO) (spec (repr (target (Inil) (Inil)))) = match (targetNew (Inil)) with
+| Tuple2 a _ -> a
+Prop: plus (ZERO) (spec (repr (target (Inil) (Inil)))) = match (targetNew (Inil)) with
+| Tuple2 a _ -> a
+Lemma List
+forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+End of Lemma List
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
+Case2 : gq (nat1) (len (repr (target (idlist2) (idlist2)))) = true
+Case3 : leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+plus (nat1) (spec (repr (target (idlist2) (idlist2)))) = match (targetNew (idlist2)) with
+| Tuple2 a _ -> a
+
+3 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 10
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
+Case2 : gq (nat1) (len (repr (target (idlist2) (idlist2)))) = true
+Case3 : leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+plus (nat1) (spec (repr (target (idlist2) (idlist2)))) = match (targetNew (idlist2)) with
+| Tuple2 a _ -> a
+
+3 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a(rank : 0.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+
+---------------------------------------
+forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a(rank : 0.)
-
-
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
----------------------------------------
-forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-2 conjecture(s) more...
 Tactic List : 1
-intro idlist1(rank:7.)
+induction idlist1(rank:6.)
 =================================================
-Progress: 9
+Progress: 11
 
 
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
----------------------------------------
-forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro idlist1(rank : 7.)
-
-
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
+Case2 : leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) = true
 ---------------------------------------
-tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
+if gq (nat1) (len (repr (target (idlist2) (idlist2)))) then plus (nat1) (spec (repr (target (idlist2) (idlist2)))) else spec (repr (target (idlist2) (idlist2))) = match (targetNew (idlist2)) with
 | Tuple2 a _ -> a
 
-0 goal(s) more...
+2 goal(s) more...
 
-2 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:7.)
-=================================================
-Progress: 10
+0 conjecture(s) more...
+>>> case gq (nat1) (len (repr (target (idlist2) (idlist2))))(rank : 6.)
 
 
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if isindexed (idlist2) then spec (repr (target (idlist2) (idlist2))) else ZERO = if isindexed (idlist2) then fst3 (targetNew (idlist2)) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false = true
+Case2 : leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b) = true
+Case3 : gq (nat1) (len (repr (target (idlist2) (idlist2)))) = true
 ---------------------------------------
-tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
+plus (nat1) (spec (repr (target (idlist2) (idlist2)))) = match (targetNew (idlist2)) with
 | Tuple2 a _ -> a
 
-0 goal(s) more...
+3 goal(s) more...
 
-2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
-
-
-1st goal of : forall (idlist1:idlist), tf2 (idlist1) = true -> tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-idlist1 : idlist
-Cond1 : tf2 (idlist1) = true
----------------------------------------
-tf8 (tf4 (tf10 (idlist1))) = match (tf12 (idlist1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-2 conjecture(s) more...
+0 conjecture(s) more...
 Tactic List : 0
+previous tactics
+simpl in goal
+case if isindexed (idlist2) then nat_eq (nat2) (length (idlist2)) else false
+case leq (nat2) (match (targetNew (idlist2)) with
+| Tuple2 _ b -> b)
+case gq (nat1) (len (repr (target (idlist2) (idlist2))))
+parent
+plus (nat1) (spec (repr (target (idlist2) (idlist2))))
+lower
+plus(_, spec(repr(target(idlist2, idlist2))))
+upper
+_
+remove upper
+_
 validate generalize_common_subterm_goal
-Prop: tf8 (tf4 (tf10 (Inil))) = match (tf12 (Inil)) with
+Prop: plus (ZERO) (spec (repr (target (Inil) (Inil)))) = match (targetNew (Inil)) with
 | Tuple2 a _ -> a
-Prop: tf8 (tf4 (tf10 (Icons (ZERO) (ZERO) (Icons (ZERO) (SUCC (SUCC (ZERO))) (Icons (SUCC (ZERO)) (ZERO) (Inil)))))) = match (tf12 (Icons (ZERO) (ZERO) (Icons (ZERO) (SUCC (SUCC (ZERO))) (Icons (SUCC (ZERO)) (ZERO) (Inil))))) with
+Prop: plus (ZERO) (spec (repr (target (Inil) (Inil)))) = match (targetNew (Inil)) with
 | Tuple2 a _ -> a
-Prop: tf8 (tf4 (tf10 (Inil))) = match (tf12 (Inil)) with
+Prop: plus (ZERO) (spec (repr (target (Icons (ZERO) (SUCC (ZERO)) (Inil)) (Icons (ZERO) (SUCC (ZERO)) (Inil))))) = match (targetNew (Icons (ZERO) (SUCC (ZERO)) (Inil))) with
 | Tuple2 a _ -> a
+=================================================
+Progress: 12
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+
+---------------------------------------
+forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction idlist1(rank : 6.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+---------------------------------------
+forall (nat1:nat), gq (nat1) (len (repr (target (Inil) (Inil)))) = true -> plus (nat1) (spec (repr (target (Inil) (Inil)))) = match (targetNew (Inil)) with
+| Tuple2 a _ -> a
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+---------------------------------------
+forall (nat1:nat), gq (nat1) (len (repr (target (Inil) (Inil)))) = true -> plus (nat1) (spec (repr (target (Inil) (Inil)))) = match (targetNew (Inil)) with
+| Tuple2 a _ -> a
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+---------------------------------------
+forall (nat1:nat), gq (nat1) (ZERO) = true -> plus (nat1) (ZERO) = ZERO
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction nat1(rank:7.)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+---------------------------------------
+forall (nat1:nat), gq (nat1) (ZERO) = true -> plus (nat1) (ZERO) = ZERO
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction nat1(rank : 7.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+gq (ZERO) (ZERO) = true -> plus (ZERO) (ZERO) = ZERO
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:6.)
+=================================================
+Progress: 15
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+gq (ZERO) (ZERO) = true -> plus (ZERO) (ZERO) = ZERO
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 6.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+nat1 : nat
+nat2 : nat
+IH1 : gq (nat2) (ZERO) = true -> plus (nat2) (ZERO) = ZERO
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+gq (SUCC (nat2)) (ZERO) = true -> plus (SUCC (nat2)) (ZERO) = ZERO
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 16
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+nat1 : nat
+nat2 : nat
+IH1 : gq (nat2) (ZERO) = true -> plus (nat2) (ZERO) = ZERO
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+gq (SUCC (nat2)) (ZERO) = true -> plus (SUCC (nat2)) (ZERO) = ZERO
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+nat1 : nat
+nat2 : nat
+IH1 : gq (nat2) (ZERO) = true -> plus (nat2) (ZERO) = ZERO
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+true = true -> SUCC (plus (nat2) (ZERO)) = ZERO
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:6.)
+=================================================
+Progress: 17
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+nat1 : nat
+nat2 : nat
+IH1 : gq (nat2) (ZERO) = true -> plus (nat2) (ZERO) = ZERO
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+true = true -> SUCC (plus (nat2) (ZERO)) = ZERO
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 6.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+nat1 : nat
+nat2 : nat
+IH1 : gq (nat2) (ZERO) = true -> plus (nat2) (ZERO) = ZERO
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+---------------------------------------
+SUCC (plus (nat2) (ZERO)) = ZERO
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:7.)
+=================================================
+Progress: 18
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+nat1 : nat
+nat2 : nat
+IH1 : gq (nat2) (ZERO) = true -> plus (nat2) (ZERO) = ZERO
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+---------------------------------------
+SUCC (plus (nat2) (ZERO)) = ZERO
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 7.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat), gq (nat1) (len (repr (target (idlist1) (idlist1)))) = true -> plus (nat1) (spec (repr (target (idlist1) (idlist1)))) = match (targetNew (idlist1)) with
+| Tuple2 a _ -> a
+idlist1 : idlist
+Base1 : idlist1 = Inil
+nat1 : nat
+nat2 : nat
+IH1 : gq (nat2) (ZERO) = true -> plus (nat2) (ZERO) = ZERO
+Inductive1 : nat1 = SUCC (nat2)
+Cond1 : true = true
+---------------------------------------
+SUCC (ZERO) = ZERO
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
+rewrite IH1 in goal at 0
+previous tactics
+simpl in goal
+intro Cond1
+validate generalize_common_subterm_goal
+Prop: SUCC (plus (ZERO) (ZERO)) = ZERO
+Prop: SUCC (plus (ZERO) (ZERO)) = ZERO
+Prop: SUCC (plus (ZERO) (ZERO)) = ZERO
+asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69

@@ -38,13 +38,13 @@ forall (tree1:tree), main (tree1) = mainNew (tree1)
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 
 ---------------------------------------
-forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
+forall (tree1:tree), sumtr (squaretr (tree1)) = mainNew (tree1)
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-intro tree1(rank:3.)
+induction tree1(rank:4.)
 =================================================
 Progress: 3
 
@@ -52,160 +52,232 @@ Progress: 3
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 
 ---------------------------------------
-forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
+forall (tree1:tree), sumtr (squaretr (tree1)) = mainNew (tree1)
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro tree1(rank : 3.)
+>>> induction tree1(rank : 4.)
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+nat1 : nat
+Base1 : tree1 = Leaf (nat1)
 ---------------------------------------
-tf2 (tf0 (tree1)) = tf4 (tree1)
+sumtr (squaretr (Leaf (nat1))) = mainNew (Leaf (nat1))
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf2 (tf0 (Leaf (SUCC (ZERO)))) = tf4 (Leaf (SUCC (ZERO)))
-Prop: tf2 (tf0 (Leaf (SUCC (ZERO)))) = tf4 (Leaf (SUCC (ZERO)))
-Prop: tf2 (tf0 (Leaf (SUCC (SUCC (ZERO))))) = tf4 (Leaf (SUCC (SUCC (ZERO))))
-Lemma List
-forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
-End of Lemma List
-
-
-1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
-tree1 : tree
----------------------------------------
-tf2 (tf0 (tree1)) = tf4 (tree1)
-
-0 goal(s) more...
-
-0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:3.)
 =================================================
 Progress: 4
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+nat1 : nat
+Base1 : tree1 = Leaf (nat1)
 ---------------------------------------
-tf2 (tf0 (tree1)) = tf4 (tree1)
+sumtr (squaretr (Leaf (nat1))) = mainNew (Leaf (nat1))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 3.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+tree2 : tree
+tree3 : tree
+IH1 : sumtr (squaretr (tree2)) = mainNew (tree2)
+IH2 : sumtr (squaretr (tree3)) = mainNew (tree3)
+Inductive1 : tree1 = Branch (tree2) (tree3)
+---------------------------------------
+sumtr (squaretr (Branch (tree2) (tree3))) = mainNew (Branch (tree2) (tree3))
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)(rank : 0.)
-
-
-1st goal of : forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
-
----------------------------------------
-forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
+Deduplication: 0
 Tactic List : 1
-intro tree1(rank:5.)
+simpl in goal(rank:3.)
 =================================================
 Progress: 5
 
 
-1st goal of : forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
-
----------------------------------------
-forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro tree1(rank : 5.)
-
-
-1st goal of : forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+tree2 : tree
+tree3 : tree
+IH1 : sumtr (squaretr (tree2)) = mainNew (tree2)
+IH2 : sumtr (squaretr (tree3)) = mainNew (tree3)
+Inductive1 : tree1 = Branch (tree2) (tree3)
 ---------------------------------------
-tf2 (tf0 (tree1)) = tf4 (tree1)
+sumtr (squaretr (Branch (tree2) (tree3))) = mainNew (Branch (tree2) (tree3))
 
 0 goal(s) more...
 
-1 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf2 (tf0 (Leaf (ZERO))) = tf4 (Leaf (ZERO))
-Prop: tf2 (tf0 (Leaf (ZERO))) = tf4 (Leaf (ZERO))
-Prop: tf2 (tf0 (Leaf (SUCC (ZERO)))) = tf4 (Leaf (SUCC (ZERO)))
-Lemma List
-forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
-End of Lemma List
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3.)
 
 
-1st goal of : forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+tree2 : tree
+tree3 : tree
+IH1 : sumtr (squaretr (tree2)) = mainNew (tree2)
+IH2 : sumtr (squaretr (tree3)) = mainNew (tree3)
+Inductive1 : tree1 = Branch (tree2) (tree3)
 ---------------------------------------
-tf2 (tf0 (tree1)) = tf4 (tree1)
+plus (sumtr (squaretr (tree2))) (sumtr (squaretr (tree3))) = plus (mainNew (tree2)) (mainNew (tree3))
 
 0 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
+Tactic List : 4
+rewrite IH1 in goal at 0(rank:11.)
+rewrite IH2 in goal at 0(rank:11.)
+rewrite <- IH1 in goal at 0(rank:11.)
+rewrite <- IH2 in goal at 0(rank:11.)
 =================================================
 Progress: 6
 
 
-1st goal of : forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+tree2 : tree
+tree3 : tree
+IH1 : sumtr (squaretr (tree2)) = mainNew (tree2)
+IH2 : sumtr (squaretr (tree3)) = mainNew (tree3)
+Inductive1 : tree1 = Branch (tree2) (tree3)
 ---------------------------------------
-tf2 (tf0 (tree1)) = tf4 (tree1)
+plus (sumtr (squaretr (tree2))) (sumtr (squaretr (tree3))) = plus (mainNew (tree2)) (mainNew (tree3))
 
 0 goal(s) more...
 
-1 conjecture(s) more...
->>> assert forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)(rank : 0.)
+0 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 11.)
 
 
-1st goal of : forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
-
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+tree2 : tree
+tree3 : tree
+IH1 : sumtr (squaretr (tree2)) = mainNew (tree2)
+IH2 : sumtr (squaretr (tree3)) = mainNew (tree3)
+Inductive1 : tree1 = Branch (tree2) (tree3)
 ---------------------------------------
-forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
+plus (mainNew (tree2)) (sumtr (squaretr (tree3))) = plus (mainNew (tree2)) (mainNew (tree3))
 
 0 goal(s) more...
 
-2 conjecture(s) more...
-Tactic List : 1
-intro tree1(rank:7.)
+0 conjecture(s) more...
+Tactic List : 2
+rewrite IH2 in goal at 0(rank:11.)
+rewrite <- IH2 in goal at 0(rank:11.)
 =================================================
 Progress: 7
 
 
-1st goal of : forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
-
----------------------------------------
-forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro tree1(rank : 7.)
-
-
-1st goal of : forall (tree1:tree), tf2 (tf0 (tree1)) = tf4 (tree1)
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
+tree2 : tree
+tree3 : tree
+IH1 : sumtr (squaretr (tree2)) = mainNew (tree2)
+IH2 : sumtr (squaretr (tree3)) = mainNew (tree3)
+Inductive1 : tree1 = Branch (tree2) (tree3)
 ---------------------------------------
-tf2 (tf0 (tree1)) = tf4 (tree1)
+plus (sumtr (squaretr (tree2))) (sumtr (squaretr (tree3))) = plus (mainNew (tree2)) (mainNew (tree3))
 
 0 goal(s) more...
 
-2 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf2 (tf0 (Leaf (ZERO))) = tf4 (Leaf (ZERO))
-Prop: tf2 (tf0 (Branch (Branch (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) = tf4 (Branch (Branch (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))
-Prop: tf2 (tf0 (Leaf (ZERO))) = tf4 (Leaf (ZERO))
-Fatal error: exception Failure("worklist is empty")
-Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
-Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79
+0 conjecture(s) more...
+>>> rewrite IH2 in goal at 0(rank : 11.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+tree2 : tree
+tree3 : tree
+IH1 : sumtr (squaretr (tree2)) = mainNew (tree2)
+IH2 : sumtr (squaretr (tree3)) = mainNew (tree3)
+Inductive1 : tree1 = Branch (tree2) (tree3)
+---------------------------------------
+plus (sumtr (squaretr (tree2))) (mainNew (tree3)) = plus (mainNew (tree2)) (mainNew (tree3))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+rewrite <- IH1 in goal at 0(rank:3.)
+=================================================
+Progress: 8
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+tree2 : tree
+tree3 : tree
+IH1 : sumtr (squaretr (tree2)) = mainNew (tree2)
+IH2 : sumtr (squaretr (tree3)) = mainNew (tree3)
+Inductive1 : tree1 = Branch (tree2) (tree3)
+---------------------------------------
+plus (sumtr (squaretr (tree2))) (mainNew (tree3)) = plus (mainNew (tree2)) (mainNew (tree3))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 3.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+tree2 : tree
+tree3 : tree
+IH1 : sumtr (squaretr (tree2)) = mainNew (tree2)
+IH2 : sumtr (squaretr (tree3)) = mainNew (tree3)
+Inductive1 : tree1 = Branch (tree2) (tree3)
+---------------------------------------
+plus (sumtr (squaretr (tree2))) (mainNew (tree3)) = plus (sumtr (squaretr (tree2))) (mainNew (tree3))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:0.)
+=================================================
+Progress: 9
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+tree2 : tree
+tree3 : tree
+IH1 : sumtr (squaretr (tree2)) = mainNew (tree2)
+IH2 : sumtr (squaretr (tree3)) = mainNew (tree3)
+Inductive1 : tree1 = Branch (tree2) (tree3)
+---------------------------------------
+plus (sumtr (squaretr (tree2))) (mainNew (tree3)) = plus (sumtr (squaretr (tree2))) (mainNew (tree3))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 0.)
+
+
+No conjecture
+Proof Success
+Proof
+assert forall (tree1:tree), main (tree1) = mainNew (tree1)
+simpl in goal
+induction tree1
+reflexivity
+simpl in goal
+rewrite IH2 in goal at 0
+rewrite <- IH1 in goal at 0
+reflexivity
+Qed

@@ -38,14 +38,14 @@ forall (nlist1:nlist), main (nlist1) = mainNew (nlist1)
 1st goal of : forall (nlist1:nlist), main (nlist1) = mainNew (nlist1)
 
 ---------------------------------------
-forall (nlist1:nlist), tf2 (tf0 (tf6 (nlist1))) = match (tf8 (nlist1)) with
+forall (nlist1:nlist), sum (map (tf7 (nlist1) (nlist1))) = match (tailsNew (nlist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-intro nlist1(rank:3.)
+induction nlist1(rank:4.)
 =================================================
 Progress: 3
 
@@ -53,31 +53,46 @@ Progress: 3
 1st goal of : forall (nlist1:nlist), main (nlist1) = mainNew (nlist1)
 
 ---------------------------------------
-forall (nlist1:nlist), tf2 (tf0 (tf6 (nlist1))) = match (tf8 (nlist1)) with
+forall (nlist1:nlist), sum (map (tf7 (nlist1) (nlist1))) = match (tailsNew (nlist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro nlist1(rank : 3.)
+>>> induction nlist1(rank : 4.)
 
 
 1st goal of : forall (nlist1:nlist), main (nlist1) = mainNew (nlist1)
 nlist1 : nlist
+nat_list1 : nat list
+Base1 : nlist1 = Single (nat_list1)
 ---------------------------------------
-tf2 (tf0 (tf6 (nlist1))) = match (tf8 (nlist1)) with
+sum (map (tf7 (Single (nat_list1)) (Single (nat_list1)))) = match (tailsNew (Single (nat_list1))) with
 | Tuple2 a _ -> a
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
+previous tactics
+Prop: sum (map (tf7 (Single ((ZERO::(ZERO::(Nil))))) (Single ((ZERO::(ZERO::(Nil))))))) = match (tailsNew (Single ((ZERO::(ZERO::(Nil)))))) with
+| Tuple2 a _ -> a
+Prop: sum (map (tf7 (Single ((Nil))) (Single ((Nil))))) = match (tailsNew (Single ((Nil)))) with
+| Tuple2 a _ -> a
+Prop: sum (map (tf7 (Ncons ((Nil)) (Single ((Nil)))) (Ncons ((Nil)) (Single ((Nil)))))) = match (tailsNew (Ncons ((Nil)) (Single ((Nil))))) with
+| Tuple2 a _ -> a
 validate generalize_common_subterm_goal
-Prop: tf2 (tf0 (tf6 (Ncons ((Nil)) (Ncons ((Nil)) (Ncons ((Nil)) (Ncons ((Nil)) (Single ((Nil))))))))) = match (tf8 (Ncons ((Nil)) (Ncons ((Nil)) (Ncons ((Nil)) (Ncons ((Nil)) (Single ((Nil)))))))) with
+Prop: sum (map (tf7 (Ncons ((Nil)) (Single ((SUCC (SUCC (ZERO))::(Nil))))) (Ncons ((Nil)) (Single ((SUCC (SUCC (ZERO))::(Nil))))))) = match (tailsNew (Ncons ((Nil)) (Single ((SUCC (SUCC (ZERO))::(Nil)))))) with
 | Tuple2 a _ -> a
-Prop: tf2 (tf0 (tf6 (Single ((ZERO::(ZERO::(Nil))))))) = match (tf8 (Single ((ZERO::(ZERO::(Nil)))))) with
+Prop: sum (map (tf7 (Single ((ZERO::(Nil)))) (Single ((ZERO::(Nil)))))) = match (tailsNew (Single ((ZERO::(Nil))))) with
 | Tuple2 a _ -> a
-Prop: tf2 (tf0 (tf6 (Single ((ZERO::(ZERO::(Nil))))))) = match (tf8 (Single ((ZERO::(ZERO::(Nil)))))) with
+Prop: sum (map (tf7 (Single ((ZERO::(Nil)))) (Single ((ZERO::(Nil)))))) = match (tailsNew (Single ((ZERO::(Nil))))) with
+| Tuple2 a _ -> a
+Prop: sum (map (tf7 (Single ((Nil))) (Single ((Nil))))) = match (tailsNew (Single ((Nil)))) with
+| Tuple2 a _ -> a
+Prop: sum (map (tf7 (Single ((Nil))) (Single ((Nil))))) = match (tailsNew (Single ((Nil)))) with
+| Tuple2 a _ -> a
+Prop: sum (map (tf7 (Single ((Nil))) (Single ((Nil))))) = match (tailsNew (Single ((Nil)))) with
 | Tuple2 a _ -> a
 asdf
 Fatal error: exception Failure("worklist is empty")

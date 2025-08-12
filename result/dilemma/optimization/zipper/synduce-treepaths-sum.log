@@ -2,11 +2,102 @@ Enter the definition file path (1/2) :
 > Enter the definition file path (2/2) : 
 > Choose the proof type :
 1) Interactive Mode 	 2) Auto Mode
-Enter the goal : Fatal error: exception Failure("Function not found: mainNew")
-Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Ir.ir_of_parsetree in file "lib/ir.ml", line 975, characters 18-58
-Called from Dilemma__Proof.parse_prop in file "lib/proof.ml", line 2211, characters 17-53
-Called from Dilemma__Proof.parse_prop in file "lib/proof.ml", line 2218, characters 19-48
-Called from Dilemma__Proof.parse_tactic in file "lib/proof.ml", line 2265, characters 20-62
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 270, characters 24-54
-Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79
+Enter the goal : =================================================
+Progress: 1
+
+
+No conjecture
+>>> assert forall (zip:zipper), main (zip) = mainNew (zip)(rank : 0.)
+
+
+1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+
+---------------------------------------
+forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:3.)
+=================================================
+Progress: 2
+
+
+1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+
+---------------------------------------
+forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3.)
+
+
+1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+
+---------------------------------------
+forall (zipper1:zipper), sum (repr (zipper1)) = mainNew (zipper1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+induction zipper1(rank:5.)
+=================================================
+Progress: 3
+
+
+1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+
+---------------------------------------
+forall (zipper1:zipper), sum (repr (zipper1)) = mainNew (zipper1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> induction zipper1(rank : 5.)
+
+
+1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+zipper1 : zipper
+Base1 : zipper1 = Top
+---------------------------------------
+sum (repr (Top)) = mainNew (Top)
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:4.)
+=================================================
+Progress: 4
+
+
+1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+zipper1 : zipper
+Base1 : zipper1 = Top
+---------------------------------------
+sum (repr (Top)) = mainNew (Top)
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 4.)
+
+
+1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+zipper1 : zipper
+nat1 : nat
+btree1 : btree
+zipper2 : zipper
+IH1 : sum (repr (zipper2)) = mainNew (zipper2)
+Inductive1 : zipper1 = Left (nat1) (btree1) (zipper2)
+---------------------------------------
+sum (repr (Left (nat1) (btree1) (zipper2))) = mainNew (Left (nat1) (btree1) (zipper2))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 0

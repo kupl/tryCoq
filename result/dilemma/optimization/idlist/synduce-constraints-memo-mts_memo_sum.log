@@ -38,13 +38,13 @@ forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 
 ---------------------------------------
-forall (idlist1:idlist), if tf4 (idlist1) then spec (repr (target (idlist1))) else ZERO = if tf4 (idlist1) then targetNew (idlist1) else ZERO
+forall (idlist1:idlist), if tf5 (idlist1) (idlist1) then spec (repr (target (idlist1))) else ZERO = if tf5 (idlist1) (idlist1) then targetNew (idlist1) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-intro idlist1(rank:3.)
+induction idlist1(rank:4.)
 =================================================
 Progress: 3
 
@@ -52,206 +52,567 @@ Progress: 3
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 
 ---------------------------------------
-forall (idlist1:idlist), if tf4 (idlist1) then spec (repr (target (idlist1))) else ZERO = if tf4 (idlist1) then targetNew (idlist1) else ZERO
+forall (idlist1:idlist), if tf5 (idlist1) (idlist1) then spec (repr (target (idlist1))) else ZERO = if tf5 (idlist1) (idlist1) then targetNew (idlist1) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro idlist1(rank : 3.)
+>>> induction idlist1(rank : 4.)
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
 ---------------------------------------
-if tf4 (idlist1) then spec (repr (target (idlist1))) else ZERO = if tf4 (idlist1) then targetNew (idlist1) else ZERO
+if tf5 (Ielt (nat1)) (Ielt (nat1)) then spec (repr (target (Ielt (nat1)))) else ZERO = if tf5 (Ielt (nat1)) (Ielt (nat1)) then targetNew (Ielt (nat1)) else ZERO
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-case tf4 (idlist1)(rank:4.)
+reflexivity(rank:3.)
 =================================================
 Progress: 4
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+Base1 : idlist1 = Ielt (nat1)
 ---------------------------------------
-if tf4 (idlist1) then spec (repr (target (idlist1))) else ZERO = if tf4 (idlist1) then targetNew (idlist1) else ZERO
+if tf5 (Ielt (nat1)) (Ielt (nat1)) then spec (repr (target (Ielt (nat1)))) else ZERO = if tf5 (Ielt (nat1)) (Ielt (nat1)) then targetNew (Ielt (nat1)) else ZERO
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 3.)
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if tf5 (idlist2) (idlist2) then spec (repr (target (idlist2))) else ZERO = if tf5 (idlist2) (idlist2) then targetNew (idlist2) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+---------------------------------------
+if tf5 (Icons (nat1) (nat2) (idlist2)) (Icons (nat1) (nat2) (idlist2)) then spec (repr (target (Icons (nat1) (nat2) (idlist2)))) else ZERO = if tf5 (Icons (nat1) (nat2) (idlist2)) (Icons (nat1) (nat2) (idlist2)) then targetNew (Icons (nat1) (nat2) (idlist2)) else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf4 (idlist1)(rank : 4.)
-
-
-1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
-idlist1 : idlist
-Case1 : tf4 (idlist1) = true
----------------------------------------
-tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf6 (tf0 (tf8 (Icons (ZERO) (SUCC (SUCC (ZERO))) (Icons (ZERO) (ZERO) (Icons (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))) (Ielt (SUCC (SUCC (ZERO))))))))) = tf10 (Icons (ZERO) (SUCC (SUCC (ZERO))) (Icons (ZERO) (ZERO) (Icons (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))) (Ielt (SUCC (SUCC (ZERO)))))))
-Prop: tf6 (tf0 (tf8 (Icons (ZERO) (ZERO) (Icons (ZERO) (SUCC (ZERO)) (Icons (ZERO) (SUCC (ZERO)) (Icons (ZERO) (SUCC (SUCC (SUCC (ZERO)))) (Icons (ZERO) (ZERO) (Ielt (SUCC (ZERO)))))))))) = tf10 (Icons (ZERO) (ZERO) (Icons (ZERO) (SUCC (ZERO)) (Icons (ZERO) (SUCC (ZERO)) (Icons (ZERO) (SUCC (SUCC (SUCC (ZERO)))) (Icons (ZERO) (ZERO) (Ielt (SUCC (ZERO))))))))
-Prop: tf6 (tf0 (tf8 (Icons (ZERO) (ZERO) (Ielt (ZERO))))) = tf10 (Icons (ZERO) (ZERO) (Ielt (ZERO)))
-Lemma List
-forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
-End of Lemma List
-
-
-1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
-idlist1 : idlist
-Case1 : tf4 (idlist1) = true
----------------------------------------
-tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:3.)
 =================================================
 Progress: 5
 
 
 1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Case1 : tf4 (idlist1) = true
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if tf5 (idlist2) (idlist2) then spec (repr (target (idlist2))) else ZERO = if tf5 (idlist2) (idlist2) then targetNew (idlist2) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
 ---------------------------------------
-tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)(rank : 0.)
-
-
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
-
----------------------------------------
-forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+if tf5 (Icons (nat1) (nat2) (idlist2)) (Icons (nat1) (nat2) (idlist2)) then spec (repr (target (Icons (nat1) (nat2) (idlist2)))) else ZERO = if tf5 (Icons (nat1) (nat2) (idlist2)) (Icons (nat1) (nat2) (idlist2)) then targetNew (Icons (nat1) (nat2) (idlist2)) else ZERO
 
 0 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3.)
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if tf5 (idlist2) (idlist2) then spec (repr (target (idlist2))) else ZERO = if tf5 (idlist2) (idlist2) then targetNew (idlist2) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+---------------------------------------
+if if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false then spec (repr (target (Icons (nat1) (nat2) (idlist2)))) else ZERO = if if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false then targetNew (Icons (nat1) (nat2) (idlist2)) else ZERO
+
+0 goal(s) more...
+
+0 conjecture(s) more...
 Tactic List : 1
-intro idlist1(rank:5.)
+case if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false(rank:4.)
 =================================================
 Progress: 6
 
 
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
-
----------------------------------------
-forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro idlist1(rank : 5.)
-
-
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if tf5 (idlist2) (idlist2) then spec (repr (target (idlist2))) else ZERO = if tf5 (idlist2) (idlist2) then targetNew (idlist2) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
 ---------------------------------------
-tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+if if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false then spec (repr (target (Icons (nat1) (nat2) (idlist2)))) else ZERO = if if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false then targetNew (Icons (nat1) (nat2) (idlist2)) else ZERO
 
 0 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
+>>> case if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false(rank : 4.)
+
+
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
+idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if tf5 (idlist2) (idlist2) then spec (repr (target (idlist2))) else ZERO = if tf5 (idlist2) (idlist2) then targetNew (idlist2) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false = true
+---------------------------------------
+max (tf7 (repr (tf9 (idlist2) (idlist2))) (repr (tf9 (idlist2) (idlist2)))) (plus (nat1) (sum (repr (tf9 (idlist2) (idlist2))))) = if lq (targetNew (idlist2)) (nat2) then nat2 else targetNew (idlist2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:5.)
+case lq (targetNew (idlist2)) (nat2)(rank:5.)
 =================================================
 Progress: 7
 
 
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if tf5 (idlist2) (idlist2) then spec (repr (target (idlist2))) else ZERO = if tf5 (idlist2) (idlist2) then targetNew (idlist2) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false = true
 ---------------------------------------
-tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+max (tf7 (repr (tf9 (idlist2) (idlist2))) (repr (tf9 (idlist2) (idlist2)))) (plus (nat1) (sum (repr (tf9 (idlist2) (idlist2))))) = if lq (targetNew (idlist2)) (nat2) then nat2 else targetNew (idlist2)
 
-0 goal(s) more...
+1 goal(s) more...
 
-1 conjecture(s) more...
->>> intro Cond1(rank : 5.)
+0 conjecture(s) more...
+>>> case lq (targetNew (idlist2)) (nat2)(rank : 5.)
 
 
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Cond1 : tf4 (idlist1) = true
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if tf5 (idlist2) (idlist2) then spec (repr (target (idlist2))) else ZERO = if tf5 (idlist2) (idlist2) then targetNew (idlist2) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false = true
+Case2 : lq (targetNew (idlist2)) (nat2) = true
 ---------------------------------------
-tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+max (tf7 (repr (tf9 (idlist2) (idlist2))) (repr (tf9 (idlist2) (idlist2)))) (plus (nat1) (sum (repr (tf9 (idlist2) (idlist2))))) = nat2
 
-0 goal(s) more...
+2 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
 Tactic List : 0
+previous tactics
+simpl in goal
+case if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false
+case lq (targetNew (idlist2)) (nat2)
+parent
+plus (nat1) (sum (repr (tf9 (idlist2) (idlist2))))
+lower
+plus(_, sum(repr(tf9(idlist2, idlist2))))
+upper
+max(tf7(repr(tf9(idlist2, idlist2)), repr(tf9(idlist2, idlist2))), _)
+remove upper
+plus(nat1, sum(repr(tf9(idlist2, idlist2))))
+remove lower
+plus(nat1, sum(repr(tf9(idlist2, idlist2))))
 validate generalize_common_subterm_goal
-Prop: tf6 (tf0 (tf8 (Icons (SUCC (SUCC (ZERO))) (ZERO) (Ielt (SUCC (ZERO)))))) = tf10 (Icons (SUCC (SUCC (ZERO))) (ZERO) (Ielt (SUCC (ZERO))))
-Prop: tf6 (tf0 (tf8 (Ielt (SUCC (ZERO))))) = tf10 (Ielt (SUCC (ZERO)))
-Prop: tf6 (tf0 (tf8 (Ielt (ZERO)))) = tf10 (Ielt (ZERO))
+Prop: max (tf7 (repr (tf9 (Ielt (ZERO)) (Ielt (ZERO)))) (repr (tf9 (Ielt (ZERO)) (Ielt (ZERO))))) (plus (ZERO) (sum (repr (tf9 (Ielt (ZERO)) (Ielt (ZERO)))))) = ZERO
+Prop: max (tf7 (repr (tf9 (Icons (ZERO) (ZERO) (Ielt (ZERO))) (Icons (ZERO) (ZERO) (Ielt (ZERO))))) (repr (tf9 (Icons (ZERO) (ZERO) (Ielt (ZERO))) (Icons (ZERO) (ZERO) (Ielt (ZERO)))))) (plus (ZERO) (sum (repr (tf9 (Icons (ZERO) (ZERO) (Ielt (ZERO))) (Icons (ZERO) (ZERO) (Ielt (ZERO))))))) = ZERO
+Prop: max (tf7 (repr (tf9 (Ielt (ZERO)) (Ielt (ZERO)))) (repr (tf9 (Ielt (ZERO)) (Ielt (ZERO))))) (plus (ZERO) (sum (repr (tf9 (Ielt (ZERO)) (Ielt (ZERO)))))) = ZERO
 Lemma List
-forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
 End of Lemma List
 
 
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Cond1 : tf4 (idlist1) = true
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if tf5 (idlist2) (idlist2) then spec (repr (target (idlist2))) else ZERO = if tf5 (idlist2) (idlist2) then targetNew (idlist2) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false = true
+Case2 : lq (targetNew (idlist2)) (nat2) = true
 ---------------------------------------
-tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+max (tf7 (repr (tf9 (idlist2) (idlist2))) (repr (tf9 (idlist2) (idlist2)))) (plus (nat1) (sum (repr (tf9 (idlist2) (idlist2))))) = nat2
 
-0 goal(s) more...
+2 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
 =================================================
 Progress: 8
 
 
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+1st goal of : forall (idlist1:idlist), main (idlist1) = mainNew (idlist1)
 idlist1 : idlist
-Cond1 : tf4 (idlist1) = true
+nat1 : nat
+nat2 : nat
+idlist2 : idlist
+IH1 : if tf5 (idlist2) (idlist2) then spec (repr (target (idlist2))) else ZERO = if tf5 (idlist2) (idlist2) then targetNew (idlist2) else ZERO
+Inductive1 : idlist1 = Icons (nat1) (nat2) (idlist2)
+Case1 : if nat_eq (nat2) (plus (nat1) (sum (repr (idlist2)))) then tf5 (idlist2) (idlist2) else false = true
+Case2 : lq (targetNew (idlist2)) (nat2) = true
 ---------------------------------------
-tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+max (tf7 (repr (tf9 (idlist2) (idlist2))) (repr (tf9 (idlist2) (idlist2)))) (plus (nat1) (sum (repr (tf9 (idlist2) (idlist2))))) = nat2
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2(rank : 0.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+
+---------------------------------------
+forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)(rank : 0.)
+Tactic List : 1
+intro nat2(rank:5.)
+=================================================
+Progress: 9
 
 
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
 
 ---------------------------------------
-forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro nat2(rank : 5.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+---------------------------------------
+forall (idlist1:idlist) (nat1:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction idlist1(rank:6.)
+=================================================
+Progress: 10
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+---------------------------------------
+forall (idlist1:idlist) (nat1:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction idlist1(rank : 6.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+---------------------------------------
+forall (nat1:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (Ielt (nat3))))) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true->lq (targetNew (Ielt (nat3))) (nat2) = true -> max (tf7 (repr (tf9 (Ielt (nat3)) (Ielt (nat3)))) (repr (tf9 (Ielt (nat3)) (Ielt (nat3))))) (plus (nat1) (sum (repr (tf9 (Ielt (nat3)) (Ielt (nat3)))))) = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 11
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+---------------------------------------
+forall (nat1:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (Ielt (nat3))))) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true->lq (targetNew (Ielt (nat3))) (nat2) = true -> max (tf7 (repr (tf9 (Ielt (nat3)) (Ielt (nat3)))) (repr (tf9 (Ielt (nat3)) (Ielt (nat3))))) (plus (nat1) (sum (repr (tf9 (Ielt (nat3)) (Ielt (nat3)))))) = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+---------------------------------------
+forall (nat1:nat), if nat_eq (nat2) (plus (nat1) (nat3)) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true->lq (nat3) (nat2) = true -> max (nat3) (plus (nat1) (nat3)) = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction nat1(rank:7.)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+---------------------------------------
+forall (nat1:nat), if nat_eq (nat2) (plus (nat1) (nat3)) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true->lq (nat3) (nat2) = true -> max (nat3) (plus (nat1) (nat3)) = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction nat1(rank : 7.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+if nat_eq (nat2) (plus (ZERO) (nat3)) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true->lq (nat3) (nat2) = true -> max (nat3) (plus (ZERO) (nat3)) = nat2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+if nat_eq (nat2) (plus (ZERO) (nat3)) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true->lq (nat3) (nat2) = true -> max (nat3) (plus (ZERO) (nat3)) = nat2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+if nat_eq (nat2) (nat3) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true->lq (nat3) (nat2) = true -> max (nat3) (nat3) = nat2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:7.)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+nat1 : nat
+Base2 : nat1 = ZERO
+---------------------------------------
+if nat_eq (nat2) (nat3) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true->lq (nat3) (nat2) = true -> max (nat3) (nat3) = nat2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 7.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+nat1 : nat
+Base2 : nat1 = ZERO
+Cond1 : if nat_eq (nat2) (nat3) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true
+---------------------------------------
+lq (nat3) (nat2) = true -> max (nat3) (nat3) = nat2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:7.)
+=================================================
+Progress: 15
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+nat1 : nat
+Base2 : nat1 = ZERO
+Cond1 : if nat_eq (nat2) (nat3) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true
+---------------------------------------
+lq (nat3) (nat2) = true -> max (nat3) (nat3) = nat2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond2(rank : 7.)
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+nat1 : nat
+Base2 : nat1 = ZERO
+Cond1 : if nat_eq (nat2) (nat3) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true
+Cond2 : lq (nat3) (nat2) = true
+---------------------------------------
+max (nat3) (nat3) = nat2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
+intro Cond2
+validate generalize_common_subterm_goal
+Prop: max (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO))) = ZERO
+Prop: max (ZERO) (ZERO) = ZERO
+Prop: max (ZERO) (ZERO) = SUCC (ZERO)
+Lemma List
+forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+End of Lemma List
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+nat1 : nat
+Base2 : nat1 = ZERO
+Cond1 : if nat_eq (nat2) (nat3) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true
+Cond2 : lq (nat3) (nat2) = true
+---------------------------------------
+max (nat3) (nat3) = nat2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 16
+
+
+1st goal of : forall (idlist1:idlist) (nat1:nat) (nat2:nat), if nat_eq (nat2) (plus (nat1) (sum (repr (idlist1)))) then tf5 (idlist1) (idlist1) else false = true->lq (targetNew (idlist1)) (nat2) = true -> max (tf7 (repr (tf9 (idlist1) (idlist1))) (repr (tf9 (idlist1) (idlist1)))) (plus (nat1) (sum (repr (tf9 (idlist1) (idlist1))))) = nat2
+nat2 : nat
+idlist1 : idlist
+nat3 : nat
+Base1 : idlist1 = Ielt (nat3)
+nat1 : nat
+Base2 : nat1 = ZERO
+Cond1 : if nat_eq (nat2) (nat3) then tf5 (Ielt (nat3)) (Ielt (nat3)) else false = true
+Cond2 : lq (nat3) (nat2) = true
+---------------------------------------
+max (nat3) (nat3) = nat2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
 
 0 goal(s) more...
 
 2 conjecture(s) more...
 Tactic List : 1
-intro idlist1(rank:7.)
+intro nat1(rank:7.)
 =================================================
-Progress: 9
+Progress: 17
 
 
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
 
 ---------------------------------------
-forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro idlist1(rank : 7.)
+>>> intro nat1(rank : 7.)
 
 
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
-idlist1 : idlist
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
 ---------------------------------------
-tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+forall (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:7.)
+=================================================
+Progress: 18
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat2(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+---------------------------------------
+if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -259,13 +620,14 @@ tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
 Tactic List : 1
 intro Cond1(rank:7.)
 =================================================
-Progress: 10
+Progress: 19
 
 
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
-idlist1 : idlist
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
 ---------------------------------------
-tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -273,20 +635,207 @@ tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
 >>> intro Cond1(rank : 7.)
 
 
-1st goal of : forall (idlist1:idlist), tf4 (idlist1) = true -> tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
-idlist1 : idlist
-Cond1 : tf4 (idlist1) = true
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true
 ---------------------------------------
-tf6 (tf0 (tf8 (idlist1))) = tf10 (idlist1)
+lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:7.)
+=================================================
+Progress: 20
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true
+---------------------------------------
+lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond2(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true
+Cond2 : lq (nat2) (nat1) = true
+---------------------------------------
+max (nat2) (nat2) = nat1
 
 0 goal(s) more...
 
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: tf6 (tf0 (tf8 (Ielt (SUCC (ZERO))))) = tf10 (Ielt (SUCC (ZERO)))
-Prop: tf6 (tf0 (tf8 (Icons (ZERO) (SUCC (ZERO)) (Ielt (ZERO))))) = tf10 (Icons (ZERO) (SUCC (ZERO)) (Ielt (ZERO)))
-Prop: tf6 (tf0 (tf8 (Icons (ZERO) (ZERO) (Icons (SUCC (SUCC (ZERO))) (ZERO) (Icons (ZERO) (ZERO) (Ielt (SUCC (SUCC (ZERO))))))))) = tf10 (Icons (ZERO) (ZERO) (Icons (SUCC (SUCC (ZERO))) (ZERO) (Icons (ZERO) (ZERO) (Ielt (SUCC (SUCC (ZERO)))))))
+Prop: max (ZERO) (ZERO) = SUCC (SUCC (ZERO))
+Prop: max (ZERO) (ZERO) = SUCC (ZERO)
+Prop: max (ZERO) (ZERO) = ZERO
+Lemma List
+forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+End of Lemma List
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true
+Cond2 : lq (nat2) (nat1) = true
+---------------------------------------
+max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+=================================================
+Progress: 21
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true
+Cond2 : lq (nat2) (nat1) = true
+---------------------------------------
+max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> assert forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:9.)
+=================================================
+Progress: 22
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro nat1(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:9.)
+=================================================
+Progress: 23
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro nat2(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+---------------------------------------
+if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:9.)
+=================================================
+Progress: 24
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+---------------------------------------
+if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro Cond1(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true
+---------------------------------------
+lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:9.)
+=================================================
+Progress: 25
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true
+---------------------------------------
+lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro Cond2(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true->lq (nat2) (nat1) = true -> max (nat2) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : if nat_eq (nat1) (nat2) then tf5 (Ielt (nat2)) (Ielt (nat2)) else false = true
+Cond2 : lq (nat2) (nat1) = true
+---------------------------------------
+max (nat2) (nat2) = nat1
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: max (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (ZERO)
+Prop: max (ZERO) (ZERO) = ZERO
+Prop: max (ZERO) (ZERO) = ZERO
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69

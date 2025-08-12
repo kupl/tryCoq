@@ -2,18 +2,18 @@
 
 | Problem   |   Success |   Error |   Timeout |   Total |
 |:----------|----------:|--------:|----------:|--------:|
-| tree      |         0 |      17 |         2 |      19 |
-| mynat     |         0 |       0 |         1 |       1 |
+| tree      |         1 |       7 |        11 |      19 |
+| mynat     |         0 |       1 |         0 |       1 |
 | idlist    |         0 |       5 |         0 |       5 |
-| zipper    |         0 |       5 |         1 |       6 |
-| clist     |         0 |      28 |         2 |      30 |
+| zipper    |         0 |       2 |         4 |       6 |
+| clist     |         4 |      23 |         3 |      30 |
 | elist     |         0 |       2 |         0 |       2 |
-| treememo  |         0 |       2 |         1 |       3 |
+| treememo  |         0 |       3 |         0 |       3 |
 | bool_list |         0 |       3 |         0 |       3 |
-| nat_list  |         0 |      12 |         6 |      18 |
-| nnf       |         0 |       0 |         1 |       1 |
+| nat_list  |         4 |      10 |         4 |      18 |
+| nnf       |         0 |       1 |         0 |       1 |
 | term      |         0 |       0 |         1 |       1 |
-| ulist     |         0 |       0 |         4 |       4 |
+| ulist     |         0 |       3 |         1 |       4 |
 | nlist     |         0 |       3 |         0 |       3 |
-| Total     |         0 |      77 |        19 |      96 |
+| Total     |         9 |      63 |        24 |      96 |
 

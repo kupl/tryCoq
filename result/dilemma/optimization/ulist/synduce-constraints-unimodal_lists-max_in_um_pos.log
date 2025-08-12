@@ -1,2 +1,165 @@
-Error: A running dune (pid: 2499035) instance has locked the build directory.
-If this is not the case, please delete _build/.lock
+Enter the definition file path (1/2) : 
+> Enter the definition file path (2/2) : 
+> Choose the proof type :
+1) Interactive Mode 	 2) Auto Mode
+Enter the goal : =================================================
+Progress: 1
+
+
+No conjecture
+>>> assert forall (lst:ulist), main (lst) = mainNew (lst)(rank : 0.)
+
+
+1st goal of : forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+
+---------------------------------------
+forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:3.)
+=================================================
+Progress: 2
+
+
+1st goal of : forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+
+---------------------------------------
+forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3.)
+
+
+1st goal of : forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+
+---------------------------------------
+forall (ulist1:ulist), if match (tf1 ((Nil)) (ulist1)) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then spec (repr (target (ulist1))) else ZERO = if match (tf1 ((Nil)) (ulist1)) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then targetNew (ulist1) else ZERO
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+induction ulist1(rank:5.)
+=================================================
+Progress: 3
+
+
+1st goal of : forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+
+---------------------------------------
+forall (ulist1:ulist), if match (tf1 ((Nil)) (ulist1)) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then spec (repr (target (ulist1))) else ZERO = if match (tf1 ((Nil)) (ulist1)) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then targetNew (ulist1) else ZERO
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> induction ulist1(rank : 5.)
+
+
+1st goal of : forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+ulist1 : ulist
+Base1 : ulist1 = Unil
+---------------------------------------
+if match (tf1 ((Nil)) (Unil)) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then spec (repr (target (Unil))) else ZERO = if match (tf1 ((Nil)) (Unil)) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then targetNew (Unil) else ZERO
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:4.)
+=================================================
+Progress: 4
+
+
+1st goal of : forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+ulist1 : ulist
+Base1 : ulist1 = Unil
+---------------------------------------
+if match (tf1 ((Nil)) (Unil)) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then spec (repr (target (Unil))) else ZERO = if match (tf1 ((Nil)) (Unil)) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then targetNew (Unil) else ZERO
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 4.)
+
+
+1st goal of : forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+ulist1 : ulist
+nat1 : nat
+Base1 : ulist1 = Uelt (nat1)
+---------------------------------------
+if match (tf1 ((Nil)) (Uelt (nat1))) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then spec (repr (target (Uelt (nat1)))) else ZERO = if match (tf1 ((Nil)) (Uelt (nat1))) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then targetNew (Uelt (nat1)) else ZERO
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:4.)
+=================================================
+Progress: 5
+
+
+1st goal of : forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+ulist1 : ulist
+nat1 : nat
+Base1 : ulist1 = Uelt (nat1)
+---------------------------------------
+if match (tf1 ((Nil)) (Uelt (nat1))) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then spec (repr (target (Uelt (nat1)))) else ZERO = if match (tf1 ((Nil)) (Uelt (nat1))) with
+| Nil -> true
+| Cons hd tl -> tf5 (hd) (tl) then targetNew (Uelt (nat1)) else ZERO
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 4.)
+
+
+1st goal of : forall (ulist1:ulist), main (ulist1) = mainNew (ulist1)
+ulist1 : ulist
+nat1 : nat
+Base1 : ulist1 = Uelt (nat1)
+---------------------------------------
+ZERO = nat1
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+validate generalize_common_subterm_goal
+Prop: ZERO = SUCC (SUCC (ZERO))
+Prop: ZERO = SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))
+Prop: ZERO = ZERO
+asdf
+Fatal error: exception Failure("worklist is empty")
+Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

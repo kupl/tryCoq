@@ -38,7 +38,7 @@ forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
 1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
 
 ---------------------------------------
-forall (treememo1:treememo), if tf1 (treememo1) then tf8 (tf3 (tf5 (treememo1))) else ZERO = if tf1 (treememo1) then match (treememo1) with
+forall (treememo1:treememo), if ismemo (treememo1) then spec (repr (target (treememo1))) else ZERO = if ismemo (treememo1) then match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
 | Mnode n1 n2 t1 t2 -> n1 else ZERO
 
@@ -46,7 +46,7 @@ forall (treememo1:treememo), if tf1 (treememo1) then tf8 (tf3 (tf5 (treememo1)))
 
 0 conjecture(s) more...
 Tactic List : 1
-intro treememo1(rank:3.)
+induction treememo1(rank:4.)
 =================================================
 Progress: 3
 
@@ -54,327 +54,584 @@ Progress: 3
 1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
 
 ---------------------------------------
-forall (treememo1:treememo), if tf1 (treememo1) then tf8 (tf3 (tf5 (treememo1))) else ZERO = if tf1 (treememo1) then match (treememo1) with
+forall (treememo1:treememo), if ismemo (treememo1) then spec (repr (target (treememo1))) else ZERO = if ismemo (treememo1) then match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
 | Mnode n1 n2 t1 t2 -> n1 else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> intro treememo1(rank : 3.)
+>>> induction treememo1(rank : 4.)
 
 
 1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
 treememo1 : treememo
+nat1 : nat
+Base1 : treememo1 = Mleaf (nat1)
 ---------------------------------------
-if tf1 (treememo1) then tf8 (tf3 (tf5 (treememo1))) else ZERO = if tf1 (treememo1) then match (treememo1) with
+if ismemo (Mleaf (nat1)) then spec (repr (target (Mleaf (nat1)))) else ZERO = if ismemo (Mleaf (nat1)) then match (Mleaf (nat1)) with
 | Mleaf _ -> SUCC (ZERO)
 | Mnode n1 n2 t1 t2 -> n1 else ZERO
 
-0 goal(s) more...
+1 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 1
-case tf1 (treememo1)(rank:4.)
+reflexivity(rank:3.)
 =================================================
 Progress: 4
 
 
 1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
 treememo1 : treememo
+nat1 : nat
+Base1 : treememo1 = Mleaf (nat1)
 ---------------------------------------
-if tf1 (treememo1) then tf8 (tf3 (tf5 (treememo1))) else ZERO = if tf1 (treememo1) then match (treememo1) with
+if ismemo (Mleaf (nat1)) then spec (repr (target (Mleaf (nat1)))) else ZERO = if ismemo (Mleaf (nat1)) then match (Mleaf (nat1)) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> reflexivity(rank : 3.)
+
+
+1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
+treememo1 : treememo
+nat1 : nat
+nat2 : nat
+treememo2 : treememo
+treememo3 : treememo
+IH1 : if ismemo (treememo2) then spec (repr (target (treememo2))) else ZERO = if ismemo (treememo2) then match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+IH2 : if ismemo (treememo3) then spec (repr (target (treememo3))) else ZERO = if ismemo (treememo3) then match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+Inductive1 : treememo1 = Mnode (nat1) (nat2) (treememo2) (treememo3)
+---------------------------------------
+if ismemo (Mnode (nat1) (nat2) (treememo2) (treememo3)) then spec (repr (target (Mnode (nat1) (nat2) (treememo2) (treememo3)))) else ZERO = if ismemo (Mnode (nat1) (nat2) (treememo2) (treememo3)) then match (Mnode (nat1) (nat2) (treememo2) (treememo3)) with
 | Mleaf _ -> SUCC (ZERO)
 | Mnode n1 n2 t1 t2 -> n1 else ZERO
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf1 (treememo1)(rank : 4.)
-
-
-1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
-treememo1 : treememo
-Case1 : tf1 (treememo1) = true
----------------------------------------
-tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf8 (tf3 (tf5 (Mnode (SUCC (ZERO)) (ZERO) (Mleaf (ZERO)) (Mnode (ZERO) (ZERO) (Mleaf (ZERO)) (Mleaf (SUCC (ZERO))))))) = match (Mnode (SUCC (ZERO)) (ZERO) (Mleaf (ZERO)) (Mnode (ZERO) (ZERO) (Mleaf (ZERO)) (Mleaf (SUCC (ZERO))))) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-Prop: tf8 (tf3 (tf5 (Mnode (SUCC (ZERO)) (SUCC (ZERO)) (Mleaf (SUCC (SUCC (ZERO)))) (Mleaf (ZERO))))) = match (Mnode (SUCC (ZERO)) (SUCC (ZERO)) (Mleaf (SUCC (SUCC (ZERO)))) (Mleaf (ZERO))) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-Prop: tf8 (tf3 (tf5 (Mleaf (SUCC (ZERO))))) = match (Mleaf (SUCC (ZERO))) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-Lemma List
-forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-End of Lemma List
-
-
-1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
-treememo1 : treememo
-Case1 : tf1 (treememo1) = true
----------------------------------------
-tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-
-1 goal(s) more...
-
-0 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:3.)
 =================================================
 Progress: 5
 
 
 1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
 treememo1 : treememo
-Case1 : tf1 (treememo1) = true
+nat1 : nat
+nat2 : nat
+treememo2 : treememo
+treememo3 : treememo
+IH1 : if ismemo (treememo2) then spec (repr (target (treememo2))) else ZERO = if ismemo (treememo2) then match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+IH2 : if ismemo (treememo3) then spec (repr (target (treememo3))) else ZERO = if ismemo (treememo3) then match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+Inductive1 : treememo1 = Mnode (nat1) (nat2) (treememo2) (treememo3)
 ---------------------------------------
-tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+if ismemo (Mnode (nat1) (nat2) (treememo2) (treememo3)) then spec (repr (target (Mnode (nat1) (nat2) (treememo2) (treememo3)))) else ZERO = if ismemo (Mnode (nat1) (nat2) (treememo2) (treememo3)) then match (Mnode (nat1) (nat2) (treememo2) (treememo3)) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1(rank : 0.)
-
-
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-
----------------------------------------
-forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
 
 0 goal(s) more...
 
-1 conjecture(s) more...
+0 conjecture(s) more...
+>>> simpl in goal(rank : 3.)
+
+
+1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
+treememo1 : treememo
+nat1 : nat
+nat2 : nat
+treememo2 : treememo
+treememo3 : treememo
+IH1 : if ismemo (treememo2) then spec (repr (target (treememo2))) else ZERO = if ismemo (treememo2) then match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+IH2 : if ismemo (treememo3) then spec (repr (target (treememo3))) else ZERO = if ismemo (treememo3) then match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+Inductive1 : treememo1 = Mnode (nat1) (nat2) (treememo2) (treememo3)
+---------------------------------------
+if if nat_eq (nat1) (SUCC (plus (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo2) then ismemo (treememo3) else false else false then spec (repr (target (Mnode (nat1) (nat2) (treememo2) (treememo3)))) else ZERO = if if nat_eq (nat1) (SUCC (plus (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo2) then ismemo (treememo3) else false else false then match (Mnode (nat1) (nat2) (treememo2) (treememo3)) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+
+0 goal(s) more...
+
+0 conjecture(s) more...
 Tactic List : 1
-intro treememo1(rank:5.)
+case if nat_eq (nat1) (SUCC (plus (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo2) then ismemo (treememo3) else false else false(rank:4.)
 =================================================
 Progress: 6
 
 
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-
----------------------------------------
-forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro treememo1(rank : 5.)
-
-
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
 treememo1 : treememo
----------------------------------------
-tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+nat1 : nat
+nat2 : nat
+treememo2 : treememo
+treememo3 : treememo
+IH1 : if ismemo (treememo2) then spec (repr (target (treememo2))) else ZERO = if ismemo (treememo2) then match (treememo2) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+IH2 : if ismemo (treememo3) then spec (repr (target (treememo3))) else ZERO = if ismemo (treememo3) then match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+Inductive1 : treememo1 = Mnode (nat1) (nat2) (treememo2) (treememo3)
+---------------------------------------
+if if nat_eq (nat1) (SUCC (plus (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo2) then ismemo (treememo3) else false else false then spec (repr (target (Mnode (nat1) (nat2) (treememo2) (treememo3)))) else ZERO = if if nat_eq (nat1) (SUCC (plus (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo2) then ismemo (treememo3) else false else false then match (Mnode (nat1) (nat2) (treememo2) (treememo3)) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
 
 0 goal(s) more...
 
-1 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:5.)
+0 conjecture(s) more...
+>>> case if nat_eq (nat1) (SUCC (plus (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo2) then ismemo (treememo3) else false else false(rank : 4.)
+
+
+1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
+treememo1 : treememo
+nat1 : nat
+nat2 : nat
+treememo2 : treememo
+treememo3 : treememo
+IH1 : if ismemo (treememo2) then spec (repr (target (treememo2))) else ZERO = if ismemo (treememo2) then match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+IH2 : if ismemo (treememo3) then spec (repr (target (treememo3))) else ZERO = if ismemo (treememo3) then match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+Inductive1 : treememo1 = Mnode (nat1) (nat2) (treememo2) (treememo3)
+Case1 : if nat_eq (nat1) (SUCC (plus (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo2) then ismemo (treememo3) else false else false = true
+---------------------------------------
+SUCC (plus (spec (repr (treememo2))) (spec (repr (treememo3)))) = nat1
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+case if nat_eq (nat1) (SUCC (plus (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo2) then ismemo (treememo3) else false else false
+parent
+repr (treememo2)
+lower
+repr(_)
+upper
+SUCC(plus(spec(_), spec(repr(treememo3))))
+remove upper
+repr(treememo2)
+remove lower
+repr(_)
+validate generalize_common_subterm_goal
+Prop: SUCC (plus (spec (repr (Mleaf (ZERO)))) (spec (repr (Mnode (ZERO) (SUCC (ZERO)) (Mnode (SUCC (SUCC (ZERO))) (ZERO) (Mleaf (ZERO)) (Mleaf (SUCC (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (SUCC (ZERO)))) (Mleaf (ZERO))))))) = ZERO
+Prop: SUCC (plus (spec (repr (Mleaf (ZERO)))) (spec (repr (Mnode (SUCC (SUCC (ZERO))) (ZERO) (Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO)) (Mleaf (SUCC (SUCC (SUCC (ZERO)))))) (Mleaf (SUCC (SUCC (ZERO)))))))) = ZERO
+Prop: SUCC (plus (spec (repr (Mnode (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Mleaf (ZERO)) (Mnode (SUCC (ZERO)) (ZERO) (Mleaf (SUCC (ZERO))) (Mnode (ZERO) (ZERO) (Mleaf (ZERO)) (Mleaf (SUCC (ZERO)))))))) (spec (repr (Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO)) (Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO)) (Mnode (ZERO) (ZERO) (Mleaf (ZERO)) (Mnode (ZERO) (ZERO) (Mleaf (ZERO)) (Mleaf (SUCC (ZERO)))))))))) = SUCC (ZERO)
+Lemma List
+forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+End of Lemma List
+
+
+1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
+treememo1 : treememo
+nat1 : nat
+nat2 : nat
+treememo2 : treememo
+treememo3 : treememo
+IH1 : if ismemo (treememo2) then spec (repr (target (treememo2))) else ZERO = if ismemo (treememo2) then match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+IH2 : if ismemo (treememo3) then spec (repr (target (treememo3))) else ZERO = if ismemo (treememo3) then match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+Inductive1 : treememo1 = Mnode (nat1) (nat2) (treememo2) (treememo3)
+Case1 : if nat_eq (nat1) (SUCC (plus (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo2) then ismemo (treememo3) else false else false = true
+---------------------------------------
+SUCC (plus (spec (repr (treememo2))) (spec (repr (treememo3)))) = nat1
+
+1 goal(s) more...
+
+0 conjecture(s) more...
 =================================================
 Progress: 7
 
 
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+1st goal of : forall (treememo1:treememo), main (treememo1) = mainNew (treememo1)
 treememo1 : treememo
----------------------------------------
-tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+nat1 : nat
+nat2 : nat
+treememo2 : treememo
+treememo3 : treememo
+IH1 : if ismemo (treememo2) then spec (repr (target (treememo2))) else ZERO = if ismemo (treememo2) then match (treememo2) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+IH2 : if ismemo (treememo3) then spec (repr (target (treememo3))) else ZERO = if ismemo (treememo3) then match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1 else ZERO
+Inductive1 : treememo1 = Mnode (nat1) (nat2) (treememo2) (treememo3)
+Case1 : if nat_eq (nat1) (SUCC (plus (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo3) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo2) then ismemo (treememo3) else false else false = true
+---------------------------------------
+SUCC (plus (spec (repr (treememo2))) (spec (repr (treememo3)))) = nat1
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+
+---------------------------------------
+forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro Cond1(rank : 5.)
-
-
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-treememo1 : treememo
-Cond1 : tf1 (treememo1) = true
----------------------------------------
-tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: tf8 (tf3 (tf5 (Mleaf (ZERO)))) = match (Mleaf (ZERO)) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-Prop: tf8 (tf3 (tf5 (Mleaf (SUCC (SUCC (ZERO)))))) = match (Mleaf (SUCC (SUCC (ZERO)))) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-Prop: tf8 (tf3 (tf5 (Mnode (ZERO) (SUCC (SUCC (ZERO))) (Mleaf (ZERO)) (Mleaf (SUCC (SUCC (ZERO))))))) = match (Mnode (ZERO) (SUCC (SUCC (ZERO))) (Mleaf (ZERO)) (Mleaf (SUCC (SUCC (ZERO))))) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-Lemma List
-forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-End of Lemma List
-
-
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-treememo1 : treememo
-Cond1 : tf1 (treememo1) = true
----------------------------------------
-tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-
-0 goal(s) more...
-
-1 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:5.)
 =================================================
 Progress: 8
 
 
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-treememo1 : treememo
-Cond1 : tf1 (treememo1) = true
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+
 ---------------------------------------
-tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+>>> intro nat1(rank : 5.)
+
+
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1(rank : 0.)
-
-
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
 ---------------------------------------
-forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+forall (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
 
 0 goal(s) more...
 
-2 conjecture(s) more...
+1 conjecture(s) more...
 Tactic List : 1
-intro treememo1(rank:7.)
+induction treememo1(rank:6.)
 =================================================
 Progress: 9
 
 
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
 ---------------------------------------
-forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+forall (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
 
 0 goal(s) more...
 
-2 conjecture(s) more...
->>> intro treememo1(rank : 7.)
+1 conjecture(s) more...
+>>> induction treememo1(rank : 6.)
 
 
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
 treememo1 : treememo
+nat2 : nat
+Base1 : treememo1 = Mleaf (nat2)
 ---------------------------------------
-tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+forall (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (Mleaf (nat2)) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (Mleaf (nat2)) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (Mleaf (nat2)))) (spec (repr (treememo2)))) = nat1
 
-0 goal(s) more...
+1 goal(s) more...
 
-2 conjecture(s) more...
+1 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:7.)
+simpl in goal(rank:6.)
 =================================================
 Progress: 10
 
 
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
 treememo1 : treememo
+nat2 : nat
+Base1 : treememo1 = Mleaf (nat2)
 ---------------------------------------
-tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+forall (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (Mleaf (nat2)) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (Mleaf (nat2)) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (Mleaf (nat2)))) (spec (repr (treememo2)))) = nat1
 
-0 goal(s) more...
+1 goal(s) more...
 
-2 conjecture(s) more...
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
+treememo1 : treememo
+nat2 : nat
+Base1 : treememo1 = Mleaf (nat2)
+---------------------------------------
+forall (treememo2:treememo), if nat_eq (nat1) (SUCC (SUCC (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (Mleaf (nat2)) then ismemo (treememo2) else false else false = true -> SUCC (SUCC (spec (repr (treememo2)))) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction treememo2(rank:7.)
+=================================================
+Progress: 11
+
+
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
+treememo1 : treememo
+nat2 : nat
+Base1 : treememo1 = Mleaf (nat2)
+---------------------------------------
+forall (treememo2:treememo), if nat_eq (nat1) (SUCC (SUCC (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (Mleaf (nat2)) then ismemo (treememo2) else false else false = true -> SUCC (SUCC (spec (repr (treememo2)))) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction treememo2(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
+treememo1 : treememo
+nat2 : nat
+Base1 : treememo1 = Mleaf (nat2)
+treememo2 : treememo
+nat3 : nat
+Base2 : treememo2 = Mleaf (nat3)
+---------------------------------------
+if nat_eq (nat1) (SUCC (SUCC (match (Mleaf (nat3)) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (Mleaf (nat2)) then ismemo (Mleaf (nat3)) else false else false = true -> SUCC (SUCC (spec (repr (Mleaf (nat3))))) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
+treememo1 : treememo
+nat2 : nat
+Base1 : treememo1 = Mleaf (nat2)
+treememo2 : treememo
+nat3 : nat
+Base2 : treememo2 = Mleaf (nat3)
+---------------------------------------
+if nat_eq (nat1) (SUCC (SUCC (match (Mleaf (nat3)) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (Mleaf (nat2)) then ismemo (Mleaf (nat3)) else false else false = true -> SUCC (SUCC (spec (repr (Mleaf (nat3))))) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
+treememo1 : treememo
+nat2 : nat
+Base1 : treememo1 = Mleaf (nat2)
+treememo2 : treememo
+nat3 : nat
+Base2 : treememo2 = Mleaf (nat3)
+---------------------------------------
+if nat_eq (nat1) (SUCC (SUCC (SUCC (ZERO)))) then if ismemo (Mleaf (nat2)) then ismemo (Mleaf (nat3)) else false else false = true -> SUCC (SUCC (SUCC (ZERO))) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:7.)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
+treememo1 : treememo
+nat2 : nat
+Base1 : treememo1 = Mleaf (nat2)
+treememo2 : treememo
+nat3 : nat
+Base2 : treememo2 = Mleaf (nat3)
+---------------------------------------
+if nat_eq (nat1) (SUCC (SUCC (SUCC (ZERO)))) then if ismemo (Mleaf (nat2)) then ismemo (Mleaf (nat3)) else false else false = true -> SUCC (SUCC (SUCC (ZERO))) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
 >>> intro Cond1(rank : 7.)
 
 
-1st goal of : forall (treememo1:treememo), tf1 (treememo1) = true -> tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
+1st goal of : forall (nat1:nat) (treememo1:treememo) (treememo2:treememo), if nat_eq (nat1) (SUCC (plus (match (treememo1) with
 | Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+| Mnode n1 n2 t1 t2 -> n1) (match (treememo2) with
+| Mleaf _ -> SUCC (ZERO)
+| Mnode n1 n2 t1 t2 -> n1))) then if ismemo (treememo1) then ismemo (treememo2) else false else false = true -> SUCC (plus (spec (repr (treememo1))) (spec (repr (treememo2)))) = nat1
+nat1 : nat
 treememo1 : treememo
-Cond1 : tf1 (treememo1) = true
+nat2 : nat
+Base1 : treememo1 = Mleaf (nat2)
+treememo2 : treememo
+nat3 : nat
+Base2 : treememo2 = Mleaf (nat3)
+Cond1 : if nat_eq (nat1) (SUCC (SUCC (SUCC (ZERO)))) then if ismemo (Mleaf (nat2)) then ismemo (Mleaf (nat3)) else false else false = true
 ---------------------------------------
-tf8 (tf3 (tf5 (treememo1))) = match (treememo1) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+SUCC (SUCC (SUCC (ZERO))) = nat1
 
-0 goal(s) more...
+2 goal(s) more...
 
-2 conjecture(s) more...
+1 conjecture(s) more...
 Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
 validate generalize_common_subterm_goal
-Prop: tf8 (tf3 (tf5 (Mleaf (ZERO)))) = match (Mleaf (ZERO)) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-Prop: tf8 (tf3 (tf5 (Mnode (ZERO) (ZERO) (Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO)) (Mleaf (SUCC (ZERO)))) (Mleaf (ZERO))))) = match (Mnode (ZERO) (ZERO) (Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO)) (Mleaf (SUCC (ZERO)))) (Mleaf (ZERO))) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
-Prop: tf8 (tf3 (tf5 (Mleaf (ZERO)))) = match (Mleaf (ZERO)) with
-| Mleaf _ -> SUCC (ZERO)
-| Mnode n1 n2 t1 t2 -> n1
+Prop: SUCC (SUCC (SUCC (ZERO))) = ZERO
+Prop: SUCC (SUCC (SUCC (ZERO))) = ZERO
+Prop: SUCC (SUCC (SUCC (ZERO))) = ZERO
+asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69

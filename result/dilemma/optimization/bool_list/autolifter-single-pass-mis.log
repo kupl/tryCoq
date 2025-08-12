@@ -220,11 +220,11 @@ _
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: tf4 (ZERO) (plus (true) (ZERO)) (tf1 ((Nil)) ((Nil))) = plus (true) (match (tf6 ((Nil))) with
-| Tuple2 _ b -> b)
-Prop: tf4 (ZERO) (plus (true) (ZERO)) (tf1 ((Nil)) ((Nil))) = plus (true) (match (tf6 ((Nil))) with
+Prop: tf4 (ZERO) (plus (true) (ZERO)) (tf1 ((false::(false::(false::(Nil))))) ((false::(false::(false::(Nil)))))) = plus (true) (match (tf6 ((false::(false::(false::(Nil)))))) with
 | Tuple2 _ b -> b)
 Prop: tf4 (ZERO) (plus (false) (ZERO)) (tf1 ((Nil)) ((Nil))) = plus (false) (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b)
+Prop: tf4 (ZERO) (plus (false) (ZERO)) (tf1 ((true::(Nil))) ((true::(Nil)))) = plus (false) (match (tf6 ((true::(Nil)))) with
 | Tuple2 _ b -> b)
 Lemma List
 forall (bool1:bool) (bool_list1:bool list), lq (match (tf6 (bool_list1)) with
@@ -550,9 +550,9 @@ plus(bool2, ZERO())
 remove lower
 plus(bool2, ZERO())
 validate generalize_common_subterm_goal
-Prop: tf4 (plus (true) (ZERO)) (plus (false) (ZERO)) (tf1 ((false::(Nil))) ((false::(Nil)))) = plus (true) (match (tf6 ((false::(Nil)))) with
+Prop: tf4 (plus (true) (ZERO)) (plus (true) (ZERO)) (tf1 ((Nil)) ((Nil))) = plus (true) (match (tf6 ((Nil))) with
 | Tuple2 a _ -> a)
-Prop: tf4 (plus (true) (ZERO)) (plus (false) (ZERO)) (tf1 ((true::(true::(Nil)))) ((true::(true::(Nil))))) = plus (true) (match (tf6 ((true::(true::(Nil))))) with
+Prop: tf4 (plus (true) (ZERO)) (plus (false) (ZERO)) (tf1 ((Nil)) ((Nil))) = plus (true) (match (tf6 ((Nil))) with
 | Tuple2 a _ -> a)
 Prop: tf4 (plus (true) (ZERO)) (plus (false) (ZERO)) (tf1 ((Nil)) ((Nil))) = plus (true) (match (tf6 ((Nil))) with
 | Tuple2 a _ -> a)
@@ -1468,7 +1468,7 @@ rewrite <- IH1 in goal at 0
 case lq (tf4 (ZERO) (ZERO) (tf1 (bool_list2) (bool_list2))) (plus (bool1) (match (tf6 (bool_list2)) with
 | Tuple2 _ b -> b))
 validate generalize_common_subterm_goal
-Prop: tf4 (ZERO) (plus (false) (ZERO)) (tf1 ((Nil)) ((Nil))) = plus (false) (match (tf6 ((Nil))) with
+Prop: tf4 (ZERO) (plus (true) (ZERO)) (tf1 ((false::(true::(false::(Nil))))) ((false::(true::(false::(Nil)))))) = plus (true) (match (tf6 ((false::(true::(false::(Nil)))))) with
 | Tuple2 _ b -> b)
 Prop: tf4 (ZERO) (plus (true) (ZERO)) (tf1 ((true::(Nil))) ((true::(Nil)))) = plus (true) (match (tf6 ((true::(Nil)))) with
 | Tuple2 _ b -> b)
@@ -1764,7 +1764,7 @@ plus(bool2, ZERO())
 remove lower
 plus(bool2, ZERO())
 validate generalize_common_subterm_goal
-Prop: tf4 (plus (true) (ZERO)) (plus (true) (ZERO)) (tf1 ((true::(Nil))) ((true::(Nil)))) = plus (true) (match (tf6 ((true::(Nil)))) with
+Prop: tf4 (plus (true) (ZERO)) (plus (false) (ZERO)) (tf1 ((Nil)) ((Nil))) = plus (true) (match (tf6 ((Nil))) with
 | Tuple2 a _ -> a)
 Prop: tf4 (plus (true) (ZERO)) (plus (false) (ZERO)) (tf1 ((Nil)) ((Nil))) = plus (true) (match (tf6 ((Nil))) with
 | Tuple2 a _ -> a)
@@ -2884,13 +2884,13 @@ case lq (plus (lq (match (tf6 (bool_list2)) with
 | Tuple2 _ b -> b))) (ZERO))
 rewrite Case1 in goal at 1
 rewrite <- Case2 in goal at 0
-Prop: tf4 (plus (lq (plus (lq (7) (SUCC (SUCC (SUCC (ZERO))))) (ZERO)) (plus (lq (7) (SUCC (SUCC (SUCC (ZERO))))) (ZERO))) (ZERO)) (plus (false) (plus (lq (7) (SUCC (SUCC (SUCC (ZERO))))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (7) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))
-Prop: tf4 (plus (lq (plus (lq (6) (ZERO)) (ZERO)) (plus (lq (6) (ZERO)) (ZERO))) (ZERO)) (plus (true) (plus (lq (6) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (6) (ZERO)) (ZERO)
-Prop: tf4 (plus (lq (plus (lq (1) (ZERO)) (ZERO)) (plus (lq (1) (ZERO)) (ZERO))) (ZERO)) (plus (false) (plus (lq (1) (ZERO)) (ZERO))) (tf1 ((true::(Nil))) ((true::(Nil)))) = plus (lq (1) (ZERO)) (ZERO)
+Prop: tf4 (plus (lq (plus (lq (8) (ZERO)) (ZERO)) (plus (lq (8) (ZERO)) (ZERO))) (ZERO)) (plus (true) (plus (lq (8) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (8) (ZERO)) (ZERO)
+Prop: tf4 (plus (lq (plus (lq (6) (ZERO)) (ZERO)) (plus (lq (6) (ZERO)) (ZERO))) (ZERO)) (plus (false) (plus (lq (6) (ZERO)) (ZERO))) (tf1 ((true::(Nil))) ((true::(Nil)))) = plus (lq (6) (ZERO)) (ZERO)
+Prop: tf4 (plus (lq (plus (lq (5) (SUCC (ZERO))) (ZERO)) (plus (lq (5) (SUCC (ZERO))) (ZERO))) (ZERO)) (plus (false) (plus (lq (5) (SUCC (ZERO))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (5) (SUCC (ZERO))) (SUCC (ZERO))
 validate generalize_common_subterm_goal
-Prop: tf4 (plus (lq (plus (lq (5) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (plus (lq (5) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO))) (ZERO)) (plus (false) (plus (lq (5) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (5) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
-Prop: tf4 (plus (lq (plus (lq (3) (ZERO)) (ZERO)) (plus (lq (3) (ZERO)) (ZERO))) (ZERO)) (plus (false) (plus (lq (3) (ZERO)) (ZERO))) (tf1 ((true::(Nil))) ((true::(Nil)))) = plus (lq (3) (ZERO)) (ZERO)
-Prop: tf4 (plus (lq (plus (lq (4) (ZERO)) (ZERO)) (plus (lq (4) (ZERO)) (ZERO))) (ZERO)) (plus (true) (plus (lq (4) (ZERO)) (ZERO))) (tf1 ((true::(Nil))) ((true::(Nil)))) = plus (lq (4) (ZERO)) (ZERO)
+Prop: tf4 (plus (lq (plus (lq (5) (ZERO)) (ZERO)) (plus (lq (5) (ZERO)) (ZERO))) (ZERO)) (plus (true) (plus (lq (5) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (5) (ZERO)) (ZERO)
+Prop: tf4 (plus (lq (plus (lq (7) (ZERO)) (ZERO)) (plus (lq (7) (ZERO)) (ZERO))) (ZERO)) (plus (false) (plus (lq (7) (ZERO)) (ZERO))) (tf1 ((true::(true::(Nil)))) ((true::(true::(Nil))))) = plus (lq (7) (ZERO)) (ZERO)
+Prop: tf4 (plus (lq (plus (lq (7) (SUCC (ZERO))) (ZERO)) (plus (lq (7) (SUCC (ZERO))) (ZERO))) (ZERO)) (plus (true) (plus (lq (7) (SUCC (ZERO))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (7) (SUCC (ZERO))) (SUCC (ZERO))
 previous tactics
 simpl in goal
 intro Cond1
@@ -2904,13 +2904,13 @@ case lq (plus (lq (match (tf6 (bool_list2)) with
 | Tuple2 a _ -> a) (plus (bool2) (match (tf6 (bool_list2)) with
 | Tuple2 _ b -> b))) (ZERO))
 rewrite Case1 in goal at 1
-Prop: tf4 (plus (true) (ZERO)) (plus (false) (plus (lq (7) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (7) (ZERO)) (ZERO)
-Prop: tf4 (plus (true) (ZERO)) (plus (false) (plus (lq (5) (SUCC (ZERO))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (5) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: tf4 (plus (true) (ZERO)) (plus (true) (plus (lq (0) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (0) (ZERO)) (ZERO)
+Prop: tf4 (plus (true) (ZERO)) (plus (true) (plus (lq (2) (SUCC (SUCC (ZERO)))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (2) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
+Prop: tf4 (plus (true) (ZERO)) (plus (false) (plus (lq (0) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (0) (ZERO)) (ZERO)
+Prop: tf4 (plus (true) (ZERO)) (plus (false) (plus (lq (8) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (8) (ZERO)) (ZERO)
 validate generalize_common_subterm_goal
-Prop: tf4 (plus (true) (ZERO)) (plus (true) (plus (lq (1) (SUCC (ZERO))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (1) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: tf4 (plus (true) (ZERO)) (plus (false) (plus (lq (1) (ZERO)) (ZERO))) (tf1 ((true::(Nil))) ((true::(Nil)))) = plus (lq (1) (ZERO)) (ZERO)
-Prop: tf4 (plus (true) (ZERO)) (plus (true) (plus (lq (2) (SUCC (SUCC (SUCC (ZERO))))) (ZERO))) (tf1 ((true::(Nil))) ((true::(Nil)))) = plus (lq (2) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))
+Prop: tf4 (plus (true) (ZERO)) (plus (false) (plus (lq (5) (ZERO)) (ZERO))) (tf1 ((false::(Nil))) ((false::(Nil)))) = plus (lq (5) (ZERO)) (ZERO)
+Prop: tf4 (plus (true) (ZERO)) (plus (true) (plus (lq (0) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (0) (ZERO)) (ZERO)
+Prop: tf4 (plus (true) (ZERO)) (plus (true) (plus (lq (2) (SUCC (ZERO))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (2) (SUCC (ZERO))) (SUCC (ZERO))
 previous tactics
 simpl in goal
 intro Cond1
@@ -2923,13 +2923,13 @@ case lq (plus (lq (match (tf6 (bool_list2)) with
 | Tuple2 _ b -> b))) (ZERO)) (plus (lq (match (tf6 (bool_list2)) with
 | Tuple2 a _ -> a) (plus (bool2) (match (tf6 (bool_list2)) with
 | Tuple2 _ b -> b))) (ZERO))
-Prop: tf4 (plus (lq (2) (SUCC (SUCC (ZERO)))) (ZERO)) (plus (false) (plus (lq (2) (SUCC (SUCC (ZERO)))) (ZERO))) (tf1 ((false::(Nil))) ((false::(Nil)))) = plus (lq (2) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
-Prop: tf4 (plus (lq (5) (SUCC (ZERO))) (ZERO)) (plus (false) (plus (lq (5) (SUCC (ZERO))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (5) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: tf4 (plus (lq (0) (SUCC (ZERO))) (ZERO)) (plus (true) (plus (lq (0) (SUCC (ZERO))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (0) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: tf4 (plus (lq (0) (ZERO)) (ZERO)) (plus (false) (plus (lq (0) (ZERO)) (ZERO))) (tf1 ((false::(Nil))) ((false::(Nil)))) = plus (lq (0) (ZERO)) (ZERO)
+Prop: tf4 (plus (lq (0) (ZERO)) (ZERO)) (plus (false) (plus (lq (0) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (0) (ZERO)) (ZERO)
+Prop: tf4 (plus (lq (4) (SUCC (ZERO))) (ZERO)) (plus (true) (plus (lq (4) (SUCC (ZERO))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (4) (SUCC (ZERO))) (SUCC (ZERO))
 validate generalize_common_subterm_goal
+Prop: tf4 (plus (lq (3) (ZERO)) (ZERO)) (plus (false) (plus (lq (3) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (3) (ZERO)) (ZERO)
+Prop: tf4 (plus (lq (4) (ZERO)) (ZERO)) (plus (false) (plus (lq (4) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (4) (ZERO)) (ZERO)
 Prop: tf4 (plus (lq (8) (ZERO)) (ZERO)) (plus (false) (plus (lq (8) (ZERO)) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (8) (ZERO)) (ZERO)
-Prop: tf4 (plus (lq (1) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (plus (true) (plus (lq (1) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO))) (tf1 ((Nil)) ((Nil))) = plus (lq (1) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
-Prop: tf4 (plus (lq (8) (ZERO)) (ZERO)) (plus (false) (plus (lq (8) (ZERO)) (ZERO))) (tf1 ((false::(false::(false::(Nil))))) ((false::(false::(false::(Nil)))))) = plus (lq (8) (ZERO)) (ZERO)
 Lemma List
 forall (nat1:nat) (any1:any) (bool1:bool) (bool_list1:bool list), lq (if lq (plus (bool1) (match (tf6 (bool_list1)) with
 | Tuple2 _ b -> b)) (plus (true) (match (tf6 (bool_list1)) with

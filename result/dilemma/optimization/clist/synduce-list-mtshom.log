@@ -38,8 +38,8 @@ forall (clist1:clist), main (clist1) = mainNew (clist1)
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 
 ---------------------------------------
-forall (clist1:clist), match (tf0 (tf4 (clist1))) with
-| Tuple2 a _ -> a = match (tf6 (clist1)) with
+forall (clist1:clist), match (tf1 (repr (clist1))) with
+| Tuple2 a _ -> a = match (reprNew (clist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
@@ -54,8 +54,8 @@ Progress: 3
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 
 ---------------------------------------
-forall (clist1:clist), match (tf0 (tf4 (clist1))) with
-| Tuple2 a _ -> a = match (tf6 (clist1)) with
+forall (clist1:clist), match (tf1 (repr (clist1))) with
+| Tuple2 a _ -> a = match (reprNew (clist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
@@ -67,16 +67,16 @@ forall (clist1:clist), match (tf0 (tf4 (clist1))) with
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 clist1 : clist
 ---------------------------------------
-match (tf0 (tf4 (clist1))) with
-| Tuple2 a _ -> a = match (tf6 (clist1)) with
+match (tf1 (repr (clist1))) with
+| Tuple2 a _ -> a = match (reprNew (clist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 2
-case tf0 (tf4 (clist1))(rank:3.)
-case tf6 (clist1)(rank:3.)
+case reprNew (clist1)(rank:3.)
+case tf1 (repr (clist1))(rank:3.)
 =================================================
 Progress: 4
 
@@ -84,34 +84,34 @@ Progress: 4
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 clist1 : clist
 ---------------------------------------
-match (tf0 (tf4 (clist1))) with
-| Tuple2 a _ -> a = match (tf6 (clist1)) with
+match (tf1 (repr (clist1))) with
+| Tuple2 a _ -> a = match (reprNew (clist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf0 (tf4 (clist1))(rank : 3.)
+>>> case reprNew (clist1)(rank : 3.)
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 clist1 : clist
-Case1 : tf0 (tf4 (clist1)) = Tuple2 (nat1) (nat2)
+Case1 : reprNew (clist1) = Tuple2 (nat1) (nat2)
 ---------------------------------------
-nat1 = match (tf6 (clist1)) with
-| Tuple2 a _ -> a
+match (tf1 (repr (clist1))) with
+| Tuple2 a _ -> a = nat1
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = match (tf6 (Cnil)) with
-| Tuple2 a _ -> a
-Prop: ZERO = match (tf6 (Concats (Single (SUCC (ZERO))) (Cnil))) with
-| Tuple2 a _ -> a
-Prop: SUCC (ZERO) = match (tf6 (Cnil)) with
-| Tuple2 a _ -> a
+Prop: match (tf1 (repr (Single (ZERO)))) with
+| Tuple2 a _ -> a = ZERO
+Prop: match (tf1 (repr (Concats (Cnil) (Cnil)))) with
+| Tuple2 a _ -> a = SUCC (SUCC (ZERO))
+Prop: match (tf1 (repr (Cnil))) with
+| Tuple2 a _ -> a = ZERO
 asdf
 =================================================
 Progress: 5
@@ -120,34 +120,34 @@ Progress: 5
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 clist1 : clist
 ---------------------------------------
-match (tf0 (tf4 (clist1))) with
-| Tuple2 a _ -> a = match (tf6 (clist1)) with
+match (tf1 (repr (clist1))) with
+| Tuple2 a _ -> a = match (reprNew (clist1)) with
 | Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case tf6 (clist1)(rank : 3.)
+>>> case tf1 (repr (clist1))(rank : 3.)
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
 clist1 : clist
-Case1 : tf6 (clist1) = Tuple2 (nat1) (nat2)
+Case1 : tf1 (repr (clist1)) = Tuple2 (nat1) (nat2)
 ---------------------------------------
-match (tf0 (tf4 (clist1))) with
-| Tuple2 a _ -> a = nat1
+nat1 = match (reprNew (clist1)) with
+| Tuple2 a _ -> a
 
 0 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: match (tf0 (tf4 (Single (ZERO)))) with
-| Tuple2 a _ -> a = ZERO
-Prop: match (tf0 (tf4 (Cnil))) with
-| Tuple2 a _ -> a = ZERO
-Prop: match (tf0 (tf4 (Cnil))) with
-| Tuple2 a _ -> a = SUCC (ZERO)
+Prop: SUCC (ZERO) = match (reprNew (Single (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a
+Prop: ZERO = match (reprNew (Cnil)) with
+| Tuple2 a _ -> a
+Prop: SUCC (ZERO) = match (reprNew (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
