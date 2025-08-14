@@ -145,17 +145,6 @@ let expr_of_int (i : int) : expr_desc =
   else Call ("Neg", [ { desc = expr_of_nat (-i); typ = Talgebraic ("natural", []) } ])
 ;;
 
-let rec expr_of_pattern pattern =
-  match pattern with
-  | Pat_Constr (name, patterns) ->
-    Call
-      ( name
-      , List.map (fun pattern -> { desc = expr_of_pattern pattern; typ = Tany }) patterns
-      )
-  | Pat_Var name -> Var name
-  | _ -> failwith "Not implemented : expr_of_pattern"
-;;
-
 let char_of_ascii i = Char.chr i
 let ascii_of_char ch = Char.code ch
 
@@ -1177,4 +1166,22 @@ let rec is_contained expr_src expr_target =
       || is_contained expr_src body
     | Call (_, args) -> List.exists (fun arg -> is_contained expr_src arg) args
     | _ -> false)
+;;
+
+let rec expr_of_pattern pattern =
+  match pattern with
+  | Pat_Constr (name, patterns) ->
+    Call
+      ( name
+      , List.map (fun pattern -> { desc = expr_of_pattern pattern; typ = Tany }) patterns
+      )
+  | Pat_Var name -> Var name
+  | _ -> failwith "Not implemented : expr_of_pattern"
+;;
+
+let rec contain_any pattern =
+  match pattern with
+  | Pat_Constr (_, patterns) | Pat_Tuple patterns -> List.exists contain_any patterns
+  | Pat_any -> true
+  | _ -> false
 ;;

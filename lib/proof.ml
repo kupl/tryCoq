@@ -1915,6 +1915,7 @@ let apply_case expr state t : state list =
        let rec_args = List.filter (fun arg -> arg = typ) arg_types in
        let new_vars = add_indices_with_custom_offsets (variable_index state) arg_types in
        let arg_bind = List.combine new_vars arg_types in
+       let type_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
        match rec_args with
        | [] ->
          let base_case =
@@ -1964,7 +1965,7 @@ let apply_case expr state t : state list =
                      | false -> name, simplify_prop env prop'))
                facts
            in
-           facts @ new_facts, simpl_goal, new_graph)
+           facts @ type_facts @ new_facts, simpl_goal, new_graph)
        | _ ->
          let new_args, _ =
            partition_and_transform
@@ -2015,7 +2016,7 @@ let apply_case expr state t : state list =
                 | false -> name, simplify_prop env prop')
              facts
          in
-         facts @ new_facts, new_goal, new_graph)
+         facts @ type_facts @ new_facts, new_goal, new_graph)
     decl
 ;;
 
@@ -2054,11 +2055,33 @@ let apply_discriminate env (state : state) : state list =
   else failwith "Cannot Discriminate"
 ;;
 
+let rec body_eq e1 e2 =
+  if Ir.is_equal_expr e1 e2
+  then true
+  else (
+    match e1.Ir.desc, e2.Ir.desc with
+    | Ir.Var name1, Ir.Var name2 -> name1 = name2
+    | Ir.Call (name1, args1), Ir.Call (name2, args2) ->
+      name1 = name2 && List.for_all2 body_eq args1 args2
+    | Ir.Match (_, case_list1), _ ->
+      List.for_all
+        (fun case ->
+           let (Ir.Case (_, body)) = case in
+           body_eq body e2)
+        case_list1
+    | _, Ir.Match (_, case_list2) ->
+      List.for_all
+        (fun case ->
+           let (Ir.Case (_, body)) = case in
+           body_eq body e1)
+        case_list2
+    | _ -> false)
+;;
+
 let rec apply_reflexivity env goal =
   let goal = simplify_prop env goal in
   match goal with
-  | Eq (e1, e2) ->
-    if Ir.is_equal_expr e1 e2 then [] else failwith "LHS and RHS are not equal"
+  | Eq (e1, e2) -> if body_eq e1 e2 then [] else failwith "LHS and RHS are not equal"
   | Forall (_, goal) -> apply_reflexivity env goal
   | Imply (_, goal) -> apply_reflexivity env goal
   | _ -> failwith "The goal is not an equality"
