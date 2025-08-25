@@ -187,6 +187,8 @@ IH1 : match (tf1 (tf5 ((Nil)) (nat_list2))) with
 | Tuple2 _ b -> b = match (tf7 (Tuple2 (ZERO) (ZERO)) (nat_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : nat_list1 = (nat1::nat_list2)
+nat2 : nat
+nat3 : nat
 Case1 : tf1 (tf5 ((nat1::(Nil))) (nat_list2)) = Tuple2 (nat2) (nat3)
 ---------------------------------------
 nat3 = match (tf7 (Tuple2 (plus (nat1) (ZERO)) (plus (nat1) (ZERO))) (nat_list2)) with
@@ -200,7 +202,7 @@ previous tactics
 simpl in goal
 case tf1 (tf5 ((nat1::(Nil))) (nat_list2))
 validate generalize_common_subterm_goal
-Prop: ZERO = match (tf7 (Tuple2 (plus (ZERO) (ZERO)) (plus (ZERO) (ZERO))) ((Nil))) with
+Prop: ZERO = match (tf7 (Tuple2 (plus (SUCC (ZERO)) (ZERO)) (plus (SUCC (ZERO)) (ZERO))) ((SUCC (SUCC (ZERO))::(ZERO::(Nil))))) with
 | Tuple2 a _ -> a
 Prop: ZERO = match (tf7 (Tuple2 (plus (ZERO) (ZERO)) (plus (ZERO) (ZERO))) ((Nil))) with
 | Tuple2 a _ -> a
@@ -238,6 +240,8 @@ IH1 : match (tf1 (tf5 ((Nil)) (nat_list2))) with
 | Tuple2 _ b -> b = match (tf7 (Tuple2 (ZERO) (ZERO)) (nat_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : nat_list1 = (nat1::nat_list2)
+nat2 : nat
+nat3 : nat
 Case1 : tf7 (Tuple2 (plus (nat1) (ZERO)) (plus (nat1) (ZERO))) (nat_list2) = Tuple2 (nat2) (nat3)
 ---------------------------------------
 match (tf1 (tf5 ((nat1::(Nil))) (nat_list2))) with
@@ -253,12 +257,12 @@ case tf7 (Tuple2 (plus (nat1) (ZERO)) (plus (nat1) (ZERO))) (nat_list2)
 validate generalize_common_subterm_goal
 Prop: match (tf1 (tf5 ((ZERO::(Nil))) ((Nil)))) with
 | Tuple2 _ b -> b = ZERO
-Prop: match (tf1 (tf5 ((SUCC (ZERO)::(Nil))) ((Nil)))) with
+Prop: match (tf1 (tf5 ((ZERO::(Nil))) ((Nil)))) with
 | Tuple2 _ b -> b = ZERO
-Prop: match (tf1 (tf5 ((SUCC (ZERO)::(Nil))) ((Nil)))) with
-| Tuple2 _ b -> b = ZERO
+Prop: match (tf1 (tf5 ((ZERO::(Nil))) ((Nil)))) with
+| Tuple2 _ b -> b = SUCC (ZERO)
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

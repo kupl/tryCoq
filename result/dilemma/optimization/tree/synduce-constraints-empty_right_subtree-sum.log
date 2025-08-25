@@ -170,7 +170,7 @@ if if nat_eq (ZERO) (size (tree2)) then emptyright (tree3) else false then spec 
 
 0 conjecture(s) more...
 Tactic List : 1
-case if nat_eq (ZERO) (size (tree2)) then emptyright (tree3) else false(rank:4.)
+case nat_eq (ZERO) (size (tree2))(rank:4.)
 =================================================
 Progress: 7
 
@@ -189,7 +189,7 @@ if if nat_eq (ZERO) (size (tree2)) then emptyright (tree3) else false then spec 
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case if nat_eq (ZERO) (size (tree2)) then emptyright (tree3) else false(rank : 4.)
+>>> case nat_eq (ZERO) (size (tree2))(rank : 4.)
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
@@ -200,17 +200,58 @@ tree3 : tree
 IH1 : if emptyright (tree2) then spec (target (tree2)) else ZERO = if emptyright (tree2) then targetNew (tree2) else ZERO
 IH2 : if emptyright (tree3) then spec (target (tree3)) else ZERO = if emptyright (tree3) then targetNew (tree3) else ZERO
 Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
-Case1 : if nat_eq (ZERO) (size (tree2)) then emptyright (tree3) else false = true
+Case1 : nat_eq (ZERO) (size (tree2)) = true
+---------------------------------------
+if emptyright (tree3) then spec (target (Node (nat1) (tree2) (tree3))) else ZERO = if emptyright (tree3) then targetNew (Node (nat1) (tree2) (tree3)) else ZERO
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+case emptyright (tree3)(rank:5.)
+=================================================
+Progress: 8
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if emptyright (tree2) then spec (target (tree2)) else ZERO = if emptyright (tree2) then targetNew (tree2) else ZERO
+IH2 : if emptyright (tree3) then spec (target (tree3)) else ZERO = if emptyright (tree3) then targetNew (tree3) else ZERO
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : nat_eq (ZERO) (size (tree2)) = true
+---------------------------------------
+if emptyright (tree3) then spec (target (Node (nat1) (tree2) (tree3))) else ZERO = if emptyright (tree3) then targetNew (Node (nat1) (tree2) (tree3)) else ZERO
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case emptyright (tree3)(rank : 5.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : if emptyright (tree2) then spec (target (tree2)) else ZERO = if emptyright (tree2) then targetNew (tree2) else ZERO
+IH2 : spec (target (tree3)) = targetNew (tree3)
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : nat_eq (ZERO) (size (tree2)) = true
+Case2 : emptyright (tree3) = true
 ---------------------------------------
 plus (nat1) (plus (spec (target (tree2))) (spec (tree3))) = plus (targetNew (tree2)) (nat1)
 
-1 goal(s) more...
+2 goal(s) more...
 
 0 conjecture(s) more...
 Tactic List : 0
 previous tactics
 simpl in goal
-case if nat_eq (ZERO) (size (tree2)) then emptyright (tree3) else false
+case nat_eq (ZERO) (size (tree2))
+case emptyright (tree3)
 parent
 plus (nat1) (plus (spec (target (tree2))) (spec (tree3)))
 lower
@@ -218,7 +259,21 @@ plus(_, plus(spec(target(tree2)), spec(tree3)))
 upper
 _
 remove upper
-_
+spec(target(tree3))
+remove lower
+spec(target(tree3))
+remove upper
+plus(nat1, plus(spec(target(tree2)), spec(tree3)))
+remove lower
+plus(nat1, plus(spec(target(tree2)), spec(tree3)))
+remove upper
+plus(nat1, plus(plus(nat2, plus(spec(target(tree4)), spec(tree5))), spec(tree3)))
+remove lower
+plus(nat1, plus(plus(nat2, plus(spec(target(tree4)), spec(tree5))), spec(tree3)))
+remove upper
+plus(nat1, plus(plus(nat2, plus(plus(nat3, plus(spec(target(tree6)), spec(tree7))), spec(tree5))), spec(tree3)))
+remove lower
+plus(nat1, plus(plus(nat2, plus(plus(nat3, plus(spec(target(tree6)), spec(tree7))), spec(tree5))), spec(tree3)))
 parent
 targetNew (tree2)
 lower
@@ -238,11 +293,11 @@ plus(plus(targetNew(tree6), nat3), nat2)
 remove lower
 plus(plus(targetNew(_), nat3), nat2)
 validate generalize_common_subterm_goal
-Prop: plus (ZERO) (plus (spec (target (Tnil))) (spec (Node (ZERO) (Tnil) (Leaf (ZERO))))) = plus (targetNew (Tnil)) (ZERO)
-Prop: plus (SUCC (ZERO)) (plus (spec (target (Leaf (ZERO)))) (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) = plus (targetNew (Leaf (ZERO))) (SUCC (ZERO))
-Prop: plus (SUCC (ZERO)) (plus (spec (target (Leaf (ZERO)))) (spec (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))))) = plus (targetNew (Leaf (ZERO))) (SUCC (ZERO))
+Prop: plus (ZERO) (plus (spec (target (Tnil))) (spec (Leaf (ZERO)))) = plus (targetNew (Tnil)) (ZERO)
+Prop: plus (ZERO) (plus (spec (target (Leaf (ZERO)))) (spec (Leaf (SUCC (SUCC (ZERO)))))) = plus (targetNew (Leaf (ZERO))) (ZERO)
+Prop: plus (ZERO) (plus (spec (target (Node (ZERO) (Node (ZERO) (Tnil) (Tnil)) (Tnil)))) (spec (Node (ZERO) (Tnil) (Tnil)))) = plus (targetNew (Node (ZERO) (Node (ZERO) (Tnil) (Tnil)) (Tnil))) (ZERO)
 Lemma List
-forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 End of Lemma List
 
 
@@ -252,17 +307,18 @@ nat1 : nat
 tree2 : tree
 tree3 : tree
 IH1 : if emptyright (tree2) then spec (target (tree2)) else ZERO = if emptyright (tree2) then targetNew (tree2) else ZERO
-IH2 : if emptyright (tree3) then spec (target (tree3)) else ZERO = if emptyright (tree3) then targetNew (tree3) else ZERO
+IH2 : spec (target (tree3)) = targetNew (tree3)
 Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
-Case1 : if nat_eq (ZERO) (size (tree2)) then emptyright (tree3) else false = true
+Case1 : nat_eq (ZERO) (size (tree2)) = true
+Case2 : emptyright (tree3) = true
 ---------------------------------------
 plus (nat1) (plus (spec (target (tree2))) (spec (tree3))) = plus (targetNew (tree2)) (nat1)
 
-1 goal(s) more...
+2 goal(s) more...
 
 0 conjecture(s) more...
 =================================================
-Progress: 8
+Progress: 9
 
 
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
@@ -271,258 +327,274 @@ nat1 : nat
 tree2 : tree
 tree3 : tree
 IH1 : if emptyright (tree2) then spec (target (tree2)) else ZERO = if emptyright (tree2) then targetNew (tree2) else ZERO
-IH2 : if emptyright (tree3) then spec (target (tree3)) else ZERO = if emptyright (tree3) then targetNew (tree3) else ZERO
+IH2 : spec (target (tree3)) = targetNew (tree3)
 Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
-Case1 : if nat_eq (ZERO) (size (tree2)) then emptyright (tree3) else false = true
+Case1 : nat_eq (ZERO) (size (tree2)) = true
+Case2 : emptyright (tree3) = true
 ---------------------------------------
 plus (nat1) (plus (spec (target (tree2))) (spec (tree3))) = plus (targetNew (tree2)) (nat1)
 
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)(rank : 0.)
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-
----------------------------------------
-forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-induction tree1(rank:7.)
-=================================================
-Progress: 9
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-
----------------------------------------
-forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> induction tree1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
----------------------------------------
-forall (nat1:nat) (tree2:tree), if nat_eq (ZERO) (size (Tnil)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (Tnil))) (spec (tree2))) = plus (targetNew (Tnil)) (nat1)
-
 2 goal(s) more...
 
+0 conjecture(s) more...
+>>> assert forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+
+---------------------------------------
+forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+
+0 goal(s) more...
+
 1 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:7.)
+induction tree1(rank:11.)
 =================================================
 Progress: 10
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
----------------------------------------
-forall (nat1:nat) (tree2:tree), if nat_eq (ZERO) (size (Tnil)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (Tnil))) (spec (tree2))) = plus (targetNew (Tnil)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 
-2 goal(s) more...
+---------------------------------------
+forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+
+0 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 7.)
+>>> induction tree1(rank : 11.)
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 ---------------------------------------
-forall (nat1:nat) (tree2:tree), if nat_eq (ZERO) (ZERO) then emptyright (tree2) else false = true -> plus (nat1) (spec (tree2)) = nat1
+forall (nat1:nat) (tree2:tree), nat_eq (ZERO) (size (Tnil)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (Tnil))) (spec (tree2))) = plus (targetNew (Tnil)) (nat1)
 
 2 goal(s) more...
 
 1 conjecture(s) more...
 Tactic List : 1
-induction tree2(rank:9.)
+simpl in goal(rank:11.)
 =================================================
 Progress: 11
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 ---------------------------------------
-forall (nat1:nat) (tree2:tree), if nat_eq (ZERO) (ZERO) then emptyright (tree2) else false = true -> plus (nat1) (spec (tree2)) = nat1
+forall (nat1:nat) (tree2:tree), nat_eq (ZERO) (size (Tnil)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (Tnil))) (spec (tree2))) = plus (targetNew (Tnil)) (nat1)
 
 2 goal(s) more...
 
 1 conjecture(s) more...
->>> induction tree2(rank : 9.)
+>>> simpl in goal(rank : 11.)
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
-tree2 : tree
-Base2 : tree2 = Tnil
 ---------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true -> plus (nat1) (spec (Tnil)) = nat1
+forall (nat1:nat) (tree2:tree), nat_eq (ZERO) (ZERO) = true->emptyright (tree2) = true -> plus (nat1) (spec (tree2)) = nat1
 
-4 goal(s) more...
+2 goal(s) more...
 
 1 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:9.)
+induction tree2(rank:13.)
 =================================================
 Progress: 12
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
-tree2 : tree
-Base2 : tree2 = Tnil
 ---------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true -> plus (nat1) (spec (Tnil)) = nat1
+forall (nat1:nat) (tree2:tree), nat_eq (ZERO) (ZERO) = true->emptyright (tree2) = true -> plus (nat1) (spec (tree2)) = nat1
 
-4 goal(s) more...
+2 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 9.)
+>>> induction tree2(rank : 13.)
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 Base2 : tree2 = Tnil
 ---------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true -> plus (nat1) (ZERO) = nat1
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->emptyright (Tnil) = true -> plus (nat1) (spec (Tnil)) = nat1
 
 4 goal(s) more...
 
 1 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:9.)
+simpl in goal(rank:13.)
 =================================================
 Progress: 13
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 Base2 : tree2 = Tnil
 ---------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true -> plus (nat1) (ZERO) = nat1
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->emptyright (Tnil) = true -> plus (nat1) (spec (Tnil)) = nat1
 
 4 goal(s) more...
 
 1 conjecture(s) more...
->>> intro Cond1(rank : 9.)
+>>> simpl in goal(rank : 13.)
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 Base2 : tree2 = Tnil
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true
 ---------------------------------------
-forall (nat1:nat), plus (nat1) (ZERO) = nat1
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> plus (nat1) (ZERO) = nat1
 
 4 goal(s) more...
 
 1 conjecture(s) more...
 Tactic List : 1
-induction nat1(rank:10.)
+intro Cond1(rank:13.)
 =================================================
 Progress: 14
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 Base2 : tree2 = Tnil
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true
+---------------------------------------
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> plus (nat1) (ZERO) = nat1
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 13.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+Base2 : tree2 = Tnil
+Cond1 : nat_eq (ZERO) (ZERO) = true
+---------------------------------------
+forall (nat1:nat), true = true -> plus (nat1) (ZERO) = nat1
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:13.)
+=================================================
+Progress: 15
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+Base2 : tree2 = Tnil
+Cond1 : nat_eq (ZERO) (ZERO) = true
+---------------------------------------
+forall (nat1:nat), true = true -> plus (nat1) (ZERO) = nat1
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond2(rank : 13.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+Base2 : tree2 = Tnil
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
 ---------------------------------------
 forall (nat1:nat), plus (nat1) (ZERO) = nat1
 
 4 goal(s) more...
 
 1 conjecture(s) more...
->>> induction nat1(rank : 10.)
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-Base2 : tree2 = Tnil
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true
-nat1 : nat
-Base3 : nat1 = ZERO
----------------------------------------
-plus (ZERO) (ZERO) = ZERO
-
-5 goal(s) more...
-
-1 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:9.)
-=================================================
-Progress: 15
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-Base2 : tree2 = Tnil
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true
-nat1 : nat
-Base3 : nat1 = ZERO
----------------------------------------
-plus (ZERO) (ZERO) = ZERO
-
-5 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-Base2 : tree2 = Tnil
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true
-nat1 : nat
-nat2 : nat
-IH1 : plus (nat2) (ZERO) = nat2
-Inductive1 : nat1 = SUCC (nat2)
----------------------------------------
-plus (SUCC (nat2)) (ZERO) = SUCC (nat2)
-
-4 goal(s) more...
-
-1 conjecture(s) more...
-Deduplication: 0
-Tactic List : 1
-simpl in goal(rank:9.)
+induction nat1(rank:14.)
 =================================================
 Progress: 16
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 Base2 : tree2 = Tnil
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+---------------------------------------
+forall (nat1:nat), plus (nat1) (ZERO) = nat1
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction nat1(rank : 14.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+Base2 : tree2 = Tnil
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+nat1 : nat
+Base3 : nat1 = ZERO
+---------------------------------------
+plus (ZERO) (ZERO) = ZERO
+
+5 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:13.)
+=================================================
+Progress: 17
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+Base2 : tree2 = Tnil
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+nat1 : nat
+Base3 : nat1 = ZERO
+---------------------------------------
+plus (ZERO) (ZERO) = ZERO
+
+5 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 13.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+Base2 : tree2 = Tnil
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
 nat1 : nat
 nat2 : nat
 IH1 : plus (nat2) (ZERO) = nat2
@@ -533,78 +605,83 @@ plus (SUCC (nat2)) (ZERO) = SUCC (nat2)
 4 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-Base2 : tree2 = Tnil
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true
-nat1 : nat
-nat2 : nat
-IH1 : plus (nat2) (ZERO) = nat2
-Inductive1 : nat1 = SUCC (nat2)
----------------------------------------
-SUCC (plus (nat2) (ZERO)) = SUCC (nat2)
-
-4 goal(s) more...
-
-1 conjecture(s) more...
+Deduplication: 0
 Tactic List : 1
-rewrite IH1 in goal at 0(rank:9.)
-=================================================
-Progress: 17
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-Base2 : tree2 = Tnil
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true
-nat1 : nat
-nat2 : nat
-IH1 : plus (nat2) (ZERO) = nat2
-Inductive1 : nat1 = SUCC (nat2)
----------------------------------------
-SUCC (plus (nat2) (ZERO)) = SUCC (nat2)
-
-4 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-Base2 : tree2 = Tnil
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true
-nat1 : nat
-nat2 : nat
-IH1 : plus (nat2) (ZERO) = nat2
-Inductive1 : nat1 = SUCC (nat2)
----------------------------------------
-SUCC (nat2) = SUCC (nat2)
-
-4 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:8.)
+simpl in goal(rank:13.)
 =================================================
 Progress: 18
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 Base2 : tree2 = Tnil
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Tnil) else false = true
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+nat1 : nat
+nat2 : nat
+IH1 : plus (nat2) (ZERO) = nat2
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+plus (SUCC (nat2)) (ZERO) = SUCC (nat2)
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 13.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+Base2 : tree2 = Tnil
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+nat1 : nat
+nat2 : nat
+IH1 : plus (nat2) (ZERO) = nat2
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+SUCC (plus (nat2) (ZERO)) = SUCC (nat2)
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:13.)
+=================================================
+Progress: 19
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+Base2 : tree2 = Tnil
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+nat1 : nat
+nat2 : nat
+IH1 : plus (nat2) (ZERO) = nat2
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+SUCC (plus (nat2) (ZERO)) = SUCC (nat2)
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 13.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+Base2 : tree2 = Tnil
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
 nat1 : nat
 nat2 : nat
 IH1 : plus (nat2) (ZERO) = nat2
@@ -615,118 +692,179 @@ SUCC (nat2) = SUCC (nat2)
 4 goal(s) more...
 
 1 conjecture(s) more...
->>> reflexivity(rank : 8.)
+Tactic List : 1
+reflexivity(rank:12.)
+=================================================
+Progress: 20
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+Base2 : tree2 = Tnil
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+nat1 : nat
+nat2 : nat
+IH1 : plus (nat2) (ZERO) = nat2
+Inductive1 : nat1 = SUCC (nat2)
+---------------------------------------
+SUCC (nat2) = SUCC (nat2)
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 12.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 nat2 : nat
 Base2 : tree2 = Leaf (nat2)
 ---------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true -> plus (nat1) (spec (Leaf (nat2))) = nat1
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->emptyright (Leaf (nat2)) = true -> plus (nat1) (spec (Leaf (nat2))) = nat1
 
 3 goal(s) more...
 
 1 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:8.)
-=================================================
-Progress: 19
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-nat2 : nat
-Base2 : tree2 = Leaf (nat2)
----------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true -> plus (nat1) (spec (Leaf (nat2))) = nat1
-
-3 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 8.)
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-nat2 : nat
-Base2 : tree2 = Leaf (nat2)
----------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true -> plus (nat1) (nat2) = nat1
-
-3 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:8.)
-=================================================
-Progress: 20
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-nat2 : nat
-Base2 : tree2 = Leaf (nat2)
----------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true -> plus (nat1) (nat2) = nat1
-
-3 goal(s) more...
-
-1 conjecture(s) more...
->>> intro Cond1(rank : 8.)
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-nat2 : nat
-Base2 : tree2 = Leaf (nat2)
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true
----------------------------------------
-forall (nat1:nat), plus (nat1) (nat2) = nat1
-
-3 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-induction nat1(rank:9.)
+simpl in goal(rank:12.)
 =================================================
 Progress: 21
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 nat2 : nat
 Base2 : tree2 = Leaf (nat2)
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true
+---------------------------------------
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->emptyright (Leaf (nat2)) = true -> plus (nat1) (spec (Leaf (nat2))) = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 12.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+nat2 : nat
+Base2 : tree2 = Leaf (nat2)
+---------------------------------------
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> plus (nat1) (nat2) = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:12.)
+=================================================
+Progress: 22
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+nat2 : nat
+Base2 : tree2 = Leaf (nat2)
+---------------------------------------
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> plus (nat1) (nat2) = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 12.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+nat2 : nat
+Base2 : tree2 = Leaf (nat2)
+Cond1 : nat_eq (ZERO) (ZERO) = true
+---------------------------------------
+forall (nat1:nat), true = true -> plus (nat1) (nat2) = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:12.)
+=================================================
+Progress: 23
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+nat2 : nat
+Base2 : tree2 = Leaf (nat2)
+Cond1 : nat_eq (ZERO) (ZERO) = true
+---------------------------------------
+forall (nat1:nat), true = true -> plus (nat1) (nat2) = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond2(rank : 12.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+nat2 : nat
+Base2 : tree2 = Leaf (nat2)
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
 ---------------------------------------
 forall (nat1:nat), plus (nat1) (nat2) = nat1
 
 3 goal(s) more...
 
 1 conjecture(s) more...
->>> induction nat1(rank : 9.)
+Tactic List : 1
+induction nat1(rank:13.)
+=================================================
+Progress: 24
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 nat2 : nat
 Base2 : tree2 = Leaf (nat2)
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+---------------------------------------
+forall (nat1:nat), plus (nat1) (nat2) = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction nat1(rank : 13.)
+
+
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+nat2 : nat
+Base2 : tree2 = Leaf (nat2)
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
 nat1 : nat
 Base3 : nat1 = ZERO
 ---------------------------------------
@@ -736,18 +874,19 @@ plus (ZERO) (nat2) = ZERO
 
 1 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:9.)
+simpl in goal(rank:13.)
 =================================================
-Progress: 22
+Progress: 25
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 nat2 : nat
 Base2 : tree2 = Leaf (nat2)
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
 nat1 : nat
 Base3 : nat1 = ZERO
 ---------------------------------------
@@ -756,16 +895,17 @@ plus (ZERO) (nat2) = ZERO
 4 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 9.)
+>>> simpl in goal(rank : 13.)
 
 
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
 tree1 : tree
 Base1 : tree1 = Tnil
 tree2 : tree
 nat2 : nat
 Base2 : tree2 = Leaf (nat2)
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
 nat1 : nat
 Base3 : nat1 = ZERO
 ---------------------------------------
@@ -780,196 +920,256 @@ simpl in goal
 validate generalize_common_subterm_goal
 Prop: ZERO = ZERO
 Prop: SUCC (ZERO) = ZERO
-Prop: SUCC (ZERO) = ZERO
-Lemma List
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-End of Lemma List
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-nat2 : nat
-Base2 : tree2 = Leaf (nat2)
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true
-nat1 : nat
-Base3 : nat1 = ZERO
----------------------------------------
-nat2 = ZERO
-
-4 goal(s) more...
-
-1 conjecture(s) more...
-=================================================
-Progress: 23
-
-
-1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), if nat_eq (ZERO) (size (tree1)) then emptyright (tree2) else false = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
-tree1 : tree
-Base1 : tree1 = Tnil
-tree2 : tree
-nat2 : nat
-Base2 : tree2 = Leaf (nat2)
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat2)) else false = true
-nat1 : nat
-Base3 : nat1 = ZERO
----------------------------------------
-nat2 = ZERO
-
-4 goal(s) more...
-
-1 conjecture(s) more...
->>> assert forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO(rank : 0.)
-
-
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-
----------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat1(rank:7.)
-=================================================
-Progress: 24
-
-
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-
----------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-nat1 : nat
----------------------------------------
-if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:7.)
-=================================================
-Progress: 25
-
-
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-nat1 : nat
----------------------------------------
-if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-nat1 : nat
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true
----------------------------------------
-nat1 = ZERO
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: SUCC (SUCC (ZERO)) = ZERO
-Prop: SUCC (SUCC (ZERO)) = ZERO
 Prop: ZERO = ZERO
 Lemma List
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
 End of Lemma List
 
 
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+nat2 : nat
+Base2 : tree2 = Leaf (nat2)
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
 nat1 : nat
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true
+Base3 : nat1 = ZERO
 ---------------------------------------
-nat1 = ZERO
+nat2 = ZERO
 
-0 goal(s) more...
+4 goal(s) more...
 
-2 conjecture(s) more...
+1 conjecture(s) more...
 =================================================
 Progress: 26
 
 
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
+1st goal of : forall (nat1:nat) (tree1:tree) (tree2:tree), nat_eq (ZERO) (size (tree1)) = true->emptyright (tree2) = true -> plus (nat1) (plus (spec (target (tree1))) (spec (tree2))) = plus (targetNew (tree1)) (nat1)
+tree1 : tree
+Base1 : tree1 = Tnil
+tree2 : tree
+nat2 : nat
+Base2 : tree2 = Leaf (nat2)
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
 nat1 : nat
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true
+Base3 : nat1 = ZERO
+---------------------------------------
+nat2 = ZERO
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO(rank : 0.)
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+
+---------------------------------------
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:11.)
+=================================================
+Progress: 27
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+
+---------------------------------------
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond1(rank : 11.)
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
+---------------------------------------
+forall (nat1:nat), true = true -> nat1 = ZERO
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:11.)
+=================================================
+Progress: 28
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
+---------------------------------------
+forall (nat1:nat), true = true -> nat1 = ZERO
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond2(rank : 11.)
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+---------------------------------------
+forall (nat1:nat), nat1 = ZERO
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:11.)
+=================================================
+Progress: 29
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+---------------------------------------
+forall (nat1:nat), nat1 = ZERO
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat1(rank : 11.)
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+nat1 : nat
 ---------------------------------------
 nat1 = ZERO
 
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> assert forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO(rank : 0.)
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: SUCC (SUCC (ZERO)) = ZERO
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
+Lemma List
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+End of Lemma List
 
 
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+nat1 : nat
+---------------------------------------
+nat1 = ZERO
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+=================================================
+Progress: 30
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+nat1 : nat
+---------------------------------------
+nat1 = ZERO
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> assert forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO(rank : 0.)
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
 
 ---------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
 
 0 goal(s) more...
 
 3 conjecture(s) more...
 Tactic List : 1
-intro nat1(rank:9.)
+intro Cond1(rank:13.)
 =================================================
-Progress: 27
+Progress: 31
 
 
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
 
 ---------------------------------------
-forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
+forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
 
 0 goal(s) more...
 
 3 conjecture(s) more...
->>> intro nat1(rank : 9.)
+>>> intro Cond1(rank : 13.)
 
 
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-nat1 : nat
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
 ---------------------------------------
-if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
+forall (nat1:nat), true = true -> nat1 = ZERO
 
 0 goal(s) more...
 
 3 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:9.)
+intro Cond2(rank:13.)
 =================================================
-Progress: 28
+Progress: 32
 
 
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
-nat1 : nat
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
 ---------------------------------------
-if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
+forall (nat1:nat), true = true -> nat1 = ZERO
 
 0 goal(s) more...
 
 3 conjecture(s) more...
->>> intro Cond1(rank : 9.)
+>>> intro Cond2(rank : 13.)
 
 
-1st goal of : forall (nat1:nat), if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true -> nat1 = ZERO
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+---------------------------------------
+forall (nat1:nat), nat1 = ZERO
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:13.)
+=================================================
+Progress: 33
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
+---------------------------------------
+forall (nat1:nat), nat1 = ZERO
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro nat1(rank : 13.)
+
+
+1st goal of : forall (nat1:nat), nat_eq (ZERO) (ZERO) = true->true = true -> nat1 = ZERO
+Cond1 : nat_eq (ZERO) (ZERO) = true
+Cond2 : true = true
 nat1 : nat
-Cond1 : if nat_eq (ZERO) (ZERO) then emptyright (Leaf (nat1)) else false = true
 ---------------------------------------
 nat1 = ZERO
 
@@ -978,10 +1178,10 @@ nat1 = ZERO
 3 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
+Prop: SUCC (SUCC (ZERO)) = ZERO
 Prop: ZERO = ZERO
 Prop: ZERO = ZERO
-Prop: SUCC (ZERO) = ZERO
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

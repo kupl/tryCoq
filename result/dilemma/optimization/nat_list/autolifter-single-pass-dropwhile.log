@@ -235,13 +235,13 @@ case match (nat1) with
 | false -> true
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: match (ZERO) with
-| true -> ZERO
-| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))) = SUCC (tf4 (ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))))
-Prop: match (ZERO) with
+Prop: match (SUCC (ZERO)) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (tf4 (ZERO) (tf1 ((Nil)) ((Nil))))
-Prop: match (SUCC (SUCC (ZERO))) with
+Prop: match (ZERO) with
+| true -> ZERO
+| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((ZERO::(Nil))) ((ZERO::(Nil)))) = SUCC (tf4 (ZERO) (tf1 ((ZERO::(Nil))) ((ZERO::(Nil)))))
+Prop: match (ZERO) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (tf4 (ZERO) (tf1 ((Nil)) ((Nil))))
 previous tactics
@@ -255,10 +255,10 @@ Prop: match (ZERO) with
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (mainNew ((Nil)))
 Prop: match (ZERO) with
 | true -> ZERO
-| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((ZERO::(Nil))) ((ZERO::(Nil)))) = SUCC (mainNew ((ZERO::(Nil))))
-Prop: match (SUCC (ZERO)) with
+| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (mainNew ((Nil)))
+Prop: match (ZERO) with
 | true -> ZERO
-| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((ZERO::(SUCC (ZERO)::(Nil)))) ((ZERO::(SUCC (ZERO)::(Nil))))) = SUCC (mainNew ((ZERO::(SUCC (ZERO)::(Nil)))))
+| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (mainNew ((Nil)))
 Lemma List
 forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
@@ -711,10 +711,10 @@ validate generalize_common_subterm_goal
 Prop: match (ZERO) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
-Prop: match (SUCC (SUCC (ZERO))) with
+Prop: match (SUCC (ZERO)) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
-Prop: match (SUCC (ZERO)) with
+Prop: match (ZERO) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
 Lemma List
@@ -848,7 +848,7 @@ Prop: match (ZERO) with
 Prop: match (ZERO) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
-Prop: match (ZERO) with
+Prop: match (SUCC (SUCC (ZERO))) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
 Lemma List
@@ -1051,7 +1051,7 @@ match (nat1) with
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: match (ZERO) with
+Prop: match (SUCC (ZERO)) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
 Prop: match (ZERO) with
@@ -1180,7 +1180,7 @@ Prop: match (ZERO) with
 Prop: match (ZERO) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
-Prop: match (SUCC (SUCC (ZERO))) with
+Prop: match (ZERO) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
 =================================================
@@ -1266,13 +1266,13 @@ match (nat1) with
 3 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: match (SUCC (ZERO)) with
-| true -> ZERO
-| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
-Prop: match (SUCC (ZERO)) with
+Prop: match (ZERO) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
 Prop: match (ZERO) with
+| true -> ZERO
+| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
+Prop: match (SUCC (SUCC (ZERO))) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
 =================================================
@@ -1326,12 +1326,12 @@ Prop: match (ZERO) with
 | false -> true then plus (SUCC (ZERO)) (tf4 (ZERO) (tf1 ((Nil)) ((Nil)))) else ZERO
 Prop: match (ZERO) with
 | true -> ZERO
-| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = if match (ZERO) with
+| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(ZERO::(ZERO::(Nil)))))) = if match (ZERO) with
 | true -> false
-| false -> true then plus (SUCC (ZERO)) (tf4 (ZERO) (tf1 ((Nil)) ((Nil)))) else ZERO
-Prop: match (ZERO) with
+| false -> true then plus (SUCC (ZERO)) (tf4 (ZERO) (tf1 ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(ZERO::(ZERO::(Nil))))))) else ZERO
+Prop: match (SUCC (ZERO)) with
 | true -> ZERO
-| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = if match (ZERO) with
+| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = if match (SUCC (ZERO)) with
 | true -> false
 | false -> true then plus (SUCC (ZERO)) (tf4 (ZERO) (tf1 ((Nil)) ((Nil)))) else ZERO
 asdf
@@ -1340,14 +1340,14 @@ simpl in goal
 validate generalize_common_subterm_goal
 Prop: match (ZERO) with
 | true -> ZERO
+| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((ZERO::(Nil))) ((ZERO::(Nil)))) = if match (ZERO) with
+| true -> false
+| false -> true then plus (SUCC (ZERO)) (mainNew ((ZERO::(Nil)))) else ZERO
+Prop: match (ZERO) with
+| true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = if match (ZERO) with
 | true -> false
 | false -> true then plus (SUCC (ZERO)) (mainNew ((Nil))) else ZERO
-Prop: match (SUCC (ZERO)) with
-| true -> ZERO
-| false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((ZERO::(ZERO::(SUCC (ZERO)::(Nil))))) ((ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) = if match (SUCC (ZERO)) with
-| true -> false
-| false -> true then plus (SUCC (ZERO)) (mainNew ((ZERO::(ZERO::(SUCC (ZERO)::(Nil)))))) else ZERO
 Prop: match (ZERO) with
 | true -> ZERO
 | false -> tf4 (plus (SUCC (ZERO)) (ZERO)) (tf1 ((Nil)) ((Nil))) = if match (ZERO) with
@@ -1356,5 +1356,5 @@ Prop: match (ZERO) with
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

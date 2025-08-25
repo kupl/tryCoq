@@ -198,8 +198,8 @@ validate generalize_common_subterm_goal
 Prop: tsum (tf3 (tri ((Nil)))) = plus (match (triNew ((Nil))) with
 | Tuple2 a _ -> a) (match (triNew ((Nil))) with
 | Tuple2 _ b -> b)
-Prop: tsum (tf3 (tri ((ZERO::(Nil))))) = plus (match (triNew ((ZERO::(Nil)))) with
-| Tuple2 a _ -> a) (match (triNew ((ZERO::(Nil)))) with
+Prop: tsum (tf3 (tri ((SUCC (ZERO)::(ZERO::(Nil)))))) = plus (match (triNew ((SUCC (ZERO)::(ZERO::(Nil))))) with
+| Tuple2 a _ -> a) (match (triNew ((SUCC (ZERO)::(ZERO::(Nil))))) with
 | Tuple2 _ b -> b)
 Prop: tsum (tf3 (tri ((Nil)))) = plus (match (triNew ((Nil))) with
 | Tuple2 a _ -> a) (match (triNew ((Nil))) with
@@ -472,17 +472,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (plus (ZERO) (ZERO)) = plus (plus (times (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (plus (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (ZERO))) (SUCC (ZERO))) (plus (ZERO) (ZERO)) = plus (plus (times (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)) (plus (SUCC (ZERO)) (ZERO)) = plus (plus (times (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) (ZERO)
 Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (ZERO)) (plus (ZERO) (ZERO)) = plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)
-validate generalize_common_subterm_goal
-Prop: plus (times (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)) (plus (ZERO) (ZERO)) = plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (plus (ZERO) (ZERO)) = plus (plus (times (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (plus (ZERO) (ZERO)) = plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (plus (tsum (Pnil)) (ZERO)) = plus (plus (times (ZERO) (SUCC (ZERO))) (tsum (Pnil))) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (ZERO)) (plus (tsum (Pnil)) (ZERO)) = plus (plus (times (ZERO) (ZERO)) (tsum (Pnil))) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (SUCC (ZERO)))) (plus (tsum (Pnil)) (ZERO)) = plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (tsum (Pnil))) (ZERO)
-asdf
+Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (ZERO)) (plus (SUCC (ZERO)) (ZERO)) = plus (plus (times (ZERO) (ZERO)) (SUCC (ZERO))) (ZERO)
 previous tactics
 simpl in goal
 parent
@@ -522,11 +514,12 @@ times(nat1, nat2)
 remove lower
 times(nat1, nat2)
 validate generalize_common_subterm_goal
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (ZERO)) (tsum (tf3 (Pnil))) = plus (plus (times (ZERO) (ZERO)) (tsum (Pnil))) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (ZERO)) (tsum (tf3 (Pnil))) = plus (plus (times (ZERO) (ZERO)) (tsum (Pnil))) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (ZERO)) (tsum (tf3 (Pnil))) = plus (plus (times (ZERO) (ZERO)) (tsum (Pnil))) (ZERO)
+Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (SUCC (ZERO)))) (tsum (tf3 (Pcons (ZERO) (ZERO) (Pnil)))) = plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (tsum (Pcons (ZERO) (ZERO) (Pnil)))) (ZERO)
+Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (tsum (tf3 (Pcons (ZERO) (SUCC (ZERO)) (Pnil)))) = plus (plus (times (ZERO) (SUCC (ZERO))) (tsum (Pcons (ZERO) (SUCC (ZERO)) (Pnil)))) (ZERO)
+Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (tsum (tf3 (Pnil))) = plus (plus (times (ZERO) (SUCC (ZERO))) (tsum (Pnil))) (ZERO)
+asdf
 Lemma List
-forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
+forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
 End of Lemma List
 
 
@@ -541,7 +534,7 @@ plist2 : plist
 IH1 : tsum (tf3 (plist2)) = plus (tsum (plist2)) (ZERO)
 Inductive1 : plist1 = Pcons (nat1) (nat2) (plist2)
 ---------------------------------------
-plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist2))) = plus (plus (times (nat1) (nat2)) (tsum (plist2))) (ZERO)
+plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (plus (tsum (plist2)) (ZERO)) = plus (plus (times (nat1) (nat2)) (tsum (plist2))) (ZERO)
 
 1 goal(s) more...
 
@@ -561,18 +554,18 @@ plist2 : plist
 IH1 : tsum (tf3 (plist2)) = plus (tsum (plist2)) (ZERO)
 Inductive1 : plist1 = Pcons (nat1) (nat2) (plist2)
 ---------------------------------------
-plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist2))) = plus (plus (times (nat1) (nat2)) (tsum (plist2))) (ZERO)
+plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (plus (tsum (plist2)) (ZERO)) = plus (plus (times (nat1) (nat2)) (tsum (plist2))) (ZERO)
 
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)(rank : 0.)
+>>> assert forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)(rank : 0.)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
+forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
 
 0 goal(s) more...
 
@@ -583,10 +576,10 @@ induction nat1(rank:8.)
 Progress: 15
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
+forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
 
 0 goal(s) more...
 
@@ -594,11 +587,11 @@ forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZER
 >>> induction nat1(rank : 8.)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
 nat1 : nat
 Base1 : nat1 = ZERO
 ---------------------------------------
-forall (nat2:nat) (plist1:plist), plus (times (plus (ZERO) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (ZERO) (nat2)) (tsum (plist1))) (ZERO)
+forall (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (ZERO) (ZERO)) = plus (plus (times (nat2) (nat3)) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -609,11 +602,11 @@ simpl in goal(rank:8.)
 Progress: 16
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
 nat1 : nat
 Base1 : nat1 = ZERO
 ---------------------------------------
-forall (nat2:nat) (plist1:plist), plus (times (plus (ZERO) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (ZERO) (nat2)) (tsum (plist1))) (ZERO)
+forall (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (ZERO) (ZERO)) = plus (plus (times (nat2) (nat3)) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
@@ -621,20 +614,237 @@ forall (nat2:nat) (plist1:plist), plus (times (plus (ZERO) (SUCC (ZERO))) (nat2)
 >>> simpl in goal(rank : 8.)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
 nat1 : nat
 Base1 : nat1 = ZERO
 ---------------------------------------
-forall (nat2:nat) (plist1:plist), plus (nat2) (tsum (tf3 (plist1))) = plus (tsum (plist1)) (ZERO)
+forall (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (ZERO) = plus (plus (times (nat2) (nat3)) (ZERO)) (ZERO)
 
 1 goal(s) more...
 
 2 conjecture(s) more...
-Tactic List : 2
-induction nat2(rank:17.)
-induction plist1(rank:17.)
+Tactic List : 1
+induction nat2(rank:9.)
 =================================================
 Progress: 17
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+---------------------------------------
+forall (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (ZERO) = plus (plus (times (nat2) (nat3)) (ZERO)) (ZERO)
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction nat2(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+---------------------------------------
+forall (nat3:nat), plus (times (plus (ZERO) (SUCC (ZERO))) (nat3)) (ZERO) = plus (plus (times (ZERO) (nat3)) (ZERO)) (ZERO)
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:9.)
+=================================================
+Progress: 18
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+---------------------------------------
+forall (nat3:nat), plus (times (plus (ZERO) (SUCC (ZERO))) (nat3)) (ZERO) = plus (plus (times (ZERO) (nat3)) (ZERO)) (ZERO)
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+---------------------------------------
+forall (nat3:nat), plus (nat3) (ZERO) = ZERO
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+induction nat3(rank:10.)
+=================================================
+Progress: 19
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+---------------------------------------
+forall (nat3:nat), plus (nat3) (ZERO) = ZERO
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> induction nat3(rank : 10.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+nat3 : nat
+Base3 : nat3 = ZERO
+---------------------------------------
+plus (ZERO) (ZERO) = ZERO
+
+3 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:9.)
+=================================================
+Progress: 20
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+nat3 : nat
+Base3 : nat3 = ZERO
+---------------------------------------
+plus (ZERO) (ZERO) = ZERO
+
+3 goal(s) more...
+
+2 conjecture(s) more...
+>>> reflexivity(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+nat3 : nat
+nat4 : nat
+IH1 : plus (nat4) (ZERO) = ZERO
+Inductive1 : nat3 = SUCC (nat4)
+---------------------------------------
+plus (SUCC (nat4)) (ZERO) = ZERO
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:9.)
+=================================================
+Progress: 21
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+nat3 : nat
+nat4 : nat
+IH1 : plus (nat4) (ZERO) = ZERO
+Inductive1 : nat3 = SUCC (nat4)
+---------------------------------------
+plus (SUCC (nat4)) (ZERO) = ZERO
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> simpl in goal(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+nat3 : nat
+nat4 : nat
+IH1 : plus (nat4) (ZERO) = ZERO
+Inductive1 : nat3 = SUCC (nat4)
+---------------------------------------
+SUCC (plus (nat4) (ZERO)) = ZERO
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:9.)
+=================================================
+Progress: 22
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+nat3 : nat
+nat4 : nat
+IH1 : plus (nat4) (ZERO) = ZERO
+Inductive1 : nat3 = SUCC (nat4)
+---------------------------------------
+SUCC (plus (nat4) (ZERO)) = ZERO
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat3:nat), plus (times (plus (nat2) (SUCC (ZERO))) (nat3)) (plus (nat1) (ZERO)) = plus (plus (times (nat2) (nat3)) (nat1)) (ZERO)
+nat1 : nat
+Base1 : nat1 = ZERO
+nat2 : nat
+Base2 : nat2 = ZERO
+nat3 : nat
+nat4 : nat
+IH1 : plus (nat4) (ZERO) = ZERO
+Inductive1 : nat3 = SUCC (nat4)
+---------------------------------------
+SUCC (ZERO) = ZERO
+
+2 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite IH1 in goal at 0
+previous tactics
+simpl in goal
+validate generalize_common_subterm_goal
+Prop: SUCC (plus (ZERO) (ZERO)) = ZERO
+Prop: SUCC (plus (ZERO) (ZERO)) = ZERO
+Prop: SUCC (plus (ZERO) (ZERO)) = ZERO
+asdf
+=================================================
+Progress: 23
 
 
 1st goal of : forall (plist1:plist) (nat_list1:nat list), tsum (tf3 (plist1)) = plus (tsum (plist1)) (match (triNew (nat_list1)) with
@@ -664,7 +874,7 @@ forall (nat_list1:nat list), tsum (tf3 (Pnil)) = plus (tsum (Pnil)) (match (triN
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 18
+Progress: 24
 
 
 1st goal of : forall (plist1:plist) (nat_list1:nat list), tsum (tf3 (plist1)) = plus (tsum (plist1)) (match (triNew (nat_list1)) with
@@ -695,7 +905,7 @@ forall (nat_list1:nat list), ZERO = match (triNew (nat_list1)) with
 Tactic List : 1
 induction nat_list1(rank:7.)
 =================================================
-Progress: 19
+Progress: 25
 
 
 1st goal of : forall (plist1:plist) (nat_list1:nat list), tsum (tf3 (plist1)) = plus (tsum (plist1)) (match (triNew (nat_list1)) with
@@ -728,7 +938,7 @@ ZERO = match (triNew ((Nil))) with
 Tactic List : 1
 reflexivity(rank:6.)
 =================================================
-Progress: 20
+Progress: 26
 
 
 1st goal of : forall (plist1:plist) (nat_list1:nat list), tsum (tf3 (plist1)) = plus (tsum (plist1)) (match (triNew (nat_list1)) with
@@ -768,7 +978,7 @@ Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 21
+Progress: 27
 
 
 1st goal of : forall (plist1:plist) (nat_list1:nat list), tsum (tf3 (plist1)) = plus (tsum (plist1)) (match (triNew (nat_list1)) with
@@ -812,7 +1022,7 @@ Tactic List : 2
 rewrite IH1 in goal at 0(rank:14.)
 rewrite <- IH1 in goal at 0(rank:14.)
 =================================================
-Progress: 22
+Progress: 28
 
 
 1st goal of : forall (plist1:plist) (nat_list1:nat list), tsum (tf3 (plist1)) = plus (tsum (plist1)) (match (triNew (nat_list1)) with
@@ -857,22 +1067,22 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
+Prop: 6 = plus (6) (SUCC (ZERO))
+Prop: 0 = plus (0) (ZERO)
 Prop: 5 = plus (5) (ZERO)
-Prop: 0 = plus (0) (SUCC (SUCC (ZERO)))
-Prop: 8 = plus (8) (ZERO)
 validate generalize_common_subterm_goal
-Prop: 1 = plus (1) (ZERO)
-Prop: 6 = plus (6) (SUCC (SUCC (SUCC (ZERO))))
-Prop: 2 = plus (2) (ZERO)
-Prop: match (triNew ((Nil))) with
-| Tuple2 _ b -> b = plus (match (triNew ((Nil))) with
-| Tuple2 _ b -> b) (SUCC (SUCC (SUCC (ZERO))))
-Prop: match (triNew ((Nil))) with
-| Tuple2 _ b -> b = plus (match (triNew ((Nil))) with
-| Tuple2 _ b -> b) (SUCC (ZERO))
+Prop: 0 = plus (0) (ZERO)
+Prop: 5 = plus (5) (ZERO)
+Prop: 0 = plus (0) (ZERO)
+Prop: match (triNew ((SUCC (ZERO)::(Nil)))) with
+| Tuple2 _ b -> b = plus (match (triNew ((SUCC (ZERO)::(Nil)))) with
+| Tuple2 _ b -> b) (ZERO)
 Prop: match (triNew ((Nil))) with
 | Tuple2 _ b -> b = plus (match (triNew ((Nil))) with
 | Tuple2 _ b -> b) (ZERO)
+Prop: match (triNew ((Nil))) with
+| Tuple2 _ b -> b = plus (match (triNew ((Nil))) with
+| Tuple2 _ b -> b) (SUCC (SUCC (ZERO)))
 asdf
 previous tactics
 simpl in goal
@@ -888,13 +1098,13 @@ _
 validate generalize_common_subterm_goal
 Prop: ZERO = plus (match (triNew ((Nil))) with
 | Tuple2 _ b -> b) (ZERO)
-Prop: ZERO = plus (match (triNew ((SUCC (ZERO)::(Nil)))) with
-| Tuple2 _ b -> b) (SUCC (SUCC (ZERO)))
-Prop: ZERO = plus (match (triNew ((Nil))) with
+Prop: ZERO = plus (match (triNew ((ZERO::(Nil)))) with
 | Tuple2 _ b -> b) (SUCC (ZERO))
+Prop: ZERO = plus (match (triNew ((SUCC (SUCC (ZERO))::(Nil)))) with
+| Tuple2 _ b -> b) (ZERO)
 asdf
 =================================================
-Progress: 23
+Progress: 29
 
 
 1st goal of : forall (plist1:plist) (nat_list1:nat list), tsum (tf3 (plist1)) = plus (tsum (plist1)) (match (triNew (nat_list1)) with
@@ -936,7 +1146,7 @@ ZERO = plus (ZERO) (nat1)
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 24
+Progress: 30
 
 
 1st goal of : forall (plist1:plist) (nat_list1:nat list), tsum (tf3 (plist1)) = plus (tsum (plist1)) (match (triNew (nat_list1)) with
@@ -977,7 +1187,7 @@ ZERO = nat1
 Tactic List : 1
 rewrite IH1 in goal at 0(rank:6.)
 =================================================
-Progress: 25
+Progress: 31
 
 
 1st goal of : forall (plist1:plist) (nat_list1:nat list), tsum (tf3 (plist1)) = plus (tsum (plist1)) (match (triNew (nat_list1)) with
@@ -1023,8 +1233,8 @@ rewrite <- IH1 in goal at 0
 simpl in goal
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: match (triNew ((SUCC (SUCC (ZERO))::(Nil)))) with
-| Tuple2 _ b -> b = SUCC (ZERO)
+Prop: match (triNew ((SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) with
+| Tuple2 _ b -> b = SUCC (SUCC (SUCC (ZERO)))
 Prop: match (triNew ((Nil))) with
 | Tuple2 _ b -> b = ZERO
 Prop: match (triNew ((Nil))) with
@@ -1035,504 +1245,11 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: ZERO = SUCC (ZERO)
 Prop: ZERO = ZERO
+Prop: ZERO = SUCC (SUCC (ZERO))
 Prop: ZERO = ZERO
-asdf
-=================================================
-Progress: 26
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
----------------------------------------
-forall (nat2:nat) (plist1:plist), plus (nat2) (tsum (tf3 (plist1))) = plus (tsum (plist1)) (ZERO)
-
-1 goal(s) more...
-
-2 conjecture(s) more...
->>> induction nat2(rank : 17.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
----------------------------------------
-forall (plist1:plist), plus (ZERO) (tsum (tf3 (plist1))) = plus (tsum (plist1)) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:9.)
-=================================================
-Progress: 27
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
----------------------------------------
-forall (plist1:plist), plus (ZERO) (tsum (tf3 (plist1))) = plus (tsum (plist1)) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
->>> simpl in goal(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
----------------------------------------
-forall (plist1:plist), tsum (tf3 (plist1)) = plus (tsum (plist1)) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-induction plist1(rank:10.)
-=================================================
-Progress: 28
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
----------------------------------------
-forall (plist1:plist), tsum (tf3 (plist1)) = plus (tsum (plist1)) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
->>> induction plist1(rank : 10.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
-plist1 : plist
-Base3 : plist1 = Pnil
----------------------------------------
-tsum (tf3 (Pnil)) = plus (tsum (Pnil)) (ZERO)
-
-3 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:9.)
-=================================================
-Progress: 29
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
-plist1 : plist
-Base3 : plist1 = Pnil
----------------------------------------
-tsum (tf3 (Pnil)) = plus (tsum (Pnil)) (ZERO)
-
-3 goal(s) more...
-
-2 conjecture(s) more...
->>> reflexivity(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
-plist1 : plist
-nat3 : nat
-nat4 : nat
-plist2 : plist
-IH1 : tsum (tf3 (plist2)) = plus (tsum (plist2)) (ZERO)
-Inductive1 : plist1 = Pcons (nat3) (nat4) (plist2)
----------------------------------------
-tsum (tf3 (Pcons (nat3) (nat4) (plist2))) = plus (tsum (Pcons (nat3) (nat4) (plist2))) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Deduplication: 0
-Tactic List : 1
-simpl in goal(rank:9.)
-=================================================
-Progress: 30
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
-plist1 : plist
-nat3 : nat
-nat4 : nat
-plist2 : plist
-IH1 : tsum (tf3 (plist2)) = plus (tsum (plist2)) (ZERO)
-Inductive1 : plist1 = Pcons (nat3) (nat4) (plist2)
----------------------------------------
-tsum (tf3 (Pcons (nat3) (nat4) (plist2))) = plus (tsum (Pcons (nat3) (nat4) (plist2))) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
->>> simpl in goal(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
-plist1 : plist
-nat3 : nat
-nat4 : nat
-plist2 : plist
-IH1 : tsum (tf3 (plist2)) = plus (tsum (plist2)) (ZERO)
-Inductive1 : plist1 = Pcons (nat3) (nat4) (plist2)
----------------------------------------
-plus (times (plus (nat3) (SUCC (ZERO))) (nat4)) (tsum (tf3 (plist2))) = plus (plus (times (nat3) (nat4)) (tsum (plist2))) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:9.)
-=================================================
-Progress: 31
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
-plist1 : plist
-nat3 : nat
-nat4 : nat
-plist2 : plist
-IH1 : tsum (tf3 (plist2)) = plus (tsum (plist2)) (ZERO)
-Inductive1 : plist1 = Pcons (nat3) (nat4) (plist2)
----------------------------------------
-plus (times (plus (nat3) (SUCC (ZERO))) (nat4)) (tsum (tf3 (plist2))) = plus (plus (times (nat3) (nat4)) (tsum (plist2))) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-nat2 : nat
-Base2 : nat2 = ZERO
-plist1 : plist
-nat3 : nat
-nat4 : nat
-plist2 : plist
-IH1 : tsum (tf3 (plist2)) = plus (tsum (plist2)) (ZERO)
-Inductive1 : plist1 = Pcons (nat3) (nat4) (plist2)
----------------------------------------
-plus (times (plus (nat3) (SUCC (ZERO))) (nat4)) (plus (tsum (plist2)) (ZERO)) = plus (plus (times (nat3) (nat4)) (tsum (plist2))) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-rewrite IH1 in goal at 0
-Prop: plus (times (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO))))) (plus (ZERO) (ZERO)) = plus (plus (times (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) (ZERO)) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (plus (SUCC (ZERO)) (ZERO)) = plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (plus (ZERO) (ZERO)) = plus (plus (times (ZERO) (SUCC (ZERO))) (ZERO)) (ZERO)
-validate generalize_common_subterm_goal
-Prop: plus (times (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (plus (ZERO) (ZERO)) = plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)) (plus (ZERO) (ZERO)) = plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (plus (SUCC (SUCC (SUCC (SUCC (ZERO))))) (ZERO)) = plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (ZERO)) (plus (tsum (Pnil)) (ZERO)) = plus (plus (times (ZERO) (ZERO)) (tsum (Pnil))) (ZERO)
-Prop: plus (times (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (plus (tsum (Pnil)) (ZERO)) = plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (tsum (Pnil))) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (ZERO)) (plus (tsum (Pnil)) (ZERO)) = plus (plus (times (ZERO) (ZERO)) (tsum (Pnil))) (ZERO)
-asdf
-previous tactics
-simpl in goal
-parent
-plus (nat3) (SUCC (ZERO))
-lower
-plus(_, SUCC(ZERO()))
-upper
-plus(times(_, nat4), tsum(tf3(plist2)))
-remove upper
-plus(nat3, SUCC(ZERO()))
-remove lower
-plus(nat3, SUCC(ZERO()))
-remove upper
-plus(nat3, SUCC(ZERO()))
-remove lower
-plus(nat3, SUCC(ZERO()))
-remove upper
-plus(nat3, SUCC(ZERO()))
-remove lower
-plus(nat3, SUCC(ZERO()))
-parent
-times (nat3) (nat4)
-lower
-times(_, nat4)
-upper
-plus(plus(_, tsum(plist2)), ZERO())
-remove upper
-times(nat3, nat4)
-remove lower
-times(nat3, nat4)
-remove upper
-times(nat3, nat4)
-remove lower
-times(nat3, nat4)
-remove upper
-times(nat3, nat4)
-remove lower
-times(nat3, nat4)
-validate generalize_common_subterm_goal
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (ZERO)) (tsum (tf3 (Pcons (ZERO) (SUCC (ZERO)) (Pnil)))) = plus (plus (times (ZERO) (ZERO)) (tsum (Pcons (ZERO) (SUCC (ZERO)) (Pnil)))) (ZERO)
-Prop: plus (times (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (tsum (tf3 (Pnil))) = plus (plus (times (ZERO) (SUCC (ZERO))) (tsum (Pnil))) (ZERO)
-Prop: plus (times (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (tsum (tf3 (Pcons (SUCC (SUCC (ZERO))) (ZERO) (Pnil)))) = plus (plus (times (SUCC (SUCC (ZERO))) (ZERO)) (tsum (Pcons (SUCC (SUCC (ZERO))) (ZERO) (Pnil)))) (ZERO)
-asdf
-=================================================
-Progress: 32
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
----------------------------------------
-forall (nat2:nat) (plist1:plist), plus (nat2) (tsum (tf3 (plist1))) = plus (tsum (plist1)) (ZERO)
-
-1 goal(s) more...
-
-2 conjecture(s) more...
->>> induction plist1(rank : 17.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
----------------------------------------
-forall (nat2:nat), plus (nat2) (tsum (tf3 (Pnil))) = plus (tsum (Pnil)) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:9.)
-=================================================
-Progress: 33
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
----------------------------------------
-forall (nat2:nat), plus (nat2) (tsum (tf3 (Pnil))) = plus (tsum (Pnil)) (ZERO)
-
-2 goal(s) more...
-
-2 conjecture(s) more...
->>> simpl in goal(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
----------------------------------------
-forall (nat2:nat), plus (nat2) (ZERO) = ZERO
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-induction nat2(rank:10.)
-=================================================
-Progress: 34
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
----------------------------------------
-forall (nat2:nat), plus (nat2) (ZERO) = ZERO
-
-2 goal(s) more...
-
-2 conjecture(s) more...
->>> induction nat2(rank : 10.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
-nat2 : nat
-Base3 : nat2 = ZERO
----------------------------------------
-plus (ZERO) (ZERO) = ZERO
-
-3 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:9.)
-=================================================
-Progress: 35
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
-nat2 : nat
-Base3 : nat2 = ZERO
----------------------------------------
-plus (ZERO) (ZERO) = ZERO
-
-3 goal(s) more...
-
-2 conjecture(s) more...
->>> reflexivity(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
-nat2 : nat
-nat3 : nat
-IH1 : plus (nat3) (ZERO) = ZERO
-Inductive1 : nat2 = SUCC (nat3)
----------------------------------------
-plus (SUCC (nat3)) (ZERO) = ZERO
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Deduplication: 0
-Tactic List : 1
-simpl in goal(rank:9.)
-=================================================
-Progress: 36
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
-nat2 : nat
-nat3 : nat
-IH1 : plus (nat3) (ZERO) = ZERO
-Inductive1 : nat2 = SUCC (nat3)
----------------------------------------
-plus (SUCC (nat3)) (ZERO) = ZERO
-
-2 goal(s) more...
-
-2 conjecture(s) more...
->>> simpl in goal(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
-nat2 : nat
-nat3 : nat
-IH1 : plus (nat3) (ZERO) = ZERO
-Inductive1 : nat2 = SUCC (nat3)
----------------------------------------
-SUCC (plus (nat3) (ZERO)) = ZERO
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:9.)
-=================================================
-Progress: 37
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
-nat2 : nat
-nat3 : nat
-IH1 : plus (nat3) (ZERO) = ZERO
-Inductive1 : nat2 = SUCC (nat3)
----------------------------------------
-SUCC (plus (nat3) (ZERO)) = ZERO
-
-2 goal(s) more...
-
-2 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (plist1:plist), plus (times (plus (nat1) (SUCC (ZERO))) (nat2)) (tsum (tf3 (plist1))) = plus (plus (times (nat1) (nat2)) (tsum (plist1))) (ZERO)
-nat1 : nat
-Base1 : nat1 = ZERO
-plist1 : plist
-Base2 : plist1 = Pnil
-nat2 : nat
-nat3 : nat
-IH1 : plus (nat3) (ZERO) = ZERO
-Inductive1 : nat2 = SUCC (nat3)
----------------------------------------
-SUCC (ZERO) = ZERO
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-rewrite IH1 in goal at 0
-previous tactics
-simpl in goal
-validate generalize_common_subterm_goal
-Prop: SUCC (plus (SUCC (ZERO)) (ZERO)) = ZERO
-Prop: SUCC (plus (ZERO) (ZERO)) = ZERO
-Prop: SUCC (plus (SUCC (ZERO)) (ZERO)) = ZERO
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

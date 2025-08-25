@@ -162,7 +162,7 @@ let rec progress worklist statelist lemma_set =
          ^ ")")
     in
     let _ = Proof.pp_t work.next_t.t |> print_endline in
-    (* let _ = if i = 12 then loop work.next_t.t in *)
+    (* let _ = if i = 736 then loop work.next_t.t in *)
     (match work.next_t.t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof
      | _ ->
@@ -255,9 +255,8 @@ let rec progress worklist statelist lemma_set =
           progress new_worklist new_state_list new_lemma_set
         | false ->
           progress (Prover.WorkList.merge prev_worklist worklist) statelist lemma_set))
-;;
 
-let proof_auto definition axiom program_a program_b goal =
+and proof_auto definition axiom program_a program_b goal =
   let definition = Parser.parse definition in
   let program_a = Parser.parse program_a in
   let program_b = Parser.parse program_b in
@@ -288,9 +287,8 @@ let proof_auto definition axiom program_a program_b goal =
     List.iter print_endline (List.map Proof.pp_tactic proof);
     print_endline "Qed"
   | _, None -> print_endline "Fail"
-;;
 
-let rec loop ?(debug_tactic : Proof.debug_tactic option = None) t =
+and loop ?(debug_tactic : Proof.debug_tactic option = None) t =
   print_newline ();
   Proof.pp_t ~debug_tactic t |> print_endline;
   print_newline ();
@@ -328,9 +326,8 @@ let rec loop ?(debug_tactic : Proof.debug_tactic option = None) t =
     in
     (* let t = apply_tactic t env (parse_tactic t s env) in *)
     loop t
-;;
 
-let proof_top definition axiom program_a program_b =
+and proof_top definition axiom program_a program_b =
   let definition = Parser.parse definition in
   let program_a = Parser.parse program_a in
   let program_b = Parser.parse program_b in

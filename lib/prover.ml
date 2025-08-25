@@ -670,7 +670,7 @@ let rec is_if_then_else_in_expr src expr =
        (match e1.typ, case_list with
         | ( Talgebraic ("bool", [])
           , [ Ir.Case (Pat_Constr ("true", []), _); Case (Pat_Constr ("false", []), _) ] )
-          -> src = e1
+          -> src = e1 || is_if_then_else_in_expr src e1
         | _ ->
           List.exists (fun exp -> is_if_then_else_in_expr src exp) match_list
           || List.exists
@@ -782,7 +782,7 @@ let rec is_case_match_in_expr src expr =
   match expr.Ir.desc with
   | Ir.Match (match_list, case_list) ->
     (match match_list with
-     | [ e1 ] -> e1 = src
+     | [ e1 ] -> e1 = src || is_case_match_in_expr src e1
      | _ ->
        List.exists (fun exp -> is_case_match_in_expr src exp) match_list
        || List.exists
@@ -1249,6 +1249,25 @@ let rank_tactics
                              | _ -> false)
                           non_trivial
                       in
+                      let case_tactic =
+                        List.fold_left
+                          (fun acc (tactic, next_t) ->
+                             match tactic with
+                             | Proof.Case expr ->
+                               if
+                                 List.exists
+                                   (fun (tactic', _) ->
+                                      match tactic' with
+                                      | Proof.Case expr' ->
+                                        expr <> expr' && Ir.is_contained expr' expr
+                                      | _ -> false)
+                                   case_tactic
+                               then acc
+                               else (tactic, next_t) :: acc
+                             | _ -> acc)
+                          []
+                          case_tactic
+                      in
                       let rewrite_tactic =
                         List.filter
                           (fun (tactic, _) ->
@@ -1275,22 +1294,24 @@ let rank_tactics
                              case_tactic
                          in
                          (match common_case_tactic with
-                          | (common, next_t) :: _ ->
-                            ( [ { t
-                                ; tactic = common
-                                ; next_t
-                                ; rank = 0.
-                                ; order = order_counter ()
-                                }
-                              ]
-                            , stateset )
-                          | _ ->
+                          | [] ->
                             ( make_worklist
                                 t
                                 valid_tactics
                                 (rewrite_tactic @ case_tactic)
                                 stateset
                                 lemma_set
+                            , stateset )
+                          | _ ->
+                            ( List.map
+                                (fun (common, next_t) ->
+                                   { t
+                                   ; tactic = common
+                                   ; next_t
+                                   ; rank = 0.
+                                   ; order = order_counter ()
+                                   })
+                                common_case_tactic
                             , stateset )))
                     | hd :: _ ->
                       let facts, _, _ = Proof.get_first_state t.t in
@@ -1395,6 +1416,16 @@ let rank_tactics
     [ { t; tactic; next_t; rank = 0.; order = order_counter () } ], stateset
 ;;
 
+let get_cond_list t =
+  let conj_list = Proof.get_conj_list t in
+  match conj_list with
+  | (_, goal) :: _ ->
+    (match goal with
+     | Proof.Forall (_, Proof.Imply (cond_list, _)) -> cond_list
+     | _ -> [])
+  | _ -> []
+;;
+
 let prune_rank_worklist_update_state_list t candidates statelist lemma_set =
   let candidates = List.filter (fun c -> not (useless_rewrite c)) candidates in
   let new_worklist =
@@ -1425,7 +1456,13 @@ let prune_rank_worklist_update_state_list t candidates statelist lemma_set =
       (fun { t; tactic; next_t; rank; order } ->
          let conj_len = Proof.get_conj_list next_t.t |> List.length in
          let goal_len = Proof.get_goal_list next_t.t |> List.length in
-         let r = (8. *. rank) +. (2. *. float_of_int conj_len) +. float_of_int goal_len in
+         let cond_len = get_cond_list next_t.t |> List.length in
+         let r =
+           (8. *. rank)
+           +. (2. *. float_of_int conj_len)
+           +. float_of_int goal_len
+           +. (4. *. float_of_int (max 0 (cond_len - 1)))
+         in
          { t; tactic; next_t; rank = r; order })
       worklist
   in

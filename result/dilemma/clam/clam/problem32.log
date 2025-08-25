@@ -144,9 +144,9 @@ Cons(any1, Cons(any2, Cons(any3, any_list4)))
 remove lower
 Cons(any1, Cons(any2, Cons(any3, _)))
 validate generalize_common_subterm_goal
-Prop: rotate (len ((Nil))) (((Nil) @ (4::(Nil)))) = (4::(Nil))
-Prop: rotate (len ((Nil))) (((Nil) @ (2::(Nil)))) = (2::(Nil))
-Prop: rotate (len ((5::(Nil)))) (((5::(Nil)) @ (2::(Nil)))) = (2::(5::(Nil)))
+Prop: rotate (len ((Nil))) (((Nil) @ (6::(Nil)))) = (6::(Nil))
+Prop: rotate (len ((Nil))) (((Nil) @ (3::(Nil)))) = (3::(Nil))
+Prop: rotate (len ((Nil))) (((Nil) @ (7::(Nil)))) = (7::(Nil))
 Lemma List
 forall (any1:any) (any_list1:any list), rotate (len (any_list1)) ((any_list1 @ (any1::(Nil)))) = (any1::any_list1)
 End of Lemma List
@@ -356,16 +356,20 @@ previous tactics
 simpl in goal
 intro any1
 rewrite <- IH1 in goal at 0
-Prop: rotate (ZERO) ((((Nil) @ (0::(Nil))) @ (Nil))) = (0::rotate (ZERO) (((Nil) @ (Nil))))
-Prop: rotate (ZERO) ((((6::(Nil)) @ (6::(Nil))) @ (Nil))) = (6::rotate (ZERO) (((6::(Nil)) @ (Nil))))
-Prop: rotate (ZERO) ((((Nil) @ (8::(Nil))) @ (4::(Nil)))) = (8::rotate (ZERO) (((Nil) @ (4::(Nil)))))
+Prop: rotate (ZERO) ((((Nil) @ (4::(Nil))) @ (Nil))) = (4::rotate (ZERO) (((Nil) @ (Nil))))
+Prop: rotate (SUCC (ZERO)) ((((0::(8::(Nil))) @ (0::(Nil))) @ (Nil))) = (0::rotate (SUCC (ZERO)) (((0::(8::(Nil))) @ (Nil))))
+Prop: rotate (ZERO) ((((Nil) @ (3::(Nil))) @ (Nil))) = (3::rotate (ZERO) (((Nil) @ (Nil))))
+validate generalize_common_subterm_goal
+Prop: rotate (ZERO) ((((Nil) @ (3::(Nil))) @ (Nil))) = (3::rotate (ZERO) (((Nil) @ (Nil))))
+Prop: rotate (ZERO) ((((Nil) @ (4::(Nil))) @ (Nil))) = (4::rotate (ZERO) (((Nil) @ (Nil))))
+Prop: rotate (SUCC (ZERO)) ((((Nil) @ (4::(Nil))) @ (Nil))) = (4::rotate (SUCC (ZERO)) (((Nil) @ (Nil))))
 previous tactics
 simpl in goal
 intro any1
 validate generalize_common_subterm_goal
-Prop: rotate (len ((Nil))) ((((Nil) @ (1::(Nil))) @ (2::(Nil)))) = (1::(2::(Nil)))
-Prop: rotate (len ((2::(2::(Nil))))) ((((2::(2::(Nil))) @ (5::(Nil))) @ (2::(Nil)))) = (5::(2::(2::(2::(Nil)))))
-Prop: rotate (len ((8::(Nil)))) ((((8::(Nil)) @ (0::(Nil))) @ (7::(Nil)))) = (0::(7::(8::(Nil))))
+Prop: rotate (len ((Nil))) ((((Nil) @ (3::(Nil))) @ (3::(Nil)))) = (3::(3::(Nil)))
+Prop: rotate (len ((Nil))) ((((Nil) @ (3::(Nil))) @ (1::(Nil)))) = (3::(1::(Nil)))
+Prop: rotate (len ((8::(Nil)))) ((((8::(Nil)) @ (0::(Nil))) @ (1::(Nil)))) = (0::(1::(8::(Nil))))
 Lemma List
 forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
 End of Lemma List
@@ -692,15 +696,15 @@ simpl in goal
 intro any1
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: (2::rotate (SUCC (SUCC (ZERO))) ((Nil))) = (2::(Nil))
-Prop: (7::rotate (ZERO) ((Nil))) = (7::(Nil))
-Prop: (5::rotate (ZERO) ((Nil))) = (5::(Nil))
+Prop: (8::rotate (SUCC (SUCC (ZERO))) ((Nil))) = (8::(Nil))
+Prop: (8::rotate (ZERO) ((Nil))) = (8::(Nil))
+Prop: (0::rotate (ZERO) ((Nil))) = (0::(Nil))
 previous tactics
 simpl in goal
 intro any1
-Prop: rotate (SUCC (ZERO)) ((Nil)) = (Nil)
 Prop: rotate (ZERO) ((Nil)) = (Nil)
-Prop: rotate (ZERO) ((3::(0::(Nil)))) = (3::(0::(Nil)))
+Prop: rotate (SUCC (SUCC (ZERO))) ((Nil)) = (Nil)
+Prop: rotate (ZERO) ((Nil)) = (Nil)
 Lemma List
 forall (any_list1:any list) (nat1:nat), rotate (nat1) (any_list1) = any_list1
 End of Lemma List
@@ -791,13 +795,13 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-Prop: rotate (ZERO) ((((Nil) @ (0::(Nil))) @ (Nil))) = (0::rotate (ZERO) (((Nil) @ (Nil))))
-Prop: rotate (ZERO) ((((Nil) @ (8::(Nil))) @ (3::(Nil)))) = (8::rotate (ZERO) (((Nil) @ (3::(Nil)))))
-Prop: rotate (ZERO) ((((3::(Nil)) @ (2::(Nil))) @ (Nil))) = (2::rotate (ZERO) (((3::(Nil)) @ (Nil))))
+Prop: rotate (ZERO) ((((2::(Nil)) @ (0::(Nil))) @ (Nil))) = (0::rotate (ZERO) (((2::(Nil)) @ (Nil))))
+Prop: rotate (ZERO) ((((7::(2::(Nil))) @ (8::(Nil))) @ (2::(6::(Nil))))) = (8::rotate (ZERO) (((7::(2::(Nil))) @ (2::(6::(Nil))))))
+Prop: rotate (SUCC (SUCC (ZERO))) ((((Nil) @ (8::(Nil))) @ (Nil))) = (8::rotate (SUCC (SUCC (ZERO))) (((Nil) @ (Nil))))
 validate generalize_common_subterm_goal
 Prop: rotate (ZERO) ((((Nil) @ (2::(Nil))) @ (Nil))) = (2::rotate (ZERO) (((Nil) @ (Nil))))
-Prop: rotate (SUCC (ZERO)) ((((Nil) @ (0::(Nil))) @ (Nil))) = (0::rotate (SUCC (ZERO)) (((Nil) @ (Nil))))
-Prop: rotate (SUCC (ZERO)) ((((Nil) @ (1::(Nil))) @ (Nil))) = (1::rotate (SUCC (ZERO)) (((Nil) @ (Nil))))
+Prop: rotate (ZERO) ((((5::(Nil)) @ (5::(Nil))) @ (Nil))) = (5::rotate (ZERO) (((5::(Nil)) @ (Nil))))
+Prop: rotate (ZERO) ((((Nil) @ (5::(Nil))) @ (Nil))) = (5::rotate (ZERO) (((Nil) @ (Nil))))
 previous tactics
 simpl in goal
 parent
@@ -833,9 +837,9 @@ Cons(any2, Cons(any3, Cons(any4, any_list4)))
 remove lower
 Cons(any2, Cons(any3, Cons(any4, _)))
 validate generalize_common_subterm_goal
-Prop: rotate (len ((Nil))) ((((Nil) @ (7::(Nil))) @ (5::(Nil)))) = (7::(5::(Nil)))
-Prop: rotate (len ((Nil))) ((((Nil) @ (3::(Nil))) @ (8::(Nil)))) = (3::(8::(Nil)))
-Prop: rotate (len ((Nil))) ((((Nil) @ (7::(Nil))) @ (7::(Nil)))) = (7::(7::(Nil)))
+Prop: rotate (len ((Nil))) ((((Nil) @ (8::(Nil))) @ (3::(Nil)))) = (8::(3::(Nil)))
+Prop: rotate (len ((Nil))) ((((Nil) @ (0::(Nil))) @ (1::(Nil)))) = (0::(1::(Nil)))
+Prop: rotate (len ((5::(Nil)))) ((((5::(Nil)) @ (3::(Nil))) @ (5::(Nil)))) = (3::(5::(5::(Nil))))
 =================================================
 Progress: 22
 
@@ -1078,9 +1082,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: rotate (ZERO) (((2::(Nil)) @ (8::(Nil)))) = (8::(2::(Nil)))
-Prop: rotate (SUCC (ZERO)) (((Nil) @ (3::(Nil)))) = (3::(Nil))
-Prop: rotate (ZERO) (((1::(Nil)) @ (4::(Nil)))) = (4::(1::(Nil)))
+Prop: rotate (ZERO) (((2::(2::(Nil))) @ (5::(Nil)))) = (5::(2::(2::(Nil))))
+Prop: rotate (ZERO) (((Nil) @ (2::(Nil)))) = (2::(Nil))
+Prop: rotate (ZERO) (((Nil) @ (7::(Nil)))) = (7::(Nil))
 asdf
 =================================================
 Progress: 29
@@ -1295,10 +1299,9 @@ previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: ((Nil) @ (4::(Nil))) = (4::(Nil))
-Prop: ((0::(Nil)) @ (0::(Nil))) = (0::(0::(Nil)))
-Prop: ((Nil) @ (2::(Nil))) = (2::(Nil))
-asdf
+Prop: ((Nil) @ (8::(Nil))) = (8::(Nil))
+Prop: ((Nil) @ (5::(Nil))) = (5::(Nil))
+Prop: ((6::(Nil)) @ (6::(Nil))) = (6::(6::(Nil)))
 previous tactics
 simpl in goal
 parent
@@ -1334,12 +1337,491 @@ Cons(any1, Cons(any2, Cons(any3, any_list4)))
 remove lower
 Cons(any1, Cons(any2, Cons(any3, _)))
 validate generalize_common_subterm_goal
-Prop: rotate (SUCC (SUCC (SUCC (ZERO)))) (((2::(4::(Nil))) @ (2::(Nil)))) = (2::(2::(4::(Nil))))
-Prop: rotate (ZERO) (((3::(0::(Nil))) @ (8::(Nil)))) = (8::(3::(0::(Nil))))
 Prop: rotate (ZERO) (((Nil) @ (6::(Nil)))) = (6::(Nil))
+Prop: rotate (ZERO) (((Nil) @ (8::(Nil)))) = (8::(Nil))
+Prop: rotate (SUCC (SUCC (ZERO))) (((7::(Nil)) @ (0::(Nil)))) = (0::(7::(Nil)))
 asdf
+Lemma List
+forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+End of Lemma List
+
+
+1st goal of : forall (any_list1:any list) (nat1:nat), rotate (nat1) (any_list1) = any_list1
+nat1 : nat
+nat2 : nat
+IH1 : forall (any_list1:any list), rotate (nat2) (any_list1) = any_list1
+Inductive1 : nat1 = SUCC (nat2)
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH2 : rotate (SUCC (nat2)) (any_list2) = any_list2
+Inductive2 : any_list1 = (any1::any_list2)
+---------------------------------------
+(any_list2 @ (any1::(Nil))) = (any1::any_list2)
+
+0 goal(s) more...
+
+3 conjecture(s) more...
 =================================================
 Progress: 35
+
+
+1st goal of : forall (any_list1:any list) (nat1:nat), rotate (nat1) (any_list1) = any_list1
+nat1 : nat
+nat2 : nat
+IH1 : forall (any_list1:any list), rotate (nat2) (any_list1) = any_list1
+Inductive1 : nat1 = SUCC (nat2)
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH2 : rotate (SUCC (nat2)) (any_list2) = any_list2
+Inductive2 : any_list1 = (any1::any_list2)
+---------------------------------------
+(any_list2 @ (any1::(Nil))) = (any1::any_list2)
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> assert forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)(rank : 0.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+induction any_list1(rank:12.)
+=================================================
+Progress: 36
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+
+---------------------------------------
+forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> induction any_list1(rank : 12.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), ((Nil) @ (any1::(Nil))) = (any1::(Nil))
+
+1 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:11.)
+=================================================
+Progress: 37
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+Base1 : any_list1 = (Nil)
+---------------------------------------
+forall (any1:any), ((Nil) @ (any1::(Nil))) = (any1::(Nil))
+
+1 goal(s) more...
+
+4 conjecture(s) more...
+>>> reflexivity(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), ((any2::any_list2) @ (any1::(Nil))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Deduplication: 0
+Tactic List : 1
+simpl in goal(rank:11.)
+=================================================
+Progress: 38
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), ((any2::any_list2) @ (any1::(Nil))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> simpl in goal(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (any2::(any_list2 @ (any1::(Nil)))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 3
+intro any1(rank:11.)
+rewrite IH1 in goal at 0(rank:19.)
+rewrite <- IH1 in goal at 0(rank:19.)
+=================================================
+Progress: 39
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (any2::(any_list2 @ (any1::(Nil)))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any1(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(any2::(any_list2 @ (any1::(Nil)))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 2
+rewrite IH1 in goal at 0(rank:19.)
+rewrite <- IH1 in goal at 0(rank:19.)
+=================================================
+Progress: 40
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (any2::(any_list2 @ (any1::(Nil)))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 19.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (any2::(any1::any_list2)) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+rewrite <- IH1 in goal at 2(rank:11.)
+=================================================
+Progress: 41
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (any2::(any1::any_list2)) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 2(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (any2::(any1::any_list2)) = (any1::(any_list2 @ (any2::(Nil))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 1
+intro any1(rank:11.)
+=================================================
+Progress: 42
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (any2::(any1::any_list2)) = (any1::(any_list2 @ (any2::(Nil))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> intro any1(rank : 11.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(any2::(any1::any_list2)) = (any1::(any_list2 @ (any2::(Nil))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite IH1 in goal at 0
+rewrite <- IH1 in goal at 2
+intro any1
+validate generalize_common_subterm_goal
+Prop: (0::(2::(Nil))) = (2::((Nil) @ (0::(Nil))))
+Prop: (1::(3::(0::(Nil)))) = (3::((0::(Nil)) @ (1::(Nil))))
+Prop: (3::(1::(Nil))) = (1::((Nil) @ (3::(Nil))))
+asdf
+=================================================
+Progress: 43
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (any2::(any_list2 @ (any1::(Nil)))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 19.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+forall (any1:any), (any2::(any_list2 @ (any1::(Nil)))) = (any1::(any_list2 @ (any2::(Nil))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
+Prop: (7::((Nil) @ (3::(Nil)))) = (3::((Nil) @ (7::(Nil))))
+Prop: (5::((Nil) @ (3::(Nil)))) = (3::((Nil) @ (5::(Nil))))
+Prop: (4::((Nil) @ (1::(Nil)))) = (1::((Nil) @ (4::(Nil))))
+asdf
+previous tactics
+simpl in goal
+parent
+(any2::(any_list2 @ (any1::(Nil))))
+lower
+Cons(_, @(any_list2, Cons(any1, Nil())))
+upper
+_
+remove upper
+@(any_list2, Cons(any1, Nil()))
+remove lower
+@(any_list2, Cons(any1, Nil()))
+remove upper
+Cons(any2, @(any_list2, Cons(any1, Nil())))
+remove lower
+Cons(any2, @(any_list2, Cons(any1, Nil())))
+remove upper
+Cons(any2, Cons(any3, @(any_list3, Cons(any1, Nil()))))
+remove lower
+Cons(any2, Cons(any3, @(any_list3, Cons(any1, Nil()))))
+remove upper
+Cons(any2, Cons(any3, Cons(any4, @(any_list4, Cons(any1, Nil())))))
+remove lower
+Cons(any2, Cons(any3, Cons(any4, @(any_list4, Cons(any1, Nil())))))
+parent
+(any2::any_list2)
+lower
+Cons(_, any_list2)
+upper
+Cons(any1, _)
+remove upper
+Cons(any2, any_list2)
+remove lower
+Cons(any2, _)
+remove upper
+Cons(any2, Cons(any3, any_list3))
+remove lower
+Cons(any2, Cons(any3, _))
+remove upper
+Cons(any2, Cons(any3, Cons(any4, any_list4)))
+remove lower
+Cons(any2, Cons(any3, Cons(any4, _)))
+validate generalize_common_subterm_goal
+Prop: (7::((Nil) @ (1::(Nil)))) = (1::(7::(Nil)))
+Prop: (4::((Nil) @ (2::(Nil)))) = (2::(4::(Nil)))
+Prop: (6::((Nil) @ (2::(Nil)))) = (2::(6::(Nil)))
+asdf
+=================================================
+Progress: 44
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(any2::(any_list2 @ (any1::(Nil)))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 19.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(any2::(any1::any_list2)) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+rewrite IH1 in goal at 0
+validate generalize_common_subterm_goal
+Prop: (4::(6::(2::(Nil)))) = (6::(4::(2::(Nil))))
+Prop: (0::(5::(Nil))) = (5::(0::(Nil)))
+Prop: (0::(0::(0::(Nil)))) = (0::(0::(0::(Nil))))
+asdf
+previous tactics
+simpl in goal
+intro any1
+validate generalize_common_subterm_goal
+Prop: (6::((Nil) @ (0::(Nil)))) = (0::(6::(Nil)))
+Prop: (6::((Nil) @ (2::(Nil)))) = (2::(6::(Nil)))
+Prop: (0::((5::(6::(Nil))) @ (0::(Nil)))) = (0::(0::(5::(6::(Nil)))))
+asdf
+=================================================
+Progress: 45
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(any2::(any_list2 @ (any1::(Nil)))) = (any1::(any2::any_list2))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 19.)
+
+
+1st goal of : forall (any1:any) (any_list1:any list), (any_list1 @ (any1::(Nil))) = (any1::any_list1)
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : forall (any1:any), (any_list2 @ (any1::(Nil))) = (any1::any_list2)
+Inductive1 : any_list1 = (any2::any_list2)
+any1 : any
+---------------------------------------
+(any2::(any_list2 @ (any1::(Nil)))) = (any1::(any_list2 @ (any2::(Nil))))
+
+0 goal(s) more...
+
+4 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro any1
+rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
+Prop: (1::((Nil) @ (7::(Nil)))) = (7::((Nil) @ (1::(Nil))))
+Prop: (0::((Nil) @ (8::(Nil)))) = (8::((Nil) @ (0::(Nil))))
+Prop: (1::((0::(Nil)) @ (7::(Nil)))) = (7::((0::(Nil)) @ (1::(Nil))))
+asdf
+previous tactics
+simpl in goal
+intro any1
+validate generalize_common_subterm_goal
+Prop: (4::((Nil) @ (8::(Nil)))) = (8::(4::(Nil)))
+Prop: (7::((Nil) @ (0::(Nil)))) = (0::(7::(Nil)))
+Prop: (7::((Nil) @ (7::(Nil)))) = (7::(7::(Nil)))
+asdf
+=================================================
+Progress: 46
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (any_list2:any list) (nat1:nat), rotate (nat1) (((any_list1 @ (any1::(Nil))) @ any_list2)) = (any1::rotate (nat1) ((any_list1 @ any_list2)))
@@ -1380,14 +1862,14 @@ previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: (0::rotate (ZERO) ((Nil))) = (0::(Nil))
-Prop: (8::rotate (ZERO) ((Nil))) = (8::(Nil))
-Prop: (5::rotate (SUCC (ZERO)) ((Nil))) = (5::(Nil))
+Prop: (5::rotate (SUCC (SUCC (ZERO))) ((Nil))) = (5::(Nil))
+Prop: (0::rotate (SUCC (ZERO)) ((Nil))) = (0::(Nil))
+Prop: (0::rotate (SUCC (SUCC (ZERO))) ((Nil))) = (0::(Nil))
 previous tactics
 simpl in goal
-Prop: rotate (ZERO) ((7::(Nil))) = (7::(Nil))
-Prop: rotate (SUCC (ZERO)) ((Nil)) = (Nil)
 Prop: rotate (ZERO) ((Nil)) = (Nil)
+Prop: rotate (ZERO) ((Nil)) = (Nil)
+Prop: rotate (ZERO) ((8::(Nil))) = (8::(Nil))
 File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
@@ -1399,5 +1881,5 @@ Here is an example of a case that is not matched:
 []
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

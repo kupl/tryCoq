@@ -176,7 +176,7 @@ case lq (ZERO) (plus (nat1) (ZERO))
 validate generalize_common_subterm_goal
 Prop: plus (SUCC (ZERO)) (ZERO) = SUCC (ZERO)
 Prop: plus (ZERO) (ZERO) = ZERO
-Prop: plus (ZERO) (ZERO) = ZERO
+Prop: plus (SUCC (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
 Lemma List
 forall (nat1:nat), lq (ZERO) (plus (nat1) (ZERO)) = true -> plus (nat1) (ZERO) = nat1
 End of Lemma List
@@ -448,7 +448,7 @@ rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
 Prop: lq (ZERO) (ZERO) = true
 Prop: lq (ZERO) (ZERO) = true
-Prop: lq (ZERO) (SUCC (SUCC (ZERO))) = true
+Prop: lq (ZERO) (ZERO) = true
 asdf
 previous tactics
 simpl in goal
@@ -456,11 +456,11 @@ intro Cond1
 rewrite IH1 in goal at 0
 reflexivity
 validate generalize_common_subterm_goal
-Prop: lq (ZERO) (plus (ZERO) (ZERO)) = true
-Prop: lq (ZERO) (plus (ZERO) (ZERO)) = true
 Prop: lq (ZERO) (plus (SUCC (ZERO)) (ZERO)) = true
+Prop: lq (ZERO) (plus (SUCC (SUCC (ZERO))) (ZERO)) = true
+Prop: lq (ZERO) (plus (ZERO) (ZERO)) = true
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

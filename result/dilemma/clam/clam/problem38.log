@@ -304,13 +304,13 @@ case match (int2, int1) with
 | (Neg Z, Zero) -> true
 | (_, _) -> false
 rewrite <- IH1 in goal at 0
-Prop: count (0) (insort (-0) ((0::(7::(Nil))))) = SUCC (count (0) ((0::(7::(Nil)))))
 Prop: count (0) (insort (0) ((Nil))) = SUCC (count (0) ((Nil)))
+Prop: count (-0) (insort (-0) ((Nil))) = SUCC (count (-0) ((Nil)))
 Prop: count (0) (insort (-0) ((Nil))) = SUCC (count (0) ((Nil)))
 validate generalize_common_subterm_goal
-Prop: count (0) (insort (0) ((5::(3::(Nil))))) = SUCC (count (0) ((5::(3::(Nil)))))
-Prop: count (0) (insort (-0) ((4::(Nil)))) = SUCC (count (0) ((4::(Nil))))
-Prop: count (0) (insort (0) ((Nil))) = SUCC (count (0) ((Nil)))
+Prop: count (0) (insort (0) ((2::(Nil)))) = SUCC (count (0) ((2::(Nil))))
+Prop: count (0) (insort (0) ((3::(Nil)))) = SUCC (count (0) ((3::(Nil))))
+Prop: count (0) (insort (-0) ((Nil))) = SUCC (count (0) ((Nil)))
 previous tactics
 simpl in goal
 intro int1
@@ -324,9 +324,9 @@ case match (int2, int1) with
 | (Neg Z, Zero) -> true
 | (_, _) -> false
 validate generalize_common_subterm_goal
+Prop: count (0) (insort (0) (sort ((Nil)))) = SUCC (count (0) ((Nil)))
+Prop: count (0) (insort (0) (sort ((Nil)))) = SUCC (count (0) ((Nil)))
 Prop: count (0) (insort (-0) (sort ((0::(Nil))))) = SUCC (count (0) ((0::(Nil))))
-Prop: count (-0) (insort (-0) (sort ((Nil)))) = SUCC (count (-0) ((Nil)))
-Prop: count (0) (insort (0) (sort ((0::(Nil))))) = SUCC (count (0) ((0::(Nil))))
 Lemma List
 forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 | (Zero, Zero) -> true
@@ -956,6 +956,8 @@ count (int1) (if match (int2, any1) with
 
 1 conjecture(s) more...
 Tactic List : 3
+case any_eq (any1) (int1)(rank:6.)
+rewrite <- IH1 in goal at 0(rank:13.)
 case match (int2, any1) with
 | (Zero, Pos _) -> true
 | (Zero, _) -> false
@@ -965,10 +967,105 @@ case match (int2, any1) with
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true(rank:6.)
-rewrite <- IH1 in goal at 0(rank:13.)
-case any_eq (any1) (int1)(rank:6.)
 =================================================
 Progress: 17
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+count (int1) (if match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> case any_eq (any1) (int1)(rank : 6.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : any_eq (any1) (int1) = true
+---------------------------------------
+count (int1) (if match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (SUCC (count (int1) (any_list2)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+case match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true(rank:7.)
+rewrite <- IH1 in goal at 0(rank:14.)
+=================================================
+Progress: 18
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -1074,211 +1171,7 @@ case any_eq (any1) (int1)(rank:7.)
 rewrite Cond1 in goal at 0(rank:14.)
 rewrite <- IH1 in goal at 0(rank:22.)
 =================================================
-Progress: 18
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
----------------------------------------
-count (int1) (if match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> case any_eq (any1) (int1)(rank : 6.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : any_eq (any1) (int1) = true
----------------------------------------
-count (int1) (if match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (SUCC (count (int1) (any_list2)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-case match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank:7.)
-rewrite <- IH1 in goal at 0(rank:14.)
-=================================================
 Progress: 19
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> case any_eq (any1) (int1)(rank : 7.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case2 : any_eq (any1) (int1) = true
----------------------------------------
-if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (SUCC (count (int1) (any_list2)))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-rewrite Cond1 in goal at 0(rank:15.)
-rewrite <- IH1 in goal at 0(rank:15.)
-=================================================
-Progress: 20
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -1367,6 +1260,113 @@ Case2 : match (int2, any1) with
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true = true
+---------------------------------------
+if match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (SUCC (count (int1) (any_list2)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+rewrite Cond1 in goal at 0(rank:15.)
+rewrite <- IH1 in goal at 0(rank:15.)
+=================================================
+Progress: 20
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+if match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> case any_eq (any1) (int1)(rank : 7.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+Case2 : any_eq (any1) (int1) = true
 ---------------------------------------
 if match (int2, int1) with
 | (Zero, Zero) -> true
@@ -1721,284 +1721,6 @@ any1 : any
 any_list2 : any list
 IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
 Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite Cond1 in goal at 0(rank : 14.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-if true then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-reflexivity(rank:5.)
-=================================================
-Progress: 25
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-if true then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> reflexivity(rank : 5.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
----------------------------------------
-if any_eq (any1) (int1) then SUCC (count (int1) (insort (int2) (any_list2))) else count (int1) (insort (int2) (any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Deduplication: 3
-Tactic List : 1
-case any_eq (any1) (int1)(rank:6.)
-=================================================
-Progress: 26
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
----------------------------------------
-if any_eq (any1) (int1) then SUCC (count (int1) (insort (int2) (any_list2))) else count (int1) (insort (int2) (any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> case any_eq (any1) (int1)(rank : 6.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
-Case2 : any_eq (any1) (int1) = true
----------------------------------------
-SUCC (count (int1) (insort (int2) (any_list2))) = SUCC (SUCC (count (int1) (any_list2)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-rewrite IH1 in goal at 0(rank:14.)
-rewrite <- IH1 in goal at 0(rank:14.)
-=================================================
-Progress: 27
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
-Inductive1 : any_list1 = (any1::any_list2)
 Case1 : any_eq (any1) (int1) = true
 ---------------------------------------
 count (int1) (if match (int2, any1) with
@@ -2068,7 +1790,7 @@ case match (int2, any1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true(rank:7.)
 =================================================
-Progress: 28
+Progress: 25
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -2174,6 +1896,284 @@ if match (int2, int1) with
 Tactic List : 2
 rewrite Cond1 in goal at 0(rank:15.)
 rewrite IH1 in goal at 0(rank:23.)
+=================================================
+Progress: 26
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+if match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite Cond1 in goal at 0(rank : 14.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+if true then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:5.)
+=================================================
+Progress: 27
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+if true then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 5.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+---------------------------------------
+if any_eq (any1) (int1) then SUCC (count (int1) (insort (int2) (any_list2))) else count (int1) (insort (int2) (any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 3
+Tactic List : 1
+case any_eq (any1) (int1)(rank:6.)
+=================================================
+Progress: 28
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+---------------------------------------
+if any_eq (any1) (int1) then SUCC (count (int1) (insort (int2) (any_list2))) else count (int1) (insort (int2) (any_list2)) = SUCC (if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> case any_eq (any1) (int1)(rank : 6.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> count (int1) (insort (int2) (any_list1)) = SUCC (count (int1) (any_list1))
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = SUCC (count (int1) (any_list2))
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Case2 : any_eq (any1) (int1) = true
+---------------------------------------
+SUCC (count (int1) (insort (int2) (any_list2))) = SUCC (SUCC (count (int1) (any_list2)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+rewrite IH1 in goal at 0(rank:14.)
+rewrite <- IH1 in goal at 0(rank:14.)
 =================================================
 Progress: 29
 
@@ -2577,8 +2577,8 @@ Prop: if match (0, 0) with
 | (Zero, Neg Z) -> true
 | (Pos Z, Zero) -> true
 | (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (0) ((2::(Nil)))) else count (0) ((2::(Nil))) = SUCC (if int_eq (2) (0) then SUCC (count (0) ((Nil))) else count (0) ((Nil)))
-Prop: if match (0, -0) with
+| (_, _) -> false then SUCC (count (0) ((8::(Nil)))) else count (0) ((8::(Nil))) = SUCC (if int_eq (8) (0) then SUCC (count (0) ((Nil))) else count (0) ((Nil)))
+Prop: if match (0, 0) with
 | (Zero, Zero) -> true
 | (Pos n1', Pos n2') -> natural_eq (n1') (n2')
 | (Neg n1', Neg n2') -> natural_eq (n1') (n2')
@@ -2586,8 +2586,8 @@ Prop: if match (0, -0) with
 | (Zero, Neg Z) -> true
 | (Pos Z, Zero) -> true
 | (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (-0) ((5::(2::(Nil))))) else count (-0) ((5::(2::(Nil)))) = SUCC (if int_eq (5) (-0) then SUCC (count (-0) ((2::(Nil)))) else count (-0) ((2::(Nil))))
-Prop: if match (0, -0) with
+| (_, _) -> false then SUCC (count (0) ((2::(3::(6::(Nil)))))) else count (0) ((2::(3::(6::(Nil))))) = SUCC (if int_eq (2) (0) then SUCC (count (0) ((3::(6::(Nil))))) else count (0) ((3::(6::(Nil)))))
+Prop: if match (-0, 0) with
 | (Zero, Zero) -> true
 | (Pos n1', Pos n2') -> natural_eq (n1') (n2')
 | (Neg n1', Neg n2') -> natural_eq (n1') (n2')
@@ -2595,7 +2595,7 @@ Prop: if match (0, -0) with
 | (Zero, Neg Z) -> true
 | (Pos Z, Zero) -> true
 | (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (-0) ((0::(8::(5::(Nil)))))) else count (-0) ((0::(8::(5::(Nil))))) = SUCC (if int_eq (0) (-0) then SUCC (count (-0) ((8::(5::(Nil))))) else count (-0) ((8::(5::(Nil)))))
+| (_, _) -> false then SUCC (count (0) ((7::(5::(Nil))))) else count (0) ((7::(5::(Nil)))) = SUCC (if int_eq (7) (0) then SUCC (count (0) ((5::(Nil)))) else count (0) ((5::(Nil))))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
@@ -2609,7 +2609,7 @@ case match (int2, any1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: if match (0, -0) with
+Prop: if match (0, 0) with
 | (Zero, Zero) -> true
 | (Pos n1', Pos n2') -> natural_eq (n1') (n2')
 | (Neg n1', Neg n2') -> natural_eq (n1') (n2')
@@ -2617,8 +2617,8 @@ Prop: if match (0, -0) with
 | (Zero, Neg Z) -> true
 | (Pos Z, Zero) -> true
 | (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (-0) ((3::(4::(Nil))))) else count (-0) ((3::(4::(Nil)))) = SUCC (if int_eq (3) (-0) then count (-0) (insort (0) ((4::(Nil)))) else count (-0) ((4::(Nil))))
-Prop: if match (0, -0) with
+| (_, _) -> false then SUCC (count (0) ((6::(Nil)))) else count (0) ((6::(Nil))) = SUCC (if int_eq (6) (0) then count (0) (insort (0) ((Nil))) else count (0) ((Nil)))
+Prop: if match (2, 0) with
 | (Zero, Zero) -> true
 | (Pos n1', Pos n2') -> natural_eq (n1') (n2')
 | (Neg n1', Neg n2') -> natural_eq (n1') (n2')
@@ -2626,8 +2626,8 @@ Prop: if match (0, -0) with
 | (Zero, Neg Z) -> true
 | (Pos Z, Zero) -> true
 | (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (-0) ((1::(Nil)))) else count (-0) ((1::(Nil))) = SUCC (if int_eq (1) (-0) then count (-0) (insort (0) ((Nil))) else count (-0) ((Nil)))
-Prop: if match (0, -0) with
+| (_, _) -> false then SUCC (count (0) ((5::(Nil)))) else count (0) ((5::(Nil))) = SUCC (if int_eq (5) (0) then count (0) (insort (2) ((Nil))) else count (0) ((Nil)))
+Prop: if match (-0, 0) with
 | (Zero, Zero) -> true
 | (Pos n1', Pos n2') -> natural_eq (n1') (n2')
 | (Neg n1', Neg n2') -> natural_eq (n1') (n2')
@@ -2635,7 +2635,7 @@ Prop: if match (0, -0) with
 | (Zero, Neg Z) -> true
 | (Pos Z, Zero) -> true
 | (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (-0) ((3::(Nil)))) else count (-0) ((3::(Nil))) = SUCC (if int_eq (3) (-0) then count (-0) (insort (0) ((Nil))) else count (-0) ((Nil)))
+| (_, _) -> false then SUCC (count (0) ((0::(0::(Nil))))) else count (0) ((0::(0::(Nil)))) = SUCC (if int_eq (0) (0) then count (0) (insort (-0) ((0::(Nil)))) else count (0) ((0::(Nil))))
 Lemma List
 forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 | (Zero, Zero) -> true
@@ -2926,7 +2926,7 @@ forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1)
 
 2 conjecture(s) more...
 Tactic List : 1
-intro any1(rank:7.)
+intro any1(rank:11.)
 =================================================
 Progress: 34
 
@@ -3063,7 +3063,7 @@ forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1)
 
 2 conjecture(s) more...
 Tactic List : 1
-intro any1(rank:7.)
+intro any1(rank:11.)
 =================================================
 Progress: 35
 
@@ -3124,7 +3124,7 @@ forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1)
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro any1(rank : 7.)
+>>> intro any1(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -3184,7 +3184,7 @@ forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro int1(rank:7.)
+intro int1(rank:11.)
 =================================================
 Progress: 36
 
@@ -3245,7 +3245,7 @@ forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1)
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro any1(rank : 7.)
+>>> intro any1(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -3305,7 +3305,7 @@ forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro int1(rank:7.)
+intro int1(rank:11.)
 =================================================
 Progress: 37
 
@@ -3366,7 +3366,7 @@ forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro int1(rank : 7.)
+>>> intro int1(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -3427,7 +3427,7 @@ forall (any_list1:any list) (int2:int), match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro int2(rank:7.)
+intro int2(rank:11.)
 =================================================
 Progress: 38
 
@@ -3488,7 +3488,7 @@ forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro int1(rank : 7.)
+>>> intro int1(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -3549,7 +3549,7 @@ forall (any_list1:any list) (int2:int), match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro int2(rank:7.)
+intro int2(rank:11.)
 =================================================
 Progress: 39
 
@@ -3611,7 +3611,7 @@ forall (any_list1:any list) (int2:int), match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro int2(rank : 7.)
+>>> intro int2(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -3673,7 +3673,7 @@ forall (any_list1:any list), match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:7.)
+intro Cond1(rank:11.)
 =================================================
 Progress: 40
 
@@ -3735,7 +3735,7 @@ forall (any_list1:any list) (int2:int), match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro int2(rank : 7.)
+>>> intro int2(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -3797,7 +3797,7 @@ forall (any_list1:any list), match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:7.)
+intro Cond1(rank:11.)
 =================================================
 Progress: 41
 
@@ -3860,7 +3860,7 @@ forall (any_list1:any list), match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
+>>> intro Cond1(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -3923,7 +3923,7 @@ forall (any_list1:any list), match (int2, any1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro Cond2(rank:7.)
+intro Cond2(rank:11.)
 =================================================
 Progress: 42
 
@@ -3986,7 +3986,7 @@ forall (any_list1:any list), match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
+>>> intro Cond1(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -4049,7 +4049,7 @@ forall (any_list1:any list), match (int2, any1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro Cond2(rank:7.)
+intro Cond2(rank:11.)
 =================================================
 Progress: 43
 
@@ -4113,7 +4113,7 @@ forall (any_list1:any list), match (int2, any1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro Cond2(rank : 7.)
+>>> intro Cond2(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -4177,8 +4177,8 @@ forall (any_list1:any list), if match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 2
-case any_eq (any1) (int1)(rank:8.)
-rewrite Cond1 in goal at 0(rank:15.)
+case any_eq (any1) (int1)(rank:12.)
+rewrite Cond1 in goal at 0(rank:19.)
 =================================================
 Progress: 44
 
@@ -4242,7 +4242,7 @@ forall (any_list1:any list), match (int2, any1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro Cond2(rank : 7.)
+>>> intro Cond2(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -4306,8 +4306,8 @@ forall (any_list1:any list), if match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 2
-case any_eq (any1) (int1)(rank:8.)
-rewrite Cond1 in goal at 0(rank:15.)
+case any_eq (any1) (int1)(rank:12.)
+rewrite Cond1 in goal at 0(rank:19.)
 =================================================
 Progress: 45
 
@@ -4372,7 +4372,7 @@ forall (any_list1:any list), if match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> case any_eq (any1) (int1)(rank : 8.)
+>>> case any_eq (any1) (int1)(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -4437,7 +4437,7 @@ forall (any_list1:any list), if match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-rewrite Cond1 in goal at 0(rank:8.)
+rewrite Cond1 in goal at 0(rank:12.)
 =================================================
 Progress: 46
 
@@ -4502,7 +4502,7 @@ forall (any_list1:any list), if match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> case any_eq (any1) (int1)(rank : 8.)
+>>> case any_eq (any1) (int1)(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -4567,7 +4567,7 @@ forall (any_list1:any list), if match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-rewrite Cond1 in goal at 0(rank:8.)
+rewrite Cond1 in goal at 0(rank:12.)
 =================================================
 Progress: 47
 
@@ -4633,7 +4633,7 @@ forall (any_list1:any list), if match (int2, int1) with
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> rewrite Cond1 in goal at 0(rank : 8.)
+>>> rewrite Cond1 in goal at 0(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -4690,7 +4690,7 @@ forall (any_list1:any list), if true then SUCC (count (int1) ((any1::any_list1))
 
 2 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:8.)
+simpl in goal(rank:12.)
 =================================================
 Progress: 48
 
@@ -4756,7 +4756,7 @@ forall (any_list1:any list), if match (int2, int1) with
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> rewrite Cond1 in goal at 0(rank : 8.)
+>>> rewrite Cond1 in goal at 0(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -4813,7 +4813,7 @@ forall (any_list1:any list), if true then SUCC (count (int1) ((any1::any_list1))
 
 2 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:8.)
+simpl in goal(rank:12.)
 =================================================
 Progress: 49
 
@@ -4871,7 +4871,7 @@ forall (any_list1:any list), if true then SUCC (count (int1) ((any1::any_list1))
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> simpl in goal(rank : 8.)
+>>> simpl in goal(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -4928,7 +4928,7 @@ forall (any_list1:any list), SUCC (if any_eq (any1) (int1) then SUCC (count (int
 
 2 conjecture(s) more...
 Tactic List : 1
-rewrite Case1 in goal at 0(rank:8.)
+rewrite Case1 in goal at 0(rank:12.)
 =================================================
 Progress: 50
 
@@ -4986,7 +4986,7 @@ forall (any_list1:any list), if true then SUCC (count (int1) ((any1::any_list1))
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> simpl in goal(rank : 8.)
+>>> simpl in goal(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -5043,7 +5043,7 @@ forall (any_list1:any list), SUCC (if any_eq (any1) (int1) then SUCC (count (int
 
 2 conjecture(s) more...
 Tactic List : 1
-rewrite Case1 in goal at 0(rank:8.)
+rewrite Case1 in goal at 0(rank:12.)
 =================================================
 Progress: 51
 
@@ -5101,7 +5101,7 @@ forall (any_list1:any list), SUCC (if any_eq (any1) (int1) then SUCC (count (int
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> rewrite Case1 in goal at 0(rank : 8.)
+>>> rewrite Case1 in goal at 0(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -5158,7 +5158,7 @@ forall (any_list1:any list), SUCC (if true then SUCC (count (int1) (any_list1)) 
 
 2 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:8.)
+simpl in goal(rank:12.)
 =================================================
 Progress: 52
 
@@ -5216,7 +5216,7 @@ forall (any_list1:any list), SUCC (if any_eq (any1) (int1) then SUCC (count (int
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> rewrite Case1 in goal at 0(rank : 8.)
+>>> rewrite Case1 in goal at 0(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -5273,7 +5273,7 @@ forall (any_list1:any list), SUCC (if true then SUCC (count (int1) (any_list1)) 
 
 2 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:7.)
+reflexivity(rank:11.)
 =================================================
 Progress: 53
 
@@ -5331,7 +5331,7 @@ forall (any_list1:any list), SUCC (if true then SUCC (count (int1) (any_list1)) 
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> reflexivity(rank : 7.)
+>>> reflexivity(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -5397,7 +5397,7 @@ forall (any_list1:any list), if match (int2, int1) with
 2 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-rewrite Cond1 in goal at 0(rank:7.)
+rewrite Cond1 in goal at 0(rank:11.)
 =================================================
 Progress: 54
 
@@ -5463,7 +5463,7 @@ forall (any_list1:any list), if match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> rewrite Cond1 in goal at 0(rank : 7.)
+>>> rewrite Cond1 in goal at 0(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -5520,7 +5520,7 @@ forall (any_list1:any list), if true then SUCC (count (int1) ((any1::any_list1))
 
 2 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:7.)
+simpl in goal(rank:11.)
 =================================================
 Progress: 55
 
@@ -5578,7 +5578,7 @@ forall (any_list1:any list), if true then SUCC (count (int1) ((any1::any_list1))
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> simpl in goal(rank : 7.)
+>>> simpl in goal(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -5635,7 +5635,7 @@ forall (any_list1:any list), SUCC (if any_eq (any1) (int1) then SUCC (count (int
 
 2 conjecture(s) more...
 Tactic List : 1
-rewrite Case1 in goal at 0(rank:7.)
+rewrite Case1 in goal at 0(rank:11.)
 =================================================
 Progress: 56
 
@@ -5693,7 +5693,7 @@ forall (any_list1:any list), SUCC (if any_eq (any1) (int1) then SUCC (count (int
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> rewrite Case1 in goal at 0(rank : 7.)
+>>> rewrite Case1 in goal at 0(rank : 11.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -6103,7 +6103,7 @@ forall (any_list1:any list), SUCC (if true then SUCC (count (int1) (any_list1)) 
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> simpl in goal(rank : 8.)
+>>> simpl in goal(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -6160,7 +6160,7 @@ forall (any_list1:any list), SUCC (SUCC (count (int1) (any_list1))) = SUCC (coun
 
 2 conjecture(s) more...
 Tactic List : 1
-induction any_list1(rank:9.)
+induction any_list1(rank:13.)
 =================================================
 Progress: 60
 
@@ -6218,7 +6218,7 @@ forall (any_list1:any list), SUCC (SUCC (count (int1) (any_list1))) = SUCC (coun
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> induction any_list1(rank : 9.)
+>>> induction any_list1(rank : 13.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -6277,7 +6277,7 @@ SUCC (SUCC (count (int1) ((Nil)))) = SUCC (count (int1) (insort (int2) ((Nil))))
 
 2 conjecture(s) more...
 Tactic List : 1
-simpl in goal(rank:9.)
+simpl in goal(rank:13.)
 =================================================
 Progress: 61
 
@@ -6337,7 +6337,7 @@ SUCC (SUCC (count (int1) ((Nil)))) = SUCC (count (int1) (insort (int2) ((Nil))))
 2 goal(s) more...
 
 2 conjecture(s) more...
->>> simpl in goal(rank : 9.)
+>>> simpl in goal(rank : 13.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -6404,7 +6404,7 @@ SUCC (SUCC (ZERO)) = SUCC (if match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-rewrite Cond1 in goal at 0(rank:9.)
+rewrite Cond1 in goal at 0(rank:13.)
 =================================================
 Progress: 62
 
@@ -6472,7 +6472,7 @@ SUCC (SUCC (ZERO)) = SUCC (if match (int2, int1) with
 2 goal(s) more...
 
 2 conjecture(s) more...
->>> rewrite Cond1 in goal at 0(rank : 9.)
+>>> rewrite Cond1 in goal at 0(rank : 13.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -6531,7 +6531,7 @@ SUCC (SUCC (ZERO)) = SUCC (if true then SUCC (count (int1) ((Nil))) else count (
 
 2 conjecture(s) more...
 Tactic List : 1
-reflexivity(rank:8.)
+reflexivity(rank:12.)
 =================================================
 Progress: 63
 
@@ -6591,7 +6591,7 @@ SUCC (SUCC (ZERO)) = SUCC (if true then SUCC (count (int1) ((Nil))) else count (
 2 goal(s) more...
 
 2 conjecture(s) more...
->>> reflexivity(rank : 8.)
+>>> reflexivity(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -6654,7 +6654,7 @@ SUCC (SUCC (count (int1) ((any2::any_list2)))) = SUCC (count (int1) (insort (int
 2 conjecture(s) more...
 Deduplication: 0
 Tactic List : 1
-simpl in goal(rank:8.)
+simpl in goal(rank:12.)
 =================================================
 Progress: 64
 
@@ -6717,7 +6717,7 @@ SUCC (SUCC (count (int1) ((any2::any_list2)))) = SUCC (count (int1) (insort (int
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> simpl in goal(rank : 8.)
+>>> simpl in goal(rank : 12.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -6787,6 +6787,7 @@ SUCC (SUCC (if any_eq (any2) (int1) then SUCC (count (int1) (any_list2)) else co
 
 2 conjecture(s) more...
 Tactic List : 2
+case any_eq (any2) (int1)(rank:13.)
 case match (int2, any2) with
 | (Zero, Pos _) -> true
 | (Zero, _) -> false
@@ -6795,8 +6796,7 @@ case match (int2, any2) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank:9.)
-case any_eq (any2) (int1)(rank:9.)
+| (Neg n1', Pos n2') -> true(rank:13.)
 =================================================
 Progress: 65
 
@@ -6867,166 +6867,7 @@ SUCC (SUCC (if any_eq (any2) (int1) then SUCC (count (int1) (any_list2)) else co
 1 goal(s) more...
 
 2 conjecture(s) more...
->>> case match (int2, any2) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank : 9.)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true->match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true -> if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list1))) else count (int1) ((any1::any_list1)) = SUCC (if any_eq (any1) (int1) then count (int1) (insort (int2) (any_list1)) else count (int1) (any_list1))
-any1 : any
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-Cond2 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case1 : any_eq (any1) (int1) = true
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : SUCC (SUCC (count (int1) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
-Inductive1 : any_list1 = (any2::any_list2)
-Case2 : match (int2, any2) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-SUCC (SUCC (if any_eq (any2) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))) = SUCC (if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any2::any_list2))) else count (int1) ((any2::any_list2)))
-
-2 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 2
-case any_eq (any2) (int1)(rank:10.)
-rewrite Cond1 in goal at 0(rank:17.)
-=================================================
-Progress: 66
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true->match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true -> if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list1))) else count (int1) ((any1::any_list1)) = SUCC (if any_eq (any1) (int1) then count (int1) (insort (int2) (any_list1)) else count (int1) (any_list1))
-any1 : any
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-Cond2 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case1 : any_eq (any1) (int1) = true
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : SUCC (SUCC (count (int1) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
-Inductive1 : any_list1 = (any2::any_list2)
----------------------------------------
-SUCC (SUCC (if any_eq (any2) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))) = SUCC (count (int1) (if match (int2, any2) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any2::any_list2)) else (any2::insort (int2) (any_list2))))
-
-1 goal(s) more...
-
-2 conjecture(s) more...
->>> case any_eq (any2) (int1)(rank : 9.)
+>>> case any_eq (any2) (int1)(rank : 13.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -7105,10 +6946,87 @@ case match (int2, any2) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank:10.)
-rewrite IH1 in goal at 0(rank:17.)
+| (Neg n1', Pos n2') -> true(rank:14.)
+rewrite IH1 in goal at 0(rank:21.)
 =================================================
-Progress: 67
+Progress: 66
+
+
+1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> if match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (int1) ((any1::any_list1))) else count (int1) ((any1::any_list1)) = SUCC (if any_eq (any1) (int1) then count (int1) (insort (int2) (any_list1)) else count (int1) (any_list1))
+any1 : any
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+Cond2 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+Case1 : any_eq (any1) (int1) = true
+any_list1 : any list
+any2 : any
+any_list2 : any list
+IH1 : SUCC (SUCC (count (int1) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
+Inductive1 : any_list1 = (any2::any_list2)
+---------------------------------------
+SUCC (SUCC (if any_eq (any2) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2))) = SUCC (count (int1) (if match (int2, any2) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(any2::any_list2)) else (any2::insort (int2) (any_list2))))
+
+1 goal(s) more...
+
+2 conjecture(s) more...
+>>> case match (int2, any2) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true(rank : 13.)
 
 
 1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -7186,251 +7104,11 @@ SUCC (SUCC (if any_eq (any2) (int1) then SUCC (count (int1) (any_list2)) else co
 2 goal(s) more...
 
 2 conjecture(s) more...
->>> case any_eq (any2) (int1)(rank : 10.)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true->match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true -> if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list1))) else count (int1) ((any1::any_list1)) = SUCC (if any_eq (any1) (int1) then count (int1) (insort (int2) (any_list1)) else count (int1) (any_list1))
-any1 : any
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-Cond2 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case1 : any_eq (any1) (int1) = true
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : SUCC (SUCC (count (int1) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
-Inductive1 : any_list1 = (any2::any_list2)
-Case2 : match (int2, any2) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case3 : any_eq (any2) (int1) = true
----------------------------------------
-SUCC (SUCC (SUCC (count (int1) (any_list2)))) = SUCC (if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any2::any_list2))) else count (int1) ((any2::any_list2)))
-
-3 goal(s) more...
-
-2 conjecture(s) more...
 Tactic List : 2
-rewrite Cond1 in goal at 0(rank:18.)
-rewrite IH1 in goal at 0(rank:18.)
+case any_eq (any2) (int1)(rank:14.)
+rewrite Cond1 in goal at 0(rank:21.)
 =================================================
-Progress: 68
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true->match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true -> if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list1))) else count (int1) ((any1::any_list1)) = SUCC (if any_eq (any1) (int1) then count (int1) (insort (int2) (any_list1)) else count (int1) (any_list1))
-any1 : any
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-Cond2 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case1 : any_eq (any1) (int1) = true
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : SUCC (SUCC (count (int1) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
-Inductive1 : any_list1 = (any2::any_list2)
-Case2 : any_eq (any2) (int1) = true
----------------------------------------
-SUCC (SUCC (SUCC (count (int1) (any_list2)))) = SUCC (count (int1) (if match (int2, any2) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any2::any_list2)) else (any2::insort (int2) (any_list2))))
-
-2 goal(s) more...
-
-2 conjecture(s) more...
->>> case match (int2, any2) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank : 10.)
-
-
-1st goal of : forall (any1:any) (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true->match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true -> if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list1))) else count (int1) ((any1::any_list1)) = SUCC (if any_eq (any1) (int1) then count (int1) (insort (int2) (any_list1)) else count (int1) (any_list1))
-any1 : any
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
-Cond2 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case1 : any_eq (any1) (int1) = true
-any_list1 : any list
-any2 : any
-any_list2 : any list
-IH1 : SUCC (SUCC (count (int1) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
-Inductive1 : any_list1 = (any2::any_list2)
-Case2 : any_eq (any2) (int1) = true
-Case3 : match (int2, any2) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-SUCC (SUCC (SUCC (count (int1) (any_list2)))) = SUCC (if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any2::any_list2))) else count (int1) ((any2::any_list2)))
-
-3 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 2
-rewrite Cond1 in goal at 0(rank:18.)
-rewrite IH1 in goal at 0(rank:18.)
-=================================================
-Progress: 69
+Progress: 67
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -7521,7 +7199,7 @@ SUCC (SUCC (count (int1) (any_list2))) = SUCC (SUCC (count (int1) (any_list2)))
 Tactic List : 1
 reflexivity(rank:5.)
 =================================================
-Progress: 70
+Progress: 68
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -7614,7 +7292,7 @@ Tactic List : 2
 rewrite IH1 in goal at 0(rank:13.)
 rewrite <- IH1 in goal at 0(rank:13.)
 =================================================
-Progress: 71
+Progress: 69
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -7705,7 +7383,7 @@ SUCC (count (int1) (any_list2)) = SUCC (count (int1) (any_list2))
 Tactic List : 1
 reflexivity(rank:4.)
 =================================================
-Progress: 72
+Progress: 70
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -7820,11 +7498,11 @@ rewrite IH1 in goal at 0
 reflexivity
 rewrite IH1 in goal at 0
 reflexivity
-Deduplication: 19
+Deduplication: 17
 Tactic List : 1
 rewrite lemma3 in goal at 0(rank:5.)
 =================================================
-Progress: 73
+Progress: 71
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -7877,7 +7555,7 @@ SUCC (count (int1) (sort (int_list2))) = SUCC (count (int1) (sort (int_list2)))
 Tactic List : 1
 reflexivity(rank:4.)
 =================================================
-Progress: 74
+Progress: 72
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -7939,7 +7617,7 @@ Deduplication: 0
 Tactic List : 1
 rewrite Case1 in goal at 0(rank:4.)
 =================================================
-Progress: 75
+Progress: 73
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -8000,7 +7678,7 @@ true = true
 Tactic List : 1
 reflexivity(rank:3.)
 =================================================
-Progress: 76
+Progress: 74
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -8055,7 +7733,7 @@ Tactic List : 2
 rewrite <- IH1 in goal at 0(rank:11.)
 rewrite lemma3 in goal at 0(rank:12.)
 =================================================
-Progress: 77
+Progress: 75
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -8108,7 +7786,7 @@ count (int1) (insort (int2) (sort (int_list2))) = count (int1) (sort (int_list2)
 Tactic List : 1
 rewrite lemma3 in goal at 0(rank:4.)
 =================================================
-Progress: 78
+Progress: 76
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -8185,14 +7863,14 @@ rewrite <- IH1 in goal at 0
 rewrite lemma3 in goal at 0
 Prop: SUCC (ZERO) = ZERO
 Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
-Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
+Prop: SUCC (ZERO) = ZERO
 validate generalize_common_subterm_goal
 Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
 Prop: SUCC (ZERO) = ZERO
 Prop: SUCC (ZERO) = ZERO
-Prop: SUCC (count (-0) (sort ((0::(Nil))))) = count (-0) (sort ((0::(Nil))))
-Prop: SUCC (count (0) (sort ((Nil)))) = count (0) (sort ((Nil)))
 Prop: SUCC (count (-0) (sort ((Nil)))) = count (-0) (sort ((Nil)))
+Prop: SUCC (count (-0) (sort ((Nil)))) = count (-0) (sort ((Nil)))
+Prop: SUCC (count (0) (sort ((Nil)))) = count (0) (sort ((Nil)))
 asdf
 previous tactics
 simpl in goal
@@ -8217,13 +7895,13 @@ reflexivity
 rewrite Case1 in goal at 0
 reflexivity
 rewrite <- IH1 in goal at 0
-Prop: count (-0) (insort (0) ((Nil))) = count (-0) ((Nil))
+Prop: count (0) (insort (-0) ((3::(Nil)))) = count (0) ((3::(Nil)))
 Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
-Prop: count (0) (insort (0) ((7::(Nil)))) = count (0) ((7::(Nil)))
+Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
 validate generalize_common_subterm_goal
-Prop: count (0) (insort (-0) ((1::(Nil)))) = count (0) ((1::(Nil)))
-Prop: count (0) (insort (0) ((8::(Nil)))) = count (0) ((8::(Nil)))
-Prop: count (0) (insort (0) ((3::(Nil)))) = count (0) ((3::(Nil)))
+Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
+Prop: count (-0) (insort (0) ((5::(Nil)))) = count (-0) ((5::(Nil)))
+Prop: count (-0) (insort (0) ((Nil))) = count (-0) ((Nil))
 previous tactics
 simpl in goal
 case match (int2, any1) with
@@ -8247,9 +7925,9 @@ reflexivity
 rewrite Case1 in goal at 0
 reflexivity
 validate generalize_common_subterm_goal
-Prop: count (0) (insort (0) (sort ((-0::(Nil))))) = count (0) ((-0::(Nil)))
+Prop: count (0) (insort (-0) (sort ((-0::(Nil))))) = count (0) ((-0::(Nil)))
 Prop: count (0) (insort (0) (sort ((Nil)))) = count (0) ((Nil))
-Prop: count (0) (insort (0) (sort ((Nil)))) = count (0) ((Nil))
+Prop: count (0) (insort (3) (sort ((Nil)))) = count (0) ((Nil))
 Lemma List
 forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 | (Zero, Zero) -> true
@@ -8286,7 +7964,7 @@ count (int1) (insort (int2) (sort (int_list2))) = count (int1) (sort (int_list2)
 
 0 conjecture(s) more...
 =================================================
-Progress: 79
+Progress: 77
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -8349,7 +8027,7 @@ forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
 Tactic List : 1
 intro int1(rank:5.)
 =================================================
-Progress: 80
+Progress: 78
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -8406,7 +8084,7 @@ forall (any_list1:any list) (int2:int), match (int2, int1) with
 Tactic List : 1
 intro int2(rank:5.)
 =================================================
-Progress: 81
+Progress: 79
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -8464,7 +8142,7 @@ forall (any_list1:any list), match (int2, int1) with
 Tactic List : 1
 intro Cond1(rank:5.)
 =================================================
-Progress: 82
+Progress: 80
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -8525,7 +8203,7 @@ Tactic List : 2
 induction any_list1(rank:14.)
 rewrite lemma3 in goal at 0(rank:14.)
 =================================================
-Progress: 83
+Progress: 81
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -8578,7 +8256,7 @@ SUCC (count (int1) (sort (int_list2))) = count (int1) (int_list2)
 Tactic List : 1
 rewrite IH1 in goal at 0(rank:4.)
 =================================================
-Progress: 84
+Progress: 82
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -8654,13 +8332,13 @@ reflexivity
 rewrite lemma3 in goal at 0
 rewrite IH1 in goal at 0
 Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (SUCC (SUCC (ZERO))) = SUCC (SUCC (ZERO))
+Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
+validate generalize_common_subterm_goal
+Prop: SUCC (ZERO) = ZERO
 Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
 Prop: SUCC (ZERO) = ZERO
-validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = ZERO
-Prop: SUCC (ZERO) = ZERO
-Prop: SUCC (ZERO) = ZERO
-Prop: SUCC (count (0) ((Nil))) = count (0) ((Nil))
+Prop: SUCC (count (0) ((0::(Nil)))) = count (0) ((0::(Nil)))
 Prop: SUCC (count (0) ((Nil))) = count (0) ((Nil))
 Prop: SUCC (count (0) ((Nil))) = count (0) ((Nil))
 asdf
@@ -8689,8 +8367,8 @@ reflexivity
 rewrite lemma3 in goal at 0
 validate generalize_common_subterm_goal
 Prop: SUCC (count (0) (sort ((Nil)))) = count (0) ((Nil))
-Prop: SUCC (count (0) (sort ((Nil)))) = count (0) ((Nil))
-Prop: SUCC (count (0) (sort ((-1::(Nil))))) = count (0) ((-1::(Nil)))
+Prop: SUCC (count (0) (sort ((0::(-0::(Nil)))))) = count (0) ((0::(-0::(Nil))))
+Prop: SUCC (count (-0) (sort ((-0::(Nil))))) = count (-0) ((-0::(Nil)))
 asdf
 previous tactics
 simpl in goal
@@ -8715,9 +8393,9 @@ reflexivity
 rewrite Case1 in goal at 0
 reflexivity
 validate generalize_common_subterm_goal
-Prop: count (-0) (insort (0) (sort ((Nil)))) = count (-0) ((Nil))
-Prop: count (-4) (insort (-0) (sort ((Nil)))) = count (-4) ((Nil))
 Prop: count (0) (insort (0) (sort ((0::(Nil))))) = count (0) ((0::(Nil)))
+Prop: count (0) (insort (0) (sort ((Nil)))) = count (0) ((Nil))
+Prop: count (0) (insort (-0) (sort ((Nil)))) = count (0) ((Nil))
 Lemma List
 forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
 | (Zero, Zero) -> true
@@ -8754,7 +8432,7 @@ count (int1) (insort (int2) (sort (int_list2))) = count (int1) (int_list2)
 
 0 conjecture(s) more...
 =================================================
-Progress: 85
+Progress: 83
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -8817,7 +8495,7 @@ forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
 Tactic List : 1
 intro int1(rank:5.)
 =================================================
-Progress: 86
+Progress: 84
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -8874,7 +8552,7 @@ forall (int2:int) (int_list1:int list), match (int2, int1) with
 Tactic List : 1
 intro int2(rank:5.)
 =================================================
-Progress: 87
+Progress: 85
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -8932,7 +8610,7 @@ forall (int_list1:int list), match (int2, int1) with
 Tactic List : 1
 intro Cond1(rank:5.)
 =================================================
-Progress: 88
+Progress: 86
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -8993,7 +8671,7 @@ Tactic List : 2
 induction int_list1(rank:14.)
 rewrite lemma3 in goal at 0(rank:14.)
 =================================================
-Progress: 89
+Progress: 87
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -9056,7 +8734,7 @@ count (int1) (insort (int2) ((Nil))) = count (int1) ((Nil))
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 90
+Progress: 88
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -9129,7 +8807,7 @@ if match (int2, int1) with
 Tactic List : 1
 rewrite Cond1 in goal at 0(rank:6.)
 =================================================
-Progress: 91
+Progress: 89
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -9202,7 +8880,7 @@ if false then SUCC (count (int1) ((Nil))) else count (int1) ((Nil)) = ZERO
 Tactic List : 1
 reflexivity(rank:5.)
 =================================================
-Progress: 92
+Progress: 90
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -9271,7 +8949,7 @@ Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:5.)
 =================================================
-Progress: 93
+Progress: 91
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -9348,6 +9026,8 @@ count (int1) (if match (int2, any1) with
 
 1 conjecture(s) more...
 Tactic List : 5
+case any_eq (any1) (int1)(rank:6.)
+rewrite <- IH1 in goal at 2(rank:13.)
 case match (int2, any1) with
 | (Zero, Pos _) -> true
 | (Zero, _) -> false
@@ -9357,12 +9037,107 @@ case match (int2, any1) with
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true(rank:6.)
-rewrite <- IH1 in goal at 2(rank:13.)
-case any_eq (any1) (int1)(rank:6.)
 rewrite <- IH1 in goal at 0(rank:13.)
 rewrite <- IH1 in goal at 1(rank:13.)
 =================================================
-Progress: 94
+Progress: 92
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+count (int1) (if match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> case any_eq (any1) (int1)(rank : 6.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : any_eq (any1) (int1) = true
+---------------------------------------
+count (int1) (if match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (count (int1) (any_list2))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+case match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true(rank:7.)
+rewrite <- IH1 in goal at 0(rank:14.)
+=================================================
+Progress: 93
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -9470,211 +9245,7 @@ rewrite <- IH1 in goal at 0(rank:22.)
 rewrite <- IH1 in goal at 1(rank:22.)
 rewrite <- IH1 in goal at 2(rank:22.)
 =================================================
-Progress: 95
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
----------------------------------------
-count (int1) (if match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> case any_eq (any1) (int1)(rank : 6.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : any_eq (any1) (int1) = true
----------------------------------------
-count (int1) (if match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (count (int1) (any_list2))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-case match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank:7.)
-rewrite <- IH1 in goal at 0(rank:14.)
-=================================================
-Progress: 96
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2)
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> case any_eq (any1) (int1)(rank : 7.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case2 : any_eq (any1) (int1) = true
----------------------------------------
-if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (count (int1) (any_list2))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-rewrite Cond1 in goal at 0(rank:15.)
-rewrite <- IH1 in goal at 0(rank:15.)
-=================================================
-Progress: 97
+Progress: 94
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -9781,7 +9352,114 @@ Tactic List : 2
 rewrite Cond1 in goal at 0(rank:15.)
 rewrite <- IH1 in goal at 0(rank:15.)
 =================================================
-Progress: 98
+Progress: 95
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+if match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (any_list2)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> case any_eq (any1) (int1)(rank : 7.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+Case2 : any_eq (any1) (int1) = true
+---------------------------------------
+if match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (count (int1) (any_list2))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+rewrite Cond1 in goal at 0(rank:15.)
+rewrite <- IH1 in goal at 0(rank:15.)
+=================================================
+Progress: 96
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -9866,6 +9544,8 @@ count (int1) (if match (int2, any1) with
 
 1 conjecture(s) more...
 Tactic List : 5
+case any_eq (any1) (int1)(rank:6.)
+rewrite lemma3 in goal at 2(rank:22.)
 case match (int2, any1) with
 | (Zero, Pos _) -> true
 | (Zero, _) -> false
@@ -9875,12 +9555,108 @@ case match (int2, any1) with
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true(rank:6.)
-rewrite lemma3 in goal at 2(rank:22.)
-case any_eq (any1) (int1)(rank:6.)
 rewrite lemma3 in goal at 0(rank:22.)
 rewrite lemma3 in goal at 1(rank:22.)
 =================================================
-Progress: 99
+Progress: 97
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+---------------------------------------
+count (int1) (if match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = if any_eq (any1) (int1) then SUCC (count (int1) (insort (int2) (any_list2))) else count (int1) (insort (int2) (any_list2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> case any_eq (any1) (int1)(rank : 6.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : any_eq (any1) (int1) = true
+---------------------------------------
+count (int1) (if match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 3
+case match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true(rank:7.)
+rewrite IH1 in goal at 0(rank:22.)
+rewrite lemma3 in goal at 0(rank:23.)
+=================================================
+Progress: 98
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -9991,213 +9767,7 @@ rewrite lemma3 in goal at 1(rank:23.)
 rewrite IH1 in goal at 0(rank:14.)
 rewrite lemma3 in goal at 2(rank:23.)
 =================================================
-Progress: 100
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
----------------------------------------
-count (int1) (if match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = if any_eq (any1) (int1) then SUCC (count (int1) (insort (int2) (any_list2))) else count (int1) (insort (int2) (any_list2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> case any_eq (any1) (int1)(rank : 6.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : any_eq (any1) (int1) = true
----------------------------------------
-count (int1) (if match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 3
-case match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank:7.)
-rewrite IH1 in goal at 0(rank:22.)
-rewrite lemma3 in goal at 0(rank:23.)
-=================================================
-Progress: 101
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = if any_eq (any1) (int1) then SUCC (count (int1) (insort (int2) (any_list2))) else count (int1) (insort (int2) (any_list2))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> case any_eq (any1) (int1)(rank : 7.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case2 : any_eq (any1) (int1) = true
----------------------------------------
-if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (count (int1) (insort (int2) (any_list2)))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 3
-rewrite Cond1 in goal at 0(rank:15.)
-rewrite IH1 in goal at 0(rank:23.)
-rewrite lemma3 in goal at 0(rank:24.)
-=================================================
-Progress: 102
+Progress: 99
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -10305,7 +9875,115 @@ rewrite Cond1 in goal at 0(rank:15.)
 rewrite IH1 in goal at 0(rank:23.)
 rewrite lemma3 in goal at 0(rank:24.)
 =================================================
-Progress: 103
+Progress: 100
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+if match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = if any_eq (any1) (int1) then SUCC (count (int1) (insort (int2) (any_list2))) else count (int1) (insort (int2) (any_list2))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> case any_eq (any1) (int1)(rank : 7.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+Case2 : any_eq (any1) (int1) = true
+---------------------------------------
+if match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (count (int1) (insort (int2) (any_list2)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 3
+rewrite Cond1 in goal at 0(rank:15.)
+rewrite IH1 in goal at 0(rank:23.)
+rewrite lemma3 in goal at 0(rank:24.)
+=================================================
+Progress: 101
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -10401,7 +10079,7 @@ case match (int2, any1) with
 | (Neg n1', Pos n2') -> true(rank:6.)
 rewrite lemma3 in goal at 0(rank:22.)
 =================================================
-Progress: 104
+Progress: 102
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -10509,7 +10187,7 @@ rewrite IH1 in goal at 0(rank:22.)
 rewrite lemma3 in goal at 0(rank:15.)
 rewrite <- IH1 in goal at 0(rank:22.)
 =================================================
-Progress: 105
+Progress: 103
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -10617,7 +10295,7 @@ rewrite Cond1 in goal at 0(rank:15.)
 rewrite IH1 in goal at 0(rank:23.)
 rewrite lemma3 in goal at 0(rank:24.)
 =================================================
-Progress: 106
+Progress: 104
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -10713,7 +10391,7 @@ case match (int2, any1) with
 | (Neg n1', Pos n2') -> true(rank:6.)
 rewrite lemma3 in goal at 0(rank:22.)
 =================================================
-Progress: 107
+Progress: 105
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -10821,7 +10499,7 @@ rewrite IH1 in goal at 0(rank:14.)
 rewrite <- IH1 in goal at 0(rank:14.)
 rewrite lemma3 in goal at 0(rank:23.)
 =================================================
-Progress: 108
+Progress: 106
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -10928,7 +10606,7 @@ Tactic List : 2
 rewrite Cond1 in goal at 0(rank:15.)
 rewrite <- IH1 in goal at 0(rank:15.)
 =================================================
-Progress: 109
+Progress: 107
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -10989,7 +10667,7 @@ forall (any_list1:any list), SUCC (count (int1) (any_list1)) = count (int1) (any
 Tactic List : 1
 induction any_list1(rank:7.)
 =================================================
-Progress: 110
+Progress: 108
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -11052,7 +10730,7 @@ SUCC (count (int1) ((Nil))) = count (int1) ((Nil))
 Tactic List : 1
 simpl in goal(rank:7.)
 =================================================
-Progress: 111
+Progress: 109
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -11118,7 +10796,7 @@ Tactic List : 0
 previous tactics
 simpl in goal
 =================================================
-Progress: 112
+Progress: 110
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -11181,7 +10859,7 @@ count (int1) (insort (int2) (sort ((Nil)))) = count (int1) ((Nil))
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 113
+Progress: 111
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -11254,7 +10932,7 @@ if match (int2, int1) with
 Tactic List : 1
 rewrite Cond1 in goal at 0(rank:6.)
 =================================================
-Progress: 114
+Progress: 112
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -11327,7 +11005,7 @@ if false then SUCC (count (int1) ((Nil))) else count (int1) ((Nil)) = ZERO
 Tactic List : 1
 reflexivity(rank:5.)
 =================================================
-Progress: 115
+Progress: 113
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -11396,7 +11074,7 @@ Deduplication: 0
 Tactic List : 1
 simpl in goal(rank:5.)
 =================================================
-Progress: 116
+Progress: 114
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -11487,7 +11165,7 @@ rewrite lemma3 in goal at 0(rank:22.)
 rewrite <- IH1 in goal at 1(rank:21.)
 rewrite <- IH1 in goal at 2(rank:21.)
 =================================================
-Progress: 117
+Progress: 115
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -11584,7 +11262,7 @@ Tactic List : 2
 rewrite <- IH1 in goal at 0(rank:14.)
 rewrite lemma3 in goal at 0(rank:15.)
 =================================================
-Progress: 118
+Progress: 116
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -11645,7 +11323,7 @@ forall (int_list1:int list), SUCC (count (int1) (sort (int_list1))) = count (int
 Tactic List : 1
 induction int_list1(rank:7.)
 =================================================
-Progress: 119
+Progress: 117
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -11708,7 +11386,7 @@ SUCC (count (int1) (sort ((Nil)))) = count (int1) ((Nil))
 Tactic List : 1
 simpl in goal(rank:7.)
 =================================================
-Progress: 120
+Progress: 118
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -11773,6 +11451,212 @@ SUCC (ZERO) = ZERO
 Tactic List : 0
 previous tactics
 simpl in goal
+=================================================
+Progress: 119
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : any_eq (any1) (int1) = true
+---------------------------------------
+count (int1) (if match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (count (int1) (any_list2))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- IH1 in goal at 0(rank : 14.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : any_eq (any1) (int1) = true
+---------------------------------------
+count (int1) (if match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+case match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true(rank:7.)
+rewrite lemma3 in goal at 0(rank:23.)
+=================================================
+Progress: 120
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : any_eq (any1) (int1) = true
+---------------------------------------
+count (int1) (if match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> case match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true(rank : 7.)
+
+
+1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = false
+any_list1 : any list
+any1 : any
+any_list2 : any list
+IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
+Inductive1 : any_list1 = (any1::any_list2)
+Case1 : any_eq (any1) (int1) = true
+Case2 : match (int2, any1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+if match (int2, int1) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (count (int1) (insort (int2) (any_list2)))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 3
+rewrite Cond1 in goal at 0(rank:15.)
+rewrite IH1 in goal at 0(rank:23.)
+rewrite lemma3 in goal at 0(rank:24.)
 =================================================
 Progress: 121
 
@@ -12081,212 +11965,6 @@ any1 : any
 any_list2 : any list
 IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
 Inductive1 : any_list1 = (any1::any_list2)
-Case1 : any_eq (any1) (int1) = true
----------------------------------------
-count (int1) (if match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (count (int1) (any_list2))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> rewrite <- IH1 in goal at 0(rank : 14.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : any_eq (any1) (int1) = true
----------------------------------------
-count (int1) (if match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 2
-case match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank:7.)
-rewrite lemma3 in goal at 0(rank:23.)
-=================================================
-Progress: 125
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : any_eq (any1) (int1) = true
----------------------------------------
-count (int1) (if match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(any1::any_list2)) else (any1::insort (int2) (any_list2))) = SUCC (count (int1) (insort (int2) (any_list2)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> case match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank : 7.)
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
-Case1 : any_eq (any1) (int1) = true
-Case2 : match (int2, any1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-if match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::any_list2)) = SUCC (count (int1) (insort (int2) (any_list2)))
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 3
-rewrite Cond1 in goal at 0(rank:15.)
-rewrite IH1 in goal at 0(rank:23.)
-rewrite lemma3 in goal at 0(rank:24.)
-=================================================
-Progress: 126
-
-
-1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false -> count (int1) (insort (int2) (any_list1)) = count (int1) (any_list1)
-int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = false
-any_list1 : any list
-any1 : any
-any_list2 : any list
-IH1 : count (int1) (insort (int2) (any_list2)) = count (int1) (any_list2)
-Inductive1 : any_list1 = (any1::any_list2)
 Case1 : match (int2, any1) with
 | (Zero, Pos _) -> true
 | (Zero, _) -> false
@@ -12356,7 +12034,7 @@ if false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 127
+Progress: 125
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -12445,7 +12123,7 @@ if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (
 Tactic List : 1
 case any_eq (any1) (int1)(rank:7.)
 =================================================
-Progress: 128
+Progress: 126
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -12537,7 +12215,7 @@ rewrite IH1 in goal at 0(rank:15.)
 rewrite lemma3 in goal at 0(rank:16.)
 rewrite <- IH1 in goal at 0(rank:15.)
 =================================================
-Progress: 129
+Progress: 127
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -12642,7 +12320,7 @@ if match (int2, int1) with
 Tactic List : 1
 case any_eq (any1) (int1)(rank:7.)
 =================================================
-Progress: 130
+Progress: 128
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -12749,7 +12427,7 @@ Tactic List : 2
 rewrite Cond1 in goal at 0(rank:15.)
 rewrite <- IH1 in goal at 0(rank:15.)
 =================================================
-Progress: 131
+Progress: 129
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -12854,7 +12532,7 @@ if match (int2, int1) with
 Tactic List : 1
 rewrite lemma3 in goal at 0(rank:7.)
 =================================================
-Progress: 132
+Progress: 130
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -12960,7 +12638,7 @@ Tactic List : 2
 case any_eq (any1) (int1)(rank:8.)
 rewrite Cond1 in goal at 0(rank:15.)
 =================================================
-Progress: 133
+Progress: 131
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -13067,7 +12745,7 @@ Tactic List : 2
 rewrite Cond1 in goal at 0(rank:16.)
 rewrite <- IH1 in goal at 0(rank:16.)
 =================================================
-Progress: 134
+Progress: 132
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -13164,7 +12842,7 @@ if false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 135
+Progress: 133
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -13253,7 +12931,7 @@ if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (
 Tactic List : 1
 case any_eq (any1) (int1)(rank:7.)
 =================================================
-Progress: 136
+Progress: 134
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -13345,7 +13023,7 @@ rewrite IH1 in goal at 0(rank:15.)
 rewrite lemma3 in goal at 0(rank:16.)
 rewrite <- IH1 in goal at 0(rank:15.)
 =================================================
-Progress: 137
+Progress: 135
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -13442,7 +13120,7 @@ if false then SUCC (count (int1) ((any1::any_list2))) else count (int1) ((any1::
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 138
+Progress: 136
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -13531,7 +13209,7 @@ if any_eq (any1) (int1) then SUCC (count (int1) (any_list2)) else count (int1) (
 Tactic List : 1
 case any_eq (any1) (int1)(rank:7.)
 =================================================
-Progress: 139
+Progress: 137
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -13621,7 +13299,7 @@ SUCC (count (int1) (any_list2)) = SUCC (count (int1) (any_list2))
 Tactic List : 1
 reflexivity(rank:6.)
 =================================================
-Progress: 140
+Progress: 138
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -13715,7 +13393,7 @@ rewrite IH1 in goal at 0(rank:14.)
 rewrite lemma3 in goal at 0(rank:15.)
 rewrite <- IH1 in goal at 0(rank:14.)
 =================================================
-Progress: 141
+Progress: 139
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -13820,7 +13498,7 @@ if match (int2, int1) with
 Tactic List : 1
 case any_eq (any1) (int1)(rank:7.)
 =================================================
-Progress: 142
+Progress: 140
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -13927,7 +13605,7 @@ Tactic List : 2
 rewrite Cond1 in goal at 0(rank:15.)
 rewrite <- IH1 in goal at 0(rank:15.)
 =================================================
-Progress: 143
+Progress: 141
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -14034,7 +13712,7 @@ rewrite lemma3 in goal at 0(rank:23.)
 rewrite lemma3 in goal at 1(rank:23.)
 rewrite lemma3 in goal at 2(rank:23.)
 =================================================
-Progress: 144
+Progress: 142
 
 
 1st goal of : forall (int1:int) (int2:int) (int_list1:int list), match (int2, int1) with
@@ -14125,7 +13803,7 @@ rewrite lemma3 in goal at 0(rank:15.)
 rewrite lemma3 in goal at 1(rank:15.)
 rewrite lemma3 in goal at 2(rank:23.)
 =================================================
-Progress: 145
+Progress: 143
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -14216,7 +13894,7 @@ SUCC (count (int1) (any_list2)) = SUCC (count (int1) (any_list2))
 Tactic List : 1
 reflexivity(rank:5.)
 =================================================
-Progress: 146
+Progress: 144
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -14310,7 +13988,7 @@ rewrite IH1 in goal at 0(rank:13.)
 rewrite lemma3 in goal at 0(rank:14.)
 rewrite <- IH1 in goal at 0(rank:13.)
 =================================================
-Progress: 147
+Progress: 145
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -14401,7 +14079,7 @@ count (int1) (any_list2) = count (int1) (any_list2)
 Tactic List : 1
 reflexivity(rank:3.)
 =================================================
-Progress: 148
+Progress: 146
 
 
 1st goal of : forall (any_list1:any list) (int1:int) (int2:int), match (int2, int1) with
@@ -14521,7 +14199,7 @@ Tactic List : 2
 rewrite lemma3 in goal at 0(rank:12.)
 rewrite lemma4 in goal at 0(rank:12.)
 =================================================
-Progress: 149
+Progress: 147
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -14592,15 +14270,15 @@ rewrite IH1 in goal at 0
 reflexivity
 rewrite lemma3 in goal at 0
 Prop: SUCC (ZERO) = ZERO
-Prop: SUCC (ZERO) = ZERO
 Prop: SUCC (SUCC (ZERO)) = SUCC (ZERO)
+Prop: SUCC (ZERO) = ZERO
 validate generalize_common_subterm_goal
 Prop: SUCC (ZERO) = ZERO
 Prop: SUCC (ZERO) = ZERO
 Prop: SUCC (ZERO) = ZERO
 Prop: SUCC (count (-0) (sort ((Nil)))) = count (-0) (sort ((Nil)))
 Prop: SUCC (count (0) (sort ((Nil)))) = count (0) (sort ((Nil)))
-Prop: SUCC (count (-0) (sort ((Nil)))) = count (-0) (sort ((Nil)))
+Prop: SUCC (count (-1) (sort ((-0::(Nil))))) = count (-1) (sort ((-0::(Nil))))
 asdf
 previous tactics
 simpl in goal
@@ -14620,15 +14298,15 @@ rewrite IH1 in goal at 0
 reflexivity
 rewrite IH1 in goal at 0
 reflexivity
-Prop: count (0) (insort (-0) ((Nil))) = count (0) ((Nil))
-Prop: count (0) (insort (-0) ((Nil))) = count (0) ((Nil))
+Prop: count (-1) (insort (0) ((2::(Nil)))) = count (-1) ((2::(Nil)))
+Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
 Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
 validate generalize_common_subterm_goal
-Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
-Prop: count (0) (insort (0) ((Nil))) = count (0) ((Nil))
+Prop: count (0) (insort (-0) ((2::(Nil)))) = count (0) ((2::(Nil)))
 Prop: count (0) (insort (-0) ((Nil))) = count (0) ((Nil))
+Prop: count (-0) (insort (0) ((Nil))) = count (-0) ((Nil))
 =================================================
-Progress: 150
+Progress: 148
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -14681,7 +14359,7 @@ count (int1) (sort (int_list2)) = count (int1) (sort (int_list2))
 Tactic List : 1
 reflexivity(rank:3.)
 =================================================
-Progress: 151
+Progress: 149
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -14743,7 +14421,7 @@ Deduplication: 0
 Tactic List : 1
 rewrite Case1 in goal at 0(rank:3.)
 =================================================
-Progress: 152
+Progress: 150
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)
@@ -14804,7 +14482,7 @@ false = false
 Tactic List : 1
 reflexivity(rank:0.)
 =================================================
-Progress: 153
+Progress: 151
 
 
 1st goal of : forall (int1:int) (int_list1:int list), count (int1) (sort (int_list1)) = count (int1) (int_list1)

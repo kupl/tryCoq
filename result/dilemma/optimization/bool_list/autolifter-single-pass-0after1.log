@@ -221,8 +221,8 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = true
-Prop: tf4 (true) (tf1 ((Nil)) ((Nil))) = true
 Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = true
+Prop: tf4 (true) (tf1 ((Nil)) ((Nil))) = true
 Lemma List
 forall (bool1:bool) (bool_list1:bool list), if bool1 then match (match (tf6 (bool_list1)) with
 | Tuple2 _ b -> b) with
@@ -492,13 +492,89 @@ tf4 (bool1) (tf1 (bool_list2) (bool_list2)) = if if bool1 then match (match (tf6
 0 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 1
-case if bool1 then match (match (tf6 (bool_list2)) with
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+validate generalize_common_subterm_goal
+Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = if if false then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
-| false -> true else false(rank:4.)
-=================================================
-Progress: 13
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+Prop: tf4 (true) (tf1 ((Nil)) ((Nil))) = if if true then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+previous tactics
+simpl in goal
+parent
+tf4 (bool1) (tf1 (bool_list2) (bool_list2))
+lower
+tf4(_, tf1(bool_list2, bool_list2))
+upper
+_
+remove upper
+tf4(false(), tf1(bool_list2, bool_list2))
+remove lower
+tf4(false(), tf1(bool_list2, bool_list2))
+remove upper
+tf4(bool1, tf1(bool_list2, bool_list2))
+remove lower
+tf4(bool1, tf1(bool_list2, bool_list2))
+remove upper
+_
+validate generalize_common_subterm_goal
+Prop: tf4 (false) (tf1 ((false::(false::(Nil)))) ((false::(false::(Nil))))) = if if false then match (match (tf6 ((false::(false::(Nil))))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((false::(false::(Nil))))) with
+| Tuple2 a _ -> a
+Prop: tf4 (true) (tf1 ((false::(true::(Nil)))) ((false::(true::(Nil))))) = if if true then match (match (tf6 ((false::(true::(Nil))))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((false::(true::(Nil))))) with
+| Tuple2 a _ -> a
+Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Lemma List
+forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+End of Lemma List
+
+
+1st goal of : forall (bool_list1:bool list), main (bool_list1) = mainNew (bool_list1)
+bool_list1 : bool list
+bool1 : bool
+bool_list2 : bool list
+IH1 : tf4 (false) (tf1 (bool_list2) (bool_list2)) = match (tf6 (bool_list2)) with
+| Tuple2 a _ -> a
+Inductive1 : bool_list1 = (bool1::bool_list2)
+---------------------------------------
+tf4 (bool1) (tf1 (bool_list2) (bool_list2)) = if if bool1 then match (match (tf6 (bool_list2)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list2)) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Lemma List
+forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+End of Lemma List
 
 
 1st goal of : forall (bool_list1:bool list), main (bool_list1) = mainNew (bool_list1)
@@ -517,10 +593,8 @@ tf4 (bool1) (tf1 (bool_list2) (bool_list2)) = if if bool1 then match (match (tf6
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case if bool1 then match (match (tf6 (bool_list2)) with
-| Tuple2 _ b -> b) with
-| true -> false
-| false -> true else false(rank : 4.)
+=================================================
+Progress: 13
 
 
 1st goal of : forall (bool_list1:bool list), main (bool_list1) = mainNew (bool_list1)
@@ -530,29 +604,843 @@ bool_list2 : bool list
 IH1 : tf4 (false) (tf1 (bool_list2) (bool_list2)) = match (tf6 (bool_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : bool_list1 = (bool1::bool_list2)
-Case1 : if bool1 then match (match (tf6 (bool_list2)) with
+---------------------------------------
+tf4 (bool1) (tf1 (bool_list2) (bool_list2)) = if if bool1 then match (match (tf6 (bool_list2)) with
 | Tuple2 _ b -> b) with
 | true -> false
-| false -> true else false = true
+| false -> true else false then true else match (tf6 (bool_list2)) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a(rank : 0.)
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+
 ---------------------------------------
-tf4 (bool1) (tf1 (bool_list2) (bool_list2)) = true
+forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro bool1(rank:5.)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (bool_list1:bool list), main (bool_list1) = mainNew (bool_list1)
+bool_list1 : bool list
+bool1 : bool
+bool_list2 : bool list
+IH1 : tf4 (false) (tf1 (bool_list2) (bool_list2)) = match (tf6 (bool_list2)) with
+| Tuple2 a _ -> a
+Inductive1 : bool_list1 = (bool1::bool_list2)
+---------------------------------------
+tf4 (bool1) (tf1 (bool_list2) (bool_list2)) = if if bool1 then match (match (tf6 (bool_list2)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list2) (bool_list2))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))(rank : 0.)
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+
+---------------------------------------
+forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro bool1(rank:5.)
+=================================================
+Progress: 15
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+
+---------------------------------------
+forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro bool1(rank : 5.)
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+bool1 : bool
+---------------------------------------
+forall (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction bool_list1(rank:6.)
+=================================================
+Progress: 16
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+
+---------------------------------------
+forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro bool1(rank : 5.)
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+bool1 : bool
+---------------------------------------
+forall (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction bool_list1(rank:6.)
+=================================================
+Progress: 17
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+bool1 : bool
+---------------------------------------
+forall (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction bool_list1(rank : 6.)
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+bool1 : bool
+bool_list1 : bool list
+Base1 : bool_list1 = (Nil)
+---------------------------------------
+tf4 (bool1) (tf1 ((Nil)) ((Nil))) = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
 
 1 goal(s) more...
 
-0 conjecture(s) more...
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 18
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+bool1 : bool
+---------------------------------------
+forall (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction bool_list1(rank : 6.)
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+bool1 : bool
+bool_list1 : bool list
+Base1 : bool_list1 = (Nil)
+---------------------------------------
+tf4 (bool1) (tf1 ((Nil)) ((Nil))) = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 19
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+bool1 : bool
+bool_list1 : bool list
+Base1 : bool_list1 = (Nil)
+---------------------------------------
+tf4 (bool1) (tf1 ((Nil)) ((Nil))) = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+bool1 : bool
+bool_list1 : bool list
+Base1 : bool_list1 = (Nil)
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+1 goal(s) more...
+
+1 conjecture(s) more...
 Tactic List : 0
 previous tactics
 simpl in goal
-rewrite <- IH1 in goal at 0
-case if bool1 then match (match (tf6 (bool_list2)) with
+validate generalize_common_subterm_goal
+Prop: false = if if false then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
-| false -> true else false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Lemma List
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+End of Lemma List
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+bool1 : bool
+bool_list1 : bool list
+Base1 : bool_list1 = (Nil)
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 20
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 (bool_list1)) with
+| Tuple2 a _ -> a
+bool1 : bool
+bool_list1 : bool list
+Base1 : bool_list1 = (Nil)
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a(rank : 0.)
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+---------------------------------------
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro bool1(rank:7.)
+=================================================
+Progress: 21
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+bool1 : bool
+bool_list1 : bool list
+Base1 : bool_list1 = (Nil)
+---------------------------------------
+tf4 (bool1) (tf1 ((Nil)) ((Nil))) = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+bool1 : bool
+bool_list1 : bool list
+Base1 : bool_list1 = (Nil)
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
 validate generalize_common_subterm_goal
-Prop: tf4 (false) (tf1 ((false::(Nil))) ((false::(Nil)))) = true
-Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = true
-Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = true
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+Lemma List
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+End of Lemma List
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+bool1 : bool
+bool_list1 : bool list
+Base1 : bool_list1 = (Nil)
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 22
+
+
+1st goal of : forall (bool1:bool) (bool_list1:bool list), tf4 (bool1) (tf1 (bool_list1) (bool_list1)) = if if bool1 then match (match (tf6 (bool_list1)) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 (bool_list1) (bool_list1))
+bool1 : bool
+bool_list1 : bool list
+Base1 : bool_list1 = (Nil)
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))(rank : 0.)
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+---------------------------------------
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro bool1(rank:7.)
+=================================================
+Progress: 23
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+---------------------------------------
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro bool1(rank : 7.)
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+bool1 : bool
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: false = if if true then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Prop: false = if if true then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Lemma List
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+End of Lemma List
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+bool1 : bool
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+=================================================
+Progress: 24
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+bool1 : bool
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> assert forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a(rank : 0.)
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+---------------------------------------
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro bool1(rank:9.)
+=================================================
+Progress: 25
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+---------------------------------------
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro bool1(rank : 7.)
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+bool1 : bool
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+Prop: false = if if true then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+Prop: false = if if true then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+Lemma List
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+End of Lemma List
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+bool1 : bool
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+=================================================
+Progress: 26
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+bool1 : bool
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> assert forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))(rank : 0.)
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+---------------------------------------
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro bool1(rank:9.)
+=================================================
+Progress: 27
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+---------------------------------------
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro bool1(rank : 9.)
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+bool1 : bool
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Prop: false = if if true then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+=================================================
+Progress: 28
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+---------------------------------------
+forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro bool1(rank : 9.)
+
+
+1st goal of : forall (bool1:bool), false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+bool1 : bool
+---------------------------------------
+false = if if bool1 then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

@@ -101,6 +101,8 @@ sum (match (match (zipper1) with
 
 1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
 zipper1 : zipper
+nat_list1 : nat list
+nat_list2 : nat list
 Case1 : match (zipper1) with
 | Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2)
 ---------------------------------------
@@ -114,9 +116,9 @@ Tactic List : 0
 validate generalize_common_subterm_goal
 Prop: sum (tf1 ((Nil)) (rev ((Nil)))) = match (Zip ((Nil)) ((Nil))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((Nil)) (rev ((Nil)))) = match (Zip ((SUCC (ZERO)::(Nil))) ((Nil))) with
+Prop: sum (tf1 ((SUCC (ZERO)::(Nil))) (rev ((ZERO::(SUCC (ZERO)::(Nil)))))) = match (Zip ((Nil)) ((ZERO::(Nil)))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((Nil)) (rev ((Nil)))) = match (Zip ((ZERO::(Nil))) ((ZERO::(Nil)))) with
+Prop: sum (tf1 ((Nil)) (rev ((ZERO::(Nil))))) = match (Zip ((ZERO::(Nil))) ((Nil))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 Lemma List
 forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
@@ -127,6 +129,8 @@ End of Lemma List
 
 1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
 zipper1 : zipper
+nat_list1 : nat list
+nat_list2 : nat list
 Case1 : match (zipper1) with
 | Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2)
 ---------------------------------------
@@ -142,6 +146,8 @@ Progress: 5
 
 1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
 zipper1 : zipper
+nat_list1 : nat list
+nat_list2 : nat list
 Case1 : match (zipper1) with
 | Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2)
 ---------------------------------------
@@ -311,11 +317,11 @@ sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
 1 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: sum (tf1 ((Nil)) (rev ((ZERO::(Nil))))) = match (Zip ((Nil)) ((ZERO::(Nil)))) with
+Prop: sum (tf1 ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil)))))) (rev ((Nil)))) = match (Zip ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(Nil)))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((ZERO::(ZERO::(Nil)))) (rev ((Nil)))) = match (Zip ((Nil)) ((ZERO::(ZERO::(Nil))))) with
+Prop: sum (tf1 ((Nil)) (rev ((ZERO::(ZERO::(Nil)))))) = match (Zip ((Nil)) ((Nil))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((Nil)) (rev ((SUCC (ZERO)::(Nil))))) = match (Zip ((Nil)) ((Nil))) with
+Prop: sum (tf1 ((SUCC (ZERO)::(ZERO::(Nil)))) (rev ((ZERO::(Nil))))) = match (Zip ((Nil)) ((Nil))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 Lemma List
 forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
@@ -518,13 +524,13 @@ sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: sum (tf1 ((Nil)) (rev ((Nil)))) = match (Zip ((Nil)) ((ZERO::(ZERO::(Nil))))) with
+Prop: sum (tf1 ((ZERO::(Nil))) (rev ((Nil)))) = match (Zip ((Nil)) ((Nil))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((Nil)) (rev ((SUCC (ZERO)::(Nil))))) = match (Zip ((Nil)) ((Nil))) with
+Prop: sum (tf1 ((Nil)) (rev ((Nil)))) = match (Zip ((Nil)) ((Nil))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((ZERO::(Nil))) (rev ((ZERO::(Nil))))) = match (Zip ((SUCC (ZERO)::(Nil))) ((Nil))) with
+Prop: sum (tf1 ((SUCC (ZERO)::(Nil))) (rev ((Nil)))) = match (Zip ((Nil)) ((ZERO::(ZERO::(Nil))))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

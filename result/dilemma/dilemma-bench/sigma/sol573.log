@@ -387,6 +387,15 @@ if match (int1, int2) with
 0 conjecture(s) more...
 Deduplication: 0
 Tactic List : 2
+case match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false(rank:4.)
 case match (match (int2, 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2
@@ -402,149 +411,8 @@ case match (match (int2, 0) with
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true(rank:4.)
-case match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false(rank:4.)
 =================================================
 Progress: 8
-
-
-1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
-int1 : int
-int2 : int
-int2int1 : int -> int
-Case1 : match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
----------------------------------------
-if match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then int2int1 (int1) else + (int2int1 (int1)) (sigma_ta1 (int2int1) (+ (int1) (0)) (int2)) = fold (adder) (map (int2int1) (if match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true then (int2::(Nil)) else aux (int1) (int2) (- (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2')) (0)) ((match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2')::(int2::(Nil)))))) (0)
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> case match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true(rank : 4.)
-
-
-1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
-int1 : int
-int2 : int
-int2int1 : int -> int
-Case1 : match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
-Case2 : match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-if match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false then int2int1 (int1) else + (int2int1 (int1)) (sigma_ta1 (int2int1) (+ (int1) (0)) (int2)) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 1
-case match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false(rank:5.)
-=================================================
-Progress: 9
 
 
 1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
@@ -682,7 +550,77 @@ case match (match (int2, 0) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true(rank:5.)
 =================================================
-Progress: 10
+Progress: 9
+
+
+1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
+int1 : int
+int2 : int
+int2int1 : int -> int
+Case1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+---------------------------------------
+if match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then int2int1 (int1) else + (int2int1 (int1)) (sigma_ta1 (int2int1) (+ (int1) (0)) (int2)) = fold (adder) (map (int2int1) (if match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true then (int2::(Nil)) else aux (int1) (int2) (- (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2')) (0)) ((match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2')::(int2::(Nil)))))) (0)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> case match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true(rank : 4.)
 
 
 1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
@@ -733,355 +671,18 @@ if match (int1, int2) with
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> case match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false(rank : 5.)
-
-
-1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
-int1 : int
-int2 : int
-int2int1 : int -> int
-Case1 : match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
-Case2 : match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case3 : match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
----------------------------------------
-int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-
-2 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: int2int1 (0) = match (int2int1 (-0), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (-0)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-Prop: int2int1 (1) = match (int2int1 (0), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (0)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-Prop: int2int1 (0) = match (int2int1 (-0), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (-0)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-Lemma List
-forall (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-End of Lemma List
-
-
-1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
-int1 : int
-int2 : int
-int2int1 : int -> int
-Case1 : match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
-Case2 : match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case3 : match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
----------------------------------------
-int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-
-2 goal(s) more...
-
-0 conjecture(s) more...
-=================================================
-Progress: 11
-
-
-1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
-int1 : int
-int2 : int
-int2int1 : int -> int
-Case1 : match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
-Case2 : match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case3 : match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true
----------------------------------------
-int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-
-2 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')(rank : 0.)
-
-
-1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-
----------------------------------------
-forall (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-
-0 goal(s) more...
-
-1 conjecture(s) more...
 Tactic List : 1
-intro int1(rank:5.)
+case match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false(rank:5.)
 =================================================
-Progress: 12
+Progress: 10
 
 
 1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
@@ -1206,6 +807,13 @@ int2int1 (int1) = match (int2int1 (int2), 0) with
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
+Prop: int2int1 (-0) = match (int2int1 (0), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (0)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
 Prop: int2int1 (0) = match (int2int1 (0), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (0)
@@ -1213,23 +821,592 @@ Prop: int2int1 (0) = match (int2int1 (0), 0) with
 | (Neg n1', Neg n2') -> -natural_add (n1') (n2')
 | (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
 | (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-Prop: int2int1 (-0) = match (int2int1 (0), 0) with
+Prop: int2int1 (0) = match (int2int1 (0), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (0)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
 | (Neg n1', Neg n2') -> -natural_add (n1') (n2')
 | (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
 | (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-Prop: int2int1 (-0) = match (int2int1 (0), 0) with
+Lemma List
+forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+End of Lemma List
+
+
+1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
+int1 : int
+int2 : int
+int2int1 : int -> int
+Case1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Case2 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+Case3 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 11
+
+
+1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
+int1 : int
+int2 : int
+int2int1 : int -> int
+Case1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Case2 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+Case3 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')(rank : 0.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+---------------------------------------
+forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro int1(rank:13.)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
+int1 : int
+int2 : int
+int2int1 : int -> int
+Case1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Case2 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+if match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false then int2int1 (int1) else + (int2int1 (int1)) (sigma_ta1 (int2int1) (+ (int1) (0)) (int2)) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false(rank : 5.)
+
+
+1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
+int1 : int
+int2 : int
+int2int1 : int -> int
+Case1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Case2 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+Case3 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+---------------------------------------
+int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: int2int1 (-0) = match (int2int1 (-2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (-2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+Prop: int2int1 (0) = match (int2int1 (-0), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (-0)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+Prop: int2int1 (0) = match (int2int1 (0), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (0)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
 | (Neg n1', Neg n2') -> -natural_add (n1') (n2')
 | (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
 | (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-asdf
+Lemma List
+forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+End of Lemma List
+
+
+1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
+int1 : int
+int2 : int
+int2int1 : int -> int
+Case1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Case2 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+Case3 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+---------------------------------------
+int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+2 goal(s) more...
+
+0 conjecture(s) more...
 =================================================
 Progress: 13
+
+
+1st goal of : forall (int2int1:int -> int) (int1:int) (int2:int), sigma_ta1 (int2int1) (int1) (int2) = sigma (int2int1) (int1) (int2)
+int1 : int
+int2 : int
+int2int1 : int -> int
+Case1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Case2 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+Case3 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+---------------------------------------
+int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+2 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')(rank : 0.)
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -1312,91 +1489,8 @@ forall (int1:int) (int2:int), match (int2, int1) with
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro int1(rank : 5.)
-
-
-1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-int1 : int
----------------------------------------
-forall (int2:int), match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-
-0 goal(s) more...
-
-1 conjecture(s) more...
 Tactic List : 1
-intro int2(rank:5.)
+intro int1(rank:13.)
 =================================================
 Progress: 14
 
@@ -1409,7 +1503,15 @@ Progress: 14
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2
 | (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
@@ -1423,7 +1525,24 @@ Progress: 14
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+---------------------------------------
+forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
 | (Zero, Zero) -> true
 | (Pos n1', Pos n2') -> natural_eq (n1') (n2')
 | (Neg n1', Neg n2') -> natural_eq (n1') (n2')
@@ -1431,7 +1550,65 @@ Progress: 14
 | (Zero, Neg Z) -> true
 | (Pos Z, Zero) -> true
 | (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro int1(rank : 13.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (int2)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
@@ -1448,7 +1625,15 @@ forall (int2:int), match (int2, int1) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2
 | (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
@@ -1462,99 +1647,7 @@ forall (int2:int), match (int2, int1) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro int2(rank : 5.)
-
-
-1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (int2)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-int1 : int
-int2 : int
----------------------------------------
-match (int2, int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2
-| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-| (Pos n1', Neg n2') -> natural_add (n1') (n2')
-| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (int2)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
@@ -1566,7 +1659,7 @@ match (int2, int1) with
 
 1 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:5.)
+intro int2(rank:13.)
 =================================================
 Progress: 15
 
@@ -1608,10 +1701,9 @@ Progress: 15
 | (Neg n1', Neg n2') -> -natural_add (n1') (n2')
 | (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
 | (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-int1 : int
-int2 : int
+
 ---------------------------------------
-match (int2, int1) with
+forall (int1:int) (int2:int), match (int2, int1) with
 | (Zero, Pos _) -> true
 | (Zero, _) -> false
 | (Neg _, Zero) -> true
@@ -1652,7 +1744,7 @@ match (int2, int1) with
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro Cond1(rank : 5.)
+>>> intro int1(rank : 13.)
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -1693,8 +1785,8 @@ match (int2, int1) with
 | (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
 | (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
 int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
+---------------------------------------
+forall (int2:int), match (int2, int1) with
 | (Zero, Pos _) -> true
 | (Zero, _) -> false
 | (Neg _, Zero) -> true
@@ -1702,9 +1794,7 @@ Cond1 : match (int2, int1) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
----------------------------------------
-match (match (int2, 0) with
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2
 | (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
@@ -1738,7 +1828,7 @@ match (match (int2, 0) with
 
 1 conjecture(s) more...
 Tactic List : 1
-intro Cond2(rank:5.)
+intro int2(rank:13.)
 =================================================
 Progress: 16
 
@@ -1751,7 +1841,15 @@ Progress: 16
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2
 | (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
@@ -1765,15 +1863,7 @@ Progress: 16
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (int2)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
@@ -1781,8 +1871,8 @@ Progress: 16
 | (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
 | (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
 int1 : int
-int2 : int
-Cond1 : match (int2, int1) with
+---------------------------------------
+forall (int2:int), match (int2, int1) with
 | (Zero, Pos _) -> true
 | (Zero, _) -> false
 | (Neg _, Zero) -> true
@@ -1790,9 +1880,15 @@ Cond1 : match (int2, int1) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
----------------------------------------
-match (match (int2, 0) with
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2
 | (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
@@ -1806,15 +1902,7 @@ match (match (int2, 0) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (int2)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
@@ -1825,7 +1913,7 @@ match (match (int2, 0) with
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro Cond2(rank : 5.)
+>>> intro int2(rank : 13.)
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -1836,7 +1924,15 @@ match (match (int2, 0) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2
 | (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
@@ -1850,15 +1946,7 @@ match (match (int2, 0) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (int2)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
@@ -1867,7 +1955,8 @@ match (match (int2, 0) with
 | (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
 int1 : int
 int2 : int
-Cond1 : match (int2, int1) with
+---------------------------------------
+match (int2, int1) with
 | (Zero, Pos _) -> true
 | (Zero, _) -> false
 | (Neg _, Zero) -> true
@@ -1875,8 +1964,15 @@ Cond1 : match (int2, int1) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = false
-Cond2 : match (match (int2, 0) with
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2
 | (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
@@ -1890,17 +1986,7 @@ Cond2 : match (match (int2, 0) with
 | (Pos n1', Pos n2') -> less_than (n1') (n2')
 | (Neg n1', Neg n2') -> less_than (n2') (n1')
 | (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-match (int1, int2) with
-| (Zero, Zero) -> true
-| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
-| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
-| (Zero, Pos Z) -> true
-| (Zero, Neg Z) -> true
-| (Pos Z, Zero) -> true
-| (Neg Z, Zero) -> true
-| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (int2)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
@@ -1912,7 +1998,7 @@ match (int1, int2) with
 
 1 conjecture(s) more...
 Tactic List : 1
-intro Cond3(rank:5.)
+intro Cond1(rank:13.)
 =================================================
 Progress: 17
 
@@ -1955,6 +2041,779 @@ Progress: 17
 | (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
 | (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
 int1 : int
+---------------------------------------
+forall (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro int2(rank : 13.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+---------------------------------------
+match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:13.)
+=================================================
+Progress: 18
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+---------------------------------------
+match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 13.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+---------------------------------------
+match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:13.)
+=================================================
+Progress: 19
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+---------------------------------------
+match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 13.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+---------------------------------------
+match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:13.)
+=================================================
+Progress: 20
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+---------------------------------------
+match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond2(rank : 13.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Cond2 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+---------------------------------------
+match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond3(rank:13.)
+=================================================
+Progress: 21
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+---------------------------------------
+match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond2(rank : 13.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
 int2 : int
 Cond1 : match (int2, int1) with
 | (Zero, Pos _) -> true
@@ -2000,7 +2859,627 @@ match (int1, int2) with
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro Cond3(rank : 5.)
+Tactic List : 1
+intro Cond3(rank:13.)
+=================================================
+Progress: 22
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Cond2 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+---------------------------------------
+match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond3(rank : 13.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Cond2 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+Cond3 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: int2int1 (0) = match (int2int1 (0), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (0)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+Prop: int2int1 (0) = match (int2int1 (-2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (-2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+Prop: int2int1 (0) = match (int2int1 (1), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (1)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+Lemma List
+forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+End of Lemma List
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Cond2 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+Cond3 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 23
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Cond2 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+Cond3 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')(rank : 0.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+---------------------------------------
+forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro int1(rank:15.)
+=================================================
+Progress: 24
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Cond2 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond3(rank : 13.)
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -2089,7 +3568,14 @@ int2int1 (int1) = match (int2int1 (int2), 0) with
 1 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: int2int1 (2) = match (int2int1 (0), 0) with
+Prop: int2int1 (0) = match (int2int1 (-0), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (-0)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+Prop: int2int1 (-2) = match (int2int1 (0), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (0)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
@@ -2099,13 +3585,6 @@ Prop: int2int1 (2) = match (int2int1 (0), 0) with
 Prop: int2int1 (0) = match (int2int1 (-0), 0) with
 | (Zero, _) -> 0
 | (_, Zero) -> int2int1 (-0)
-| (Pos n1', Pos n2') -> natural_add (n1') (n2')
-| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
-| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
-| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-Prop: int2int1 (0) = match (int2int1 (0), 0) with
-| (Zero, _) -> 0
-| (_, Zero) -> int2int1 (0)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
 | (Neg n1', Neg n2') -> -natural_add (n1') (n2')
 | (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
@@ -2236,7 +3715,7 @@ int2int1 (int1) = match (int2int1 (int2), 0) with
 
 1 conjecture(s) more...
 =================================================
-Progress: 18
+Progress: 25
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -2443,9 +3922,178 @@ forall (int1:int) (int2:int), match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro int1(rank:7.)
+intro int1(rank:15.)
 =================================================
-Progress: 19
+Progress: 26
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+---------------------------------------
+forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro int1(rank : 15.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+---------------------------------------
+forall (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro int2(rank:15.)
+=================================================
+Progress: 27
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -2528,7 +4176,7 @@ forall (int1:int) (int2:int), match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro int1(rank : 7.)
+>>> intro int1(rank : 15.)
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -2612,9 +4260,179 @@ forall (int2:int), match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro int2(rank:7.)
+intro int2(rank:15.)
 =================================================
-Progress: 20
+Progress: 28
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+---------------------------------------
+forall (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro int2(rank : 15.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+---------------------------------------
+match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:15.)
+=================================================
+Progress: 29
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -2697,7 +4515,7 @@ forall (int2:int), match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro int2(rank : 7.)
+>>> intro int2(rank : 15.)
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -2782,9 +4600,181 @@ match (int2, int1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:7.)
+intro Cond1(rank:15.)
 =================================================
-Progress: 21
+Progress: 30
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+---------------------------------------
+match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond1(rank : 15.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+---------------------------------------
+match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:15.)
+=================================================
+Progress: 31
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -2868,7 +4858,7 @@ match (int2, int1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
+>>> intro Cond1(rank : 15.)
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -2954,9 +4944,183 @@ match (match (int2, 0) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro Cond2(rank:7.)
+intro Cond2(rank:15.)
 =================================================
-Progress: 22
+Progress: 32
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+---------------------------------------
+match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond2(rank : 15.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Cond2 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+---------------------------------------
+match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond3(rank:15.)
+=================================================
+Progress: 33
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -3041,7 +5205,7 @@ match (match (int2, 0) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro Cond2(rank : 7.)
+>>> intro Cond2(rank : 15.)
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -3128,9 +5292,207 @@ match (int1, int2) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro Cond3(rank:7.)
+intro Cond3(rank:15.)
 =================================================
-Progress: 23
+Progress: 34
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Cond2 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+---------------------------------------
+match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond3(rank : 15.)
+
+
+1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false->match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true->match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true -> int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+int1 : int
+int2 : int
+Cond1 : match (int2, int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = false
+Cond2 : match (int1, int2) with
+| (Zero, Zero) -> true
+| (Pos n1', Pos n2') -> natural_eq (n1') (n2')
+| (Neg n1', Neg n2') -> natural_eq (n1') (n2')
+| (Zero, Pos Z) -> true
+| (Zero, Neg Z) -> true
+| (Pos Z, Zero) -> true
+| (Neg Z, Zero) -> true
+| (_, _) -> false = true
+Cond3 : match (match (int2, 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2
+| (Pos n1', Pos n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Neg n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+| (Pos n1', Neg n2') -> natural_add (n1') (n2')
+| (Neg n1', Pos n2') -> -natural_add (n1') (n2'), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+int2int1 (int1) = match (int2int1 (int2), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (int2)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: int2int1 (0) = match (int2int1 (-1), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (-1)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+Prop: int2int1 (0) = match (int2int1 (-1), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (-1)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+Prop: int2int1 (0) = match (int2int1 (0), 0) with
+| (Zero, _) -> 0
+| (_, Zero) -> int2int1 (0)
+| (Pos n1', Pos n2') -> natural_add (n1') (n2')
+| (Neg n1', Neg n2') -> -natural_add (n1') (n2')
+| (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
+| (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
+asdf
+=================================================
+Progress: 35
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -3216,7 +5578,7 @@ match (int1, int2) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro Cond3(rank : 7.)
+>>> intro Cond3(rank : 15.)
 
 
 1st goal of : forall (int1:int) (int2:int), match (int2, int1) with
@@ -3319,14 +5681,14 @@ Prop: int2int1 (0) = match (int2int1 (0), 0) with
 | (Neg n1', Neg n2') -> -natural_add (n1') (n2')
 | (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
 | (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
-Prop: int2int1 (0) = match (int2int1 (-0), 0) with
+Prop: int2int1 (-1) = match (int2int1 (0), 0) with
 | (Zero, _) -> 0
-| (_, Zero) -> int2int1 (-0)
+| (_, Zero) -> int2int1 (0)
 | (Pos n1', Pos n2') -> natural_add (n1') (n2')
 | (Neg n1', Neg n2') -> -natural_add (n1') (n2')
 | (Pos n1', Neg n2') -> if less_than (n1') (n2') then -natural_sub (n2') (n1') else natural_sub (n1') (n2')
 | (Neg n1', Pos n2') -> if less_than (n1') (n2') then natural_sub (n2') (n1') else -natural_sub (n1') (n2')
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

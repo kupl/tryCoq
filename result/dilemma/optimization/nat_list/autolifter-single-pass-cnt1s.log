@@ -148,10 +148,9 @@ tf4 (nat1) (match (nat1) with
 
 0 conjecture(s) more...
 Tactic List : 1
-case if match (nat1) with
+case match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b(rank:4.)
+| false -> true(rank:4.)
 =================================================
 Progress: 6
 
@@ -174,10 +173,9 @@ tf4 (nat1) (match (nat1) with
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case if match (nat1) with
+>>> case match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b(rank : 4.)
+| false -> true(rank : 4.)
 
 
 1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
@@ -187,10 +185,9 @@ nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = match (tf6 (nat_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -214,10 +211,9 @@ nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = match (tf6 (nat_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -237,10 +233,9 @@ nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = match (tf6 (nat_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -252,27 +247,25 @@ tf4 (nat1) (match (nat1) with
 Tactic List : 0
 previous tactics
 simpl in goal
-case if match (nat1) with
+case match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b
+| false -> true
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: tf4 (SUCC (ZERO)) (match (SUCC (ZERO)) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))) = tf4 (false) (ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil))))
 Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
-Prop: tf4 (SUCC (SUCC (ZERO))) (match (SUCC (SUCC (ZERO))) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
-Prop: tf4 (ZERO) (match (ZERO) with
+| false -> ZERO) (tf1 ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(Nil))))) = tf4 (false) (ZERO) (tf1 ((ZERO::(ZERO::(Nil)))) ((ZERO::(ZERO::(Nil)))))
+Prop: tf4 (SUCC (ZERO)) (match (SUCC (ZERO)) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
 previous tactics
 simpl in goal
-case if match (nat1) with
+case match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b
+| false -> true
 parent
 tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -300,21 +293,20 @@ tf4(nat3, _, tf1(nat_list4, nat_list4))
 validate generalize_common_subterm_goal
 Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((Nil)) ((Nil))) = match (tf6 ((Nil))) with
+| false -> ZERO) (tf1 ((ZERO::(Nil))) ((ZERO::(Nil)))) = match (tf6 ((ZERO::(Nil)))) with
 | Tuple2 a _ -> a
 Prop: tf4 (SUCC (SUCC (ZERO))) (match (SUCC (SUCC (ZERO))) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = match (tf6 ((Nil))) with
 | Tuple2 a _ -> a
-Prop: tf4 (SUCC (SUCC (ZERO))) (match (SUCC (SUCC (ZERO))) with
+Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))) = match (tf6 ((SUCC (ZERO)::(Nil)))) with
+| false -> ZERO) (tf1 ((Nil)) ((Nil))) = match (tf6 ((Nil))) with
 | Tuple2 a _ -> a
 Lemma List
-forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
@@ -328,10 +320,9 @@ nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = match (tf6 (nat_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -342,10 +333,9 @@ tf4 (nat1) (match (nat1) with
 
 0 conjecture(s) more...
 Lemma List
-forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 End of Lemma List
@@ -358,10 +348,9 @@ nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = match (tf6 (nat_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -381,10 +370,9 @@ nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = match (tf6 (nat_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -394,28 +382,25 @@ tf4 (nat1) (match (nat1) with
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+>>> assert forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a(rank : 0.)
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
 
 ---------------------------------------
-forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
@@ -436,10 +421,9 @@ nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = match (tf6 (nat_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -448,26 +432,23 @@ tf4 (nat1) (match (nat1) with
 1 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+>>> assert forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))(rank : 0.)
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 
 ---------------------------------------
-forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 
@@ -480,19 +461,17 @@ intro nat1(rank:5.)
 Progress: 10
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
 
 ---------------------------------------
-forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
@@ -503,19 +482,17 @@ forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
 >>> intro nat1(rank : 5.)
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
 nat1 : nat
 ---------------------------------------
-forall (nat_list1:nat list), if match (nat1) with
+forall (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
@@ -524,23 +501,21 @@ forall (nat_list1:nat list), if match (nat1) with
 
 1 conjecture(s) more...
 Tactic List : 1
-induction nat_list1(rank:6.)
+intro Cond1(rank:5.)
 =================================================
 Progress: 11
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 
 ---------------------------------------
-forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 
@@ -550,18 +525,104 @@ forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
 >>> intro nat1(rank : 5.)
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 nat1 : nat
 ---------------------------------------
-forall (nat_list1:nat list), if match (nat1) with
+forall (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:5.)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
+| Tuple2 a _ -> a
+nat1 : nat
+---------------------------------------
+forall (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 5.)
+
+
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
+| Tuple2 a _ -> a
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+---------------------------------------
+forall (nat_list1:nat list), tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction nat_list1(rank:6.)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
+nat1 : nat
+---------------------------------------
+forall (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 5.)
+
+
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+---------------------------------------
+forall (nat_list1:nat list), tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 
@@ -571,122 +632,45 @@ forall (nat_list1:nat list), if match (nat1) with
 Tactic List : 1
 induction nat_list1(rank:6.)
 =================================================
-Progress: 12
-
-
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-nat1 : nat
----------------------------------------
-forall (nat_list1:nat list), if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> induction nat_list1(rank : 6.)
-
-
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-nat1 : nat
-nat_list1 : nat list
-Base1 : nat_list1 = (Nil)
----------------------------------------
-if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((Nil)) ((Nil))) = match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:6.)
-=================================================
-Progress: 13
-
-
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
-nat1 : nat
----------------------------------------
-forall (nat_list1:nat list), if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> induction nat_list1(rank : 6.)
-
-
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
-nat1 : nat
-nat_list1 : nat list
-Base1 : nat_list1 = (Nil)
----------------------------------------
-if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:6.)
-=================================================
 Progress: 14
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
 nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+---------------------------------------
+forall (nat_list1:nat list), tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
+| Tuple2 a _ -> a
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction nat_list1(rank : 6.)
+
+
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
+| Tuple2 a _ -> a
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
 nat_list1 : nat list
 Base1 : nat_list1 = (Nil)
 ---------------------------------------
-if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = match (tf6 ((Nil))) with
 | Tuple2 a _ -> a
@@ -694,52 +678,74 @@ if match (nat1) with
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> simpl in goal(rank : 6.)
-
-
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-nat1 : nat
-nat_list1 : nat list
-Base1 : nat_list1 = (Nil)
----------------------------------------
-if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO = ZERO
-
-1 goal(s) more...
-
-1 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:6.)
+simpl in goal(rank:6.)
 =================================================
 Progress: 15
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+---------------------------------------
+forall (nat_list1:nat list), tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction nat_list1(rank : 6.)
+
+
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
 nat_list1 : nat list
 Base1 : nat_list1 = (Nil)
 ---------------------------------------
-if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 16
+
+
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
+| Tuple2 a _ -> a
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
+---------------------------------------
+tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 ((Nil)) ((Nil))) = match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
 
 1 goal(s) more...
 
@@ -747,70 +753,18 @@ if match (nat1) with
 >>> simpl in goal(rank : 6.)
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
-nat1 : nat
-nat_list1 : nat list
-Base1 : nat_list1 = (Nil)
----------------------------------------
-if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO = ZERO
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:6.)
-=================================================
-Progress: 16
-
-
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
 nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
 nat_list1 : nat list
 Base1 : nat_list1 = (Nil)
----------------------------------------
-if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO = ZERO
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> intro Cond1(rank : 6.)
-
-
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
-| Tuple2 a _ -> a
-nat1 : nat
-nat_list1 : nat list
-Base1 : nat_list1 = (Nil)
-Cond1 : if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -822,9 +776,8 @@ match (nat1) with
 Tactic List : 0
 previous tactics
 simpl in goal
-intro Cond1
 validate generalize_common_subterm_goal
-Prop: match (ZERO) with
+Prop: match (SUCC (SUCC (SUCC (SUCC (ZERO))))) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 Prop: match (ZERO) with
@@ -834,29 +787,26 @@ Prop: match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 Lemma List
-forall (nat1:nat), if match (nat1) with
+forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 End of Lemma List
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
 nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
 nat_list1 : nat list
 Base1 : nat_list1 = (Nil)
-Cond1 : if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -869,20 +819,18 @@ match (nat1) with
 Progress: 17
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = match (tf6 (nat_list1)) with
 | Tuple2 a _ -> a
 nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
 nat_list1 : nat list
 Base1 : nat_list1 = (Nil)
-Cond1 : if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -891,26 +839,23 @@ match (nat1) with
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (nat1:nat), if match (nat1) with
+>>> assert forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO(rank : 0.)
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
 ---------------------------------------
-forall (nat1:nat), if match (nat1) with
+forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -923,42 +868,39 @@ intro nat1(rank:7.)
 Progress: 18
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
 nat_list1 : nat list
 Base1 : nat_list1 = (Nil)
 ---------------------------------------
-if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO = ZERO
+| false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
 
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> intro Cond1(rank : 6.)
+>>> simpl in goal(rank : 6.)
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
 nat_list1 : nat list
 Base1 : nat_list1 = (Nil)
-Cond1 : if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -970,7 +912,6 @@ match (nat1) with
 Tactic List : 0
 previous tactics
 simpl in goal
-intro Cond1
 validate generalize_common_subterm_goal
 Prop: match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -982,28 +923,25 @@ Prop: match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 Lemma List
-forall (nat1:nat), if match (nat1) with
+forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 End of Lemma List
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
 nat_list1 : nat list
 Base1 : nat_list1 = (Nil)
-Cond1 : if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -1016,19 +954,17 @@ match (nat1) with
 Progress: 19
 
 
-1st goal of : forall (nat1:nat) (nat_list1:nat list), if match (nat1) with
+1st goal of : forall (nat1:nat) (nat_list1:nat list), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list1)) with
-| Tuple2 _ b -> b = true -> tf4 (nat1) (match (nat1) with
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 (nat_list1) (nat_list1)) = tf4 (false) (ZERO) (tf1 (nat_list1) (nat_list1))
 nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
 nat_list1 : nat list
 Base1 : nat_list1 = (Nil)
-Cond1 : if match (nat1) with
-| true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -1037,26 +973,23 @@ match (nat1) with
 1 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (nat1:nat), if match (nat1) with
+>>> assert forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO(rank : 0.)
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
 ---------------------------------------
-forall (nat1:nat), if match (nat1) with
+forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1069,18 +1002,16 @@ intro nat1(rank:7.)
 Progress: 20
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
 ---------------------------------------
-forall (nat1:nat), if match (nat1) with
+forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1090,18 +1021,16 @@ forall (nat1:nat), if match (nat1) with
 >>> intro nat1(rank : 7.)
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
 ---------------------------------------
-if match (nat1) with
+match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1114,18 +1043,16 @@ intro Cond1(rank:7.)
 Progress: 21
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
 ---------------------------------------
-forall (nat1:nat), if match (nat1) with
+forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1135,18 +1062,16 @@ forall (nat1:nat), if match (nat1) with
 >>> intro nat1(rank : 7.)
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
 ---------------------------------------
-if match (nat1) with
+match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1159,18 +1084,16 @@ intro Cond1(rank:7.)
 Progress: 22
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
 ---------------------------------------
-if match (nat1) with
+match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1180,17 +1103,15 @@ if match (nat1) with
 >>> intro Cond1(rank : 7.)
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
-Cond1 : if match (nat1) with
+Cond1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -1207,30 +1128,27 @@ Prop: match (ZERO) with
 Prop: match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
-Prop: match (ZERO) with
+Prop: match (SUCC (SUCC (ZERO))) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 Lemma List
-forall (nat1:nat), if match (nat1) with
+forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 End of Lemma List
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
-Cond1 : if match (nat1) with
+Cond1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -1243,17 +1161,15 @@ match (nat1) with
 Progress: 23
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
-Cond1 : if match (nat1) with
+Cond1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -1262,26 +1178,23 @@ match (nat1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> assert forall (nat1:nat), if match (nat1) with
+>>> assert forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO(rank : 0.)
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
 ---------------------------------------
-forall (nat1:nat), if match (nat1) with
+forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1294,18 +1207,16 @@ intro nat1(rank:9.)
 Progress: 24
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
 ---------------------------------------
-if match (nat1) with
+match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1315,17 +1226,15 @@ if match (nat1) with
 >>> intro Cond1(rank : 7.)
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
-Cond1 : if match (nat1) with
+Cond1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -1336,7 +1245,7 @@ match (nat1) with
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: match (SUCC (ZERO)) with
+Prop: match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 Prop: match (ZERO) with
@@ -1349,18 +1258,16 @@ Prop: match (ZERO) with
 Progress: 25
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
 ---------------------------------------
-forall (nat1:nat), if match (nat1) with
+forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1370,18 +1277,16 @@ forall (nat1:nat), if match (nat1) with
 >>> intro nat1(rank : 9.)
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
 ---------------------------------------
-if match (nat1) with
+match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1394,18 +1299,16 @@ intro Cond1(rank:9.)
 Progress: 26
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
 ---------------------------------------
-if match (nat1) with
+match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 
@@ -1415,17 +1318,15 @@ if match (nat1) with
 >>> intro Cond1(rank : 9.)
 
 
-1st goal of : forall (nat1:nat), if match (nat1) with
+1st goal of : forall (nat1:nat), match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true -> match (nat1) with
+| false -> true = true -> match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 nat1 : nat
-Cond1 : if match (nat1) with
+Cond1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 ((Nil))) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -1439,10 +1340,10 @@ validate generalize_common_subterm_goal
 Prop: match (SUCC (ZERO)) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
-Prop: match (SUCC (ZERO)) with
+Prop: match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
-Prop: match (ZERO) with
+Prop: match (SUCC (ZERO)) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO = ZERO
 =================================================
@@ -1456,10 +1357,9 @@ nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = match (tf6 (nat_list2)) with
 | Tuple2 a _ -> a
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
@@ -1478,10 +1378,11 @@ nat1 : nat
 nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = nat2
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (Tuple2 (nat2) (nat3)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
+nat2 : nat
+nat3 : nat
 Case2 : tf6 (nat_list2) = Tuple2 (nat2) (nat3)
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
@@ -1503,10 +1404,11 @@ nat1 : nat
 nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = nat2
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (Tuple2 (nat2) (nat3)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
+nat2 : nat
+nat3 : nat
 Case2 : tf6 (nat_list2) = Tuple2 (nat2) (nat3)
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
@@ -1525,10 +1427,11 @@ nat1 : nat
 nat_list2 : nat list
 IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = nat2
 Inductive1 : nat_list1 = (nat1::nat_list2)
-Case1 : if match (nat1) with
+Case1 : match (nat1) with
 | true -> false
-| false -> true then true else match (Tuple2 (nat2) (nat3)) with
-| Tuple2 _ b -> b = true
+| false -> true = true
+nat2 : nat
+nat3 : nat
 Case2 : tf6 (nat_list2) = Tuple2 (nat2) (nat3)
 ---------------------------------------
 tf4 (nat1) (match (nat1) with
@@ -1541,29 +1444,26 @@ tf4 (nat1) (match (nat1) with
 Tactic List : 0
 previous tactics
 simpl in goal
-case if match (nat1) with
+case match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b
+| false -> true
 case tf6 (nat_list2)
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
 Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
-Prop: tf4 (SUCC (SUCC (SUCC (SUCC (ZERO))))) (match (SUCC (SUCC (SUCC (SUCC (ZERO))))) with
-| true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((SUCC (SUCC (ZERO))::(Nil))) ((SUCC (SUCC (ZERO))::(Nil)))) = tf4 (false) (ZERO) (tf1 ((SUCC (SUCC (ZERO))::(Nil))) ((SUCC (SUCC (ZERO))::(Nil))))
 Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))) = tf4 (false) (ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil))))
-asdf
+| false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
+Prop: tf4 (SUCC (SUCC (ZERO))) (match (SUCC (SUCC (ZERO))) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 ((Nil)) ((Nil))) = tf4 (false) (ZERO) (tf1 ((Nil)) ((Nil)))
 previous tactics
 simpl in goal
-case if match (nat1) with
+case match (nat1) with
 | true -> false
-| false -> true then true else match (tf6 (nat_list2)) with
-| Tuple2 _ b -> b
+| false -> true
 case tf6 (nat_list2)
 parent
 tf4 (nat1) (match (nat1) with
@@ -1582,25 +1482,761 @@ tf4(nat1, _, tf1(nat_list2, nat_list2))
 remove lower
 tf4(nat1, _, tf1(nat_list2, nat_list2))
 remove upper
-tf4(nat2, _, tf1(nat_list3, nat_list3))
+tf4(nat4, _, tf1(nat_list3, nat_list3))
 remove lower
-tf4(nat2, _, tf1(nat_list3, nat_list3))
+tf4(nat4, _, tf1(nat_list3, nat_list3))
 remove upper
-tf4(nat3, _, tf1(nat_list4, nat_list4))
+tf4(nat7, _, tf1(nat_list4, nat_list4))
 remove lower
-tf4(nat3, _, tf1(nat_list4, nat_list4))
+tf4(nat7, _, tf1(nat_list4, nat_list4))
 validate generalize_common_subterm_goal
+Prop: tf4 (SUCC (ZERO)) (match (SUCC (ZERO)) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 ((ZERO::(Nil))) ((ZERO::(Nil)))) = ZERO
 Prop: tf4 (ZERO) (match (ZERO) with
 | true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))) = ZERO
-Prop: tf4 (ZERO) (match (ZERO) with
+| false -> ZERO) (tf1 ((Nil)) ((Nil))) = SUCC (ZERO)
+Prop: tf4 (SUCC (ZERO)) (match (SUCC (ZERO)) with
 | true -> plus (ZERO) (SUCC (ZERO))
 | false -> ZERO) (tf1 ((Nil)) ((Nil))) = ZERO
-Prop: tf4 (ZERO) (match (ZERO) with
+Lemma List
+forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
 | true -> plus (ZERO) (SUCC (ZERO))
-| false -> ZERO) (tf1 ((SUCC (ZERO)::(Nil))) ((SUCC (ZERO)::(Nil)))) = ZERO
-asdf
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+End of Lemma List
+
+
+1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
+nat_list1 : nat list
+nat1 : nat
+nat_list2 : nat list
+IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = nat2
+Inductive1 : nat_list1 = (nat1::nat_list2)
+Case1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat2 : nat
+nat3 : nat
+Case2 : tf6 (nat_list2) = Tuple2 (nat2) (nat3)
+---------------------------------------
+tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list2) (nat_list2)) = nat2
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 29
+
+
+1st goal of : forall (nat_list1:nat list), main (nat_list1) = mainNew (nat_list1)
+nat_list1 : nat list
+nat1 : nat
+nat_list2 : nat list
+IH1 : tf4 (false) (ZERO) (tf1 (nat_list2) (nat_list2)) = nat2
+Inductive1 : nat_list1 = (nat1::nat_list2)
+Case1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat2 : nat
+nat3 : nat
+Case2 : tf6 (nat_list2) = Tuple2 (nat2) (nat3)
+---------------------------------------
+tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list2) (nat_list2)) = nat2
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:5.)
+=================================================
+Progress: 30
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro nat1(rank : 5.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+---------------------------------------
+forall (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:5.)
+=================================================
+Progress: 31
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+---------------------------------------
+forall (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 5.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+---------------------------------------
+forall (nat2:nat) (nat_list1:nat list), tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction nat_list1(rank:6.)
+=================================================
+Progress: 32
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+---------------------------------------
+forall (nat2:nat) (nat_list1:nat list), tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction nat_list1(rank : 6.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
+---------------------------------------
+forall (nat2:nat), tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 ((Nil)) ((Nil))) = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 33
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
+---------------------------------------
+forall (nat2:nat), tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 ((Nil)) ((Nil))) = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
+---------------------------------------
+forall (nat2:nat), match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:6.)
+=================================================
+Progress: 34
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
+---------------------------------------
+forall (nat2:nat), match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro nat2(rank : 6.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
+nat2 : nat
+---------------------------------------
+match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro nat2
+validate generalize_common_subterm_goal
+Prop: match (ZERO) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = ZERO
+Prop: match (ZERO) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = SUCC (SUCC (ZERO))
+Prop: match (ZERO) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = SUCC (ZERO)
+Lemma List
+forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+End of Lemma List
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
+nat2 : nat
+---------------------------------------
+match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 35
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (nat_list1:nat list), match (nat1) with
+| true -> false
+| false -> true = true -> tf4 (nat1) (match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO) (tf1 (nat_list1) (nat_list1)) = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat_list1 : nat list
+Base1 : nat_list1 = (Nil)
+nat2 : nat
+---------------------------------------
+match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:7.)
+=================================================
+Progress: 36
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat1(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:7.)
+=================================================
+Progress: 37
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond1(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+---------------------------------------
+forall (nat2:nat), match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:7.)
+=================================================
+Progress: 38
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+---------------------------------------
+forall (nat2:nat), match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat2(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat2 : nat
+---------------------------------------
+match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: match (SUCC (ZERO)) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = ZERO
+Prop: match (SUCC (SUCC (ZERO))) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = ZERO
+Prop: match (ZERO) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = SUCC (ZERO)
+Lemma List
+forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+End of Lemma List
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat2 : nat
+---------------------------------------
+match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+=================================================
+Progress: 39
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat2 : nat
+---------------------------------------
+match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> assert forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:9.)
+=================================================
+Progress: 40
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro nat1(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:9.)
+=================================================
+Progress: 41
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro Cond1(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+---------------------------------------
+forall (nat2:nat), match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:9.)
+=================================================
+Progress: 42
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+---------------------------------------
+forall (nat2:nat), match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+>>> intro nat2(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), match (nat1) with
+| true -> false
+| false -> true = true -> match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+nat1 : nat
+Cond1 : match (nat1) with
+| true -> false
+| false -> true = true
+nat2 : nat
+---------------------------------------
+match (nat1) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = nat2
+
+0 goal(s) more...
+
+3 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: match (ZERO) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = ZERO
+Prop: match (ZERO) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = SUCC (ZERO)
+Prop: match (ZERO) with
+| true -> plus (ZERO) (SUCC (ZERO))
+| false -> ZERO = ZERO
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

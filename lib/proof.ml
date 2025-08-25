@@ -2060,21 +2060,38 @@ let rec body_eq e1 e2 =
   then true
   else (
     match e1.Ir.desc, e2.Ir.desc with
-    | Ir.Var name1, Ir.Var name2 -> name1 = name2
     | Ir.Call (name1, args1), Ir.Call (name2, args2) ->
       name1 = name2 && List.for_all2 body_eq args1 args2
     | Ir.Match (_, case_list1), _ ->
-      List.for_all
-        (fun case ->
-           let (Ir.Case (_, body)) = case in
-           body_eq body e2)
-        case_list1
+      let pat_vars =
+        List.map
+          (fun case ->
+             match case with
+             | Ir.Case (pat, _) -> Ir.collect_var_in_pat pat)
+          case_list1
+        |> List.concat
+      in
+      List.is_empty pat_vars
+      && List.for_all
+           (fun case ->
+              let (Ir.Case (_, body)) = case in
+              body_eq body e2)
+           case_list1
     | _, Ir.Match (_, case_list2) ->
-      List.for_all
-        (fun case ->
-           let (Ir.Case (_, body)) = case in
-           body_eq body e1)
-        case_list2
+      let pat_vars =
+        List.map
+          (fun case ->
+             match case with
+             | Ir.Case (pat, _) -> Ir.collect_var_in_pat pat)
+          case_list2
+        |> List.concat
+      in
+      List.is_empty pat_vars
+      && List.for_all
+           (fun case ->
+              let (Ir.Case (_, body)) = case in
+              body_eq body e1)
+           case_list2
     | _ -> false)
 ;;
 

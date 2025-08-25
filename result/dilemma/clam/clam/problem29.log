@@ -405,7 +405,7 @@ simpl in goal
 rewrite IH1 in goal at 0
 Prop: (mk_rhs1 ((Nil)) ((Nil)) @ (Nil)) = mk_rhs1 ((Nil)) ((Nil))
 Prop: (mk_rhs1 ((Nil)) ((Nil)) @ (Nil)) = mk_rhs1 ((Nil)) ((Nil))
-Prop: (mk_rhs1 ((Nil)) ((Nil)) @ (Nil)) = mk_rhs1 ((Nil)) ((Nil))
+Prop: (mk_rhs1 ((5::(8::(Nil)))) ((Nil)) @ (0::(Nil))) = mk_rhs1 ((5::(8::(Nil)))) ((0::(Nil)))
 previous tactics
 simpl in goal
 parent
@@ -440,9 +440,9 @@ remove upper
 Cons(any3, Cons(any2, Cons(any1, Nil())))
 remove lower
 Cons(any3, Cons(any2, Cons(any1, Nil())))
+Prop: (reverse ((5::(Nil))) @ (Nil)) = mk_rhs1 ((5::(Nil))) ((Nil))
 Prop: (reverse ((Nil)) @ (Nil)) = mk_rhs1 ((Nil)) ((Nil))
-Prop: (reverse ((Nil)) @ (Nil)) = mk_rhs1 ((Nil)) ((Nil))
-Prop: (reverse ((Nil)) @ (5::(Nil))) = mk_rhs1 ((Nil)) ((5::(Nil)))
+Prop: (reverse ((Nil)) @ (8::(Nil))) = mk_rhs1 ((Nil)) ((8::(Nil)))
 Lemma List
 forall (any_list1:any list) (any_list2:any list), (reverse (any_list1) @ any_list2) = mk_rhs1 (any_list1) (any_list2)
 End of Lemma List
@@ -904,9 +904,9 @@ rewrite IH1 in goal at 0
 rewrite <- IH1 in goal at 2
 intro any_list2
 validate generalize_common_subterm_goal
-Prop: (mk_rhs1 ((0::(Nil))) ((7::(Nil))) @ (3::(Nil))) = (reverse ((0::(Nil))) @ (7::(3::(Nil))))
-Prop: (mk_rhs1 ((Nil)) ((0::(Nil))) @ (1::(Nil))) = (reverse ((Nil)) @ (0::(1::(Nil))))
-Prop: (mk_rhs1 ((Nil)) ((5::(Nil))) @ (Nil)) = (reverse ((Nil)) @ (5::(Nil)))
+Prop: (mk_rhs1 ((Nil)) ((5::(Nil))) @ (5::(Nil))) = (reverse ((Nil)) @ (5::(5::(Nil))))
+Prop: (mk_rhs1 ((6::(Nil))) ((1::(Nil))) @ (Nil)) = (reverse ((6::(Nil))) @ (1::(Nil)))
+Prop: (mk_rhs1 ((Nil)) ((6::(Nil))) @ (5::(Nil))) = (reverse ((Nil)) @ (6::(5::(Nil))))
 Lemma List
 forall (any1:any) (any_list1:any list) (any_list2:any list), (mk_rhs1 (any_list2) ((any1::(Nil))) @ any_list1) = (reverse (any_list2) @ (any1::any_list1))
 End of Lemma List
@@ -1046,9 +1046,9 @@ forall (any1:any) (any_list1:any list), (mk_rhs1 ((any1::(any2::any_list3))) ((N
 Tactic List : 0
 previous tactics
 rewrite <- rhs_lemma4 in goal at 0
-Prop: (mk_rhs1 ((4::(Nil))) ((Nil)) @ (Nil)) = (reverse ((Nil)) @ (4::(Nil)))
-Prop: (mk_rhs1 ((0::(0::(Nil)))) ((Nil)) @ (Nil)) = (reverse ((0::(Nil))) @ (0::(Nil)))
-Prop: (mk_rhs1 ((1::(Nil))) ((Nil)) @ (Nil)) = (reverse ((Nil)) @ (1::(Nil)))
+Prop: (mk_rhs1 ((5::(Nil))) ((Nil)) @ (Nil)) = (reverse ((Nil)) @ (5::(Nil)))
+Prop: (mk_rhs1 ((0::(Nil))) ((Nil)) @ (6::(Nil))) = (reverse ((Nil)) @ (0::(6::(Nil))))
+Prop: (mk_rhs1 ((0::(Nil))) ((Nil)) @ (Nil)) = (reverse ((Nil)) @ (0::(Nil)))
 previous tactics
 parent
 (any2::any_list3)
@@ -1237,8 +1237,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-Prop: (((0::(Nil)) @ (5::(Nil))) @ (Nil)) = ((0::(Nil)) @ (5::(Nil)))
-Prop: (((Nil) @ (3::(Nil))) @ (Nil)) = ((Nil) @ (3::(Nil)))
+Prop: (((Nil) @ (2::(Nil))) @ (Nil)) = ((Nil) @ (2::(Nil)))
+Prop: (((4::(Nil)) @ (4::(Nil))) @ (Nil)) = ((4::(Nil)) @ (4::(Nil)))
 Prop: (((Nil) @ (0::(Nil))) @ (Nil)) = ((Nil) @ (0::(Nil)))
 previous tactics
 simpl in goal
@@ -1275,9 +1275,9 @@ Cons(any3, Cons(any2, Cons(any1, any_list2)))
 remove lower
 Cons(any3, Cons(any2, Cons(any1, any_list2)))
 validate generalize_common_subterm_goal
-Prop: ((reverse ((Nil)) @ (6::(Nil))) @ (Nil)) = mk_rhs1 ((Nil)) ((6::(Nil)))
-Prop: ((reverse ((Nil)) @ (3::(Nil))) @ (0::(Nil))) = mk_rhs1 ((Nil)) ((3::(0::(Nil))))
-Prop: ((reverse ((6::(Nil))) @ (3::(Nil))) @ (4::(7::(Nil)))) = mk_rhs1 ((6::(Nil))) ((3::(4::(7::(Nil)))))
+Prop: ((reverse ((Nil)) @ (4::(Nil))) @ (1::(1::(Nil)))) = mk_rhs1 ((Nil)) ((4::(1::(1::(Nil)))))
+Prop: ((reverse ((8::(7::(Nil)))) @ (7::(Nil))) @ (0::(Nil))) = mk_rhs1 ((8::(7::(Nil)))) ((7::(0::(Nil))))
+Prop: ((reverse ((2::(4::(Nil)))) @ (4::(Nil))) @ (Nil)) = mk_rhs1 ((2::(4::(Nil)))) ((4::(Nil)))
 Lemma List
 forall (any1:any) (any_list1:any list) (any_list2:any list), ((any_list2 @ (any1::(Nil))) @ any_list1) = (any_list2 @ (any1::any_list1))
 End of Lemma List
@@ -1572,16 +1572,16 @@ simpl in goal
 intro any_list2
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: (mk_rhs1 ((7::(2::(Nil)))) ((7::(Nil))) @ (Nil)) = mk_rhs1 ((7::(2::(Nil)))) ((7::(Nil)))
-Prop: (mk_rhs1 ((Nil)) ((0::(Nil))) @ (Nil)) = mk_rhs1 ((Nil)) ((0::(Nil)))
-Prop: (mk_rhs1 ((Nil)) ((2::(Nil))) @ (0::(Nil))) = mk_rhs1 ((Nil)) ((2::(0::(Nil))))
+Prop: (mk_rhs1 ((Nil)) ((4::(Nil))) @ (Nil)) = mk_rhs1 ((Nil)) ((4::(Nil)))
+Prop: (mk_rhs1 ((Nil)) ((6::(Nil))) @ (Nil)) = mk_rhs1 ((Nil)) ((6::(Nil)))
+Prop: (mk_rhs1 ((Nil)) ((7::(Nil))) @ (2::(0::(Nil)))) = mk_rhs1 ((Nil)) ((7::(2::(0::(Nil)))))
 previous tactics
 simpl in goal
 intro any_list2
 validate generalize_common_subterm_goal
-Prop: ((reverse ((6::(Nil))) @ (7::(Nil))) @ (Nil)) = mk_rhs1 ((6::(Nil))) ((7::(Nil)))
-Prop: ((reverse ((Nil)) @ (3::(Nil))) @ (Nil)) = mk_rhs1 ((Nil)) ((3::(Nil)))
-Prop: ((reverse ((Nil)) @ (8::(Nil))) @ (4::(Nil))) = mk_rhs1 ((Nil)) ((8::(4::(Nil))))
+Prop: ((reverse ((Nil)) @ (1::(Nil))) @ (Nil)) = mk_rhs1 ((Nil)) ((1::(Nil)))
+Prop: ((reverse ((Nil)) @ (4::(Nil))) @ (Nil)) = mk_rhs1 ((Nil)) ((4::(Nil)))
+Prop: ((reverse ((0::(Nil))) @ (6::(Nil))) @ (Nil)) = mk_rhs1 ((0::(Nil))) ((6::(Nil)))
 Lemma List
 forall (any1:any) (any_list1:any list) (any_list2:any list), ((reverse (any_list2) @ (any1::(Nil))) @ any_list1) = mk_rhs1 (any_list2) ((any1::any_list1))
 End of Lemma List
@@ -1769,9 +1769,9 @@ forall (any1:any) (any_list1:any list), ((reverse ((any2::any_list3)) @ (any1::(
 Tactic List : 0
 previous tactics
 rewrite <- rhs_lemma4 in goal at 0
-Prop: ((reverse ((Nil)) @ (5::(Nil))) @ (Nil)) = mk_rhs1 ((5::(Nil))) ((Nil))
-Prop: ((reverse ((Nil)) @ (1::(Nil))) @ (5::(Nil))) = mk_rhs1 ((1::(Nil))) ((5::(Nil)))
-Prop: ((reverse ((4::(Nil))) @ (2::(Nil))) @ (Nil)) = mk_rhs1 ((2::(4::(Nil)))) ((Nil))
+Prop: ((reverse ((5::(Nil))) @ (5::(Nil))) @ (6::(Nil))) = mk_rhs1 ((5::(5::(Nil)))) ((6::(Nil)))
+Prop: ((reverse ((1::(Nil))) @ (8::(Nil))) @ (Nil)) = mk_rhs1 ((8::(1::(Nil)))) ((Nil))
+Prop: ((reverse ((5::(5::(0::(Nil))))) @ (8::(Nil))) @ (Nil)) = mk_rhs1 ((8::(5::(5::(0::(Nil)))))) ((Nil))
 previous tactics
 parent
 (any2::any_list3)
@@ -1961,7 +1961,7 @@ forall (any1:any) (any_list1:any list), (mk_rhs1 ((any1::(any2::any_list3))) ((N
 Tactic List : 0
 previous tactics
 rewrite <- rhs_lemma4 in goal at 0
-Prop: (mk_rhs1 ((Nil)) ((Nil)) @ (5::(0::(Nil)))) = mk_rhs1 ((Nil)) ((5::(0::(Nil))))
+Prop: (mk_rhs1 ((Nil)) ((Nil)) @ (Nil)) = mk_rhs1 ((Nil)) ((Nil))
 Prop: (mk_rhs1 ((0::(Nil))) ((Nil)) @ (Nil)) = mk_rhs1 ((0::(Nil))) ((Nil))
 Prop: (mk_rhs1 ((0::(Nil))) ((Nil)) @ (Nil)) = mk_rhs1 ((0::(Nil))) ((Nil))
 previous tactics
@@ -2210,16 +2210,16 @@ previous tactics
 simpl in goal
 intro any_list2
 rewrite <- IH1 in goal at 0
-Prop: (((Nil) @ (5::(Nil))) @ (7::(Nil))) = ((Nil) @ (5::(7::(Nil))))
+Prop: (((4::(Nil)) @ (6::(Nil))) @ (Nil)) = ((4::(Nil)) @ (6::(Nil)))
+Prop: (((0::(Nil)) @ (0::(Nil))) @ (Nil)) = ((0::(Nil)) @ (0::(Nil)))
 Prop: (((Nil) @ (3::(Nil))) @ (Nil)) = ((Nil) @ (3::(Nil)))
-Prop: (((Nil) @ (6::(Nil))) @ (3::(0::(8::(Nil))))) = ((Nil) @ (6::(3::(0::(8::(Nil))))))
 previous tactics
 simpl in goal
 intro any_list2
 validate generalize_common_subterm_goal
-Prop: ((reverse ((Nil)) @ (3::(Nil))) @ (Nil)) = mk_rhs1 ((Nil)) ((3::(Nil)))
-Prop: ((reverse ((Nil)) @ (0::(Nil))) @ (Nil)) = mk_rhs1 ((Nil)) ((0::(Nil)))
-Prop: ((reverse ((Nil)) @ (1::(Nil))) @ (4::(Nil))) = mk_rhs1 ((Nil)) ((1::(4::(Nil))))
+Prop: ((reverse ((Nil)) @ (6::(Nil))) @ (Nil)) = mk_rhs1 ((Nil)) ((6::(Nil)))
+Prop: ((reverse ((3::(Nil))) @ (5::(Nil))) @ (Nil)) = mk_rhs1 ((3::(Nil))) ((5::(Nil)))
+Prop: ((reverse ((Nil)) @ (0::(Nil))) @ (5::(Nil))) = mk_rhs1 ((Nil)) ((0::(5::(Nil))))
 =================================================
 Progress: 56
 

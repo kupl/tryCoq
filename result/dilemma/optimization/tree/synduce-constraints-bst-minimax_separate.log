@@ -167,6 +167,8 @@ spec (match (tree1) with
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
 Case1 : isbst (tree1) = true
+nat1 : nat
+nat2 : nat
 Case2 : match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2)
@@ -187,6 +189,8 @@ Progress: 6
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
 Case1 : isbst (tree1) = true
+nat1 : nat
+nat2 : nat
 Case2 : match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2)
@@ -204,6 +208,8 @@ spec (match (tree1) with
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
 Case1 : isbst (tree1) = true
+nat1 : nat
+nat2 : nat
 Case2 : match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2)
@@ -219,31 +225,31 @@ spec (match (tree1) with
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: spec (match (Leaf (ZERO)) with
+Prop: spec (match (Leaf (SUCC (SUCC (ZERO)))) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (SUCC (ZERO)))) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-Prop: spec (match (Leaf (SUCC (ZERO))) with
+Prop: spec (match (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (ZERO))) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-Prop: spec (match (Leaf (SUCC (ZERO))) with
+Prop: spec (match (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))))) (Leaf (ZERO))) (Leaf (ZERO)))))) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (ZERO))) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))))) (Leaf (ZERO))) (Leaf (ZERO)))))) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
 validate generalize_common_subterm_goal
-Prop: spec (match (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (SUCC (ZERO))))) (Leaf (SUCC (SUCC (ZERO))))) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Node (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))))) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (SUCC (ZERO)) (ZERO)
 Prop: spec (match (Leaf (ZERO)) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (SUCC (ZERO)) (ZERO)
-Prop: spec (match (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (ZERO)
+Prop: spec (match (Leaf (ZERO)) with
 | Leaf n -> Leaf (n)
 | Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (ZERO)
+Prop: spec (match (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
@@ -256,6 +262,8 @@ End of Lemma List
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
 Case1 : isbst (tree1) = true
+nat1 : nat
+nat2 : nat
 Case2 : match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2)
@@ -279,6 +287,8 @@ End of Lemma List
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
 Case1 : isbst (tree1) = true
+nat1 : nat
+nat2 : nat
 Case2 : match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2)
@@ -299,6 +309,8 @@ Progress: 7
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
 Case1 : isbst (tree1) = true
+nat1 : nat
+nat2 : nat
 Case2 : match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2)
@@ -334,7 +346,7 @@ forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) w
 
 1 conjecture(s) more...
 Tactic List : 1
-intro nat1(rank:5.)
+intro nat1(rank:9.)
 =================================================
 Progress: 8
 
@@ -342,6 +354,8 @@ Progress: 8
 1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
 tree1 : tree
 Case1 : isbst (tree1) = true
+nat1 : nat
+nat2 : nat
 Case2 : match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2)
@@ -384,47 +398,6 @@ intro tree1(rank:5.)
 Progress: 9
 
 
-1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat1(rank : 5.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-nat1 : nat
----------------------------------------
-forall (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro nat2(rank:5.)
-=================================================
-Progress: 10
-
-
 1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
 | Leaf n -> Leaf (n)
 | Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
@@ -463,49 +436,7 @@ isbst (tree1) = true -> spec (match (tree1) with
 Tactic List : 1
 intro Cond1(rank:5.)
 =================================================
-Progress: 11
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-nat1 : nat
----------------------------------------
-forall (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat2(rank : 5.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-nat1 : nat
-nat2 : nat
----------------------------------------
-forall (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro tree1(rank:5.)
-=================================================
-Progress: 12
+Progress: 10
 
 
 1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
@@ -546,14 +477,14 @@ spec (match (tree1) with
 1 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: spec (match (Leaf (SUCC (SUCC (SUCC (ZERO))))) with
+Prop: spec (match (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (SUCC (SUCC (ZERO))))) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-Prop: spec (match (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO)))))) with
+Prop: spec (match (Leaf (ZERO)) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO)))))) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
 Prop: spec (match (Leaf (ZERO)) with
@@ -588,7 +519,7 @@ spec (match (tree1) with
 
 1 conjecture(s) more...
 =================================================
-Progress: 13
+Progress: 11
 
 
 1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
@@ -634,7 +565,165 @@ forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
 Tactic List : 1
 intro tree1(rank:7.)
 =================================================
+Progress: 12
+
+
+1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+
+---------------------------------------
+forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro tree1(rank : 7.)
+
+
+1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+tree1 : tree
+---------------------------------------
+isbst (tree1) = true -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:7.)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+tree1 : tree
+---------------------------------------
+isbst (tree1) = true -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond1(rank : 7.)
+
+
+1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+tree1 : tree
+Cond1 : isbst (tree1) = true
+---------------------------------------
+spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: spec (match (Leaf (ZERO)) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+Prop: spec (match (Leaf (ZERO)) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+Prop: spec (match (Leaf (ZERO)) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+=================================================
 Progress: 14
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro nat1(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+nat1 : nat
+---------------------------------------
+forall (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:9.)
+=================================================
+Progress: 15
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+nat1 : nat
+---------------------------------------
+forall (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro nat2(rank : 9.)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -654,75 +743,8 @@ forall (tree1:tree), isbst (tree1) = true->match (tree1) with
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro tree1(rank : 5.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-nat1 : nat
-nat2 : nat
-tree1 : tree
----------------------------------------
-isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:5.)
-=================================================
-Progress: 15
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-nat1 : nat
-nat2 : nat
-tree1 : tree
----------------------------------------
-isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro Cond1(rank : 5.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-nat1 : nat
-nat2 : nat
-tree1 : tree
-Cond1 : isbst (tree1) = true
----------------------------------------
-match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro Cond2(rank:5.)
+intro tree1(rank:9.)
 =================================================
 Progress: 16
 
@@ -734,10 +756,8 @@ Progress: 16
 | Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
 nat1 : nat
 nat2 : nat
-tree1 : tree
-Cond1 : isbst (tree1) = true
 ---------------------------------------
-match (tree1) with
+forall (tree1:tree), isbst (tree1) = true->match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
 | Leaf n -> Leaf (n)
@@ -746,7 +766,7 @@ match (tree1) with
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> intro Cond2(rank : 5.)
+>>> intro tree1(rank : 9.)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -757,12 +777,10 @@ match (tree1) with
 nat1 : nat
 nat2 : nat
 tree1 : tree
-Cond1 : isbst (tree1) = true
-Cond2 : match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2)
 ---------------------------------------
-spec (match (tree1) with
+isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
 | Leaf n -> Leaf (n)
 | Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
 
@@ -770,7 +788,7 @@ spec (match (tree1) with
 
 1 conjecture(s) more...
 Tactic List : 1
-rewrite <- Cond2 in goal at 0(rank:5.)
+intro Cond1(rank:9.)
 =================================================
 Progress: 17
 
@@ -783,6 +801,74 @@ Progress: 17
 nat1 : nat
 nat2 : nat
 tree1 : tree
+---------------------------------------
+isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+nat1 : nat
+nat2 : nat
+tree1 : tree
+Cond1 : isbst (tree1) = true
+---------------------------------------
+match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:9.)
+=================================================
+Progress: 18
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+nat1 : nat
+nat2 : nat
+tree1 : tree
+Cond1 : isbst (tree1) = true
+---------------------------------------
+match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond2(rank : 9.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+nat1 : nat
+nat2 : nat
+tree1 : tree
 Cond1 : isbst (tree1) = true
 Cond2 : match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
@@ -795,7 +881,33 @@ spec (match (tree1) with
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> rewrite <- Cond2 in goal at 0(rank : 5.)
+Tactic List : 1
+rewrite <- Cond2 in goal at 0(rank:9.)
+=================================================
+Progress: 19
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+nat1 : nat
+nat2 : nat
+tree1 : tree
+Cond1 : isbst (tree1) = true
+Cond2 : match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2)
+---------------------------------------
+spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> rewrite <- Cond2 in goal at 0(rank : 9.)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -827,26 +939,26 @@ Prop: spec (match (Leaf (ZERO)) with
 | Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-Prop: spec (match (Leaf (SUCC (SUCC (ZERO)))) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (SUCC (ZERO)))) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
 Prop: spec (match (Leaf (ZERO)) with
 | Leaf n -> Leaf (n)
 | Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+Prop: spec (match (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
 validate generalize_common_subterm_goal
+Prop: spec (match (Leaf (ZERO)) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (SUCC (SUCC (ZERO)))
 Prop: spec (match (Leaf (SUCC (ZERO))) with
 | Leaf n -> Leaf (n)
 | Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (ZERO)
 Prop: spec (match (Leaf (ZERO)) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (SUCC (ZERO))
-Prop: spec (match (Leaf (ZERO)) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (SUCC (ZERO))
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
 | Leaf n -> Tuple2 (n) (n)
@@ -908,7 +1020,7 @@ spec (match (tree1) with
 
 1 conjecture(s) more...
 =================================================
-Progress: 18
+Progress: 20
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -955,9 +1067,9 @@ forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) w
 
 2 conjecture(s) more...
 Tactic List : 1
-intro nat1(rank:7.)
+intro nat1(rank:11.)
 =================================================
-Progress: 19
+Progress: 21
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -1007,88 +1119,6 @@ forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
 2 conjecture(s) more...
 Tactic List : 1
 intro tree1(rank:7.)
-=================================================
-Progress: 20
-
-
-1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-
----------------------------------------
-forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro tree1(rank : 7.)
-
-
-1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-tree1 : tree
----------------------------------------
-isbst (tree1) = true -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:7.)
-=================================================
-Progress: 21
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-nat1 : nat
----------------------------------------
-forall (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat2(rank:7.)
 =================================================
 Progress: 22
 
@@ -1172,9 +1202,9 @@ spec (match (tree1) with
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: spec (match (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO))) with
+Prop: spec (match (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO))) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
 Prop: spec (match (Leaf (ZERO)) with
@@ -1182,13 +1212,32 @@ Prop: spec (match (Leaf (ZERO)) with
 | Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-Prop: spec (match (Leaf (ZERO)) with
+Prop: spec (match (Leaf (SUCC (SUCC (ZERO)))) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (SUCC (ZERO)))) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
 =================================================
 Progress: 24
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat1(rank : 11.)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -1207,7 +1256,29 @@ forall (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro nat2(rank : 7.)
+Tactic List : 1
+intro nat2(rank:11.)
+=================================================
+Progress: 25
+
+
+1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+nat1 : nat
+---------------------------------------
+forall (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
+| Leaf n -> Tuple2 (n) (n)
+| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1)) = Tuple2 (nat1) (nat2) -> spec (match (tree1) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (nat1) (nat2)
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat2(rank : 11.)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -1228,64 +1299,7 @@ forall (tree1:tree), isbst (tree1) = true->match (tree1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro tree1(rank:7.)
-=================================================
-Progress: 25
-
-
-1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-tree1 : tree
----------------------------------------
-isbst (tree1) = true -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
-
-
-1st goal of : forall (tree1:tree), isbst (tree1) = true -> spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-tree1 : tree
-Cond1 : isbst (tree1) = true
----------------------------------------
-spec (match (tree1) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (tree1) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: spec (match (Node (ZERO) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Node (ZERO) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-Prop: spec (match (Leaf (SUCC (ZERO))) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (ZERO))) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-Prop: spec (match (Leaf (SUCC (SUCC (SUCC (ZERO))))) with
-| Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (SUCC (SUCC (ZERO))))) with
-| Leaf n -> Tuple2 (n) (n)
-| Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
+intro tree1(rank:11.)
 =================================================
 Progress: 26
 
@@ -1307,7 +1321,7 @@ forall (tree1:tree), isbst (tree1) = true->match (tree1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro tree1(rank : 7.)
+>>> intro tree1(rank : 11.)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -1329,7 +1343,7 @@ isbst (tree1) = true->match (tree1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro Cond1(rank:7.)
+intro Cond1(rank:11.)
 =================================================
 Progress: 27
 
@@ -1352,7 +1366,7 @@ isbst (tree1) = true->match (tree1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
+>>> intro Cond1(rank : 11.)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -1375,7 +1389,7 @@ match (tree1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-intro Cond2(rank:7.)
+intro Cond2(rank:11.)
 =================================================
 Progress: 28
 
@@ -1399,7 +1413,7 @@ match (tree1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> intro Cond2(rank : 7.)
+>>> intro Cond2(rank : 11.)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -1423,7 +1437,7 @@ spec (match (tree1) with
 
 2 conjecture(s) more...
 Tactic List : 1
-rewrite <- Cond2 in goal at 0(rank:7.)
+rewrite <- Cond2 in goal at 0(rank:11.)
 =================================================
 Progress: 29
 
@@ -1448,7 +1462,7 @@ spec (match (tree1) with
 0 goal(s) more...
 
 2 conjecture(s) more...
->>> rewrite <- Cond2 in goal at 0(rank : 7.)
+>>> rewrite <- Cond2 in goal at 0(rank : 11.)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (tree1:tree), isbst (tree1) = true->match (tree1) with
@@ -1475,32 +1489,32 @@ spec (match (tree1) with
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: spec (match (Leaf (ZERO)) with
+Prop: spec (match (Leaf (SUCC (ZERO))) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (ZERO))) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-Prop: spec (match (Leaf (ZERO)) with
+Prop: spec (match (Leaf (SUCC (SUCC (ZERO)))) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (ZERO)) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Leaf (SUCC (SUCC (ZERO)))) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
-Prop: spec (match (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (Leaf (ZERO)))) with
+Prop: spec (match (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (Leaf (ZERO)))) with
+| Node n l1 l2 -> Node (n) (l1) (l2)) = match (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) with
 | Leaf n -> Tuple2 (n) (n)
 | Node n l1 l2 -> Tuple2 (tmax (l2)) (tmin (l1))
 validate generalize_common_subterm_goal
 Prop: spec (match (Leaf (ZERO)) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (SUCC (SUCC (ZERO))) (ZERO)
-Prop: spec (match (Leaf (ZERO)) with
-| Leaf n -> Leaf (n)
 | Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (SUCC (ZERO))
+Prop: spec (match (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) with
+| Leaf n -> Leaf (n)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
 Prop: spec (match (Leaf (ZERO)) with
 | Leaf n -> Leaf (n)
-| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (ZERO) (ZERO)
+| Node n l1 l2 -> Node (n) (l1) (l2)) = Tuple2 (SUCC (SUCC (ZERO))) (SUCC (ZERO))
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
-Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 284, characters 8-69
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
 Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

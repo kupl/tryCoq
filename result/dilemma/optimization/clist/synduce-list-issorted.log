@@ -285,6 +285,9 @@ IH2 : match (tf5 (repr (clist3))) with
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : if bool1 then match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -344,6 +347,9 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -404,6 +410,9 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -432,6 +441,9 @@ IH2 : match (tf5 (repr (clist3))) with
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : if bool1 then match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -451,15 +463,21 @@ clist3 : clist
 IH1 : match (tf5 (repr (clist2))) with
 | Tuple3 _ _ c -> c = bool1
 IH2 : match (tf5 (repr (clist3))) with
-| Tuple3 _ _ c -> c = bool1
+| Tuple3 _ _ c -> c = bool4
 Inductive1 : clist1 = Concats (clist2) (clist3)
-Case1 : if bool1 then match (Tuple3 (bool1) (bool2) (bool3)) with
+Case1 : if bool1 then match (Tuple3 (bool4) (bool5) (bool6)) with
 | Tuple3 a _ _ -> a else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
-Case3 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+bool4 : bool
+bool5 : bool
+bool6 : bool
+Case3 : reprNew (clist3) = Tuple3 (bool4) (bool5) (bool6)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
-| Tuple3 _ _ c -> c = lq (bool3) (bool2)
+| Tuple3 _ _ c -> c = lq (bool3) (bool5)
 
 1 goal(s) more...
 
@@ -475,34 +493,34 @@ case match (match (reprNew (clist2)) with
 case reprNew (clist2)
 case reprNew (clist3)
 parent
-lq (bool3) (bool2)
+lq (bool3) (bool5)
 lower
-lq(_, bool2)
+lq(_, bool5)
 upper
 _
 remove upper
-bool1
+bool4
 remove lower
-bool1
+bool4
 remove upper
-lq(bool3, bool2)
+lq(bool3, bool5)
 remove lower
-lq(bool3, bool2)
+lq(bool3, bool5)
 remove upper
-lq(bool3, bool2)
+lq(bool3, bool5)
 remove lower
-lq(bool3, bool2)
+lq(bool3, bool5)
 remove upper
-lq(bool3, bool2)
+lq(bool3, bool5)
 remove lower
-lq(bool3, bool2)
+lq(bool3, bool5)
 validate generalize_common_subterm_goal
-Prop: match (tf5 (tf1 (repr (Single (SUCC (ZERO)))) (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))))) with
-| Tuple3 _ _ c -> c = lq (false) (false)
-Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO)))))) with
-| Tuple3 _ _ c -> c = lq (false) (true)
-Prop: match (tf5 (tf1 (repr (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))))) (repr (Single (ZERO))))) with
-| Tuple3 _ _ c -> c = lq (false) (false)
+Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Single (ZERO)))))) with
+| Tuple3 _ _ c -> c = lq (true) (true)
+Prop: match (tf5 (tf1 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Single (ZERO))))) with
+| Tuple3 _ _ c -> c = lq (true) (true)
+Prop: match (tf5 (tf1 (repr (Single (SUCC (ZERO)))) (repr (Concats (Single (ZERO)) (Single (ZERO)))))) with
+| Tuple3 _ _ c -> c = lq (true) (true)
 asdf
 =================================================
 Progress: 11
@@ -520,6 +538,9 @@ IH2 : match (tf5 (repr (clist3))) with
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : if bool1 then match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -544,7 +565,13 @@ IH2 : match (tf5 (repr (clist3))) with
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : if bool1 then match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case3 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (bool3) (match (reprNew (clist3)) with
@@ -573,11 +600,11 @@ _
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: ZERO = lq (true) (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+Prop: SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))) = lq (true) (match (reprNew (Single (ZERO))) with
 | Tuple3 _ b _ -> b)
-Prop: ZERO = lq (true) (match (reprNew (Single (ZERO))) with
+Prop: ZERO = lq (false) (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
 | Tuple3 _ b _ -> b)
-Prop: ZERO = lq (true) (match (reprNew (Concats (Concats (Concats (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO))) (Single (ZERO))) (Single (ZERO))) (Single (ZERO)))) with
+Prop: ZERO = lq (false) (match (reprNew (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (SUCC (ZERO)))))) with
 | Tuple3 _ b _ -> b)
 asdf
 =================================================
@@ -599,6 +626,9 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -616,17 +646,23 @@ clist1 : clist
 clist2 : clist
 clist3 : clist
 IH1 : match (tf5 (repr (clist2))) with
-| Tuple3 _ _ c -> c = bool1
+| Tuple3 _ _ c -> c = bool4
 IH2 : match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c = bool1
 Inductive1 : clist1 = Concats (clist2) (clist3)
-Case1 : if bool1 then match (Tuple3 (bool1) (bool2) (bool3)) with
+Case1 : if bool4 then match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
-Case3 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+bool4 : bool
+bool5 : bool
+bool6 : bool
+Case3 : reprNew (clist2) = Tuple3 (bool4) (bool5) (bool6)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
-| Tuple3 _ _ c -> c = lq (bool3) (bool2)
+| Tuple3 _ _ c -> c = lq (bool6) (bool2)
 
 1 goal(s) more...
 
@@ -642,7 +678,7 @@ case match (match (reprNew (clist2)) with
 case reprNew (clist3)
 case reprNew (clist2)
 parent
-lq (bool3) (bool2)
+lq (bool6) (bool2)
 lower
 lq(_, bool2)
 upper
@@ -652,24 +688,24 @@ bool1
 remove lower
 bool1
 remove upper
-lq(bool3, bool2)
+lq(bool6, bool2)
 remove lower
-lq(bool3, bool2)
+lq(bool6, bool2)
 remove upper
-lq(bool3, bool2)
+lq(bool6, bool2)
 remove lower
-lq(bool3, bool2)
+lq(bool6, bool2)
 remove upper
-lq(bool3, bool2)
+lq(bool6, bool2)
 remove lower
-lq(bool3, bool2)
+lq(bool6, bool2)
 validate generalize_common_subterm_goal
-Prop: match (tf5 (tf1 (repr (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (ZERO)))) (repr (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Concats (Single (ZERO)) (Single (ZERO)))) (Concats (Single (ZERO)) (Single (ZERO)))))))) with
+Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Single (ZERO))))) with
+| Tuple3 _ _ c -> c = lq (true) (false)
+Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))))) with
 | Tuple3 _ _ c -> c = lq (false) (false)
-Prop: match (tf5 (tf1 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO))))) with
-| Tuple3 _ _ c -> c = lq (false) (true)
-Prop: match (tf5 (tf1 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO))))) with
-| Tuple3 _ _ c -> c = lq (false) (true)
+Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))) (Single (ZERO)))) (Concats (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO)))) (Single (ZERO)))) (Concats (Single (ZERO)) (Single (ZERO)))))))) with
+| Tuple3 _ _ c -> c = lq (false) (false)
 asdf
 =================================================
 Progress: 13
@@ -690,6 +726,9 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -717,7 +756,13 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case3 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -737,12 +782,12 @@ case match (match (reprNew (clist2)) with
 case reprNew (clist3)
 case tf5 (tf1 (repr (clist3)) (repr (clist2)))
 validate generalize_common_subterm_goal
+Prop: ZERO = lq (match (reprNew (Concats (Single (SUCC (ZERO))) (Single (ZERO)))) with
+| Tuple3 _ _ c -> c) (false)
 Prop: ZERO = lq (match (reprNew (Single (ZERO))) with
 | Tuple3 _ _ c -> c) (true)
-Prop: SUCC (ZERO) = lq (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+Prop: SUCC (ZERO) = lq (match (reprNew (Single (ZERO))) with
 | Tuple3 _ _ c -> c) (false)
-Prop: ZERO = lq (match (reprNew (Single (SUCC (ZERO)))) with
-| Tuple3 _ _ c -> c) (true)
 asdf
 =================================================
 Progress: 14
@@ -764,6 +809,9 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -788,7 +836,13 @@ IH2 : match (tf5 (repr (clist3))) with
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : if bool1 then match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a else false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case3 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 nat3 = lq (bool3) (match (reprNew (clist3)) with
@@ -817,11 +871,11 @@ _
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: ZERO = lq (true) (match (reprNew (Single (ZERO))) with
+Prop: SUCC (SUCC (ZERO)) = lq (true) (match (reprNew (Single (ZERO))) with
 | Tuple3 _ b _ -> b)
 Prop: ZERO = lq (true) (match (reprNew (Single (ZERO))) with
 | Tuple3 _ b _ -> b)
-Prop: SUCC (SUCC (ZERO)) = lq (false) (match (reprNew (Concats (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (ZERO))))) (Single (ZERO)))) with
+Prop: SUCC (ZERO) = lq (true) (match (reprNew (Single (SUCC (ZERO)))) with
 | Tuple3 _ b _ -> b)
 asdf
 =================================================
@@ -844,6 +898,9 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -871,7 +928,13 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case3 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -891,11 +954,11 @@ case match (match (reprNew (clist2)) with
 case tf5 (tf1 (repr (clist3)) (repr (clist2)))
 case reprNew (clist3)
 validate generalize_common_subterm_goal
-Prop: ZERO = lq (match (reprNew (Single (ZERO))) with
+Prop: SUCC (ZERO) = lq (match (reprNew (Single (ZERO))) with
+| Tuple3 _ _ c -> c) (true)
+Prop: ZERO = lq (match (reprNew (Concats (Single (SUCC (ZERO))) (Single (ZERO)))) with
 | Tuple3 _ _ c -> c) (true)
 Prop: ZERO = lq (match (reprNew (Single (ZERO))) with
-| Tuple3 _ _ c -> c) (true)
-Prop: ZERO = lq (match (reprNew (Concats (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO)))) with
 | Tuple3 _ _ c -> c) (true)
 asdf
 =================================================
@@ -1071,6 +1134,9 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -1130,6 +1196,9 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -1190,6 +1259,9 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -1221,6 +1293,9 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -1240,18 +1315,24 @@ clist3 : clist
 IH1 : match (tf5 (repr (clist2))) with
 | Tuple3 _ _ c -> c = bool1
 IH2 : match (tf5 (repr (clist3))) with
-| Tuple3 _ _ c -> c = bool1
+| Tuple3 _ _ c -> c = bool4
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : match (match (tf5 (repr (clist2))) with
 | Tuple3 _ _ c -> c) with
-| true -> match (Tuple3 (bool1) (bool2) (bool3)) with
+| true -> match (Tuple3 (bool4) (bool5) (bool6)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
-Case3 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+bool4 : bool
+bool5 : bool
+bool6 : bool
+Case3 : reprNew (clist3) = Tuple3 (bool4) (bool5) (bool6)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
-| Tuple3 _ _ c -> c = lq (bool3) (bool2)
+| Tuple3 _ _ c -> c = lq (bool3) (bool5)
 
 1 goal(s) more...
 
@@ -1268,11 +1349,11 @@ case match (match (tf5 (repr (clist2))) with
 case reprNew (clist2)
 case reprNew (clist3)
 validate generalize_common_subterm_goal
+Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO)))))) with
+| Tuple3 _ _ c -> c = lq (true) (true)
+Prop: match (tf5 (tf1 (repr (Concats (Single (SUCC (ZERO))) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (repr (Single (SUCC (ZERO)))))) with
+| Tuple3 _ _ c -> c = lq (true) (false)
 Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Single (ZERO))))) with
-| Tuple3 _ _ c -> c = lq (false) (true)
-Prop: match (tf5 (tf1 (repr (Single (SUCC (ZERO)))) (repr (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO)))))) with
-| Tuple3 _ _ c -> c = lq (false) (false)
-Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO)))))) with
 | Tuple3 _ _ c -> c = lq (true) (true)
 asdf
 =================================================
@@ -1294,6 +1375,9 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -1321,7 +1405,13 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case3 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (bool3) (match (reprNew (clist3)) with
@@ -1342,11 +1432,11 @@ case match (match (tf5 (repr (clist2))) with
 case reprNew (clist2)
 case tf5 (tf1 (repr (clist3)) (repr (clist2)))
 validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = lq (true) (match (reprNew (Concats (Single (SUCC (ZERO))) (Single (ZERO)))) with
+Prop: ZERO = lq (false) (match (reprNew (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) with
 | Tuple3 _ b _ -> b)
-Prop: ZERO = lq (true) (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+Prop: SUCC (ZERO) = lq (true) (match (reprNew (Single (ZERO))) with
 | Tuple3 _ b _ -> b)
-Prop: ZERO = lq (false) (match (reprNew (Single (SUCC (SUCC (ZERO))))) with
+Prop: ZERO = lq (false) (match (reprNew (Single (ZERO))) with
 | Tuple3 _ b _ -> b)
 asdf
 =================================================
@@ -1368,6 +1458,9 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -1385,7 +1478,7 @@ clist1 : clist
 clist2 : clist
 clist3 : clist
 IH1 : match (tf5 (repr (clist2))) with
-| Tuple3 _ _ c -> c = bool1
+| Tuple3 _ _ c -> c = bool4
 IH2 : match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c = bool1
 Inductive1 : clist1 = Concats (clist2) (clist3)
@@ -1394,11 +1487,17 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
-Case3 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+bool4 : bool
+bool5 : bool
+bool6 : bool
+Case3 : reprNew (clist2) = Tuple3 (bool4) (bool5) (bool6)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
-| Tuple3 _ _ c -> c = lq (bool3) (bool2)
+| Tuple3 _ _ c -> c = lq (bool6) (bool2)
 
 1 goal(s) more...
 
@@ -1415,12 +1514,12 @@ case match (match (tf5 (repr (clist2))) with
 case reprNew (clist3)
 case reprNew (clist2)
 validate generalize_common_subterm_goal
-Prop: match (tf5 (tf1 (repr (Concats (Concats (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))) (Single (SUCC (ZERO)))) (Single (SUCC (SUCC (ZERO))))) (Single (ZERO)))) (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))))) with
-| Tuple3 _ _ c -> c = lq (true) (false)
-Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))))) with
+Prop: match (tf5 (tf1 (repr (Single (SUCC (ZERO)))) (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO)))))) with
+| Tuple3 _ _ c -> c = lq (true) (true)
+Prop: match (tf5 (tf1 (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (repr (Single (ZERO))))) with
+| Tuple3 _ _ c -> c = lq (true) (true)
+Prop: match (tf5 (tf1 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Single (ZERO))))) with
 | Tuple3 _ _ c -> c = lq (false) (true)
-Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Single (ZERO))))) with
-| Tuple3 _ _ c -> c = lq (false) (false)
 asdf
 =================================================
 Progress: 24
@@ -1441,6 +1540,9 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -1468,7 +1570,13 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case3 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -1489,11 +1597,11 @@ case match (match (tf5 (repr (clist2))) with
 case reprNew (clist3)
 case tf5 (tf1 (repr (clist3)) (repr (clist2)))
 validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = lq (match (reprNew (Single (ZERO))) with
-| Tuple3 _ _ c -> c) (true)
-Prop: SUCC (ZERO) = lq (match (reprNew (Single (ZERO))) with
+Prop: ZERO = lq (match (reprNew (Single (ZERO))) with
 | Tuple3 _ _ c -> c) (false)
 Prop: ZERO = lq (match (reprNew (Single (SUCC (ZERO)))) with
+| Tuple3 _ _ c -> c) (true)
+Prop: ZERO = lq (match (reprNew (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))) with
 | Tuple3 _ _ c -> c) (true)
 asdf
 =================================================
@@ -1516,6 +1624,9 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -1543,7 +1654,13 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case3 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 nat3 = lq (bool3) (match (reprNew (clist3)) with
@@ -1566,9 +1683,9 @@ case reprNew (clist2)
 validate generalize_common_subterm_goal
 Prop: SUCC (SUCC (ZERO)) = lq (true) (match (reprNew (Single (ZERO))) with
 | Tuple3 _ b _ -> b)
-Prop: SUCC (SUCC (ZERO)) = lq (true) (match (reprNew (Single (ZERO))) with
+Prop: ZERO = lq (true) (match (reprNew (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) with
 | Tuple3 _ b _ -> b)
-Prop: ZERO = lq (false) (match (reprNew (Single (ZERO))) with
+Prop: SUCC (ZERO) = lq (true) (match (reprNew (Single (ZERO))) with
 | Tuple3 _ b _ -> b)
 asdf
 =================================================
@@ -1591,6 +1708,9 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (reprNew (clist3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -1618,7 +1738,13 @@ Case1 : match (match (tf5 (repr (clist2))) with
 | true -> match (Tuple3 (bool1) (bool2) (bool3)) with
 | Tuple3 a _ _ -> a
 | false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case3 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -1639,12 +1765,12 @@ case match (match (tf5 (repr (clist2))) with
 case tf5 (tf1 (repr (clist3)) (repr (clist2)))
 case reprNew (clist3)
 validate generalize_common_subterm_goal
-Prop: ZERO = lq (match (reprNew (Single (SUCC (ZERO)))) with
-| Tuple3 _ _ c -> c) (false)
-Prop: ZERO = lq (match (reprNew (Single (SUCC (SUCC (SUCC (ZERO)))))) with
-| Tuple3 _ _ c -> c) (false)
-Prop: SUCC (ZERO) = lq (match (reprNew (Single (ZERO))) with
+Prop: ZERO = lq (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
 | Tuple3 _ _ c -> c) (true)
+Prop: SUCC (SUCC (ZERO)) = lq (match (reprNew (Concats (Concats (Concats (Concats (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO)))) (Single (ZERO))) (Single (ZERO))) (Single (SUCC (ZERO)))) (Single (ZERO)))) with
+| Tuple3 _ _ c -> c) (true)
+Prop: ZERO = lq (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+| Tuple3 _ _ c -> c) (false)
 asdf
 =================================================
 Progress: 27
@@ -1815,6 +1941,9 @@ IH2 : match (tf5 (repr (clist3))) with
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : if bool1 then match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -1874,6 +2003,9 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -1934,6 +2066,9 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c
 | false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (match (reprNew (clist2)) with
@@ -1962,6 +2097,9 @@ IH2 : match (tf5 (repr (clist3))) with
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : if bool1 then match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -1981,15 +2119,21 @@ clist3 : clist
 IH1 : match (tf5 (repr (clist2))) with
 | Tuple3 _ _ c -> c = bool1
 IH2 : match (tf5 (repr (clist3))) with
-| Tuple3 _ _ c -> c = bool1
+| Tuple3 _ _ c -> c = bool4
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : if bool1 then match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
-Case3 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+bool4 : bool
+bool5 : bool
+bool6 : bool
+Case3 : reprNew (clist3) = Tuple3 (bool4) (bool5) (bool6)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
-| Tuple3 _ _ c -> c = lq (bool3) (bool2)
+| Tuple3 _ _ c -> c = lq (bool3) (bool5)
 
 1 goal(s) more...
 
@@ -2006,26 +2150,26 @@ case match (match (reprNew (clist2)) with
 case reprNew (clist2)
 case reprNew (clist3)
 parent
-lq (bool3) (bool2)
+lq (bool3) (bool5)
 lower
-lq(_, bool2)
+lq(_, bool5)
 upper
 _
 remove upper
-bool1
+bool4
 remove lower
-bool1
+bool4
 remove upper
-lq(bool3, bool2)
+lq(bool3, bool5)
 remove lower
-lq(bool3, bool2)
+lq(bool3, bool5)
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))))) with
-| Tuple3 _ _ c -> c = lq (false) (false)
-Prop: match (tf5 (tf1 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Single (ZERO))))) with
+Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO)))))) with
 | Tuple3 _ _ c -> c = lq (false) (true)
+Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Single (ZERO))))) with
+| Tuple3 _ _ c -> c = lq (true) (true)
 Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Single (ZERO))))) with
 | Tuple3 _ _ c -> c = lq (false) (false)
 asdf
@@ -2045,6 +2189,9 @@ IH2 : match (tf5 (repr (clist3))) with
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : if bool1 then match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -2069,7 +2216,13 @@ IH2 : match (tf5 (repr (clist3))) with
 Inductive1 : clist1 = Concats (clist2) (clist3)
 Case1 : if bool1 then match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+nat1 : nat
+nat2 : nat
+nat3 : nat
 Case3 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
 ---------------------------------------
 nat3 = lq (bool3) (match (reprNew (clist3)) with
@@ -2090,11 +2243,11 @@ case match (match (reprNew (clist2)) with
 case reprNew (clist2)
 case tf5 (tf1 (repr (clist3)) (repr (clist2)))
 validate generalize_common_subterm_goal
-Prop: ZERO = lq (false) (match (reprNew (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))))) with
+Prop: ZERO = lq (false) (match (reprNew (Single (ZERO))) with
 | Tuple3 _ b _ -> b)
-Prop: ZERO = lq (false) (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+Prop: ZERO = lq (false) (match (reprNew (Single (ZERO))) with
 | Tuple3 _ b _ -> b)
-Prop: ZERO = lq (true) (match (reprNew (Single (ZERO))) with
+Prop: SUCC (ZERO) = lq (false) (match (reprNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (ZERO)))))) with
 | Tuple3 _ b _ -> b)
 asdf
 =================================================
@@ -2116,6 +2269,9 @@ Case1 : match (match (reprNew (clist2)) with
 | true -> match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c
 | false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
@@ -2133,17 +2289,23 @@ clist1 : clist
 clist2 : clist
 clist3 : clist
 IH1 : match (tf5 (repr (clist2))) with
-| Tuple3 _ _ c -> c = bool1
+| Tuple3 _ _ c -> c = bool4
 IH2 : match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c = bool1
 Inductive1 : clist1 = Concats (clist2) (clist3)
-Case1 : if bool1 then match (tf5 (repr (clist3))) with
+Case1 : if bool4 then match (tf5 (repr (clist3))) with
 | Tuple3 _ _ c -> c else false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
 Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
-Case3 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+bool4 : bool
+bool5 : bool
+bool6 : bool
+Case3 : reprNew (clist2) = Tuple3 (bool4) (bool5) (bool6)
 ---------------------------------------
 match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
-| Tuple3 _ _ c -> c = lq (bool3) (bool2)
+| Tuple3 _ _ c -> c = lq (bool6) (bool2)
 
 1 goal(s) more...
 
@@ -2160,7 +2322,7 @@ case match (match (reprNew (clist2)) with
 case reprNew (clist3)
 case reprNew (clist2)
 parent
-lq (bool3) (bool2)
+lq (bool6) (bool2)
 lower
 lq(_, bool2)
 upper
@@ -2170,9 +2332,819 @@ bool1
 remove lower
 bool1
 remove upper
-lq(bool3, bool2)
+lq(bool6, bool2)
 remove lower
-lq(bool3, bool2)
+lq(bool6, bool2)
 remove upper
 _
+validate generalize_common_subterm_goal
+Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Single (ZERO)))))) with
+| Tuple3 _ _ c -> c = lq (true) (true)
+Prop: match (tf5 (tf1 (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (repr (Single (ZERO))))) with
+| Tuple3 _ _ c -> c = lq (false) (false)
+Prop: match (tf5 (tf1 (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))) (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO)))))) with
+| Tuple3 _ _ c -> c = lq (true) (true)
+asdf
+=================================================
+Progress: 35
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = bool1
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (bool2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case tf5 (tf1 (repr (clist3)) (repr (clist2)))(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = bool1
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+nat1 : nat
+nat2 : nat
+nat3 : nat
+Case3 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+---------------------------------------
+nat3 = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (bool2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH2 in goal at 0
+case match (match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false
+case reprNew (clist3)
+case tf5 (tf1 (repr (clist3)) (repr (clist2)))
+validate generalize_common_subterm_goal
+Prop: ZERO = lq (match (reprNew (Single (ZERO))) with
+| Tuple3 _ _ c -> c) (true)
+Prop: SUCC (SUCC (SUCC (ZERO))) = lq (match (reprNew (Single (ZERO))) with
+| Tuple3 _ _ c -> c) (false)
+Prop: ZERO = lq (match (reprNew (Single (ZERO))) with
+| Tuple3 _ _ c -> c) (true)
+asdf
+=================================================
+Progress: 36
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
+Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+---------------------------------------
+nat3 = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case reprNew (clist2)(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = bool1
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : if bool1 then match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c else false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
+Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case3 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+---------------------------------------
+nat3 = lq (bool3) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH2 in goal at 0
+case match (match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false
+case tf5 (tf1 (repr (clist3)) (repr (clist2)))
+case reprNew (clist2)
+validate generalize_common_subterm_goal
+Prop: SUCC (SUCC (ZERO)) = lq (false) (match (reprNew (Single (ZERO))) with
+| Tuple3 _ b _ -> b)
+Prop: ZERO = lq (true) (match (reprNew (Single (ZERO))) with
+| Tuple3 _ b _ -> b)
+Prop: SUCC (ZERO) = lq (false) (match (reprNew (Single (ZERO))) with
+| Tuple3 _ b _ -> b)
+asdf
+=================================================
+Progress: 37
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
+Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+---------------------------------------
+nat3 = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case reprNew (clist3)(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = bool1
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
+Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case3 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+---------------------------------------
+nat3 = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (bool2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH2 in goal at 0
+case match (match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false
+case tf5 (tf1 (repr (clist3)) (repr (clist2)))
+case reprNew (clist3)
+validate generalize_common_subterm_goal
+Prop: SUCC (SUCC (SUCC (ZERO))) = lq (match (reprNew (Single (SUCC (ZERO)))) with
+| Tuple3 _ _ c -> c) (false)
+Prop: ZERO = lq (match (reprNew (Single (ZERO))) with
+| Tuple3 _ _ c -> c) (false)
+Prop: ZERO = lq (match (reprNew (Single (ZERO))) with
+| Tuple3 _ _ c -> c) (true)
+asdf
+=================================================
+Progress: 38
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = if match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+| false -> false then lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b) else false
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite <- IH2 in goal at 0(rank : 19.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = if match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false then lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b) else false
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+case match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false(rank:4.)
+=================================================
+Progress: 39
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = if match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false then lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b) else false
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> case match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 3
+case reprNew (clist2)(rank:4.)
+case reprNew (clist3)(rank:4.)
+case tf5 (tf1 (repr (clist3)) (repr (clist2)))(rank:4.)
+=================================================
+Progress: 40
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case reprNew (clist2)(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = bool1
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (bool3) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 2
+case reprNew (clist3)(rank:4.)
+case tf5 (tf1 (repr (clist3)) (repr (clist2)))(rank:4.)
+=================================================
+Progress: 41
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case reprNew (clist3)(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = bool1
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (bool2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 2
+case reprNew (clist2)(rank:4.)
+case tf5 (tf1 (repr (clist3)) (repr (clist2)))(rank:4.)
+=================================================
+Progress: 42
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case tf5 (tf1 (repr (clist3)) (repr (clist2)))(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+nat1 : nat
+nat2 : nat
+nat3 : nat
+Case2 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+---------------------------------------
+nat3 = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 2
+case reprNew (clist2)(rank:4.)
+case reprNew (clist3)(rank:4.)
+=================================================
+Progress: 43
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = bool1
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (bool3) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case reprNew (clist3)(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = bool1
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = bool4
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+bool4 : bool
+bool5 : bool
+bool6 : bool
+Case3 : reprNew (clist3) = Tuple3 (bool4) (bool5) (bool6)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (bool3) (bool5)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+rewrite <- IH2 in goal at 0
+case match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false
+case reprNew (clist2)
+case reprNew (clist3)
+validate generalize_common_subterm_goal
+Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO)))))) with
+| Tuple3 _ _ c -> c = lq (false) (true)
+Prop: match (tf5 (tf1 (repr (Single (SUCC (ZERO)))) (repr (Single (SUCC (ZERO)))))) with
+| Tuple3 _ _ c -> c = lq (true) (false)
+Prop: match (tf5 (tf1 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Single (ZERO)))))) with
+| Tuple3 _ _ c -> c = lq (true) (false)
+asdf
+=================================================
+Progress: 44
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = bool1
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (bool3) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case tf5 (tf1 (repr (clist3)) (repr (clist2)))(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = bool1
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist3)) with
+| Tuple3 a _ _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case2 : reprNew (clist2) = Tuple3 (bool1) (bool2) (bool3)
+nat1 : nat
+nat2 : nat
+nat3 : nat
+Case3 : tf5 (tf1 (repr (clist3)) (repr (clist2))) = Tuple3 (nat1) (nat2) (nat3)
+---------------------------------------
+nat3 = lq (bool3) (match (reprNew (clist3)) with
+| Tuple3 _ b _ -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+rewrite <- IH2 in goal at 0
+case match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false
+case reprNew (clist2)
+case tf5 (tf1 (repr (clist3)) (repr (clist2)))
+validate generalize_common_subterm_goal
+Prop: ZERO = lq (true) (match (reprNew (Single (ZERO))) with
+| Tuple3 _ b _ -> b)
+Prop: SUCC (SUCC (ZERO)) = lq (false) (match (reprNew (Single (ZERO))) with
+| Tuple3 _ b _ -> b)
+Prop: ZERO = lq (false) (match (reprNew (Single (ZERO))) with
+| Tuple3 _ b _ -> b)
+asdf
+=================================================
+Progress: 45
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = match (reprNew (clist2)) with
+| Tuple3 a _ _ -> a
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = bool1
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (match (reprNew (clist2)) with
+| Tuple3 _ _ c -> c) (bool2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> case reprNew (clist2)(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c = bool4
+IH2 : match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c = bool1
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false = true
+bool1 : bool
+bool2 : bool
+bool3 : bool
+Case2 : reprNew (clist3) = Tuple3 (bool1) (bool2) (bool3)
+bool4 : bool
+bool5 : bool
+bool6 : bool
+Case3 : reprNew (clist2) = Tuple3 (bool4) (bool5) (bool6)
+---------------------------------------
+match (tf5 (tf1 (repr (clist3)) (repr (clist2)))) with
+| Tuple3 _ _ c -> c = lq (bool6) (bool2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+rewrite <- IH2 in goal at 0
+case match (match (tf5 (repr (clist2))) with
+| Tuple3 _ _ c -> c) with
+| true -> match (tf5 (repr (clist3))) with
+| Tuple3 _ _ c -> c
+| false -> false
+case reprNew (clist3)
+case reprNew (clist2)
 validate generalize_common_subterm_goal
