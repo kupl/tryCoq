@@ -423,9 +423,9 @@ _
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: spec (tf1 (Econs (SUCC (ZERO)) (Econs (ZERO) (repr (Uelt (ZERO))))) (target (Usplit (Usplit (Uelt (ZERO)) (SUCC (SUCC (ZERO))) (ZERO) (Uelt (SUCC (ZERO)))) (ZERO) (ZERO) (Uelt (ZERO))))) = targetNew (Usplit (Usplit (Uelt (ZERO)) (SUCC (SUCC (ZERO))) (ZERO) (Uelt (SUCC (ZERO)))) (ZERO) (ZERO) (Uelt (ZERO)))
-Prop: spec (tf1 (Econs (ZERO) (Econs (ZERO) (repr (Uelt (ZERO))))) (target (Uelt (SUCC (ZERO))))) = targetNew (Uelt (SUCC (ZERO)))
-Prop: spec (tf1 (Econs (ZERO) (Econs (SUCC (ZERO)) (repr (Uelt (ZERO))))) (target (Usplit (Uelt (SUCC (ZERO))) (ZERO) (SUCC (SUCC (ZERO))) (Uelt (ZERO))))) = targetNew (Usplit (Uelt (SUCC (ZERO))) (ZERO) (SUCC (SUCC (ZERO))) (Uelt (ZERO)))
+Prop: spec (tf1 (Econs (ZERO) (Econs (ZERO) (repr (Uelt (ZERO))))) (target (Uelt (ZERO)))) = targetNew (Uelt (ZERO))
+Prop: spec (tf1 (Econs (ZERO) (Econs (ZERO) (repr (Uelt (ZERO))))) (target (Usplit (Uelt (ZERO)) (ZERO) (ZERO) (Uelt (SUCC (SUCC (ZERO))))))) = targetNew (Usplit (Uelt (ZERO)) (ZERO) (ZERO) (Uelt (SUCC (SUCC (ZERO)))))
+Prop: spec (tf1 (Econs (SUCC (ZERO)) (Econs (ZERO) (repr (Usplit (Uelt (ZERO)) (ZERO) (ZERO) (Uelt (ZERO)))))) (target (Uelt (ZERO)))) = targetNew (Uelt (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 (Econs (nat1) (Econs (nat2) (repr (ulist2)))) (ulist1)) with
 | Elt _ -> true
@@ -1216,8 +1216,8 @@ case lq (nat1) (if lq (nat2) (nat4) then spec (repr (Uelt (nat4))) else nat2)
 rewrite Case1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = SUCC (ZERO)
-Prop: SUCC (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
+Prop: ZERO = ZERO
+Prop: SUCC (ZERO) = ZERO
 Prop: ZERO = ZERO
 asdf
 =================================================
@@ -1564,8 +1564,8 @@ case lq (nat1) (if lq (nat2) (nat4) then spec (repr (Uelt (nat4))) else nat2)
 rewrite Case1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: SUCC (ZERO) = ZERO
 Prop: ZERO = ZERO
-Prop: SUCC (ZERO) = SUCC (ZERO)
 Prop: SUCC (ZERO) = ZERO
 asdf
 =================================================
@@ -1912,9 +1912,9 @@ simpl in goal
 rewrite Case1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = SUCC (ZERO)
-Prop: ZERO = ZERO
-Prop: SUCC (SUCC (SUCC (ZERO))) = ZERO
+Prop: ZERO = SUCC (ZERO)
+Prop: SUCC (SUCC (ZERO)) = ZERO
+Prop: SUCC (SUCC (ZERO)) = ZERO
 asdf
 =================================================
 Progress: 37
@@ -2261,280 +2261,6 @@ rewrite Case2 in goal at 0
 simpl in goal
 rewrite Case1 in goal at 0
 simpl in goal
-validate generalize_common_subterm_goal
-Prop: ZERO = ZERO
-Prop: ZERO = SUCC (ZERO)
-Prop: ZERO = ZERO
-Lemma List
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-End of Lemma List
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 (Econs (nat1) (Econs (nat2) (repr (ulist2)))) (ulist1)) with
-| Elt _ -> true
-| Econs n tl -> tf7 (n) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 (Econs (nat1) (Econs (nat2) (repr (ulist2)))) (target (ulist1))) = targetNew (ulist1)
-nat1 : nat
-nat2 : nat
-ulist1 : ulist
-nat3 : nat
-Base1 : ulist1 = Uelt (nat3)
-ulist2 : ulist
-nat4 : nat
-Base2 : ulist2 = Uelt (nat4)
-Cond1 : if lq (nat3) (nat1) then tf7 (nat1) (Econs (nat2) (repr (Uelt (nat4)))) else tf5 (nat1) (Econs (nat2) (repr (Uelt (nat4)))) = true
-Cond2 : gq (nat1) (nat2) = true
-Cond3 : lq (nat1) (nat3) = true
-Case1 : lq (nat2) (nat4) = true
-Case2 : lq (nat1) (nat4) = true
-Case3 : lq (nat3) (nat4) = true
----------------------------------------
-nat4 = nat3
-
-5 goal(s) more...
-
-1 conjecture(s) more...
-=================================================
-Progress: 43
-
-
-1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 (Econs (nat1) (Econs (nat2) (repr (ulist2)))) (ulist1)) with
-| Elt _ -> true
-| Econs n tl -> tf7 (n) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 (Econs (nat1) (Econs (nat2) (repr (ulist2)))) (target (ulist1))) = targetNew (ulist1)
-nat1 : nat
-nat2 : nat
-ulist1 : ulist
-nat3 : nat
-Base1 : ulist1 = Uelt (nat3)
-ulist2 : ulist
-nat4 : nat
-Base2 : ulist2 = Uelt (nat4)
-Cond1 : if lq (nat3) (nat1) then tf7 (nat1) (Econs (nat2) (repr (Uelt (nat4)))) else tf5 (nat1) (Econs (nat2) (repr (Uelt (nat4)))) = true
-Cond2 : gq (nat1) (nat2) = true
-Cond3 : lq (nat1) (nat3) = true
-Case1 : lq (nat2) (nat4) = true
-Case2 : lq (nat1) (nat4) = true
-Case3 : lq (nat3) (nat4) = true
----------------------------------------
-nat4 = nat3
-
-5 goal(s) more...
-
-1 conjecture(s) more...
->>> assert forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1(rank : 0.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat1(rank:7.)
-=================================================
-Progress: 44
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat2(rank:7.)
-=================================================
-Progress: 45
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat2(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:7.)
-=================================================
-Progress: 46
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
-nat2 : nat
-Cond1 : lq (nat1) (nat2) = true
----------------------------------------
-nat2 = nat1
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: ZERO = ZERO
-Prop: ZERO = SUCC (SUCC (SUCC (SUCC (ZERO))))
-Prop: ZERO = ZERO
-Lemma List
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-End of Lemma List
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
-nat2 : nat
-Cond1 : lq (nat1) (nat2) = true
----------------------------------------
-nat2 = nat1
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-=================================================
-Progress: 47
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
-nat2 : nat
-Cond1 : lq (nat1) (nat2) = true
----------------------------------------
-nat2 = nat1
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> assert forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1(rank : 0.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-intro nat1(rank:9.)
-=================================================
-Progress: 48
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro nat1(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-intro nat2(rank:9.)
-=================================================
-Progress: 49
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro nat2(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:9.)
-=================================================
-Progress: 50
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat1) (nat2) = true -> nat2 = nat1
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro Cond1(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> nat2 = nat1
-nat1 : nat
-nat2 : nat
-Cond1 : lq (nat1) (nat2) = true
----------------------------------------
-nat2 = nat1
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 0
 validate generalize_common_subterm_goal
 Prop: ZERO = ZERO
 Prop: ZERO = ZERO

@@ -418,17 +418,17 @@ case tf1 (clist2)
 case tf1 (clist3)
 rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 0
-Prop: spec (tf3 ((Nil)) ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))))) = plus (spec ((ZERO::(SUCC (ZERO)::(ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))))) (spec ((Nil)))
+Prop: spec (tf3 ((ZERO::(ZERO::(Nil)))) ((Nil))) = plus (spec ((Nil))) (spec ((ZERO::(ZERO::(Nil)))))
 Prop: spec (tf3 ((Nil)) ((Nil))) = plus (spec ((Nil))) (spec ((Nil)))
-Prop: spec (tf3 ((Nil)) ((ZERO::(Nil)))) = plus (spec ((ZERO::(Nil)))) (spec ((Nil)))
+Prop: spec (tf3 ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))) ((Nil))) = plus (spec ((Nil))) (spec ((ZERO::(ZERO::(ZERO::(ZERO::(Nil)))))))
 previous tactics
 simpl in goal
 case tf1 (clist2)
 case tf1 (clist3)
 rewrite <- IH1 in goal at 0
-Prop: spec (tf3 (repr (target (Cnil))) ((Nil))) = plus (spec ((Nil))) (targetNew (Cnil))
-Prop: spec (tf3 (repr (target (Concats (Concats (Cnil) (Single (ZERO))) (Concats (Cnil) (Single (SUCC (ZERO))))))) ((Nil))) = plus (spec ((Nil))) (targetNew (Concats (Concats (Cnil) (Single (ZERO))) (Concats (Cnil) (Single (SUCC (ZERO))))))
-Prop: spec (tf3 (repr (target (Single (ZERO)))) ((Nil))) = plus (spec ((Nil))) (targetNew (Single (ZERO)))
+Prop: spec (tf3 (repr (target (Single (ZERO)))) ((ZERO::(Nil)))) = plus (spec ((ZERO::(Nil)))) (targetNew (Single (ZERO)))
+Prop: spec (tf3 (repr (target (Concats (Cnil) (Single (ZERO))))) ((ZERO::(Nil)))) = plus (spec ((ZERO::(Nil)))) (targetNew (Concats (Cnil) (Single (ZERO))))
+Prop: spec (tf3 (repr (target (Single (SUCC (ZERO))))) ((Nil))) = plus (spec ((Nil))) (targetNew (Single (SUCC (ZERO))))
 previous tactics
 simpl in goal
 case tf1 (clist2)
@@ -462,9 +462,9 @@ plus(plus(targetNew(clist6), targetNew(clist7)), targetNew(clist5))
 remove lower
 plus(plus(targetNew(_), targetNew(clist7)), targetNew(clist5))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (target (Single (ZERO)))) (repr (target (Concats (Cnil) (Cnil))))) = plus (targetNew (Concats (Cnil) (Cnil))) (targetNew (Single (ZERO)))
+Prop: spec (tf3 (repr (target (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Concats (Concats (Cnil) (Single (ZERO))) (Single (SUCC (ZERO)))))))) (repr (target (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (SUCC (ZERO)))))))) = plus (targetNew (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (SUCC (ZERO)))))) (targetNew (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Concats (Concats (Cnil) (Single (ZERO))) (Single (SUCC (ZERO)))))))
+Prop: spec (tf3 (repr (target (Concats (Concats (Concats (Cnil) (Single (ZERO))) (Cnil)) (Cnil)))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Concats (Concats (Concats (Cnil) (Single (ZERO))) (Cnil)) (Cnil)))
 Prop: spec (tf3 (repr (target (Cnil))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Cnil))
-Prop: spec (tf3 (repr (target (Single (ZERO)))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Single (ZERO)))
 Lemma List
 forall (nat_list1:nat list) (clist1:clist), spec (tf3 (repr (target (clist1))) (nat_list1)) = plus (spec (nat_list1)) (targetNew (clist1))
 End of Lemma List
@@ -615,8 +615,8 @@ case tf1 (clist2)
 case tf1 (clist3)
 rewrite <- IH2 in goal at 0
 Prop: spec (tf3 ((Nil)) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (spec ((Nil)))
+Prop: spec (tf3 ((ZERO::(SUCC (SUCC (ZERO))::(Nil)))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (spec ((ZERO::(SUCC (SUCC (ZERO))::(Nil)))))
 Prop: spec (tf3 ((Nil)) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (spec ((Nil)))
-Prop: spec (tf3 ((ZERO::(Nil))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (spec ((ZERO::(Nil))))
 previous tactics
 simpl in goal
 case tf1 (clist2)
@@ -650,9 +650,9 @@ plus(plus(targetNew(clist6), targetNew(clist7)), targetNew(clist5))
 remove lower
 plus(plus(targetNew(_), targetNew(clist7)), targetNew(clist5))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (target (Single (SUCC (SUCC (ZERO)))))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (targetNew (Single (SUCC (SUCC (ZERO)))))
-Prop: spec (tf3 (repr (target (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Cnil))) (Cnil)))) (repr (target (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Cnil)))))) = plus (targetNew (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Cnil)))) (targetNew (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Cnil))) (Cnil)))
-Prop: spec (tf3 (repr (target (Concats (Single (ZERO)) (Concats (Cnil) (Cnil))))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Concats (Single (ZERO)) (Concats (Cnil) (Cnil))))
+Prop: spec (tf3 (repr (target (Single (SUCC (ZERO))))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Single (SUCC (ZERO))))
+Prop: spec (tf3 (repr (target (Single (ZERO)))) (repr (target (Concats (Cnil) (Concats (Concats (Cnil) (Single (ZERO))) (Single (ZERO))))))) = plus (targetNew (Concats (Cnil) (Concats (Concats (Cnil) (Single (ZERO))) (Single (ZERO))))) (targetNew (Single (ZERO)))
+Prop: spec (tf3 (repr (target (Concats (Concats (Cnil) (Cnil)) (Cnil)))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Concats (Concats (Cnil) (Cnil)) (Cnil)))
 Lemma List
 forall (nat_list1:nat list) (clist1:clist), spec (tf3 (nat_list1) (repr (target (clist1)))) = plus (targetNew (clist1)) (spec (nat_list1))
 End of Lemma List
@@ -1091,7 +1091,7 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: plus (plus (SUCC (ZERO)) (ZERO)) (ZERO) = plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
 previous tactics
@@ -1142,8 +1142,8 @@ remove lower
 plus(plus(plus(spec(nat_list5), nat3), nat2), nat1)
 validate generalize_common_subterm_goal
 Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (SUCC (ZERO)) = plus (plus (spec ((Nil))) (SUCC (ZERO))) (ZERO)
-Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (ZERO)
-Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (ZERO)
+Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (SUCC (ZERO)) = plus (plus (spec ((Nil))) (SUCC (ZERO))) (ZERO)
+Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (SUCC (ZERO)) = plus (plus (spec ((Nil))) (SUCC (ZERO))) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (nat1) (ZERO)) (nat2) = plus (plus (nat1) (nat2)) (ZERO)
 End of Lemma List
@@ -1677,9 +1677,9 @@ plus (plus (spec (nat_list3)) (ZERO)) (nat1) = plus (plus (spec (nat_list3)) (na
 Tactic List : 0
 previous tactics
 simpl in goal
+Prop: plus (plus (SUCC (ZERO)) (ZERO)) (ZERO) = plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
-Prop: plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)) = plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)
 =================================================
 Progress: 46
 
@@ -1830,9 +1830,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: SUCC (SUCC (ZERO)) = plus (SUCC (SUCC (ZERO))) (ZERO)
 Prop: ZERO = plus (ZERO) (ZERO)
-Prop: SUCC (ZERO) = plus (SUCC (ZERO)) (ZERO)
+Prop: ZERO = plus (ZERO) (ZERO)
+Prop: ZERO = plus (ZERO) (ZERO)
 Lemma List
 forall (nat1:nat), nat1 = plus (nat1) (ZERO)
 End of Lemma List
@@ -2194,17 +2194,17 @@ reflexivity
 simpl in goal
 rewrite <- lemma3 in goal at 0
 validate generalize_common_subterm_goal
-Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Concats (Cnil) (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Cnil))) (Concats (Single (ZERO)) (Single (ZERO))))))) (repr (target (Single (ZERO)))))) = plus (targetNew (Single (ZERO))) (targetNew (Concats (Cnil) (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Cnil))) (Concats (Single (ZERO)) (Single (ZERO))))))
-Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Concats (Cnil) (Cnil)))) (repr (target (Single (ZERO)))))) = plus (targetNew (Single (ZERO))) (targetNew (Concats (Cnil) (Cnil)))
-Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Single (ZERO)))) (repr (target (Cnil))))) = plus (targetNew (Cnil)) (targetNew (Single (ZERO)))
+Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Cnil))) (repr (target (Cnil))))) = plus (targetNew (Cnil)) (targetNew (Cnil))
+Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Cnil))) (repr (target (Cnil))))) = plus (targetNew (Cnil)) (targetNew (Cnil))
+Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Single (ZERO)))) (repr (target (Concats (Cnil) (Cnil)))))) = plus (targetNew (Concats (Cnil) (Cnil))) (targetNew (Single (ZERO)))
 previous tactics
 rewrite <- lemma3 in goal at 0
 reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Cnil))) (repr (target (Cnil))))) = plus (plus (targetNew (Cnil)) (targetNew (Cnil))) (ZERO)
-Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Cnil))) (repr (target (Single (ZERO)))))) = plus (plus (targetNew (Single (ZERO))) (targetNew (Cnil))) (ZERO)
-Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Cnil))) (repr (target (Concats (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (SUCC (ZERO)))))) (Cnil)))))) = plus (plus (targetNew (Concats (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (SUCC (ZERO)))))) (Cnil))) (targetNew (Cnil))) (ZERO)
+Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Concats (Single (ZERO)) (Cnil)))) (repr (target (Single (ZERO)))))) = plus (plus (targetNew (Single (ZERO))) (targetNew (Concats (Single (ZERO)) (Cnil)))) (ZERO)
+Prop: spec (tf3 ((Nil)) (tf3 (repr (target (Cnil))) (repr (target (Cnil))))) = plus (plus (targetNew (Cnil)) (targetNew (Cnil))) (ZERO)
 Lemma List
 forall (clist1:clist) (clist2:clist), spec (tf3 ((Nil)) (tf3 (repr (target (clist2))) (repr (target (clist1))))) = plus (plus (targetNew (clist1)) (targetNew (clist2))) (ZERO)
 End of Lemma List
@@ -2393,15 +2393,15 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 0
-Prop: spec (tf3 ((ZERO::(ZERO::(Nil)))) ((ZERO::(Nil)))) = plus (spec ((ZERO::(Nil)))) (spec ((ZERO::(ZERO::(Nil)))))
 Prop: spec (tf3 ((Nil)) ((Nil))) = plus (spec ((Nil))) (spec ((Nil)))
-Prop: spec (tf3 ((ZERO::(Nil))) ((ZERO::(Nil)))) = plus (spec ((ZERO::(Nil)))) (spec ((ZERO::(Nil))))
+Prop: spec (tf3 ((ZERO::(Nil))) ((Nil))) = plus (spec ((Nil))) (spec ((ZERO::(Nil))))
+Prop: spec (tf3 ((Nil)) ((Nil))) = plus (spec ((Nil))) (spec ((Nil)))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-Prop: spec (tf3 (repr (target (Concats (Cnil) (Concats (Cnil) (Single (ZERO)))))) ((Nil))) = plus (spec ((Nil))) (targetNew (Concats (Cnil) (Concats (Cnil) (Single (ZERO)))))
-Prop: spec (tf3 (repr (target (Concats (Cnil) (Single (ZERO))))) ((Nil))) = plus (spec ((Nil))) (targetNew (Concats (Cnil) (Single (ZERO))))
 Prop: spec (tf3 (repr (target (Single (ZERO)))) ((Nil))) = plus (spec ((Nil))) (targetNew (Single (ZERO)))
+Prop: spec (tf3 (repr (target (Single (SUCC (SUCC (ZERO)))))) ((Nil))) = plus (spec ((Nil))) (targetNew (Single (SUCC (SUCC (ZERO)))))
+Prop: spec (tf3 (repr (target (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))) ((Nil))) = plus (spec ((Nil))) (targetNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))
 previous tactics
 simpl in goal
 parent
@@ -2433,9 +2433,9 @@ plus(plus(targetNew(clist6), targetNew(clist7)), targetNew(clist5))
 remove lower
 plus(plus(targetNew(_), targetNew(clist7)), targetNew(clist5))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (target (Single (ZERO)))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (targetNew (Single (ZERO)))
-Prop: spec (tf3 (repr (target (Single (ZERO)))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Single (ZERO)))
-Prop: spec (tf3 (repr (target (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Cnil) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))))))) (repr (target (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO)))))) = plus (targetNew (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO)))) (targetNew (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Cnil) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))))))
+Prop: spec (tf3 (repr (target (Concats (Concats (Cnil) (Single (SUCC (ZERO)))) (Single (ZERO))))) (repr (target (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Concats (Cnil) (Single (ZERO)))))))) = plus (targetNew (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Concats (Cnil) (Single (ZERO)))))) (targetNew (Concats (Concats (Cnil) (Single (SUCC (ZERO)))) (Single (ZERO))))
+Prop: spec (tf3 (repr (target (Cnil))) (repr (target (Concats (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))) (Cnil))))) = plus (targetNew (Concats (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))) (Cnil))) (targetNew (Cnil))
+Prop: spec (tf3 (repr (target (Single (SUCC (ZERO))))) (repr (target (Concats (Cnil) (Cnil))))) = plus (targetNew (Concats (Cnil) (Cnil))) (targetNew (Single (SUCC (ZERO))))
 Lemma List
 forall (nat_list1:nat list) (clist1:clist), spec (tf3 (repr (target (clist1))) (nat_list1)) = plus (spec (nat_list1)) (targetNew (clist1))
 End of Lemma List
@@ -2584,8 +2584,8 @@ previous tactics
 simpl in goal
 rewrite <- IH2 in goal at 0
 Prop: spec (tf3 ((Nil)) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (spec ((Nil)))
-Prop: spec (tf3 ((Nil)) (repr (target (Concats (Concats (Cnil) (Single (SUCC (SUCC (ZERO))))) (Cnil))))) = plus (targetNew (Concats (Concats (Cnil) (Single (SUCC (SUCC (ZERO))))) (Cnil))) (spec ((Nil)))
-Prop: spec (tf3 ((ZERO::(ZERO::(Nil)))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (spec ((ZERO::(ZERO::(Nil)))))
+Prop: spec (tf3 ((Nil)) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (spec ((Nil)))
+Prop: spec (tf3 ((Nil)) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (spec ((Nil)))
 previous tactics
 simpl in goal
 parent
@@ -2617,9 +2617,9 @@ plus(plus(targetNew(clist6), targetNew(clist7)), targetNew(clist5))
 remove lower
 plus(plus(targetNew(_), targetNew(clist7)), targetNew(clist5))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (target (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO)))) (Cnil)) (Concats (Cnil) (Concats (Single (ZERO)) (Cnil)))))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (targetNew (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO)))) (Cnil)) (Concats (Cnil) (Concats (Single (ZERO)) (Cnil)))))
-Prop: spec (tf3 (repr (target (Single (ZERO)))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Single (ZERO)))
-Prop: spec (tf3 (repr (target (Cnil))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (targetNew (Cnil))
+Prop: spec (tf3 (repr (target (Cnil))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Cnil))
+Prop: spec (tf3 (repr (target (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))))
+Prop: spec (tf3 (repr (target (Cnil))) (repr (target (Single (SUCC (ZERO)))))) = plus (targetNew (Single (SUCC (ZERO)))) (targetNew (Cnil))
 Lemma List
 forall (nat_list1:nat list) (clist1:clist), spec (tf3 (nat_list1) (repr (target (clist1)))) = plus (targetNew (clist1)) (spec (nat_list1))
 End of Lemma List
@@ -2823,7 +2823,7 @@ simpl in goal
 rewrite IH1 in goal at 0
 simpl in goal
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
-Prop: plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))) = plus (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (plus (ZERO) (SUCC (ZERO))) (ZERO)
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
 =================================================
 Progress: 73
@@ -3018,9 +3018,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: plus (plus (SUCC (ZERO)) (ZERO)) (ZERO) = plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
-Prop: plus (plus (SUCC (SUCC (SUCC (ZERO)))) (ZERO)) (SUCC (ZERO)) = plus (plus (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (plus (ZERO) (SUCC (ZERO))) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
 previous tactics
 simpl in goal
 parent
@@ -3068,8 +3068,8 @@ plus(plus(plus(spec(nat_list4), nat3), nat2), nat1)
 remove lower
 plus(plus(plus(spec(nat_list4), nat3), nat2), nat1)
 validate generalize_common_subterm_goal
-Prop: plus (spec (tf3 ((Nil)) ((ZERO::(Nil))))) (SUCC (SUCC (ZERO))) = plus (plus (spec ((ZERO::(Nil)))) (SUCC (SUCC (ZERO)))) (ZERO)
-Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (SUCC (ZERO)) = plus (plus (spec ((Nil))) (SUCC (ZERO))) (ZERO)
+Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (ZERO)
+Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (ZERO)
 Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (nat1) (ZERO)) (nat2) = plus (plus (nat1) (nat2)) (ZERO)
@@ -3557,9 +3557,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: SUCC (SUCC (ZERO)) = plus (SUCC (SUCC (ZERO))) (ZERO)
 Prop: ZERO = plus (ZERO) (ZERO)
 Prop: ZERO = plus (ZERO) (ZERO)
+Prop: SUCC (ZERO) = plus (SUCC (ZERO)) (ZERO)
 =================================================
 Progress: 94
 
@@ -3913,9 +3913,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH2 in goal at 0
-Prop: plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (ZERO) = plus (plus (ZERO) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (plus (ZERO) (SUCC (ZERO))) (ZERO)
 previous tactics
 simpl in goal
 parent
@@ -3964,8 +3964,8 @@ remove lower
 plus(plus(plus(spec(nat_list6), nat4), nat3), nat2)
 validate generalize_common_subterm_goal
 Prop: plus (spec (tf3 ((ZERO::(Nil))) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (plus (spec ((Nil))) (ZERO))
-Prop: plus (spec (tf3 ((ZERO::(Nil))) ((Nil)))) (SUCC (ZERO)) = plus (plus (spec ((Nil))) (SUCC (ZERO))) (plus (spec ((Nil))) (ZERO))
-Prop: plus (spec (tf3 ((ZERO::(ZERO::(Nil)))) ((SUCC (ZERO)::(Nil))))) (ZERO) = plus (plus (spec ((SUCC (ZERO)::(Nil)))) (ZERO)) (plus (spec ((ZERO::(Nil)))) (ZERO))
+Prop: plus (spec (tf3 ((ZERO::(Nil))) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (plus (spec ((Nil))) (ZERO))
+Prop: plus (spec (tf3 ((SUCC (ZERO)::(ZERO::(Nil)))) ((ZERO::(ZERO::(Nil)))))) (ZERO) = plus (plus (spec ((ZERO::(ZERO::(Nil))))) (ZERO)) (plus (spec ((ZERO::(Nil)))) (SUCC (ZERO)))
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat2) (nat1)) (nat3) = plus (plus (nat2) (nat3)) (nat1)
 End of Lemma List
@@ -4433,8 +4433,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
-Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
+Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
+Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
 previous tactics
 simpl in goal
@@ -4483,9 +4483,9 @@ plus(plus(plus(spec(nat_list4), nat4), nat3), nat2)
 remove lower
 plus(plus(plus(spec(nat_list4), nat4), nat3), nat2)
 validate generalize_common_subterm_goal
-Prop: plus (spec (tf3 ((SUCC (ZERO)::(Nil))) ((ZERO::(Nil))))) (ZERO) = plus (plus (spec ((ZERO::(Nil)))) (ZERO)) (SUCC (ZERO))
+Prop: plus (spec (tf3 ((ZERO::(Nil))) ((Nil)))) (SUCC (ZERO)) = plus (plus (spec ((Nil))) (SUCC (ZERO))) (ZERO)
 Prop: plus (spec (tf3 ((ZERO::(Nil))) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (ZERO)
-Prop: plus (spec (tf3 ((SUCC (SUCC (ZERO))::(Nil))) ((ZERO::(Nil))))) (ZERO) = plus (plus (spec ((ZERO::(Nil)))) (ZERO)) (SUCC (SUCC (ZERO)))
+Prop: plus (spec (tf3 ((ZERO::(Nil))) ((ZERO::(Nil))))) (ZERO) = plus (plus (spec ((ZERO::(Nil)))) (ZERO)) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat), plus (plus (nat1) (nat2)) (nat3) = plus (plus (nat1) (nat3)) (nat2)
 End of Lemma List
@@ -4977,9 +4977,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: plus (plus (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (SUCC (ZERO)) = plus (plus (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (ZERO))) (ZERO)
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
-Prop: plus (plus (SUCC (ZERO)) (ZERO)) (ZERO) = plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (SUCC (SUCC (SUCC (ZERO)))) = plus (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (ZERO)
 previous tactics
 simpl in goal
 parent
@@ -5027,9 +5027,9 @@ plus(plus(plus(spec(nat_list5), nat3), nat2), nat1)
 remove lower
 plus(plus(plus(spec(nat_list5), nat3), nat2), nat1)
 validate generalize_common_subterm_goal
-Prop: plus (spec (tf3 ((Nil)) ((SUCC (SUCC (ZERO))::(Nil))))) (ZERO) = plus (plus (spec ((SUCC (SUCC (ZERO))::(Nil)))) (ZERO)) (ZERO)
 Prop: plus (spec (tf3 ((Nil)) ((ZERO::(ZERO::(Nil)))))) (SUCC (ZERO)) = plus (plus (spec ((ZERO::(ZERO::(Nil))))) (SUCC (ZERO))) (ZERO)
-Prop: plus (spec (tf3 ((Nil)) ((ZERO::(ZERO::(Nil)))))) (SUCC (ZERO)) = plus (plus (spec ((ZERO::(ZERO::(Nil))))) (SUCC (ZERO))) (ZERO)
+Prop: plus (spec (tf3 ((Nil)) ((ZERO::(Nil))))) (ZERO) = plus (plus (spec ((ZERO::(Nil)))) (ZERO)) (ZERO)
+Prop: plus (spec (tf3 ((Nil)) ((ZERO::(ZERO::(Nil)))))) (ZERO) = plus (plus (spec ((ZERO::(ZERO::(Nil))))) (ZERO)) (ZERO)
 =================================================
 Progress: 131
 
@@ -5227,9 +5227,9 @@ plus (plus (spec (nat_list3)) (ZERO)) (nat1) = plus (plus (spec (nat_list3)) (na
 Tactic List : 0
 previous tactics
 simpl in goal
-Prop: plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (plus (ZERO) (SUCC (ZERO))) (ZERO)
-Prop: plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)) = plus (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
-Prop: plus (plus (ZERO) (ZERO)) (SUCC (ZERO)) = plus (plus (ZERO) (SUCC (ZERO))) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
 =================================================
 Progress: 137
 
@@ -5465,14 +5465,14 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 0
 Prop: spec (tf3 ((Nil)) ((Nil))) = plus (spec ((Nil))) (spec ((Nil)))
-Prop: spec (tf3 ((SUCC (ZERO)::(Nil))) ((Nil))) = plus (spec ((Nil))) (spec ((SUCC (ZERO)::(Nil))))
-Prop: spec (tf3 ((ZERO::(Nil))) ((Nil))) = plus (spec ((Nil))) (spec ((ZERO::(Nil))))
+Prop: spec (tf3 ((Nil)) ((Nil))) = plus (spec ((Nil))) (spec ((Nil)))
+Prop: spec (tf3 ((Nil)) ((Nil))) = plus (spec ((Nil))) (spec ((Nil)))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-Prop: spec (tf3 (repr (target (Cnil))) ((Nil))) = plus (spec ((Nil))) (targetNew (Cnil))
-Prop: spec (tf3 (repr (target (Cnil))) ((Nil))) = plus (spec ((Nil))) (targetNew (Cnil))
-Prop: spec (tf3 (repr (target (Single (ZERO)))) ((Nil))) = plus (spec ((Nil))) (targetNew (Single (ZERO)))
+Prop: spec (tf3 (repr (target (Concats (Cnil) (Cnil)))) ((ZERO::(Nil)))) = plus (spec ((ZERO::(Nil)))) (targetNew (Concats (Cnil) (Cnil)))
+Prop: spec (tf3 (repr (target (Concats (Cnil) (Concats (Single (ZERO)) (Single (ZERO)))))) ((SUCC (SUCC (SUCC (ZERO)))::(Nil)))) = plus (spec ((SUCC (SUCC (SUCC (ZERO)))::(Nil)))) (targetNew (Concats (Cnil) (Concats (Single (ZERO)) (Single (ZERO)))))
+Prop: spec (tf3 (repr (target (Single (ZERO)))) ((ZERO::(Nil)))) = plus (spec ((ZERO::(Nil)))) (targetNew (Single (ZERO)))
 previous tactics
 simpl in goal
 parent
@@ -5504,9 +5504,9 @@ plus(plus(targetNew(clist6), targetNew(clist7)), targetNew(clist5))
 remove lower
 plus(plus(targetNew(_), targetNew(clist7)), targetNew(clist5))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (target (Cnil))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (targetNew (Cnil))
-Prop: spec (tf3 (repr (target (Cnil))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (targetNew (Cnil))
-Prop: spec (tf3 (repr (target (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Concats (Cnil) (Cnil)) (Cnil)) (Single (ZERO))))))) (repr (target (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Cnil))))) = plus (targetNew (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Cnil))) (targetNew (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Concats (Cnil) (Cnil)) (Cnil)) (Single (ZERO))))))
+Prop: spec (tf3 (repr (target (Concats (Concats (Concats (Concats (Concats (Concats (Single (ZERO)) (Cnil)) (Single (ZERO))) (Single (SUCC (ZERO)))) (Cnil)) (Cnil)) (Concats (Concats (Cnil) (Single (ZERO))) (Concats (Cnil) (Single (ZERO))))))) (repr (target (Concats (Cnil) (Cnil))))) = plus (targetNew (Concats (Cnil) (Cnil))) (targetNew (Concats (Concats (Concats (Concats (Concats (Concats (Single (ZERO)) (Cnil)) (Single (ZERO))) (Single (SUCC (ZERO)))) (Cnil)) (Cnil)) (Concats (Concats (Cnil) (Single (ZERO))) (Concats (Cnil) (Single (ZERO))))))
+Prop: spec (tf3 (repr (target (Single (ZERO)))) (repr (target (Concats (Concats (Concats (Cnil) (Cnil)) (Concats (Cnil) (Single (ZERO)))) (Cnil))))) = plus (targetNew (Concats (Concats (Concats (Cnil) (Cnil)) (Concats (Cnil) (Single (ZERO)))) (Cnil))) (targetNew (Single (ZERO)))
+Prop: spec (tf3 (repr (target (Cnil))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Cnil))
 =================================================
 Progress: 144
 
@@ -5548,9 +5548,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH2 in goal at 0
-Prop: spec (tf3 ((Nil)) (repr (target (Concats (Cnil) (Cnil))))) = plus (targetNew (Concats (Cnil) (Cnil))) (spec ((Nil)))
-Prop: spec (tf3 ((Nil)) (repr (target (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) (Single (ZERO)))))) = plus (targetNew (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) (Single (ZERO)))) (spec ((Nil)))
+Prop: spec (tf3 ((Nil)) (repr (target (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO)))))) = plus (targetNew (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO)))) (spec ((Nil)))
 Prop: spec (tf3 ((Nil)) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (spec ((Nil)))
+Prop: spec (tf3 ((ZERO::(SUCC (ZERO)::(Nil)))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (spec ((ZERO::(SUCC (ZERO)::(Nil)))))
 previous tactics
 simpl in goal
 parent
@@ -5582,8 +5582,8 @@ plus(plus(targetNew(clist6), targetNew(clist7)), targetNew(clist5))
 remove lower
 plus(plus(targetNew(_), targetNew(clist7)), targetNew(clist5))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (target (Cnil))) (repr (target (Concats (Cnil) (Cnil))))) = plus (targetNew (Concats (Cnil) (Cnil))) (targetNew (Cnil))
-Prop: spec (tf3 (repr (target (Concats (Cnil) (Cnil)))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (targetNew (Concats (Cnil) (Cnil)))
+Prop: spec (tf3 (repr (target (Single (ZERO)))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Single (ZERO)))
+Prop: spec (tf3 (repr (target (Single (ZERO)))) (repr (target (Cnil)))) = plus (targetNew (Cnil)) (targetNew (Single (ZERO)))
 Prop: spec (tf3 (repr (target (Single (SUCC (ZERO))))) (repr (target (Single (ZERO))))) = plus (targetNew (Single (ZERO))) (targetNew (Single (SUCC (ZERO))))
 =================================================
 Progress: 145
@@ -5736,7 +5736,7 @@ rewrite IH1 in goal at 0
 simpl in goal
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
 Prop: plus (plus (ZERO) (ZERO)) (ZERO) = plus (plus (ZERO) (ZERO)) (ZERO)
-Prop: plus (plus (SUCC (ZERO)) (ZERO)) (ZERO) = plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)
+Prop: plus (plus (SUCC (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO) = plus (plus (SUCC (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO)
 =================================================
 Progress: 149
 
@@ -6284,9 +6284,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: plus (plus (SUCC (ZERO)) (ZERO)) (ZERO) = plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)
+Prop: plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)) = plus (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
 Prop: plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)) = plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)
-Prop: plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)) = plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)
+Prop: plus (plus (ZERO) (ZERO)) (SUCC (SUCC (ZERO))) = plus (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)
 previous tactics
 simpl in goal
 parent
@@ -6336,7 +6336,7 @@ plus(plus(plus(spec(nat_list4), nat3), nat2), nat1)
 validate generalize_common_subterm_goal
 Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (ZERO)
 Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (ZERO)
-Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (SUCC (ZERO)) = plus (plus (spec ((Nil))) (SUCC (ZERO))) (ZERO)
+Prop: plus (spec (tf3 ((Nil)) ((Nil)))) (ZERO) = plus (plus (spec ((Nil))) (ZERO)) (ZERO)
 =================================================
 Progress: 167
 
@@ -6488,8 +6488,8 @@ previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: SUCC (ZERO) = plus (SUCC (ZERO)) (ZERO)
-Prop: ZERO = plus (ZERO) (ZERO)
-Prop: ZERO = plus (ZERO) (ZERO)
+Prop: SUCC (ZERO) = plus (SUCC (ZERO)) (ZERO)
+Prop: SUCC (SUCC (ZERO)) = plus (SUCC (SUCC (ZERO))) (ZERO)
 =================================================
 Progress: 172
 

@@ -300,16 +300,19 @@ case lq (lmax (clist2)) (lmin (clist3))
 case ispart (clist2)
 case ispart (clist3)
 rewrite <- IH1 in goal at 0
-Prop: spec (tf1 (repr (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (SUCC (ZERO))) (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (ZERO)))))) (Elt (ZERO))) = spec (Elt (ZERO))
 Prop: spec (tf1 (repr (Single (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = spec (Econs (ZERO) (Elt (ZERO)))
-Prop: spec (tf1 (repr (Single (SUCC (ZERO)))) (Econs (ZERO) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO))))) = spec (Econs (ZERO) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO))))
+Prop: spec (tf1 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (Econs (ZERO) (Elt (ZERO)))) = spec (Econs (ZERO) (Elt (ZERO)))
+Prop: spec (tf1 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
 validate generalize_common_subterm_goal
-Prop: spec (tf1 (repr (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) (Single (ZERO)))) (Econs (ZERO) (Econs (SUCC (SUCC (ZERO))) (Econs (ZERO) (Elt (SUCC (SUCC (ZERO)))))))) = spec (Econs (ZERO) (Econs (SUCC (SUCC (ZERO))) (Econs (ZERO) (Elt (SUCC (SUCC (ZERO)))))))
-Prop: spec (tf1 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf1 (repr (Single (ZERO))) (Elt (SUCC (ZERO)))) = spec (Elt (SUCC (ZERO)))
-Prop: tf1 (repr (Single (ZERO))) (repr (tf13 (Concats (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) (Single (ZERO))) (Concats (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) (Single (ZERO))))) = repr (tf13 (Concats (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) (Single (ZERO))) (Concats (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) (Single (ZERO))))
-Prop: tf1 (repr (Single (SUCC (ZERO)))) (repr (tf13 (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (SUCC (ZERO)))) (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (SUCC (ZERO)))))) = repr (tf13 (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (SUCC (ZERO)))) (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (SUCC (ZERO)))))
-Prop: tf1 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (tf13 (Single (ZERO)) (Single (ZERO)))) = repr (tf13 (Single (ZERO)) (Single (ZERO)))
+Prop: spec (tf1 (repr (Single (SUCC (ZERO)))) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) = spec (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))
+Prop: spec (tf1 (repr (Single (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = spec (Econs (ZERO) (Elt (ZERO)))
+Prop: spec (tf1 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: tf1 (repr (Single (ZERO))) (repr (tf13 (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))) (Single (ZERO))) (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))) (Single (ZERO))))) = repr (tf13 (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))) (Single (ZERO))) (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))) (Single (ZERO))))
+Prop: tf1 (repr (Single (SUCC (SUCC (ZERO))))) (repr (tf13 (Single (ZERO)) (Single (ZERO)))) = repr (tf13 (Single (ZERO)) (Single (ZERO)))
+Prop: tf1 (repr (Single (ZERO))) (repr (tf13 (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) = repr (tf13 (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))
+Prop: spec (tf1 (repr (Single (SUCC (ZERO)))) (repr (tf13 (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))))) = spec (repr (tf13 (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))))
+Prop: spec (tf1 (repr (Single (ZERO))) (repr (tf13 (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))))) = spec (repr (tf13 (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))))
+Prop: spec (tf1 (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (repr (tf13 (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (SUCC (ZERO))))))) = spec (repr (tf13 (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (SUCC (ZERO))))))
 previous tactics
 simpl in goal
 case lq (lmax (clist2)) (lmin (clist3))
@@ -348,11 +351,32 @@ targetNew(clist6)
 remove lower
 targetNew(_)
 validate generalize_common_subterm_goal
-Prop: spec (tf1 (repr (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO)))) (repr (tf13 (Single (SUCC (ZERO))) (Single (SUCC (ZERO)))))) = targetNew (Single (SUCC (ZERO)))
 Prop: spec (tf1 (repr (Single (ZERO))) (repr (tf13 (Single (ZERO)) (Single (ZERO))))) = targetNew (Single (ZERO))
-Prop: spec (tf1 (repr (Single (ZERO))) (repr (tf13 (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))))) = targetNew (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))
+Prop: spec (tf1 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (tf13 (Single (SUCC (ZERO))) (Single (SUCC (ZERO)))))) = targetNew (Single (SUCC (ZERO)))
+Prop: spec (tf1 (repr (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))))) (repr (tf13 (Single (ZERO)) (Single (ZERO))))) = targetNew (Single (ZERO))
 Lemma List
-forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+End of Lemma List
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (tf13 (clist2) (clist2))) = targetNew (clist2)
+IH2 : spec (repr (tf13 (clist3) (clist3))) = targetNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : lq (lmax (clist2)) (lmin (clist3)) = true
+Case2 : ispart (clist2) = true
+Case3 : ispart (clist3) = true
+---------------------------------------
+spec (tf1 (repr (clist3)) (repr (tf13 (clist2) (clist2)))) = targetNew (clist2)
+
+3 goal(s) more...
+
+0 conjecture(s) more...
+Lemma List
+forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
 End of Lemma List
 
 
@@ -387,18 +411,18 @@ Case1 : lq (lmax (clist2)) (lmin (clist3)) = true
 Case2 : ispart (clist2) = true
 Case3 : ispart (clist3) = true
 ---------------------------------------
-spec (tf1 (repr (clist3)) (repr (tf13 (clist2) (clist2)))) = spec (repr (tf13 (clist2) (clist2)))
+spec (tf1 (repr (clist3)) (repr (tf13 (clist2) (clist2)))) = targetNew (clist2)
 
 3 goal(s) more...
 
 0 conjecture(s) more...
->>> assert forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))(rank : 0.)
+>>> assert forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)(rank : 0.)
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 
 ---------------------------------------
-forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 
 0 goal(s) more...
 
@@ -409,10 +433,43 @@ induction clist1(rank:14.)
 Progress: 11
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (tf13 (clist2) (clist2))) = targetNew (clist2)
+IH2 : spec (repr (tf13 (clist3) (clist3))) = targetNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : lq (lmax (clist2)) (lmin (clist3)) = true
+Case2 : ispart (clist2) = true
+Case3 : ispart (clist3) = true
+---------------------------------------
+spec (tf1 (repr (clist3)) (repr (tf13 (clist2) (clist2)))) = spec (repr (tf13 (clist2) (clist2)))
+
+3 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))(rank : 0.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
 
 ---------------------------------------
-forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction clist1(rank:14.)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+
+---------------------------------------
+forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 
 0 goal(s) more...
 
@@ -420,12 +477,12 @@ forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true-
 >>> induction clist1(rank : 14.)
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
 ---------------------------------------
-forall (clist2:clist), lq (lmax (Single (nat1))) (lmin (clist2)) = true->ispart (Single (nat1)) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (Single (nat1)) (Single (nat1)))) = repr (tf13 (Single (nat1)) (Single (nat1)))
+forall (clist2:clist), lq (lmax (Single (nat1))) (lmin (clist2)) = true->ispart (Single (nat1)) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (Single (nat1)) (Single (nat1))))) = targetNew (Single (nat1))
 
 1 goal(s) more...
 
@@ -433,15 +490,42 @@ forall (clist2:clist), lq (lmax (Single (nat1))) (lmin (clist2)) = true->ispart 
 Tactic List : 1
 simpl in goal(rank:14.)
 =================================================
-Progress: 12
+Progress: 13
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+
+---------------------------------------
+forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction clist1(rank : 14.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
 ---------------------------------------
-forall (clist2:clist), lq (lmax (Single (nat1))) (lmin (clist2)) = true->ispart (Single (nat1)) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (Single (nat1)) (Single (nat1)))) = repr (tf13 (Single (nat1)) (Single (nat1)))
+forall (clist2:clist), lq (lmax (Single (nat1))) (lmin (clist2)) = true->ispart (Single (nat1)) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (Single (nat1)) (Single (nat1))))) = spec (repr (tf13 (Single (nat1)) (Single (nat1))))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:14.)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (clist2:clist), lq (lmax (Single (nat1))) (lmin (clist2)) = true->ispart (Single (nat1)) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (Single (nat1)) (Single (nat1))))) = targetNew (Single (nat1))
 
 1 goal(s) more...
 
@@ -449,12 +533,12 @@ forall (clist2:clist), lq (lmax (Single (nat1))) (lmin (clist2)) = true->ispart 
 >>> simpl in goal(rank : 14.)
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
 ---------------------------------------
-forall (clist2:clist), lq (nat1) (lmin (clist2)) = true->true = true->ispart (clist2) = true -> Econs (nat1) (repr (clist2)) = Elt (nat1)
+forall (clist2:clist), lq (nat1) (lmin (clist2)) = true->true = true->ispart (clist2) = true -> max (nat1) (spec (repr (clist2))) = nat1
 
 1 goal(s) more...
 
@@ -462,15 +546,44 @@ forall (clist2:clist), lq (nat1) (lmin (clist2)) = true->true = true->ispart (cl
 Tactic List : 1
 induction clist2(rank:15.)
 =================================================
-Progress: 13
+Progress: 15
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
 ---------------------------------------
-forall (clist2:clist), lq (nat1) (lmin (clist2)) = true->true = true->ispart (clist2) = true -> Econs (nat1) (repr (clist2)) = Elt (nat1)
+forall (clist2:clist), lq (lmax (Single (nat1))) (lmin (clist2)) = true->ispart (Single (nat1)) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (Single (nat1)) (Single (nat1))))) = spec (repr (tf13 (Single (nat1)) (Single (nat1))))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 14.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (clist2:clist), lq (nat1) (lmin (clist2)) = true->true = true->ispart (clist2) = true -> max (nat1) (spec (repr (clist2))) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction clist2(rank:15.)
+=================================================
+Progress: 16
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (clist2:clist), lq (nat1) (lmin (clist2)) = true->true = true->ispart (clist2) = true -> max (nat1) (spec (repr (clist2))) = nat1
 
 1 goal(s) more...
 
@@ -478,7 +591,7 @@ forall (clist2:clist), lq (nat1) (lmin (clist2)) = true->true = true->ispart (cl
 >>> induction clist2(rank : 15.)
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -486,7 +599,7 @@ clist2 : clist
 nat2 : nat
 Base2 : clist2 = Single (nat2)
 ---------------------------------------
-lq (nat1) (lmin (Single (nat2))) = true->true = true->ispart (Single (nat2)) = true -> Econs (nat1) (repr (Single (nat2))) = Elt (nat1)
+lq (nat1) (lmin (Single (nat2))) = true->true = true->ispart (Single (nat2)) = true -> max (nat1) (spec (repr (Single (nat2)))) = nat1
 
 2 goal(s) more...
 
@@ -494,10 +607,23 @@ lq (nat1) (lmin (Single (nat2))) = true->true = true->ispart (Single (nat2)) = t
 Tactic List : 1
 simpl in goal(rank:15.)
 =================================================
-Progress: 14
+Progress: 17
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (clist2:clist), lq (nat1) (lmin (clist2)) = true->true = true->ispart (clist2) = true -> max (nat1) (spec (repr (clist2))) = nat1
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction clist2(rank : 15.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -505,7 +631,26 @@ clist2 : clist
 nat2 : nat
 Base2 : clist2 = Single (nat2)
 ---------------------------------------
-lq (nat1) (lmin (Single (nat2))) = true->true = true->ispart (Single (nat2)) = true -> Econs (nat1) (repr (Single (nat2))) = Elt (nat1)
+lq (nat1) (lmin (Single (nat2))) = true->true = true->ispart (Single (nat2)) = true -> max (nat1) (spec (repr (Single (nat2)))) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:15.)
+=================================================
+Progress: 18
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+---------------------------------------
+lq (nat1) (lmin (Single (nat2))) = true->true = true->ispart (Single (nat2)) = true -> max (nat1) (spec (repr (Single (nat2)))) = nat1
 
 2 goal(s) more...
 
@@ -513,7 +658,7 @@ lq (nat1) (lmin (Single (nat2))) = true->true = true->ispart (Single (nat2)) = t
 >>> simpl in goal(rank : 15.)
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -521,7 +666,7 @@ clist2 : clist
 nat2 : nat
 Base2 : clist2 = Single (nat2)
 ---------------------------------------
-lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 
 2 goal(s) more...
 
@@ -529,10 +674,10 @@ lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) =
 Tactic List : 1
 intro Cond1(rank:15.)
 =================================================
-Progress: 15
+Progress: 19
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -540,7 +685,42 @@ clist2 : clist
 nat2 : nat
 Base2 : clist2 = Single (nat2)
 ---------------------------------------
-lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+lq (nat1) (lmin (Single (nat2))) = true->true = true->ispart (Single (nat2)) = true -> max (nat1) (spec (repr (Single (nat2)))) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 15.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+---------------------------------------
+lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:15.)
+=================================================
+Progress: 20
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+---------------------------------------
+lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 
 2 goal(s) more...
 
@@ -548,7 +728,7 @@ lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) =
 >>> intro Cond1(rank : 15.)
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -557,7 +737,7 @@ nat2 : nat
 Base2 : clist2 = Single (nat2)
 Cond1 : lq (nat1) (nat2) = true
 ---------------------------------------
-true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+true = true->true = true -> max (nat1) (nat2) = nat1
 
 2 goal(s) more...
 
@@ -565,10 +745,26 @@ true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
 Tactic List : 1
 intro Cond2(rank:15.)
 =================================================
-Progress: 16
+Progress: 21
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+---------------------------------------
+lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 15.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -577,7 +773,27 @@ nat2 : nat
 Base2 : clist2 = Single (nat2)
 Cond1 : lq (nat1) (nat2) = true
 ---------------------------------------
-true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+true = true->true = true -> max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:15.)
+=================================================
+Progress: 22
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+Cond1 : lq (nat1) (nat2) = true
+---------------------------------------
+true = true->true = true -> max (nat1) (nat2) = nat1
 
 2 goal(s) more...
 
@@ -585,7 +801,7 @@ true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
 >>> intro Cond2(rank : 15.)
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -595,7 +811,7 @@ Base2 : clist2 = Single (nat2)
 Cond1 : lq (nat1) (nat2) = true
 Cond2 : true = true
 ---------------------------------------
-true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+true = true -> max (nat1) (nat2) = nat1
 
 2 goal(s) more...
 
@@ -603,10 +819,27 @@ true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
 Tactic List : 1
 intro Cond3(rank:15.)
 =================================================
-Progress: 17
+Progress: 23
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+Cond1 : lq (nat1) (nat2) = true
+---------------------------------------
+true = true->true = true -> max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond2(rank : 15.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -616,7 +849,28 @@ Base2 : clist2 = Single (nat2)
 Cond1 : lq (nat1) (nat2) = true
 Cond2 : true = true
 ---------------------------------------
-true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+true = true -> max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond3(rank:15.)
+=================================================
+Progress: 24
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+Cond1 : lq (nat1) (nat2) = true
+Cond2 : true = true
+---------------------------------------
+true = true -> max (nat1) (nat2) = nat1
 
 2 goal(s) more...
 
@@ -624,7 +878,7 @@ true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
 >>> intro Cond3(rank : 15.)
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -635,7 +889,7 @@ Cond1 : lq (nat1) (nat2) = true
 Cond2 : true = true
 Cond3 : true = true
 ---------------------------------------
-Econs (nat1) (Elt (nat2)) = Elt (nat1)
+max (nat1) (nat2) = nat1
 
 2 goal(s) more...
 
@@ -647,15 +901,15 @@ intro Cond1
 intro Cond2
 intro Cond3
 validate generalize_common_subterm_goal
-Prop: Econs (ZERO) (Elt (ZERO)) = Elt (ZERO)
-Prop: Econs (ZERO) (Elt (ZERO)) = Elt (ZERO)
-Prop: Econs (ZERO) (Elt (ZERO)) = Elt (ZERO)
+Prop: max (SUCC (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
+Prop: max (SUCC (ZERO)) (ZERO) = SUCC (ZERO)
+Prop: max (ZERO) (ZERO) = ZERO
 Lemma List
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 End of Lemma List
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -666,16 +920,16 @@ Cond1 : lq (nat1) (nat2) = true
 Cond2 : true = true
 Cond3 : true = true
 ---------------------------------------
-Econs (nat1) (Elt (nat2)) = Elt (nat1)
+max (nat1) (nat2) = nat1
 
 2 goal(s) more...
 
 1 conjecture(s) more...
 =================================================
-Progress: 18
+Progress: 25
 
 
-1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1))) = repr (tf13 (clist1) (clist1))
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = targetNew (clist1)
 clist1 : clist
 nat1 : nat
 Base1 : clist1 = Single (nat1)
@@ -686,18 +940,18 @@ Cond1 : lq (nat1) (nat2) = true
 Cond2 : true = true
 Cond3 : true = true
 ---------------------------------------
-Econs (nat1) (Elt (nat2)) = Elt (nat1)
+max (nat1) (nat2) = nat1
 
 2 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)(rank : 0.)
+>>> assert forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1(rank : 0.)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -705,13 +959,115 @@ forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true 
 Tactic List : 1
 intro nat1(rank:15.)
 =================================================
-Progress: 19
+Progress: 26
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+Cond1 : lq (nat1) (nat2) = true
+Cond2 : true = true
+---------------------------------------
+true = true -> max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond3(rank : 15.)
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+Cond1 : lq (nat1) (nat2) = true
+Cond2 : true = true
+Cond3 : true = true
+---------------------------------------
+max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
+intro Cond2
+intro Cond3
+validate generalize_common_subterm_goal
+Prop: max (ZERO) (ZERO) = ZERO
+Prop: max (ZERO) (ZERO) = ZERO
+Prop: max (SUCC (ZERO)) (ZERO) = SUCC (ZERO)
+Lemma List
+forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+End of Lemma List
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+Cond1 : lq (nat1) (nat2) = true
+Cond2 : true = true
+Cond3 : true = true
+---------------------------------------
+max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 27
+
+
+1st goal of : forall (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (repr (clist2)) (repr (tf13 (clist1) (clist1)))) = spec (repr (tf13 (clist1) (clist1)))
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+nat2 : nat
+Base2 : clist2 = Single (nat2)
+Cond1 : lq (nat1) (nat2) = true
+Cond2 : true = true
+Cond3 : true = true
+---------------------------------------
+max (nat1) (nat2) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 
 ---------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:15.)
+=================================================
+Progress: 28
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -719,10 +1075,10 @@ forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true 
 >>> intro nat1(rank : 15.)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+forall (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -730,13 +1086,38 @@ forall (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (n
 Tactic List : 1
 intro nat2(rank:15.)
 =================================================
-Progress: 20
+Progress: 29
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat1(rank : 15.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 nat1 : nat
 ---------------------------------------
-forall (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+forall (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:15.)
+=================================================
+Progress: 30
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -744,11 +1125,11 @@ forall (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (n
 >>> intro nat2(rank : 15.)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 nat1 : nat
 nat2 : nat
 ---------------------------------------
-lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -756,14 +1137,40 @@ lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) =
 Tactic List : 1
 intro Cond1(rank:15.)
 =================================================
-Progress: 21
+Progress: 31
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat2(rank : 15.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 nat1 : nat
 nat2 : nat
 ---------------------------------------
-lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:15.)
+=================================================
+Progress: 32
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+---------------------------------------
+lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -771,12 +1178,12 @@ lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) =
 >>> intro Cond1(rank : 15.)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 nat1 : nat
 nat2 : nat
 Cond1 : lq (nat1) (nat2) = true
 ---------------------------------------
-true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+true = true->true = true -> max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -784,15 +1191,43 @@ true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
 Tactic List : 1
 intro Cond2(rank:15.)
 =================================================
-Progress: 22
+Progress: 33
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+---------------------------------------
+lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond1(rank : 15.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 nat1 : nat
 nat2 : nat
 Cond1 : lq (nat1) (nat2) = true
 ---------------------------------------
-true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+true = true->true = true -> max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond2(rank:15.)
+=================================================
+Progress: 34
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : lq (nat1) (nat2) = true
+---------------------------------------
+true = true->true = true -> max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -800,13 +1235,13 @@ true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
 >>> intro Cond2(rank : 15.)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 nat1 : nat
 nat2 : nat
 Cond1 : lq (nat1) (nat2) = true
 Cond2 : true = true
 ---------------------------------------
-true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+true = true -> max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -814,16 +1249,46 @@ true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
 Tactic List : 1
 intro Cond3(rank:15.)
 =================================================
-Progress: 23
+Progress: 35
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : lq (nat1) (nat2) = true
+---------------------------------------
+true = true->true = true -> max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond2(rank : 15.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 nat1 : nat
 nat2 : nat
 Cond1 : lq (nat1) (nat2) = true
 Cond2 : true = true
 ---------------------------------------
-true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+true = true -> max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond3(rank:15.)
+=================================================
+Progress: 36
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : lq (nat1) (nat2) = true
+Cond2 : true = true
+---------------------------------------
+true = true -> max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
@@ -831,23 +1296,59 @@ true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
 >>> intro Cond3(rank : 15.)
 
 
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
 nat1 : nat
 nat2 : nat
 Cond1 : lq (nat1) (nat2) = true
 Cond2 : true = true
 Cond3 : true = true
 ---------------------------------------
-Econs (nat1) (Elt (nat2)) = Elt (nat1)
+max (nat1) (nat2) = nat1
 
 0 goal(s) more...
 
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: Econs (ZERO) (Elt (ZERO)) = Elt (ZERO)
-Prop: Econs (ZERO) (Elt (SUCC (ZERO))) = Elt (ZERO)
-Prop: Econs (ZERO) (Elt (SUCC (SUCC (ZERO)))) = Elt (ZERO)
+Prop: max (ZERO) (ZERO) = ZERO
+Prop: max (ZERO) (SUCC (ZERO)) = ZERO
+Prop: max (ZERO) (ZERO) = ZERO
+asdf
+=================================================
+Progress: 37
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : lq (nat1) (nat2) = true
+Cond2 : true = true
+---------------------------------------
+true = true -> max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond3(rank : 15.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true->true = true->true = true -> max (nat1) (nat2) = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : lq (nat1) (nat2) = true
+Cond2 : true = true
+Cond3 : true = true
+---------------------------------------
+max (nat1) (nat2) = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: max (ZERO) (SUCC (ZERO)) = ZERO
+Prop: max (ZERO) (ZERO) = ZERO
+Prop: max (ZERO) (ZERO) = ZERO
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

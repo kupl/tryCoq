@@ -39,7 +39,7 @@ forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
 
 ---------------------------------------
 forall (zipper1:zipper), sum (match (zipper1) with
-| Zip l1 l2 -> concat (rev (l1)) (listrepr (l1))) = match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
 | Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
 
 0 goal(s) more...
@@ -55,7 +55,7 @@ Progress: 3
 
 ---------------------------------------
 forall (zipper1:zipper), sum (match (zipper1) with
-| Zip l1 l2 -> concat (rev (l1)) (listrepr (l1))) = match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
 | Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
 
 0 goal(s) more...
@@ -68,7 +68,7 @@ forall (zipper1:zipper), sum (match (zipper1) with
 zipper1 : zipper
 ---------------------------------------
 sum (match (zipper1) with
-| Zip l1 l2 -> concat (rev (l1)) (listrepr (l1))) = match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
 | Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
 
 0 goal(s) more...
@@ -76,16 +76,203 @@ sum (match (zipper1) with
 0 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: sum (match (Zip ((Nil)) ((SUCC (SUCC (ZERO))::(Nil)))) with
-| Zip l1 l2 -> concat (rev (l1)) (listrepr (l1))) = match (Zip ((Nil)) ((SUCC (SUCC (ZERO))::(Nil)))) with
-| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
-Prop: sum (match (Zip ((Nil)) ((ZERO::(Nil)))) with
-| Zip l1 l2 -> concat (rev (l1)) (listrepr (l1))) = match (Zip ((Nil)) ((ZERO::(Nil)))) with
+Prop: sum (match (Zip ((ZERO::(Nil))) ((Nil))) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (Zip ((ZERO::(Nil))) ((Nil))) with
 | Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
 Prop: sum (match (Zip ((Nil)) ((Nil))) with
-| Zip l1 l2 -> concat (rev (l1)) (listrepr (l1))) = match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (Zip ((Nil)) ((Nil))) with
 | Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
-asdf
+Prop: sum (match (Zip ((ZERO::(Nil))) ((Nil))) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (Zip ((ZERO::(Nil))) ((Nil))) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+Lemma List
+forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+End of Lemma List
+
+
+1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+zipper1 : zipper
+---------------------------------------
+sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 4
+
+
+1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+zipper1 : zipper
+---------------------------------------
+sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))(rank : 0.)
+
+
+1st goal of : forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+---------------------------------------
+forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro zipper1(rank:5.)
+=================================================
+Progress: 5
+
+
+1st goal of : forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+---------------------------------------
+forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro zipper1(rank : 5.)
+
+
+1st goal of : forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+zipper1 : zipper
+---------------------------------------
+sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: sum (match (Zip ((ZERO::(Nil))) ((Nil))) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (Zip ((ZERO::(Nil))) ((Nil))) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+Prop: sum (match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+Prop: sum (match (Zip ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(Nil)))) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (Zip ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(Nil)))) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+Lemma List
+forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+End of Lemma List
+
+
+1st goal of : forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+zipper1 : zipper
+---------------------------------------
+sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 6
+
+
+1st goal of : forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+zipper1 : zipper
+---------------------------------------
+sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))(rank : 0.)
+
+
+1st goal of : forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+---------------------------------------
+forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro zipper1(rank:7.)
+=================================================
+Progress: 7
+
+
+1st goal of : forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+---------------------------------------
+forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro zipper1(rank : 7.)
+
+
+1st goal of : forall (zipper1:zipper), sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+zipper1 : zipper
+---------------------------------------
+sum (match (zipper1) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (zipper1) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: sum (match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+Prop: sum (match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
+Prop: sum (match (Zip ((ZERO::(Nil))) ((Nil))) with
+| Zip l1 l2 -> concat (reverse (l1)) (listrepr (l2))) = match (Zip ((ZERO::(Nil))) ((Nil))) with
+| Zip l1 l2 -> plus (revNew (l1)) (listreprNew (l2))
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69

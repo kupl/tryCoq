@@ -77,9 +77,39 @@ sum (match (match (zipper1) with
 0 goal(s) more...
 
 0 conjecture(s) more...
-Tactic List : 1
-case match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2)(rank:3.)
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: sum (match (match (Zip ((Nil)) ((ZERO::(ZERO::(Nil))))) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (Zip ((Nil)) ((ZERO::(ZERO::(Nil))))) with
+| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
+Prop: sum (match (match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
+Prop: sum (match (match (Zip ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (Zip ((ZERO::(Nil))) ((ZERO::(SUCC (ZERO)::(ZERO::(Nil)))))) with
+| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
+Lemma List
+forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
+| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
+End of Lemma List
+
+
+1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
+zipper1 : zipper
+---------------------------------------
+sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
+| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
 =================================================
 Progress: 4
 
@@ -95,147 +125,21 @@ sum (match (match (zipper1) with
 0 goal(s) more...
 
 0 conjecture(s) more...
->>> case match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2)(rank : 3.)
-
-
-1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
-zipper1 : zipper
-nat_list1 : nat list
-nat_list2 : nat list
-Case1 : match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2)
----------------------------------------
-sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: sum (tf1 ((Nil)) (rev ((Nil)))) = match (Zip ((Nil)) ((Nil))) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((SUCC (ZERO)::(Nil))) (rev ((ZERO::(SUCC (ZERO)::(Nil)))))) = match (Zip ((Nil)) ((ZERO::(Nil)))) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((Nil)) (rev ((ZERO::(Nil))))) = match (Zip ((ZERO::(Nil))) ((Nil))) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Lemma List
-forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-End of Lemma List
-
-
-1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
-zipper1 : zipper
-nat_list1 : nat list
-nat_list2 : nat list
-Case1 : match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2)
----------------------------------------
-sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-=================================================
-Progress: 5
-
-
-1st goal of : forall (zipper1:zipper), main (zipper1) = mainNew (zipper1)
-zipper1 : zipper
-nat_list1 : nat list
-nat_list2 : nat list
-Case1 : match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2)
----------------------------------------
-sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+>>> assert forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))(rank : 0.)
 
 
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+1st goal of : forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 
 ---------------------------------------
-forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro nat_list1(rank:5.)
-=================================================
-Progress: 6
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
----------------------------------------
-forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat_list1(rank : 5.)
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
----------------------------------------
-forall (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro nat_list2(rank:5.)
-=================================================
-Progress: 7
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
----------------------------------------
-forall (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro nat_list2(rank : 5.)
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
----------------------------------------
-forall (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 
 0 goal(s) more...
@@ -244,17 +148,18 @@ forall (zipper1:zipper), match (zipper1) with
 Tactic List : 1
 intro zipper1(rank:5.)
 =================================================
-Progress: 8
+Progress: 5
 
 
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+1st goal of : forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
+
 ---------------------------------------
-forall (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 
 0 goal(s) more...
@@ -263,53 +168,15 @@ forall (zipper1:zipper), match (zipper1) with
 >>> intro zipper1(rank : 5.)
 
 
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+1st goal of : forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
 zipper1 : zipper
 ---------------------------------------
-match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:5.)
-=================================================
-Progress: 9
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
-zipper1 : zipper
----------------------------------------
-match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> intro Cond1(rank : 5.)
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
-zipper1 : zipper
-Cond1 : match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2)
----------------------------------------
-sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 
 0 goal(s) more...
@@ -317,132 +184,73 @@ sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
 1 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: sum (tf1 ((ZERO::(SUCC (SUCC (SUCC (ZERO)))::(ZERO::(ZERO::(Nil)))))) (rev ((Nil)))) = match (Zip ((ZERO::(ZERO::(ZERO::(Nil))))) ((ZERO::(Nil)))) with
+Prop: sum (match (match (Zip ((SUCC (ZERO)::(Nil))) ((Nil))) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (Zip ((SUCC (ZERO)::(Nil))) ((Nil))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((Nil)) (rev ((ZERO::(ZERO::(Nil)))))) = match (Zip ((Nil)) ((Nil))) with
+Prop: sum (match (match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (Zip ((Nil)) ((Nil))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((SUCC (ZERO)::(ZERO::(Nil)))) (rev ((ZERO::(Nil))))) = match (Zip ((Nil)) ((Nil))) with
+Prop: sum (match (match (Zip ((Nil)) ((ZERO::(Nil)))) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (Zip ((Nil)) ((ZERO::(Nil)))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 Lemma List
-forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 End of Lemma List
 
 
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+1st goal of : forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
 zipper1 : zipper
-Cond1 : match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2)
 ---------------------------------------
-sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 
 0 goal(s) more...
 
 1 conjecture(s) more...
 =================================================
-Progress: 10
+Progress: 6
 
 
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+1st goal of : forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
 zipper1 : zipper
-Cond1 : match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2)
 ---------------------------------------
-sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 
 0 goal(s) more...
 
 1 conjecture(s) more...
->>> assert forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+>>> assert forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))(rank : 0.)
 
 
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+1st goal of : forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 
 ---------------------------------------
-forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat_list1(rank:7.)
-=================================================
-Progress: 11
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
----------------------------------------
-forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat_list1(rank : 7.)
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
----------------------------------------
-forall (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat_list2(rank:7.)
-=================================================
-Progress: 12
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
----------------------------------------
-forall (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat_list2(rank : 7.)
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
----------------------------------------
-forall (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 
 0 goal(s) more...
@@ -451,17 +259,18 @@ forall (zipper1:zipper), match (zipper1) with
 Tactic List : 1
 intro zipper1(rank:7.)
 =================================================
-Progress: 13
+Progress: 7
 
 
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+1st goal of : forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
+
 ---------------------------------------
-forall (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 
 0 goal(s) more...
@@ -470,53 +279,15 @@ forall (zipper1:zipper), match (zipper1) with
 >>> intro zipper1(rank : 7.)
 
 
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+1st goal of : forall (zipper1:zipper), sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
 zipper1 : zipper
 ---------------------------------------
-match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:7.)
-=================================================
-Progress: 14
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
-zipper1 : zipper
----------------------------------------
-match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
-
-
-1st goal of : forall (nat_list1:nat list) (nat_list2:nat list) (zipper1:zipper), match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2) -> sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
-| Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-nat_list1 : nat list
-nat_list2 : nat list
-zipper1 : zipper
-Cond1 : match (zipper1) with
-| Zip l1 l2 -> Zip (l1) (l2) = Zip (nat_list1) (nat_list2)
----------------------------------------
-sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
+sum (match (match (zipper1) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (zipper1) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 
 0 goal(s) more...
@@ -524,11 +295,17 @@ sum (tf1 (nat_list2) (rev (nat_list1))) = match (zipper1) with
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: sum (tf1 ((ZERO::(Nil))) (rev ((Nil)))) = match (Zip ((Nil)) ((Nil))) with
+Prop: sum (match (match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (Zip ((Nil)) ((Nil))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((Nil)) (rev ((Nil)))) = match (Zip ((Nil)) ((Nil))) with
+Prop: sum (match (match (Zip ((Nil)) ((Nil))) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (Zip ((Nil)) ((Nil))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
-Prop: sum (tf1 ((SUCC (ZERO)::(Nil))) (rev ((Nil)))) = match (Zip ((Nil)) ((ZERO::(ZERO::(Nil))))) with
+Prop: sum (match (match (Zip ((Nil)) ((ZERO::(Nil)))) with
+| Zip l1 l2 -> Zip (l1) (l2)) with
+| Zip l1 l2 -> concat (rev (l1)) (l2)) = match (Zip ((Nil)) ((ZERO::(Nil)))) with
 | Zip l1 l2 -> plus (sum (l1)) (sum (l2))
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

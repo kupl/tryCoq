@@ -300,13 +300,13 @@ case lq (lmax (clist2)) (lmin (clist3))
 case ispart (clist2)
 case ispart (clist3)
 rewrite <- IH2 in goal at 0
-Prop: spec (tf1 (Elt (ZERO)) (repr (Single (SUCC (ZERO))))) = spec (Elt (ZERO))
-Prop: spec (tf1 (Elt (ZERO)) (repr (Concats (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))) (Single (ZERO))))) = spec (Elt (ZERO))
-Prop: spec (tf1 (Elt (ZERO)) (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) = spec (Elt (ZERO))
-validate generalize_common_subterm_goal
-Prop: spec (tf1 (Econs (ZERO) (Econs (ZERO) (Elt (ZERO)))) (repr (Single (ZERO)))) = spec (Econs (ZERO) (Econs (ZERO) (Elt (ZERO))))
+Prop: spec (tf1 (Elt (ZERO)) (repr (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (ZERO)))))) = spec (Elt (ZERO))
+Prop: spec (tf1 (Elt (ZERO)) (repr (Concats (Concats (Concats (Concats (Concats (Concats (Concats (Concats (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) (Single (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO))) (Single (ZERO))) (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (SUCC (ZERO)))) (Single (ZERO))))) = spec (Elt (ZERO))
 Prop: spec (tf1 (Elt (ZERO)) (repr (Single (ZERO)))) = spec (Elt (ZERO))
-Prop: spec (tf1 (Econs (ZERO) (Econs (ZERO) (Econs (ZERO) (Elt (SUCC (ZERO)))))) (repr (Single (ZERO)))) = spec (Econs (ZERO) (Econs (ZERO) (Econs (ZERO) (Elt (SUCC (ZERO))))))
+validate generalize_common_subterm_goal
+Prop: spec (tf1 (Elt (ZERO)) (repr (Concats (Single (ZERO)) (Single (ZERO))))) = spec (Elt (ZERO))
+Prop: spec (tf1 (Elt (ZERO)) (repr (Single (ZERO)))) = spec (Elt (ZERO))
+Prop: spec (tf1 (Elt (ZERO)) (repr (Single (SUCC (SUCC (ZERO)))))) = spec (Elt (ZERO))
 previous tactics
 simpl in goal
 case lq (lmax (clist2)) (lmin (clist3))
@@ -331,9 +331,9 @@ tf1(repr(clist5), tf1(repr(clist7), repr(clist6)))
 remove lower
 tf1(repr(clist5), tf1(repr(clist7), repr(_)))
 validate generalize_common_subterm_goal
-Prop: spec (tf1 (repr (tf13 (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))) (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))))) (repr (Single (SUCC (SUCC (ZERO)))))) = targetNew (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO)))))
-Prop: spec (tf1 (repr (tf13 (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) (repr (Single (ZERO)))) = targetNew (Single (SUCC (ZERO)))
-Prop: spec (tf1 (repr (tf13 (Single (ZERO)) (Single (ZERO)))) (repr (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Single (SUCC (ZERO))))))) = targetNew (Single (ZERO))
+Prop: spec (tf1 (repr (tf13 (Single (ZERO)) (Single (ZERO)))) (repr (Single (SUCC (ZERO))))) = targetNew (Single (ZERO))
+Prop: spec (tf1 (repr (tf13 (Single (ZERO)) (Single (ZERO)))) (repr (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))))) = targetNew (Single (ZERO))
+Prop: spec (tf1 (repr (tf13 (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (SUCC (ZERO)))))) (repr (Single (SUCC (ZERO))))) = targetNew (Single (SUCC (SUCC (ZERO))))
 asdf
 Lemma List
 forall (elist1:elist) (clist1:clist) (clist2:clist), lq (lmax (clist1)) (lmin (clist2)) = true->ispart (clist1) = true->ispart (clist2) = true -> spec (tf1 (elist1) (repr (clist1))) = spec (elist1)
@@ -694,9 +694,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: spec (tf1 (Elt (ZERO)) (repr (Single (SUCC (ZERO))))) = ZERO
-Prop: spec (tf1 (Elt (ZERO)) (repr (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))) = ZERO
-Prop: spec (tf1 (Elt (SUCC (ZERO))) (repr (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))))) = SUCC (ZERO)
+Prop: spec (tf1 (Elt (ZERO)) (repr (Single (ZERO)))) = ZERO
+Prop: spec (tf1 (Elt (ZERO)) (repr (Concats (Concats (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO)))))) (Single (SUCC (SUCC (ZERO))))) (Single (SUCC (ZERO))))) (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) (Single (ZERO)))) (Single (SUCC (SUCC (SUCC (ZERO)))))))) = ZERO
+Prop: spec (tf1 (Elt (ZERO)) (repr (Single (ZERO)))) = ZERO
 asdf
 =================================================
 Progress: 21
@@ -885,9 +885,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: max (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
-Prop: max (SUCC (ZERO)) (SUCC (SUCC (ZERO))) = SUCC (SUCC (ZERO))
-Prop: max (SUCC (ZERO)) (ZERO) = ZERO
+Prop: max (ZERO) (SUCC (SUCC (ZERO))) = SUCC (SUCC (ZERO))
+Prop: max (ZERO) (ZERO) = ZERO
+Prop: max (ZERO) (ZERO) = ZERO
 asdf
 =================================================
 Progress: 26
@@ -1162,9 +1162,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: max (SUCC (ZERO)) (ZERO) = ZERO
-Prop: max (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (ZERO)
 Prop: max (ZERO) (ZERO) = ZERO
+Prop: max (SUCC (ZERO)) (ZERO) = ZERO
+Prop: max (SUCC (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (ZERO)
 asdf
 =================================================
 Progress: 34
@@ -1431,9 +1431,9 @@ intro Cond1
 intro Cond2
 intro Cond3
 validate generalize_common_subterm_goal
+Prop: spec (tf1 (Elt (ZERO)) (repr (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO))))) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO)))))) (Single (ZERO))))) = ZERO
 Prop: spec (tf1 (Elt (ZERO)) (repr (Single (ZERO)))) = ZERO
-Prop: spec (tf1 (Elt (ZERO)) (repr (Single (ZERO)))) = ZERO
-Prop: spec (tf1 (Elt (SUCC (SUCC (ZERO)))) (repr (Single (ZERO)))) = SUCC (SUCC (ZERO))
+Prop: spec (tf1 (Elt (ZERO)) (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))))) = ZERO
 asdf
 =================================================
 Progress: 42
@@ -1631,9 +1631,9 @@ intro Cond1
 intro Cond2
 intro Cond3
 validate generalize_common_subterm_goal
+Prop: max (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
 Prop: max (ZERO) (ZERO) = ZERO
-Prop: max (SUCC (ZERO)) (ZERO) = ZERO
-Prop: max (ZERO) (ZERO) = ZERO
+Prop: max (ZERO) (SUCC (SUCC (SUCC (ZERO)))) = SUCC (SUCC (SUCC (ZERO)))
 asdf
 =================================================
 Progress: 47
@@ -1864,9 +1864,9 @@ intro Cond1
 intro Cond2
 intro Cond3
 validate generalize_common_subterm_goal
-Prop: max (SUCC (SUCC (ZERO))) (ZERO) = ZERO
 Prop: max (ZERO) (ZERO) = ZERO
-Prop: max (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO)) = SUCC (ZERO)
+Prop: max (ZERO) (ZERO) = ZERO
+Prop: max (SUCC (ZERO)) (ZERO) = ZERO
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

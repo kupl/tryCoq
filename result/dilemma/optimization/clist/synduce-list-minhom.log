@@ -222,9 +222,9 @@ previous tactics
 simpl in goal
 case lq (mainNew (clist2)) (mainNew (clist3))
 rewrite <- IH1 in goal at 0
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (SUCC (ZERO)))) = spec (Elt (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = spec (Econs (ZERO) (Elt (ZERO)))
 previous tactics
 simpl in goal
 case lq (mainNew (clist2)) (mainNew (clist3))
@@ -263,9 +263,9 @@ mainNew(_)
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Concats (Concats (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (SUCC (SUCC (ZERO))))))) (Single (SUCC (SUCC (ZERO))))) (Single (ZERO))) (Single (ZERO)))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO))))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (SUCC (ZERO))))) (Single (ZERO)))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
 Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
 Lemma List
 forall (elist1:elist) (clist1:clist), spec (tf3 (repr (clist1)) (elist1)) = spec (elist1)
 End of Lemma List
@@ -555,268 +555,12 @@ simpl in goal
 case lq (nat2) (nat1)
 reflexivity
 validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = ZERO
-Prop: SUCC (SUCC (SUCC (SUCC (ZERO)))) = ZERO
-Prop: SUCC (ZERO) = ZERO
-Lemma List
-forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-End of Lemma List
-
-
-1st goal of : forall (elist1:elist) (clist1:clist), spec (tf3 (repr (clist1)) (elist1)) = spec (elist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
-elist1 : elist
-nat2 : nat
-Base2 : elist1 = Elt (nat2)
-Case1 : lq (nat2) (nat1) = false
----------------------------------------
-nat1 = nat2
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-=================================================
-Progress: 16
-
-
-1st goal of : forall (elist1:elist) (clist1:clist), spec (tf3 (repr (clist1)) (elist1)) = spec (elist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
-elist1 : elist
-nat2 : nat
-Base2 : elist1 = Elt (nat2)
-Case1 : lq (nat2) (nat1) = false
----------------------------------------
-nat1 = nat2
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> assert forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2(rank : 0.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat1(rank:7.)
-=================================================
-Progress: 17
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat2(rank:7.)
-=================================================
-Progress: 18
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat2(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:7.)
-=================================================
-Progress: 19
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
-Cond1 : lq (nat2) (nat1) = false
----------------------------------------
-nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: ZERO = ZERO
-Prop: ZERO = ZERO
-Prop: ZERO = ZERO
-Lemma List
-forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-End of Lemma List
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
-Cond1 : lq (nat2) (nat1) = false
----------------------------------------
-nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-=================================================
-Progress: 20
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
-Cond1 : lq (nat2) (nat1) = false
----------------------------------------
-nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> assert forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2(rank : 0.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-intro nat1(rank:9.)
-=================================================
-Progress: 21
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro nat1(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-intro nat2(rank:9.)
-=================================================
-Progress: 22
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro nat2(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:9.)
-=================================================
-Progress: 23
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-3 conjecture(s) more...
->>> intro Cond1(rank : 9.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
-Cond1 : lq (nat2) (nat1) = false
----------------------------------------
-nat1 = nat2
-
-0 goal(s) more...
-
-3 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: ZERO = ZERO
-Prop: ZERO = SUCC (SUCC (ZERO))
-Prop: ZERO = SUCC (SUCC (SUCC (ZERO)))
+Prop: SUCC (SUCC (ZERO)) = ZERO
+Prop: ZERO = SUCC (ZERO)
+Prop: ZERO = SUCC (ZERO)
 asdf
 =================================================
-Progress: 24
+Progress: 16
 
 
 1st goal of : forall (elist1:elist) (clist1:clist), spec (tf3 (repr (clist1)) (elist1)) = spec (elist1)
@@ -843,7 +587,7 @@ forall (clist1:clist), spec (tf3 (repr (clist1)) (Elt (nat1))) = spec (Elt (nat1
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 25
+Progress: 17
 
 
 1st goal of : forall (elist1:elist) (clist1:clist), spec (tf3 (repr (clist1)) (elist1)) = spec (elist1)
@@ -872,7 +616,7 @@ forall (clist1:clist), if lq (nat1) (spec (repr (clist1))) then nat1 else spec (
 Tactic List : 1
 induction clist1(rank:7.)
 =================================================
-Progress: 26
+Progress: 18
 
 
 1st goal of : forall (elist1:elist) (clist1:clist), spec (tf3 (repr (clist1)) (elist1)) = spec (elist1)
@@ -904,7 +648,7 @@ if lq (nat1) (spec (repr (Single (nat2)))) then nat1 else spec (repr (Single (na
 Tactic List : 1
 simpl in goal(rank:7.)
 =================================================
-Progress: 27
+Progress: 19
 
 
 1st goal of : forall (elist1:elist) (clist1:clist), spec (tf3 (repr (clist1)) (elist1)) = spec (elist1)
@@ -939,7 +683,7 @@ if lq (nat1) (nat2) then nat1 else spec (repr (Single (nat2))) = nat1
 Tactic List : 1
 case lq (nat1) (nat2)(rank:8.)
 =================================================
-Progress: 28
+Progress: 20
 
 
 1st goal of : forall (elist1:elist) (clist1:clist), spec (tf3 (repr (clist1)) (elist1)) = spec (elist1)
@@ -975,7 +719,7 @@ nat1 = nat1
 Tactic List : 1
 reflexivity(rank:7.)
 =================================================
-Progress: 29
+Progress: 21
 
 
 1st goal of : forall (elist1:elist) (clist1:clist), spec (tf3 (repr (clist1)) (elist1)) = spec (elist1)
@@ -1016,9 +760,9 @@ simpl in goal
 case lq (nat1) (nat2)
 reflexivity
 validate generalize_common_subterm_goal
+Prop: ZERO = ZERO
 Prop: SUCC (ZERO) = ZERO
 Prop: ZERO = ZERO
-Prop: SUCC (SUCC (SUCC (ZERO))) = ZERO
 Lemma List
 forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
 End of Lemma List
@@ -1039,7 +783,7 @@ nat2 = nat1
 
 1 conjecture(s) more...
 =================================================
-Progress: 30
+Progress: 22
 
 
 1st goal of : forall (elist1:elist) (clist1:clist), spec (tf3 (repr (clist1)) (elist1)) = spec (elist1)
@@ -1070,7 +814,7 @@ forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
 Tactic List : 1
 intro nat1(rank:7.)
 =================================================
-Progress: 31
+Progress: 23
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
@@ -1095,7 +839,7 @@ forall (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
 Tactic List : 1
 intro nat2(rank:7.)
 =================================================
-Progress: 32
+Progress: 24
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
@@ -1121,7 +865,7 @@ lq (nat1) (nat2) = false -> nat2 = nat1
 Tactic List : 1
 intro Cond1(rank:7.)
 =================================================
-Progress: 33
+Progress: 25
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
@@ -1148,12 +892,12 @@ nat2 = nat1
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: ZERO = ZERO
-Prop: SUCC (SUCC (ZERO)) = ZERO
 Prop: ZERO = SUCC (ZERO)
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
 asdf
 =================================================
-Progress: 34
+Progress: 26
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1191,7 +935,7 @@ rewrite <- IH2 in goal at 2(rank:19.)
 rewrite <- IH2 in goal at 0(rank:19.)
 rewrite <- IH2 in goal at 1(rank:19.)
 =================================================
-Progress: 35
+Progress: 27
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1227,7 +971,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
 Tactic List : 1
 rewrite IH1 in goal at 0(rank:4.)
 =================================================
-Progress: 36
+Progress: 28
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1268,18 +1012,18 @@ rewrite <- IH1 in goal at 0
 case lq (spec (repr (clist2))) (mainNew (clist3))
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))) (Single (ZERO))))) (repr (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (SUCC (ZERO))))))) = mainNew (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (SUCC (ZERO)))))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (ZERO)) (Single (ZERO)))))) = mainNew (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (ZERO)) (Single (ZERO))))
+Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO))))) = mainNew (Single (SUCC (ZERO)))
+Prop: spec (tf3 (repr (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (ZERO)))) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (ZERO)))) (Single (ZERO))) (Single (ZERO))))))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 case lq (spec (repr (clist2))) (mainNew (clist3))
-Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Econs (ZERO) (Elt (ZERO))))) = spec (Econs (ZERO) (Econs (ZERO) (Elt (ZERO))))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))))) (Econs (SUCC (ZERO)) (Elt (ZERO)))) = spec (Econs (SUCC (ZERO)) (Elt (ZERO)))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Elt (ZERO))) = spec (Elt (ZERO))
 =================================================
-Progress: 37
+Progress: 29
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1316,7 +1060,7 @@ rewrite <- IH2 in goal at 0(rank:19.)
 rewrite <- IH2 in goal at 1(rank:19.)
 rewrite <- IH2 in goal at 2(rank:19.)
 =================================================
-Progress: 38
+Progress: 30
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1351,7 +1095,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (mainNew (clist2)) (spec (rep
 Tactic List : 1
 case lq (mainNew (clist2)) (spec (repr (clist3)))(rank:4.)
 =================================================
-Progress: 39
+Progress: 31
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1387,7 +1131,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = mainNew (clist2)
 Tactic List : 1
 rewrite <- IH1 in goal at 0(rank:4.)
 =================================================
-Progress: 40
+Progress: 32
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1427,19 +1171,19 @@ simpl in goal
 rewrite <- IH2 in goal at 0
 case lq (mainNew (clist2)) (spec (repr (clist3)))
 rewrite <- IH1 in goal at 0
-Prop: spec (tf3 (repr (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (ZERO))))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO)))))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = spec (Econs (ZERO) (Elt (ZERO)))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH2 in goal at 0
 case lq (mainNew (clist2)) (spec (repr (clist3)))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (SUCC (SUCC (ZERO))))))) = mainNew (Single (SUCC (SUCC (SUCC (ZERO)))))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO)))) (repr (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO))))) = mainNew (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO)))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO))))) = mainNew (Single (SUCC (ZERO)))
+Prop: spec (tf3 (repr (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
 =================================================
-Progress: 41
+Progress: 33
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1474,7 +1218,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (mainNew (clist2)) (spec (rep
 Tactic List : 1
 case lq (mainNew (clist2)) (spec (repr (clist3)))(rank:4.)
 =================================================
-Progress: 42
+Progress: 34
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1510,7 +1254,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = mainNew (clist2)
 Tactic List : 1
 rewrite <- IH1 in goal at 0(rank:4.)
 =================================================
-Progress: 43
+Progress: 35
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1550,21 +1294,21 @@ simpl in goal
 rewrite <- IH2 in goal at 1
 case lq (mainNew (clist2)) (spec (repr (clist3)))
 rewrite <- IH1 in goal at 0
-Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = spec (Econs (ZERO) (Elt (ZERO)))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (SUCC (SUCC (ZERO))))) = spec (Elt (SUCC (SUCC (ZERO))))
-validate generalize_common_subterm_goal
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Econs (ZERO) (Elt (ZERO)))) = spec (Econs (ZERO) (Elt (ZERO)))
+Prop: spec (tf3 (repr (Concats (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO)))) (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))))) (Econs (SUCC (ZERO)) (Elt (SUCC (ZERO))))) = spec (Econs (SUCC (ZERO)) (Elt (SUCC (ZERO))))
 Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Elt (SUCC (ZERO))))) = spec (Econs (ZERO) (Elt (SUCC (ZERO))))
+validate generalize_common_subterm_goal
+Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = spec (Econs (ZERO) (Elt (ZERO)))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) (Econs (ZERO) (Elt (ZERO)))) = spec (Econs (ZERO) (Elt (ZERO)))
 previous tactics
 simpl in goal
 rewrite <- IH2 in goal at 1
 case lq (mainNew (clist2)) (spec (repr (clist3)))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Single (SUCC (ZERO))))) = mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Concats (Single (ZERO)) (Single (ZERO))))) = mainNew (Concats (Single (ZERO)) (Single (ZERO)))
-Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (repr (Concats (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Single (ZERO)))) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))))) = mainNew (Concats (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Single (ZERO)))) (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))
+Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (repr (Single (SUCC (SUCC (ZERO)))))) = mainNew (Single (SUCC (SUCC (ZERO))))
 Lemma List
 forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
 End of Lemma List
@@ -1585,7 +1329,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
 
 0 conjecture(s) more...
 =================================================
-Progress: 44
+Progress: 36
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -1616,7 +1360,7 @@ forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec
 Tactic List : 1
 intro clist1(rank:5.)
 =================================================
-Progress: 45
+Progress: 37
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -1641,7 +1385,7 @@ forall (elist1:elist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2)
 Tactic List : 1
 induction clist2(rank:6.)
 =================================================
-Progress: 46
+Progress: 38
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -1669,7 +1413,7 @@ forall (elist1:elist), lq (mainNew (clist1)) (spec (repr (Single (nat1)))) = tru
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 47
+Progress: 39
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -1700,7 +1444,7 @@ forall (elist1:elist), lq (mainNew (clist1)) (nat1) = true -> spec (tf3 (Elt (na
 Tactic List : 1
 intro Cond1(rank:6.)
 =================================================
-Progress: 48
+Progress: 40
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -1732,7 +1476,7 @@ forall (elist1:elist), spec (tf3 (Elt (nat1)) (elist1)) = spec (elist1)
 Tactic List : 1
 induction elist1(rank:7.)
 =================================================
-Progress: 49
+Progress: 41
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -1768,7 +1512,7 @@ spec (tf3 (Elt (nat1)) (Elt (nat2))) = spec (Elt (nat2))
 Tactic List : 1
 simpl in goal(rank:7.)
 =================================================
-Progress: 50
+Progress: 42
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -1807,7 +1551,7 @@ if lq (nat2) (nat1) then nat2 else nat1 = nat2
 Tactic List : 1
 case lq (nat2) (nat1)(rank:8.)
 =================================================
-Progress: 51
+Progress: 43
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -1847,7 +1591,7 @@ nat2 = nat2
 Tactic List : 1
 reflexivity(rank:7.)
 =================================================
-Progress: 52
+Progress: 44
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -1892,147 +1636,12 @@ simpl in goal
 case lq (nat2) (nat1)
 reflexivity
 validate generalize_common_subterm_goal
-Prop: ZERO = ZERO
 Prop: SUCC (ZERO) = ZERO
 Prop: ZERO = ZERO
-Lemma List
-forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-End of Lemma List
-
-
-1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
-clist1 : clist
-clist2 : clist
-nat1 : nat
-Base1 : clist2 = Single (nat1)
-Cond1 : lq (mainNew (clist1)) (nat1) = true
-elist1 : elist
-nat2 : nat
-Base2 : elist1 = Elt (nat2)
-Case1 : lq (nat2) (nat1) = false
----------------------------------------
-nat1 = nat2
-
-2 goal(s) more...
-
-1 conjecture(s) more...
+Prop: SUCC (ZERO) = SUCC (SUCC (ZERO))
+asdf
 =================================================
-Progress: 53
-
-
-1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (mainNew (clist1)) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
-clist1 : clist
-clist2 : clist
-nat1 : nat
-Base1 : clist2 = Single (nat1)
-Cond1 : lq (mainNew (clist1)) (nat1) = true
-elist1 : elist
-nat2 : nat
-Base2 : elist1 = Elt (nat2)
-Case1 : lq (nat2) (nat1) = false
----------------------------------------
-nat1 = nat2
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> assert forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2(rank : 0.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat1(rank:7.)
-=================================================
-Progress: 54
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat2(rank:7.)
-=================================================
-Progress: 55
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat2(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:7.)
-=================================================
-Progress: 56
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat2) (nat1) = false -> nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
-nat1 : nat
-nat2 : nat
-Cond1 : lq (nat2) (nat1) = false
----------------------------------------
-nat1 = nat2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: SUCC (SUCC (ZERO)) = ZERO
-Prop: ZERO = ZERO
-Prop: ZERO = ZERO
-=================================================
-Progress: 57
+Progress: 45
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -2067,7 +1676,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (mainNew (clist2)) (mainNew (
 Tactic List : 1
 case lq (mainNew (clist2)) (mainNew (clist3))(rank:4.)
 =================================================
-Progress: 58
+Progress: 46
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -2103,7 +1712,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = mainNew (clist2)
 Tactic List : 1
 rewrite <- IH1 in goal at 0(rank:4.)
 =================================================
-Progress: 59
+Progress: 47
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -2143,19 +1752,19 @@ simpl in goal
 rewrite <- IH2 in goal at 2
 case lq (mainNew (clist2)) (mainNew (clist3))
 rewrite <- IH1 in goal at 0
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (Econs (SUCC (ZERO)) (Elt (ZERO)))) = spec (Econs (SUCC (ZERO)) (Elt (ZERO)))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (Econs (SUCC (SUCC (ZERO))) (Econs (ZERO) (Econs (ZERO) (Elt (ZERO)))))) = spec (Econs (SUCC (SUCC (ZERO))) (Econs (ZERO) (Econs (ZERO) (Elt (ZERO)))))
+Prop: spec (tf3 (repr (Concats (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))) (Single (ZERO)))) (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Single (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO)))))) (Concats (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))) (Single (ZERO)))) (Single (ZERO))))) (Single (ZERO))) (Single (ZERO))))))) (Elt (ZERO))) = spec (Elt (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH2 in goal at 2
 case lq (mainNew (clist2)) (mainNew (clist3))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) = mainNew (Concats (Single (ZERO)) (Single (SUCC (ZERO))))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO)))))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (SUCC (SUCC (SUCC (ZERO)))))) (repr (Single (SUCC (SUCC (ZERO)))))) = mainNew (Single (SUCC (SUCC (ZERO))))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) (Single (ZERO)))))) = mainNew (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) (Single (ZERO))))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO)))) (repr (Concats (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (SUCC (ZERO)))) (Single (SUCC (SUCC (SUCC (ZERO)))))) (Single (ZERO))))) (Concats (Single (SUCC (ZERO))) (Single (ZERO)))))) = mainNew (Concats (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (SUCC (ZERO)))) (Single (SUCC (SUCC (SUCC (ZERO)))))) (Single (ZERO))))) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Single (ZERO))))) = mainNew (Concats (Single (ZERO)) (Single (ZERO)))
 =================================================
-Progress: 60
+Progress: 48
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -2192,19 +1801,15 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 2
 rewrite <- IH2 in goal at 0
-Prop: spec (tf3 (Econs (ZERO) (Elt (ZERO))) (Elt (ZERO))) = if lq (mainNew (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (spec (Econs (ZERO) (Elt (ZERO)))) then spec (Elt (ZERO)) else spec (Econs (ZERO) (Elt (ZERO)))
-Prop: spec (tf3 (Elt (SUCC (ZERO))) (Econs (SUCC (ZERO)) (Elt (ZERO)))) = if lq (mainNew (Single (SUCC (SUCC (ZERO))))) (spec (Elt (SUCC (ZERO)))) then spec (Econs (SUCC (ZERO)) (Elt (ZERO))) else spec (Elt (SUCC (ZERO)))
-Prop: spec (tf3 (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO))) (Elt (SUCC (ZERO)))) = if lq (mainNew (Single (ZERO))) (spec (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) then spec (Elt (SUCC (ZERO))) else spec (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))
-validate generalize_common_subterm_goal
-Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (spec (Elt (ZERO))) then spec (Elt (ZERO)) else spec (Elt (ZERO))
-Prop: spec (tf3 (Elt (ZERO)) (Econs (ZERO) (Econs (ZERO) (Econs (SUCC (ZERO)) (Elt (ZERO)))))) = if lq (mainNew (Single (ZERO))) (spec (Elt (ZERO))) then spec (Econs (ZERO) (Econs (ZERO) (Econs (SUCC (ZERO)) (Elt (ZERO))))) else spec (Elt (ZERO))
-Prop: spec (tf3 (Econs (ZERO) (Elt (ZERO))) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) = if lq (mainNew (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))) (Concats (Single (ZERO)) (Single (ZERO))))))) (spec (Econs (ZERO) (Elt (ZERO)))) then spec (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO))) else spec (Econs (ZERO) (Elt (ZERO)))
+Prop: spec (tf3 (Econs (ZERO) (Elt (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = if lq (mainNew (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO)))))) (spec (Econs (ZERO) (Elt (ZERO)))) then spec (Econs (ZERO) (Elt (ZERO))) else spec (Econs (ZERO) (Elt (ZERO)))
+Prop: spec (tf3 (Elt (SUCC (ZERO))) (Elt (SUCC (ZERO)))) = if lq (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) (spec (Elt (SUCC (ZERO)))) then spec (Elt (SUCC (ZERO))) else spec (Elt (SUCC (ZERO)))
+Prop: spec (tf3 (Elt (ZERO)) (Elt (SUCC (SUCC (ZERO))))) = if lq (mainNew (Concats (Single (ZERO)) (Single (SUCC (SUCC (SUCC (ZERO))))))) (spec (Elt (ZERO))) then spec (Elt (SUCC (SUCC (ZERO)))) else spec (Elt (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 2
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (Elt (SUCC (SUCC (SUCC (ZERO)))))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) then spec (Elt (SUCC (SUCC (SUCC (ZERO))))) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (SUCC (ZERO)))) then spec (Elt (ZERO)) else mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (SUCC (SUCC (ZERO))))) = if lq (mainNew (Single (SUCC (SUCC (ZERO))))) (mainNew (Single (ZERO))) then spec (Elt (SUCC (SUCC (ZERO)))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Concats (Single (ZERO)) (Single (ZERO))))))) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Concats (Single (ZERO)) (Single (ZERO))))))) then spec (Elt (ZERO)) else mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Concats (Single (ZERO)) (Single (ZERO))))))
+Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = if lq (mainNew (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (mainNew (Single (ZERO))) then spec (Elt (ZERO)) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Single (SUCC (ZERO))))) (Econs (ZERO) (Elt (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Single (SUCC (ZERO))))) then spec (Econs (ZERO) (Elt (ZERO))) else mainNew (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Single (SUCC (ZERO))))
 previous tactics
 simpl in goal
 parent
@@ -2226,9 +1831,9 @@ tf3(repr(clist5), tf3(repr(clist7), repr(clist6)))
 remove lower
 tf3(repr(clist5), tf3(repr(clist7), repr(_)))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (SUCC (SUCC (ZERO)))))) = if lq (mainNew (Single (SUCC (SUCC (ZERO))))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (SUCC (SUCC (ZERO)))) else mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO))))) = if lq (mainNew (Single (SUCC (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Single (SUCC (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))) (repr (Concats (Single (ZERO)) (Single (ZERO))))) = if lq (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) (mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))) then mainNew (Concats (Single (ZERO)) (Single (ZERO))) else mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Single (SUCC (ZERO)))
 Lemma List
 forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist1) else mainNew (clist2)
 End of Lemma List
@@ -2266,7 +1871,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (mainNew (clist2)) (spec (rep
 
 0 conjecture(s) more...
 =================================================
-Progress: 61
+Progress: 49
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -2296,7 +1901,7 @@ forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (
 Tactic List : 1
 intro clist1(rank:5.)
 =================================================
-Progress: 62
+Progress: 50
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -2326,7 +1931,7 @@ forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)
 Tactic List : 1
 intro clist1(rank:5.)
 =================================================
-Progress: 63
+Progress: 51
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist1) else mainNew (clist2)
@@ -2351,7 +1956,7 @@ forall (elist1:elist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if l
 Tactic List : 1
 induction clist2(rank:6.)
 =================================================
-Progress: 64
+Progress: 52
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (spec (elist1)) then spec (elist2) else spec (elist1)
@@ -2376,7 +1981,7 @@ forall (elist1:elist) (elist2:elist), spec (tf3 (elist1) (elist2)) = if lq (main
 Tactic List : 1
 induction elist1(rank:6.)
 =================================================
-Progress: 65
+Progress: 53
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist1) else mainNew (clist2)
@@ -2404,7 +2009,7 @@ forall (elist1:elist), spec (tf3 (repr (Single (nat1))) (elist1)) = if lq (mainN
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 66
+Progress: 54
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (spec (elist1)) then spec (elist2) else spec (elist1)
@@ -2432,7 +2037,7 @@ forall (elist2:elist), spec (tf3 (Elt (nat1)) (elist2)) = if lq (mainNew (clist1
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 67
+Progress: 55
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist1) else mainNew (clist2)
@@ -2463,7 +2068,7 @@ forall (elist1:elist), spec (tf3 (Elt (nat1)) (elist1)) = if lq (mainNew (clist1
 Tactic List : 1
 case lq (mainNew (clist1)) (nat1)(rank:7.)
 =================================================
-Progress: 68
+Progress: 56
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (spec (elist1)) then spec (elist2) else spec (elist1)
@@ -2494,7 +2099,7 @@ forall (elist2:elist), spec (tf3 (Elt (nat1)) (elist2)) = if lq (mainNew (clist1
 Tactic List : 1
 case lq (mainNew (clist1)) (nat1)(rank:7.)
 =================================================
-Progress: 69
+Progress: 57
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist1) else mainNew (clist2)
@@ -2526,7 +2131,7 @@ forall (elist1:elist), spec (tf3 (Elt (nat1)) (elist1)) = spec (elist1)
 Tactic List : 1
 induction elist1(rank:8.)
 =================================================
-Progress: 70
+Progress: 58
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (spec (elist1)) then spec (elist2) else spec (elist1)
@@ -2558,7 +2163,7 @@ forall (elist2:elist), spec (tf3 (Elt (nat1)) (elist2)) = spec (elist2)
 Tactic List : 1
 induction elist2(rank:8.)
 =================================================
-Progress: 71
+Progress: 59
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist1) else mainNew (clist2)
@@ -2594,7 +2199,7 @@ spec (tf3 (Elt (nat1)) (Elt (nat2))) = spec (Elt (nat2))
 Tactic List : 1
 simpl in goal(rank:8.)
 =================================================
-Progress: 72
+Progress: 60
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (spec (elist1)) then spec (elist2) else spec (elist1)
@@ -2630,7 +2235,7 @@ spec (tf3 (Elt (nat1)) (Elt (nat2))) = spec (Elt (nat2))
 Tactic List : 1
 simpl in goal(rank:8.)
 =================================================
-Progress: 73
+Progress: 61
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist1) else mainNew (clist2)
@@ -2669,7 +2274,7 @@ if lq (nat2) (nat1) then nat2 else nat1 = nat2
 Tactic List : 1
 case lq (nat2) (nat1)(rank:9.)
 =================================================
-Progress: 74
+Progress: 62
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (spec (elist1)) then spec (elist2) else spec (elist1)
@@ -2708,7 +2313,7 @@ if lq (nat2) (nat1) then nat2 else nat1 = nat2
 Tactic List : 1
 case lq (nat2) (nat1)(rank:9.)
 =================================================
-Progress: 75
+Progress: 63
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist1) else mainNew (clist2)
@@ -2748,7 +2353,7 @@ nat2 = nat2
 Tactic List : 1
 reflexivity(rank:8.)
 =================================================
-Progress: 76
+Progress: 64
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist1) else mainNew (clist2)
@@ -2794,8 +2399,8 @@ case lq (nat2) (nat1)
 reflexivity
 validate generalize_common_subterm_goal
 Prop: ZERO = ZERO
-Prop: ZERO = ZERO
 Prop: SUCC (ZERO) = ZERO
+Prop: ZERO = ZERO
 Lemma List
 forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
 End of Lemma List
@@ -2818,7 +2423,7 @@ nat1 = nat2
 
 1 conjecture(s) more...
 =================================================
-Progress: 77
+Progress: 65
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist1) else mainNew (clist2)
@@ -2851,7 +2456,7 @@ forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
 Tactic List : 1
 intro nat1(rank:7.)
 =================================================
-Progress: 78
+Progress: 66
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
@@ -2876,7 +2481,7 @@ forall (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
 Tactic List : 1
 intro nat2(rank:7.)
 =================================================
-Progress: 79
+Progress: 67
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
@@ -2902,7 +2507,7 @@ lq (nat2) (nat1) = false -> nat1 = nat2
 Tactic List : 1
 intro Cond1(rank:7.)
 =================================================
-Progress: 80
+Progress: 68
 
 
 1st goal of : forall (nat1:nat) (nat2:nat), lq (nat2) (nat1) = false -> nat1 = nat2
@@ -2930,10 +2535,11 @@ nat1 = nat2
 Tactic List : 0
 validate generalize_common_subterm_goal
 Prop: ZERO = ZERO
-Prop: SUCC (SUCC (SUCC (ZERO))) = ZERO
+Prop: ZERO = SUCC (SUCC (ZERO))
 Prop: ZERO = ZERO
+asdf
 =================================================
-Progress: 81
+Progress: 69
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (spec (elist1)) then spec (elist2) else spec (elist1)
@@ -2973,7 +2579,7 @@ nat2 = nat2
 Tactic List : 1
 reflexivity(rank:8.)
 =================================================
-Progress: 82
+Progress: 70
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (spec (elist1)) then spec (elist2) else spec (elist1)
@@ -3018,12 +2624,12 @@ simpl in goal
 case lq (nat2) (nat1)
 reflexivity
 validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = SUCC (SUCC (ZERO))
-Prop: SUCC (ZERO) = ZERO
-Prop: ZERO = ZERO
+Prop: ZERO = SUCC (ZERO)
+Prop: SUCC (ZERO) = SUCC (ZERO)
+Prop: SUCC (SUCC (SUCC (SUCC (ZERO)))) = ZERO
 asdf
 =================================================
-Progress: 83
+Progress: 71
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -3060,22 +2666,22 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 2
 rewrite <- IH2 in goal at 1
-Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (mainNew (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (spec (Elt (ZERO))) then spec (Elt (ZERO)) else mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (Econs (SUCC (ZERO)) (Econs (ZERO) (Econs (SUCC (ZERO)) (Elt (ZERO))))) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (spec (Econs (SUCC (ZERO)) (Econs (ZERO) (Econs (SUCC (ZERO)) (Elt (ZERO)))))) then spec (Elt (ZERO)) else mainNew (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))) (Single (SUCC (SUCC (ZERO)))))
-Prop: spec (tf3 (Elt (SUCC (ZERO))) (Econs (ZERO) (Econs (ZERO) (Elt (ZERO))))) = if lq (mainNew (Single (ZERO))) (spec (Elt (SUCC (ZERO)))) then spec (Econs (ZERO) (Econs (ZERO) (Elt (ZERO)))) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
+Prop: spec (tf3 (Elt (SUCC (SUCC (ZERO)))) (Elt (ZERO))) = if lq (mainNew (Single (SUCC (SUCC (SUCC (ZERO)))))) (spec (Elt (SUCC (SUCC (ZERO))))) then spec (Elt (ZERO)) else mainNew (Single (SUCC (SUCC (ZERO))))
+Prop: spec (tf3 (Elt (SUCC (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = if lq (mainNew (Single (ZERO))) (spec (Elt (SUCC (ZERO)))) then spec (Econs (ZERO) (Elt (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) (spec (Elt (ZERO))) then spec (Elt (ZERO)) else mainNew (Single (ZERO))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (Elt (SUCC (ZERO))) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (spec (Elt (SUCC (ZERO)))) then spec (Elt (ZERO)) else mainNew (Single (ZERO))
-Prop: spec (tf3 (Elt (SUCC (ZERO))) (Elt (SUCC (SUCC (ZERO))))) = if lq (mainNew (Single (SUCC (ZERO)))) (spec (Elt (SUCC (ZERO)))) then spec (Elt (SUCC (SUCC (ZERO)))) else mainNew (Single (ZERO))
-Prop: spec (tf3 (Elt (SUCC (SUCC (ZERO)))) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (spec (Elt (SUCC (SUCC (ZERO))))) then spec (Elt (ZERO)) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (spec (repr (Single (SUCC (ZERO))))) then spec (repr (Single (ZERO))) else mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (SUCC (ZERO))))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (spec (repr (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (SUCC (ZERO)))))) then spec (repr (Single (ZERO))) else mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (SUCC (ZERO))))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Single (ZERO))) (Concats (Single (ZERO)) (Single (ZERO))))))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (spec (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Single (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))))))) then spec (repr (Single (ZERO))) else mainNew (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Single (ZERO))) (Concats (Single (ZERO)) (Single (ZERO))))))
+Prop: spec (tf3 (Elt (SUCC (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = if lq (mainNew (Single (ZERO))) (spec (Elt (SUCC (ZERO)))) then spec (Econs (ZERO) (Elt (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (Econs (SUCC (ZERO)) (Econs (ZERO) (Elt (ZERO)))) (Elt (ZERO))) = if lq (mainNew (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (spec (Econs (SUCC (ZERO)) (Econs (ZERO) (Elt (ZERO))))) then spec (Elt (ZERO)) else mainNew (Single (SUCC (ZERO)))
+Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (mainNew (Single (SUCC (SUCC (ZERO))))) (spec (Elt (ZERO))) then spec (Elt (ZERO)) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (spec (repr (Concats (Single (ZERO)) (Single (ZERO))))) then spec (repr (Single (ZERO))) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Single (SUCC (ZERO))))) = if lq (mainNew (Single (SUCC (ZERO)))) (spec (repr (Concats (Single (ZERO)) (Single (ZERO))))) then spec (repr (Single (SUCC (ZERO)))) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Single (ZERO))))) = if lq (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) (spec (repr (Single (ZERO)))) then spec (repr (Concats (Single (ZERO)) (Single (ZERO)))) else mainNew (Single (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 2
-Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) (Elt (ZERO))) = if lq (mainNew (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))))))) (mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) then spec (Elt (ZERO)) else mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))
-Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then spec (Econs (ZERO) (Elt (ZERO))) else mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Econs (ZERO) (Elt (ZERO))))) = if lq (mainNew (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))) (Single (ZERO))) (Concats (Single (SUCC (ZERO))) (Single (ZERO)))))) (mainNew (Single (ZERO))) then spec (Econs (ZERO) (Econs (ZERO) (Elt (ZERO)))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) then spec (Elt (ZERO)) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
+Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (Econs (ZERO) (Econs (SUCC (ZERO)) (Elt (SUCC (ZERO)))))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (SUCC (SUCC (ZERO))))) then spec (Econs (ZERO) (Econs (SUCC (ZERO)) (Elt (SUCC (ZERO))))) else mainNew (Single (SUCC (SUCC (ZERO))))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (Econs (ZERO) (Econs (SUCC (SUCC (SUCC (ZERO)))) (Econs (ZERO) (Elt (ZERO)))))) = if lq (mainNew (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (ZERO)))) (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) then spec (Econs (ZERO) (Econs (SUCC (SUCC (SUCC (ZERO)))) (Econs (ZERO) (Elt (ZERO))))) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
 previous tactics
 simpl in goal
 parent
@@ -3097,11 +2703,11 @@ tf3(repr(clist5), tf3(repr(clist7), repr(clist6)))
 remove lower
 tf3(repr(clist5), tf3(repr(clist7), repr(_)))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) (repr (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (SUCC (ZERO)))))) = if lq (mainNew (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (SUCC (ZERO))))) (mainNew (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) then mainNew (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (SUCC (ZERO)))) else mainNew (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))) = if lq (mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) else mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO)))))) = if lq (mainNew (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (mainNew (Single (ZERO))) then mainNew (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO)))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (ZERO)))))) (repr (Single (SUCC (ZERO))))) = if lq (mainNew (Single (SUCC (ZERO)))) (mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (ZERO)))))) then mainNew (Single (SUCC (ZERO))) else mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (ZERO)))))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Single (SUCC (ZERO)))
 =================================================
-Progress: 84
+Progress: 72
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -3138,22 +2744,23 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 2
 rewrite <- IH2 in goal at 2
-Prop: spec (tf3 (Elt (SUCC (ZERO))) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then spec (Elt (ZERO)) else spec (Elt (SUCC (ZERO)))
-Prop: spec (tf3 (Econs (ZERO) (Elt (ZERO))) (Elt (SUCC (ZERO)))) = if lq (mainNew (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))))) (mainNew (Single (ZERO))) then spec (Elt (SUCC (ZERO))) else spec (Econs (ZERO) (Elt (ZERO)))
-Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (SUCC (SUCC (ZERO))))) then spec (Elt (ZERO)) else spec (Elt (ZERO))
+Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (SUCC (ZERO))))) (Single (SUCC (ZERO))))) (Single (ZERO))))) then spec (Elt (ZERO)) else spec (Elt (ZERO))
+Prop: spec (tf3 (Elt (SUCC (SUCC (ZERO)))) (Elt (SUCC (ZERO)))) = if lq (mainNew (Single (SUCC (ZERO)))) (mainNew (Single (ZERO))) then spec (Elt (SUCC (ZERO))) else spec (Elt (SUCC (SUCC (ZERO))))
+Prop: spec (tf3 (Elt (ZERO)) (Elt (SUCC (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (SUCC (SUCC (SUCC (ZERO)))))))) then spec (Elt (SUCC (ZERO))) else spec (Elt (ZERO))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (SUCC (ZERO)))) then spec (Elt (ZERO)) else spec (Elt (ZERO))
-Prop: spec (tf3 (Elt (SUCC (SUCC (ZERO)))) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) (Single (SUCC (ZERO))))) then spec (Elt (ZERO)) else spec (Elt (SUCC (SUCC (ZERO))))
-Prop: spec (tf3 (Econs (SUCC (ZERO)) (Elt (ZERO))) (Elt (ZERO))) = if lq (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) (mainNew (Single (ZERO))) then spec (Elt (ZERO)) else spec (Econs (SUCC (ZERO)) (Elt (ZERO)))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Concats (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (Single (ZERO))))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (ZERO)) (Concats (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (Single (ZERO))))) then spec (repr (Single (ZERO))) else spec (repr (Concats (Single (ZERO)) (Concats (Concats (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (Single (ZERO))) (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (Single (ZERO)))))
-Prop: spec (tf3 (repr (Single (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (repr (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))))) = if lq (mainNew (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO)))))) (mainNew (Single (SUCC (SUCC (SUCC (SUCC (ZERO))))))) then spec (repr (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO)))))) else spec (repr (Single (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (ZERO))) (Single (SUCC (ZERO)))))) = if lq (mainNew (Concats (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (ZERO))) (Single (SUCC (ZERO))))) (mainNew (Single (ZERO))) then spec (repr (Concats (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (ZERO))) (Single (SUCC (ZERO))))) else spec (repr (Single (ZERO)))
+Prop: spec (tf3 (Elt (ZERO)) (Econs (ZERO) (Elt (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then spec (Econs (ZERO) (Elt (ZERO))) else spec (Elt (ZERO))
+Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) (mainNew (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Single (ZERO)))))) then spec (Elt (ZERO)) else spec (Elt (ZERO))
+Prop: spec (tf3 (Econs (ZERO) (Elt (ZERO))) (Elt (ZERO))) = if lq (mainNew (Concats (Single (ZERO)) (Single (SUCC (SUCC (SUCC (ZERO))))))) (mainNew (Single (ZERO))) then spec (Elt (ZERO)) else spec (Econs (ZERO) (Elt (ZERO)))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 2
-Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Econs (SUCC (ZERO)) (Elt (ZERO))))) = if lq (mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) (mainNew (Single (ZERO))) then spec (Econs (ZERO) (Econs (SUCC (ZERO)) (Elt (ZERO)))) else mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (SUCC (ZERO))) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) then spec (Elt (ZERO)) else mainNew (Concats (Single (SUCC (ZERO))) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then spec (Elt (ZERO)) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (Elt (ZERO))) = if lq (mainNew (Single (SUCC (ZERO)))) (mainNew (Single (SUCC (SUCC (ZERO))))) then spec (Elt (ZERO)) else mainNew (Single (SUCC (SUCC (ZERO))))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = if lq (mainNew (Single (SUCC (SUCC (ZERO))))) (mainNew (Single (SUCC (ZERO)))) then spec (Elt (ZERO)) else mainNew (Single (SUCC (ZERO)))
+Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then spec (Econs (ZERO) (Elt (ZERO))) else mainNew (Single (ZERO))
+validate generalize_common_subterm_goal
+Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (Elt (SUCC (SUCC (ZERO))))) = if lq (mainNew (Single (SUCC (ZERO)))) (mainNew (Single (SUCC (SUCC (ZERO))))) then spec (Elt (SUCC (SUCC (ZERO)))) else mainNew (Single (SUCC (SUCC (ZERO))))
+Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Elt (SUCC (ZERO))))) = if lq (mainNew (Single (SUCC (ZERO)))) (mainNew (Single (ZERO))) then spec (Econs (ZERO) (Elt (SUCC (ZERO)))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = if lq (mainNew (Concats (Single (ZERO)) (Single (SUCC (SUCC (SUCC (ZERO))))))) (mainNew (Single (SUCC (ZERO)))) then spec (Elt (ZERO)) else mainNew (Single (SUCC (ZERO)))
 previous tactics
 simpl in goal
 parent
@@ -3175,11 +2782,516 @@ tf3(repr(clist5), tf3(repr(clist7), repr(clist6)))
 remove lower
 tf3(repr(clist5), tf3(repr(clist7), repr(_)))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO)))))) = if lq (mainNew (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO))))) (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) then mainNew (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO)))) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
-Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) then mainNew (Single (ZERO)) else mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))) = if lq (mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))))) = if lq (mainNew (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))))) (mainNew (Single (ZERO))) then mainNew (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) (Single (ZERO))))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) (Single (ZERO))))) then mainNew (Single (ZERO)) else mainNew (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Concats (Single (ZERO)) (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) (Single (ZERO))))
+Lemma List
+forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+End of Lemma List
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (clist2)) = mainNew (clist2)
+IH2 : spec (repr (clist3)) = mainNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (mainNew (clist2)) (mainNew (clist3)) then spec (repr (clist2)) else spec (repr (clist3))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 73
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (clist2)) = mainNew (clist2)
+IH2 : spec (repr (clist3)) = mainNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (mainNew (clist2)) (mainNew (clist3)) then spec (repr (clist2)) else spec (repr (clist3))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)(rank : 0.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro clist1(rank:5.)
+=================================================
+Progress: 74
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist1(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro clist2(rank:5.)
+=================================================
+Progress: 75
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist2(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+---------------------------------------
+forall (elist1:elist) (elist2:elist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case lq (mainNew (clist1)) (mainNew (clist2))(rank:6.)
+=================================================
+Progress: 76
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+---------------------------------------
+forall (elist1:elist) (elist2:elist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> case lq (mainNew (clist1)) (mainNew (clist2))(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+---------------------------------------
+forall (elist1:elist) (elist2:elist), spec (tf3 (elist1) (elist2)) = spec (elist2)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction elist2(rank:7.)
+=================================================
+Progress: 77
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+---------------------------------------
+forall (elist1:elist) (elist2:elist), spec (tf3 (elist1) (elist2)) = spec (elist2)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist2(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist), spec (tf3 (elist1) (Elt (nat1))) = spec (Elt (nat1))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 78
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist), spec (tf3 (elist1) (Elt (nat1))) = spec (Elt (nat1))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist), if lq (nat1) (spec (elist1)) then nat1 else spec (elist1) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction elist1(rank:8.)
+=================================================
+Progress: 79
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist), if lq (nat1) (spec (elist1)) then nat1 else spec (elist1) = nat1
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist1(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if lq (nat1) (spec (Elt (nat2))) then nat1 else spec (Elt (nat2)) = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:8.)
+=================================================
+Progress: 80
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if lq (nat1) (spec (Elt (nat2))) then nat1 else spec (Elt (nat2)) = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if lq (nat1) (nat2) then nat1 else spec (Elt (nat2)) = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case lq (nat1) (nat2)(rank:9.)
+=================================================
+Progress: 81
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if lq (nat1) (nat2) then nat1 else spec (Elt (nat2)) = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> case lq (nat1) (nat2)(rank : 9.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case2 : lq (nat1) (nat2) = true
+---------------------------------------
+nat1 = nat1
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+reflexivity(rank:8.)
+=================================================
+Progress: 82
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case2 : lq (nat1) (nat2) = true
+---------------------------------------
+nat1 = nat1
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> reflexivity(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case2 : lq (nat1) (nat2) = false
+---------------------------------------
+nat2 = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Deduplication: 0
+Tactic List : 0
+previous tactics
+simpl in goal
+case lq (nat1) (nat2)
+reflexivity
+validate generalize_common_subterm_goal
+Prop: SUCC (ZERO) = ZERO
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
+Lemma List
+forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+End of Lemma List
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case2 : lq (nat1) (nat2) = false
+---------------------------------------
+nat2 = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 83
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (mainNew (clist1)) (mainNew (clist2)) then spec (elist2) else spec (elist1)
+clist1 : clist
+clist2 : clist
+Case1 : lq (mainNew (clist1)) (mainNew (clist2)) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case2 : lq (nat1) (nat2) = false
+---------------------------------------
+nat2 = nat1
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat1(rank:7.)
+=================================================
+Progress: 84
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat1(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:7.)
 =================================================
 Progress: 85
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat2(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+nat1 : nat
+nat2 : nat
+---------------------------------------
+lq (nat1) (nat2) = false -> nat2 = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:7.)
+=================================================
+Progress: 86
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+nat1 : nat
+nat2 : nat
+---------------------------------------
+lq (nat1) (nat2) = false -> nat2 = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro Cond1(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = false -> nat2 = nat1
+nat1 : nat
+nat2 : nat
+Cond1 : lq (nat1) (nat2) = false
+---------------------------------------
+nat2 = nat1
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: ZERO = SUCC (ZERO)
+Prop: ZERO = ZERO
+Prop: SUCC (ZERO) = SUCC (SUCC (ZERO))
+asdf
+=================================================
+Progress: 87
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -3214,7 +3326,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (spec 
 Tactic List : 1
 case lq (spec (repr (clist2))) (spec (repr (clist3)))(rank:4.)
 =================================================
-Progress: 86
+Progress: 88
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -3250,7 +3362,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
 Tactic List : 1
 rewrite IH1 in goal at 0(rank:4.)
 =================================================
-Progress: 87
+Progress: 89
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -3292,21 +3404,146 @@ rewrite <- IH2 in goal at 0
 case lq (spec (repr (clist2))) (spec (repr (clist3)))
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Concats (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (ZERO)))) (Single (ZERO)))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
 Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO))))) = mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (SUCC (SUCC (ZERO)))))) = mainNew (Single (SUCC (SUCC (ZERO))))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 0
 case lq (spec (repr (clist2))) (spec (repr (clist3)))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO))))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
 Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Concats (Concats (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO))) (Single (ZERO))) (Single (ZERO)))) (Elt (SUCC (SUCC (ZERO))))) = spec (Elt (SUCC (SUCC (ZERO))))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
+=================================================
+Progress: 90
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (clist2)) = mainNew (clist2)
+IH2 : spec (repr (clist3)) = mainNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (mainNew (clist3)) then spec (repr (clist2)) else mainNew (clist3)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite <- IH2 in goal at 1(rank : 19.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (clist2)) = mainNew (clist2)
+IH2 : spec (repr (clist3)) = mainNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (spec (repr (clist3))) then spec (repr (clist2)) else mainNew (clist3)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+case lq (spec (repr (clist2))) (spec (repr (clist3)))(rank:4.)
+=================================================
+Progress: 91
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (clist2)) = mainNew (clist2)
+IH2 : spec (repr (clist3)) = mainNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (spec (repr (clist3))) then spec (repr (clist2)) else mainNew (clist3)
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> case lq (spec (repr (clist2))) (spec (repr (clist3)))(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (clist2)) = mainNew (clist2)
+IH2 : spec (repr (clist3)) = mainNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : lq (spec (repr (clist2))) (spec (repr (clist3))) = true
+---------------------------------------
+spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+rewrite IH1 in goal at 0(rank:4.)
+=================================================
+Progress: 92
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (clist2)) = mainNew (clist2)
+IH2 : spec (repr (clist3)) = mainNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : lq (spec (repr (clist2))) (spec (repr (clist3))) = true
+---------------------------------------
+spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite IH1 in goal at 0(rank : 4.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (clist2)) = mainNew (clist2)
+IH2 : spec (repr (clist3)) = mainNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : lq (spec (repr (clist2))) (spec (repr (clist3))) = true
+---------------------------------------
+spec (tf3 (repr (clist3)) (repr (clist2))) = mainNew (clist2)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+rewrite <- IH2 in goal at 1
+case lq (spec (repr (clist2))) (spec (repr (clist3)))
+rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO))))) = mainNew (Single (SUCC (ZERO)))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+previous tactics
+simpl in goal
+rewrite <- IH1 in goal at 0
+rewrite <- IH2 in goal at 1
+case lq (spec (repr (clist2))) (spec (repr (clist3)))
 Prop: spec (tf3 (repr (Single (ZERO))) (Elt (SUCC (ZERO)))) = spec (Elt (SUCC (ZERO)))
+Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = spec (Econs (ZERO) (Elt (ZERO)))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
+validate generalize_common_subterm_goal
+Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (Econs (SUCC (ZERO)) (Elt (ZERO)))) = spec (Econs (SUCC (ZERO)) (Elt (ZERO)))
 Lemma List
 forall (elist1:elist) (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
 End of Lemma List
@@ -3327,7 +3564,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
 
 0 conjecture(s) more...
 =================================================
-Progress: 88
+Progress: 93
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -3358,7 +3595,7 @@ forall (elist1:elist) (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (
 Tactic List : 1
 intro clist1(rank:5.)
 =================================================
-Progress: 89
+Progress: 94
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -3383,7 +3620,7 @@ forall (elist1:elist) (clist2:clist), lq (spec (repr (clist1))) (spec (repr (cli
 Tactic List : 1
 induction clist2(rank:6.)
 =================================================
-Progress: 90
+Progress: 95
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -3411,7 +3648,7 @@ forall (elist1:elist), lq (spec (repr (clist1))) (spec (repr (Single (nat1)))) =
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 91
+Progress: 96
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -3442,7 +3679,7 @@ forall (elist1:elist), lq (spec (repr (clist1))) (nat1) = true -> spec (tf3 (Elt
 Tactic List : 1
 intro Cond1(rank:6.)
 =================================================
-Progress: 92
+Progress: 97
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -3474,7 +3711,7 @@ forall (elist1:elist), spec (tf3 (Elt (nat1)) (elist1)) = spec (elist1)
 Tactic List : 1
 induction elist1(rank:7.)
 =================================================
-Progress: 93
+Progress: 98
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -3510,7 +3747,7 @@ spec (tf3 (Elt (nat1)) (Elt (nat2))) = spec (Elt (nat2))
 Tactic List : 1
 simpl in goal(rank:7.)
 =================================================
-Progress: 94
+Progress: 99
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -3549,7 +3786,7 @@ if lq (nat2) (nat1) then nat2 else nat1 = nat2
 Tactic List : 1
 case lq (nat2) (nat1)(rank:8.)
 =================================================
-Progress: 95
+Progress: 100
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -3589,7 +3826,7 @@ nat2 = nat2
 Tactic List : 1
 reflexivity(rank:7.)
 =================================================
-Progress: 96
+Progress: 101
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (spec (repr (clist2))) = true -> spec (tf3 (repr (clist2)) (elist1)) = spec (elist1)
@@ -3635,140 +3872,11 @@ case lq (nat2) (nat1)
 reflexivity
 validate generalize_common_subterm_goal
 Prop: ZERO = ZERO
-Prop: SUCC (ZERO) = ZERO
+Prop: ZERO = ZERO
 Prop: ZERO = SUCC (ZERO)
 asdf
 =================================================
-Progress: 97
-
-
-1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
-clist1 : clist
-clist2 : clist
-clist3 : clist
-IH1 : spec (repr (clist2)) = mainNew (clist2)
-IH2 : spec (repr (clist3)) = mainNew (clist3)
-Inductive1 : clist1 = Concats (clist2) (clist3)
----------------------------------------
-spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (mainNew (clist3)) then spec (repr (clist2)) else mainNew (clist3)
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> rewrite <- IH2 in goal at 1(rank : 19.)
-
-
-1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
-clist1 : clist
-clist2 : clist
-clist3 : clist
-IH1 : spec (repr (clist2)) = mainNew (clist2)
-IH2 : spec (repr (clist3)) = mainNew (clist3)
-Inductive1 : clist1 = Concats (clist2) (clist3)
----------------------------------------
-spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (spec (repr (clist3))) then spec (repr (clist2)) else mainNew (clist3)
-
-0 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 1
-case lq (spec (repr (clist2))) (spec (repr (clist3)))(rank:4.)
-=================================================
-Progress: 98
-
-
-1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
-clist1 : clist
-clist2 : clist
-clist3 : clist
-IH1 : spec (repr (clist2)) = mainNew (clist2)
-IH2 : spec (repr (clist3)) = mainNew (clist3)
-Inductive1 : clist1 = Concats (clist2) (clist3)
----------------------------------------
-spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (spec (repr (clist3))) then spec (repr (clist2)) else mainNew (clist3)
-
-0 goal(s) more...
-
-0 conjecture(s) more...
->>> case lq (spec (repr (clist2))) (spec (repr (clist3)))(rank : 4.)
-
-
-1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
-clist1 : clist
-clist2 : clist
-clist3 : clist
-IH1 : spec (repr (clist2)) = mainNew (clist2)
-IH2 : spec (repr (clist3)) = mainNew (clist3)
-Inductive1 : clist1 = Concats (clist2) (clist3)
-Case1 : lq (spec (repr (clist2))) (spec (repr (clist3))) = true
----------------------------------------
-spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 1
-rewrite IH1 in goal at 0(rank:4.)
-=================================================
-Progress: 99
-
-
-1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
-clist1 : clist
-clist2 : clist
-clist3 : clist
-IH1 : spec (repr (clist2)) = mainNew (clist2)
-IH2 : spec (repr (clist3)) = mainNew (clist3)
-Inductive1 : clist1 = Concats (clist2) (clist3)
-Case1 : lq (spec (repr (clist2))) (spec (repr (clist3))) = true
----------------------------------------
-spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> rewrite IH1 in goal at 0(rank : 4.)
-
-
-1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
-clist1 : clist
-clist2 : clist
-clist3 : clist
-IH1 : spec (repr (clist2)) = mainNew (clist2)
-IH2 : spec (repr (clist3)) = mainNew (clist3)
-Inductive1 : clist1 = Concats (clist2) (clist3)
-Case1 : lq (spec (repr (clist2))) (spec (repr (clist3))) = true
----------------------------------------
-spec (tf3 (repr (clist3)) (repr (clist2))) = mainNew (clist2)
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-rewrite <- IH1 in goal at 0
-rewrite <- IH2 in goal at 1
-case lq (spec (repr (clist2))) (spec (repr (clist3)))
-rewrite IH1 in goal at 0
-validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (SUCC (ZERO)))))) = mainNew (Single (SUCC (SUCC (ZERO))))
-Prop: spec (tf3 (repr (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO)))))) (Single (ZERO)))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (SUCC (SUCC (SUCC (ZERO))))))) = mainNew (Single (SUCC (SUCC (SUCC (ZERO)))))
-previous tactics
-simpl in goal
-rewrite <- IH1 in goal at 0
-rewrite <- IH2 in goal at 1
-case lq (spec (repr (clist2))) (spec (repr (clist3)))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (SUCC (SUCC (ZERO))))) = spec (Elt (SUCC (SUCC (ZERO))))
-Prop: spec (tf3 (repr (Single (SUCC (SUCC (SUCC (ZERO)))))) (Elt (SUCC (ZERO)))) = spec (Elt (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Econs (SUCC (SUCC (ZERO))) (Elt (SUCC (ZERO))))) = spec (Econs (SUCC (SUCC (ZERO))) (Elt (SUCC (ZERO))))
-validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (SUCC (SUCC (SUCC (ZERO)))))) = spec (Elt (SUCC (SUCC (SUCC (ZERO)))))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (Elt (SUCC (ZERO)))) = spec (Elt (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (SUCC (ZERO)))))) (Econs (SUCC (ZERO)) (Elt (ZERO)))) = spec (Econs (SUCC (ZERO)) (Elt (ZERO)))
-=================================================
-Progress: 100
+Progress: 102
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -3803,7 +3911,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (mainN
 Tactic List : 1
 case lq (spec (repr (clist2))) (mainNew (clist3))(rank:4.)
 =================================================
-Progress: 101
+Progress: 103
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -3839,7 +3947,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
 Tactic List : 1
 rewrite IH1 in goal at 0(rank:4.)
 =================================================
-Progress: 102
+Progress: 104
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -3881,374 +3989,19 @@ rewrite <- IH2 in goal at 2
 case lq (spec (repr (clist2))) (mainNew (clist3))
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO))))) = mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Concats (Single (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (repr (Single (SUCC (ZERO))))) = mainNew (Single (SUCC (ZERO)))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO)))) = mainNew (Single (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 2
 case lq (spec (repr (clist2))) (mainNew (clist3))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (SUCC (ZERO)))) = spec (Elt (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (Elt (ZERO))) = spec (Elt (ZERO))
 Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = spec (Elt (ZERO))
-validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (ZERO))) (Econs (SUCC (SUCC (SUCC (ZERO)))) (Elt (ZERO)))) = spec (Econs (SUCC (SUCC (SUCC (ZERO)))) (Elt (ZERO)))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (SUCC (SUCC (ZERO))))) = spec (Elt (SUCC (SUCC (ZERO))))
 Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = spec (Elt (ZERO))
-Prop: tf3 (repr (Single (ZERO))) (repr (Single (ZERO))) = repr (Single (ZERO))
-Prop: tf3 (repr (Single (ZERO))) (repr (Single (ZERO))) = repr (Single (ZERO))
-Prop: tf3 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) = repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))
-Lemma List
-forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-End of Lemma List
-
-
-1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
-clist1 : clist
-clist2 : clist
-clist3 : clist
-IH1 : spec (repr (clist2)) = mainNew (clist2)
-IH2 : spec (repr (clist3)) = mainNew (clist3)
-Inductive1 : clist1 = Concats (clist2) (clist3)
-Case1 : lq (spec (repr (clist2))) (mainNew (clist3)) = true
----------------------------------------
-spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
-
-1 goal(s) more...
-
-0 conjecture(s) more...
-=================================================
-Progress: 103
-
-
-1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
-clist1 : clist
-clist2 : clist
-clist3 : clist
-IH1 : spec (repr (clist2)) = mainNew (clist2)
-IH2 : spec (repr (clist3)) = mainNew (clist3)
-Inductive1 : clist1 = Concats (clist2) (clist3)
-Case1 : lq (spec (repr (clist2))) (mainNew (clist3)) = true
----------------------------------------
-spec (tf3 (repr (clist3)) (repr (clist2))) = spec (repr (clist2))
-
-1 goal(s) more...
-
-0 conjecture(s) more...
->>> assert forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)(rank : 0.)
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-
----------------------------------------
-forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-induction clist1(rank:6.)
-=================================================
-Progress: 104
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-
----------------------------------------
-forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-
-0 goal(s) more...
-
-1 conjecture(s) more...
->>> induction clist1(rank : 6.)
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
----------------------------------------
-forall (clist2:clist), lq (spec (repr (Single (nat1)))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (Single (nat1))) = repr (Single (nat1))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:6.)
 =================================================
 Progress: 105
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
----------------------------------------
-forall (clist2:clist), lq (spec (repr (Single (nat1)))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (Single (nat1))) = repr (Single (nat1))
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 6.)
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
----------------------------------------
-forall (clist2:clist), lq (nat1) (mainNew (clist2)) = true -> Econs (nat1) (repr (clist2)) = Elt (nat1)
-
-1 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-induction clist2(rank:7.)
-=================================================
-Progress: 106
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
----------------------------------------
-forall (clist2:clist), lq (nat1) (mainNew (clist2)) = true -> Econs (nat1) (repr (clist2)) = Elt (nat1)
-
-1 goal(s) more...
-
-1 conjecture(s) more...
->>> induction clist2(rank : 7.)
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
-clist2 : clist
-nat2 : nat
-Base2 : clist2 = Single (nat2)
----------------------------------------
-lq (nat1) (mainNew (Single (nat2))) = true -> Econs (nat1) (repr (Single (nat2))) = Elt (nat1)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-simpl in goal(rank:7.)
-=================================================
-Progress: 107
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
-clist2 : clist
-nat2 : nat
-Base2 : clist2 = Single (nat2)
----------------------------------------
-lq (nat1) (mainNew (Single (nat2))) = true -> Econs (nat1) (repr (Single (nat2))) = Elt (nat1)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> simpl in goal(rank : 7.)
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
-clist2 : clist
-nat2 : nat
-Base2 : clist2 = Single (nat2)
----------------------------------------
-lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:7.)
-=================================================
-Progress: 108
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
-clist2 : clist
-nat2 : nat
-Base2 : clist2 = Single (nat2)
----------------------------------------
-lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> intro Cond1(rank : 7.)
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
-clist2 : clist
-nat2 : nat
-Base2 : clist2 = Single (nat2)
-Cond1 : lq (nat1) (nat2) = true
----------------------------------------
-Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-Tactic List : 0
-previous tactics
-simpl in goal
-intro Cond1
-validate generalize_common_subterm_goal
-Prop: Econs (ZERO) (Elt (ZERO)) = Elt (ZERO)
-Prop: Econs (ZERO) (Elt (ZERO)) = Elt (ZERO)
-Prop: Econs (ZERO) (Elt (ZERO)) = Elt (ZERO)
-Lemma List
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-End of Lemma List
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
-clist2 : clist
-nat2 : nat
-Base2 : clist2 = Single (nat2)
-Cond1 : lq (nat1) (nat2) = true
----------------------------------------
-Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-=================================================
-Progress: 109
-
-
-1st goal of : forall (clist1:clist) (clist2:clist), lq (spec (repr (clist1))) (mainNew (clist2)) = true -> tf3 (repr (clist2)) (repr (clist1)) = repr (clist1)
-clist1 : clist
-nat1 : nat
-Base1 : clist1 = Single (nat1)
-clist2 : clist
-nat2 : nat
-Base2 : clist2 = Single (nat2)
-Cond1 : lq (nat1) (nat2) = true
----------------------------------------
-Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> assert forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)(rank : 0.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat1(rank:7.)
-=================================================
-Progress: 110
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
----------------------------------------
-forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro nat2(rank:7.)
-=================================================
-Progress: 111
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-nat1 : nat
----------------------------------------
-forall (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro nat2(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro Cond1(rank:7.)
-=================================================
-Progress: 112
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-nat1 : nat
-nat2 : nat
----------------------------------------
-lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro Cond1(rank : 7.)
-
-
-1st goal of : forall (nat1:nat) (nat2:nat), lq (nat1) (nat2) = true -> Econs (nat1) (Elt (nat2)) = Elt (nat1)
-nat1 : nat
-nat2 : nat
-Cond1 : lq (nat1) (nat2) = true
----------------------------------------
-Econs (nat1) (Elt (nat2)) = Elt (nat1)
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
-Prop: Econs (ZERO) (Elt (ZERO)) = Elt (ZERO)
-Prop: Econs (ZERO) (Elt (SUCC (ZERO))) = Elt (ZERO)
-Prop: Econs (SUCC (SUCC (ZERO))) (Elt (SUCC (ZERO))) = Elt (SUCC (SUCC (ZERO)))
-asdf
-=================================================
-Progress: 113
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -4285,19 +4038,15 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 1
 rewrite <- IH2 in goal at 0
-Prop: spec (tf3 (Econs (ZERO) (Elt (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (spec (Econs (ZERO) (Elt (ZERO)))) then mainNew (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))) (Single (ZERO))))) else spec (Econs (ZERO) (Elt (ZERO)))
-Prop: spec (tf3 (Elt (ZERO)) (Econs (SUCC (ZERO)) (Elt (ZERO)))) = if lq (spec (Econs (SUCC (ZERO)) (Elt (ZERO)))) (spec (Elt (ZERO))) then mainNew (Single (ZERO)) else spec (Elt (ZERO))
-Prop: spec (tf3 (Elt (SUCC (ZERO))) (Econs (SUCC (ZERO)) (Elt (ZERO)))) = if lq (spec (Econs (SUCC (ZERO)) (Elt (ZERO)))) (spec (Elt (SUCC (ZERO)))) then mainNew (Single (ZERO)) else spec (Elt (SUCC (ZERO)))
+Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (spec (Elt (ZERO))) then mainNew (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) else spec (Elt (ZERO))
+Prop: spec (tf3 (Econs (ZERO) (Elt (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (spec (Econs (ZERO) (Elt (ZERO)))) then mainNew (Single (ZERO)) else spec (Econs (ZERO) (Elt (ZERO)))
+Prop: spec (tf3 (Econs (ZERO) (Econs (ZERO) (Elt (ZERO)))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (spec (Econs (ZERO) (Econs (ZERO) (Elt (ZERO))))) then mainNew (Single (ZERO)) else spec (Econs (ZERO) (Econs (ZERO) (Elt (ZERO))))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 1
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (SUCC (SUCC (SUCC (ZERO))))) else mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (Econs (SUCC (SUCC (SUCC (ZERO)))) (Econs (ZERO) (Econs (ZERO) (Elt (ZERO)))))) = if lq (spec (Econs (SUCC (SUCC (SUCC (ZERO)))) (Econs (ZERO) (Econs (ZERO) (Elt (ZERO)))))) (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) then mainNew (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (ZERO))) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (SUCC (SUCC (SUCC (ZERO)))))) = if lq (spec (Elt (SUCC (SUCC (SUCC (ZERO)))))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Single (SUCC (ZERO)))
-validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (SUCC (SUCC (ZERO)))) else mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (SUCC (ZERO))) else mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Concats (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))) (Single (SUCC (SUCC (ZERO)))))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Concats (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))) (Single (SUCC (SUCC (ZERO)))))) then mainNew (Single (ZERO)) else mainNew (Concats (Concats (Single (ZERO)) (Single (SUCC (SUCC (ZERO))))) (Single (SUCC (SUCC (ZERO)))))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))))) (Econs (ZERO) (Elt (ZERO)))) = if lq (spec (Econs (ZERO) (Elt (ZERO)))) (mainNew (Concats (Single (SUCC (ZERO))) (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))))) then mainNew (Concats (Single (SUCC (ZERO))) (Single (ZERO))) else mainNew (Concats (Single (SUCC (ZERO))) (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) (Econs (ZERO) (Econs (ZERO) (Elt (ZERO))))) = if lq (spec (Econs (ZERO) (Econs (ZERO) (Elt (ZERO))))) (mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) then mainNew (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) else mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))
+Prop: spec (tf3 (repr (Single (ZERO))) (Elt (SUCC (ZERO)))) = if lq (spec (Elt (SUCC (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else mainNew (Single (ZERO))
 previous tactics
 simpl in goal
 parent
@@ -4319,9 +4068,9 @@ tf3(repr(clist5), tf3(repr(clist7), repr(clist6)))
 remove lower
 tf3(repr(clist5), tf3(repr(clist7), repr(_)))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))))) = if lq (mainNew (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO))))) (mainNew (Single (ZERO))) then mainNew (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO)))) else mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (ZERO))))))) = if lq (mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (ZERO)))))) (mainNew (Single (ZERO))) then mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (ZERO))))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO))))) = if lq (mainNew (Single (SUCC (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Single (SUCC (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (SUCC (ZERO))))) (repr (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (Single (ZERO)))))) = if lq (mainNew (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (Single (ZERO))))) (mainNew (Single (SUCC (SUCC (ZERO))))) then mainNew (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))))) (Single (ZERO)))) else mainNew (Single (SUCC (SUCC (ZERO))))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Single (ZERO))))) = if lq (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Concats (Single (ZERO)) (Single (ZERO))) else mainNew (Single (ZERO))
 Lemma List
 forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (spec (elist1)) (mainNew (clist2)) then mainNew (clist1) else mainNew (clist2)
 End of Lemma List
@@ -4359,7 +4108,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (spec 
 
 0 conjecture(s) more...
 =================================================
-Progress: 114
+Progress: 106
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -4389,7 +4138,7 @@ forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (
 Tactic List : 1
 induction elist1(rank:6.)
 =================================================
-Progress: 115
+Progress: 107
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -4419,7 +4168,7 @@ forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)
 Tactic List : 1
 induction elist2(rank:6.)
 =================================================
-Progress: 116
+Progress: 108
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (spec (elist1)) (mainNew (clist2)) then mainNew (clist1) else mainNew (clist2)
@@ -4446,7 +4195,7 @@ forall (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (Elt (nat1))) = 
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 117
+Progress: 109
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else spec (elist1)
@@ -4473,7 +4222,7 @@ forall (elist1:elist) (clist1:clist), spec (tf3 (elist1) (Elt (nat1))) = if lq (
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 118
+Progress: 110
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (spec (elist1)) (mainNew (clist2)) then mainNew (clist1) else mainNew (clist2)
@@ -4502,7 +4251,7 @@ forall (clist1:clist) (clist2:clist), if lq (nat1) (spec (repr (clist2))) then n
 Tactic List : 1
 induction clist2(rank:7.)
 =================================================
-Progress: 119
+Progress: 111
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else spec (elist1)
@@ -4531,7 +4280,7 @@ forall (elist1:elist) (clist1:clist), if lq (nat1) (spec (elist1)) then nat1 els
 Tactic List : 1
 induction elist1(rank:7.)
 =================================================
-Progress: 120
+Progress: 112
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (spec (elist1)) (mainNew (clist2)) then mainNew (clist1) else mainNew (clist2)
@@ -4563,7 +4312,7 @@ forall (clist1:clist), if lq (nat1) (spec (repr (Single (nat2)))) then nat1 else
 Tactic List : 1
 simpl in goal(rank:7.)
 =================================================
-Progress: 121
+Progress: 113
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else spec (elist1)
@@ -4595,7 +4344,7 @@ forall (clist1:clist), if lq (nat1) (spec (Elt (nat2))) then nat1 else spec (Elt
 Tactic List : 1
 simpl in goal(rank:7.)
 =================================================
-Progress: 122
+Progress: 114
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (spec (elist1)) (mainNew (clist2)) then mainNew (clist1) else mainNew (clist2)
@@ -4630,7 +4379,7 @@ forall (clist1:clist), if lq (nat1) (nat2) then nat1 else spec (repr (Single (na
 Tactic List : 1
 case lq (nat1) (nat2)(rank:8.)
 =================================================
-Progress: 123
+Progress: 115
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else spec (elist1)
@@ -4665,7 +4414,7 @@ forall (clist1:clist), if lq (nat1) (nat2) then nat1 else spec (Elt (nat2)) = if
 Tactic List : 1
 case lq (nat1) (nat2)(rank:8.)
 =================================================
-Progress: 124
+Progress: 116
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (spec (elist1)) (mainNew (clist2)) then mainNew (clist1) else mainNew (clist2)
@@ -4701,7 +4450,7 @@ forall (clist1:clist), nat1 = mainNew (clist1)
 Tactic List : 1
 induction clist1(rank:9.)
 =================================================
-Progress: 125
+Progress: 117
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else spec (elist1)
@@ -4737,7 +4486,7 @@ forall (clist1:clist), nat1 = mainNew (clist1)
 Tactic List : 1
 induction clist1(rank:9.)
 =================================================
-Progress: 126
+Progress: 118
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (spec (elist1)) (mainNew (clist2)) then mainNew (clist1) else mainNew (clist2)
@@ -4777,7 +4526,7 @@ nat1 = mainNew (Single (nat3))
 Tactic List : 1
 simpl in goal(rank:9.)
 =================================================
-Progress: 127
+Progress: 119
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else spec (elist1)
@@ -4817,7 +4566,7 @@ nat1 = mainNew (Single (nat3))
 Tactic List : 1
 simpl in goal(rank:9.)
 =================================================
-Progress: 128
+Progress: 120
 
 
 1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), spec (tf3 (repr (clist2)) (elist1)) = if lq (spec (elist1)) (mainNew (clist2)) then mainNew (clist1) else mainNew (clist2)
@@ -4861,12 +4610,12 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: ZERO = SUCC (SUCC (ZERO))
-Prop: SUCC (SUCC (SUCC (ZERO))) = SUCC (ZERO)
+Prop: SUCC (ZERO) = SUCC (SUCC (ZERO))
+Prop: ZERO = ZERO
 Prop: ZERO = ZERO
 asdf
 =================================================
-Progress: 129
+Progress: 121
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else spec (elist1)
@@ -4910,12 +4659,12 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: SUCC (ZERO) = ZERO
 Prop: ZERO = ZERO
-Prop: ZERO = SUCC (ZERO)
-Prop: ZERO = SUCC (SUCC (SUCC (ZERO)))
+Prop: ZERO = ZERO
 asdf
 =================================================
-Progress: 130
+Progress: 122
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -4952,19 +4701,19 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 1
 rewrite <- IH2 in goal at 1
-Prop: spec (tf3 (Elt (ZERO)) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) = if lq (spec (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) (spec (Elt (ZERO))) then mainNew (Single (SUCC (ZERO))) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
-Prop: spec (tf3 (Elt (ZERO)) (Elt (SUCC (ZERO)))) = if lq (spec (Elt (SUCC (ZERO)))) (spec (Elt (ZERO))) then mainNew (Single (ZERO)) else mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (Elt (SUCC (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (spec (Elt (SUCC (ZERO)))) then mainNew (Single (SUCC (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (Elt (ZERO)) (Econs (ZERO) (Elt (SUCC (SUCC (ZERO)))))) = if lq (spec (Econs (ZERO) (Elt (SUCC (SUCC (ZERO)))))) (spec (Elt (ZERO))) then mainNew (Single (ZERO)) else mainNew (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (ZERO)))))
+Prop: spec (tf3 (Elt (ZERO)) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) = if lq (spec (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) (spec (Elt (ZERO))) then mainNew (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (Econs (ZERO) (Elt (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (spec (Econs (ZERO) (Elt (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Single (SUCC (SUCC (ZERO))))))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (Econs (ZERO) (Elt (ZERO))) (Elt (SUCC (SUCC (SUCC (ZERO)))))) = if lq (spec (Elt (SUCC (SUCC (SUCC (ZERO)))))) (spec (Econs (ZERO) (Elt (ZERO)))) then mainNew (Concats (Single (ZERO)) (Single (ZERO))) else mainNew (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO)))
-Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (spec (Elt (ZERO))) then mainNew (Single (ZERO)) else mainNew (Single (ZERO))
-Prop: spec (tf3 (Elt (SUCC (SUCC (SUCC (ZERO))))) (Elt (SUCC (ZERO)))) = if lq (spec (Elt (SUCC (ZERO)))) (spec (Elt (SUCC (SUCC (SUCC (ZERO)))))) then mainNew (Single (SUCC (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (Elt (ZERO)) (Econs (SUCC (ZERO)) (Elt (ZERO)))) = if lq (spec (Econs (SUCC (ZERO)) (Elt (ZERO)))) (spec (Elt (ZERO))) then mainNew (Concats (Concats (Single (ZERO)) (Single (SUCC (SUCC (SUCC (ZERO)))))) (Single (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (Elt (ZERO)) (Elt (SUCC (ZERO)))) = if lq (spec (Elt (SUCC (ZERO)))) (spec (Elt (ZERO))) then mainNew (Single (ZERO)) else mainNew (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO)))))
+Prop: spec (tf3 (Elt (SUCC (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (spec (Elt (SUCC (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Single (SUCC (ZERO)))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 1
-Prop: spec (tf3 (repr (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))) then mainNew (Single (SUCC (SUCC (ZERO)))) else mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Econs (ZERO) (Elt (ZERO)))) = if lq (spec (Econs (ZERO) (Elt (ZERO)))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (ZERO))) then mainNew (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (Single (ZERO)))) (Econs (ZERO) (Elt (ZERO)))) = if lq (spec (Econs (ZERO) (Elt (ZERO)))) (mainNew (Concats (Single (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (Single (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Concats (Single (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (Single (ZERO)))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (SUCC (SUCC (ZERO)))))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (SUCC (SUCC (ZERO)))))) then mainNew (Single (ZERO)) else mainNew (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (SUCC (SUCC (ZERO)))))
+Prop: spec (tf3 (repr (Single (ZERO))) (Econs (ZERO) (Elt (ZERO)))) = if lq (spec (Econs (ZERO) (Elt (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else mainNew (Single (ZERO))
 previous tactics
 simpl in goal
 parent
@@ -4986,9 +4735,9 @@ tf3(repr(clist5), tf3(repr(clist7), repr(clist6)))
 remove lower
 tf3(repr(clist5), tf3(repr(clist7), repr(_)))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (SUCC (SUCC (ZERO)))))))) (Single (ZERO))))) = if lq (mainNew (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (SUCC (SUCC (ZERO)))))))) (Single (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Concats (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (SUCC (SUCC (ZERO)))))))) (Single (ZERO))) else mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (SUCC (ZERO))))) = if lq (mainNew (Single (SUCC (ZERO)))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (SUCC (ZERO))) else mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) then mainNew (Single (ZERO)) else mainNew (Concats (Single (ZERO)) (Single (SUCC (ZERO))))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO)))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Concats (Concats (Single (ZERO)) (Concats (Single (ZERO)) (Single (ZERO)))) (Single (ZERO)))
 Lemma List
 forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else mainNew (clist2)
 End of Lemma List
@@ -5008,7 +4757,7 @@ spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (spec 
 
 0 conjecture(s) more...
 =================================================
-Progress: 131
+Progress: 123
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -5038,7 +4787,7 @@ forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (e
 Tactic List : 1
 intro elist1(rank:5.)
 =================================================
-Progress: 132
+Progress: 124
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else mainNew (clist2)
@@ -5063,7 +4812,7 @@ forall (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)
 Tactic List : 1
 induction elist2(rank:6.)
 =================================================
-Progress: 133
+Progress: 125
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else mainNew (clist2)
@@ -5091,7 +4840,7 @@ forall (clist1:clist) (clist2:clist), spec (tf3 (elist1) (Elt (nat1))) = if lq (
 Tactic List : 1
 simpl in goal(rank:6.)
 =================================================
-Progress: 134
+Progress: 126
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else mainNew (clist2)
@@ -5122,7 +4871,7 @@ forall (clist1:clist) (clist2:clist), if lq (nat1) (spec (elist1)) then nat1 els
 Tactic List : 1
 case lq (nat1) (spec (elist1))(rank:7.)
 =================================================
-Progress: 135
+Progress: 127
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else mainNew (clist2)
@@ -5154,7 +4903,7 @@ forall (clist1:clist) (clist2:clist), nat1 = mainNew (clist1)
 Tactic List : 1
 induction clist1(rank:8.)
 =================================================
-Progress: 136
+Progress: 128
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else mainNew (clist2)
@@ -5190,7 +4939,7 @@ forall (clist2:clist), nat1 = mainNew (Single (nat2))
 Tactic List : 1
 simpl in goal(rank:8.)
 =================================================
-Progress: 137
+Progress: 129
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else mainNew (clist2)
@@ -5229,7 +4978,7 @@ forall (clist2:clist), nat1 = nat2
 Tactic List : 1
 intro clist2(rank:8.)
 =================================================
-Progress: 138
+Progress: 130
 
 
 1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (spec (elist1)) then mainNew (clist1) else mainNew (clist2)
@@ -5271,12 +5020,12 @@ previous tactics
 simpl in goal
 intro clist2
 validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = ZERO
 Prop: ZERO = ZERO
+Prop: ZERO = SUCC (ZERO)
 Prop: ZERO = ZERO
 asdf
 =================================================
-Progress: 139
+Progress: 131
 
 
 1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
@@ -5313,22 +5062,19 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 1
 rewrite <- IH2 in goal at 2
-Prop: spec (tf3 (Elt (ZERO)) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else spec (Elt (ZERO))
-Prop: spec (tf3 (Econs (ZERO) (Elt (SUCC (ZERO)))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (ZERO)) else spec (Econs (ZERO) (Elt (SUCC (ZERO))))
-Prop: spec (tf3 (Elt (SUCC (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else spec (Elt (SUCC (ZERO)))
+Prop: spec (tf3 (Elt (SUCC (ZERO))) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) = if lq (spec (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Single (SUCC (SUCC (ZERO)))) else spec (Elt (SUCC (ZERO)))
+Prop: spec (tf3 (Elt (SUCC (SUCC (SUCC (ZERO))))) (Econs (ZERO) (Elt (ZERO)))) = if lq (spec (Econs (ZERO) (Elt (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else spec (Elt (SUCC (SUCC (SUCC (ZERO)))))
+Prop: spec (tf3 (Elt (SUCC (ZERO))) (Econs (ZERO) (Elt (SUCC (ZERO))))) = if lq (spec (Econs (ZERO) (Elt (SUCC (ZERO))))) (mainNew (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (ZERO))))) then mainNew (Single (ZERO)) else spec (Elt (SUCC (ZERO)))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (Elt (ZERO)) (Elt (SUCC (ZERO)))) = if lq (spec (Elt (SUCC (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else spec (Elt (ZERO))
-Prop: spec (tf3 (Elt (SUCC (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else spec (Elt (SUCC (ZERO)))
-Prop: spec (tf3 (Econs (ZERO) (Elt (SUCC (ZERO)))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) then mainNew (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO))) else spec (Econs (ZERO) (Elt (SUCC (ZERO))))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = if lq (spec (repr (Single (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else spec (repr (Single (ZERO)))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO)))))) = if lq (spec (repr (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO)))))) (mainNew (Single (ZERO))) then mainNew (Concats (Single (ZERO)) (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Single (ZERO)))) else spec (repr (Single (ZERO)))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = if lq (spec (repr (Single (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else spec (repr (Single (ZERO)))
+Prop: spec (tf3 (Econs (ZERO) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (SUCC (SUCC (ZERO)))) else spec (Econs (ZERO) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO))))
+Prop: spec (tf3 (Econs (ZERO) (Elt (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))) (Concats (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) (Concats (Single (SUCC (ZERO))) (Single (ZERO))))))) else spec (Econs (ZERO) (Elt (ZERO)))
+Prop: spec (tf3 (Elt (ZERO)) (Econs (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Elt (ZERO)))) = if lq (spec (Econs (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Elt (ZERO)))) (mainNew (Concats (Single (SUCC (SUCC (SUCC (ZERO))))) (Single (ZERO)))) then mainNew (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (ZERO)) (Single (ZERO)))) else spec (Elt (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 1
-Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Concats (Concats (Concats (Concats (Concats (Single (SUCC (ZERO))) (Concats (Single (SUCC (ZERO))) (Concats (Single (ZERO)) (Single (ZERO))))) (Single (SUCC (ZERO)))) (Single (SUCC (SUCC (ZERO))))) (Concats (Concats (Single (SUCC (ZERO))) (Single (ZERO))) (Single (ZERO)))) (Single (SUCC (ZERO)))) else mainNew (Single (SUCC (ZERO)))
-Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) (Single (ZERO))))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) (Single (ZERO))))) then mainNew (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Single (ZERO))) (Single (ZERO))) else mainNew (Concats (Single (ZERO)) (Concats (Concats (Single (SUCC (SUCC (ZERO)))) (Concats (Single (SUCC (ZERO))) (Single (SUCC (ZERO))))) (Single (ZERO))))
-Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (ZERO))) then mainNew (Concats (Single (ZERO)) (Single (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (ZERO))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (ZERO))) then mainNew (Concats (Single (ZERO)) (Single (SUCC (ZERO)))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (SUCC (ZERO)))) = if lq (spec (Elt (SUCC (ZERO)))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Single (SUCC (ZERO)))
+Prop: spec (tf3 (repr (Single (SUCC (ZERO)))) (Elt (ZERO))) = if lq (spec (Elt (ZERO))) (mainNew (Single (SUCC (ZERO)))) then mainNew (Single (ZERO)) else mainNew (Single (SUCC (ZERO)))
 previous tactics
 simpl in goal
 parent
@@ -5350,9 +5096,531 @@ tf3(repr(clist5), tf3(repr(clist7), repr(clist6)))
 remove lower
 tf3(repr(clist5), tf3(repr(clist7), repr(_)))
 validate generalize_common_subterm_goal
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Single (ZERO))))) = if lq (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Concats (Single (ZERO)) (Single (ZERO))) else mainNew (Single (ZERO))
-Prop: spec (tf3 (repr (Single (ZERO))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Single (ZERO))) then mainNew (Single (ZERO)) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))) (repr (Single (ZERO)))) = if lq (mainNew (Single (ZERO))) (mainNew (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))) then mainNew (Single (ZERO)) else mainNew (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO))))
+Prop: spec (tf3 (repr (Single (ZERO))) (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO))))) = if lq (mainNew (Concats (Single (SUCC (ZERO))) (Single (ZERO)))) (mainNew (Single (ZERO))) then mainNew (Concats (Single (SUCC (ZERO))) (Single (ZERO))) else mainNew (Single (ZERO))
+Prop: spec (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (ZERO)))))) = if lq (mainNew (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (ZERO))))) (mainNew (Concats (Single (ZERO)) (Single (ZERO)))) then mainNew (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (ZERO)))) else mainNew (Concats (Single (ZERO)) (Single (ZERO)))
+Lemma List
+forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+End of Lemma List
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (clist2)) = mainNew (clist2)
+IH2 : spec (repr (clist3)) = mainNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (mainNew (clist3)) then mainNew (clist2) else spec (repr (clist3))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 132
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : spec (repr (clist2)) = mainNew (clist2)
+IH2 : spec (repr (clist3)) = mainNew (clist3)
+Inductive1 : clist1 = Concats (clist2) (clist3)
+---------------------------------------
+spec (tf3 (repr (clist3)) (repr (clist2))) = if lq (spec (repr (clist2))) (mainNew (clist3)) then mainNew (clist2) else spec (repr (clist3))
+
+0 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)(rank : 0.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro clist2(rank:5.)
+=================================================
+Progress: 133
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist2(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction elist2(rank:6.)
+=================================================
+Progress: 134
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist1:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist2(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist) (clist1:clist), spec (tf3 (elist1) (Elt (nat1))) = if lq (spec (Elt (nat1))) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 135
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist) (clist1:clist), spec (tf3 (elist1) (Elt (nat1))) = if lq (spec (Elt (nat1))) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist) (clist1:clist), if lq (nat1) (spec (elist1)) then nat1 else spec (elist1) = if lq (nat1) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction elist1(rank:7.)
+=================================================
+Progress: 136
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist) (clist1:clist), if lq (nat1) (spec (elist1)) then nat1 else spec (elist1) = if lq (nat1) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist1(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+forall (clist1:clist), if lq (nat1) (spec (Elt (nat2))) then nat1 else spec (Elt (nat2)) = if lq (nat1) (mainNew (clist2)) then mainNew (clist1) else spec (Elt (nat2))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 137
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+forall (clist1:clist), if lq (nat1) (spec (Elt (nat2))) then nat1 else spec (Elt (nat2)) = if lq (nat1) (mainNew (clist2)) then mainNew (clist1) else spec (Elt (nat2))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+forall (clist1:clist), if lq (nat1) (nat2) then nat1 else spec (Elt (nat2)) = if lq (nat1) (mainNew (clist2)) then mainNew (clist1) else spec (Elt (nat2))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case lq (nat1) (nat2)(rank:8.)
+=================================================
+Progress: 138
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+forall (clist1:clist), if lq (nat1) (nat2) then nat1 else spec (Elt (nat2)) = if lq (nat1) (mainNew (clist2)) then mainNew (clist1) else spec (Elt (nat2))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case lq (nat1) (nat2)(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : lq (nat1) (nat2) = true
+---------------------------------------
+forall (clist1:clist), nat1 = if lq (nat1) (mainNew (clist2)) then mainNew (clist1) else spec (Elt (nat2))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case lq (nat1) (mainNew (clist2))(rank:9.)
+=================================================
+Progress: 139
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : lq (nat1) (nat2) = true
+---------------------------------------
+forall (clist1:clist), nat1 = if lq (nat1) (mainNew (clist2)) then mainNew (clist1) else spec (Elt (nat2))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+>>> case lq (nat1) (mainNew (clist2))(rank : 9.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : lq (nat1) (nat2) = true
+Case2 : lq (nat1) (mainNew (clist2)) = true
+---------------------------------------
+forall (clist1:clist), nat1 = mainNew (clist1)
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction clist1(rank:10.)
+=================================================
+Progress: 140
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : lq (nat1) (nat2) = true
+Case2 : lq (nat1) (mainNew (clist2)) = true
+---------------------------------------
+forall (clist1:clist), nat1 = mainNew (clist1)
+
+4 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction clist1(rank : 10.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : lq (nat1) (nat2) = true
+Case2 : lq (nat1) (mainNew (clist2)) = true
+clist1 : clist
+nat3 : nat
+Base3 : clist1 = Single (nat3)
+---------------------------------------
+nat1 = mainNew (Single (nat3))
+
+5 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:10.)
+=================================================
+Progress: 141
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : lq (nat1) (nat2) = true
+Case2 : lq (nat1) (mainNew (clist2)) = true
+clist1 : clist
+nat3 : nat
+Base3 : clist1 = Single (nat3)
+---------------------------------------
+nat1 = mainNew (Single (nat3))
+
+5 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 10.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : lq (nat1) (nat2) = true
+Case2 : lq (nat1) (mainNew (clist2)) = true
+clist1 : clist
+nat3 : nat
+Base3 : clist1 = Single (nat3)
+---------------------------------------
+nat1 = nat3
+
+5 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+validate generalize_common_subterm_goal
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
+Lemma List
+forall (nat1:nat) (nat2:nat), nat1 = nat2
+End of Lemma List
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : lq (nat1) (nat2) = true
+Case2 : lq (nat1) (mainNew (clist2)) = true
+clist1 : clist
+nat3 : nat
+Base3 : clist1 = Single (nat3)
+---------------------------------------
+nat1 = nat3
+
+5 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 142
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), spec (tf3 (elist1) (elist2)) = if lq (spec (elist2)) (mainNew (clist2)) then mainNew (clist1) else spec (elist1)
+clist2 : clist
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : lq (nat1) (nat2) = true
+Case2 : lq (nat1) (mainNew (clist2)) = true
+clist1 : clist
+nat3 : nat
+Base3 : clist1 = Single (nat3)
+---------------------------------------
+nat1 = nat3
+
+5 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (nat1:nat) (nat2:nat), nat1 = nat2(rank : 0.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), nat1 = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+intro nat1(rank:7.)
+intro nat2(rank:7.)
+=================================================
+Progress: 143
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), nat1 = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat1(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), nat1 = nat2
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro nat2(rank:7.)
+=================================================
+Progress: 144
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), nat1 = nat2
+
+---------------------------------------
+forall (nat1:nat) (nat2:nat), nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat2(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), nat1 = nat2
+nat2 : nat
+---------------------------------------
+forall (nat1:nat), nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: ZERO = SUCC (ZERO)
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
+asdf
+=================================================
+Progress: 145
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), nat1 = nat2
+nat1 : nat
+---------------------------------------
+forall (nat2:nat), nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro nat2(rank : 7.)
+
+
+1st goal of : forall (nat1:nat) (nat2:nat), nat1 = nat2
+nat1 : nat
+nat2 : nat
+---------------------------------------
+nat1 = nat2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: SUCC (ZERO) = ZERO
+Prop: ZERO = ZERO
+Prop: SUCC (ZERO) = ZERO
+asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69

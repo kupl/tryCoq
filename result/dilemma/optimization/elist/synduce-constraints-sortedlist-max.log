@@ -263,9 +263,9 @@ simpl in goal
 case tf1 (nat1) (elist2)
 case lq (nat1) (maximum (elist2))
 validate generalize_common_subterm_goal
-Prop: maximum (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO))) = ZERO
+Prop: maximum (Econs (ZERO) (Elt (ZERO))) = SUCC (SUCC (ZERO))
 Prop: maximum (Elt (ZERO)) = ZERO
-Prop: maximum (Elt (SUCC (SUCC (ZERO)))) = SUCC (ZERO)
+Prop: maximum (Econs (ZERO) (Econs (ZERO) (Elt (ZERO)))) = ZERO
 Lemma List
 forall (elist1:elist) (nat1:nat), tf1 (nat1) (elist1) = true->lq (nat1) (maximum (elist1)) = true -> maximum (elist1) = nat1
 End of Lemma List
@@ -460,9 +460,9 @@ maximum (elist1) = nat1
 1 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: maximum (Econs (SUCC (ZERO)) (Econs (SUCC (ZERO)) (Elt (SUCC (ZERO))))) = ZERO
-Prop: maximum (Econs (ZERO) (Elt (ZERO))) = ZERO
-Prop: maximum (Elt (ZERO)) = SUCC (SUCC (ZERO))
+Prop: maximum (Elt (ZERO)) = ZERO
+Prop: maximum (Econs (ZERO) (Elt (SUCC (ZERO)))) = ZERO
+Prop: maximum (Elt (ZERO)) = SUCC (ZERO)
 Lemma List
 forall (elist1:elist) (nat1:nat), tf1 (nat1) (elist1) = true->lq (nat1) (maximum (elist1)) = true -> maximum (elist1) = nat1
 End of Lemma List
@@ -639,8 +639,8 @@ intro Cond1
 intro Cond2
 validate generalize_common_subterm_goal
 Prop: ZERO = ZERO
-Prop: SUCC (ZERO) = SUCC (SUCC (ZERO))
 Prop: ZERO = ZERO
+Prop: SUCC (ZERO) = ZERO
 Lemma List
 forall (nat1:nat) (nat2:nat), geq (nat1) (nat2) = true->lq (nat1) (nat2) = true -> nat2 = nat1
 End of Lemma List
@@ -902,9 +902,9 @@ maximum (elist1) = nat1
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: maximum (Econs (ZERO) (Elt (ZERO))) = ZERO
-Prop: maximum (Elt (ZERO)) = ZERO
-Prop: maximum (Elt (ZERO)) = ZERO
+Prop: maximum (Elt (SUCC (ZERO))) = ZERO
+Prop: maximum (Elt (ZERO)) = SUCC (ZERO)
+Prop: maximum (Econs (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Elt (ZERO))) = ZERO
 =================================================
 Progress: 28
 
@@ -935,9 +935,9 @@ nat2 = nat1
 2 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: ZERO = ZERO
-Prop: ZERO = ZERO
-Prop: ZERO = ZERO
+Prop: SUCC (ZERO) = SUCC (ZERO)
+Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (ZERO) = ZERO
 Lemma List
 forall (nat1:nat) (nat2:nat), geq (nat1) (nat2) = true->lq (nat1) (nat2) = true -> nat2 = nat1
 End of Lemma List
@@ -1111,9 +1111,9 @@ simpl in goal
 intro Cond1
 intro Cond2
 validate generalize_common_subterm_goal
-Prop: ZERO = SUCC (ZERO)
-Prop: SUCC (ZERO) = ZERO
-Prop: ZERO = SUCC (SUCC (ZERO))
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
 =================================================
 Progress: 34
 
@@ -1223,7 +1223,7 @@ nat2 = nat1
 3 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: ZERO = SUCC (ZERO)
+Prop: SUCC (ZERO) = SUCC (ZERO)
 Prop: ZERO = ZERO
 Prop: ZERO = ZERO
 =================================================
@@ -1383,9 +1383,9 @@ intro nat1
 intro Cond1
 intro Cond2
 validate generalize_common_subterm_goal
-Prop: SUCC (ZERO) = ZERO
-Prop: SUCC (ZERO) = ZERO
-Prop: ZERO = SUCC (ZERO)
+Prop: ZERO = SUCC (SUCC (ZERO))
+Prop: ZERO = ZERO
+Prop: ZERO = ZERO
 =================================================
 Progress: 43
 
@@ -1543,9 +1543,9 @@ intro nat1
 intro Cond1
 intro Cond2
 validate generalize_common_subterm_goal
-Prop: SUCC (SUCC (ZERO)) = ZERO
-Prop: ZERO = ZERO
-Prop: ZERO = ZERO
+Prop: ZERO = SUCC (ZERO)
+Prop: SUCC (SUCC (ZERO)) = SUCC (SUCC (ZERO))
+Prop: SUCC (ZERO) = ZERO
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
 Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69

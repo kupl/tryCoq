@@ -318,13 +318,13 @@ simpl in goal
 rewrite IH1 in goal at 0
 Prop: ZERO = natadd (ZERO) (ZERO)
 Prop: ZERO = natadd (ZERO) (ZERO)
-Prop: ZERO = natadd (ZERO) (ZERO)
+Prop: SUCC (ZERO) = natadd (SUCC (ZERO)) (ZERO)
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: natmul_ta1 (SUCC (ZERO)) (ZERO) = natadd (natmul (SUCC (ZERO)) (ZERO)) (ZERO)
 Prop: natmul_ta1 (ZERO) (ZERO) = natadd (natmul (ZERO) (ZERO)) (ZERO)
 Prop: natmul_ta1 (ZERO) (ZERO) = natadd (natmul (ZERO) (ZERO)) (ZERO)
+Prop: natmul_ta1 (SUCC (SUCC (ZERO))) (ZERO) = natadd (natmul (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)
 Lemma List
 forall (nat1:nat), nat1 = natadd (nat1) (ZERO)
 End of Lemma List
@@ -560,14 +560,14 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 Prop: ZERO = natadd (ZERO) (ZERO)
-Prop: SUCC (ZERO) = natadd (SUCC (ZERO)) (ZERO)
-Prop: SUCC (ZERO) = natadd (SUCC (ZERO)) (ZERO)
+Prop: ZERO = natadd (ZERO) (ZERO)
+Prop: ZERO = natadd (ZERO) (ZERO)
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: natmul_ta1 (ZERO) (ZERO) = natadd (natmul (ZERO) (ZERO)) (ZERO)
 Prop: natmul_ta1 (ZERO) (ZERO) = natadd (natmul (ZERO) (ZERO)) (ZERO)
-Prop: natmul_ta1 (SUCC (SUCC (ZERO))) (ZERO) = natadd (natmul (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)
+Prop: natmul_ta1 (ZERO) (ZERO) = natadd (natmul (ZERO) (ZERO)) (ZERO)
 =================================================
 Progress: 17
 
@@ -1067,7 +1067,7 @@ rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = natadd (SUCC (SUCC (SUCC (ZERO)))) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
@@ -1076,18 +1076,18 @@ reflexivity
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO))))) = natadd (SUCC (SUCC (ZERO))) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (SUCC (nat1)) = natadd (nat1) (SUCC (mk_rhs1 (unit_list1)))
 End of Lemma List
@@ -1313,8 +1313,8 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Unit::(Nil))))))
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -1323,7 +1323,7 @@ simpl in goal
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (mk_lhs1 ((Nil)) (SUCC (nat1))) = natadd (nat1) (SUCC (mk_rhs1 (unit_list1)))
 End of Lemma List
@@ -1724,8 +1724,8 @@ rewrite <- lhs_lemma4 in goal at 0
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -1735,8 +1735,8 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 2
 rewrite <- lhs_lemma4 in goal at 0
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
@@ -1746,8 +1746,8 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Unit::(Unit::(Nil)))))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
@@ -1756,18 +1756,18 @@ reflexivity
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (SUCC (SUCC (ZERO)))) = natadd (SUCC (SUCC (ZERO))) (SUCC (mk_rhs1 ((Unit::(Unit::(Nil))))))
+Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (SUCC (mk_lhs1 ((Nil)) (nat1))) = natadd (nat1) (SUCC (mk_rhs1 (unit_list1)))
 End of Lemma List
@@ -2123,7 +2123,7 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma4 in goal at 0
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO)))))) = natadd (SUCC (SUCC (ZERO))) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
@@ -2134,9 +2134,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Unit::(Nil))))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -2146,8 +2146,8 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (mk_lhs1 ((Nil)) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -2155,8 +2155,8 @@ reflexivity
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
@@ -2164,9 +2164,9 @@ rewrite IH1 in goal at 0
 reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Unit::(Nil))))))
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 ((Nil)) (mk_lhs1 (unit_list1) (SUCC (mk_lhs1 ((Nil)) (nat1)))) = natadd (nat1) (SUCC (mk_rhs1 (unit_list1)))
 End of Lemma List
@@ -2678,9 +2678,9 @@ rewrite <- lhs_lemma3 in goal at 2
 rewrite IH1 in goal at 0
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (mk_rhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))))))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -2692,9 +2692,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 2
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil)))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil)))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil)))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil)))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (mk_rhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil)))))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (mk_rhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil)))))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -2706,7 +2706,7 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (SUCC (SUCC (ZERO))))) = natadd (SUCC (SUCC (ZERO))) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
@@ -2717,9 +2717,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma4 in goal at 0
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Unit::(Unit::(Nil)))))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (SUCC (SUCC (SUCC (ZERO))))) = natadd (SUCC (SUCC (SUCC (ZERO)))) (SUCC (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -2729,8 +2729,8 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma4 in goal at 0
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Unit::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Unit::(Nil))))))
 Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Unit::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -2738,18 +2738,18 @@ reflexivity
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))) = natadd (SUCC (SUCC (ZERO))) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Unit::(Nil))))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Unit::(Unit::(Nil)))))))
+Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (mk_lhs1 ((Unit::(Nil))) (nat1)) = natadd (nat1) (SUCC (mk_rhs1 (unit_list1)))
 End of Lemma List
@@ -3242,9 +3242,9 @@ rewrite <- lhs_lemma3 in goal at 2
 rewrite IH1 in goal at 0
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = SUCC (natadd (SUCC (SUCC (SUCC (ZERO)))) (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Unit::(Nil))))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -3261,8 +3261,8 @@ rewrite <- lhs_lemma3 in goal at 2
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Unit::(Unit::(Unit::(Nil)))))) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO))))) = SUCC (natadd (SUCC (SUCC (ZERO))) (mk_rhs1 ((Unit::(Unit::(Unit::(Unit::(Nil))))))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -3277,9 +3277,9 @@ rewrite <- IH1 in goal at 0
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -3293,7 +3293,7 @@ rewrite <- rhs_lemma6 in goal at 0
 rewrite <- IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Lemma List
@@ -3941,9 +3941,9 @@ rewrite <- lhs_lemma3 in goal at 2
 rewrite IH1 in goal at 0
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO))))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO))))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO))))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO))))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -3960,9 +3960,9 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 2
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO)))) = SUCC (natadd (SUCC (SUCC (SUCC (ZERO)))) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -3978,7 +3978,7 @@ rewrite <- IH1 in goal at 2
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 previous tactics
@@ -3995,8 +3995,8 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- IH1 in goal at 2
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (natadd (SUCC (SUCC (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (ZERO) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (SUCC (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (natadd (nat1) (SUCC (ZERO))) = SUCC (mk_lhs1 (unit_list1) (nat1))
@@ -4332,9 +4332,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO)))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -4345,9 +4345,9 @@ rewrite <- lhs_lemma4 in goal at 0
 rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Unit::(Unit::(Unit::(Nil))))))) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Unit::(Unit::(Unit::(Unit::(Nil)))))))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -4357,9 +4357,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma4 in goal at 0
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -4370,7 +4370,7 @@ rewrite <- lhs_lemma4 in goal at 0
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO)))) = natadd (SUCC (SUCC (ZERO))) (SUCC (mk_rhs1 ((Unit::(Nil)))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -4378,9 +4378,9 @@ reflexivity
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Unit::(Nil))))))
+Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))) = natadd (SUCC (SUCC (ZERO))) (SUCC (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -4388,8 +4388,8 @@ reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Unit::(Nil))))))
-Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = natadd (ZERO) (SUCC (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (mk_rhs1 ((Unit::(Unit::(Unit::(Nil)))))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 ((Nil)) (mk_lhs1 (unit_list1) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (nat1))) = natadd (nat1) (SUCC (mk_rhs1 (unit_list1)))
 End of Lemma List
@@ -4575,9 +4575,9 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -4593,8 +4593,8 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Unit::(Unit::(Nil)))))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Unit::(Unit::(Unit::(Nil)))))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -4608,8 +4608,8 @@ rewrite <- rhs_lemma6 in goal at 0
 rewrite <- IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 ((Nil)) (mk_lhs1 (unit_list1) (SUCC (nat1))) = SUCC (mk_lhs1 (unit_list1) (nat1))
@@ -5116,8 +5116,8 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 previous tactics
 simpl in goal
@@ -5134,9 +5134,9 @@ rewrite <- IH1 in goal at 2
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (natadd (ZERO) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (natadd (ZERO) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -5151,9 +5151,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- IH1 in goal at 2
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Unit::(Nil))) (natadd (ZERO) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (SUCC (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 ((Nil)) (mk_lhs1 (unit_list1) (natadd (nat1) (SUCC (ZERO)))) = SUCC (mk_lhs1 (unit_list1) (nat1))
 End of Lemma List
@@ -5669,9 +5669,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite IH1 in goal at 2
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Unit::(Nil))))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (SUCC (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) (SUCC (ZERO)))) = SUCC (natadd (SUCC (SUCC (ZERO))) (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -5688,7 +5688,7 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 rewrite IH1 in goal at 2
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Unit::(Unit::(Nil)))))))
 Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 previous tactics
@@ -5706,9 +5706,9 @@ rewrite <- IH1 in goal at 2
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))))
 Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (SUCC (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -5723,9 +5723,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- IH1 in goal at 2
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (natadd (SUCC (SUCC (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
 Prop: mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (natadd (mk_lhs1 ((Nil)) (nat1)) (SUCC (ZERO))) = SUCC (mk_lhs1 (unit_list1) (nat1))
 End of Lemma List
@@ -6125,8 +6125,8 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: natadd (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO))) = SUCC (natadd (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
 Prop: natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (SUCC (ZERO)))
+Prop: natadd (ZERO) (SUCC (SUCC (ZERO))) = SUCC (natadd (ZERO) (SUCC (ZERO)))
 Prop: natadd (ZERO) (SUCC (SUCC (ZERO))) = SUCC (natadd (ZERO) (SUCC (ZERO)))
 previous tactics
 simpl in goal
@@ -6326,9 +6326,9 @@ rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 rewrite IH1 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (mk_rhs1 ((Nil)))) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil)))) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil)))) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (mk_rhs1 ((Nil)))) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (SUCC (ZERO)))) (mk_rhs1 ((Nil)))) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -6346,9 +6346,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (SUCC (ZERO))) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -6365,9 +6365,9 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (SUCC (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (SUCC (ZERO)))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -6385,7 +6385,7 @@ rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (SUCC (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -6400,8 +6400,8 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- IH1 in goal at 2
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (natadd (SUCC (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO)))
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (SUCC (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (natadd (ZERO) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 ((Nil)) (mk_lhs1 (unit_list1) (natadd (mk_lhs1 ((Nil)) (nat1)) (SUCC (ZERO)))) = SUCC (mk_lhs1 (unit_list1) (nat1))
@@ -6853,9 +6853,9 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: natadd (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO))) = SUCC (natadd (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
 Prop: natadd (ZERO) (SUCC (SUCC (ZERO))) = SUCC (natadd (ZERO) (SUCC (ZERO)))
-Prop: natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (SUCC (ZERO)))
+Prop: natadd (ZERO) (SUCC (SUCC (ZERO))) = SUCC (natadd (ZERO) (SUCC (ZERO)))
+Prop: natadd (ZERO) (SUCC (SUCC (ZERO))) = SUCC (natadd (ZERO) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 New Env
@@ -7057,9 +7057,9 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (SUCC (ZERO)))
 Prop: natadd (ZERO) (SUCC (SUCC (ZERO))) = SUCC (natadd (ZERO) (SUCC (ZERO)))
-Prop: natadd (ZERO) (SUCC (SUCC (ZERO))) = SUCC (natadd (ZERO) (SUCC (ZERO)))
-Prop: natadd (ZERO) (SUCC (SUCC (ZERO))) = SUCC (natadd (ZERO) (SUCC (ZERO)))
+Prop: natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 New Env
@@ -7418,9 +7418,9 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Unit::(Unit::(Nil)))))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Unit::(Unit::(Unit::(Nil))))))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (SUCC (SUCC (ZERO))) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (SUCC (SUCC (ZERO))) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -7613,9 +7613,9 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -7637,7 +7637,7 @@ rewrite IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Unit::(Nil))))))
 Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (mk_lhs1 ((Nil)) (natadd (natadd (nat1) (ZERO)) (SUCC (ZERO)))) = SUCC (natadd (nat1) (mk_rhs1 (unit_list1)))
@@ -7827,9 +7827,9 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (SUCC (ZERO)))) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (natadd (natadd (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -7851,9 +7851,9 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
+Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -7874,9 +7874,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (SUCC (SUCC (ZERO))) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (natadd (natadd (nat1) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 (unit_list1) (nat1))
 End of Lemma List
@@ -8047,8 +8047,8 @@ rewrite <- IH1 in goal at 0
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -8070,8 +8070,8 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 previous tactics
 simpl in goal
@@ -8093,8 +8093,8 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (SUCC (SUCC (ZERO))) (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (mk_lhs1 ((Nil)) (natadd (natadd (nat1) (ZERO)) (SUCC (ZERO)))) = SUCC (mk_lhs1 (unit_list1) (nat1))
@@ -8314,7 +8314,7 @@ rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (SUCC (ZERO))) (ZERO))) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 previous tactics
@@ -8341,8 +8341,8 @@ rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO))))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO))))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Unit::(Nil))))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO))))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Unit::(Unit::(Nil))))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -8365,8 +8365,8 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
@@ -8389,9 +8389,9 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -8414,7 +8414,7 @@ simpl in goal
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (natadd (mk_lhs1 ((Nil)) (natadd (nat1) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (nat1) (mk_rhs1 (unit_list1)))
 End of Lemma List
@@ -8750,9 +8750,9 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -8774,8 +8774,8 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
 previous tactics
 simpl in goal
@@ -8797,9 +8797,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (nat1) (ZERO))) (SUCC (ZERO)))) = SUCC (natadd (nat1) (mk_rhs1 (unit_list1)))
 End of Lemma List
@@ -8925,7 +8925,7 @@ rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -8948,9 +8948,9 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -8972,9 +8972,9 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (SUCC (ZERO)))) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))))
 Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -8997,7 +8997,7 @@ simpl in goal
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
 Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (natadd (mk_lhs1 ((Nil)) (natadd (nat1) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 (unit_list1) (nat1))
 End of Lemma List
@@ -9192,9 +9192,9 @@ rewrite <- IH1 in goal at 0
 rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (SUCC (ZERO))) (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -9217,9 +9217,9 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (ZERO) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (mk_lhs1 ((Nil)) (natadd (SUCC (ZERO)) (ZERO))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -9242,8 +9242,8 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
+Prop: mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -9264,9 +9264,9 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
 Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Unit::(Nil)))))
-Prop: mk_lhs1 ((Nil)) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Nil)) (natadd (natadd (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil))))
+Prop: mk_lhs1 ((Unit::(Nil))) (natadd (natadd (ZERO) (ZERO)) (SUCC (ZERO))) = SUCC (natadd (ZERO) (mk_rhs1 ((Unit::(Nil)))))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (mk_lhs1 ((Nil)) (natadd (mk_lhs1 ((Nil)) (natadd (nat1) (ZERO))) (SUCC (ZERO)))) = SUCC (mk_lhs1 (unit_list1) (nat1))
 End of Lemma List
@@ -11053,24 +11053,24 @@ previous tactics
 rewrite <- lhs_lemma4 in goal at 0
 rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))) = mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO)
 previous tactics
 rewrite <- lhs_lemma4 in goal at 0
 rewrite <- lhs_lemma3 in goal at 1
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO))))) = mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO))
 previous tactics
 rewrite <- lhs_lemma4 in goal at 0
 Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
-Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = mk_lhs1 ((Unit::(Nil))) (ZERO)
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = mk_lhs1 ((Unit::(Nil))) (ZERO)
 previous tactics
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))))
+Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Lemma List
 forall (unit_list1:unit list) (nat1:nat), mk_lhs1 (unit_list1) (SUCC (nat1)) = SUCC (mk_lhs1 (unit_list1) (nat1))
 End of Lemma List
@@ -11712,16 +11712,16 @@ previous tactics
 rewrite <- lhs_lemma4 in goal at 0
 rewrite <- lhs_lemma3 in goal at 2
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
 previous tactics
 rewrite <- lhs_lemma4 in goal at 0
+Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = mk_lhs1 ((Unit::(Nil))) (ZERO)
+Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = mk_lhs1 ((Unit::(Nil))) (ZERO)
 Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = mk_lhs1 ((Unit::(Nil))) (ZERO)
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = mk_lhs1 ((Unit::(Nil))) (ZERO)
 previous tactics
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Lemma List
 forall (unit_list1:unit list) (nat1:nat), mk_lhs1 (unit_list1) (mk_lhs1 ((Nil)) (SUCC (nat1))) = mk_lhs1 ((Unit::unit_list1)) (nat1)
@@ -12146,16 +12146,16 @@ simpl in goal
 intro nat1
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 intro nat1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
+Prop: mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Unit::(Unit::(Unit::(Unit::(Nil)))))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Unit::(Unit::(Unit::(Unit::(Nil)))))) (ZERO))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (SUCC (nat1)) = SUCC (mk_lhs1 (unit_list1) (nat1))
 End of Lemma List
@@ -13602,16 +13602,16 @@ simpl in goal
 intro nat1
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
 previous tactics
 simpl in goal
 intro nat1
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 Lemma List
 forall (nat1:nat) (unit_list1:unit list), mk_lhs1 (unit_list1) (SUCC (nat1)) = SUCC (mk_lhs1 (unit_list1) (nat1))
 End of Lemma List
@@ -16461,39 +16461,39 @@ rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 2
 rewrite <- lhs_lemma4 in goal at 0
 rewrite <- lhs_lemma3 in goal at 1
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))))) = mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (SUCC (ZERO))))))) = mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (SUCC (ZERO))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO)))) = mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO)
 previous tactics
 rewrite <- lhs_lemma4 in goal at 0
 rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 2
 rewrite <- lhs_lemma4 in goal at 0
+Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO))) = mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (ZERO)
+Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO))) = mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (ZERO)
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (ZERO))) = mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO)
 previous tactics
 rewrite <- lhs_lemma4 in goal at 0
 rewrite <- lhs_lemma3 in goal at 3
 rewrite <- lhs_lemma3 in goal at 2
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO))))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))))) = mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (SUCC (ZERO)))
 Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO)))) = mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO)
 previous tactics
 rewrite <- lhs_lemma4 in goal at 0
 rewrite <- lhs_lemma3 in goal at 3
+Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (ZERO)
 Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
-Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
-Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (ZERO))) = mk_lhs1 ((Unit::(Nil))) (ZERO)
+Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
 previous tactics
 rewrite <- lhs_lemma4 in goal at 0
+Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = mk_lhs1 ((Unit::(Nil))) (ZERO)
 Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))) = mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO)))
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = mk_lhs1 ((Unit::(Nil))) (ZERO)
 previous tactics
-Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))))
+Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
 Lemma List
 forall (unit_list1:unit list) (nat1:nat), mk_lhs1 (unit_list1) (SUCC (mk_lhs1 ((Nil)) (nat1))) = mk_lhs1 ((Unit::unit_list1)) (nat1)
 End of Lemma List
@@ -17298,21 +17298,21 @@ simpl in goal
 rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))))) = SUCC (SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO)))
+Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO))))) = SUCC (SUCC (mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO)))
 Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
-Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO))))))) = SUCC (SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))))
+Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
 previous tactics
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (SUCC (ZERO)))) = SUCC (SUCC (mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (ZERO)))
+Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))) = SUCC (SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO)))
 Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
 Prop: mk_lhs1 ((Nil)) (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 =================================================
 Progress: 523
@@ -17414,9 +17414,9 @@ rewrite <- lhs_lemma4 in goal at 1
 rewrite <- lhs_lemma3 in goal at 1
 rewrite <- lhs_lemma3 in goal at 3
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))) = SUCC (SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO)))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))) = SUCC (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO))))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))) = SUCC (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO))))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO)))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (SUCC (ZERO))))) = SUCC (SUCC (mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO))))
 previous tactics
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 2
@@ -17433,20 +17433,20 @@ rewrite <- lhs_lemma4 in goal at 1
 validate generalize_common_subterm_goal
 Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
 Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = SUCC (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO))))
 previous tactics
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO))
+Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
 =================================================
 Progress: 526
 
@@ -17483,30 +17483,30 @@ rewrite <- lhs_lemma3 in goal at 2
 rewrite <- lhs_lemma4 in goal at 1
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO))) = SUCC (SUCC (mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO)))
-Prop: mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
-Prop: mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO))))) = SUCC (SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))))
+Prop: mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))) = SUCC (SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO)))
+Prop: mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = SUCC (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO))))
+Prop: mk_lhs1 ((mk_lhs1 ((Nil)) (Unit)::(Nil))) (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (SUCC (ZERO))))) = SUCC (SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO)))))
 previous tactics
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 2
 rewrite <- lhs_lemma4 in goal at 1
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
-Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Unit::(Unit::(Nil)))) (SUCC (ZERO))) = SUCC (SUCC (mk_lhs1 ((Unit::(Unit::(Nil)))) (ZERO)))
 Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = SUCC (SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO))))
+Prop: mk_lhs1 ((Unit::(Nil))) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (SUCC (mk_lhs1 ((Nil)) (ZERO)))
 previous tactics
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
+Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
 Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (ZERO))) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Nil)) (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (SUCC (ZERO))) = SUCC (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)))
+Prop: mk_lhs1 ((Nil)) (SUCC (SUCC (SUCC (ZERO)))) = SUCC (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO))))
 Prop: mk_lhs1 ((Nil)) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Nil)) (ZERO))
-Prop: mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Unit::(Nil))) (ZERO))
+Prop: mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (SUCC (ZERO)) = SUCC (mk_lhs1 ((Unit::(Unit::(Unit::(Nil))))) (ZERO))
 =================================================
 Progress: 527
 
@@ -17852,8 +17852,8 @@ reflexivity
 rewrite <- lhs_lemma3 in goal at 2
 rewrite lemma8 in goal at 0
 validate generalize_common_subterm_goal
+Prop: SUCC (natadd (SUCC (SUCC (ZERO))) (mk_rhs1 ((Nil)))) = natadd (SUCC (SUCC (ZERO))) (SUCC (ZERO))
 Prop: SUCC (natadd (ZERO) (mk_rhs1 ((Nil)))) = natadd (ZERO) (SUCC (ZERO))
-Prop: SUCC (natadd (SUCC (ZERO)) (mk_rhs1 ((Nil)))) = natadd (SUCC (ZERO)) (SUCC (ZERO))
 Prop: SUCC (natadd (ZERO) (mk_rhs1 ((Nil)))) = natadd (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal
@@ -17866,7 +17866,7 @@ reflexivity
 rewrite <- lhs_lemma3 in goal at 2
 validate generalize_common_subterm_goal
 Prop: SUCC (mk_lhs1 ((Nil)) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
-Prop: SUCC (mk_lhs1 ((Nil)) (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (ZERO))
+Prop: SUCC (mk_lhs1 ((Nil)) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
 Prop: SUCC (mk_lhs1 ((Nil)) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal
@@ -17877,7 +17877,7 @@ rewrite <- lhs_lemma4 in goal at 0
 rewrite lemma7 in goal at 0
 reflexivity
 validate generalize_common_subterm_goal
-Prop: SUCC (SUCC (ZERO)) = natadd (SUCC (ZERO)) (SUCC (ZERO))
+Prop: SUCC (ZERO) = natadd (ZERO) (SUCC (ZERO))
 Prop: SUCC (ZERO) = natadd (ZERO) (SUCC (ZERO))
 Prop: SUCC (ZERO) = natadd (ZERO) (SUCC (ZERO))
 Lemma List
@@ -18194,8 +18194,8 @@ previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: SUCC (natadd (ZERO) (SUCC (ZERO))) = natadd (ZERO) (SUCC (SUCC (ZERO)))
-Prop: SUCC (natadd (SUCC (SUCC (ZERO))) (SUCC (ZERO))) = natadd (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO)))
-Prop: SUCC (natadd (SUCC (ZERO)) (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO)))
+Prop: SUCC (natadd (ZERO) (SUCC (ZERO))) = natadd (ZERO) (SUCC (SUCC (ZERO)))
+Prop: SUCC (natadd (ZERO) (SUCC (ZERO))) = natadd (ZERO) (SUCC (SUCC (ZERO)))
 Lemma List
 forall (nat1:nat), SUCC (natadd (nat1) (SUCC (ZERO))) = natadd (nat1) (SUCC (SUCC (ZERO)))
 End of Lemma List
@@ -18411,8 +18411,8 @@ Prop: SUCC (SUCC (natadd (ZERO) (SUCC (ZERO)))) = natadd (ZERO) (SUCC (SUCC (SUC
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: SUCC (natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
 Prop: SUCC (natadd (ZERO) (SUCC (SUCC (ZERO)))) = natadd (ZERO) (SUCC (SUCC (SUCC (ZERO))))
-Prop: SUCC (natadd (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO)))) = natadd (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (ZERO))))
 Prop: SUCC (natadd (ZERO) (SUCC (SUCC (ZERO)))) = natadd (ZERO) (SUCC (SUCC (SUCC (ZERO))))
 Lemma List
 forall (nat1:nat), SUCC (natadd (nat1) (SUCC (SUCC (ZERO)))) = natadd (nat1) (SUCC (SUCC (SUCC (ZERO))))
@@ -18591,8 +18591,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: SUCC (SUCC (natadd (SUCC (ZERO)) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
-Prop: SUCC (SUCC (natadd (SUCC (ZERO)) (SUCC (ZERO)))) = natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
+Prop: SUCC (SUCC (natadd (ZERO) (SUCC (ZERO)))) = natadd (ZERO) (SUCC (SUCC (SUCC (ZERO))))
+Prop: SUCC (SUCC (natadd (ZERO) (SUCC (ZERO)))) = natadd (ZERO) (SUCC (SUCC (SUCC (ZERO))))
 Prop: SUCC (SUCC (natadd (ZERO) (SUCC (ZERO)))) = natadd (ZERO) (SUCC (SUCC (SUCC (ZERO))))
 Lemma List
 forall (nat1:nat), SUCC (SUCC (natadd (nat1) (SUCC (ZERO)))) = natadd (nat1) (SUCC (SUCC (SUCC (ZERO))))
@@ -18760,14 +18760,14 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
 Prop: SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO))))) = natadd (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
-Prop: SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO))))) = natadd (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
-Prop: SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO))))) = natadd (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
+Prop: SUCC (SUCC (natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
+Prop: SUCC (SUCC (natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: SUCC (natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
-Prop: SUCC (natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
 Prop: SUCC (natadd (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = natadd (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
+Prop: SUCC (natadd (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = natadd (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
+Prop: SUCC (natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
 Lemma List
 forall (nat1:nat), SUCC (natadd (nat1) (SUCC (SUCC (SUCC (ZERO))))) = natadd (nat1) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
 End of Lemma List
@@ -19082,7 +19082,7 @@ previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO))))) = natadd (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
-Prop: SUCC (SUCC (natadd (SUCC (ZERO)) (SUCC (SUCC (ZERO))))) = natadd (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
+Prop: SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO))))) = natadd (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
 Prop: SUCC (SUCC (natadd (ZERO) (SUCC (SUCC (ZERO))))) = natadd (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
 =================================================
 Progress: 570
@@ -19438,9 +19438,9 @@ rewrite <- lemma9 in goal at 0
 reflexivity
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: SUCC (natadd_ta1 (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = natadd (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (ZERO))
 Prop: SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
-Prop: SUCC (natadd_ta1 (ZERO) (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (ZERO))
+Prop: SUCC (natadd_ta1 (ZERO) (SUCC (SUCC (SUCC (ZERO))))) = natadd (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))
+Prop: SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
@@ -19456,14 +19456,14 @@ reflexivity
 rewrite <- lemma9 in goal at 0
 reflexivity
 simpl in goal
-Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (SUCC (ZERO))) (ZERO))) = natadd (natmul (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)
-Prop: SUCC (natadd_ta1 (SUCC (SUCC (ZERO))) (natmul_ta1 (SUCC (ZERO)) (ZERO))) = natadd (natmul (SUCC (ZERO)) (ZERO)) (ZERO)
-Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (ZERO))))) = natadd (natmul (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
-validate generalize_common_subterm_goal
 Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))) = natadd (natmul (ZERO) (ZERO)) (ZERO)
 Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: SUCC (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (ZERO) (ZERO))) = natadd (natmul (ZERO) (ZERO)) (ZERO)
-Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+validate generalize_common_subterm_goal
+Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))) = natadd (natmul (ZERO) (ZERO)) (ZERO)
+Prop: SUCC (natadd_ta1 (SUCC (SUCC (ZERO))) (natmul_ta1 (ZERO) (ZERO))) = natadd (natmul (ZERO) (ZERO)) (ZERO)
+Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))) = natadd (natmul (ZERO) (ZERO)) (ZERO)
+Prop: SUCC (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO))))) = natadd (natmul (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
 Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Lemma List
@@ -19573,9 +19573,9 @@ rewrite <- lemma9 in goal at 0
 reflexivity
 simpl in goal
 rewrite <- IH1 in goal at 0
+Prop: SUCC (natadd_ta1 (ZERO) (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (ZERO))
 Prop: SUCC (natadd_ta1 (ZERO) (ZERO)) = natadd (ZERO) (SUCC (ZERO))
-Prop: SUCC (natadd_ta1 (SUCC (ZERO)) (ZERO)) = natadd (ZERO) (SUCC (SUCC (ZERO)))
-Prop: SUCC (natadd_ta1 (SUCC (ZERO)) (ZERO)) = natadd (ZERO) (SUCC (SUCC (ZERO)))
+Prop: SUCC (natadd_ta1 (ZERO) (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite <- lhs_lemma3 in goal at 3
@@ -19591,14 +19591,14 @@ reflexivity
 rewrite <- lemma9 in goal at 0
 reflexivity
 simpl in goal
-Prop: SUCC (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (SUCC (ZERO)) (ZERO))) = natadd (natmul (SUCC (ZERO)) (ZERO)) (ZERO)
-Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))) = natadd (natmul (ZERO) (ZERO)) (ZERO)
-Prop: SUCC (natadd_ta1 (SUCC (SUCC (ZERO))) (natmul_ta1 (ZERO) (ZERO))) = natadd (natmul (ZERO) (ZERO)) (ZERO)
+Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (SUCC (ZERO))))) = natadd (natmul (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
 validate generalize_common_subterm_goal
-Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (SUCC (SUCC (ZERO)))))) = natadd (natmul (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))
+Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: SUCC (natadd_ta1 (SUCC (ZERO)) (natmul_ta1 (SUCC (ZERO)) (SUCC (ZERO)))) = natadd (natmul (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (ZERO))) = natadd (natmul (ZERO) (ZERO)) (ZERO)
-Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (SUCC (ZERO)) (SUCC (ZERO)))) = natadd (natmul (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: SUCC (natadd_ta1 (ZERO) (natmul_ta1 (ZERO) (SUCC (ZERO)))) = natadd (natmul (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 =================================================
@@ -20370,7 +20370,7 @@ simpl in goal
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
 Prop: natadd_ta1 (ZERO) (SUCC (ZERO)) = natadd (ZERO) (SUCC (ZERO))
-Prop: natadd_ta1 (ZERO) (SUCC (SUCC (ZERO))) = natadd (SUCC (ZERO)) (SUCC (ZERO))
+Prop: natadd_ta1 (ZERO) (SUCC (ZERO)) = natadd (ZERO) (SUCC (ZERO))
 Prop: natadd_ta1 (ZERO) (SUCC (ZERO)) = natadd (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal

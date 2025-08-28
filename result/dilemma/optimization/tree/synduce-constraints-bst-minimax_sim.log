@@ -1592,11 +1592,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
 Lemma List
 forall (nat1:nat) (tree1:tree) (tree2:tree), geq (nat1) (tmax (tree1)) = true->leq (nat1) (tmax (tree2)) = true->isbst (tree1) = true->isbst (tree2) = true->lq (match (spec (tree1)) with
 | Tuple2 a _ -> a) (match (spec (tree2)) with
@@ -1827,12 +1827,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
 Lemma List
 forall (nat1:nat) (tree1:tree) (tree2:tree), geq (nat1) (tmax (tree1)) = true->leq (nat1) (tmax (tree2)) = true->isbst (tree1) = true->isbst (tree2) = true->lq (match (spec (tree1)) with
 | Tuple2 a _ -> a) (match (spec (tree2)) with
@@ -2062,12 +2062,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO))))))) (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))
 Lemma List
 forall (nat1:nat) (tree1:tree) (tree2:tree), geq (nat1) (tmax (tree1)) = true->leq (nat1) (tmax (tree2)) = true->isbst (tree1) = true->isbst (tree2) = true->lq (match (spec (tree1)) with
 | Tuple2 a _ -> a) (match (spec (tree2)) with
@@ -2297,12 +2297,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (SUCC (ZERO))))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (SUCC (ZERO)))))))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 Lemma List
 forall (nat1:nat) (tree1:tree) (tree2:tree), geq (nat1) (tmax (tree1)) = true->leq (nat1) (tmax (tree2)) = true->isbst (tree1) = true->isbst (tree2) = true->lq (match (spec (tree1)) with
 | Tuple2 _ b -> b) (match (spec (tree2)) with
@@ -2533,10 +2533,10 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Lemma List
@@ -2768,12 +2768,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO)))))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))) (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))))
 Lemma List
 forall (nat1:nat) (tree1:tree) (tree2:tree), geq (nat1) (tmax (tree1)) = true->leq (nat1) (tmax (tree2)) = true->isbst (tree1) = true->isbst (tree2) = true->lq (match (spec (tree1)) with
 | Tuple2 _ b -> b) (match (spec (tree2)) with
@@ -3993,12 +3993,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (SUCC (ZERO))))))
 =================================================
 Progress: 47
 
@@ -4115,12 +4115,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 48
 
@@ -4237,12 +4237,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
 =================================================
 Progress: 49
 
@@ -4691,12 +4691,12 @@ case lq (nat1) (match (spec (tree3)) with
 case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO))))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 54
 
@@ -4791,12 +4791,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 55
 
@@ -5903,12 +5903,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))
 =================================================
 Progress: 68
 
@@ -6025,12 +6025,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 69
 
@@ -6393,11 +6393,11 @@ case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 73
 
@@ -6492,12 +6492,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 74
 
@@ -7441,12 +7441,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (SUCC (ZERO))))))))))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))))))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 85
 
@@ -7563,12 +7563,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO)))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))) (Leaf (ZERO))))))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))) (Leaf (ZERO)))))))
 =================================================
 Progress: 86
 
@@ -7930,12 +7930,12 @@ case lq (nat1) (match (spec (tree3)) with
 case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) (Leaf (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) (Leaf (SUCC (ZERO))))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO))))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO)))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (SUCC (SUCC (ZERO))))))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (SUCC (SUCC (ZERO)))))))))
 =================================================
 Progress: 90
 
@@ -8030,12 +8030,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO))))))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))
 =================================================
 Progress: 91
 
@@ -8979,12 +8979,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 102
 
@@ -9101,12 +9101,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Leaf (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (SUCC (SUCC (SUCC (ZERO))))))
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) (Leaf (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) (Leaf (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO))))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 103
 
@@ -9468,12 +9468,12 @@ case lq (nat1) (match (spec (tree3)) with
 case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 107
 
@@ -9568,12 +9568,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 108
 
@@ -10522,12 +10522,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case5 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (SUCC (ZERO))))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))
 =================================================
 Progress: 119
 
@@ -10624,11 +10624,11 @@ rewrite Case5 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 120
 
@@ -10992,12 +10992,12 @@ case lq (nat1) (match (spec (tree3)) with
 case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 124
 
@@ -11092,12 +11092,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 125
 
@@ -11903,12 +11903,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))))
 =================================================
 Progress: 134
 
@@ -12024,12 +12024,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 135
 
@@ -12144,12 +12144,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Leaf (ZERO))))) (Leaf (SUCC (SUCC (ZERO))))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Leaf (ZERO))))) (Leaf (SUCC (SUCC (ZERO))))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))
 =================================================
 Progress: 136
 
@@ -12511,10 +12511,10 @@ case lq (nat1) (match (spec (tree3)) with
 case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
@@ -12611,12 +12611,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO)))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO)))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))))) (tmax (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 141
 
@@ -12819,8 +12819,8 @@ _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
@@ -13449,11 +13449,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 150
 
@@ -13569,12 +13569,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (Node (ZERO) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))) (Leaf (ZERO)))) (tmax (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 151
 
@@ -13690,11 +13690,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Leaf (SUCC (ZERO))))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Node (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 152
 
@@ -14056,12 +14056,12 @@ case lq (nat1) (match (spec (tree3)) with
 case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO))))))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO)))))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 156
 
@@ -14156,12 +14156,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO))))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 157
 
@@ -14363,11 +14363,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO)))))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO))))))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 159
 
@@ -14993,12 +14993,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 166
 
@@ -15114,12 +15114,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (SUCC (SUCC (ZERO))))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 167
 
@@ -15236,10 +15236,10 @@ _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO))))) (Leaf (ZERO))))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 168
 
@@ -15602,11 +15602,11 @@ case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 172
 
@@ -15701,12 +15701,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO))))))
 =================================================
 Progress: 173
 
@@ -15908,11 +15908,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))) (Leaf (SUCC (SUCC (ZERO)))))) (Leaf (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 175
 
@@ -16538,12 +16538,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 182
 
@@ -16659,12 +16659,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (SUCC (ZERO)) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 183
 
@@ -16780,11 +16780,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO)))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Node (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Leaf (ZERO)))) (Leaf (SUCC (SUCC (SUCC (ZERO))))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 184
 
@@ -17147,11 +17147,11 @@ case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 188
 
@@ -17247,11 +17247,11 @@ case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 189
 
@@ -17452,12 +17452,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (SUCC (ZERO))))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (SUCC (SUCC (ZERO))))))))))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
 =================================================
 Progress: 191
 
@@ -18076,12 +18076,12 @@ case lq (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))) (Node (SUCC (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))) (Node (SUCC (ZERO)) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO))))))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 198
 
@@ -18178,12 +18178,12 @@ case lq (nat1) (match (spec (tree3)) with
 case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 199
 
@@ -18277,12 +18277,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (SUCC (ZERO))))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))))
 =================================================
 Progress: 200
 
@@ -18647,11 +18647,11 @@ case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 204
 
@@ -18746,12 +18746,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (SUCC (ZERO)))))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (SUCC (ZERO))))))))
 =================================================
 Progress: 205
 
@@ -18934,11 +18934,11 @@ case lq (nat1) (match (spec (tree2)) with
 | Tuple2 _ b -> b)
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 207
 
@@ -19607,12 +19607,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 215
 
@@ -19729,12 +19729,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))))
 =================================================
 Progress: 216
 
@@ -20321,11 +20321,11 @@ rewrite Case1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))
 =================================================
 Progress: 223
 
@@ -21084,12 +21084,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (SUCC (ZERO))))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 232
 
@@ -21208,10 +21208,10 @@ _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 233
 
@@ -21670,12 +21670,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))
 =================================================
 Progress: 238
 
@@ -22346,10 +22346,10 @@ _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 246
 
@@ -22467,11 +22467,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (SUCC (SUCC (ZERO))))))
 =================================================
 Progress: 247
 
@@ -23058,11 +23058,11 @@ rewrite Case2 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO)))) (Leaf (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO)))) (Leaf (SUCC (SUCC (ZERO))))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 254
 
@@ -23575,11 +23575,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 260
 
@@ -23941,12 +23941,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (SUCC (SUCC (ZERO))))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 264
 
@@ -24615,12 +24615,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
 =================================================
 Progress: 272
 
@@ -24737,12 +24737,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (SUCC (ZERO))))))) (tmax (Leaf (SUCC (SUCC (SUCC (ZERO))))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (SUCC (SUCC (ZERO))))))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (SUCC (SUCC (ZERO)))))))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
 =================================================
 Progress: 273
 
@@ -25329,11 +25329,11 @@ rewrite Case3 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 280
 
@@ -25844,12 +25844,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (SUCC (SUCC (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 286
 
@@ -26210,12 +26210,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 290
 
@@ -26885,11 +26885,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 298
 
@@ -27007,11 +27007,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 299
 
@@ -27597,12 +27597,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case4 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 306
 
@@ -28112,12 +28112,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))) (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 312
 
@@ -28477,12 +28477,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))
 =================================================
 Progress: 316
 
@@ -29162,12 +29162,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case5 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 324
 
@@ -29264,11 +29264,11 @@ rewrite Case5 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 325
 
@@ -29876,12 +29876,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case5 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO))))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO)))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 332
 
@@ -30383,12 +30383,12 @@ case lq (nat1) (match (spec (tree3)) with
 rewrite Case5 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 338
 
@@ -30732,12 +30732,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))) (Node (ZERO) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))) (Leaf (SUCC (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 342
 
@@ -31418,11 +31418,11 @@ rewrite Case6 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 350
 
@@ -31518,12 +31518,12 @@ case lq (nat1) (match (spec (tree3)) with
 rewrite Case6 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 351
 
@@ -32131,12 +32131,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case6 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (SUCC (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 358
 
@@ -32637,12 +32637,12 @@ case lq (nat1) (match (spec (tree3)) with
 rewrite Case6 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 364
 
@@ -32985,12 +32985,12 @@ case lq (nat1) (match (spec (tree2)) with
 case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO))))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 368
 
@@ -33660,11 +33660,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 376
 
@@ -33781,12 +33781,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (Leaf (ZERO)))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))))))) (tmax (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (Leaf (ZERO)))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 377
 
@@ -34372,12 +34372,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 384
 
@@ -35136,12 +35136,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (SUCC (ZERO))))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (SUCC (ZERO))))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (SUCC (ZERO))))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))))
 =================================================
 Progress: 393
 
@@ -35258,12 +35258,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))))
 =================================================
 Progress: 394
 
@@ -35724,10 +35724,10 @@ _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 399
 
@@ -36397,11 +36397,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 407
 
@@ -36519,11 +36519,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 408
 
@@ -37109,12 +37109,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case2 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (Node (SUCC (ZERO)) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))) (Leaf (ZERO)))) (Leaf (ZERO)))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 415
 
@@ -37626,12 +37626,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 421
 
@@ -37994,11 +37994,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO))))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 425
 
@@ -38667,12 +38667,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 433
 
@@ -38789,10 +38789,10 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
@@ -39380,12 +39380,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case3 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Leaf (ZERO))))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))
 =================================================
 Progress: 441
 
@@ -39897,11 +39897,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 447
 
@@ -40264,10 +40264,10 @@ _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 451
 
@@ -40937,11 +40937,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 459
 
@@ -41058,12 +41058,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))))
 Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 460
 
@@ -41649,12 +41649,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case4 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) (Leaf (SUCC (ZERO)))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))) (Leaf (ZERO)))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 467
 
@@ -42165,11 +42165,11 @@ remove upper
 _
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO))))))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (SUCC (ZERO)))) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (SUCC (ZERO))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (Node (ZERO) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO)))))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))))
 =================================================
 Progress: 473
 
@@ -42529,12 +42529,12 @@ Tuple2(_, tmax(tree3))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 477
 
@@ -43215,11 +43215,11 @@ rewrite Case5 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
 =================================================
 Progress: 485
 
@@ -43316,11 +43316,11 @@ rewrite Case5 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 486
 
@@ -43928,12 +43928,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case5 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (ZERO))) (Node (SUCC (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))) (Leaf (ZERO)))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 493
 
@@ -44436,11 +44436,11 @@ rewrite Case5 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (Leaf (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (SUCC (ZERO))) (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))) (Leaf (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 499
 
@@ -44785,11 +44785,11 @@ case lq (nat1) (match (spec (tree3)) with
 | Tuple2 a _ -> a)
 validate generalize_common_subterm_goal
 Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
 | Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (SUCC (SUCC (ZERO)))) (Leaf (ZERO)) (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))))))) (Leaf (SUCC (ZERO))))) (tmax (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO)))))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (SUCC (ZERO))) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 503
 
@@ -45469,12 +45469,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case6 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO))))))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (ZERO)))
-Prop: Tuple2 (match (spec (Leaf (SUCC (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO)))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (ZERO))))))
+Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (SUCC (ZERO)) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 511
 
@@ -45570,12 +45570,12 @@ case lq (nat1) (match (spec (tree3)) with
 rewrite Case6 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (ZERO))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO)))) (tmax (Leaf (ZERO)))
 Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (SUCC (SUCC (SUCC (ZERO))))) (Node (ZERO) (Leaf (SUCC (ZERO))) (Leaf (ZERO))))) (tmax (Leaf (SUCC (ZERO))))
-Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Node (SUCC (SUCC (ZERO))) (Node (SUCC (ZERO)) (Leaf (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (Leaf (ZERO))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (SUCC (ZERO)))) (tmax (Leaf (SUCC (ZERO))))
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) (tmax (Node (SUCC (ZERO)) (Leaf (SUCC (ZERO))) (Leaf (SUCC (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 =================================================
 Progress: 512
 
@@ -46183,12 +46183,12 @@ case lq (nat1) (match (spec (tree2)) with
 rewrite Case6 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: Tuple2 (match (spec (Leaf (SUCC (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (SUCC (ZERO))))
 Prop: Tuple2 (match (spec (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO)))) with
-| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
-Prop: Tuple2 (match (spec (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO))))) with
-| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))) (tmax (Node (ZERO) (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (SUCC (ZERO)))))
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (SUCC (ZERO)))))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Node (SUCC (SUCC (ZERO))) (Leaf (ZERO)) (Node (ZERO) (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO)))) (Leaf (SUCC (SUCC (ZERO))))) (Node (SUCC (SUCC (SUCC (SUCC (ZERO))))) (Node (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Leaf (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (Node (ZERO) (Leaf (ZERO)) (Leaf (SUCC (ZERO))))) (Node (ZERO) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Leaf (ZERO))))))) (tmax (Leaf (ZERO)))
 =================================================
 Progress: 519
 
@@ -46590,5 +46590,267 @@ Tuple2 (if true then match (spec (tree3)) with
 | Tuple2 a _ -> a) (nat1) = Tuple2 (tmax (tree2)) (tmax (tree3))
 
 8 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:11.)
+=================================================
+Progress: 524
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : spec (target (tree2)) = Tuple2 (match (targetNew (tree2)) with
+| Tuple2 a _ -> a) (match (targetNew (tree2)) with
+| Tuple2 _ b -> b)
+IH2 : spec (target (tree3)) = Tuple2 (match (targetNew (tree3)) with
+| Tuple2 a _ -> a) (match (targetNew (tree3)) with
+| Tuple2 _ b -> b)
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : geq (nat1) (tmax (tree2)) = true
+Case2 : leq (nat1) (tmax (tree3)) = true
+Case3 : isbst (tree2) = true
+Case4 : isbst (tree3) = true
+Case5 : lq (match (spec (tree2)) with
+| Tuple2 _ b -> b) (match (spec (tree3)) with
+| Tuple2 _ b -> b) = true
+Case6 : lq (match (spec (tree2)) with
+| Tuple2 a _ -> a) (match (spec (tree3)) with
+| Tuple2 a _ -> a) = true
+Case7 : lq (nat1) (match (spec (tree2)) with
+| Tuple2 _ b -> b) = true
+Case8 : lq (nat1) (match (spec (tree3)) with
+| Tuple2 a _ -> a) = true
+---------------------------------------
+Tuple2 (if true then match (spec (tree3)) with
+| Tuple2 a _ -> a else match (spec (tree2)) with
+| Tuple2 a _ -> a) (nat1) = Tuple2 (tmax (tree2)) (tmax (tree3))
+
+8 goal(s) more...
+
+0 conjecture(s) more...
+>>> simpl in goal(rank : 11.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : spec (target (tree2)) = Tuple2 (match (targetNew (tree2)) with
+| Tuple2 a _ -> a) (match (targetNew (tree2)) with
+| Tuple2 _ b -> b)
+IH2 : spec (target (tree3)) = Tuple2 (match (targetNew (tree3)) with
+| Tuple2 a _ -> a) (match (targetNew (tree3)) with
+| Tuple2 _ b -> b)
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : geq (nat1) (tmax (tree2)) = true
+Case2 : leq (nat1) (tmax (tree3)) = true
+Case3 : isbst (tree2) = true
+Case4 : isbst (tree3) = true
+Case5 : lq (match (spec (tree2)) with
+| Tuple2 _ b -> b) (match (spec (tree3)) with
+| Tuple2 _ b -> b) = true
+Case6 : lq (match (spec (tree2)) with
+| Tuple2 a _ -> a) (match (spec (tree3)) with
+| Tuple2 a _ -> a) = true
+Case7 : lq (nat1) (match (spec (tree2)) with
+| Tuple2 _ b -> b) = true
+Case8 : lq (nat1) (match (spec (tree3)) with
+| Tuple2 a _ -> a) = true
+---------------------------------------
+Tuple2 (match (spec (tree3)) with
+| Tuple2 a _ -> a) (nat1) = Tuple2 (tmax (tree2)) (tmax (tree3))
+
+8 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+case geq (nat1) (tmax (tree2))
+case leq (nat1) (tmax (tree3))
+case isbst (tree2)
+case isbst (tree3)
+case lq (match (spec (tree2)) with
+| Tuple2 _ b -> b) (match (spec (tree3)) with
+| Tuple2 _ b -> b)
+case lq (match (spec (tree2)) with
+| Tuple2 a _ -> a) (match (spec (tree3)) with
+| Tuple2 a _ -> a)
+rewrite <- Case6 in goal at 1
+case lq (nat1) (match (spec (tree2)) with
+| Tuple2 _ b -> b)
+case lq (nat1) (match (spec (tree3)) with
+| Tuple2 a _ -> a)
+rewrite Case6 in goal at 0
+simpl in goal
+validate generalize_common_subterm_goal
+Prop: Tuple2 (match (spec (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO))))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Node (SUCC (ZERO)) (Node (ZERO) (Leaf (ZERO)) (Leaf (ZERO))) (Node (ZERO) (Leaf (SUCC (SUCC (ZERO)))) (Leaf (ZERO)))))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (ZERO) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+Prop: Tuple2 (match (spec (Leaf (ZERO))) with
+| Tuple2 a _ -> a) (SUCC (ZERO)) = Tuple2 (tmax (Leaf (ZERO))) (tmax (Leaf (ZERO)))
+=================================================
+Progress: 525
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : spec (target (tree2)) = Tuple2 (match (targetNew (tree2)) with
+| Tuple2 a _ -> a) (match (targetNew (tree2)) with
+| Tuple2 _ b -> b)
+IH2 : spec (target (tree3)) = Tuple2 (match (targetNew (tree3)) with
+| Tuple2 a _ -> a) (match (targetNew (tree3)) with
+| Tuple2 _ b -> b)
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : geq (nat1) (tmax (tree2)) = true
+Case2 : leq (nat1) (tmax (tree3)) = true
+Case3 : isbst (tree2) = true
+Case4 : isbst (tree3) = true
+Case5 : lq (match (spec (tree2)) with
+| Tuple2 _ b -> b) (match (spec (tree3)) with
+| Tuple2 _ b -> b) = true
+Case6 : lq (match (spec (tree2)) with
+| Tuple2 a _ -> a) (match (spec (tree3)) with
+| Tuple2 a _ -> a) = true
+Case7 : lq (nat1) (match (spec (tree2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+Tuple2 (if lq (nat1) (match (spec (tree3)) with
+| Tuple2 a _ -> a) then if lq (match (spec (tree2)) with
+| Tuple2 a _ -> a) (match (spec (tree3)) with
+| Tuple2 a _ -> a) then match (spec (tree3)) with
+| Tuple2 a _ -> a else match (spec (tree2)) with
+| Tuple2 a _ -> a else nat1) (nat1) = Tuple2 (tmax (tree2)) (tmax (tree3))
+
+7 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite Case6 in goal at 0(rank : 18.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : spec (target (tree2)) = Tuple2 (match (targetNew (tree2)) with
+| Tuple2 a _ -> a) (match (targetNew (tree2)) with
+| Tuple2 _ b -> b)
+IH2 : spec (target (tree3)) = Tuple2 (match (targetNew (tree3)) with
+| Tuple2 a _ -> a) (match (targetNew (tree3)) with
+| Tuple2 _ b -> b)
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : geq (nat1) (tmax (tree2)) = true
+Case2 : leq (nat1) (tmax (tree3)) = true
+Case3 : isbst (tree2) = true
+Case4 : isbst (tree3) = true
+Case5 : lq (match (spec (tree2)) with
+| Tuple2 _ b -> b) (match (spec (tree3)) with
+| Tuple2 _ b -> b) = true
+Case6 : lq (match (spec (tree2)) with
+| Tuple2 a _ -> a) (match (spec (tree3)) with
+| Tuple2 a _ -> a) = true
+Case7 : lq (nat1) (match (spec (tree2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+Tuple2 (if lq (nat1) (match (spec (tree3)) with
+| Tuple2 a _ -> a) then if true then match (spec (tree3)) with
+| Tuple2 a _ -> a else match (spec (tree2)) with
+| Tuple2 a _ -> a else nat1) (nat1) = Tuple2 (tmax (tree2)) (tmax (tree3))
+
+7 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 6
+rewrite <- Case1 in goal at 0(rank:26.)
+rewrite <- Case3 in goal at 0(rank:26.)
+rewrite <- Case4 in goal at 0(rank:26.)
+rewrite <- Case5 in goal at 0(rank:26.)
+rewrite <- Case7 in goal at 0(rank:26.)
+rewrite <- Case2 in goal at 0(rank:26.)
+=================================================
+Progress: 526
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : spec (target (tree2)) = Tuple2 (match (targetNew (tree2)) with
+| Tuple2 a _ -> a) (match (targetNew (tree2)) with
+| Tuple2 _ b -> b)
+IH2 : spec (target (tree3)) = Tuple2 (match (targetNew (tree3)) with
+| Tuple2 a _ -> a) (match (targetNew (tree3)) with
+| Tuple2 _ b -> b)
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : geq (nat1) (tmax (tree2)) = true
+Case2 : leq (nat1) (tmax (tree3)) = true
+Case3 : isbst (tree2) = true
+Case4 : isbst (tree3) = true
+Case5 : lq (match (spec (tree2)) with
+| Tuple2 _ b -> b) (match (spec (tree3)) with
+| Tuple2 _ b -> b) = true
+Case6 : lq (match (spec (tree2)) with
+| Tuple2 a _ -> a) (match (spec (tree3)) with
+| Tuple2 a _ -> a) = true
+---------------------------------------
+Tuple2 (if lq (nat1) (match (spec (tree3)) with
+| Tuple2 a _ -> a) then if true then match (spec (tree3)) with
+| Tuple2 a _ -> a else match (spec (tree2)) with
+| Tuple2 a _ -> a else nat1) (if lq (nat1) (match (spec (tree2)) with
+| Tuple2 _ b -> b) then nat1 else if true then match (spec (tree2)) with
+| Tuple2 _ b -> b else match (spec (tree3)) with
+| Tuple2 _ b -> b) = Tuple2 (tmax (tree2)) (tmax (tree3))
+
+6 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite <- Case6 in goal at 2(rank : 25.)
+
+
+1st goal of : forall (tree1:tree), main (tree1) = mainNew (tree1)
+tree1 : tree
+nat1 : nat
+tree2 : tree
+tree3 : tree
+IH1 : spec (target (tree2)) = Tuple2 (match (targetNew (tree2)) with
+| Tuple2 a _ -> a) (match (targetNew (tree2)) with
+| Tuple2 _ b -> b)
+IH2 : spec (target (tree3)) = Tuple2 (match (targetNew (tree3)) with
+| Tuple2 a _ -> a) (match (targetNew (tree3)) with
+| Tuple2 _ b -> b)
+Inductive1 : tree1 = Node (nat1) (tree2) (tree3)
+Case1 : geq (nat1) (tmax (tree2)) = true
+Case2 : leq (nat1) (tmax (tree3)) = true
+Case3 : isbst (tree2) = true
+Case4 : isbst (tree3) = true
+Case5 : lq (match (spec (tree2)) with
+| Tuple2 _ b -> b) (match (spec (tree3)) with
+| Tuple2 _ b -> b) = true
+Case6 : lq (match (spec (tree2)) with
+| Tuple2 a _ -> a) (match (spec (tree3)) with
+| Tuple2 a _ -> a) = true
+---------------------------------------
+Tuple2 (if lq (nat1) (match (spec (tree3)) with
+| Tuple2 a _ -> a) then if true then match (spec (tree3)) with
+| Tuple2 a _ -> a else match (spec (tree2)) with
+| Tuple2 a _ -> a else nat1) (if lq (nat1) (match (spec (tree2)) with
+| Tuple2 _ b -> b) then nat1 else if lq (match (spec (tree2)) with
+| Tuple2 a _ -> a) (match (spec (tree3)) with
+| Tuple2 a _ -> a) then match (spec (tree2)) with
+| Tuple2 _ b -> b else match (spec (tree3)) with
+| Tuple2 _ b -> b) = Tuple2 (tmax (tree2)) (tmax (tree3))
+
+6 goal(s) more...
 
 0 conjecture(s) more...

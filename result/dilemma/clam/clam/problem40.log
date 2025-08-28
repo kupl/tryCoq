@@ -354,17 +354,17 @@ rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 0
 intro any_list1
 rewrite IH1 in goal at 1
-Prop: (qrevaflat (Leaf) ((1::(Nil))) @ (4::(Nil))) = (revflat (Leaf) @ (1::((Nil) @ (4::(Nil)))))
-Prop: (qrevaflat (Node (Leaf) (8) (Leaf)) ((2::(7::(Nil)))) @ (Nil)) = (revflat (Node (Leaf) (8) (Leaf)) @ (2::((7::(Nil)) @ (Nil))))
-Prop: (qrevaflat (Node (Leaf) (7) (Leaf)) ((7::(Nil))) @ (2::(Nil))) = (revflat (Node (Leaf) (7) (Leaf)) @ (7::((Nil) @ (2::(Nil)))))
+Prop: (qrevaflat (Leaf) ((2::(Nil))) @ (Nil)) = (revflat (Leaf) @ (2::((Nil) @ (Nil))))
+Prop: (qrevaflat (Leaf) ((4::(Nil))) @ (7::(8::(0::(Nil))))) = (revflat (Leaf) @ (4::((Nil) @ (7::(8::(0::(Nil)))))))
+Prop: (qrevaflat (Leaf) ((5::(Nil))) @ (Nil)) = (revflat (Leaf) @ (5::((Nil) @ (Nil))))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 0
 intro any_list1
-Prop: (((Nil) @ (7::(5::(Nil)))) @ (Nil)) = ((Nil) @ (7::((5::(Nil)) @ (Nil))))
-Prop: (((Nil) @ (2::(Nil))) @ (Nil)) = ((Nil) @ (2::((Nil) @ (Nil))))
-Prop: (((Nil) @ (6::(1::(Nil)))) @ (Nil)) = ((Nil) @ (6::((1::(Nil)) @ (Nil))))
+Prop: (((4::(Nil)) @ (0::(Nil))) @ (0::(Nil))) = ((4::(Nil)) @ (0::((Nil) @ (0::(Nil)))))
+Prop: (((Nil) @ (5::(2::(Nil)))) @ (Nil)) = ((Nil) @ (5::((2::(Nil)) @ (Nil))))
+Prop: (((Nil) @ (3::(4::(7::(Nil))))) @ (Nil)) = ((Nil) @ (3::((4::(7::(Nil))) @ (Nil))))
 Lemma List
 forall (any1:any) (any_list1:any list) (any_list2:any list) (any_list3:any list), ((any_list2 @ (any1::any_list3)) @ any_list1) = (any_list2 @ (any1::(any_list3 @ any_list1)))
 End of Lemma List
@@ -1457,16 +1457,16 @@ simpl in goal
 intro any_list1
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: (qrevaflat (Leaf) ((3::qrevaflat (Node (Leaf) (4) (Leaf)) ((1::(Nil))))) @ (Nil)) = ((qrevaflat (Leaf) ((3::(Nil))) @ revflat (Node (Leaf) (4) (Leaf))) @ (1::(Nil)))
-Prop: (qrevaflat (Node (Leaf) (0) (Leaf)) ((5::qrevaflat (Node (Node (Leaf) (5) (Leaf)) (0) (Leaf)) ((4::(Nil))))) @ (8::(Nil))) = ((qrevaflat (Node (Leaf) (0) (Leaf)) ((5::(Nil))) @ revflat (Node (Node (Leaf) (5) (Leaf)) (0) (Leaf))) @ (4::(8::(Nil))))
-Prop: (qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((1::(Nil))))) @ (6::(0::(5::(0::(Nil)))))) = ((qrevaflat (Leaf) ((0::(Nil))) @ revflat (Leaf)) @ (1::(6::(0::(5::(0::(Nil)))))))
+Prop: (qrevaflat (Leaf) ((5::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil)) = ((qrevaflat (Leaf) ((5::(Nil))) @ revflat (Leaf)) @ (0::(Nil)))
+Prop: (qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((3::(Nil))))) @ (0::(2::(5::(Nil))))) = ((qrevaflat (Leaf) ((0::(Nil))) @ revflat (Leaf)) @ (3::(0::(2::(5::(Nil))))))
+Prop: (qrevaflat (Leaf) ((0::qrevaflat (Node (Leaf) (4) (Leaf)) ((6::(Nil))))) @ (Nil)) = ((qrevaflat (Leaf) ((0::(Nil))) @ revflat (Node (Leaf) (4) (Leaf))) @ (6::(Nil)))
 previous tactics
 simpl in goal
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: (qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((5::(Nil))))) @ (Nil)) = ((revflat (Leaf) @ (0::revflat (Leaf))) @ (5::(Nil)))
-Prop: (qrevaflat (Node (Leaf) (2) (Node (Node (Leaf) (5) (Node (Node (Leaf) (4) (Leaf)) (3) (Leaf))) (7) (Leaf))) ((6::qrevaflat (Leaf) ((4::(Nil))))) @ (Nil)) = ((revflat (Node (Leaf) (2) (Node (Node (Leaf) (5) (Node (Node (Leaf) (4) (Leaf)) (3) (Leaf))) (7) (Leaf))) @ (6::revflat (Leaf))) @ (4::(Nil)))
-Prop: (qrevaflat (Leaf) ((7::qrevaflat (Leaf) ((4::(Nil))))) @ (Nil)) = ((revflat (Leaf) @ (7::revflat (Leaf))) @ (4::(Nil)))
+Prop: (qrevaflat (Node (Leaf) (6) (Leaf)) ((3::qrevaflat (Node (Leaf) (6) (Leaf)) ((8::(Nil))))) @ (Nil)) = ((revflat (Node (Leaf) (6) (Leaf)) @ (3::revflat (Node (Leaf) (6) (Leaf)))) @ (8::(Nil)))
+Prop: (qrevaflat (Leaf) ((8::qrevaflat (Leaf) ((0::(Nil))))) @ (5::(Nil))) = ((revflat (Leaf) @ (8::revflat (Leaf))) @ (0::(5::(Nil))))
+Prop: (qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil)) = ((revflat (Leaf) @ (0::revflat (Leaf))) @ (0::(Nil)))
 Lemma List
 forall (any1:any) (any2:any) (any_list1:any list) (any_tree1:any tree) (any_tree2:any tree), (qrevaflat (any_tree1) ((any2::qrevaflat (any_tree2) ((any1::(Nil))))) @ any_list1) = ((revflat (any_tree1) @ (any2::revflat (any_tree2))) @ (any1::any_list1))
 End of Lemma List
@@ -1629,17 +1629,17 @@ intro any1
 intro any_list1
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: (qrevaflat (Node (Leaf) (3) (Leaf)) ((0::qrevaflat (Node (Node (Leaf) (1) (Node (Leaf) (6) (Node (Leaf) (8) (Leaf)))) (3) (Node (Leaf) (5) (Node (Leaf) (8) (Leaf)))) ((4::(Nil))))) @ (Nil)) = ((qrevaflat (Node (Leaf) (3) (Leaf)) ((0::(Nil))) @ revflat (Node (Node (Leaf) (1) (Node (Leaf) (6) (Node (Leaf) (8) (Leaf)))) (3) (Node (Leaf) (5) (Node (Leaf) (8) (Leaf))))) @ (4::(Nil)))
-Prop: (qrevaflat (Node (Leaf) (3) (Node (Node (Leaf) (0) (Node (Leaf) (4) (Node (Leaf) (2) (Leaf)))) (5) (Leaf))) ((0::qrevaflat (Node (Leaf) (8) (Leaf)) ((2::(Nil))))) @ (7::(Nil))) = ((qrevaflat (Node (Leaf) (3) (Node (Node (Leaf) (0) (Node (Leaf) (4) (Node (Leaf) (2) (Leaf)))) (5) (Leaf))) ((0::(Nil))) @ revflat (Node (Leaf) (8) (Leaf))) @ (2::(7::(Nil))))
-Prop: (qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((8::(Nil))))) @ (Nil)) = ((qrevaflat (Leaf) ((0::(Nil))) @ revflat (Leaf)) @ (8::(Nil)))
+Prop: (qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((1::(Nil))))) @ (Nil)) = ((qrevaflat (Leaf) ((0::(Nil))) @ revflat (Leaf)) @ (1::(Nil)))
+Prop: (qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil)) = ((qrevaflat (Leaf) ((0::(Nil))) @ revflat (Leaf)) @ (0::(Nil)))
+Prop: (qrevaflat (Leaf) ((7::qrevaflat (Node (Leaf) (1) (Node (Leaf) (0) (Node (Leaf) (0) (Leaf)))) ((4::(Nil))))) @ (Nil)) = ((qrevaflat (Leaf) ((7::(Nil))) @ revflat (Node (Leaf) (1) (Node (Leaf) (0) (Node (Leaf) (0) (Leaf))))) @ (4::(Nil)))
 previous tactics
 simpl in goal
 intro any1
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: (qrevaflat (Leaf) ((8::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil)) = ((revflat (Leaf) @ (8::revflat (Leaf))) @ (0::(Nil)))
-Prop: (qrevaflat (Leaf) ((8::qrevaflat (Leaf) ((7::(Nil))))) @ (Nil)) = ((revflat (Leaf) @ (8::revflat (Leaf))) @ (7::(Nil)))
-Prop: (qrevaflat (Leaf) ((6::qrevaflat (Leaf) ((4::(Nil))))) @ (Nil)) = ((revflat (Leaf) @ (6::revflat (Leaf))) @ (4::(Nil)))
+Prop: (qrevaflat (Leaf) ((8::qrevaflat (Node (Leaf) (0) (Leaf)) ((8::(Nil))))) @ (3::(Nil))) = ((revflat (Leaf) @ (8::revflat (Node (Leaf) (0) (Leaf)))) @ (8::(3::(Nil))))
+Prop: (qrevaflat (Node (Leaf) (3) (Leaf)) ((2::qrevaflat (Leaf) ((5::(Nil))))) @ (Nil)) = ((revflat (Node (Leaf) (3) (Leaf)) @ (2::revflat (Leaf))) @ (5::(Nil)))
+Prop: (qrevaflat (Leaf) ((4::qrevaflat (Leaf) ((7::(Nil))))) @ (Nil)) = ((revflat (Leaf) @ (4::revflat (Leaf))) @ (7::(Nil)))
 =================================================
 Progress: 41
 
@@ -1985,9 +1985,9 @@ previous tactics
 simpl in goal
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: (0::(qrevaflat (Node (Leaf) (8) (Node (Leaf) (4) (Leaf))) ((0::qrevaflat (Node (Leaf) (0) (Node (Leaf) (1) (Node (Leaf) (1) (Leaf)))) ((6::(Nil))))) @ (2::(6::(Nil))))) = (0::((revflat (Node (Leaf) (8) (Node (Leaf) (4) (Leaf))) @ (0::revflat (Node (Leaf) (0) (Node (Leaf) (1) (Node (Leaf) (1) (Leaf)))))) @ (6::(2::(6::(Nil))))))
-Prop: (3::(qrevaflat (Leaf) ((6::qrevaflat (Leaf) ((4::(Nil))))) @ (Nil))) = (3::((revflat (Leaf) @ (6::revflat (Leaf))) @ (4::(Nil))))
-Prop: (6::(qrevaflat (Node (Leaf) (0) (Leaf)) ((0::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil))) = (6::((revflat (Node (Leaf) (0) (Leaf)) @ (0::revflat (Leaf))) @ (0::(Nil))))
+Prop: (5::(qrevaflat (Node (Leaf) (6) (Node (Node (Node (Leaf) (1) (Leaf)) (1) (Leaf)) (6) (Node (Leaf) (5) (Leaf)))) ((3::qrevaflat (Node (Leaf) (6) (Node (Leaf) (6) (Node (Leaf) (2) (Leaf)))) ((1::(Nil))))) @ (Nil))) = (5::((revflat (Node (Leaf) (6) (Node (Node (Node (Leaf) (1) (Leaf)) (1) (Leaf)) (6) (Node (Leaf) (5) (Leaf)))) @ (3::revflat (Node (Leaf) (6) (Node (Leaf) (6) (Node (Leaf) (2) (Leaf)))))) @ (1::(Nil))))
+Prop: (0::(qrevaflat (Leaf) ((2::qrevaflat (Leaf) ((8::(Nil))))) @ (Nil))) = (0::((revflat (Leaf) @ (2::revflat (Leaf))) @ (8::(Nil))))
+Prop: (1::(qrevaflat (Leaf) ((3::qrevaflat (Node (Leaf) (7) (Leaf)) ((8::(Nil))))) @ (Nil))) = (1::((revflat (Leaf) @ (3::revflat (Node (Leaf) (7) (Leaf)))) @ (8::(Nil))))
 Lemma List
 forall (any1:any) (any2:any) (any3:any) (any_list1:any list) (any_tree1:any tree) (any_tree2:any tree), (any2::(qrevaflat (any_tree1) ((any3::qrevaflat (any_tree2) ((any1::(Nil))))) @ any_list1)) = (any2::((revflat (any_tree1) @ (any3::revflat (any_tree2))) @ (any1::any_list1)))
 End of Lemma List
@@ -2136,9 +2136,9 @@ simpl in goal
 intro any1
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: (5::(qrevaflat (Leaf) ((1::qrevaflat (Leaf) ((7::(Nil))))) @ (Nil))) = (5::((revflat (Leaf) @ (1::revflat (Leaf))) @ (7::(Nil))))
-Prop: (6::(qrevaflat (Leaf) ((5::qrevaflat (Leaf) ((1::(Nil))))) @ (Nil))) = (6::((revflat (Leaf) @ (5::revflat (Leaf))) @ (1::(Nil))))
-Prop: (3::(qrevaflat (Leaf) ((3::qrevaflat (Leaf) ((3::(Nil))))) @ (Nil))) = (3::((revflat (Leaf) @ (3::revflat (Leaf))) @ (3::(Nil))))
+Prop: (5::(qrevaflat (Leaf) ((7::qrevaflat (Leaf) ((5::(Nil))))) @ (Nil))) = (5::((revflat (Leaf) @ (7::revflat (Leaf))) @ (5::(Nil))))
+Prop: (8::(qrevaflat (Leaf) ((4::qrevaflat (Node (Node (Leaf) (3) (Node (Node (Leaf) (0) (Leaf)) (3) (Leaf))) (0) (Node (Leaf) (4) (Leaf))) ((5::(Nil))))) @ (Nil))) = (8::((revflat (Leaf) @ (4::revflat (Node (Node (Leaf) (3) (Node (Node (Leaf) (0) (Leaf)) (3) (Leaf))) (0) (Node (Leaf) (4) (Leaf))))) @ (5::(Nil))))
+Prop: (0::(qrevaflat (Leaf) ((0::qrevaflat (Node (Leaf) (6) (Leaf)) ((3::(Nil))))) @ (Nil))) = (0::((revflat (Leaf) @ (0::revflat (Node (Leaf) (6) (Leaf)))) @ (3::(Nil))))
 =================================================
 Progress: 54
 
@@ -2187,9 +2187,9 @@ simpl in goal
 intro any2
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: (2::(qrevaflat (Node (Leaf) (3) (Leaf)) ((5::qrevaflat (Node (Node (Leaf) (5) (Leaf)) (7) (Leaf)) ((1::(Nil))))) @ (3::(Nil)))) = (2::((revflat (Node (Leaf) (3) (Leaf)) @ (5::revflat (Node (Node (Leaf) (5) (Leaf)) (7) (Leaf)))) @ (1::(3::(Nil)))))
-Prop: (3::(qrevaflat (Node (Leaf) (7) (Node (Node (Leaf) (0) (Leaf)) (2) (Leaf))) ((6::qrevaflat (Leaf) ((6::(Nil))))) @ (Nil))) = (3::((revflat (Node (Leaf) (7) (Node (Node (Leaf) (0) (Leaf)) (2) (Leaf))) @ (6::revflat (Leaf))) @ (6::(Nil))))
-Prop: (2::(qrevaflat (Leaf) ((7::qrevaflat (Leaf) ((2::(Nil))))) @ (Nil))) = (2::((revflat (Leaf) @ (7::revflat (Leaf))) @ (2::(Nil))))
+Prop: (0::(qrevaflat (Leaf) ((6::qrevaflat (Leaf) ((8::(Nil))))) @ (6::(Nil)))) = (0::((revflat (Leaf) @ (6::revflat (Leaf))) @ (8::(6::(Nil)))))
+Prop: (2::(qrevaflat (Leaf) ((2::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil))) = (2::((revflat (Leaf) @ (2::revflat (Leaf))) @ (0::(Nil))))
+Prop: (5::(qrevaflat (Node (Leaf) (5) (Node (Leaf) (0) (Leaf))) ((6::qrevaflat (Leaf) ((6::(Nil))))) @ (Nil))) = (5::((revflat (Node (Leaf) (5) (Node (Leaf) (0) (Leaf))) @ (6::revflat (Leaf))) @ (6::(Nil))))
 =================================================
 Progress: 55
 
@@ -2241,9 +2241,9 @@ intro any1
 intro any2
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: (6::(qrevaflat (Leaf) ((0::qrevaflat (Node (Leaf) (3) (Leaf)) ((6::(Nil))))) @ (Nil))) = (6::((revflat (Leaf) @ (0::revflat (Node (Leaf) (3) (Leaf)))) @ (6::(Nil))))
-Prop: (8::(qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((1::(Nil))))) @ (Nil))) = (8::((revflat (Leaf) @ (0::revflat (Leaf))) @ (1::(Nil))))
-Prop: (2::(qrevaflat (Leaf) ((2::qrevaflat (Node (Leaf) (6) (Leaf)) ((2::(Nil))))) @ (Nil))) = (2::((revflat (Leaf) @ (2::revflat (Node (Leaf) (6) (Leaf)))) @ (2::(Nil))))
+Prop: (2::(qrevaflat (Leaf) ((6::qrevaflat (Node (Leaf) (4) (Node (Node (Node (Leaf) (2) (Leaf)) (0) (Node (Leaf) (1) (Node (Leaf) (8) (Leaf)))) (6) (Leaf))) ((8::(Nil))))) @ (Nil))) = (2::((revflat (Leaf) @ (6::revflat (Node (Leaf) (4) (Node (Node (Node (Leaf) (2) (Leaf)) (0) (Node (Leaf) (1) (Node (Leaf) (8) (Leaf)))) (6) (Leaf))))) @ (8::(Nil))))
+Prop: (1::(qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil))) = (1::((revflat (Leaf) @ (0::revflat (Leaf))) @ (0::(Nil))))
+Prop: (0::(qrevaflat (Node (Leaf) (1) (Leaf)) ((2::qrevaflat (Leaf) ((4::(Nil))))) @ (Nil))) = (0::((revflat (Node (Leaf) (1) (Leaf)) @ (2::revflat (Leaf))) @ (4::(Nil))))
 =================================================
 Progress: 56
 
@@ -2483,9 +2483,9 @@ previous tactics
 simpl in goal
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: (6::(qrevaflat (Leaf) ((4::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil))) = (6::((revflat (Leaf) @ (4::revflat (Leaf))) @ (0::(Nil))))
-Prop: (4::(qrevaflat (Leaf) ((8::qrevaflat (Leaf) ((0::(Nil))))) @ (7::(Nil)))) = (4::((revflat (Leaf) @ (8::revflat (Leaf))) @ (0::(7::(Nil)))))
-Prop: (7::(qrevaflat (Leaf) ((0::qrevaflat (Node (Leaf) (2) (Leaf)) ((0::(Nil))))) @ (Nil))) = (7::((revflat (Leaf) @ (0::revflat (Node (Leaf) (2) (Leaf)))) @ (0::(Nil))))
+Prop: (8::(qrevaflat (Node (Leaf) (0) (Node (Leaf) (8) (Leaf))) ((2::qrevaflat (Leaf) ((4::(Nil))))) @ (Nil))) = (8::((revflat (Node (Leaf) (0) (Node (Leaf) (8) (Leaf))) @ (2::revflat (Leaf))) @ (4::(Nil))))
+Prop: (0::(qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((6::(Nil))))) @ (2::(Nil)))) = (0::((revflat (Leaf) @ (0::revflat (Leaf))) @ (6::(2::(Nil)))))
+Prop: (5::(qrevaflat (Leaf) ((6::qrevaflat (Leaf) ((0::(Nil))))) @ (8::(Nil)))) = (5::((revflat (Leaf) @ (6::revflat (Leaf))) @ (0::(8::(Nil)))))
 Lemma List
 forall (any1:any) (any2:any) (any3:any) (any_list1:any list) (any_tree1:any tree) (any_tree2:any tree), (any2::(qrevaflat (any_tree1) ((any3::qrevaflat (any_tree2) ((any1::(Nil))))) @ any_list1)) = (any2::((revflat (any_tree1) @ (any3::revflat (any_tree2))) @ (any1::any_list1)))
 End of Lemma List
@@ -2634,9 +2634,9 @@ simpl in goal
 intro any1
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: (5::(qrevaflat (Leaf) ((3::qrevaflat (Leaf) ((4::(Nil))))) @ (Nil))) = (5::((revflat (Leaf) @ (3::revflat (Leaf))) @ (4::(Nil))))
-Prop: (2::(qrevaflat (Leaf) ((2::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil))) = (2::((revflat (Leaf) @ (2::revflat (Leaf))) @ (0::(Nil))))
-Prop: (5::(qrevaflat (Leaf) ((7::qrevaflat (Node (Node (Leaf) (0) (Node (Leaf) (7) (Leaf))) (5) (Leaf)) ((2::(Nil))))) @ (Nil))) = (5::((revflat (Leaf) @ (7::revflat (Node (Node (Leaf) (0) (Node (Leaf) (7) (Leaf))) (5) (Leaf)))) @ (2::(Nil))))
+Prop: (5::(qrevaflat (Leaf) ((3::qrevaflat (Leaf) ((0::(Nil))))) @ (5::(0::(Nil))))) = (5::((revflat (Leaf) @ (3::revflat (Leaf))) @ (0::(5::(0::(Nil))))))
+Prop: (0::(qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((2::(Nil))))) @ (2::(Nil)))) = (0::((revflat (Leaf) @ (0::revflat (Leaf))) @ (2::(2::(Nil)))))
+Prop: (6::(qrevaflat (Leaf) ((1::qrevaflat (Leaf) ((5::(Nil))))) @ (Nil))) = (6::((revflat (Leaf) @ (1::revflat (Leaf))) @ (5::(Nil))))
 =================================================
 Progress: 65
 
@@ -2685,9 +2685,9 @@ simpl in goal
 intro any2
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: (1::(qrevaflat (Leaf) ((4::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil))) = (1::((revflat (Leaf) @ (4::revflat (Leaf))) @ (0::(Nil))))
-Prop: (3::(qrevaflat (Leaf) ((6::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil))) = (3::((revflat (Leaf) @ (6::revflat (Leaf))) @ (0::(Nil))))
-Prop: (4::(qrevaflat (Node (Node (Leaf) (2) (Leaf)) (8) (Node (Leaf) (7) (Leaf))) ((8::qrevaflat (Leaf) ((5::(Nil))))) @ (Nil))) = (4::((revflat (Node (Node (Leaf) (2) (Leaf)) (8) (Node (Leaf) (7) (Leaf))) @ (8::revflat (Leaf))) @ (5::(Nil))))
+Prop: (8::(qrevaflat (Node (Node (Leaf) (8) (Node (Node (Node (Node (Node (Leaf) (8) (Leaf)) (1) (Leaf)) (8) (Node (Leaf) (7) (Leaf))) (3) (Node (Leaf) (0) (Node (Leaf) (0) (Leaf)))) (6) (Leaf))) (2) (Leaf)) ((5::qrevaflat (Node (Leaf) (6) (Leaf)) ((0::(Nil))))) @ (Nil))) = (8::((revflat (Node (Node (Leaf) (8) (Node (Node (Node (Node (Node (Leaf) (8) (Leaf)) (1) (Leaf)) (8) (Node (Leaf) (7) (Leaf))) (3) (Node (Leaf) (0) (Node (Leaf) (0) (Leaf)))) (6) (Leaf))) (2) (Leaf)) @ (5::revflat (Node (Leaf) (6) (Leaf)))) @ (0::(Nil))))
+Prop: (0::(qrevaflat (Node (Node (Leaf) (1) (Leaf)) (3) (Leaf)) ((0::qrevaflat (Leaf) ((2::(Nil))))) @ (8::(0::(Nil))))) = (0::((revflat (Node (Node (Leaf) (1) (Leaf)) (3) (Leaf)) @ (0::revflat (Leaf))) @ (2::(8::(0::(Nil))))))
+Prop: (1::(qrevaflat (Leaf) ((2::qrevaflat (Leaf) ((2::(Nil))))) @ (8::(Nil)))) = (1::((revflat (Leaf) @ (2::revflat (Leaf))) @ (2::(8::(Nil)))))
 =================================================
 Progress: 66
 
@@ -2739,9 +2739,9 @@ intro any1
 intro any2
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: (6::(qrevaflat (Leaf) ((3::qrevaflat (Leaf) ((3::(Nil))))) @ (0::(2::(1::(Nil)))))) = (6::((revflat (Leaf) @ (3::revflat (Leaf))) @ (3::(0::(2::(1::(Nil)))))))
-Prop: (6::(qrevaflat (Leaf) ((0::qrevaflat (Node (Leaf) (7) (Leaf)) ((7::(Nil))))) @ (Nil))) = (6::((revflat (Leaf) @ (0::revflat (Node (Leaf) (7) (Leaf)))) @ (7::(Nil))))
-Prop: (1::(qrevaflat (Leaf) ((2::qrevaflat (Leaf) ((4::(Nil))))) @ (Nil))) = (1::((revflat (Leaf) @ (2::revflat (Leaf))) @ (4::(Nil))))
+Prop: (4::(qrevaflat (Node (Leaf) (0) (Node (Leaf) (7) (Leaf))) ((5::qrevaflat (Leaf) ((0::(Nil))))) @ (Nil))) = (4::((revflat (Node (Leaf) (0) (Node (Leaf) (7) (Leaf))) @ (5::revflat (Leaf))) @ (0::(Nil))))
+Prop: (1::(qrevaflat (Leaf) ((1::qrevaflat (Leaf) ((2::(Nil))))) @ (Nil))) = (1::((revflat (Leaf) @ (1::revflat (Leaf))) @ (2::(Nil))))
+Prop: (5::(qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((7::(Nil))))) @ (6::(Nil)))) = (5::((revflat (Leaf) @ (0::revflat (Leaf))) @ (7::(6::(Nil)))))
 =================================================
 Progress: 67
 
@@ -2927,9 +2927,9 @@ remove upper
 qrevaflat(any_tree6, Cons(any3, @(@(@(revflat(any_tree7), Cons(any2, revflat(any_tree5))), Cons(any1, revflat(any_tree3))), any_list1)))
 remove lower
 qrevaflat(any_tree6, Cons(any3, @(@(@(revflat(any_tree7), Cons(any2, revflat(any_tree5))), Cons(any1, revflat(any_tree3))), any_list1)))
-Prop: ((revflat (Leaf) @ (1::(Nil))) @ (0::(Nil))) = qrevaflat (Leaf) ((1::((Nil) @ (0::(Nil)))))
-Prop: ((revflat (Node (Leaf) (0) (Leaf)) @ (5::(Nil))) @ (Nil)) = qrevaflat (Node (Leaf) (0) (Leaf)) ((5::((Nil) @ (Nil))))
-Prop: ((revflat (Leaf) @ (6::(7::(Nil)))) @ (Nil)) = qrevaflat (Leaf) ((6::((7::(Nil)) @ (Nil))))
+Prop: ((revflat (Leaf) @ (5::(2::(7::(Nil))))) @ (Nil)) = qrevaflat (Leaf) ((5::((2::(7::(Nil))) @ (Nil))))
+Prop: ((revflat (Leaf) @ (7::(Nil))) @ (Nil)) = qrevaflat (Leaf) ((7::((Nil) @ (Nil))))
+Prop: ((revflat (Leaf) @ (0::(6::(Nil)))) @ (Nil)) = qrevaflat (Leaf) ((0::((6::(Nil)) @ (Nil))))
 previous tactics
 simpl in goal
 parent
@@ -2973,9 +2973,9 @@ qrevaflat(any_tree6, Cons(any3, qrevaflat(any_tree7, Cons(any2, qrevaflat(any_tr
 remove lower
 qrevaflat(any_tree6, Cons(any3, qrevaflat(any_tree7, Cons(any2, qrevaflat(any_tree5, Cons(any1, qrevaflat(any_tree3, any_list1)))))))
 validate generalize_common_subterm_goal
-Prop: ((revflat (Leaf) @ (0::revflat (Leaf))) @ (Nil)) = qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((Nil))))
-Prop: ((revflat (Leaf) @ (1::revflat (Node (Leaf) (5) (Leaf)))) @ (Nil)) = qrevaflat (Leaf) ((1::qrevaflat (Node (Leaf) (5) (Leaf)) ((Nil))))
-Prop: ((revflat (Leaf) @ (1::revflat (Node (Leaf) (1) (Leaf)))) @ (0::(Nil))) = qrevaflat (Leaf) ((1::qrevaflat (Node (Leaf) (1) (Leaf)) ((0::(Nil)))))
+Prop: ((revflat (Leaf) @ (2::revflat (Leaf))) @ (5::(Nil))) = qrevaflat (Leaf) ((2::qrevaflat (Leaf) ((5::(Nil)))))
+Prop: ((revflat (Node (Leaf) (2) (Leaf)) @ (4::revflat (Leaf))) @ (Nil)) = qrevaflat (Node (Leaf) (2) (Leaf)) ((4::qrevaflat (Leaf) ((Nil))))
+Prop: ((revflat (Node (Leaf) (0) (Node (Leaf) (7) (Leaf))) @ (7::revflat (Leaf))) @ (Nil)) = qrevaflat (Node (Leaf) (0) (Node (Leaf) (7) (Leaf))) ((7::qrevaflat (Leaf) ((Nil))))
 Lemma List
 forall (any1:any) (any_list1:any list) (any_tree1:any tree) (any_list2:any list), ((revflat (any_tree1) @ (any1::any_list2)) @ any_list1) = qrevaflat (any_tree1) ((any1::(any_list2 @ any_list1)))
 End of Lemma List
@@ -3403,16 +3403,16 @@ previous tactics
 simpl in goal
 intro any_list1
 rewrite <- IH1 in goal at 0
-Prop: (((Nil) @ (3::revflat (Node (Node (Leaf) (5) (Leaf)) (8) (Leaf)))) @ (Nil)) = ((Nil) @ (3::qrevaflat (Node (Node (Leaf) (5) (Leaf)) (8) (Leaf)) ((Nil))))
-Prop: (((Nil) @ (3::revflat (Node (Node (Node (Leaf) (0) (Node (Leaf) (6) (Node (Leaf) (1) (Node (Leaf) (5) (Leaf))))) (6) (Leaf)) (7) (Node (Node (Leaf) (0) (Leaf)) (2) (Node (Leaf) (8) (Leaf)))))) @ (1::(Nil))) = ((Nil) @ (3::qrevaflat (Node (Node (Node (Leaf) (0) (Node (Leaf) (6) (Node (Leaf) (1) (Node (Leaf) (5) (Leaf))))) (6) (Leaf)) (7) (Node (Node (Leaf) (0) (Leaf)) (2) (Node (Leaf) (8) (Leaf)))) ((1::(Nil)))))
-Prop: (((Nil) @ (4::revflat (Node (Leaf) (4) (Leaf)))) @ (Nil)) = ((Nil) @ (4::qrevaflat (Node (Leaf) (4) (Leaf)) ((Nil))))
+Prop: (((Nil) @ (6::revflat (Node (Node (Node (Leaf) (6) (Node (Node (Leaf) (6) (Leaf)) (1) (Leaf))) (1) (Node (Node (Leaf) (8) (Leaf)) (8) (Leaf))) (7) (Leaf)))) @ (1::(Nil))) = ((Nil) @ (6::qrevaflat (Node (Node (Node (Leaf) (6) (Node (Node (Leaf) (6) (Leaf)) (1) (Leaf))) (1) (Node (Node (Leaf) (8) (Leaf)) (8) (Leaf))) (7) (Leaf)) ((1::(Nil)))))
+Prop: (((Nil) @ (6::revflat (Node (Leaf) (2) (Leaf)))) @ (Nil)) = ((Nil) @ (6::qrevaflat (Node (Leaf) (2) (Leaf)) ((Nil))))
+Prop: (((Nil) @ (0::revflat (Node (Node (Node (Node (Leaf) (5) (Leaf)) (3) (Leaf)) (5) (Leaf)) (3) (Leaf)))) @ (Nil)) = ((Nil) @ (0::qrevaflat (Node (Node (Node (Node (Leaf) (5) (Leaf)) (3) (Leaf)) (5) (Leaf)) (3) (Leaf)) ((Nil))))
 previous tactics
 simpl in goal
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: ((revflat (Leaf) @ (7::revflat (Leaf))) @ (Nil)) = qrevaflat (Leaf) ((7::qrevaflat (Leaf) ((Nil))))
-Prop: ((revflat (Node (Leaf) (6) (Leaf)) @ (5::revflat (Node (Leaf) (6) (Leaf)))) @ (6::(0::(Nil)))) = qrevaflat (Node (Leaf) (6) (Leaf)) ((5::qrevaflat (Node (Leaf) (6) (Leaf)) ((6::(0::(Nil))))))
-Prop: ((revflat (Leaf) @ (7::revflat (Node (Node (Leaf) (4) (Leaf)) (5) (Leaf)))) @ (Nil)) = qrevaflat (Leaf) ((7::qrevaflat (Node (Node (Leaf) (4) (Leaf)) (5) (Leaf)) ((Nil))))
+Prop: ((revflat (Leaf) @ (4::revflat (Leaf))) @ (3::(1::(7::(Nil))))) = qrevaflat (Leaf) ((4::qrevaflat (Leaf) ((3::(1::(7::(Nil)))))))
+Prop: ((revflat (Node (Node (Leaf) (0) (Leaf)) (0) (Leaf)) @ (2::revflat (Leaf))) @ (Nil)) = qrevaflat (Node (Node (Leaf) (0) (Leaf)) (0) (Leaf)) ((2::qrevaflat (Leaf) ((Nil))))
+Prop: ((revflat (Node (Node (Leaf) (0) (Node (Leaf) (5) (Leaf))) (5) (Leaf)) @ (0::revflat (Leaf))) @ (Nil)) = qrevaflat (Node (Node (Leaf) (0) (Node (Leaf) (5) (Leaf))) (5) (Leaf)) ((0::qrevaflat (Leaf) ((Nil))))
 Lemma List
 forall (any1:any) (any_list1:any list) (any_tree1:any tree) (any_list2:any list), ((any_list2 @ (any1::revflat (any_tree1))) @ any_list1) = (any_list2 @ (any1::qrevaflat (any_tree1) (any_list1)))
 End of Lemma List
@@ -3802,16 +3802,16 @@ previous tactics
 simpl in goal
 intro any_list1
 rewrite <- IH2 in goal at 0
-Prop: ((revflat (Leaf) @ (0::(0::(Nil)))) @ (Nil)) = qrevaflat (Leaf) ((0::((0::(Nil)) @ (Nil))))
-Prop: ((revflat (Leaf) @ (0::(Nil))) @ (0::(Nil))) = qrevaflat (Leaf) ((0::((Nil) @ (0::(Nil)))))
-Prop: ((revflat (Leaf) @ (3::(Nil))) @ (Nil)) = qrevaflat (Leaf) ((3::((Nil) @ (Nil))))
+Prop: ((revflat (Node (Leaf) (5) (Leaf)) @ (2::(Nil))) @ (Nil)) = qrevaflat (Node (Leaf) (5) (Leaf)) ((2::((Nil) @ (Nil))))
+Prop: ((revflat (Node (Leaf) (2) (Leaf)) @ (6::(7::(0::(Nil))))) @ (Nil)) = qrevaflat (Node (Leaf) (2) (Leaf)) ((6::((7::(0::(Nil))) @ (Nil))))
+Prop: ((revflat (Leaf) @ (1::(Nil))) @ (1::(Nil))) = qrevaflat (Leaf) ((1::((Nil) @ (1::(Nil)))))
 previous tactics
 simpl in goal
 intro any_list1
 validate generalize_common_subterm_goal
-Prop: ((revflat (Node (Leaf) (3) (Leaf)) @ (0::revflat (Node (Leaf) (7) (Leaf)))) @ (Nil)) = qrevaflat (Node (Leaf) (3) (Leaf)) ((0::qrevaflat (Node (Leaf) (7) (Leaf)) ((Nil))))
-Prop: ((revflat (Leaf) @ (5::revflat (Node (Leaf) (0) (Leaf)))) @ (1::(6::(Nil)))) = qrevaflat (Leaf) ((5::qrevaflat (Node (Leaf) (0) (Leaf)) ((1::(6::(Nil))))))
-Prop: ((revflat (Leaf) @ (1::revflat (Leaf))) @ (Nil)) = qrevaflat (Leaf) ((1::qrevaflat (Leaf) ((Nil))))
+Prop: ((revflat (Leaf) @ (4::revflat (Node (Leaf) (3) (Leaf)))) @ (Nil)) = qrevaflat (Leaf) ((4::qrevaflat (Node (Leaf) (3) (Leaf)) ((Nil))))
+Prop: ((revflat (Leaf) @ (5::revflat (Node (Node (Leaf) (7) (Node (Leaf) (3) (Leaf))) (0) (Leaf)))) @ (Nil)) = qrevaflat (Leaf) ((5::qrevaflat (Node (Node (Leaf) (7) (Node (Leaf) (3) (Leaf))) (0) (Leaf)) ((Nil))))
+Prop: ((revflat (Node (Leaf) (0) (Leaf)) @ (1::revflat (Leaf))) @ (Nil)) = qrevaflat (Node (Leaf) (0) (Leaf)) ((1::qrevaflat (Leaf) ((Nil))))
 =================================================
 Progress: 93
 
@@ -3853,15 +3853,15 @@ simpl in goal
 rewrite IH1 in goal at 0
 rewrite <- IH2 in goal at 0
 Prop: (qrevaflat (Leaf) ((5::(Nil))) @ (Nil)) = qrevaflat (Leaf) ((5::((Nil) @ (Nil))))
-Prop: (qrevaflat (Leaf) ((7::(0::(Nil)))) @ (Nil)) = qrevaflat (Leaf) ((7::((0::(Nil)) @ (Nil))))
-Prop: (qrevaflat (Leaf) ((2::(Nil))) @ (6::(Nil))) = qrevaflat (Leaf) ((2::((Nil) @ (6::(Nil)))))
+Prop: (qrevaflat (Leaf) ((8::(2::(Nil)))) @ (Nil)) = qrevaflat (Leaf) ((8::((2::(Nil)) @ (Nil))))
+Prop: (qrevaflat (Leaf) ((4::(Nil))) @ (Nil)) = qrevaflat (Leaf) ((4::((Nil) @ (Nil))))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: (qrevaflat (Leaf) ((0::revflat (Leaf))) @ (Nil)) = qrevaflat (Leaf) ((0::qrevaflat (Leaf) ((Nil))))
-Prop: (qrevaflat (Leaf) ((7::revflat (Leaf))) @ (Nil)) = qrevaflat (Leaf) ((7::qrevaflat (Leaf) ((Nil))))
-Prop: (qrevaflat (Leaf) ((2::revflat (Node (Leaf) (6) (Leaf)))) @ (2::(Nil))) = qrevaflat (Leaf) ((2::qrevaflat (Node (Leaf) (6) (Leaf)) ((2::(Nil)))))
+Prop: (qrevaflat (Leaf) ((8::revflat (Node (Leaf) (8) (Leaf)))) @ (Nil)) = qrevaflat (Leaf) ((8::qrevaflat (Node (Leaf) (8) (Leaf)) ((Nil))))
+Prop: (qrevaflat (Leaf) ((1::revflat (Leaf))) @ (0::(Nil))) = qrevaflat (Leaf) ((1::qrevaflat (Leaf) ((0::(Nil)))))
+Prop: (qrevaflat (Leaf) ((5::revflat (Node (Leaf) (2) (Leaf)))) @ (6::(0::(6::(Nil))))) = qrevaflat (Leaf) ((5::qrevaflat (Node (Leaf) (2) (Leaf)) ((6::(0::(6::(Nil)))))))
 previous tactics
 simpl in goal
 parent
@@ -3905,9 +3905,9 @@ qrevaflat(any_tree6, Cons(any3, qrevaflat(any_tree7, Cons(any2, qrevaflat(any_tr
 remove lower
 qrevaflat(any_tree6, Cons(any3, qrevaflat(any_tree7, Cons(any2, qrevaflat(any_tree5, Cons(any1, qrevaflat(any_tree3, any_list1)))))))
 validate generalize_common_subterm_goal
-Prop: ((revflat (Leaf) @ (0::revflat (Node (Node (Leaf) (4) (Leaf)) (4) (Node (Node (Leaf) (5) (Node (Leaf) (8) (Leaf))) (6) (Leaf))))) @ (6::(Nil))) = qrevaflat (Leaf) ((0::qrevaflat (Node (Node (Leaf) (4) (Leaf)) (4) (Node (Node (Leaf) (5) (Node (Leaf) (8) (Leaf))) (6) (Leaf))) ((6::(Nil)))))
-Prop: ((revflat (Node (Leaf) (0) (Leaf)) @ (7::revflat (Leaf))) @ (Nil)) = qrevaflat (Node (Leaf) (0) (Leaf)) ((7::qrevaflat (Leaf) ((Nil))))
-Prop: ((revflat (Node (Leaf) (5) (Leaf)) @ (4::revflat (Leaf))) @ (8::(6::(1::(Nil))))) = qrevaflat (Node (Leaf) (5) (Leaf)) ((4::qrevaflat (Leaf) ((8::(6::(1::(Nil)))))))
+Prop: ((revflat (Node (Leaf) (0) (Node (Node (Leaf) (8) (Node (Leaf) (4) (Leaf))) (7) (Leaf))) @ (0::revflat (Leaf))) @ (6::(6::(1::(Nil))))) = qrevaflat (Node (Leaf) (0) (Node (Node (Leaf) (8) (Node (Leaf) (4) (Leaf))) (7) (Leaf))) ((0::qrevaflat (Leaf) ((6::(6::(1::(Nil)))))))
+Prop: ((revflat (Leaf) @ (4::revflat (Leaf))) @ (Nil)) = qrevaflat (Leaf) ((4::qrevaflat (Leaf) ((Nil))))
+Prop: ((revflat (Leaf) @ (3::revflat (Leaf))) @ (2::(8::(Nil)))) = qrevaflat (Leaf) ((3::qrevaflat (Leaf) ((2::(8::(Nil))))))
 Lemma List
 forall (any1:any) (any_list1:any list) (any_tree1:any tree) (any_list2:any list), (qrevaflat (any_tree1) ((any1::any_list2)) @ any_list1) = qrevaflat (any_tree1) ((any1::(any_list2 @ any_list1)))
 End of Lemma List

@@ -138,9 +138,9 @@ loop(int1, _)
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: max_ta1 ((0::(-0::(Nil)))) = loop (0) ((-0::(Nil)))
-Prop: max_ta1 ((0::(-0::(Nil)))) = loop (0) ((-0::(Nil)))
-Prop: max_ta1 ((-0::(Nil))) = loop (-0) ((Nil))
+Prop: max_ta1 ((0::(Nil))) = loop (0) ((Nil))
+Prop: max_ta1 ((0::(Nil))) = loop (0) ((Nil))
+Prop: max_ta1 ((-1::(Nil))) = loop (-1) ((Nil))
 Lemma List
 forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
 End of Lemma List
@@ -657,7 +657,7 @@ case match (loop (int1) (int_list2), int2) with
 validate generalize_common_subterm_goal
 Prop: 0 = 0
 Prop: 0 = 0
-Prop: 0 = -0
+Prop: 0 = 3
 asdf
 =================================================
 Progress: 13
@@ -759,8 +759,8 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = -0
-Prop: 0 = -0
-Prop: 0 = -1
+Prop: 4 = 0
+Prop: 1 = 0
 asdf
 =================================================
 Progress: 14
@@ -1122,8 +1122,8 @@ case match (loop (int1) (int_list2), int2) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
+Prop: 0 = -0
 Prop: 0 = 0
-Prop: -0 = 0
 asdf
 =================================================
 Progress: 18
@@ -1225,9 +1225,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 1
-Prop: -0 = 0
-Prop: 0 = 2
+Prop: 0 = 0
+Prop: 0 = 0
+Prop: 0 = -1
 asdf
 =================================================
 Progress: 19
@@ -1588,9 +1588,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
+Prop: 0 = -0
+Prop: -2 = -0
 Prop: 0 = 0
-Prop: -0 = 0
 asdf
 =================================================
 Progress: 23
@@ -1692,180 +1692,12 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = -0
-Prop: -0 = -0
-Prop: -0 = -0
-Lemma List
-forall (int1:int) (int2:int), int1 = int2
-End of Lemma List
-
-
-1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
-int_list1 : int list
-int2 : int
-int_list2 : int list
-IH1 : forall (int1:int), max_ta1 ((int1::int_list2)) = loop (int1) (int_list2)
-Inductive1 : int_list1 = (int2::int_list2)
-int1 : int
-Case1 : match (loop (int1) (int_list2), int2) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case2 : match (loop (int2) (int_list2), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-int1 = int2
-
-2 goal(s) more...
-
-1 conjecture(s) more...
-=================================================
-Progress: 24
-
-
-1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
-int_list1 : int list
-int2 : int
-int_list2 : int list
-IH1 : forall (int1:int), max_ta1 ((int1::int_list2)) = loop (int1) (int_list2)
-Inductive1 : int_list1 = (int2::int_list2)
-int1 : int
-Case1 : match (loop (int1) (int_list2), int2) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
-Case2 : match (loop (int2) (int_list2), int1) with
-| (Zero, Pos _) -> true
-| (Zero, _) -> false
-| (Neg _, Zero) -> true
-| (_, Zero) -> false
-| (Pos n1', Pos n2') -> less_than (n1') (n2')
-| (Neg n1', Neg n2') -> less_than (n2') (n1')
-| (Pos n1', Neg n2') -> false
-| (Neg n1', Pos n2') -> true = true
----------------------------------------
-int1 = int2
-
-2 goal(s) more...
-
-1 conjecture(s) more...
->>> assert forall (int1:int) (int2:int), int1 = int2(rank : 0.)
-
-
-1st goal of : forall (int1:int) (int2:int), int1 = int2
-
----------------------------------------
-forall (int1:int) (int2:int), int1 = int2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 2
-intro int1(rank:7.)
-intro int2(rank:7.)
-=================================================
-Progress: 25
-
-
-1st goal of : forall (int1:int) (int2:int), int1 = int2
-
----------------------------------------
-forall (int1:int) (int2:int), int1 = int2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro int1(rank : 7.)
-
-
-1st goal of : forall (int1:int) (int2:int), int1 = int2
-int1 : int
----------------------------------------
-forall (int2:int), int1 = int2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 1
-intro int2(rank:7.)
-=================================================
-Progress: 26
-
-
-1st goal of : forall (int1:int) (int2:int), int1 = int2
-
----------------------------------------
-forall (int1:int) (int2:int), int1 = int2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro int2(rank : 7.)
-
-
-1st goal of : forall (int1:int) (int2:int), int1 = int2
-int2 : int
----------------------------------------
-forall (int1:int), int1 = int2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
 Prop: 0 = 0
-Prop: 0 = 0
-Prop: 0 = -0
-asdf
-=================================================
-Progress: 27
-
-
-1st goal of : forall (int1:int) (int2:int), int1 = int2
-int1 : int
----------------------------------------
-forall (int2:int), int1 = int2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
->>> intro int2(rank : 7.)
-
-
-1st goal of : forall (int1:int) (int2:int), int1 = int2
-int1 : int
-int2 : int
----------------------------------------
-int1 = int2
-
-0 goal(s) more...
-
-2 conjecture(s) more...
-Tactic List : 0
-validate generalize_common_subterm_goal
 Prop: 0 = 0
 Prop: -0 = 0
-Prop: 0 = -0
 asdf
 =================================================
-Progress: 28
+Progress: 24
 
 
 1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
@@ -1951,7 +1783,7 @@ case match (loop (int1) (int_list2), int2) with
 rewrite <- IH1 in goal at 2(rank:13.)
 rewrite <- IH1 in goal at 3(rank:21.)
 =================================================
-Progress: 29
+Progress: 25
 
 
 1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
@@ -2038,7 +1870,7 @@ rewrite <- IH1 in goal at 2(rank:22.)
 rewrite <- IH1 in goal at 0(rank:22.)
 rewrite <- IH1 in goal at 1(rank:22.)
 =================================================
-Progress: 30
+Progress: 26
 
 
 1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
@@ -2124,7 +1956,7 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 rewrite IH1 in goal at 0(rank:14.)
 rewrite <- IH1 in goal at 0(rank:22.)
 =================================================
-Progress: 31
+Progress: 27
 
 
 1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
@@ -2223,12 +2055,12 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
 Prop: -1 = 0
-Prop: 1 = 0
+Prop: -0 = 0
+Prop: -0 = 0
 asdf
 =================================================
-Progress: 32
+Progress: 28
 
 
 1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
@@ -2327,12 +2159,12 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: 0 = -0
+Prop: 0 = -3
 Prop: 0 = 0
 asdf
 =================================================
-Progress: 33
+Progress: 29
 
 
 1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
@@ -2418,7 +2250,7 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 rewrite IH1 in goal at 1(rank:21.)
 rewrite IH1 in goal at 2(rank:21.)
 =================================================
-Progress: 34
+Progress: 30
 
 
 1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
@@ -2505,7 +2337,7 @@ rewrite IH1 in goal at 2(rank:14.)
 rewrite IH1 in goal at 0(rank:14.)
 rewrite IH1 in goal at 1(rank:14.)
 =================================================
-Progress: 35
+Progress: 31
 
 
 1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
@@ -2592,7 +2424,7 @@ rewrite IH1 in goal at 2(rank:14.)
 rewrite IH1 in goal at 0(rank:14.)
 rewrite IH1 in goal at 1(rank:14.)
 =================================================
-Progress: 36
+Progress: 32
 
 
 1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
@@ -2691,12 +2523,12 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = -0
-Prop: 0 = -1
+Prop: 0 = -0
+Prop: 0 = -0
 Prop: -0 = 0
 asdf
 =================================================
-Progress: 37
+Progress: 33
 
 
 1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
@@ -2795,9 +2627,177 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
+Prop: 0 = 0
+Prop: 0 = 0
+Prop: -0 = -0
+Lemma List
+forall (int1:int) (int2:int), int1 = int2
+End of Lemma List
+
+
+1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), max_ta1 ((int1::int_list2)) = loop (int1) (int_list2)
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+Case1 : match (max_ta1 ((int1::int_list2)), int2) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+Case2 : match (max_ta1 ((int2::int_list2)), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+int1 = int2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+=================================================
+Progress: 34
+
+
+1st goal of : forall (int1:int) (int_list1:int list), max_ta1 ((int1::int_list1)) = loop (int1) (int_list1)
+int_list1 : int list
+int2 : int
+int_list2 : int list
+IH1 : forall (int1:int), max_ta1 ((int1::int_list2)) = loop (int1) (int_list2)
+Inductive1 : int_list1 = (int2::int_list2)
+int1 : int
+Case1 : match (max_ta1 ((int1::int_list2)), int2) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+Case2 : match (max_ta1 ((int2::int_list2)), int1) with
+| (Zero, Pos _) -> true
+| (Zero, _) -> false
+| (Neg _, Zero) -> true
+| (_, Zero) -> false
+| (Pos n1', Pos n2') -> less_than (n1') (n2')
+| (Neg n1', Neg n2') -> less_than (n2') (n1')
+| (Pos n1', Neg n2') -> false
+| (Neg n1', Pos n2') -> true = true
+---------------------------------------
+int1 = int2
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> assert forall (int1:int) (int2:int), int1 = int2(rank : 0.)
+
+
+1st goal of : forall (int1:int) (int2:int), int1 = int2
+
+---------------------------------------
+forall (int1:int) (int2:int), int1 = int2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 2
+intro int1(rank:7.)
+intro int2(rank:7.)
+=================================================
+Progress: 35
+
+
+1st goal of : forall (int1:int) (int2:int), int1 = int2
+
+---------------------------------------
+forall (int1:int) (int2:int), int1 = int2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro int1(rank : 7.)
+
+
+1st goal of : forall (int1:int) (int2:int), int1 = int2
+int1 : int
+---------------------------------------
+forall (int2:int), int1 = int2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 1
+intro int2(rank:7.)
+=================================================
+Progress: 36
+
+
+1st goal of : forall (int1:int) (int2:int), int1 = int2
+
+---------------------------------------
+forall (int1:int) (int2:int), int1 = int2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro int2(rank : 7.)
+
+
+1st goal of : forall (int1:int) (int2:int), int1 = int2
+int2 : int
+---------------------------------------
+forall (int1:int), int1 = int2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
+Prop: -1 = 0
+Prop: 0 = -1
+Prop: 0 = 0
+asdf
+=================================================
+Progress: 37
+
+
+1st goal of : forall (int1:int) (int2:int), int1 = int2
+int1 : int
+---------------------------------------
+forall (int2:int), int1 = int2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+>>> intro int2(rank : 7.)
+
+
+1st goal of : forall (int1:int) (int2:int), int1 = int2
+int1 : int
+int2 : int
+---------------------------------------
+int1 = int2
+
+0 goal(s) more...
+
+2 conjecture(s) more...
+Tactic List : 0
+validate generalize_common_subterm_goal
 Prop: 0 = -0
 Prop: 0 = 0
+Prop: 1 = -0
 asdf
 =================================================
 Progress: 38
@@ -3158,7 +3158,7 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 validate generalize_common_subterm_goal
 Prop: 0 = 0
 Prop: 0 = 0
-Prop: -0 = 0
+Prop: 0 = -0
 asdf
 =================================================
 Progress: 42
@@ -3260,9 +3260,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
-Prop: -0 = 0
-Prop: -0 = 0
+Prop: 0 = -0
+Prop: 0 = 0
+Prop: 0 = -0
 asdf
 =================================================
 Progress: 43
@@ -3621,8 +3621,8 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = -0
-Prop: 0 = -0
+Prop: 0 = 0
+Prop: -0 = 0
 Prop: -0 = 0
 asdf
 =================================================
@@ -3725,7 +3725,7 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
+Prop: 0 = -0
 Prop: 0 = 0
 Prop: 0 = 0
 asdf
@@ -4086,9 +4086,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: 0 = 0
 Prop: 0 = -0
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: -0 = -0
 asdf
 =================================================
 Progress: 52
@@ -4191,9 +4191,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 1
-Prop: 0 = 0
+Prop: -2 = 0
 Prop: -0 = 0
+Prop: -0 = -0
 asdf
 =================================================
 Progress: 53
@@ -4552,9 +4552,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: -0 = 0
+Prop: 0 = 0
 Prop: 0 = -0
-Prop: -0 = 1
-Prop: -1 = 0
 asdf
 =================================================
 Progress: 57
@@ -4657,9 +4657,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
-Prop: 2 = 0
-Prop: 0 = 0
+Prop: 0 = -0
+Prop: 1 = 0
+Prop: 0 = -0
 asdf
 =================================================
 Progress: 58
@@ -4838,8 +4838,8 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: 0 = -0
+Prop: -2 = -0
 Prop: 0 = -0
 asdf
 =================================================
@@ -5019,9 +5019,10 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = -0
+Prop: 0 = -0
+Prop: 0 = -0
 Prop: 0 = 0
-Prop: 0 = 0
+asdf
 =================================================
 Progress: 62
 
@@ -5199,9 +5200,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: 0 = 1
+Prop: -0 = 0
+Prop: 1 = 0
 asdf
 =================================================
 Progress: 64
@@ -5381,9 +5382,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
-Prop: 0 = 0
-Prop: 0 = -1
+Prop: -0 = -0
+Prop: 0 = -0
+Prop: -0 = -0
 asdf
 =================================================
 Progress: 66
@@ -5563,8 +5564,8 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
 Prop: 0 = 0
+Prop: 0 = -0
 Prop: 0 = 0
 asdf
 =================================================
@@ -5745,9 +5746,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 1
-Prop: -0 = -0
 Prop: 0 = -0
+Prop: 0 = -0
+Prop: 2 = -0
 asdf
 =================================================
 Progress: 70
@@ -5928,8 +5929,8 @@ case match (loop (int1) (int_list2), int2) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
-Prop: 0 = -0
 Prop: 0 = 0
+Prop: 0 = -0
 asdf
 =================================================
 Progress: 72
@@ -6109,8 +6110,8 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
-Prop: -0 = 0
+Prop: 0 = 0
+Prop: 0 = 0
 Prop: 0 = 0
 asdf
 =================================================
@@ -6291,9 +6292,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: -0 = -0
 Prop: 0 = 0
 Prop: 0 = -0
-Prop: 0 = 0
 asdf
 =================================================
 Progress: 76
@@ -6473,9 +6474,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
 Prop: 0 = 0
-Prop: 0 = -0
+Prop: -0 = 0
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 78
@@ -6655,8 +6656,8 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
-Prop: 0 = 0
+Prop: -0 = 0
+Prop: -0 = 0
 Prop: -0 = 0
 asdf
 =================================================
@@ -6837,8 +6838,8 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -2
 Prop: 0 = -0
+Prop: -0 = 0
 Prop: 0 = 0
 asdf
 =================================================
@@ -7019,8 +7020,8 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: 0 = -0
 Prop: 0 = 0
-Prop: -0 = 0
 Prop: 0 = -0
 asdf
 =================================================
@@ -7201,7 +7202,7 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
+Prop: 0 = -0
 Prop: 0 = -0
 Prop: 0 = 0
 asdf
@@ -7383,9 +7384,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: 0 = -1
 Prop: 0 = 0
 Prop: 0 = -0
-Prop: 0 = 0
 asdf
 =================================================
 Progress: 88
@@ -7565,9 +7566,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = -0
 Prop: 0 = 0
-Prop: 0 = -0
+Prop: -0 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 90
@@ -7747,9 +7748,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
-Prop: -0 = 0
 Prop: 0 = -0
+Prop: 0 = 0
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 92
@@ -7929,7 +7930,7 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
+Prop: -0 = 0
 Prop: 0 = 0
 Prop: 0 = 0
 asdf
@@ -8111,7 +8112,7 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = -0
+Prop: 0 = -1
 Prop: 0 = 0
 Prop: 0 = 0
 asdf
@@ -8294,7 +8295,7 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
+Prop: -0 = 0
 Prop: 0 = 0
 Prop: -0 = 0
 asdf
@@ -8480,7 +8481,6 @@ validate generalize_common_subterm_goal
 Prop: 0 = 0
 Prop: 0 = 0
 Prop: 0 = 0
-asdf
 =================================================
 Progress: 100
 
@@ -8660,9 +8660,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: -0 = 0
 Prop: 0 = 0
-Prop: 1 = 0
-Prop: -0 = -0
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 102
@@ -8844,7 +8844,7 @@ case match (loop (int2) (int_list2), int1) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: -0 = -0
-Prop: 0 = -0
+Prop: -0 = 0
 Prop: 0 = 0
 asdf
 =================================================
@@ -9205,8 +9205,8 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -1 = -0
-Prop: -0 = 0
+Prop: 0 = 0
+Prop: 0 = -0
 Prop: 0 = -0
 asdf
 =================================================
@@ -9310,9 +9310,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
-Prop: -0 = 0
 Prop: 0 = -0
+Prop: 0 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 109
@@ -9493,9 +9493,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
-Prop: -0 = 0
-Prop: -0 = 0
+Prop: 0 = 0
+Prop: 0 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 111
@@ -9855,8 +9855,8 @@ case match (loop (int2) (int_list2), int1) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: 0 = -0
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 115
@@ -9959,8 +9959,8 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
-Prop: -0 = 0
+Prop: -0 = -0
+Prop: 0 = 0
 Prop: 0 = -0
 asdf
 =================================================
@@ -10142,8 +10142,8 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: 0 = -1
 Prop: 0 = 0
-Prop: -0 = -0
 Prop: 0 = -0
 asdf
 =================================================
@@ -10326,8 +10326,8 @@ case match (loop (int1) (int_list2), int2) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
-Prop: -0 = 0
-Prop: -0 = 0
+Prop: 0 = -0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 120
@@ -10686,9 +10686,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
-Prop: 0 = -0
-Prop: -0 = 0
+Prop: 0 = 0
+Prop: 0 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 124
@@ -10791,9 +10791,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
-Prop: 0 = -0
+Prop: -0 = 0
 Prop: 0 = 0
+Prop: 0 = -0
 asdf
 =================================================
 Progress: 125
@@ -10975,7 +10975,7 @@ case match (loop (int1) (int_list2), int2) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
-Prop: 0 = 0
+Prop: 0 = -0
 Prop: -0 = 0
 asdf
 =================================================
@@ -11157,9 +11157,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: 0 = -0
 Prop: 0 = 0
-Prop: 0 = -0
-Prop: 0 = -0
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 129
@@ -11519,9 +11519,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
-Prop: -0 = 0
-Prop: 0 = 0
+Prop: -0 = -0
+Prop: -0 = -0
+Prop: 0 = -0
 asdf
 =================================================
 Progress: 133
@@ -11624,9 +11624,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 1 = 0
+Prop: 0 = -0
+Prop: -0 = 1
 Prop: 0 = 0
-Prop: -0 = 0
 asdf
 =================================================
 Progress: 134
@@ -11808,8 +11808,8 @@ case match (loop (int2) (int_list2), int1) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
-Prop: 0 = 0
-Prop: -0 = -0
+Prop: 0 = -1
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 136
@@ -11990,9 +11990,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
-Prop: -0 = 0
 Prop: 0 = -0
+Prop: 0 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 138
@@ -12173,9 +12173,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: -0 = 2
 Prop: -0 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 140
@@ -12357,8 +12357,8 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: 0 = -0
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 142
@@ -12718,7 +12718,7 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
+Prop: 0 = 0
 Prop: 0 = 0
 Prop: -0 = 0
 asdf
@@ -12823,8 +12823,8 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: -0 = 0
+Prop: 0 = -0
 Prop: 0 = 0
 asdf
 =================================================
@@ -13007,7 +13007,7 @@ case match (loop (int1) (int_list2), int2) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = -0
-Prop: 0 = 0
+Prop: -0 = 0
 Prop: 0 = 0
 asdf
 =================================================
@@ -13189,9 +13189,10 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = -0
+Prop: -0 = 0
 Prop: 0 = 0
 Prop: 0 = 0
+asdf
 =================================================
 Progress: 151
 
@@ -13371,9 +13372,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: 0 = -0
 Prop: 0 = 0
-Prop: -0 = 0
-Prop: -0 = -0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 153
@@ -13554,9 +13555,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
-Prop: -0 = 1
 Prop: 0 = 0
+Prop: 1 = 0
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 155
@@ -13736,8 +13737,8 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
+Prop: 0 = -0
 Prop: -0 = 0
-Prop: 0 = 0
 asdf
 =================================================
 Progress: 157
@@ -13916,9 +13917,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
-Prop: 0 = -0
+Prop: 0 = 0
 Prop: -1 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 159
@@ -14099,7 +14100,7 @@ case match (loop (int1) (int_list2), int2) with
 validate generalize_common_subterm_goal
 Prop: 0 = 0
 Prop: 0 = 0
-Prop: -0 = 0
+Prop: 0 = -0
 asdf
 =================================================
 Progress: 161
@@ -14279,9 +14280,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
-Prop: -1 = 0
 Prop: 0 = -0
+Prop: -0 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 163
@@ -14461,9 +14462,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 1 = -0
 Prop: 0 = 0
 Prop: -0 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 165
@@ -14643,8 +14644,8 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: 1 = 0
 Prop: -0 = -0
-Prop: 0 = -0
 Prop: 0 = 0
 asdf
 =================================================
@@ -14825,8 +14826,8 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
-Prop: 0 = -0
+Prop: 0 = 0
+Prop: 0 = 0
 Prop: 0 = 0
 asdf
 =================================================
@@ -15008,8 +15009,8 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: -0 = 0
-Prop: -0 = 0
 Prop: 0 = 0
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 171
@@ -15189,9 +15190,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 1 = -0
 Prop: 0 = 0
-Prop: 0 = -0
+Prop: 2 = -0
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 173
@@ -15371,8 +15372,8 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
-Prop: 0 = -1
+Prop: 0 = 0
+Prop: 0 = 0
 Prop: 0 = -0
 asdf
 =================================================
@@ -15554,8 +15555,8 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
+Prop: 0 = 0
 Prop: 0 = -0
-Prop: -0 = -0
 asdf
 =================================================
 Progress: 177
@@ -15735,9 +15736,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: 0 = 0
 Prop: -0 = 0
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: -0 = -0
 asdf
 =================================================
 Progress: 179
@@ -15917,9 +15918,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
+Prop: 0 = -0
 Prop: 0 = 0
-Prop: -0 = -0
+Prop: 0 = 2
 asdf
 =================================================
 Progress: 181
@@ -16099,9 +16100,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
+Prop: -0 = -0
+Prop: -1 = 0
 Prop: 0 = 0
-Prop: 0 = -0
 asdf
 =================================================
 Progress: 183
@@ -16282,8 +16283,8 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
+Prop: 0 = -0
 Prop: 0 = 0
-Prop: -0 = 2
 asdf
 =================================================
 Progress: 185
@@ -16463,9 +16464,9 @@ case match (loop (int1) (int_list2), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
-Prop: 0 = -0
 Prop: 0 = 0
+Prop: 0 = 0
+Prop: -0 = -0
 asdf
 =================================================
 Progress: 187
@@ -16645,9 +16646,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = -0
 Prop: 0 = 0
-Prop: 0 = -0
+Prop: -2 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 189
@@ -16827,9 +16828,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
+Prop: -0 = 0
+Prop: -0 = -0
 Prop: 0 = -0
-Prop: 0 = 0
 asdf
 =================================================
 Progress: 191
@@ -17009,7 +17010,7 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
+Prop: -0 = 0
 Prop: 0 = 0
 Prop: 0 = -0
 asdf
@@ -17192,9 +17193,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: 0 = 0
 Prop: 0 = -0
 Prop: 0 = 0
-Prop: -0 = -0
 asdf
 =================================================
 Progress: 195
@@ -17375,8 +17376,8 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = -0
-Prop: 0 = -1
+Prop: 0 = 0
+Prop: -0 = 0
 Prop: -0 = 0
 asdf
 =================================================
@@ -17558,9 +17559,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
-Prop: -0 = 0
-Prop: 1 = 0
+Prop: 0 = -0
+Prop: 0 = 0
+Prop: 0 = -0
 asdf
 =================================================
 Progress: 199
@@ -17741,9 +17742,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
+Prop: 0 = 0
 Prop: 0 = -0
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: -0 = -0
 asdf
 =================================================
 Progress: 201
@@ -17925,8 +17926,8 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
-Prop: -0 = 0
-Prop: 0 = -1
+Prop: -0 = -0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 203
@@ -18107,9 +18108,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -2
-Prop: -0 = -0
-Prop: 0 = -1
+Prop: 0 = -0
+Prop: 0 = 0
+Prop: -0 = 0
 asdf
 =================================================
 Progress: 205
@@ -18290,9 +18291,9 @@ case match (loop (int2) (int_list2), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = -0
-Prop: 1 = 0
 Prop: 0 = -0
+Prop: -0 = 0
+Prop: 0 = 0
 asdf
 =================================================
 Progress: 207
@@ -18473,9 +18474,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
-Prop: 0 = -0
-Prop: -0 = -1
+Prop: 0 = 0
+Prop: 0 = 0
+Prop: -0 = -0
 asdf
 =================================================
 Progress: 209
@@ -18656,9 +18657,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
 Prop: 0 = 0
-Prop: -0 = 0
+Prop: 0 = 0
+Prop: 0 = -0
 asdf
 =================================================
 Progress: 211
@@ -18839,10 +18840,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = -0
-Prop: -0 = 0
 Prop: 0 = 0
-asdf
+Prop: 0 = 0
+Prop: 0 = 0
 =================================================
 Progress: 213
 
@@ -19023,8 +19023,9 @@ case match (max_ta1 ((int1::int_list2)), int2) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: 0 = 0
-Prop: 0 = 0
-Prop: 0 = 0
+Prop: -0 = 0
+Prop: -1 = 0
+asdf
 =================================================
 Progress: 215
 
@@ -19204,9 +19205,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: -0 = 0
 Prop: 0 = -0
 Prop: 0 = 0
+Prop: 0 = -0
 asdf
 =================================================
 Progress: 217
@@ -19388,7 +19389,7 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
 Prop: -0 = 0
-Prop: -0 = 0
+Prop: 0 = 0
 Prop: 0 = -0
 asdf
 =================================================
@@ -19570,9 +19571,9 @@ case match (max_ta1 ((int2::int_list2)), int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: 0 = 0
+Prop: -0 = 0
 Prop: 0 = -0
-Prop: 0 = 0
+Prop: -1 = -3
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
