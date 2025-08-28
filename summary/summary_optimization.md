@@ -9,11 +9,11 @@
 | clist     |         6 |      17 |         7 |      30 |
 | elist     |         0 |       2 |         0 |       2 |
 | treememo  |         1 |       2 |         0 |       3 |
-| bool_list |         1 |       2 |         0 |       3 |
+| bool_list |         0 |       2 |         1 |       3 |
 | nat_list  |         4 |       8 |         8 |      20 |
 | nnf       |         1 |       0 |         0 |       1 |
 | term      |         1 |       0 |         0 |       1 |
 | ulist     |         0 |       3 |         1 |       4 |
 | nlist     |         0 |       2 |         0 |       2 |
-| Total     |        15 |      46 |        35 |      96 |
+| Total     |        14 |      46 |        36 |      96 |
 
