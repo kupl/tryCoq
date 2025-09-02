@@ -171,9 +171,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-Prop: plus (times (ZERO) (ZERO)) (SUCC (SUCC (SUCC (ZERO)))) = plus (SUCC (SUCC (SUCC (ZERO)))) (times (ZERO) (ZERO))
+Prop: plus (times (SUCC (ZERO)) (ZERO)) (ZERO) = plus (ZERO) (times (ZERO) (SUCC (ZERO)))
 Prop: plus (times (ZERO) (ZERO)) (SUCC (ZERO)) = plus (SUCC (ZERO)) (times (ZERO) (ZERO))
-Prop: plus (times (ZERO) (SUCC (ZERO))) (ZERO) = plus (ZERO) (times (SUCC (ZERO)) (ZERO))
+Prop: plus (times (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)) = plus (SUCC (ZERO)) (times (ZERO) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 parent
@@ -204,9 +204,9 @@ remove upper
 times(length(nat_list2), nat1)
 remove lower
 times(length(nat_list2), nat1)
-Prop: plus (times (SUCC (ZERO)) (ZERO)) (spec (repr ((Nil)))) = plus (mainNew ((Nil))) (times (ZERO) (SUCC (ZERO)))
-Prop: plus (times (ZERO) (SUCC (ZERO))) (spec (repr ((SUCC (ZERO)::(Nil))))) = plus (mainNew ((SUCC (ZERO)::(Nil)))) (times (SUCC (ZERO)) (ZERO))
+Prop: plus (times (ZERO) (SUCC (ZERO))) (spec (repr ((Nil)))) = plus (mainNew ((Nil))) (times (SUCC (ZERO)) (ZERO))
 Prop: plus (times (ZERO) (ZERO)) (spec (repr ((ZERO::(Nil))))) = plus (mainNew ((ZERO::(Nil)))) (times (ZERO) (ZERO))
+Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (mainNew ((Nil))) (times (ZERO) (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat_list1:nat list), plus (times (nat2) (nat1)) (spec (repr (nat_list1))) = plus (mainNew (nat_list1)) (times (nat1) (nat2))
 End of Lemma List
@@ -843,9 +843,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: plus (times (SUCC (ZERO)) (ZERO)) (plus (ZERO) (ZERO)) = plus (plus (ZERO) (times (ZERO) (SUCC (ZERO)))) (ZERO)
-Prop: plus (times (SUCC (SUCC (ZERO))) (ZERO)) (plus (SUCC (ZERO)) (ZERO)) = plus (plus (SUCC (ZERO)) (times (ZERO) (SUCC (SUCC (ZERO))))) (ZERO)
-Prop: plus (times (ZERO) (SUCC (ZERO))) (plus (ZERO) (ZERO)) = plus (plus (ZERO) (times (SUCC (ZERO)) (ZERO))) (ZERO)
+Prop: plus (times (ZERO) (SUCC (SUCC (ZERO)))) (plus (ZERO) (ZERO)) = plus (plus (ZERO) (times (SUCC (SUCC (ZERO))) (ZERO))) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (plus (ZERO) (ZERO)) = plus (plus (ZERO) (times (ZERO) (ZERO))) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (plus (ZERO) (ZERO)) = plus (plus (ZERO) (times (ZERO) (ZERO))) (ZERO)
 previous tactics
 simpl in goal
 parent
@@ -876,9 +876,9 @@ remove upper
 times(length(nat_list2), nat3)
 remove lower
 times(length(nat_list2), nat3)
-Prop: plus (times (ZERO) (ZERO)) (spec (repr ((SUCC (ZERO)::(SUCC (ZERO)::(Nil)))))) = plus (plus (mainNew ((SUCC (ZERO)::(SUCC (ZERO)::(Nil))))) (times (ZERO) (ZERO))) (ZERO)
-Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (ZERO) (ZERO))) (ZERO)
-Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (ZERO) (ZERO))) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (spec (repr ((ZERO::(Nil))))) = plus (plus (mainNew ((ZERO::(Nil)))) (times (ZERO) (ZERO))) (ZERO)
+Prop: plus (times (ZERO) (SUCC (ZERO))) (spec (repr ((SUCC (ZERO)::(Nil))))) = plus (plus (mainNew ((SUCC (ZERO)::(Nil)))) (times (SUCC (ZERO)) (ZERO))) (ZERO)
+Prop: plus (times (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) (spec (repr ((ZERO::(Nil))))) = plus (plus (mainNew ((ZERO::(Nil)))) (times (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO)))) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat_list1:nat list), plus (times (nat2) (nat1)) (spec (repr (nat_list1))) = plus (plus (mainNew (nat_list1)) (times (nat1) (nat2))) (ZERO)
 End of Lemma List
@@ -1357,8 +1357,8 @@ plus (times (nat3) (length (nat_list2))) (spec (repr (nat_list2))) = plus (plus 
 Tactic List : 0
 previous tactics
 simpl in goal
-Prop: plus (times (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (ZERO)))) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (SUCC (SUCC (ZERO))) (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (ZERO)
 Prop: plus (times (SUCC (ZERO)) (ZERO)) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (ZERO) (SUCC (ZERO)))) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (ZERO) (ZERO))) (ZERO)
 Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (ZERO) (ZERO))) (ZERO)
 =================================================
 Progress: 39
@@ -1578,7 +1578,7 @@ simpl in goal
 rewrite IH1 in goal at 0
 Prop: plus (times (ZERO) (ZERO)) (plus (ZERO) (ZERO)) = plus (plus (ZERO) (times (ZERO) (ZERO))) (ZERO)
 Prop: plus (times (ZERO) (ZERO)) (plus (ZERO) (ZERO)) = plus (plus (ZERO) (times (ZERO) (ZERO))) (ZERO)
-Prop: plus (times (SUCC (ZERO)) (ZERO)) (plus (ZERO) (ZERO)) = plus (plus (ZERO) (times (ZERO) (SUCC (ZERO)))) (ZERO)
+Prop: plus (times (ZERO) (SUCC (ZERO))) (plus (ZERO) (ZERO)) = plus (plus (ZERO) (times (SUCC (ZERO)) (ZERO))) (ZERO)
 previous tactics
 simpl in goal
 parent
@@ -1609,9 +1609,9 @@ remove upper
 times(length(nat_list2), nat3)
 remove lower
 times(length(nat_list2), nat3)
-Prop: plus (times (ZERO) (SUCC (ZERO))) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (SUCC (ZERO)) (ZERO))) (ZERO)
-Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (spec (repr ((ZERO::(Nil))))) = plus (plus (mainNew ((ZERO::(Nil)))) (times (SUCC (ZERO)) (SUCC (ZERO)))) (ZERO)
-Prop: plus (times (SUCC (ZERO)) (ZERO)) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (ZERO) (SUCC (ZERO)))) (ZERO)
+Prop: plus (times (SUCC (ZERO)) (ZERO)) (spec (repr ((ZERO::(Nil))))) = plus (plus (mainNew ((ZERO::(Nil)))) (times (ZERO) (SUCC (ZERO)))) (ZERO)
+Prop: plus (times (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (SUCC (SUCC (ZERO))) (SUCC (ZERO)))) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (spec (repr ((ZERO::(ZERO::(Nil)))))) = plus (plus (mainNew ((ZERO::(ZERO::(Nil))))) (times (ZERO) (ZERO))) (ZERO)
 =================================================
 Progress: 45
 
@@ -1978,8 +1978,8 @@ plus (times (nat3) (length (nat_list2))) (spec (repr (nat_list2))) = plus (plus 
 Tactic List : 0
 previous tactics
 simpl in goal
-Prop: plus (times (ZERO) (ZERO)) (spec (repr ((ZERO::(Nil))))) = plus (plus (mainNew ((ZERO::(Nil)))) (times (ZERO) (ZERO))) (ZERO)
-Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (ZERO) (ZERO))) (ZERO)
+Prop: plus (times (SUCC (ZERO)) (ZERO)) (spec (repr ((SUCC (SUCC (ZERO))::(ZERO::(Nil)))))) = plus (plus (mainNew ((SUCC (SUCC (ZERO))::(ZERO::(Nil))))) (times (ZERO) (SUCC (ZERO)))) (ZERO)
+Prop: plus (times (ZERO) (SUCC (ZERO))) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (SUCC (ZERO)) (ZERO))) (ZERO)
 Prop: plus (times (SUCC (ZERO)) (ZERO)) (spec (repr ((Nil)))) = plus (plus (mainNew ((Nil))) (times (ZERO) (SUCC (ZERO)))) (ZERO)
 =================================================
 Progress: 55
@@ -2792,15 +2792,15 @@ previous tactics
 simpl in goal
 rewrite <- IH2 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (ZERO)))
 Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO))
+Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (times (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat1) (SUCC (nat2))) (SUCC (nat2))) (ZERO) = plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))
 End of Lemma List
@@ -3877,15 +3877,15 @@ previous tactics
 simpl in goal
 rewrite <- IH2 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO))
 Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
+Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))) (ZERO) = plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat1) (SUCC (nat2))) (SUCC (nat2))) (ZERO) = plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))
 End of Lemma List
@@ -4511,8 +4511,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: ZERO = plus (ZERO) (ZERO)
-Prop: ZERO = plus (ZERO) (ZERO)
+Prop: SUCC (ZERO) = plus (SUCC (ZERO)) (ZERO)
+Prop: SUCC (SUCC (ZERO)) = plus (SUCC (SUCC (ZERO))) (ZERO)
 Prop: ZERO = plus (ZERO) (ZERO)
 Lemma List
 forall (nat1:nat), nat1 = plus (nat1) (ZERO)
@@ -6213,7 +6213,7 @@ previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (ZERO)) (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)))) (ZERO)) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
+Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (ZERO)) (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (ZERO)) (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat), SUCC (plus (plus (nat2) (plus (times (nat2) (nat1)) (nat1))) (ZERO)) = plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))
@@ -6949,9 +6949,9 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO))
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (ZERO)))
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO))
+Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
+Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))
+Prop: plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))) (ZERO) = plus (plus (plus (times (nat2) (nat1)) (nat1)) (ZERO)) (SUCC (nat2))
 End of Lemma List
@@ -7451,8 +7451,8 @@ rewrite <- IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO))
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO))
+Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))) (ZERO) = plus (plus (plus (times (nat2) (nat1)) (nat1)) (ZERO)) (SUCC (nat2))
 End of Lemma List
@@ -7781,7 +7781,7 @@ rewrite <- lemma3 in goal at 0
 validate generalize_common_subterm_goal
 Prop: ZERO = times (ZERO) (ZERO)
 Prop: ZERO = times (ZERO) (ZERO)
-Prop: ZERO = times (SUCC (SUCC (SUCC (SUCC (ZERO))))) (ZERO)
+Prop: ZERO = times (SUCC (SUCC (ZERO))) (ZERO)
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
@@ -8099,13 +8099,13 @@ previous tactics
 simpl in goal
 rewrite <- lemma3 in goal at 0
 validate generalize_common_subterm_goal
-Prop: ZERO = times (SUCC (ZERO)) (ZERO)
 Prop: ZERO = times (ZERO) (ZERO)
-Prop: ZERO = times (SUCC (SUCC (ZERO))) (ZERO)
+Prop: ZERO = times (ZERO) (ZERO)
+Prop: ZERO = times (ZERO) (ZERO)
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
+Prop: ZERO = plus (times (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)
 Prop: ZERO = plus (times (SUCC (ZERO)) (ZERO)) (ZERO)
 Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
 =================================================
@@ -8186,8 +8186,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: ZERO = times (ZERO) (ZERO)
-Prop: ZERO = times (ZERO) (ZERO)
+Prop: ZERO = times (SUCC (ZERO)) (ZERO)
+Prop: ZERO = times (SUCC (ZERO)) (ZERO)
 Prop: ZERO = times (ZERO) (ZERO)
 =================================================
 Progress: 220
@@ -8848,21 +8848,21 @@ simpl in goal
 rewrite <- IH2 in goal at 0
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: SUCC (plus (plus (SUCC (ZERO)) (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)))) (ZERO)) = plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (ZERO)))
-Prop: SUCC (plus (plus (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (plus (times (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (ZERO))) (ZERO)) = plus (plus (plus (times (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (ZERO)) (SUCC (ZERO))
 Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (ZERO)) (ZERO))) (ZERO)) = plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO))
+Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (ZERO)) (ZERO))) (ZERO)) = plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO))
+Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO))))) (ZERO)) = plus (plus (plus (times (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
 previous tactics
 simpl in goal
 rewrite <- IH2 in goal at 0
-Prop: SUCC (plus (plus (ZERO) (plus (SUCC (SUCC (ZERO))) (ZERO))) (ZERO)) = plus (plus (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)) (SUCC (ZERO))
-Prop: SUCC (plus (plus (ZERO) (plus (ZERO) (SUCC (ZERO)))) (ZERO)) = plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
-Prop: SUCC (plus (plus (ZERO) (plus (SUCC (ZERO)) (ZERO))) (ZERO)) = plus (plus (plus (ZERO) (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))
+Prop: SUCC (plus (plus (SUCC (SUCC (ZERO))) (plus (ZERO) (ZERO))) (ZERO)) = plus (plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) (SUCC (ZERO))
+Prop: SUCC (plus (plus (ZERO) (plus (ZERO) (ZERO))) (ZERO)) = plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO))
+Prop: SUCC (plus (plus (SUCC (ZERO)) (plus (ZERO) (ZERO))) (ZERO)) = plus (plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (ZERO)) (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (ZERO)) (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)))) (ZERO)) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
 Prop: SUCC (plus (plus (ZERO) (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO))))) (ZERO)) = plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))
+Prop: SUCC (plus (plus (SUCC (ZERO)) (plus (times (SUCC (ZERO)) (ZERO)) (ZERO))) (ZERO)) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat), SUCC (plus (plus (nat3) (plus (nat1) (nat2))) (ZERO)) = plus (plus (plus (nat3) (nat1)) (ZERO)) (SUCC (nat2))
 End of Lemma List
@@ -9509,7 +9509,7 @@ reflexivity
 simpl in goal
 rewrite <- lemma3 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (times (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = plus (times (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 previous tactics
@@ -9521,8 +9521,8 @@ reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))) (ZERO) = plus (times (nat1) (SUCC (nat2))) (SUCC (nat2))
 End of Lemma List
@@ -10329,7 +10329,7 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 Prop: plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO) = SUCC (plus (SUCC (ZERO)) (ZERO))
-Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (ZERO))
+Prop: plus (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (plus (SUCC (SUCC (ZERO))) (ZERO))
 Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (ZERO))
 previous tactics
 simpl in goal
@@ -10622,7 +10622,7 @@ rewrite <- lhs_lemma3 in goal at 0
 rewrite <- lhs_lemma4 in goal at 0
 validate generalize_common_subterm_goal
 Prop: plus (mk_lhs1 ((Unit::(Nil))) (ZERO)) (ZERO) = SUCC (ZERO)
-Prop: plus (mk_lhs1 ((Unit::(Nil))) (ZERO)) (ZERO) = SUCC (ZERO)
+Prop: plus (mk_lhs1 ((Unit::(Nil))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
 Prop: plus (mk_lhs1 ((Unit::(Nil))) (ZERO)) (ZERO) = SUCC (ZERO)
 previous tactics
 simpl in goal
@@ -10630,7 +10630,7 @@ rewrite <- lhs_lemma3 in goal at 0
 validate generalize_common_subterm_goal
 Prop: plus (plus (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) (ZERO) = SUCC (ZERO)
 Prop: plus (plus (mk_lhs1 ((Nil)) (ZERO)) (SUCC (ZERO))) (ZERO) = SUCC (ZERO)
-Prop: plus (plus (mk_lhs1 ((Nil)) (SUCC (SUCC (ZERO)))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (SUCC (ZERO)))
+Prop: plus (plus (mk_lhs1 ((Nil)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
 previous tactics
 simpl in goal
 New Env
@@ -11126,9 +11126,9 @@ reflexivity
 simpl in goal
 intro nat2
 validate generalize_common_subterm_goal
+Prop: plus (plus (plus (times (SUCC (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (plus (times (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
-Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
-Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
+Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))) (SUCC (nat1))) (ZERO) = plus (plus (plus (plus (times (nat2) (nat1)) (nat1)) (nat1)) (ZERO)) (SUCC (SUCC (nat2)))
 End of Lemma List
@@ -11327,9 +11327,9 @@ SUCC (SUCC (plus (plus (nat3) (SUCC (SUCC (nat3)))) (ZERO))) = SUCC (plus (plus 
 Tactic List : 0
 previous tactics
 simpl in goal
-Prop: SUCC (SUCC (plus (plus (ZERO) (SUCC (ZERO))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))))
-Prop: SUCC (SUCC (plus (plus (ZERO) (SUCC (ZERO))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))))
-Prop: SUCC (SUCC (plus (plus (ZERO) (SUCC (ZERO))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))))
+Prop: SUCC (SUCC (plus (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (ZERO))))
+Prop: SUCC (SUCC (plus (plus (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)) (SUCC (SUCC (ZERO))))
+Prop: SUCC (SUCC (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO))) = SUCC (plus (plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))))
 Lemma List
 forall (nat1:nat) (nat2:nat), SUCC (SUCC (plus (plus (nat2) (SUCC (nat1))) (ZERO))) = SUCC (plus (plus (plus (nat2) (nat1)) (ZERO)) (SUCC (SUCC (ZERO))))
 End of Lemma List
@@ -11872,7 +11872,7 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (ZERO))
 Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (ZERO))
-Prop: plus (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (plus (SUCC (SUCC (ZERO))) (ZERO))
+Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (ZERO))
 previous tactics
 simpl in goal
 =================================================
@@ -12013,9 +12013,9 @@ reflexivity
 simpl in goal
 intro nat2
 validate generalize_common_subterm_goal
-Prop: plus (plus (plus (times (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO) = plus (plus (plus (plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))) (ZERO)) (SUCC (SUCC (ZERO)))
+Prop: plus (plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (ZERO)))
 Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
-Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
+Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
 =================================================
 Progress: 329
 
@@ -12222,9 +12222,9 @@ simpl in goal
 intro nat1
 rewrite <- IH1 in goal at 0
 simpl in goal
-Prop: SUCC (SUCC (plus (plus (ZERO) (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
-Prop: SUCC (SUCC (plus (plus (ZERO) (plus (ZERO) (ZERO))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO)))
-Prop: SUCC (SUCC (plus (plus (ZERO) (plus (ZERO) (SUCC (ZERO)))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))))
+Prop: SUCC (SUCC (plus (plus (ZERO) (plus (SUCC (ZERO)) (SUCC (ZERO)))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (ZERO))))
+Prop: SUCC (SUCC (plus (plus (ZERO) (plus (SUCC (ZERO)) (ZERO))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)))
+Prop: SUCC (SUCC (plus (plus (SUCC (ZERO)) (plus (SUCC (ZERO)) (ZERO))) (ZERO))) = SUCC (plus (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)))
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat), SUCC (SUCC (plus (plus (nat3) (plus (nat1) (nat2))) (ZERO))) = SUCC (plus (plus (plus (nat3) (nat1)) (ZERO)) (SUCC (nat2)))
 End of Lemma List
@@ -12563,9 +12563,9 @@ reflexivity
 simpl in goal
 rewrite <- IH1 in goal at 0
 simpl in goal
-Prop: SUCC (SUCC (plus (plus (SUCC (ZERO)) (plus (ZERO) (ZERO))) (ZERO))) = SUCC (plus (plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO)))
-Prop: SUCC (SUCC (plus (plus (ZERO) (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))
-Prop: SUCC (SUCC (plus (plus (ZERO) (plus (SUCC (SUCC (ZERO))) (ZERO))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)) (SUCC (ZERO)))
+Prop: SUCC (SUCC (plus (plus (ZERO) (plus (ZERO) (ZERO))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO)))
+Prop: SUCC (SUCC (plus (plus (ZERO) (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO)) (SUCC (SUCC (ZERO))))
+Prop: SUCC (SUCC (plus (plus (ZERO) (plus (ZERO) (ZERO))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (ZERO)))
 =================================================
 Progress: 345
 
@@ -12704,9 +12704,9 @@ reflexivity
 simpl in goal
 intro nat1
 validate generalize_common_subterm_goal
+Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
 Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
-Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
-Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
+Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))) (SUCC (nat1))) (ZERO) = plus (plus (plus (plus (times (nat2) (nat1)) (nat1)) (nat1)) (ZERO)) (SUCC (SUCC (nat2)))
 End of Lemma List
@@ -12905,9 +12905,9 @@ SUCC (SUCC (plus (plus (nat3) (SUCC (SUCC (nat3)))) (ZERO))) = SUCC (plus (plus 
 Tactic List : 0
 previous tactics
 simpl in goal
-Prop: SUCC (SUCC (plus (plus (ZERO) (SUCC (ZERO))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))))
-Prop: SUCC (SUCC (plus (plus (ZERO) (SUCC (ZERO))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))))
 Prop: SUCC (SUCC (plus (plus (ZERO) (SUCC (SUCC (ZERO)))) (ZERO))) = SUCC (plus (plus (plus (ZERO) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (ZERO))))
+Prop: SUCC (SUCC (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO))) = SUCC (plus (plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))))
+Prop: SUCC (SUCC (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO))) = SUCC (plus (plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))))
 =================================================
 Progress: 355
 
@@ -13046,9 +13046,9 @@ reflexivity
 simpl in goal
 intro nat1
 validate generalize_common_subterm_goal
-Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
-Prop: plus (plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)) (SUCC (SUCC (ZERO)))
-Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
+Prop: plus (plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
+Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
+Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO)))
 =================================================
 Progress: 359
 
@@ -13804,7 +13804,7 @@ simpl in goal
 rewrite IH1 in goal at 0
 Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
 Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
-Prop: SUCC (SUCC (SUCC (SUCC (ZERO)))) = plus (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))
+Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal
 New Env
@@ -14134,12 +14134,12 @@ rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
 Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))
-Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
+Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 simpl in goal
-Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
+Prop: SUCC (SUCC (SUCC (ZERO))) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
 Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
 Prop: SUCC (SUCC (SUCC (ZERO))) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
 Lemma List
@@ -14315,9 +14315,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: SUCC (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (ZERO))
-Prop: SUCC (SUCC (SUCC (SUCC (ZERO)))) = plus (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))
 Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
+Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
+Prop: SUCC (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (ZERO))
 previous tactics
 simpl in goal
 =================================================
@@ -14430,16 +14430,16 @@ rewrite <- IH1 in goal at 0
 simpl in goal
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
-Prop: plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))
+Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
+Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 simpl in goal
 Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
-Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
-Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
+Prop: SUCC (SUCC (SUCC (SUCC (ZERO)))) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
+Prop: SUCC (SUCC (SUCC (ZERO))) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
 =================================================
 Progress: 401
 
@@ -14676,16 +14676,16 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (ZERO) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (ZERO) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
 Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
+Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
 Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Lemma List
 forall (nat1:nat), plus (nat1) (SUCC (ZERO)) = SUCC (nat1)
@@ -14996,9 +14996,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
-Prop: plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
 Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
+Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
+Prop: plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
 previous tactics
 simpl in goal
 New Env
@@ -15253,9 +15253,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: SUCC (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (ZERO))
-Prop: SUCC (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (ZERO))
-Prop: SUCC (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (ZERO))
+Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
+Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
+Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal
 New Env
@@ -15584,8 +15584,8 @@ rewrite <- IH1 in goal at 0
 simpl in goal
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (ZERO) (SUCC (ZERO))
 Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (ZERO))
+Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (ZERO) (SUCC (ZERO))
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal
@@ -15594,7 +15594,7 @@ simpl in goal
 validate generalize_common_subterm_goal
 Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
 Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
-Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
+Prop: SUCC (SUCC (SUCC (ZERO))) = plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat), SUCC (nat1) = plus (nat1) (SUCC (ZERO))
 End of Lemma List
@@ -15979,14 +15979,14 @@ rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
 Prop: plus (ZERO) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (ZERO) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (ZERO) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
-Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
+Prop: plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
+Prop: plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
 Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
 Lemma List
 forall (nat1:nat), plus (nat1) (SUCC (ZERO)) = SUCC (nat1)
@@ -16297,8 +16297,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
-Prop: plus (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))
 Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
 previous tactics
 simpl in goal
@@ -16554,9 +16554,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: SUCC (SUCC (SUCC (ZERO))) = plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))
 Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
-Prop: SUCC (SUCC (SUCC (ZERO))) = plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))
+Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
+Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal
 New Env
@@ -16887,7 +16887,7 @@ rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (ZERO) (SUCC (ZERO))
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (ZERO) (SUCC (ZERO))
-Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (ZERO))
+Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
@@ -17278,9 +17278,9 @@ rewrite IH1 in goal at 0
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
+Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (ZERO) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -17326,8 +17326,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+Prop: plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
 Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
-Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
 previous tactics
 simpl in goal
@@ -18110,9 +18110,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (plus (plus (ZERO) (ZERO)) (ZERO)) = plus (plus (plus (ZERO) (times (SUCC (SUCC (SUCC (ZERO)))) (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (ZERO) (SUCC (SUCC (ZERO)))) (plus (plus (SUCC (ZERO)) (ZERO)) (ZERO)) = plus (plus (plus (SUCC (ZERO)) (times (SUCC (SUCC (ZERO))) (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (plus (plus (ZERO) (ZERO)) (ZERO)) = plus (plus (plus (ZERO) (times (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (ZERO)))) (ZERO)) (ZERO)
+Prop: plus (times (SUCC (ZERO)) (ZERO)) (plus (plus (SUCC (SUCC (SUCC (SUCC (ZERO))))) (ZERO)) (ZERO)) = plus (plus (plus (SUCC (SUCC (SUCC (SUCC (ZERO))))) (times (ZERO) (SUCC (ZERO)))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (plus (plus (ZERO) (ZERO)) (ZERO)) = plus (plus (plus (ZERO) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (SUCC (SUCC (ZERO)))) (plus (plus (ZERO) (ZERO)) (ZERO)) = plus (plus (plus (ZERO) (times (SUCC (SUCC (ZERO))) (ZERO))) (ZERO)) (ZERO)
 previous tactics
 simpl in goal
 parent
@@ -18143,9 +18143,9 @@ remove upper
 times(length(nat_list2), nat3)
 remove lower
 times(length(nat_list2), nat3)
-Prop: plus (times (SUCC (ZERO)) (ZERO)) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (ZERO) (SUCC (ZERO)))) (ZERO)) (ZERO)
-Prop: plus (times (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (ZERO) (SUCC (SUCC (ZERO)))) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (SUCC (SUCC (ZERO))) (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (spec (repr ((ZERO::(Nil))))) = plus (plus (plus (mainNew ((ZERO::(Nil)))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (spec (repr ((ZERO::(Nil))))) = plus (plus (plus (mainNew ((ZERO::(Nil)))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat_list1:nat list), plus (times (nat2) (nat1)) (spec (repr (nat_list1))) = plus (plus (plus (mainNew (nat_list1)) (times (nat1) (nat2))) (ZERO)) (ZERO)
 End of Lemma List
@@ -18624,9 +18624,9 @@ plus (times (nat3) (length (nat_list2))) (spec (repr (nat_list2))) = plus (plus 
 Tactic List : 0
 previous tactics
 simpl in goal
-Prop: plus (times (ZERO) (ZERO)) (spec (repr ((SUCC (ZERO)::(Nil))))) = plus (plus (plus (mainNew ((SUCC (ZERO)::(Nil)))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (SUCC (SUCC (SUCC (ZERO)))) (ZERO)) (spec (repr ((ZERO::(ZERO::(Nil)))))) = plus (plus (plus (mainNew ((ZERO::(ZERO::(Nil))))) (times (ZERO) (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (ZERO)
+Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (spec (repr ((ZERO::(Nil))))) = plus (plus (plus (mainNew ((ZERO::(Nil)))) (times (SUCC (ZERO)) (SUCC (ZERO)))) (ZERO)) (ZERO)
+Prop: plus (times (SUCC (ZERO)) (ZERO)) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (ZERO) (SUCC (ZERO)))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (SUCC (ZERO))) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (SUCC (ZERO)) (ZERO))) (ZERO)) (ZERO)
 =================================================
 Progress: 515
 
@@ -18843,8 +18843,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
-Prop: plus (times (ZERO) (ZERO)) (plus (plus (ZERO) (ZERO)) (ZERO)) = plus (plus (plus (ZERO) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (ZERO) (SUCC (SUCC (ZERO)))) (plus (plus (ZERO) (ZERO)) (ZERO)) = plus (plus (plus (ZERO) (times (SUCC (SUCC (ZERO))) (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (SUCC (ZERO))) (plus (plus (ZERO) (ZERO)) (ZERO)) = plus (plus (plus (ZERO) (times (SUCC (ZERO)) (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (SUCC (ZERO))) (plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) = plus (plus (plus (SUCC (SUCC (ZERO))) (times (SUCC (ZERO)) (ZERO))) (ZERO)) (ZERO)
 Prop: plus (times (ZERO) (ZERO)) (plus (plus (ZERO) (ZERO)) (ZERO)) = plus (plus (plus (ZERO) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
 previous tactics
 simpl in goal
@@ -18877,8 +18877,8 @@ times(length(nat_list2), nat3)
 remove lower
 times(length(nat_list2), nat3)
 Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (spec (repr ((ZERO::(ZERO::(Nil)))))) = plus (plus (plus (mainNew ((ZERO::(ZERO::(Nil))))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
 Prop: plus (times (SUCC (ZERO)) (ZERO)) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (ZERO) (SUCC (ZERO)))) (ZERO)) (ZERO)
-Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
 =================================================
 Progress: 521
 
@@ -19245,9 +19245,9 @@ plus (times (nat3) (length (nat_list2))) (spec (repr (nat_list2))) = plus (plus 
 Tactic List : 0
 previous tactics
 simpl in goal
-Prop: plus (times (ZERO) (SUCC (ZERO))) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (SUCC (ZERO)) (ZERO))) (ZERO)) (ZERO)
-Prop: plus (times (SUCC (ZERO)) (ZERO)) (spec (repr ((ZERO::(Nil))))) = plus (plus (plus (mainNew ((ZERO::(Nil)))) (times (ZERO) (SUCC (ZERO)))) (ZERO)) (ZERO)
-Prop: plus (times (ZERO) (ZERO)) (spec (repr ((SUCC (ZERO)::(ZERO::(Nil)))))) = plus (plus (plus (mainNew ((SUCC (ZERO)::(ZERO::(Nil))))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (spec (repr ((Nil)))) = plus (plus (plus (mainNew ((Nil))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (ZERO) (ZERO)) (spec (repr ((ZERO::(Nil))))) = plus (plus (plus (mainNew ((ZERO::(Nil)))) (times (ZERO) (ZERO))) (ZERO)) (ZERO)
+Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (spec (repr ((ZERO::(Nil))))) = plus (plus (plus (mainNew ((ZERO::(Nil)))) (times (SUCC (ZERO)) (SUCC (ZERO)))) (ZERO)) (ZERO)
 =================================================
 Progress: 531
 
@@ -19733,7 +19733,7 @@ previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
-Prop: plus (plus (times (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (ZERO) = plus (plus (times (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
+Prop: plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))) (ZERO)
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))) (ZERO) = plus (plus (times (nat1) (SUCC (nat2))) (SUCC (nat2))) (ZERO)
@@ -20276,8 +20276,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
-Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
+Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO)
+Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO)
 Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat1) (SUCC (nat2))) (SUCC (nat2))) (ZERO) = plus (plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))) (ZERO)
@@ -21273,13 +21273,13 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
+Prop: plus (times (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (ZERO)) (SUCC (ZERO)) = SUCC (ZERO)
+Prop: plus (times (SUCC (ZERO)) (ZERO)) (ZERO) = ZERO
 Prop: plus (times (ZERO) (ZERO)) (ZERO) = ZERO
-Prop: plus (times (ZERO) (ZERO)) (ZERO) = ZERO
-Prop: plus (times (SUCC (ZERO)) (ZERO)) (SUCC (ZERO)) = SUCC (ZERO)
 previous tactics
 simpl in goal
 Prop: plus (ZERO) (ZERO) = ZERO
-Prop: plus (ZERO) (ZERO) = ZERO
+Prop: plus (SUCC (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
 Prop: plus (ZERO) (ZERO) = ZERO
 Lemma List
 forall (nat1:nat), plus (nat1) (ZERO) = nat1
@@ -22241,8 +22241,8 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (ZERO) = plus (plus (times (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
-Prop: plus (plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))) (ZERO) = plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
+Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO)
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))) (ZERO) = plus (plus (times (nat1) (SUCC (nat2))) (SUCC (nat2))) (ZERO)
@@ -22786,8 +22786,8 @@ previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
+Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
-Prop: plus (plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))) (ZERO) = plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO)
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat1) (SUCC (nat2))) (SUCC (nat2))) (ZERO) = plus (plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))) (ZERO)
 End of Lemma List
@@ -23699,7 +23699,7 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO) = ZERO
+Prop: plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO) = ZERO
 Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO) = ZERO
 Lemma List
@@ -24093,9 +24093,9 @@ rewrite lemma3 in goal at 0
 reflexivity
 simpl in goal
 rewrite <- IH2 in goal at 0
-Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (ZERO))
+Prop: plus (ZERO) (SUCC (SUCC (SUCC (ZERO)))) = SUCC (plus (ZERO) (SUCC (SUCC (ZERO))))
+Prop: plus (SUCC (ZERO)) (SUCC (SUCC (ZERO))) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
 Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (plus (ZERO) (ZERO))
-Prop: plus (ZERO) (SUCC (SUCC (ZERO))) = SUCC (plus (ZERO) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 rewrite IH1 in goal at 0
@@ -24104,7 +24104,7 @@ rewrite lemma3 in goal at 0
 reflexivity
 simpl in goal
 Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))) = SUCC (plus (SUCC (ZERO)) (ZERO))
-Prop: plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO)) = SUCC (plus (ZERO) (ZERO))
+Prop: plus (plus (times (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) (SUCC (ZERO)) = SUCC (plus (ZERO) (ZERO))
 Prop: plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (SUCC (ZERO)) = SUCC (plus (ZERO) (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat2) (ZERO)) (ZERO)) (SUCC (nat1)) = SUCC (plus (nat1) (ZERO))
@@ -24491,9 +24491,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
-Prop: plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO) = ZERO
+Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO) = ZERO
+Prop: plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 =================================================
 Progress: 670
 
@@ -24670,7 +24670,7 @@ rewrite <- lemma3 in goal at 0
 validate generalize_common_subterm_goal
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
+Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
 previous tactics
 simpl in goal
 New Env
@@ -24829,14 +24829,14 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- lemma3 in goal at 1
 Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (ZERO))
-Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (ZERO))
 Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (plus (ZERO) (ZERO))
+Prop: plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (SUCC (ZERO))) (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 Prop: plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO) = SUCC (plus (SUCC (ZERO)) (ZERO))
 Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (ZERO))
-Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (ZERO))
+Prop: plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (ZERO) = SUCC (plus (SUCC (ZERO)) (ZERO))
 previous tactics
 simpl in goal
 =================================================
@@ -25247,8 +25247,8 @@ simpl in goal
 rewrite IH1 in goal at 0
 rewrite <- lemma3 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (ZERO))
-Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (ZERO) (SUCC (ZERO))
+Prop: plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (ZERO) (SUCC (ZERO))
 previous tactics
 simpl in goal
@@ -25256,16 +25256,16 @@ rewrite <- IH1 in goal at 0
 simpl in goal
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO))
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
-Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (ZERO) (ZERO)) (SUCC (ZERO))
+Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))
+Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 simpl in goal
-Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
-Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
 Prop: SUCC (SUCC (SUCC (ZERO))) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
+Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
+Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
 Lemma List
 forall (nat1:nat), SUCC (SUCC (nat1)) = SUCC (plus (nat1) (SUCC (ZERO)))
 End of Lemma List
@@ -25451,7 +25451,7 @@ rewrite <- IH1 in goal at 0
 simpl in goal
 Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
 Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
-Prop: SUCC (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
+Prop: SUCC (SUCC (SUCC (SUCC (ZERO)))) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
 =================================================
 Progress: 695
 
@@ -25777,13 +25777,13 @@ simpl in goal
 rewrite lemma3 in goal at 0
 validate generalize_common_subterm_goal
 Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (SUCC (ZERO)))
-Prop: plus (plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
+Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (SUCC (ZERO)))
 Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
-Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
+Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (SUCC (ZERO)))
 Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
 Lemma List
 forall (nat1:nat), plus (plus (plus (times (nat1) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (nat1))
@@ -29486,14 +29486,14 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (times (SUCC (SUCC (ZERO))) (ZERO)) (plus (times (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) = ZERO
 Prop: plus (times (ZERO) (ZERO)) (plus (times (ZERO) (ZERO)) (ZERO)) = ZERO
-Prop: plus (times (SUCC (ZERO)) (ZERO)) (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) = ZERO
+Prop: plus (times (ZERO) (ZERO)) (plus (times (ZERO) (ZERO)) (ZERO)) = ZERO
+Prop: plus (times (ZERO) (ZERO)) (plus (times (ZERO) (ZERO)) (ZERO)) = ZERO
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO) = ZERO
 Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO) = ZERO
-Prop: plus (plus (times (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) (ZERO) = ZERO
 Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO) = ZERO
 Lemma List
 forall (nat1:nat), plus (times (nat1) (ZERO)) (plus (times (nat1) (ZERO)) (ZERO)) = ZERO
@@ -29638,7 +29638,7 @@ simpl in goal
 validate generalize_common_subterm_goal
 Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) = ZERO
 Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) = ZERO
-Prop: plus (plus (times (ZERO) (ZERO)) (ZERO)) (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) = ZERO
+Prop: plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
 Lemma List
 forall (nat1:nat), plus (plus (times (nat1) (ZERO)) (ZERO)) (plus (plus (times (nat1) (ZERO)) (ZERO)) (ZERO)) = ZERO
 End of Lemma List
@@ -29909,8 +29909,8 @@ previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
-Prop: plus (plus (plus (plus (times (SUCC (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (times (SUCC (SUCC (SUCC (ZERO)))) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
 Prop: plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
+Prop: plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
 Lemma List
 forall (nat1:nat), plus (plus (plus (plus (times (nat1) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (times (nat1) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
 End of Lemma List
@@ -30044,9 +30044,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
-Prop: plus (plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
-Prop: plus (plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
+Prop: plus (plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
+Prop: plus (plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
+Prop: plus (plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
 Lemma List
 forall (nat1:nat), plus (plus (plus (plus (plus (times (nat1) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (plus (plus (plus (plus (plus (times (nat1) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) (ZERO)) = ZERO
 End of Lemma List
@@ -30800,12 +30800,12 @@ simpl in goal
 rewrite lemma3 in goal at 0
 validate generalize_common_subterm_goal
 Prop: ZERO = times (ZERO) (ZERO)
-Prop: ZERO = times (SUCC (ZERO)) (ZERO)
 Prop: ZERO = times (ZERO) (ZERO)
+Prop: ZERO = times (SUCC (ZERO)) (ZERO)
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
+Prop: ZERO = plus (times (SUCC (ZERO)) (ZERO)) (ZERO)
 Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
 Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
 t is here
@@ -31118,8 +31118,8 @@ reflexivity
 simpl in goal
 rewrite lemma3 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (times (SUCC (SUCC (ZERO))) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO))) = plus (times (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))
+Prop: plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO))) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 previous tactics
 simpl in goal
@@ -31130,9 +31130,9 @@ rewrite <- lemma4 in goal at 0
 reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))
-Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
+Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat), plus (plus (times (nat2) (SUCC (nat1))) (SUCC (nat1))) (ZERO) = plus (times (nat1) (SUCC (nat2))) (SUCC (nat2))
 End of Lemma List
@@ -31435,7 +31435,7 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: ZERO = times (SUCC (ZERO)) (ZERO)
+Prop: ZERO = times (SUCC (SUCC (ZERO))) (ZERO)
 Prop: ZERO = times (ZERO) (ZERO)
 Prop: ZERO = times (ZERO) (ZERO)
 t is here
@@ -31758,8 +31758,8 @@ previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: ZERO = times (SUCC (SUCC (ZERO))) (ZERO)
-Prop: ZERO = times (ZERO) (ZERO)
-Prop: ZERO = times (SUCC (SUCC (SUCC (ZERO)))) (ZERO)
+Prop: ZERO = times (SUCC (ZERO)) (ZERO)
+Prop: ZERO = times (SUCC (ZERO)) (ZERO)
 t is here
 
 
@@ -32388,15 +32388,15 @@ previous tactics
 simpl in goal
 rewrite lemma3 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
-Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
 Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (times (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (SUCC (SUCC (SUCC (ZERO))))) = plus (times (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))) (SUCC (ZERO))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))) (ZERO) = plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 =================================================
 Progress: 871
 
@@ -32871,18 +32871,18 @@ rewrite IH2 in goal at 0
 simpl in goal
 rewrite <- IH2 in goal at 0
 validate generalize_common_subterm_goal
-Prop: SUCC (plus (times (ZERO) (SUCC (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: SUCC (plus (times (ZERO) (SUCC (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: SUCC (plus (times (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))
+Prop: SUCC (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
+Prop: SUCC (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
+Prop: SUCC (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (ZERO)) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
 previous tactics
 simpl in goal
 rewrite lemma3 in goal at 0
 rewrite IH2 in goal at 0
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: SUCC (plus (SUCC (SUCC (SUCC (SUCC (ZERO))))) (plus (times (SUCC (SUCC (SUCC (SUCC (ZERO))))) (ZERO)) (ZERO))) = plus (times (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: SUCC (plus (SUCC (ZERO)) (plus (times (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = plus (times (SUCC (ZERO)) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))
-Prop: SUCC (plus (ZERO) (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO))))) = plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))
+Prop: SUCC (plus (ZERO) (plus (times (ZERO) (ZERO)) (ZERO))) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: SUCC (plus (ZERO) (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)))) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
+Prop: SUCC (plus (ZERO) (plus (times (ZERO) (ZERO)) (ZERO))) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat2:nat), SUCC (plus (nat1) (plus (times (nat1) (nat2)) (nat2))) = plus (times (nat1) (SUCC (nat2))) (SUCC (nat2))
 End of Lemma List
@@ -33186,9 +33186,9 @@ simpl in goal
 intro nat2
 rewrite <- IH1 in goal at 0
 simpl in goal
-Prop: SUCC (SUCC (plus (ZERO) (plus (SUCC (SUCC (ZERO))) (ZERO)))) = SUCC (plus (plus (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (ZERO)))
-Prop: SUCC (SUCC (plus (SUCC (SUCC (ZERO))) (plus (ZERO) (ZERO)))) = SUCC (plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)))
+Prop: SUCC (SUCC (plus (SUCC (SUCC (SUCC (ZERO)))) (plus (SUCC (ZERO)) (ZERO)))) = SUCC (plus (plus (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))) (SUCC (ZERO)))
 Prop: SUCC (SUCC (plus (ZERO) (plus (ZERO) (ZERO)))) = SUCC (plus (plus (ZERO) (ZERO)) (SUCC (ZERO)))
+Prop: SUCC (SUCC (plus (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))))) (plus (SUCC (ZERO)) (ZERO)))) = SUCC (plus (plus (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))))))) (SUCC (ZERO))) (SUCC (ZERO)))
 Lemma List
 forall (nat1:nat) (nat2:nat) (nat3:nat), SUCC (SUCC (plus (nat3) (plus (nat1) (nat2)))) = SUCC (plus (plus (nat3) (nat1)) (SUCC (nat2)))
 End of Lemma List
@@ -34155,14 +34155,14 @@ previous tactics
 simpl in goal
 rewrite lemma5 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
+Prop: plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Lemma List
 forall (nat1:nat), plus (plus (times (nat1) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (nat1))
@@ -34336,9 +34336,9 @@ simpl in goal
 rewrite lemma5 in goal at 0
 rewrite <- lemma3 in goal at 0
 validate generalize_common_subterm_goal
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
 Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
+Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 rewrite lemma5 in goal at 0
@@ -34490,14 +34490,14 @@ previous tactics
 simpl in goal
 rewrite <- lemma3 in goal at 0
 validate generalize_common_subterm_goal
+Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
+Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
 Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
-Prop: plus (plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (SUCC (SUCC (ZERO))))
+Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
 Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (SUCC (ZERO))
 =================================================
 Progress: 923
@@ -34778,14 +34778,14 @@ previous tactics
 simpl in goal
 rewrite lemma3 in goal at 0
 validate generalize_common_subterm_goal
-Prop: ZERO = plus (times (SUCC (ZERO)) (ZERO)) (ZERO)
-Prop: ZERO = plus (times (SUCC (ZERO)) (ZERO)) (ZERO)
+Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
+Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
 Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: ZERO = plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)
-Prop: ZERO = plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)
+Prop: ZERO = plus (plus (times (SUCC (ZERO)) (ZERO)) (ZERO)) (ZERO)
+Prop: ZERO = plus (plus (times (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)) (ZERO)
 Prop: ZERO = plus (plus (times (ZERO) (ZERO)) (ZERO)) (ZERO)
 t is here
 
@@ -35171,8 +35171,8 @@ Prop: ZERO = times (SUCC (ZERO)) (ZERO)
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
-Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
+Prop: ZERO = plus (times (SUCC (ZERO)) (ZERO)) (ZERO)
+Prop: ZERO = plus (times (SUCC (SUCC (ZERO))) (ZERO)) (ZERO)
 Prop: ZERO = plus (times (ZERO) (ZERO)) (ZERO)
 t is here
 
@@ -35431,9 +35431,9 @@ reflexivity
 simpl in goal
 rewrite lemma3 in goal at 0
 validate generalize_common_subterm_goal
-Prop: plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (times (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (SUCC (SUCC (SUCC (ZERO)))))
 Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
-Prop: plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
+Prop: plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO)))) = plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
@@ -35443,9 +35443,9 @@ rewrite <- lemma4 in goal at 0
 reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: plus (plus (times (ZERO) (SUCC (SUCC (SUCC (ZERO))))) (SUCC (SUCC (SUCC (ZERO))))) (ZERO) = plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))
+Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
 Prop: plus (plus (times (ZERO) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) (ZERO) = plus (times (SUCC (ZERO)) (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
 =================================================
 Progress: 944
 
@@ -35537,9 +35537,9 @@ previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 simpl in goal
-Prop: SUCC (SUCC (plus (SUCC (SUCC (ZERO))) (plus (ZERO) (ZERO)))) = SUCC (plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)))
 Prop: SUCC (SUCC (plus (SUCC (ZERO)) (plus (ZERO) (SUCC (ZERO))))) = SUCC (plus (plus (SUCC (ZERO)) (ZERO)) (SUCC (SUCC (ZERO))))
-Prop: SUCC (SUCC (plus (SUCC (ZERO)) (plus (SUCC (ZERO)) (ZERO)))) = SUCC (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)))
+Prop: SUCC (SUCC (plus (SUCC (SUCC (ZERO))) (plus (ZERO) (ZERO)))) = SUCC (plus (plus (SUCC (SUCC (ZERO))) (ZERO)) (SUCC (ZERO)))
+Prop: SUCC (SUCC (plus (ZERO) (plus (ZERO) (ZERO)))) = SUCC (plus (plus (ZERO) (ZERO)) (SUCC (ZERO)))
 =================================================
 Progress: 947
 
@@ -36104,7 +36104,7 @@ simpl in goal
 rewrite <- IH1 in goal at 0
 Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (ZERO))
 Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (ZERO))
-Prop: plus (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (ZERO) = SUCC (plus (SUCC (SUCC (ZERO))) (ZERO))
+Prop: plus (plus (ZERO) (SUCC (ZERO))) (ZERO) = SUCC (plus (ZERO) (ZERO))
 previous tactics
 simpl in goal
 New Env
@@ -36763,22 +36763,22 @@ rewrite <- lemma5 in goal at 0
 rewrite <- lemma5 in goal at 0
 rewrite lemma5 in goal at 0
 Prop: plus (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
-Prop: plus (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
-Prop: plus (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
+Prop: plus (plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
+Prop: plus (plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- lemma5 in goal at 0
 rewrite <- lemma5 in goal at 0
 Prop: plus (plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
+Prop: plus (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (SUCC (ZERO))))
 Prop: plus (plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
-Prop: plus (plus (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- lemma5 in goal at 0
-Prop: plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
-Prop: plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
+Prop: plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
+Prop: plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Prop: plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
 previous tactics
 simpl in goal
@@ -37218,7 +37218,7 @@ simpl in goal
 rewrite lemma5 in goal at 0
 validate generalize_common_subterm_goal
 Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
-Prop: plus (plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
+Prop: plus (plus (plus (times (SUCC (SUCC (SUCC (SUCC (ZERO))))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (SUCC (ZERO)))
 Prop: plus (plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
 previous tactics
 simpl in goal
@@ -37700,19 +37700,19 @@ rewrite <- lemma5 in goal at 0
 rewrite <- lemma5 in goal at 0
 Prop: plus (plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
 Prop: plus (plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
-Prop: plus (plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
+Prop: plus (plus (plus (SUCC (SUCC (SUCC (ZERO)))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- lemma5 in goal at 0
-Prop: plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
+Prop: plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Prop: plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
 Prop: plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
-Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
+Prop: plus (SUCC (ZERO)) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Prop: plus (ZERO) (SUCC (ZERO)) = SUCC (ZERO)
 previous tactics
 simpl in goal
@@ -37877,7 +37877,7 @@ rewrite lemma5 in goal at 0
 rewrite lemma6 in goal at 0
 validate generalize_common_subterm_goal
 Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
-Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
+Prop: SUCC (SUCC (ZERO)) = plus (SUCC (ZERO)) (SUCC (ZERO))
 Prop: SUCC (ZERO) = plus (ZERO) (SUCC (ZERO))
 previous tactics
 reflexivity
@@ -37889,7 +37889,7 @@ reflexivity
 rewrite lemma5 in goal at 0
 validate generalize_common_subterm_goal
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
-Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (ZERO)) (SUCC (ZERO)))
+Prop: plus (plus (times (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO)))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (plus (ZERO) (SUCC (ZERO)))
 previous tactics
 reflexivity
@@ -37899,8 +37899,8 @@ simpl in goal
 rewrite lemma5 in goal at 0
 reflexivity
 validate generalize_common_subterm_goal
-Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Prop: plus (plus (times (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
+Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Prop: plus (plus (times (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 =================================================
 Progress: 1015
@@ -38474,14 +38474,14 @@ rewrite <- IH1 in goal at 0
 rewrite <- lemma5 in goal at 0
 rewrite <- lemma5 in goal at 0
 Prop: plus (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (SUCC (ZERO))))
-Prop: plus (plus (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))
-Prop: plus (plus (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (SUCC (SUCC (ZERO)))))
+Prop: plus (plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
+Prop: plus (plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (SUCC (ZERO))))
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
 rewrite <- lemma5 in goal at 0
-Prop: plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 Prop: plus (plus (SUCC (ZERO)) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (ZERO)))
+Prop: plus (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (SUCC (SUCC (ZERO))))
 Prop: plus (plus (ZERO) (SUCC (ZERO))) (SUCC (ZERO)) = SUCC (SUCC (ZERO))
 previous tactics
 simpl in goal
@@ -39672,9 +39672,9 @@ SUCC (plus (plus (nat6) (plus (times (nat6) (nat4)) (nat4))) (SUCC (nat5))) = SU
 Tactic List : 0
 previous tactics
 simpl in goal
-Prop: SUCC (plus (SUCC (SUCC (ZERO))) (SUCC (ZERO))) = SUCC (SUCC (plus (SUCC (SUCC (ZERO))) (ZERO)))
-Prop: SUCC (plus (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) = SUCC (SUCC (plus (SUCC (ZERO)) (SUCC (SUCC (ZERO)))))
 Prop: SUCC (plus (ZERO) (SUCC (ZERO))) = SUCC (SUCC (plus (ZERO) (ZERO)))
+Prop: SUCC (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (SUCC (ZERO))))))) = SUCC (SUCC (plus (ZERO) (SUCC (SUCC (SUCC (SUCC (ZERO)))))))
+Prop: SUCC (plus (ZERO) (SUCC (SUCC (ZERO)))) = SUCC (SUCC (plus (ZERO) (SUCC (ZERO))))
 Lemma List
 forall (nat1:nat) (nat2:nat), SUCC (plus (nat1) (SUCC (nat2))) = SUCC (SUCC (plus (nat1) (nat2)))
 End of Lemma List

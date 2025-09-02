@@ -145,9 +145,9 @@ Tactic List : 0
 previous tactics
 simpl in goal
 rewrite <- IH1 in goal at 0
-Prop: sorted (insort (0) ((3::(Nil)))) = sorted ((3::(Nil)))
-Prop: sorted (insort (0) ((6::(Nil)))) = sorted ((6::(Nil)))
+Prop: sorted (insort (-0) ((Nil))) = sorted ((Nil))
 Prop: sorted (insort (0) ((Nil))) = sorted ((Nil))
+Prop: sorted (insort (-0) ((Nil))) = sorted ((Nil))
 previous tactics
 simpl in goal
 parent
@@ -174,8 +174,8 @@ remove lower
 insort(int1, insort(int2, insort(int3, sort(int_list4))))
 validate generalize_common_subterm_goal
 Prop: sorted (insort (0) (sort ((Nil)))) = true
-Prop: sorted (insort (-0) (sort ((0::(-0::(-0::(Nil))))))) = true
-Prop: sorted (insort (0) (sort ((Nil)))) = true
+Prop: sorted (insort (-0) (sort ((Nil)))) = true
+Prop: sorted (insort (-0) (sort ((Nil)))) = true
 Lemma List
 forall (any_list1:any list) (int1:int), sorted (insort (int1) (any_list1)) = sorted (any_list1)
 End of Lemma List
@@ -553,9 +553,9 @@ case match (any1, int1) with
 | (Pos n1', Neg n2') -> false
 | (Neg n1', Pos n2') -> true
 validate generalize_common_subterm_goal
-Prop: false = sorted ((2::(Nil)))
-Prop: false = sorted ((0::(Nil)))
 Prop: false = sorted ((5::(Nil)))
+Prop: false = sorted ((8::(Nil)))
+Prop: false = sorted ((4::(Nil)))
 asdf
 File "_none_", lines 88-90, characters 2-22:
 Warning 8 [partial-match]: this pattern-matching is not exhaustive.

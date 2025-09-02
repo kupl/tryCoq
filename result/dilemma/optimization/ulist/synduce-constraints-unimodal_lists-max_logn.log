@@ -551,13 +551,13 @@ _
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: spec (tf1 ((ZERO::(ZERO::tf1 ((Nil)) (Unil)))) (target (Usplit (Usplit (Usplit (Unil) (ZERO) (ZERO) (Usplit (Unil) (ZERO) (ZERO) (Unil))) (ZERO) (SUCC (SUCC (SUCC (ZERO)))) (Uelt (ZERO))) (ZERO) (ZERO) (Unil)))) = targetNew (Usplit (Usplit (Usplit (Unil) (ZERO) (ZERO) (Usplit (Unil) (ZERO) (ZERO) (Unil))) (ZERO) (SUCC (SUCC (SUCC (ZERO)))) (Uelt (ZERO))) (ZERO) (ZERO) (Unil))
-Prop: spec (tf1 ((ZERO::(ZERO::tf1 ((Nil)) (Unil)))) (target (Uelt (ZERO)))) = targetNew (Uelt (ZERO))
-Prop: spec (tf1 ((SUCC (ZERO)::(ZERO::tf1 ((Nil)) (Uelt (SUCC (ZERO)))))) (target (Usplit (Uelt (ZERO)) (ZERO) (ZERO) (Unil)))) = targetNew (Usplit (Uelt (ZERO)) (ZERO) (ZERO) (Unil))
+Prop: spec (tf1 ((ZERO::(SUCC (ZERO)::tf1 ((Nil)) (Usplit (Uelt (ZERO)) (ZERO) (SUCC (ZERO)) (Usplit (Usplit (Usplit (Usplit (Uelt (SUCC (ZERO))) (ZERO) (ZERO) (Usplit (Uelt (ZERO)) (SUCC (ZERO)) (ZERO) (Usplit (Usplit (Uelt (ZERO)) (ZERO) (ZERO) (Usplit (Usplit (Usplit (Usplit (Usplit (Usplit (Unil) (ZERO) (SUCC (ZERO)) (Unil)) (ZERO) (ZERO) (Unil)) (ZERO) (ZERO) (Uelt (ZERO))) (ZERO) (ZERO) (Unil)) (ZERO) (ZERO) (Unil)) (ZERO) (ZERO) (Usplit (Uelt (SUCC (ZERO))) (ZERO) (ZERO) (Uelt (SUCC (SUCC (ZERO))))))) (ZERO) (SUCC (ZERO)) (Unil)))) (ZERO) (SUCC (ZERO)) (Unil)) (SUCC (ZERO)) (ZERO) (Uelt (ZERO))) (ZERO) (ZERO) (Usplit (Uelt (SUCC (SUCC (ZERO)))) (ZERO) (ZERO) (Uelt (ZERO)))))))) (target (Unil))) = targetNew (Unil)
+Prop: spec (tf1 ((ZERO::(ZERO::tf1 ((Nil)) (Usplit (Unil) (ZERO) (ZERO) (Unil))))) (target (Usplit (Usplit (Unil) (SUCC (ZERO)) (SUCC (ZERO)) (Uelt (ZERO))) (SUCC (ZERO)) (ZERO) (Uelt (SUCC (SUCC (ZERO))))))) = targetNew (Usplit (Usplit (Unil) (SUCC (ZERO)) (SUCC (ZERO)) (Uelt (ZERO))) (SUCC (ZERO)) (ZERO) (Uelt (SUCC (SUCC (ZERO)))))
+Prop: spec (tf1 ((ZERO::(SUCC (ZERO)::tf1 ((Nil)) (Uelt (ZERO))))) (target (Unil))) = targetNew (Unil)
 Lemma List
 forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 End of Lemma List
 
 
@@ -623,17 +623,17 @@ spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist3)))) (target (ulist2))) = targetNew 
 0 conjecture(s) more...
 >>> assert forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)(rank : 0.)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)(rank : 0.)
 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 
 ---------------------------------------
 forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 
 0 goal(s) more...
 
@@ -646,12 +646,12 @@ Progress: 14
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 
 ---------------------------------------
 forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 
 0 goal(s) more...
 
@@ -661,12 +661,12 @@ forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 ---------------------------------------
 forall (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 
 0 goal(s) more...
 
@@ -679,12 +679,12 @@ Progress: 15
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 ---------------------------------------
 forall (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 
 0 goal(s) more...
 
@@ -694,13 +694,13 @@ forall (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 (
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ---------------------------------------
 forall (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 
 0 goal(s) more...
 
@@ -713,13 +713,13 @@ Progress: 16
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ---------------------------------------
 forall (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 
 0 goal(s) more...
 
@@ -729,7 +729,7 @@ forall (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (uli
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -737,7 +737,7 @@ Base1 : ulist1 = Unil
 ---------------------------------------
 forall (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (Unil)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (Unil)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (Unil))) = targetNew (Unil)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (Unil)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (Unil))) = targetNew (Unil)
 
 2 goal(s) more...
 
@@ -750,7 +750,7 @@ Progress: 17
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -758,7 +758,7 @@ Base1 : ulist1 = Unil
 ---------------------------------------
 forall (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (Unil)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (Unil)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (Unil))) = targetNew (Unil)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (Unil)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (Unil))) = targetNew (Unil)
 
 2 goal(s) more...
 
@@ -768,13 +768,13 @@ forall (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (Unil))
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
 Base1 : ulist1 = Unil
 ---------------------------------------
-forall (ulist2:ulist), if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist2)) else tf3 (nat2) (tf1 ((Nil)) (ulist2)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1 = ZERO
+forall (ulist2:ulist), if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist2)) else tf3 (nat2) (tf1 ((Nil)) (ulist2)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1 = ZERO
 
 2 goal(s) more...
 
@@ -787,13 +787,13 @@ Progress: 18
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
 Base1 : ulist1 = Unil
 ---------------------------------------
-forall (ulist2:ulist), if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist2)) else tf3 (nat2) (tf1 ((Nil)) (ulist2)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1 = ZERO
+forall (ulist2:ulist), if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist2)) else tf3 (nat2) (tf1 ((Nil)) (ulist2)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1 = ZERO
 
 2 goal(s) more...
 
@@ -803,7 +803,7 @@ forall (ulist2:ulist), if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (na
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -811,7 +811,7 @@ Base1 : ulist1 = Unil
 ulist2 : ulist
 Base2 : ulist2 = Unil
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)) else tf3 (nat2) (tf1 ((Nil)) (Unil)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)) else tf3 (nat2) (tf1 ((Nil)) (Unil)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
 
 4 goal(s) more...
 
@@ -824,7 +824,7 @@ Progress: 19
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -832,7 +832,7 @@ Base1 : ulist1 = Unil
 ulist2 : ulist
 Base2 : ulist2 = Unil
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)) else tf3 (nat2) (tf1 ((Nil)) (Unil)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)) else tf3 (nat2) (tf1 ((Nil)) (Unil)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
 
 4 goal(s) more...
 
@@ -842,7 +842,7 @@ if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -850,7 +850,7 @@ Base1 : ulist1 = Unil
 ulist2 : ulist
 Base2 : ulist2 = Unil
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)) else tf3 (nat2) (tf1 ((Nil)) (Unil)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)) else tf3 (nat2) (tf1 ((Nil)) (Unil)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
 
 4 goal(s) more...
 
@@ -863,7 +863,7 @@ Progress: 20
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -871,7 +871,7 @@ Base1 : ulist1 = Unil
 ulist2 : ulist
 Base2 : ulist2 = Unil
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)) else tf3 (nat2) (tf1 ((Nil)) (Unil)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)) else tf3 (nat2) (tf1 ((Nil)) (Unil)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
 
 4 goal(s) more...
 
@@ -881,7 +881,7 @@ if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -890,7 +890,7 @@ ulist2 : ulist
 Base2 : ulist2 = Unil
 Cond1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)) else tf3 (nat2) (tf1 ((Nil)) (Unil)) else false = true
 ---------------------------------------
-gq (nat1) (nat2) = true->false = true -> if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
+gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
 
 4 goal(s) more...
 
@@ -903,7 +903,7 @@ Progress: 21
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -912,7 +912,7 @@ ulist2 : ulist
 Base2 : ulist2 = Unil
 Cond1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Unil)) else tf3 (nat2) (tf1 ((Nil)) (Unil)) else false = true
 ---------------------------------------
-gq (nat1) (nat2) = true->false = true -> if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
+gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 = ZERO
 
 4 goal(s) more...
 
@@ -922,7 +922,7 @@ gq (nat1) (nat2) = true->false = true -> if lq (nat1) (nat2) then if lq (nat2) (
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -945,7 +945,7 @@ Progress: 22
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -965,7 +965,7 @@ false = true -> if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -974,7 +974,7 @@ ulist2 : ulist
 nat3 : nat
 Base2 : ulist2 = Uelt (nat3)
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else tf3 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else tf3 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
 
 3 goal(s) more...
 
@@ -988,7 +988,7 @@ Progress: 23
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -997,7 +997,7 @@ ulist2 : ulist
 nat3 : nat
 Base2 : ulist2 = Uelt (nat3)
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else tf3 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else tf3 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
 
 3 goal(s) more...
 
@@ -1007,7 +1007,7 @@ if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1016,7 +1016,7 @@ ulist2 : ulist
 nat3 : nat
 Base2 : ulist2 = Uelt (nat3)
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else tf3 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (nat3) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else tf3 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (nat3) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
 
 3 goal(s) more...
 
@@ -1029,7 +1029,7 @@ Progress: 24
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1038,7 +1038,7 @@ ulist2 : ulist
 nat3 : nat
 Base2 : ulist2 = Uelt (nat3)
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else tf3 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (nat3) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else tf3 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (nat3) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
 
 3 goal(s) more...
 
@@ -1048,7 +1048,7 @@ if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1058,7 +1058,7 @@ nat3 : nat
 Base2 : ulist2 = Uelt (nat3)
 Cond1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else tf3 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else false = true
 ---------------------------------------
-gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (nat3) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
+gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (nat3) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
 
 3 goal(s) more...
 
@@ -1071,7 +1071,7 @@ Progress: 25
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1081,7 +1081,7 @@ nat3 : nat
 Base2 : ulist2 = Uelt (nat3)
 Cond1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else tf3 (nat2) (tf1 ((Nil)) (Uelt (nat3))) else false = true
 ---------------------------------------
-gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (nat3) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
+gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (nat3) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Uelt (nat3)))) then spec (tf1 ((Nil)) (Uelt (nat3))) else nat2 else nat1 = ZERO
 
 3 goal(s) more...
 
@@ -1091,7 +1091,7 @@ gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (nat3) then 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1115,7 +1115,7 @@ Progress: 26
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1136,7 +1136,7 @@ false = true -> if lq (nat1) (if lq (nat2) (nat3) then spec (tf1 ((Nil)) (Uelt (
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1146,11 +1146,11 @@ ulist3 : ulist
 nat3 : nat
 nat4 : nat
 ulist4 : ulist
-IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
-IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
+IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
+IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
 Inductive1 : ulist2 = Usplit (ulist3) (nat3) (nat4) (ulist4)
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
 
 2 goal(s) more...
 
@@ -1164,7 +1164,7 @@ Progress: 27
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1174,11 +1174,11 @@ ulist3 : ulist
 nat3 : nat
 nat4 : nat
 ulist4 : ulist
-IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
-IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
+IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
+IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
 Inductive1 : ulist2 = Usplit (ulist3) (nat3) (nat4) (ulist4)
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
 
 2 goal(s) more...
 
@@ -1188,7 +1188,7 @@ if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uspli
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1198,11 +1198,11 @@ ulist3 : ulist
 nat3 : nat
 nat4 : nat
 ulist4 : ulist
-IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
-IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
+IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
+IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
 Inductive1 : ulist2 = Usplit (ulist3) (nat3) (nat4) (ulist4)
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((nat3::(nat4::tf1 ((Nil)) (ulist4)))) (ulist3))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((nat3::(nat4::tf1 ((Nil)) (ulist4)))) (ulist3))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
 
 2 goal(s) more...
 
@@ -1215,7 +1215,7 @@ Progress: 28
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1225,11 +1225,11 @@ ulist3 : ulist
 nat3 : nat
 nat4 : nat
 ulist4 : ulist
-IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
-IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
+IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
+IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
 Inductive1 : ulist2 = Usplit (ulist3) (nat3) (nat4) (ulist4)
 ---------------------------------------
-if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((nat3::(nat4::tf1 ((Nil)) (ulist4)))) (ulist3))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
+if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((nat3::(nat4::tf1 ((Nil)) (ulist4)))) (ulist3))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
 
 2 goal(s) more...
 
@@ -1239,7 +1239,7 @@ if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Uspli
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1249,12 +1249,12 @@ ulist3 : ulist
 nat3 : nat
 nat4 : nat
 ulist4 : ulist
-IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
-IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
+IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
+IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
 Inductive1 : ulist2 = Usplit (ulist3) (nat3) (nat4) (ulist4)
 Cond1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true
 ---------------------------------------
-gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((nat3::(nat4::tf1 ((Nil)) (ulist4)))) (ulist3))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
+gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((nat3::(nat4::tf1 ((Nil)) (ulist4)))) (ulist3))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
 
 2 goal(s) more...
 
@@ -1267,7 +1267,7 @@ Progress: 29
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1277,12 +1277,12 @@ ulist3 : ulist
 nat3 : nat
 nat4 : nat
 ulist4 : ulist
-IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
-IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
+IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
+IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
 Inductive1 : ulist2 = Usplit (ulist3) (nat3) (nat4) (ulist4)
 Cond1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true
 ---------------------------------------
-gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((nat3::(nat4::tf1 ((Nil)) (ulist4)))) (ulist3))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
+gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((nat3::(nat4::tf1 ((Nil)) (ulist4)))) (ulist3))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4)))) then spec (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else nat2 else nat1 = ZERO
 
 2 goal(s) more...
 
@@ -1292,7 +1292,7 @@ gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 (
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1302,8 +1302,8 @@ ulist3 : ulist
 nat3 : nat
 nat4 : nat
 ulist4 : ulist
-IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
-IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
+IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
+IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
 Inductive1 : ulist2 = Usplit (ulist3) (nat3) (nat4) (ulist4)
 Cond1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true
 Cond2 : gq (nat1) (nat2) = true
@@ -1321,7 +1321,7 @@ Progress: 30
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1331,8 +1331,8 @@ ulist3 : ulist
 nat3 : nat
 nat4 : nat
 ulist4 : ulist
-IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
-IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true->gq (nat1) (nat2) = true->false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
+IH1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist3)) else tf3 (nat2) (tf1 ((Nil)) (ulist3)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist3))) then spec (tf1 ((Nil)) (ulist3)) else nat2 else nat1 = ZERO
+IH2 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (ulist4)) else tf3 (nat2) (tf1 ((Nil)) (ulist4)) else false = true -> gq (nat1) (nat2) = true -> false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist4))) then spec (tf1 ((Nil)) (ulist4)) else nat2 else nat1 = ZERO
 Inductive1 : ulist2 = Usplit (ulist3) (nat3) (nat4) (ulist4)
 Cond1 : if gq (nat1) (ZERO) then if lq (nat1) (nat2) then tf5 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else tf3 (nat2) (tf1 ((Nil)) (Usplit (ulist3) (nat3) (nat4) (ulist4))) else false = true
 Cond2 : gq (nat1) (nat2) = true
@@ -1347,7 +1347,7 @@ false = true -> if lq (nat1) (if lq (nat2) (spec (tf1 ((nat3::(nat4::tf1 ((Nil))
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1356,7 +1356,7 @@ Base1 : ulist1 = Uelt (nat3)
 ---------------------------------------
 forall (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (Uelt (nat3))) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (Uelt (nat3))) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (Uelt (nat3)))) = targetNew (Uelt (nat3))
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (Uelt (nat3))) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (Uelt (nat3)))) = targetNew (Uelt (nat3))
 
 1 goal(s) more...
 
@@ -1370,7 +1370,7 @@ Progress: 31
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1379,7 +1379,7 @@ Base1 : ulist1 = Uelt (nat3)
 ---------------------------------------
 forall (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (Uelt (nat3))) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (Uelt (nat3))) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (Uelt (nat3)))) = targetNew (Uelt (nat3))
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (Uelt (nat3))) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (Uelt (nat3)))) = targetNew (Uelt (nat3))
 
 1 goal(s) more...
 
@@ -1389,14 +1389,14 @@ forall (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (Uelt (
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
 nat3 : nat
 Base1 : ulist1 = Uelt (nat3)
 ---------------------------------------
-forall (ulist2:ulist), if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (ulist2))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (ulist2))) else false = true->gq (nat1) (nat2) = true->lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1 else nat3 = nat3
+forall (ulist2:ulist), if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (ulist2))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (ulist2))) else false = true -> gq (nat1) (nat2) = true -> lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1 else nat3 = nat3
 
 1 goal(s) more...
 
@@ -1409,14 +1409,14 @@ Progress: 32
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
 nat3 : nat
 Base1 : ulist1 = Uelt (nat3)
 ---------------------------------------
-forall (ulist2:ulist), if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (ulist2))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (ulist2))) else false = true->gq (nat1) (nat2) = true->lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1 else nat3 = nat3
+forall (ulist2:ulist), if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (ulist2))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (ulist2))) else false = true -> gq (nat1) (nat2) = true -> lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (ulist2))) then spec (tf1 ((Nil)) (ulist2)) else nat2 else nat1 else nat3 = nat3
 
 1 goal(s) more...
 
@@ -1426,7 +1426,7 @@ forall (ulist2:ulist), if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (na
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1435,7 +1435,7 @@ Base1 : ulist1 = Uelt (nat3)
 ulist2 : ulist
 Base2 : ulist2 = Unil
 ---------------------------------------
-if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true->gq (nat1) (nat2) = true->lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
+if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true -> gq (nat1) (nat2) = true -> lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
 
 3 goal(s) more...
 
@@ -1448,7 +1448,7 @@ Progress: 33
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1457,7 +1457,7 @@ Base1 : ulist1 = Uelt (nat3)
 ulist2 : ulist
 Base2 : ulist2 = Unil
 ---------------------------------------
-if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true->gq (nat1) (nat2) = true->lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
+if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true -> gq (nat1) (nat2) = true -> lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
 
 3 goal(s) more...
 
@@ -1467,7 +1467,7 @@ if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil))
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1476,7 +1476,7 @@ Base1 : ulist1 = Uelt (nat3)
 ulist2 : ulist
 Base2 : ulist2 = Unil
 ---------------------------------------
-if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true->gq (nat1) (nat2) = true->lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
+if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true -> gq (nat1) (nat2) = true -> lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
 
 3 goal(s) more...
 
@@ -1489,7 +1489,7 @@ Progress: 34
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1498,7 +1498,7 @@ Base1 : ulist1 = Uelt (nat3)
 ulist2 : ulist
 Base2 : ulist2 = Unil
 ---------------------------------------
-if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true->gq (nat1) (nat2) = true->lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
+if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true -> gq (nat1) (nat2) = true -> lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
 
 3 goal(s) more...
 
@@ -1508,7 +1508,7 @@ if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil))
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1518,7 +1518,7 @@ ulist2 : ulist
 Base2 : ulist2 = Unil
 Cond1 : if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true
 ---------------------------------------
-gq (nat1) (nat2) = true->lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
+gq (nat1) (nat2) = true -> lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
 
 3 goal(s) more...
 
@@ -1531,7 +1531,7 @@ Progress: 35
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1541,7 +1541,7 @@ ulist2 : ulist
 Base2 : ulist2 = Unil
 Cond1 : if gq (nat3) (ZERO) then if lq (nat3) (nat1) then tf5 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else tf3 (nat1) ((nat2::tf1 ((Nil)) (Unil))) else false = true
 ---------------------------------------
-gq (nat1) (nat2) = true->lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
+gq (nat1) (nat2) = true -> lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Unil)) else nat2 else nat1 else nat3 = nat3
 
 3 goal(s) more...
 
@@ -1551,7 +1551,7 @@ gq (nat1) (nat2) = true->lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1575,7 +1575,7 @@ Progress: 36
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1596,7 +1596,7 @@ lq (nat1) (nat3) = true -> if lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1621,7 +1621,7 @@ Progress: 37
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1643,7 +1643,7 @@ if lq (nat3) (if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1669,7 +1669,7 @@ Progress: 38
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1692,7 +1692,7 @@ if lq (nat3) (nat2) then if lq (nat1) (if lq (nat2) (spec (tf1 ((Nil)) (Unil))) 
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1719,7 +1719,7 @@ Progress: 39
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1743,7 +1743,7 @@ if lq (nat1) (nat2) then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1770,7 +1770,7 @@ Progress: 40
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1794,7 +1794,7 @@ if true then if lq (nat2) (spec (tf1 ((Nil)) (Unil))) then spec (tf1 ((Nil)) (Un
 
 1st goal of : forall (nat1:nat) (nat2:nat) (ulist1:ulist) (ulist2:ulist), match (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (ulist1)) with
 | Nil -> true
-| Cons hd tl -> tf5 (hd) (tl) = true->gq (nat1) (nat2) = true->lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
+| Cons hd tl -> tf5 (hd) (tl) = true -> gq (nat1) (nat2) = true -> lq (nat1) (targetNew (ulist1)) = true -> spec (tf1 ((nat1::(nat2::tf1 ((Nil)) (ulist2)))) (target (ulist1))) = targetNew (ulist1)
 nat1 : nat
 nat2 : nat
 ulist1 : ulist
@@ -1826,7 +1826,7 @@ simpl in goal
 validate generalize_common_subterm_goal
 Prop: ZERO = ZERO
 Prop: ZERO = ZERO
-Prop: SUCC (ZERO) = ZERO
+Prop: SUCC (SUCC (SUCC (ZERO))) = ZERO
 asdf
 Fatal error: exception Failure("worklist is empty")
 Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33

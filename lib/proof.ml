@@ -273,7 +273,7 @@ let rec pp_prop prop =
     ^ ", "
     ^ pp_prop p
   | Imply (cond_list, p2) ->
-    (List.map (fun cond -> pp_prop cond) cond_list |> String.concat "->")
+    (List.map (fun cond -> pp_prop cond) cond_list |> String.concat " -> ")
     ^ " -> "
     ^ pp_prop p2
   | Type typ -> Ir.pp_typ typ
@@ -1358,7 +1358,6 @@ let apply_simpl t target : state =
 let apply_rewrite
       (is_reverse : bool)
       (lemma_stack : lemma_stack)
-      (env : env)
       (state : state)
       (fact_label : string)
       (target_label : string)
@@ -1380,119 +1379,121 @@ let apply_rewrite
   let expr_from, expr_to =
     if is_reverse then expr_to, expr_from else expr_from, expr_to
   in
-  ignore env;
-  (* let expr_from, expr_to = simplify_expr env expr_from, simplify_expr env expr_to in *)
-  match target_label with
-  | "goal" ->
-    let new_goal, match_list, cnt =
-      substitute_expr_in_prop
-        (forall_target var_list)
-        convert_in_rewrite
-        goal
-        expr_from
-        expr_to
-        i
-        true
-    in
-    if cnt < i || cnt = 0
-    then failwith "Cannot find the i-th occurrence of the expression in the goal"
-    else if
-      not
-        (List.for_all
-           (fun (e1, _) ->
-              List.exists
-                (fun (e2, _) ->
-                   match e2.Ir.desc with
-                   | Var var -> e1 = var
-                   | _ -> false)
-                match_list)
-           var_list)
-    then
-      (* match_list
-      |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b)); *)
-      failwith "Cannot find matched variable"
-    else (
-      let new_graph = update_egraph graph expr_from expr_to match_list in
-      let new_task =
-        List.map
-          (fun cond ->
-             List.fold_left
-               (fun cond (e1, e2) ->
-                  let prop, _, _ =
-                    substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to, [])
-                      cond
-                      e1
-                      e2
-                      0
-                      false
-                  in
-                  prop)
-               cond
-               match_list)
-          cond_list
-      in
-      [ facts, new_goal, new_graph ]
-      @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task)
+  match List.is_empty cond_list, i with
+  | false, 0 -> failwith "cannot rewrite anywhere in implication proposition"
   | _ ->
-    let target_fact = List.assoc target_label facts in
-    (match cond_list with
-     | [] ->
-       let new_fact, _, cnt =
+    (match target_label with
+     | "goal" ->
+       let new_goal, match_list, cnt =
          substitute_expr_in_prop
            (forall_target var_list)
            convert_in_rewrite
-           target_fact
+           goal
            expr_from
            expr_to
            i
            true
        in
-       let _ =
-         if cnt < i || cnt = 0
-         then
-           failwith "Cannot find the i-th occurrence of the expression in the such fact"
-       in
-       let fact =
-         List.map
-           (fun (name, prop) ->
-              if name = target_label then name, new_fact else name, prop)
-           facts
-       in
-       [ fact, goal, graph ]
-     | [ cond ] ->
-       let _ = if is_reverse then failwith "Does not support if and only if" in
-       let is_matched, match_result = is_prop_matched var_list cond target_fact in
-       let new_fact =
-         List.fold_left
-           (fun prop (var, e) ->
-              let prop, _, _ =
-                substitute_expr_in_prop
-                  Ir.is_equal_expr
-                  (fun _ _ expr_to -> expr_to, [])
-                  prop
-                  Ir.{ desc = Var var; typ = e.Ir.typ }
-                  e
-                  0
-                  false
-              in
-              prop)
-           (Eq (expr_from, expr_to))
-           match_result
-       in
-       if is_matched
-       then (
-         let facts =
+       if cnt < i || cnt = 0
+       then failwith "Cannot find the i-th occurrence of the expression in the goal"
+       else if
+         not
+           (List.for_all
+              (fun (e1, _) ->
+                 List.exists
+                   (fun (e2, _) ->
+                      match e2.Ir.desc with
+                      | Var var -> e1 = var
+                      | _ -> false)
+                   match_list)
+              var_list)
+       then
+         (* match_list
+      |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b)); *)
+         failwith "Cannot find matched variable"
+       else (
+         let new_graph = update_egraph graph expr_from expr_to match_list in
+         let new_task =
            List.map
-             (fun (name, prop) ->
-                (* have to convert just equality to regarding quantified variable *)
-                if name = target_label then name, new_fact else name, prop)
-             facts
+             (fun cond ->
+                List.fold_left
+                  (fun cond (e1, e2) ->
+                     let prop, _, _ =
+                       substitute_expr_in_prop
+                         Ir.is_equal_expr
+                         (fun _ _ expr_to -> expr_to, [])
+                         cond
+                         e1
+                         e2
+                         0
+                         false
+                     in
+                     prop)
+                  cond
+                  match_list)
+             cond_list
          in
-         [ facts, goal, graph ])
-       else failwith "Condition is not matched, cannot rewrite"
-     | _ -> failwith "Cannot rewrite with multiple conditions")
+         [ facts, new_goal, new_graph ]
+         @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task)
+     | _ ->
+       let target_fact = List.assoc target_label facts in
+       (match cond_list with
+        | [] ->
+          let new_fact, _, cnt =
+            substitute_expr_in_prop
+              (forall_target var_list)
+              convert_in_rewrite
+              target_fact
+              expr_from
+              expr_to
+              i
+              true
+          in
+          let _ =
+            if cnt < i || cnt = 0
+            then
+              failwith
+                "Cannot find the i-th occurrence of the expression in the such fact"
+          in
+          let fact =
+            List.map
+              (fun (name, prop) ->
+                 if name = target_label then name, new_fact else name, prop)
+              facts
+          in
+          [ fact, goal, graph ]
+        | [ cond ] ->
+          let _ = if is_reverse then failwith "Does not support if and only if" in
+          let is_matched, match_result = is_prop_matched var_list cond target_fact in
+          let new_fact =
+            List.fold_left
+              (fun prop (var, e) ->
+                 let prop, _, _ =
+                   substitute_expr_in_prop
+                     Ir.is_equal_expr
+                     (fun _ _ expr_to -> expr_to, [])
+                     prop
+                     Ir.{ desc = Var var; typ = e.Ir.typ }
+                     e
+                     0
+                     false
+                 in
+                 prop)
+              (Eq (expr_from, expr_to))
+              match_result
+          in
+          if is_matched
+          then (
+            let facts =
+              List.map
+                (fun (name, prop) ->
+                   (* have to convert just equality to regarding quantified variable *)
+                   if name = target_label then name, new_fact else name, prop)
+                facts
+            in
+            [ facts, goal, graph ])
+          else failwith "Condition is not matched, cannot rewrite"
+        | _ -> failwith "Cannot rewrite with multiple conditions"))
 ;;
 
 let apply_strong_induction name (state : state) t : state list =
@@ -2143,14 +2144,14 @@ let apply_tactic ?(is_lhs : bool option = None) (t : t) tactic : t =
         , tactic_list @ [ tactic ] )
       | RewriteInAt (fact, target_label, i) ->
         ( lemma_stack
-        , ( apply_rewrite false lemma_stack env first_state fact target_label i
+        , ( apply_rewrite false lemma_stack first_state fact target_label i
             @ List.tl state_list
           , conj_goal )
           :: List.tl conj_list
         , tactic_list @ [ tactic ] )
       | RewriteReverse (fact, target_label, i) ->
         ( lemma_stack
-        , ( apply_rewrite true lemma_stack env first_state fact target_label i
+        , ( apply_rewrite true lemma_stack first_state fact target_label i
             @ List.tl state_list
           , conj_goal )
           :: List.tl conj_list
@@ -2243,21 +2244,32 @@ let parse_forall_vars str =
   extract [] 0
 ;;
 
+let rec list_tail lst =
+  match lst with
+  | [] -> failwith "list_tail : list is empty"
+  | [ hd ] -> [], hd
+  | hd :: tl ->
+    let a, b = list_tail tl in
+    hd :: a, b
+;;
+
 let rec parse_prop src binding decls =
   let parts = String.split_on_char ',' src in
   match parts with
   | [ src ] ->
     (match Str.split (Str.regexp "->") src with
-     | [ cond; prop ] ->
-       Imply ([ parse_prop cond binding decls ], parse_prop prop binding decls)
-     | _ ->
+     | [ src ] ->
        let parts = String.split_on_char '=' src in
        let lhs = List.hd parts |> Lexing.from_string in
        let lhs = lhs |> Parse.expression in
        let rhs = List.nth parts 1 |> Lexing.from_string |> Parse.expression in
        let lhs = Ir.ir_of_parsetree lhs binding decls in
        let rhs = Ir.ir_of_parsetree rhs binding decls in
-       Eq (lhs, rhs))
+       Eq (lhs, rhs)
+     | lst ->
+       let prop_list = List.map (fun prop -> parse_prop prop binding decls) lst in
+       let cond_list, prop = list_tail prop_list in
+       Imply (cond_list, prop))
   | quantifier :: prop ->
     let binding = parse_forall_vars quantifier in
     let binding = List.map (fun (var, typ) -> var, Ir.parse_typ typ) binding in

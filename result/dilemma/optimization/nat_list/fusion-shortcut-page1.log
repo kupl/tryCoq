@@ -615,7 +615,7 @@ case mainNew (nat_list2)
 rewrite IH1 in goal at 0
 rewrite <- Case1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: if geq (ZERO) (SUCC (SUCC (ZERO))) then mainNew ((Nil)) else false = lq (SUCC (SUCC (ZERO))) (SUCC (ZERO))
+Prop: if geq (ZERO) (ZERO) then mainNew ((Nil)) else false = lq (ZERO) (SUCC (ZERO))
 Prop: if geq (ZERO) (ZERO) then mainNew ((Nil)) else false = lq (ZERO) (SUCC (ZERO))
 Prop: if geq (ZERO) (ZERO) then mainNew ((ZERO::(Nil))) else false = lq (ZERO) (SUCC (ZERO))
 previous tactics
@@ -623,7 +623,7 @@ simpl in goal
 case mainNew (nat_list2)
 rewrite IH1 in goal at 0
 validate generalize_common_subterm_goal
-Prop: if geq (ZERO) (ZERO) then true else false = lq (ZERO) (SUCC (ZERO))
+Prop: if geq (ZERO) (SUCC (ZERO)) then true else false = lq (SUCC (ZERO)) (SUCC (ZERO))
 Prop: if geq (ZERO) (ZERO) then true else false = lq (ZERO) (SUCC (ZERO))
 Prop: if geq (ZERO) (ZERO) then true else false = lq (ZERO) (SUCC (ZERO))
 previous tactics
@@ -653,8 +653,8 @@ remove lower
 lq(nat1, SUCC(ZERO()))
 validate generalize_common_subterm_goal
 Prop: if geq (ZERO) (ZERO) then all (map ((Nil))) else false = lq (ZERO) (SUCC (ZERO))
-Prop: if geq (ZERO) (SUCC (ZERO)) then all (map ((Nil))) else false = lq (SUCC (ZERO)) (SUCC (ZERO))
-Prop: if geq (ZERO) (ZERO) then all (map ((SUCC (ZERO)::(Nil)))) else false = lq (ZERO) (SUCC (ZERO))
+Prop: if geq (ZERO) (ZERO) then all (map ((Nil))) else false = lq (ZERO) (SUCC (ZERO))
+Prop: if geq (ZERO) (ZERO) then all (map ((Nil))) else false = lq (ZERO) (SUCC (ZERO))
 Lemma List
 forall (nat1:nat) (nat_list1:nat list), mainNew (nat_list1) = true -> if geq (ZERO) (nat1) then all (map (nat_list1)) else false = lq (nat1) (SUCC (ZERO))
 End of Lemma List
@@ -1349,7 +1349,7 @@ if geq (ZERO) (nat2) then all (map (nat_list2)) else false = true
 Tactic List : 3
 case geq (ZERO) (nat2)(rank:7.)
 rewrite <- Cond1 in goal at 0(rank:14.)
-rewrite IH1 in goal at 0(rank:15.)
+rewrite IH1 in goal at 1(rank:15.)
 =================================================
 Progress: 39
 
@@ -1596,7 +1596,7 @@ if mainNew (nat_list2) then lq (nat2) (SUCC (ZERO)) else false = true
 1 conjecture(s) more...
 Tactic List : 4
 case mainNew (nat_list2)(rank:7.)
-rewrite <- IH1 in goal at 0(rank:23.)
+rewrite <- IH1 in goal at 1(rank:23.)
 rewrite Cond1 in goal at 0(rank:14.)
 rewrite <- Cond1 in goal at 0(rank:14.)
 =================================================
@@ -1682,7 +1682,7 @@ Tactic List : 4
 rewrite Cond1 in goal at 0(rank:15.)
 rewrite <- Case1 in goal at 0(rank:15.)
 rewrite <- Cond1 in goal at 0(rank:15.)
-rewrite <- IH1 in goal at 0(rank:24.)
+rewrite <- IH1 in goal at 1(rank:24.)
 =================================================
 Progress: 48
 

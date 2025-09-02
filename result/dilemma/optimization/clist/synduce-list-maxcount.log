@@ -340,30 +340,30 @@ case nat_eq (match (reprNew (clist3)) with
 | Tuple2 _ b -> b)
 rewrite <- IH1 in goal at 0
 rewrite <- IH2 in goal at 0
-Prop: match (tf1 (tf3 (Elt (ZERO)) (Elt (ZERO)))) with
-| Tuple2 _ b -> b = plus (match (tf1 (Elt (ZERO))) with
-| Tuple2 _ b -> b) (match (tf1 (Elt (ZERO))) with
-| Tuple2 _ b -> b)
 Prop: match (tf1 (tf3 (Econs (SUCC (ZERO)) (Econs (ZERO) (Elt (ZERO)))) (Elt (ZERO)))) with
 | Tuple2 _ b -> b = plus (match (tf1 (Econs (SUCC (ZERO)) (Econs (ZERO) (Elt (ZERO))))) with
 | Tuple2 _ b -> b) (match (tf1 (Elt (ZERO))) with
 | Tuple2 _ b -> b)
-Prop: match (tf1 (tf3 (Econs (ZERO) (Elt (SUCC (ZERO)))) (Elt (ZERO)))) with
-| Tuple2 _ b -> b = plus (match (tf1 (Econs (ZERO) (Elt (SUCC (ZERO))))) with
-| Tuple2 _ b -> b) (match (tf1 (Elt (ZERO))) with
-| Tuple2 _ b -> b)
-validate generalize_common_subterm_goal
-Prop: match (tf1 (tf3 (Elt (ZERO)) (Econs (ZERO) (Econs (ZERO) (Elt (ZERO)))))) with
+Prop: match (tf1 (tf3 (Elt (ZERO)) (Econs (SUCC (ZERO)) (Elt (ZERO))))) with
 | Tuple2 _ b -> b = plus (match (tf1 (Elt (ZERO))) with
-| Tuple2 _ b -> b) (match (tf1 (Econs (ZERO) (Econs (ZERO) (Elt (ZERO))))) with
-| Tuple2 _ b -> b)
-Prop: match (tf1 (tf3 (Econs (ZERO) (Econs (ZERO) (Econs (SUCC (SUCC (ZERO))) (Elt (SUCC (SUCC (SUCC (ZERO)))))))) (Econs (SUCC (ZERO)) (Elt (ZERO))))) with
-| Tuple2 _ b -> b = plus (match (tf1 (Econs (ZERO) (Econs (ZERO) (Econs (SUCC (SUCC (ZERO))) (Elt (SUCC (SUCC (SUCC (ZERO))))))))) with
 | Tuple2 _ b -> b) (match (tf1 (Econs (SUCC (ZERO)) (Elt (ZERO)))) with
 | Tuple2 _ b -> b)
-Prop: match (tf1 (tf3 (Econs (ZERO) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))) (Elt (ZERO)))) with
-| Tuple2 _ b -> b = plus (match (tf1 (Econs (ZERO) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO))))) with
-| Tuple2 _ b -> b) (match (tf1 (Elt (ZERO))) with
+Prop: match (tf1 (tf3 (Elt (SUCC (ZERO))) (Econs (SUCC (ZERO)) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO)))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (SUCC (ZERO)))) with
+| Tuple2 _ b -> b) (match (tf1 (Econs (SUCC (ZERO)) (Econs (SUCC (SUCC (ZERO))) (Elt (ZERO))))) with
+| Tuple2 _ b -> b)
+validate generalize_common_subterm_goal
+Prop: match (tf1 (tf3 (Elt (ZERO)) (Econs (ZERO) (Elt (ZERO))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b) (match (tf1 (Econs (ZERO) (Elt (ZERO)))) with
+| Tuple2 _ b -> b)
+Prop: match (tf1 (tf3 (Econs (ZERO) (Elt (ZERO))) (Elt (SUCC (ZERO))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Econs (ZERO) (Elt (ZERO)))) with
+| Tuple2 _ b -> b) (match (tf1 (Elt (SUCC (ZERO)))) with
+| Tuple2 _ b -> b)
+Prop: match (tf1 (tf3 (Elt (ZERO)) (Elt (SUCC (ZERO))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b) (match (tf1 (Elt (SUCC (ZERO)))) with
 | Tuple2 _ b -> b)
 previous tactics
 simpl in goal
@@ -371,3 +371,3189 @@ case nat_eq (match (reprNew (clist3)) with
 | Tuple2 _ b -> b) (match (reprNew (clist2)) with
 | Tuple2 _ b -> b)
 rewrite <- IH1 in goal at 0
+Prop: match (tf1 (tf3 (repr (Single (ZERO))) (Elt (ZERO)))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a) (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b)
+Prop: match (tf1 (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (Elt (ZERO)))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+| Tuple2 a _ -> a) (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b)
+Prop: match (tf1 (tf3 (repr (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (ZERO))))) (Elt (ZERO)))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Concats (Single (SUCC (SUCC (ZERO)))) (Single (SUCC (ZERO))))) with
+| Tuple2 a _ -> a) (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b)
+validate generalize_common_subterm_goal
+Prop: match (tf1 (tf3 (repr (Single (ZERO))) (Elt (ZERO)))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a) (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b)
+Prop: match (tf1 (tf3 (repr (Single (ZERO))) (Elt (ZERO)))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a) (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b)
+Prop: match (tf1 (tf3 (repr (Single (ZERO))) (Elt (SUCC (SUCC (ZERO)))))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a) (match (tf1 (Elt (SUCC (SUCC (ZERO))))) with
+| Tuple2 _ b -> b)
+previous tactics
+simpl in goal
+case nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b)
+validate generalize_common_subterm_goal
+Prop: match (tf1 (tf3 (repr (Single (SUCC (ZERO)))) (repr (Single (ZERO))))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Single (SUCC (ZERO)))) with
+| Tuple2 a _ -> a) (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (repr (Single (ZERO))) (repr (Single (SUCC (ZERO)))))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a) (match (reprNew (Single (SUCC (ZERO)))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (repr (Single (ZERO))) (repr (Single (ZERO))))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a) (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a)
+Lemma List
+forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+End of Lemma List
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b = match (reprNew (clist2)) with
+| Tuple2 a _ -> a
+IH2 : match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b = match (reprNew (clist3)) with
+| Tuple2 a _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+match (tf1 (tf3 (repr (clist3)) (repr (clist2)))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist3)) with
+| Tuple2 a _ -> a) (match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Lemma List
+forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+End of Lemma List
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b = match (reprNew (clist2)) with
+| Tuple2 a _ -> a
+IH2 : match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b = match (reprNew (clist3)) with
+| Tuple2 a _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+match (tf1 (tf3 (repr (clist3)) (repr (clist2)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b) (match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 9
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b = match (reprNew (clist2)) with
+| Tuple2 a _ -> a
+IH2 : match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b = match (reprNew (clist3)) with
+| Tuple2 a _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+match (tf1 (tf3 (repr (clist3)) (repr (clist2)))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist3)) with
+| Tuple2 a _ -> a) (match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)(rank : 0.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+---------------------------------------
+forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro clist1(rank:5.)
+=================================================
+Progress: 10
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b = match (reprNew (clist2)) with
+| Tuple2 a _ -> a
+IH2 : match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b = match (reprNew (clist3)) with
+| Tuple2 a _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+match (tf1 (tf3 (repr (clist3)) (repr (clist2)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b) (match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)(rank : 0.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro clist1(rank:5.)
+=================================================
+Progress: 11
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+---------------------------------------
+forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist1(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+---------------------------------------
+forall (elist1:elist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction clist2(rank:6.)
+=================================================
+Progress: 12
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist1(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro clist2(rank:5.)
+=================================================
+Progress: 13
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+---------------------------------------
+forall (elist1:elist) (elist2:elist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist2(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+---------------------------------------
+forall (elist1:elist) (elist2:elist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:5.)
+=================================================
+Progress: 14
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+---------------------------------------
+forall (elist1:elist) (elist2:elist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+forall (elist1:elist) (elist2:elist), match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 2
+induction elist1(rank:14.)
+induction elist2(rank:14.)
+=================================================
+Progress: 15
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+---------------------------------------
+forall (elist1:elist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction clist2(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+---------------------------------------
+forall (elist1:elist), nat_eq (match (reprNew (Single (nat1))) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (Single (nat1))) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Single (nat1))) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 16
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+---------------------------------------
+forall (elist1:elist), nat_eq (match (reprNew (Single (nat1))) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (Single (nat1))) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Single (nat1))) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+---------------------------------------
+forall (elist1:elist), nat_eq (nat1) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (elist1))) with
+| Tuple2 _ b -> b = SUCC (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:6.)
+=================================================
+Progress: 17
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+---------------------------------------
+forall (elist1:elist), nat_eq (nat1) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (elist1))) with
+| Tuple2 _ b -> b = SUCC (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+Cond1 : nat_eq (nat1) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+forall (elist1:elist), match (tf1 (tf3 (Elt (nat1)) (elist1))) with
+| Tuple2 _ b -> b = SUCC (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction elist1(rank:7.)
+=================================================
+Progress: 18
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+Cond1 : nat_eq (nat1) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+forall (elist1:elist), match (tf1 (tf3 (Elt (nat1)) (elist1))) with
+| Tuple2 _ b -> b = SUCC (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist1(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+Cond1 : nat_eq (nat1) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+match (tf1 (tf3 (Elt (nat1)) (Elt (nat2)))) with
+| Tuple2 _ b -> b = SUCC (match (tf1 (Elt (nat2))) with
+| Tuple2 _ b -> b)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 19
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+Cond1 : nat_eq (nat1) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+match (tf1 (tf3 (Elt (nat1)) (Elt (nat2)))) with
+| Tuple2 _ b -> b = SUCC (match (tf1 (Elt (nat2))) with
+| Tuple2 _ b -> b)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+Cond1 : nat_eq (nat1) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case gq (nat2) (nat1)(rank:8.)
+=================================================
+Progress: 20
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+Cond1 : nat_eq (nat1) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case gq (nat2) (nat1)(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (repr (clist2)) (elist1))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist2)) with
+| Tuple2 a _ -> a) (match (tf1 (elist1)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+nat1 : nat
+Base1 : clist2 = Single (nat1)
+Cond1 : nat_eq (nat1) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : gq (nat2) (nat1) = true
+---------------------------------------
+SUCC (ZERO) = SUCC (SUCC (ZERO))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+case gq (nat2) (nat1)
+=================================================
+Progress: 21
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b = match (reprNew (clist2)) with
+| Tuple2 a _ -> a
+IH2 : match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b = match (reprNew (clist3)) with
+| Tuple2 a _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+match (tf1 (tf3 (repr (clist3)) (repr (clist2)))) with
+| Tuple2 _ b -> b = plus (match (reprNew (clist3)) with
+| Tuple2 a _ -> a) (match (reprNew (clist2)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> rewrite <- IH2 in goal at 0(rank : 12.)
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b = match (reprNew (clist2)) with
+| Tuple2 a _ -> a
+IH2 : match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b = match (reprNew (clist3)) with
+| Tuple2 a _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+match (tf1 (tf3 (repr (clist3)) (repr (clist2)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+case nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b)
+rewrite <- IH2 in goal at 0
+Prop: match (tf1 (tf3 (Elt (ZERO)) (repr (Concats (Single (ZERO)) (Single (SUCC (ZERO))))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b) (match (reprNew (Concats (Single (ZERO)) (Single (SUCC (ZERO))))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (Elt (SUCC (ZERO))) (repr (Single (ZERO))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (SUCC (ZERO)))) with
+| Tuple2 _ b -> b) (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (Elt (ZERO)) (repr (Single (ZERO))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b) (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a)
+validate generalize_common_subterm_goal
+Prop: match (tf1 (tf3 (Elt (SUCC (ZERO))) (repr (Single (ZERO))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (SUCC (ZERO)))) with
+| Tuple2 _ b -> b) (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (Elt (ZERO)) (repr (Concats (Single (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Single (SUCC (ZERO))))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b) (match (reprNew (Concats (Single (SUCC (SUCC (SUCC (SUCC (ZERO)))))) (Single (SUCC (ZERO))))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (Elt (ZERO)) (repr (Single (SUCC (ZERO)))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (ZERO))) with
+| Tuple2 _ b -> b) (match (reprNew (Single (SUCC (ZERO)))) with
+| Tuple2 a _ -> a)
+previous tactics
+simpl in goal
+case nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b)
+validate generalize_common_subterm_goal
+Prop: match (tf1 (tf3 (repr (Single (ZERO))) (repr (Concats (Single (ZERO)) (Single (ZERO)))))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a) (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Concats (Single (SUCC (ZERO))) (Single (ZERO)))))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+| Tuple2 a _ -> a) (match (reprNew (Concats (Single (SUCC (ZERO))) (Single (ZERO)))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (repr (Concats (Single (ZERO)) (Single (ZERO)))) (repr (Single (SUCC (SUCC (SUCC (ZERO)))))))) with
+| Tuple2 _ b -> b = plus (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+| Tuple2 a _ -> a) (match (reprNew (Single (SUCC (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a)
+Lemma List
+forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+End of Lemma List
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b = match (reprNew (clist2)) with
+| Tuple2 a _ -> a
+IH2 : match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b = match (reprNew (clist3)) with
+| Tuple2 a _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+match (tf1 (tf3 (repr (clist3)) (repr (clist2)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+=================================================
+Progress: 22
+
+
+1st goal of : forall (clist1:clist), main (clist1) = mainNew (clist1)
+clist1 : clist
+clist2 : clist
+clist3 : clist
+IH1 : match (tf1 (repr (clist2))) with
+| Tuple2 _ b -> b = match (reprNew (clist2)) with
+| Tuple2 a _ -> a
+IH2 : match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b = match (reprNew (clist3)) with
+| Tuple2 a _ -> a
+Inductive1 : clist1 = Concats (clist2) (clist3)
+Case1 : nat_eq (match (reprNew (clist3)) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+match (tf1 (tf3 (repr (clist3)) (repr (clist2)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (repr (clist3))) with
+| Tuple2 _ b -> b) (match (reprNew (clist2)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+0 conjecture(s) more...
+>>> assert forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)(rank : 0.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+---------------------------------------
+forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 4
+intro clist1(rank:5.)
+intro clist2(rank:5.)
+induction clist1(rank:14.)
+induction elist1(rank:14.)
+=================================================
+Progress: 23
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+---------------------------------------
+forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist1(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+---------------------------------------
+forall (elist1:elist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro clist2(rank:5.)
+=================================================
+Progress: 24
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+---------------------------------------
+forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist2(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+---------------------------------------
+forall (elist1:elist) (clist1:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction clist1(rank:6.)
+=================================================
+Progress: 25
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+---------------------------------------
+forall (elist1:elist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist2(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+clist2 : clist
+---------------------------------------
+forall (elist1:elist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:5.)
+=================================================
+Progress: 26
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+clist2 : clist
+---------------------------------------
+forall (elist1:elist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 5.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+forall (elist1:elist), match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction elist1(rank:6.)
+=================================================
+Progress: 27
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+---------------------------------------
+forall (elist1:elist) (clist1:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction clist1(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (elist1:elist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat1))) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (Single (nat1))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat1))) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 28
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+forall (elist1:elist), match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist1(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (nat1))) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 29
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (elist1:elist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat1))) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (Single (nat1))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat1))) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (elist1:elist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true -> if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:6.)
+=================================================
+Progress: 30
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (nat1))) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+validate generalize_common_subterm_goal
+Prop: match (tf1 (tf3 (Elt (ZERO)) (repr (Single (ZERO))))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (Single (ZERO))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (Elt (SUCC (ZERO))) (repr (Concats (Single (ZERO)) (Single (ZERO)))))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (Elt (SUCC (ZERO))) (repr (Single (SUCC (SUCC (ZERO))))))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (Single (SUCC (SUCC (ZERO))))) with
+| Tuple2 a _ -> a)
+asdf
+=================================================
+Progress: 31
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (elist1:elist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true -> if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+---------------------------------------
+forall (elist1:elist), if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction elist1(rank:7.)
+=================================================
+Progress: 32
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+---------------------------------------
+forall (elist1:elist), if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist1(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (match (tf1 (Elt (nat2))) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (Elt (nat2))) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 33
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (match (tf1 (Elt (nat2))) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (Elt (nat2))) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (nat2) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case gq (nat1) (nat2)(rank:8.)
+=================================================
+Progress: 34
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (nat2) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case gq (nat1) (nat2)(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist2 : clist
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : gq (nat1) (nat2) = true
+---------------------------------------
+SUCC (ZERO) = SUCC (SUCC (ZERO))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+case gq (nat1) (nat2)
+=================================================
+Progress: 35
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+forall (elist1:elist) (elist2:elist), match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist1(rank : 14.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+forall (elist2:elist), match (tf1 (tf3 (Elt (nat1)) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (nat1))) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 36
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+forall (elist2:elist), match (tf1 (tf3 (Elt (nat1)) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (nat1))) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+forall (elist2:elist), match (tf1 (tf3 (Elt (nat1)) (elist2))) with
+| Tuple2 _ b -> b = SUCC (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction elist2(rank:7.)
+=================================================
+Progress: 37
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+forall (elist2:elist), match (tf1 (tf3 (Elt (nat1)) (elist2))) with
+| Tuple2 _ b -> b = SUCC (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist2(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+elist2 : elist
+nat2 : nat
+Base2 : elist2 = Elt (nat2)
+---------------------------------------
+match (tf1 (tf3 (Elt (nat1)) (Elt (nat2)))) with
+| Tuple2 _ b -> b = SUCC (match (tf1 (Elt (nat2))) with
+| Tuple2 _ b -> b)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 38
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+elist2 : elist
+nat2 : nat
+Base2 : elist2 = Elt (nat2)
+---------------------------------------
+match (tf1 (tf3 (Elt (nat1)) (Elt (nat2)))) with
+| Tuple2 _ b -> b = SUCC (match (tf1 (Elt (nat2))) with
+| Tuple2 _ b -> b)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+elist2 : elist
+nat2 : nat
+Base2 : elist2 = Elt (nat2)
+---------------------------------------
+if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case gq (nat2) (nat1)(rank:8.)
+=================================================
+Progress: 39
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+elist2 : elist
+nat2 : nat
+Base2 : elist2 = Elt (nat2)
+---------------------------------------
+if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case gq (nat2) (nat1)(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+elist2 : elist
+nat2 : nat
+Base2 : elist2 = Elt (nat2)
+Case1 : gq (nat2) (nat1) = true
+---------------------------------------
+SUCC (ZERO) = SUCC (SUCC (ZERO))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+case gq (nat2) (nat1)
+=================================================
+Progress: 40
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+forall (elist1:elist) (elist2:elist), match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist2(rank : 14.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist), match (tf1 (tf3 (elist1) (Elt (nat1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (Elt (nat1))) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 41
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist), match (tf1 (tf3 (elist1) (Elt (nat1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (Elt (nat1))) with
+| Tuple2 _ b -> b)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist), if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction elist1(rank:7.)
+=================================================
+Progress: 42
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+---------------------------------------
+forall (elist1:elist), if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist1(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (match (tf1 (Elt (nat2))) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (Elt (nat2))) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 43
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (match (tf1 (Elt (nat2))) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (Elt (nat2))) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (nat2) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case gq (nat1) (nat2)(rank:8.)
+=================================================
+Progress: 44
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (nat2) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case gq (nat1) (nat2)(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (elist2:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (elist2))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (tf1 (elist2)) with
+| Tuple2 _ b -> b)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+elist2 : elist
+nat1 : nat
+Base1 : elist2 = Elt (nat1)
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : gq (nat1) (nat2) = true
+---------------------------------------
+SUCC (ZERO) = SUCC (SUCC (ZERO))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+case gq (nat1) (nat2)
+=================================================
+Progress: 45
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+---------------------------------------
+forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction clist1(rank : 14.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (elist1:elist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat1))) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (Single (nat1))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat1))) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 46
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (elist1:elist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat1))) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (Single (nat1))))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat1))) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (elist1:elist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true -> if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro clist2(rank:6.)
+=================================================
+Progress: 47
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+---------------------------------------
+forall (elist1:elist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true -> if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist2(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+---------------------------------------
+forall (elist1:elist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true -> if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:6.)
+=================================================
+Progress: 48
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+---------------------------------------
+forall (elist1:elist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true -> if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+---------------------------------------
+forall (elist1:elist), if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction elist1(rank:7.)
+=================================================
+Progress: 49
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+---------------------------------------
+forall (elist1:elist), if gq (nat1) (match (tf1 (elist1)) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (elist1))) (if nat_eq (nat1) (fst3 (tf1 (elist1))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist1(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (match (tf1 (Elt (nat2))) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (Elt (nat2))) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 50
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (match (tf1 (Elt (nat2))) with
+| Tuple2 a _ -> a) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = plus (match (tf1 (Elt (nat2))) with
+| Tuple2 _ b -> b) (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (nat2) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case gq (nat1) (nat2)(rank:8.)
+=================================================
+Progress: 51
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+---------------------------------------
+if gq (nat1) (nat2) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat2)))) (if nat_eq (nat1) (fst3 (tf1 (Elt (nat2)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case gq (nat1) (nat2)(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+clist1 : clist
+nat1 : nat
+Base1 : clist1 = Single (nat1)
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat1) = true
+elist1 : elist
+nat2 : nat
+Base2 : elist1 = Elt (nat2)
+Case1 : gq (nat1) (nat2) = true
+---------------------------------------
+SUCC (ZERO) = SUCC (SUCC (ZERO))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+case gq (nat1) (nat2)
+=================================================
+Progress: 52
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+---------------------------------------
+forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+0 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction elist1(rank : 14.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+forall (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (nat1))) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:6.)
+=================================================
+Progress: 53
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+forall (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (Elt (nat1))) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+forall (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 3
+intro clist1(rank:6.)
+intro clist2(rank:6.)
+induction clist1(rank:15.)
+=================================================
+Progress: 54
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+forall (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist1(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+---------------------------------------
+forall (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro clist2(rank:6.)
+=================================================
+Progress: 55
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+forall (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist2(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist2 : clist
+---------------------------------------
+forall (clist1:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+induction clist1(rank:7.)
+=================================================
+Progress: 56
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+---------------------------------------
+forall (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist2(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+clist2 : clist
+---------------------------------------
+nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:6.)
+=================================================
+Progress: 57
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+clist2 : clist
+---------------------------------------
+nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 6.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true
+---------------------------------------
+match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro clist1
+intro clist2
+intro Cond1
+validate generalize_common_subterm_goal
+Prop: match (tf1 (tf3 (Elt (SUCC (ZERO))) (repr (Concats (Single (ZERO)) (Single (ZERO)))))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (Concats (Single (ZERO)) (Single (ZERO)))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (Elt (SUCC (SUCC (ZERO)))) (repr (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))))))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (Concats (Single (ZERO)) (Concats (Single (SUCC (ZERO))) (Concats (Concats (Single (ZERO)) (Single (ZERO))) (Single (ZERO)))))) with
+| Tuple2 a _ -> a)
+Prop: match (tf1 (tf3 (Elt (SUCC (ZERO))) (repr (Single (SUCC (SUCC (SUCC (ZERO)))))))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (Single (SUCC (SUCC (SUCC (ZERO)))))) with
+| Tuple2 a _ -> a)
+asdf
+=================================================
+Progress: 58
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist2 : clist
+---------------------------------------
+forall (clist1:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction clist1(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist2 : clist
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+---------------------------------------
+nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat2))) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (Single (nat2))))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (Single (nat2))) with
+| Tuple2 a _ -> a)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 59
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist2 : clist
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+---------------------------------------
+nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat2))) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (Single (nat2))))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (Single (nat2))) with
+| Tuple2 a _ -> a)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist2 : clist
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+---------------------------------------
+nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true -> if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:7.)
+=================================================
+Progress: 60
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist2 : clist
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+---------------------------------------
+nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true -> if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist2 : clist
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true
+---------------------------------------
+if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case gq (nat2) (nat1)(rank:8.)
+=================================================
+Progress: 61
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist2 : clist
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true
+---------------------------------------
+if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case gq (nat2) (nat1)(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist2 : clist
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true
+Case1 : gq (nat2) (nat1) = true
+---------------------------------------
+SUCC (ZERO) = SUCC (SUCC (ZERO))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro Cond1
+case gq (nat2) (nat1)
+=================================================
+Progress: 62
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+---------------------------------------
+forall (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (clist1)))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+
+1 goal(s) more...
+
+1 conjecture(s) more...
+>>> induction clist1(rank : 15.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+---------------------------------------
+forall (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat2))) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (Single (nat2))))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (Single (nat2))) with
+| Tuple2 a _ -> a)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+simpl in goal(rank:7.)
+=================================================
+Progress: 63
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+---------------------------------------
+forall (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (Single (nat2))) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (Elt (nat1)) (repr (Single (nat2))))) with
+| Tuple2 _ b -> b = SUCC (match (reprNew (Single (nat2))) with
+| Tuple2 a _ -> a)
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> simpl in goal(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+---------------------------------------
+forall (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true -> if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro clist2(rank:7.)
+=================================================
+Progress: 64
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+---------------------------------------
+forall (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true -> if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro clist2(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+clist2 : clist
+---------------------------------------
+nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true -> if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+intro Cond1(rank:7.)
+=================================================
+Progress: 65
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+clist2 : clist
+---------------------------------------
+nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true -> if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> intro Cond1(rank : 7.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true
+---------------------------------------
+if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 1
+case gq (nat2) (nat1)(rank:8.)
+=================================================
+Progress: 66
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true
+---------------------------------------
+if gq (nat2) (nat1) then SUCC (ZERO) else plus (snd3 (tf1 (Elt (nat1)))) (if nat_eq (nat2) (fst3 (tf1 (Elt (nat1)))) then SUCC (ZERO) else ZERO) = SUCC (SUCC (ZERO))
+
+2 goal(s) more...
+
+1 conjecture(s) more...
+>>> case gq (nat2) (nat1)(rank : 8.)
+
+
+1st goal of : forall (elist1:elist) (clist1:clist) (clist2:clist), nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 _ b -> b) = true -> match (tf1 (tf3 (elist1) (repr (clist1)))) with
+| Tuple2 _ b -> b = plus (match (tf1 (elist1)) with
+| Tuple2 _ b -> b) (match (reprNew (clist1)) with
+| Tuple2 a _ -> a)
+elist1 : elist
+nat1 : nat
+Base1 : elist1 = Elt (nat1)
+clist1 : clist
+nat2 : nat
+Base2 : clist1 = Single (nat2)
+clist2 : clist
+Cond1 : nat_eq (match (reprNew (clist2)) with
+| Tuple2 _ b -> b) (nat2) = true
+Case1 : gq (nat2) (nat1) = true
+---------------------------------------
+SUCC (ZERO) = SUCC (SUCC (ZERO))
+
+3 goal(s) more...
+
+1 conjecture(s) more...
+Tactic List : 0
+previous tactics
+simpl in goal
+intro clist2
+intro Cond1
+case gq (nat2) (nat1)
+Fatal error: exception Failure("worklist is empty")
+Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+Called from Dilemma__Engine.proof_auto in file "lib/engine.ml", line 283, characters 8-69
+Called from Dune__exe__Main.main in file "bin/main.ml", line 24, characters 12-79

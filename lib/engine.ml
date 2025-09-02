@@ -162,7 +162,7 @@ let rec progress worklist statelist lemma_set =
          ^ ")")
     in
     let _ = Proof.pp_t work.next_t.t |> print_endline in
-    (* let _ = if i = 24 then loop work.next_t.t in *)
+    (* let _ = if i = 294 then loop work.next_t.t in *)
     (match work.next_t.t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof
      | _ ->

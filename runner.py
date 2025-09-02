@@ -5,7 +5,7 @@ import pandas as pd
 
 TOOLS = ['cclemma', 'thesy','dilemma']
 BENCHMARKS = ['isaplanner', 'clam', 'optimization', 'dilemma']
-TIMEOUT = 60
+TIMEOUT = 120
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Run benchmarks.')

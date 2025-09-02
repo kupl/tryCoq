@@ -110,9 +110,9 @@ Prop: spec (repr (match (Mleaf (ZERO) (ZERO)) with
 | Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (ZERO) (ZERO) else Mleaf (ZERO) (ZERO))) = match (Mleaf (ZERO) (ZERO)) with
 | Mleaf n1 n2 -> n1
 | Mnode n1 n2 t1 t2 -> n1
-Prop: spec (repr (match (Mnode (SUCC (ZERO)) (ZERO) (Mnode (ZERO) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (SUCC (SUCC (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (ZERO)) (Mleaf (SUCC (ZERO)) (ZERO)))) (Mleaf (SUCC (SUCC (ZERO))) (ZERO))) with
-| Mleaf n1 n2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mnode (SUCC (ZERO)) (ZERO) (Mnode (ZERO) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (SUCC (SUCC (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (ZERO)) (Mleaf (SUCC (ZERO)) (ZERO)))) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)) else Mnode (SUCC (ZERO)) (ZERO) (Mnode (ZERO) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (SUCC (SUCC (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (ZERO)) (Mleaf (SUCC (ZERO)) (ZERO)))) (Mleaf (SUCC (SUCC (ZERO))) (ZERO))
-| Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mnode (SUCC (ZERO)) (ZERO) (Mnode (ZERO) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (SUCC (SUCC (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (ZERO)) (Mleaf (SUCC (ZERO)) (ZERO)))) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)) else Mnode (SUCC (ZERO)) (ZERO) (Mnode (ZERO) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (SUCC (SUCC (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (ZERO)) (Mleaf (SUCC (ZERO)) (ZERO)))) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)))) = match (Mnode (SUCC (ZERO)) (ZERO) (Mnode (ZERO) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (SUCC (SUCC (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)))) (Mnode (ZERO) (ZERO) (Mleaf (ZERO) (ZERO)) (Mleaf (SUCC (ZERO)) (ZERO)))) (Mleaf (SUCC (SUCC (ZERO))) (ZERO))) with
+Prop: spec (repr (match (Mleaf (SUCC (ZERO)) (ZERO)) with
+| Mleaf n1 n2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (SUCC (ZERO)) (ZERO) else Mleaf (SUCC (ZERO)) (ZERO)
+| Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (SUCC (ZERO)) (ZERO) else Mleaf (SUCC (ZERO)) (ZERO))) = match (Mleaf (SUCC (ZERO)) (ZERO)) with
 | Mleaf n1 n2 -> n1
 | Mnode n1 n2 t1 t2 -> n1
 Lemma List
@@ -262,19 +262,19 @@ spec (repr (match (treememo1) with
 1 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: spec (repr (match (Mleaf (ZERO) (ZERO)) with
-| Mleaf n1 n2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (ZERO) (ZERO) else Mleaf (ZERO) (ZERO)
-| Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (ZERO) (ZERO) else Mleaf (ZERO) (ZERO))) = match (Mleaf (ZERO) (ZERO)) with
+Prop: spec (repr (match (Mleaf (SUCC (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) with
+| Mleaf n1 n2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (SUCC (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO))) else Mleaf (SUCC (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))
+| Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (SUCC (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO))) else Mleaf (SUCC (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO))))) = match (Mleaf (SUCC (SUCC (SUCC (ZERO)))) (SUCC (SUCC (ZERO)))) with
+| Mleaf n1 n2 -> n1
+| Mnode n1 n2 t1 t2 -> n1
+Prop: spec (repr (match (Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (SUCC (ZERO))) (Mnode (SUCC (SUCC (ZERO))) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)) (Mleaf (ZERO) (ZERO))) (Mleaf (ZERO) (ZERO)))) with
+| Mleaf n1 n2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (SUCC (ZERO))) (Mnode (SUCC (SUCC (ZERO))) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)) (Mleaf (ZERO) (ZERO))) (Mleaf (ZERO) (ZERO))) else Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (SUCC (ZERO))) (Mnode (SUCC (SUCC (ZERO))) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)) (Mleaf (ZERO) (ZERO))) (Mleaf (ZERO) (ZERO)))
+| Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (SUCC (ZERO))) (Mnode (SUCC (SUCC (ZERO))) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)) (Mleaf (ZERO) (ZERO))) (Mleaf (ZERO) (ZERO))) else Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (SUCC (ZERO))) (Mnode (SUCC (SUCC (ZERO))) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)) (Mleaf (ZERO) (ZERO))) (Mleaf (ZERO) (ZERO))))) = match (Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (SUCC (ZERO))) (Mnode (SUCC (SUCC (ZERO))) (ZERO) (Mnode (ZERO) (ZERO) (Mleaf (SUCC (SUCC (ZERO))) (ZERO)) (Mleaf (ZERO) (ZERO))) (Mleaf (ZERO) (ZERO)))) with
 | Mleaf n1 n2 -> n1
 | Mnode n1 n2 t1 t2 -> n1
 Prop: spec (repr (match (Mleaf (ZERO) (ZERO)) with
 | Mleaf n1 n2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (ZERO) (ZERO) else Mleaf (ZERO) (ZERO)
 | Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (ZERO) (ZERO) else Mleaf (ZERO) (ZERO))) = match (Mleaf (ZERO) (ZERO)) with
-| Mleaf n1 n2 -> n1
-| Mnode n1 n2 t1 t2 -> n1
-Prop: spec (repr (match (Mleaf (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) with
-| Mleaf n1 n2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))) else Mleaf (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))
-| Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))) else Mleaf (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO)))))) = match (Mleaf (SUCC (ZERO)) (SUCC (SUCC (SUCC (ZERO))))) with
 | Mleaf n1 n2 -> n1
 | Mnode n1 n2 t1 t2 -> n1
 Lemma List
@@ -437,14 +437,14 @@ Prop: spec (repr (match (Mleaf (ZERO) (ZERO)) with
 | Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (ZERO) (ZERO) else Mleaf (ZERO) (ZERO))) = match (Mleaf (ZERO) (ZERO)) with
 | Mleaf n1 n2 -> n1
 | Mnode n1 n2 t1 t2 -> n1
+Prop: spec (repr (match (Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (ZERO) (ZERO))) with
+| Mleaf n1 n2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (ZERO) (ZERO)) else Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (ZERO) (ZERO))
+| Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (ZERO) (ZERO)) else Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (ZERO) (ZERO)))) = match (Mnode (ZERO) (ZERO) (Mleaf (SUCC (ZERO)) (ZERO)) (Mleaf (ZERO) (ZERO))) with
+| Mleaf n1 n2 -> n1
+| Mnode n1 n2 t1 t2 -> n1
 Prop: spec (repr (match (Mleaf (ZERO) (ZERO)) with
 | Mleaf n1 n2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (ZERO) (ZERO) else Mleaf (ZERO) (ZERO)
 | Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mleaf (ZERO) (ZERO) else Mleaf (ZERO) (ZERO))) = match (Mleaf (ZERO) (ZERO)) with
-| Mleaf n1 n2 -> n1
-| Mnode n1 n2 t1 t2 -> n1
-Prop: spec (repr (match (Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (ZERO)) (Mleaf (ZERO) (ZERO))) with
-| Mleaf n1 n2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (ZERO)) (Mleaf (ZERO) (ZERO)) else Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (ZERO)) (Mleaf (ZERO) (ZERO))
-| Mnode n1 n2 l1 l2 -> if lq (n2) (SUCC (SUCC (ZERO))) then Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (ZERO)) (Mleaf (ZERO) (ZERO)) else Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (ZERO)) (Mleaf (ZERO) (ZERO)))) = match (Mnode (ZERO) (SUCC (ZERO)) (Mleaf (ZERO) (ZERO)) (Mleaf (ZERO) (ZERO))) with
 | Mleaf n1 n2 -> n1
 | Mnode n1 n2 t1 t2 -> n1
 Fatal error: exception Failure("worklist is empty")

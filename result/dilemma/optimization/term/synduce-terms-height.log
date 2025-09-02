@@ -1939,9 +1939,9 @@ reflexivity
 reflexivity
 simpl in goal
 rewrite <- IH1 in goal at 0
-Prop: spec (tf1 (Tarithun (Aminus) (Tarithbin (Agt) (Tboolbin (Bnot) (Tarithbin (Aplus) (Tcbool (true)) (Tarithbin (Aplus) (Tarithun (Agt) (Tboolbin (Band) (Tcbool (false)) (Tarithun (Agt) (Tvar (ZERO))))) (Tvar (ZERO)))) (Tcbool (false))) (Tvar (ZERO)))) (Opgt)) = SUCC (spec (Tarithun (Aminus) (Tarithbin (Agt) (Tboolbin (Bnot) (Tarithbin (Aplus) (Tcbool (true)) (Tarithbin (Aplus) (Tarithun (Agt) (Tboolbin (Band) (Tcbool (false)) (Tarithun (Agt) (Tvar (ZERO))))) (Tvar (ZERO)))) (Tcbool (false))) (Tvar (ZERO)))))
-Prop: spec (tf1 (Tarithun (Aplus) (Tcbool (true))) (Opnot)) = SUCC (spec (Tarithun (Aplus) (Tcbool (true))))
-Prop: spec (tf1 (Tcbool (true)) (Opor)) = SUCC (spec (Tcbool (true)))
+Prop: spec (tf1 (Tcbool (true)) (Opplus)) = SUCC (spec (Tcbool (true)))
+Prop: spec (tf1 (Tvar (SUCC (ZERO))) (Opplus)) = SUCC (spec (Tvar (SUCC (ZERO))))
+Prop: spec (tf1 (Tvar (ZERO)) (Opminus)) = SUCC (spec (Tvar (ZERO)))
 previous tactics
 reflexivity
 reflexivity
@@ -1950,9 +1950,9 @@ reflexivity
 reflexivity
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: spec (tf1 (repr (target (Var (ZERO)))) (Opeq)) = SUCC (mainNew (Var (ZERO)))
-Prop: spec (tf1 (repr (target (Un (Opplus) (Cbool (false))))) (Opplus)) = SUCC (mainNew (Un (Opplus) (Cbool (false))))
-Prop: spec (tf1 (repr (target (Bin (Opor) (Var (ZERO)) (Cbool (true))))) (Opand)) = SUCC (mainNew (Bin (Opor) (Var (ZERO)) (Cbool (true))))
+Prop: spec (tf1 (repr (target (Var (SUCC (SUCC (ZERO)))))) (Opor)) = SUCC (mainNew (Var (SUCC (SUCC (ZERO)))))
+Prop: spec (tf1 (repr (target (Bin (Opeq) (Cbool (false)) (Bin (Opplus) (Var (ZERO)) (Var (SUCC (ZERO))))))) (Opor)) = SUCC (mainNew (Bin (Opeq) (Cbool (false)) (Bin (Opplus) (Var (ZERO)) (Var (SUCC (ZERO))))))
+Prop: spec (tf1 (repr (target (Var (ZERO)))) (Opor)) = SUCC (mainNew (Var (ZERO)))
 Lemma List
 forall (term1:term) (op1:op), spec (tf1 (term1) (op1)) = SUCC (spec (term1))
 End of Lemma List

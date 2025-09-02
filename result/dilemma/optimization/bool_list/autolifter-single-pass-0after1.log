@@ -220,9 +220,9 @@ tf4(bool1, tf1(bool_list2, bool_list2))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: tf4 (true) (tf1 ((Nil)) ((Nil))) = true
 Prop: tf4 (true) (tf1 ((true::(Nil))) ((true::(Nil)))) = true
-Prop: tf4 (true) (tf1 ((Nil)) ((Nil))) = true
+Prop: tf4 (false) (tf1 ((true::(Nil))) ((true::(Nil)))) = true
+Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = true
 Lemma List
 forall (bool1:bool) (bool_list1:bool list), if bool1 then match (match (tf6 (bool_list1)) with
 | Tuple2 _ b -> b) with
@@ -501,11 +501,11 @@ Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = if if false then match (match (tf6 ((N
 | Tuple2 _ b -> b) with
 | true -> false
 | false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
-Prop: tf4 (false) (tf1 ((true::(false::(Nil)))) ((true::(false::(Nil))))) = if if false then match (match (tf6 ((true::(false::(Nil))))) with
+Prop: tf4 (false) (tf1 ((false::(Nil))) ((false::(Nil)))) = if if false then match (match (tf6 ((false::(Nil)))) with
 | Tuple2 _ b -> b) with
 | true -> false
-| false -> true else false then true else tf4 (false) (tf1 ((true::(false::(Nil)))) ((true::(false::(Nil)))))
-Prop: tf4 (true) (tf1 ((Nil)) ((Nil))) = if if true then match (match (tf6 ((Nil))) with
+| false -> true else false then true else tf4 (false) (tf1 ((false::(Nil))) ((false::(Nil))))
+Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = if if false then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
 | false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
@@ -528,17 +528,17 @@ tf4(bool1, tf1(bool_list2, bool_list2))
 remove upper
 _
 validate generalize_common_subterm_goal
-Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = if if false then match (match (tf6 ((Nil))) with
-| Tuple2 _ b -> b) with
-| true -> false
-| false -> true else false then true else match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
-Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = if if false then match (match (tf6 ((Nil))) with
-| Tuple2 _ b -> b) with
-| true -> false
-| false -> true else false then true else match (tf6 ((Nil))) with
-| Tuple2 a _ -> a
 Prop: tf4 (true) (tf1 ((Nil)) ((Nil))) = if if true then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else match (tf6 ((Nil))) with
+| Tuple2 a _ -> a
+Prop: tf4 (false) (tf1 ((Nil)) ((Nil))) = if if false then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
 | false -> true else false then true else match (tf6 ((Nil))) with
@@ -888,7 +888,7 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
-Prop: false = if if true then match (match (tf6 ((Nil))) with
+Prop: false = if if false then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
 | false -> true else false then true else match (tf6 ((Nil))) with
@@ -1020,15 +1020,15 @@ Tactic List : 0
 previous tactics
 simpl in goal
 validate generalize_common_subterm_goal
+Prop: false = if if false then match (match (tf6 ((Nil))) with
+| Tuple2 _ b -> b) with
+| true -> false
+| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
 Prop: false = if if true then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
 | false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
-Prop: false = if if false then match (match (tf6 ((Nil))) with
-| Tuple2 _ b -> b) with
-| true -> false
-| false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
-Prop: false = if if false then match (match (tf6 ((Nil))) with
+Prop: false = if if true then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
 | false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
@@ -1149,7 +1149,7 @@ Prop: false = if if false then match (match (tf6 ((Nil))) with
 | true -> false
 | false -> true else false then true else match (tf6 ((Nil))) with
 | Tuple2 a _ -> a
-Prop: false = if if true then match (match (tf6 ((Nil))) with
+Prop: false = if if false then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
 | false -> true else false then true else match (tf6 ((Nil))) with
@@ -1376,7 +1376,7 @@ false = if if bool1 then match (match (tf6 ((Nil))) with
 3 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: false = if if false then match (match (tf6 ((Nil))) with
+Prop: false = if if true then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
 | false -> true else false then true else match (tf6 ((Nil))) with
@@ -1386,7 +1386,7 @@ Prop: false = if if true then match (match (tf6 ((Nil))) with
 | true -> false
 | false -> true else false then true else match (tf6 ((Nil))) with
 | Tuple2 a _ -> a
-Prop: false = if if false then match (match (tf6 ((Nil))) with
+Prop: false = if if true then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
 | false -> true else false then true else match (tf6 ((Nil))) with
@@ -1428,7 +1428,7 @@ false = if if bool1 then match (match (tf6 ((Nil))) with
 3 conjecture(s) more...
 Tactic List : 0
 validate generalize_common_subterm_goal
-Prop: false = if if false then match (match (tf6 ((Nil))) with
+Prop: false = if if true then match (match (tf6 ((Nil))) with
 | Tuple2 _ b -> b) with
 | true -> false
 | false -> true else false then true else tf4 (false) (tf1 ((Nil)) ((Nil)))
