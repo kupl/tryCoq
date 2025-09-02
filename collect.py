@@ -37,3 +37,5 @@ def backup_directory(src_dir, dst_parent="."):
 if __name__ == "__main__":
     source_directory = "result/dilemma"   # 원하는 디렉토리 경로
     backup_directory(source_directory, dst_parent=".")
+    summary_directory = "summary"
+    backup_directory(summary_directory, dst_parent=".")
