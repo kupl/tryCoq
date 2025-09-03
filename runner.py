@@ -2,6 +2,7 @@ import os
 import argparse
 import subprocess
 import pandas as pd
+import itertools
 
 TOOLS = ['cclemma', 'thesy','dilemma']
 BENCHMARKS = ['isaplanner', 'clam', 'optimization', 'dilemma']
@@ -28,9 +29,14 @@ def parse_args():
                         type = bool,
                         default = False,
                         help = 'Whether to aggregate results. Default is False.')
+
+    parser.add_argument('--handshaking',
+                        type = bool,
+                        default = False,
+                        help = 'Whether to use handshaking. Default is False.')
     return parser.parse_args()   
 
-def run_dilemma(benchmark_name):
+def run_dilemma(benchmark_name, handshaking):
     if benchmark_name == 'dilemma':
         benchmark_name = 'dilemma-bench'
     file_path = os.path.join('../dilemma-benchmark',benchmark_name,"dilemma")
@@ -42,7 +48,7 @@ def run_dilemma(benchmark_name):
         return    
     dir_list = os.listdir(file_path)
 
-    if benchmark_name == 'dilemma-bench':
+    if benchmark_name == 'dilemma-bench' and not handshaking:
         for problem in dir_list:
             output_dir = os.path.join(result_path,problem)
             if not os.path.exists(output_dir):
@@ -58,6 +64,58 @@ def run_dilemma(benchmark_name):
                 output_path_by_problem = os.path.join(output_dir, base + '.log')
                 program_b = os.path.join(file_path, problem, program_b)
                 input_text = '\n'.join([program_a, program_b, assertion]) + '\n'
+                print(f"Here is input text: {input_text}")
+                try:
+                    result = subprocess.run(['dune', 'exec', 'dilemma'],input=input_text,text=True,timeout=TIMEOUT,capture_output=True)
+                    with open(output_path_by_problem,"w") as f:
+                        f.write(result.stdout)
+                        f.write(result.stderr)
+                except subprocess.TimeoutExpired as e:
+                    with open(output_path_by_problem, "w") as f:
+                        if e.stdout:
+                            f.write(e.stdout.decode("utf-8"))
+                        if e.stderr:                            
+                            f.write(f"Dilemma timed out for benchmark {benchmark_name} with problem {problem}.")
+                            f.write(e.stderr.decode("utf-8"))
+                except Exception as e:
+                    with open(output_path_by_problem, "w") as f:
+                        if e.stdout:
+                                f.write(e.stdout.decode("utf-8"))
+                        if e.stderr:                            
+                            f.write(f"An error occurred while running Dilemma on benchmark {benchmark_name}: {e}")
+                            f.write(e.stderr.decode("utf-8"))
+    elif benchmark_name == 'dilemma-bench' and handshaking :
+        for problem in dir_list:
+            result_path = os.path.join('result','dilemma','dilemma-bench-handshaking')
+            output_dir = os.path.join(result_path,problem)
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir, exist_ok=True)
+            file_list = os.listdir(os.path.join(file_path, problem))
+            input_file = os.path.join(file_path, problem, [i for i in file_list if i.endswith('input')][0])
+            
+            program_pairs = list(itertools.combinations([i for i in file_list if not i.endswith('input')], 2))
+            for (program_a,program_b) in program_pairs:
+                base_a, _ = os.path.splitext(program_a)
+                base_b, _ = os.path.splitext(program_b)
+                with open(input_file, 'r') as f:
+                    lines = []
+                    for line in f:
+                        line = line.strip()
+                        if line:
+                            lines.append(line)
+                    fname = lines[0]
+                    types = lines[1:]
+                    args = [f"arg{i}" for i in range(len(types))]
+                    quantifiers = " ".join(f"({a} : {t})" for a,t in zip(args, types))
+                    arglist = " ".join(args)
+                    lhs = f"{fname}_{base_a} {arglist}".strip()
+                    rhs = f"{fname}_{base_b} {arglist}".strip()
+                    assertion = f"assert forall {quantifiers}, {lhs} = {rhs}"
+                    print(assertion)
+                output_path_by_problem = os.path.join(output_dir, base_a + '-' + base_b + '.log')
+                program_a = os.path.join(file_path,problem,program_a)
+                program_b = os.path.join(file_path, problem, program_b)
+                input_text = '\n'.join([program_a, program_b, "2", assertion]) + '\n'
                 print(f"Here is input text: {input_text}")
                 try:
                     result = subprocess.run(['dune', 'exec', 'dilemma'],input=input_text,text=True,timeout=TIMEOUT,capture_output=True)
@@ -229,7 +287,7 @@ if __name__ == '__main__':
     for tool in tool_list:    
         for dataset in dataset_list:
             if tool == 'dilemma':
-                run_dilemma(dataset)
+                run_dilemma(dataset, args.handshaking)
             elif tool == 'cclemma':
                 pass
             elif tool == 'thesy':
