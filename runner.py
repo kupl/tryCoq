@@ -105,7 +105,7 @@ def run_dilemma(benchmark_name, handshaking):
                             lines.append(line)
                     fname = lines[0]
                     types = lines[1:]
-                    args = [f"arg{i}" for i in range(len(types))]
+                    args = [f"inp{i}" for i in range(len(types))]
                     quantifiers = " ".join(f"({a} : {t})" for a,t in zip(args, types))
                     arglist = " ".join(args)
                     lhs = f"{fname}_{base_a} {arglist}".strip()
