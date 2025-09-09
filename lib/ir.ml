@@ -145,17 +145,6 @@ let expr_of_int (i : int) : expr_desc =
   else Call ("Neg", [ { desc = expr_of_nat (-i); typ = Talgebraic ("natural", []) } ])
 ;;
 
-let rec expr_of_pattern pattern =
-  match pattern with
-  | Pat_Constr (name, patterns) ->
-    Call
-      ( name
-      , List.map (fun pattern -> { desc = expr_of_pattern pattern; typ = Tany }) patterns
-      )
-  | Pat_Var name -> Var name
-  | _ -> failwith "Not implemented : expr_of_pattern"
-;;
-
 let char_of_ascii i = Char.chr i
 let ascii_of_char ch = Char.code ch
 
@@ -475,7 +464,7 @@ and get_expr expr =
       let cases' =
         List.map
           (fun case ->
-             let pattern = get_pattern case.Typedtree.c_lhs in
+             let pattern = get_pattern case.Typedtree.c_lhs e1 in
              Case (pattern, case.Typedtree.c_rhs |> get_expr))
           cases
       in
@@ -529,11 +518,12 @@ and get_expr expr =
            , [ Case (Pat_Constr ("true", []), e1); Case (Pat_Constr ("false", []), e2) ]
            )
        | None -> failwith "Not implemented : get_expr : no else branch")
-    | Texp_tuple [ a; b ] ->
-      let a' = get_expr a in
-      let b' = get_expr b in
-      Call ("tuple2", [ a'; b' ])
-    | Texp_tuple _ -> failwith "more than tuple2 are not implemented"
+    | Texp_tuple l ->
+      let l = List.map get_expr l in
+      let len = List.length l in
+      if len > 4
+      then failwith ("tuple" ^ string_of_int len ^ " is not implemented")
+      else Call ("Tuple" ^ string_of_int len, l)
     | Texp_constant constant ->
       (match constant with
        | Const_int i -> expr_of_int i
@@ -558,10 +548,10 @@ and get_expr expr =
   in
   { desc; typ }
 
-and get_pattern : type k. k Typedtree.general_pattern -> pattern =
-  fun pattern ->
+and get_pattern : type k. k Typedtree.general_pattern -> Typedtree.expression -> pattern =
+  fun pattern expr ->
   match pattern.pat_desc with
-  | Tpat_value p -> (p :> Typedtree.pattern) |> get_pattern
+  | Tpat_value p -> get_pattern (p :> Typedtree.pattern) expr
   | Tpat_construct (lident_loc, _, args, _) ->
     let name = Longident.last lident_loc.txt in
     let name =
@@ -570,10 +560,19 @@ and get_pattern : type k. k Typedtree.general_pattern -> pattern =
       | "[]" -> "Nil"
       | _ -> name
     in
-    let args' = List.map (fun arg -> get_pattern arg) args in
+    let args' = List.map (fun arg -> get_pattern arg expr) args in
     Pat_Constr (name, args')
   | Tpat_var (name, _, _) -> Pat_Var (Ident.name name)
-  | Tpat_tuple patterns -> Pat_Tuple (List.map get_pattern patterns)
+  | Tpat_tuple patterns ->
+    (match expr.exp_desc with
+     | Texp_tuple _ ->
+       Pat_Tuple (List.map (fun pattern -> get_pattern pattern expr) patterns)
+     | _ ->
+       let args = List.map (fun pattern -> get_pattern pattern expr) patterns in
+       let arg_len = List.length args in
+       if arg_len > 4
+       then failwith ("tuple" ^ string_of_int arg_len ^ " is not implemented")
+       else Pat_Constr ("Tuple" ^ string_of_int arg_len, args))
   | Tpat_any -> Pat_any
   | _ -> failwith "Not implemented : get_pattern : other pattern is not implemented"
 
@@ -599,11 +598,12 @@ and get_type (expr : Typedtree.expression) =
         | _ -> Tarrow [ arg_typ; e2' ]
       in
       new_typ
-    | Ttuple [ a; b ] ->
-      let a' = a |> Types.get_desc |> pr_type in
-      let b' = b |> Types.get_desc |> pr_type in
-      Talgebraic ("tuple2", [ a'; b' ])
-    | Ttuple _ -> failwith "more than tuple2 is not implemented yet"
+    | Ttuple l ->
+      let l = List.map (fun arg -> arg |> Types.get_desc |> pr_type) l in
+      let len = List.length l in
+      if len > 4
+      then failwith ("tuple" ^ string_of_int len ^ " is not implemented")
+      else Talgebraic ("tuple" ^ string_of_int (List.length l), l)
     | _ -> failwith "Not implemented : get_type"
   in
   expr.exp_type |> Types.get_desc |> pr_type
@@ -1166,4 +1166,22 @@ let rec is_contained expr_src expr_target =
       || is_contained expr_src body
     | Call (_, args) -> List.exists (fun arg -> is_contained expr_src arg) args
     | _ -> false)
+;;
+
+let rec expr_of_pattern pattern =
+  match pattern with
+  | Pat_Constr (name, patterns) ->
+    Call
+      ( name
+      , List.map (fun pattern -> { desc = expr_of_pattern pattern; typ = Tany }) patterns
+      )
+  | Pat_Var name -> Var name
+  | _ -> failwith "Not implemented : expr_of_pattern"
+;;
+
+let rec contain_any pattern =
+  match pattern with
+  | Pat_Constr (_, patterns) | Pat_Tuple patterns -> List.exists contain_any patterns
+  | Pat_any -> true
+  | _ -> false
 ;;

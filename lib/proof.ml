@@ -63,6 +63,11 @@ type debug_tactic =
   | AllTactic
 [@@deriving sexp]
 
+type ambiguity =
+  | Ok
+  | No
+  | Ambiguous
+
 let is_equal_fact (fact1 : fact) (fact2 : fact) =
   let name1, prop1 = fact1 in
   let name2, prop2 = fact2 in
@@ -268,7 +273,7 @@ let rec pp_prop prop =
     ^ ", "
     ^ pp_prop p
   | Imply (cond_list, p2) ->
-    (List.map (fun cond -> pp_prop cond) cond_list |> String.concat "->")
+    (List.map (fun cond -> pp_prop cond) cond_list |> String.concat " -> ")
     ^ " -> "
     ^ pp_prop p2
   | Type typ -> Ir.pp_typ typ
@@ -1081,6 +1086,275 @@ let is_prop_matched var_list prop_src prop_tgt : bool * (string * expr) list =
   | _ -> false, []
 ;;
 
+let rec get_case_match env expr_list pat : (expr * expr) list * ambiguity =
+  match expr_list with
+  | [ expr ] ->
+    (match expr.Ir.desc, pat with
+     | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ], Ok
+     (* we need to check type *)
+     | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
+       if constr = constr'
+       then (
+         match arg_list, pat_list with
+         | [], [] ->
+           ( [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
+               , Ir.{ desc = Call (constr, []); typ = expr.typ } )
+             ]
+           , Ok )
+         | _ ->
+           let result, ambiguity =
+             List.fold_left2
+               (fun (acc, ambiguity) e p ->
+                  match ambiguity with
+                  | No -> [], No
+                  | _ ->
+                    let next, new_ambiguity = get_case_match env [ e ] p in
+                    (match new_ambiguity, ambiguity with
+                     | No, _ -> [], No
+                     | Ok, Ok -> acc @ next, Ok
+                     | Ok, _ -> [], Ambiguous
+                     | Ambiguous, _ -> [], Ambiguous))
+               ([], Ok)
+               arg_list
+               pat_list
+           in
+           result, ambiguity)
+       else if Ir.is_constructor constr env
+       then [], No
+       else [], Ambiguous
+     | _, Pat_any -> [ Ir.{ desc = Var "dummy"; typ = expr.typ }, expr ], Ok
+     (* any must return something *)
+     | _ -> [], Ambiguous)
+  | _ ->
+    (match pat with
+     | Ir.Pat_Tuple l ->
+       let result, ambiguity =
+         List.fold_left2
+           (fun (acc, ambiguity) e p ->
+              match ambiguity with
+              | No -> [], No
+              | _ ->
+                let next, new_ambiguity = get_case_match env [ e ] p in
+                (match new_ambiguity, ambiguity with
+                 | No, _ -> [], No
+                 | Ok, Ok -> acc @ next, Ok
+                 | Ok, _ -> [], Ambiguous
+                 | Ambiguous, _ -> [], Ambiguous))
+           ([], Ok)
+           expr_list
+           l
+       in
+       result, ambiguity
+     | Ir.Pat_Constr (constr, pat_list) when String.starts_with ~prefix:"tuple" constr ->
+       let result, ambiguity =
+         List.fold_left2
+           (fun (acc, ambiguity) e p ->
+              match ambiguity with
+              | No -> [], No
+              | _ ->
+                let next, new_ambiguity = get_case_match env [ e ] p in
+                (match new_ambiguity, ambiguity with
+                 | No, _ -> [], No
+                 | Ok, Ok -> acc @ next, Ok
+                 | Ok, _ -> [], Ambiguous
+                 | Ambiguous, _ -> [], Ambiguous))
+           ([], Ok)
+           expr_list
+           pat_list
+       in
+       result, ambiguity
+     | _ -> failwith "pattern matching is ill-formed")
+;;
+
+let convert_in_simpl (target : expr) expr_from expr_to : expr * 'a list =
+  ignore expr_from;
+  match target.Ir.desc with
+  | Call (_, args) ->
+    (match expr_to.Ir.desc with
+     | Call (new_name, new_args) ->
+       Ir.{ desc = Call (new_name, new_args @ args); typ = target.typ }, []
+     | Var new_name -> Ir.{ desc = Call (new_name, args); typ = target.typ }, []
+     | _ -> expr_to, [])
+  | _ -> expr_to, []
+;;
+
+let rec simplify_expr (env : Ir.t) expr =
+  match expr.Ir.desc with
+  | Ir.Var _ -> expr
+  | Ir.Call (name, args) ->
+    let args = List.map (simplify_expr env) args in
+    (match Ir.find_decl name env with
+     | Some (Ir.NonRec (_, decl_args, body)) ->
+       (match List.length decl_args <> List.length args with
+        | true -> Ir.{ desc = Call (name, args); typ = expr.typ }
+        | false ->
+          let new_body =
+            List.fold_left2
+              (fun e name arg ->
+                 let exp, _, _ =
+                   substitute_expr_in_expr
+                     Ir.is_equal_expr_partrial_fun
+                     convert_in_simpl
+                     e
+                     Ir.{ desc = Var name; typ = arg.typ }
+                     arg
+                     0
+                     false
+                     []
+                 in
+                 exp)
+              body
+              decl_args
+              args
+          in
+          simplify_expr env new_body)
+     | Some (Ir.Rec (_, decl_args, body)) ->
+       let new_body =
+         List.fold_left2
+           (fun e name arg ->
+              let exp, _, _ =
+                substitute_expr_in_expr
+                  Ir.is_equal_expr_partrial_fun
+                  convert_in_simpl
+                  e
+                  Ir.{ desc = Var name; typ = arg.typ }
+                  arg
+                  0
+                  false
+                  []
+              in
+              exp)
+           body
+           decl_args
+           args
+       in
+       let simplify_body = simplify_expr env new_body in
+       if simplify_body = new_body
+       then Ir.{ desc = Call (name, args); typ = expr.typ }
+       else simplify_body
+     | _ -> Ir.{ desc = Call (name, args); typ = expr.typ })
+  | Ir.Match (match_list, cases) ->
+    let match_list = List.map (simplify_expr env) match_list in
+    let new_expr, _ =
+      List.fold_left
+        (fun (acc, ambiguity) case ->
+           match acc, ambiguity with
+           | Some _, _ -> acc, ambiguity
+           | None, Ambiguous -> None, ambiguity
+           | _ ->
+             (match case with
+              | Ir.Case (pat, pat_body) ->
+                let expr_match_list, ambiguity = get_case_match env match_list pat in
+                if expr_match_list = []
+                then None, ambiguity
+                else (
+                  match ambiguity with
+                  | Ambiguous -> None, ambiguity
+                  | _ ->
+                    let new_expr =
+                      List.fold_left
+                        (fun e (e1, e2) ->
+                           let exp, _, _ =
+                             substitute_expr_in_expr
+                               Ir.is_equal_expr_partrial_fun
+                               convert_in_simpl
+                               e
+                               e1
+                               e2
+                               0
+                               false
+                               []
+                           in
+                           exp)
+                        pat_body
+                        expr_match_list
+                    in
+                    Some new_expr, ambiguity)))
+        (None, Ok)
+        cases
+    in
+    (match new_expr with
+     | None -> Ir.{ desc = Match (match_list, cases); typ = expr.typ }
+     | Some e -> simplify_expr env e)
+  | Ir.LetIn (let_list, e) ->
+    let new_expr =
+      List.fold_left
+        (fun e (name, e') ->
+           let exp, _, _ =
+             substitute_expr_in_expr
+               Ir.is_equal_expr_partrial_fun
+               convert_in_simpl
+               e
+               Ir.{ desc = Var name; typ = e'.typ }
+               e'
+               0
+               false
+               []
+           in
+           exp)
+        e
+        let_list
+    in
+    simplify_expr env new_expr
+;;
+
+let rec simplify_prop env prop =
+  match prop with
+  | Eq (e1, e2) ->
+    let e1 = simplify_expr env e1 in
+    let e2 = simplify_expr env e2 in
+    Eq (e1, e2)
+  | Le (e1, e2) ->
+    let e1 = simplify_expr env e1 in
+    let e2 = simplify_expr env e2 in
+    Le (e1, e2)
+  | Lt (e1, e2) ->
+    let e1 = simplify_expr env e1 in
+    let e2 = simplify_expr env e2 in
+    Lt (e1, e2)
+  | And (p1, p2) ->
+    let p1 = simplify_prop env p1 in
+    let p2 = simplify_prop env p2 in
+    And (p1, p2)
+  | Or (p1, p2) ->
+    let p1 = simplify_prop env p1 in
+    let p2 = simplify_prop env p2 in
+    Or (p1, p2)
+  | Not p ->
+    let p = simplify_prop env p in
+    Not p
+  | Forall (var_list, p) ->
+    let p = simplify_prop env p in
+    Forall (var_list, p)
+  | Imply (cond_list, p2) ->
+    let cond_list = List.map (simplify_prop env) cond_list in
+    let p2 = simplify_prop env p2 in
+    Imply (cond_list, p2)
+  | Type typ -> Type typ
+;;
+
+let apply_simpl t target : state =
+  let env = t.env in
+  let state = get_first_state t in
+  let facts, goal, graph = state in
+  match target with
+  | "goal" ->
+    let new_goal = simplify_prop env goal in
+    facts, new_goal, graph_of_prop new_goal
+  | _ ->
+    let facts =
+      List.map
+        (fun (name, prop) ->
+           if name = target
+           then (
+             let new_fact = simplify_prop env prop in
+             name, new_fact)
+           else name, prop)
+        facts
+    in
+    facts, goal, graph
+;;
+
 let apply_rewrite
       (is_reverse : bool)
       (lemma_stack : lemma_stack)
@@ -1105,117 +1379,121 @@ let apply_rewrite
   let expr_from, expr_to =
     if is_reverse then expr_to, expr_from else expr_from, expr_to
   in
-  match target_label with
-  | "goal" ->
-    let new_goal, match_list, cnt =
-      substitute_expr_in_prop
-        (forall_target var_list)
-        convert_in_rewrite
-        goal
-        expr_from
-        expr_to
-        i
-        true
-    in
-    if cnt < i || cnt = 0
-    then failwith "Cannot find the i-th occurrence of the expression in the goal"
-    else if
-      not
-        (List.for_all
-           (fun (e1, _) ->
-              List.exists
-                (fun (e2, _) ->
-                   match e2.Ir.desc with
-                   | Var var -> e1 = var
-                   | _ -> false)
-                match_list)
-           var_list)
-    then
-      (* match_list
-      |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b)); *)
-      failwith "Cannot find matched variable"
-    else (
-      let new_graph = update_egraph graph expr_from expr_to match_list in
-      let new_task =
-        List.map
-          (fun cond ->
-             List.fold_left
-               (fun cond (e1, e2) ->
-                  let prop, _, _ =
-                    substitute_expr_in_prop
-                      Ir.is_equal_expr
-                      (fun _ _ expr_to -> expr_to, [])
-                      cond
-                      e1
-                      e2
-                      0
-                      false
-                  in
-                  prop)
-               cond
-               match_list)
-          cond_list
-      in
-      [ facts, new_goal, new_graph ]
-      @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task)
+  match List.is_empty cond_list, i with
+  | false, 0 -> failwith "cannot rewrite anywhere in implication proposition"
   | _ ->
-    let target_fact = List.assoc target_label facts in
-    (match cond_list with
-     | [] ->
-       let new_fact, _, cnt =
+    (match target_label with
+     | "goal" ->
+       let new_goal, match_list, cnt =
          substitute_expr_in_prop
            (forall_target var_list)
            convert_in_rewrite
-           target_fact
+           goal
            expr_from
            expr_to
            i
            true
        in
-       let _ =
-         if cnt < i || cnt = 0
-         then
-           failwith "Cannot find the i-th occurrence of the expression in the such fact"
-       in
-       let fact =
-         List.map
-           (fun (name, prop) ->
-              if name = target_label then name, new_fact else name, prop)
-           facts
-       in
-       [ fact, goal, graph ]
-     | [ cond ] ->
-       let _ = if is_reverse then failwith "Does not support if and only if" in
-       let is_matched, match_result = is_prop_matched var_list cond target_fact in
-       let new_fact =
-         List.fold_left
-           (fun prop (var, e) ->
-              let prop, _, _ =
-                substitute_expr_in_prop
-                  Ir.is_equal_expr
-                  (fun _ _ expr_to -> expr_to, [])
-                  prop
-                  Ir.{ desc = Var var; typ = e.Ir.typ }
-                  e
-                  0
-                  false
-              in
-              prop)
-           (Eq (expr_from, expr_to))
-           match_result
-       in
-       if is_matched
-       then (
-         let facts =
+       if cnt < i || cnt = 0
+       then failwith "Cannot find the i-th occurrence of the expression in the goal"
+       else if
+         not
+           (List.for_all
+              (fun (e1, _) ->
+                 List.exists
+                   (fun (e2, _) ->
+                      match e2.Ir.desc with
+                      | Var var -> e1 = var
+                      | _ -> false)
+                   match_list)
+              var_list)
+       then
+         (* match_list
+      |> List.iter (fun (a, b) -> Printf.printf "%s |> %s\n" (pp_expr a) (pp_expr b)); *)
+         failwith "Cannot find matched variable"
+       else (
+         let new_graph = update_egraph graph expr_from expr_to match_list in
+         let new_task =
            List.map
-             (fun (name, prop) ->
-                (* have to convert just equality to regarding quantified variable *)
-                if name = target_label then name, new_fact else name, prop)
-             facts
+             (fun cond ->
+                List.fold_left
+                  (fun cond (e1, e2) ->
+                     let prop, _, _ =
+                       substitute_expr_in_prop
+                         Ir.is_equal_expr
+                         (fun _ _ expr_to -> expr_to, [])
+                         cond
+                         e1
+                         e2
+                         0
+                         false
+                     in
+                     prop)
+                  cond
+                  match_list)
+             cond_list
          in
-         [ facts, goal, graph ])
-       else failwith "Condition is not matched, cannot rewrite"
-     | _ -> failwith "Cannot rewrite with multiple conditions")
+         [ facts, new_goal, new_graph ]
+         @ List.map (fun goal -> facts, goal, graph_of_prop goal) new_task)
+     | _ ->
+       let target_fact = List.assoc target_label facts in
+       (match cond_list with
+        | [] ->
+          let new_fact, _, cnt =
+            substitute_expr_in_prop
+              (forall_target var_list)
+              convert_in_rewrite
+              target_fact
+              expr_from
+              expr_to
+              i
+              true
+          in
+          let _ =
+            if cnt < i || cnt = 0
+            then
+              failwith
+                "Cannot find the i-th occurrence of the expression in the such fact"
+          in
+          let fact =
+            List.map
+              (fun (name, prop) ->
+                 if name = target_label then name, new_fact else name, prop)
+              facts
+          in
+          [ fact, goal, graph ]
+        | [ cond ] ->
+          let _ = if is_reverse then failwith "Does not support if and only if" in
+          let is_matched, match_result = is_prop_matched var_list cond target_fact in
+          let new_fact =
+            List.fold_left
+              (fun prop (var, e) ->
+                 let prop, _, _ =
+                   substitute_expr_in_prop
+                     Ir.is_equal_expr
+                     (fun _ _ expr_to -> expr_to, [])
+                     prop
+                     Ir.{ desc = Var var; typ = e.Ir.typ }
+                     e
+                     0
+                     false
+                 in
+                 prop)
+              (Eq (expr_from, expr_to))
+              match_result
+          in
+          if is_matched
+          then (
+            let facts =
+              List.map
+                (fun (name, prop) ->
+                   (* have to convert just equality to regarding quantified variable *)
+                   if name = target_label then name, new_fact else name, prop)
+                facts
+            in
+            [ facts, goal, graph ])
+          else failwith "Condition is not matched, cannot rewrite"
+        | _ -> failwith "Cannot rewrite with multiple conditions"))
 ;;
 
 let apply_strong_induction name (state : state) t : state list =
@@ -1417,258 +1695,6 @@ let rec get_type_in_prop name prop =
       None
       (cond_list @ [ p2 ])
   | Type typ -> Some typ
-;;
-
-let rec get_case_match env expr_list pat =
-  match expr_list with
-  | [ expr ] ->
-    (match expr.Ir.desc, pat with
-     | _, Ir.Pat_Var var' -> [ Ir.{ desc = Var var'; typ = expr.typ }, expr ], false
-     (* we need to check type *)
-     | Ir.Call (constr, arg_list), Ir.Pat_Constr (constr', pat_list) ->
-       if constr = constr'
-       then (
-         match arg_list, pat_list with
-         | [], [] ->
-           ( [ ( Ir.{ desc = Call (constr', []); typ = expr.typ }
-               , Ir.{ desc = Call (constr, []); typ = expr.typ } )
-             ]
-           , false )
-         | _ ->
-           let result, ambiguity, _ =
-             List.fold_left2
-               (fun (acc, ambiguity, is_done) e p ->
-                  if is_done || ambiguity
-                  then [], ambiguity, true
-                  else (
-                    let next, new_ambiguity = get_case_match env [ e ] p in
-                    if new_ambiguity
-                    then [], true, true
-                    else if next = []
-                    then [], false, true
-                    else acc @ next, false, false))
-               ([], false, false)
-               arg_list
-               pat_list
-           in
-           result, ambiguity)
-       else if Ir.is_constructor constr env
-       then [], false
-       else [], true
-     | _, Pat_any -> [ Ir.{ desc = Var "dummy"; typ = expr.typ }, expr ], false
-     (* any must return something *)
-     | _ -> [], true)
-  | _ ->
-    (match pat with
-     | Ir.Pat_Tuple l ->
-       let result, ambiguity, _ =
-         List.fold_left2
-           (fun (acc, ambiguity, is_done) e p ->
-              if is_done || ambiguity
-              then [], ambiguity, true
-              else (
-                let next, new_ambiguity = get_case_match env [ e ] p in
-                if new_ambiguity
-                then [], true, true
-                else if next = []
-                then [], false, true
-                else acc @ next, false, false))
-           ([], false, false)
-           expr_list
-           l
-       in
-       result, ambiguity
-     | _ -> failwith "pattern matching is ill-formed")
-;;
-
-let convert_in_simpl (target : expr) expr_from expr_to : expr * 'a list =
-  ignore expr_from;
-  match target.Ir.desc with
-  | Call (_, args) ->
-    (match expr_to.Ir.desc with
-     | Call (new_name, new_args) ->
-       Ir.{ desc = Call (new_name, new_args @ args); typ = target.typ }, []
-     | Var new_name -> Ir.{ desc = Call (new_name, args); typ = target.typ }, []
-     | _ -> expr_to, [])
-  | _ -> expr_to, []
-;;
-
-let rec simplify_expr (env : Ir.t) expr =
-  match expr.Ir.desc with
-  | Ir.Var _ -> expr
-  | Ir.Call (name, args) ->
-    let args = List.map (simplify_expr env) args in
-    (match Ir.find_decl name env with
-     | Some (Ir.NonRec (_, decl_args, body)) ->
-       (match List.length decl_args <> List.length args with
-        | true -> Ir.{ desc = Call (name, args); typ = expr.typ }
-        | false ->
-          let new_body =
-            List.fold_left2
-              (fun e name arg ->
-                 let exp, _, _ =
-                   substitute_expr_in_expr
-                     Ir.is_equal_expr_partrial_fun
-                     convert_in_simpl
-                     e
-                     Ir.{ desc = Var name; typ = arg.typ }
-                     arg
-                     0
-                     false
-                     []
-                 in
-                 exp)
-              body
-              decl_args
-              args
-          in
-          simplify_expr env new_body)
-     | Some (Ir.Rec (_, decl_args, body)) ->
-       let new_body =
-         List.fold_left2
-           (fun e name arg ->
-              let exp, _, _ =
-                substitute_expr_in_expr
-                  Ir.is_equal_expr_partrial_fun
-                  convert_in_simpl
-                  e
-                  Ir.{ desc = Var name; typ = arg.typ }
-                  arg
-                  0
-                  false
-                  []
-              in
-              exp)
-           body
-           decl_args
-           args
-       in
-       let simplify_body = simplify_expr env new_body in
-       if simplify_body = new_body
-       then Ir.{ desc = Call (name, args); typ = expr.typ }
-       else simplify_body
-     | _ -> Ir.{ desc = Call (name, args); typ = expr.typ })
-  | Ir.Match (match_list, cases) ->
-    let match_list = List.map (simplify_expr env) match_list in
-    let new_expr, _ =
-      List.fold_left
-        (fun (acc, is_ambiguous) case ->
-           match acc with
-           | Some _ -> acc, is_ambiguous
-           | None ->
-             if is_ambiguous
-             then None, is_ambiguous
-             else (
-               match case with
-               | Ir.Case (pat, pat_body) ->
-                 let expr_match_list, is_ambiguous = get_case_match env match_list pat in
-                 if expr_match_list = []
-                 then None, is_ambiguous
-                 else if is_ambiguous
-                 then None, is_ambiguous
-                 else (
-                   let new_expr =
-                     List.fold_left
-                       (fun e (e1, e2) ->
-                          let exp, _, _ =
-                            substitute_expr_in_expr
-                              Ir.is_equal_expr_partrial_fun
-                              convert_in_simpl
-                              e
-                              e1
-                              e2
-                              0
-                              false
-                              []
-                          in
-                          exp)
-                       pat_body
-                       expr_match_list
-                   in
-                   Some new_expr, is_ambiguous)))
-        (None, false)
-        cases
-    in
-    (match new_expr with
-     | None -> Ir.{ desc = Match (match_list, cases); typ = expr.typ }
-     | Some e -> simplify_expr env e)
-  | Ir.LetIn (let_list, e) ->
-    let new_expr =
-      List.fold_left
-        (fun e (name, e') ->
-           let exp, _, _ =
-             substitute_expr_in_expr
-               Ir.is_equal_expr_partrial_fun
-               convert_in_simpl
-               e
-               Ir.{ desc = Var name; typ = e'.typ }
-               e'
-               0
-               false
-               []
-           in
-           exp)
-        e
-        let_list
-    in
-    simplify_expr env new_expr
-;;
-
-let rec simplify_prop env prop =
-  match prop with
-  | Eq (e1, e2) ->
-    let e1 = simplify_expr env e1 in
-    let e2 = simplify_expr env e2 in
-    Eq (e1, e2)
-  | Le (e1, e2) ->
-    let e1 = simplify_expr env e1 in
-    let e2 = simplify_expr env e2 in
-    Le (e1, e2)
-  | Lt (e1, e2) ->
-    let e1 = simplify_expr env e1 in
-    let e2 = simplify_expr env e2 in
-    Lt (e1, e2)
-  | And (p1, p2) ->
-    let p1 = simplify_prop env p1 in
-    let p2 = simplify_prop env p2 in
-    And (p1, p2)
-  | Or (p1, p2) ->
-    let p1 = simplify_prop env p1 in
-    let p2 = simplify_prop env p2 in
-    Or (p1, p2)
-  | Not p ->
-    let p = simplify_prop env p in
-    Not p
-  | Forall (var_list, p) ->
-    let p = simplify_prop env p in
-    Forall (var_list, p)
-  | Imply (cond_list, p2) ->
-    let cond_list = List.map (simplify_prop env) cond_list in
-    let p2 = simplify_prop env p2 in
-    Imply (cond_list, p2)
-  | Type typ -> Type typ
-;;
-
-let apply_simpl t target : state =
-  let env = t.env in
-  let state = get_first_state t in
-  let facts, goal, graph = state in
-  match target with
-  | "goal" ->
-    let new_goal = simplify_prop env goal in
-    facts, new_goal, graph_of_prop new_goal
-  | _ ->
-    let facts =
-      List.map
-        (fun (name, prop) ->
-           if name = target
-           then (
-             let new_fact = simplify_prop env prop in
-             name, new_fact)
-           else name, prop)
-        facts
-    in
-    facts, goal, graph
 ;;
 
 let make_lemma_consistent prop =
@@ -1893,6 +1919,7 @@ let apply_case expr state t : state list =
        let rec_args = List.filter (fun arg -> arg = typ) arg_types in
        let new_vars = add_indices_with_custom_offsets (variable_index state) arg_types in
        let arg_bind = List.combine new_vars arg_types in
+       let type_facts = List.map (fun (name, typ) -> name, Type typ) arg_bind in
        match rec_args with
        | [] ->
          let base_case =
@@ -1942,7 +1969,7 @@ let apply_case expr state t : state list =
                      | false -> name, simplify_prop env prop'))
                facts
            in
-           facts @ new_facts, simpl_goal, new_graph)
+           facts @ type_facts @ new_facts, simpl_goal, new_graph)
        | _ ->
          let new_args, _ =
            partition_and_transform
@@ -1978,20 +2005,22 @@ let apply_case expr state t : state list =
          let facts =
            List.map
              (fun (name, prop) ->
-                let prop, _, _ =
+                let prop', _, _ =
                   substitute_expr_in_prop
                     Ir.is_equal_expr
                     (fun _ _ expr_to -> expr_to, [])
                     prop
-                    Ir.{ desc = Var name; typ }
+                    expr
                     Ir.{ desc = inductive_case; typ }
                     0
                     false
                 in
-                name, prop)
+                match prop = prop' with
+                | true -> name, prop
+                | false -> name, simplify_prop env prop')
              facts
          in
-         facts @ new_facts, new_goal, new_graph)
+         facts @ type_facts @ new_facts, new_goal, new_graph)
     decl
 ;;
 
@@ -2030,11 +2059,50 @@ let apply_discriminate env (state : state) : state list =
   else failwith "Cannot Discriminate"
 ;;
 
+let rec body_eq e1 e2 =
+  if Ir.is_equal_expr e1 e2
+  then true
+  else (
+    match e1.Ir.desc, e2.Ir.desc with
+    | Ir.Call (name1, args1), Ir.Call (name2, args2) ->
+      name1 = name2 && List.for_all2 body_eq args1 args2
+    | Ir.Match (_, case_list1), _ ->
+      let pat_vars =
+        List.map
+          (fun case ->
+             match case with
+             | Ir.Case (pat, _) -> Ir.collect_var_in_pat pat)
+          case_list1
+        |> List.concat
+      in
+      List.is_empty pat_vars
+      && List.for_all
+           (fun case ->
+              let (Ir.Case (_, body)) = case in
+              body_eq body e2)
+           case_list1
+    | _, Ir.Match (_, case_list2) ->
+      let pat_vars =
+        List.map
+          (fun case ->
+             match case with
+             | Ir.Case (pat, _) -> Ir.collect_var_in_pat pat)
+          case_list2
+        |> List.concat
+      in
+      List.is_empty pat_vars
+      && List.for_all
+           (fun case ->
+              let (Ir.Case (_, body)) = case in
+              body_eq body e1)
+           case_list2
+    | _ -> false)
+;;
+
 let rec apply_reflexivity env goal =
   let goal = simplify_prop env goal in
   match goal with
-  | Eq (e1, e2) ->
-    if Ir.is_equal_expr e1 e2 then [] else failwith "LHS and RHS are not equal"
+  | Eq (e1, e2) -> if body_eq e1 e2 then [] else failwith "LHS and RHS are not equal"
   | Forall (_, goal) -> apply_reflexivity env goal
   | Imply (_, goal) -> apply_reflexivity env goal
   | _ -> failwith "The goal is not an equality"
@@ -2176,21 +2244,32 @@ let parse_forall_vars str =
   extract [] 0
 ;;
 
+let rec list_tail lst =
+  match lst with
+  | [] -> failwith "list_tail : list is empty"
+  | [ hd ] -> [], hd
+  | hd :: tl ->
+    let a, b = list_tail tl in
+    hd :: a, b
+;;
+
 let rec parse_prop src binding decls =
   let parts = String.split_on_char ',' src in
   match parts with
   | [ src ] ->
     (match Str.split (Str.regexp "->") src with
-     | [ cond; prop ] ->
-       Imply ([ parse_prop cond binding decls ], parse_prop prop binding decls)
-     | _ ->
+     | [ src ] ->
        let parts = String.split_on_char '=' src in
        let lhs = List.hd parts |> Lexing.from_string in
        let lhs = lhs |> Parse.expression in
        let rhs = List.nth parts 1 |> Lexing.from_string |> Parse.expression in
        let lhs = Ir.ir_of_parsetree lhs binding decls in
        let rhs = Ir.ir_of_parsetree rhs binding decls in
-       Eq (lhs, rhs))
+       Eq (lhs, rhs)
+     | lst ->
+       let prop_list = List.map (fun prop -> parse_prop prop binding decls) lst in
+       let cond_list, prop = list_tail prop_list in
+       Imply (cond_list, prop))
   | quantifier :: prop ->
     let binding = parse_forall_vars quantifier in
     let binding = List.map (fun (var, typ) -> var, Ir.parse_typ typ) binding in
@@ -2240,7 +2319,8 @@ let parse_tactic (t : t) src =
         []
         facts
     in
-    Case (parse_expr binding (String.concat " " args) env)
+    let expr = parse_expr binding (String.concat " " args) env in
+    Case expr
   | "assert" ->
     let assertion = parse_prop (String.concat " " args) [] env in
     Assert assertion
@@ -2260,28 +2340,4 @@ let parse_tactic (t : t) src =
        Define decl
      | _ -> failwith "syntax error in define")
   | _ -> failwith "wrong tactic"
-;;
-
-let proof_top init =
-  let rec loop ?(debug_tactic : debug_tactic option = None) t =
-    print_newline ();
-    pp_t ~debug_tactic t |> print_endline;
-    print_newline ();
-    print_string ">>> ";
-    match read_line () with
-    | "allstate" -> loop ~debug_tactic:(Some AllState) t
-    | "alllemma" -> loop ~debug_tactic:(Some AllLemma) t
-    | "allconj" -> loop ~debug_tactic:(Some AllConj) t
-    | "alltactic" -> loop ~debug_tactic:(Some AllTactic) t
-    | s ->
-      let t =
-        try apply_tactic t (parse_tactic t s) with
-        | exn ->
-          print_endline (Printexc.to_string exn);
-          t
-      in
-      (* let t = apply_tactic t env (parse_tactic t s env) in *)
-      loop t
-  in
-  loop init
 ;;

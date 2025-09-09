@@ -145,6 +145,9 @@ let validate =
   let conds_list =
     List.map (fun conds -> List.map (Proof.simplify_prop env) conds) conds_list
   in
+  let _ =
+    prop_list |> List.iter (fun prop -> Printf.printf "Prop: %s\n" (Proof.pp_prop prop))
+  in
   let prop_list = List.map (Proof.simplify_prop env) prop_list in
   let result =
     List.for_all2

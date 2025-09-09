@@ -1,4 +1,19 @@
 # Benchmark: optimization
 
-No results found.
+| Problem   |   Success |   Error |   Timeout |   Total |
+|:----------|----------:|--------:|----------:|--------:|
+| tree      |         1 |       4 |        14 |      19 |
+| mynat     |         0 |       1 |         0 |       1 |
+| idlist    |         0 |       4 |         0 |       4 |
+| zipper    |         0 |       2 |         4 |       6 |
+| clist     |         6 |      16 |         8 |      30 |
+| elist     |         0 |       2 |         0 |       2 |
+| treememo  |         1 |       2 |         0 |       3 |
+| bool_list |         0 |       2 |         1 |       3 |
+| nat_list  |         4 |       8 |         8 |      20 |
+| nnf       |         1 |       0 |         0 |       1 |
+| term      |         1 |       0 |         0 |       1 |
+| ulist     |         0 |       3 |         1 |       4 |
+| nlist     |         0 |       2 |         0 |       2 |
+| Total     |        14 |      46 |        36 |      96 |
 

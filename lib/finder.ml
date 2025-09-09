@@ -729,14 +729,26 @@ let catch_recursive_pattern induction_vars expr_list : subtree list * subtree =
     (match parent with
      | None -> [], { desc = None; typ = Tany }
      | Some parent ->
+       let _ = print_endline "parent" in
+       let _ = parent |> Proof.pp_expr |> print_endline in
        let lower = get_lower new_var parent in
+       let _ = print_endline "lower" in
+       let _ = lower |> pp_subtree |> print_endline in
        let upper = get_upper parent second in
+       let _ = print_endline "upper" in
+       let _ = upper |> pp_subtree |> print_endline in
        let recursive_expr_list =
          List.map
            (fun expr ->
               let expr = expr |> to_sub in
               match remove_upper induction_vars upper expr with
-              | Some subtree -> subtree |> remove_lower induction_vars lower
+              | Some subtree ->
+                let _ = print_endline "remove upper" in
+                let _ = subtree |> pp_subtree |> print_endline in
+                let subtree = subtree |> remove_lower induction_vars lower in
+                let _ = print_endline "remove lower" in
+                let _ = subtree |> pp_subtree |> print_endline in
+                subtree
               | None -> { desc = None; typ = Tany })
            expr_list
        in

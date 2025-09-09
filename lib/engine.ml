@@ -162,7 +162,7 @@ let rec progress worklist statelist lemma_set =
          ^ ")")
     in
     let _ = Proof.pp_t work.next_t.t |> print_endline in
-    (* let _ = if i = 12 then Proof.proof_top work.next_t.t in *)
+    (* let _ = if i = 294 then loop work.next_t.t in *)
     (match work.next_t.t.proof with
      | _, [], proof -> Prover.ProofSet.empty, Some proof
      | _ ->
@@ -255,9 +255,8 @@ let rec progress worklist statelist lemma_set =
           progress new_worklist new_state_list new_lemma_set
         | false ->
           progress (Prover.WorkList.merge prev_worklist worklist) statelist lemma_set))
-;;
 
-let proof_auto definition axiom program_a program_b goal =
+and proof_auto definition axiom program_a program_b goal =
   let definition = Parser.parse definition in
   let program_a = Parser.parse program_a in
   let program_b = Parser.parse program_b in
@@ -288,9 +287,47 @@ let proof_auto definition axiom program_a program_b goal =
     List.iter print_endline (List.map Proof.pp_tactic proof);
     print_endline "Qed"
   | _, None -> print_endline "Fail"
-;;
 
-let proof_top definition axiom program_a program_b =
+and loop ?(debug_tactic : Proof.debug_tactic option = None) t =
+  print_newline ();
+  Proof.pp_t ~debug_tactic t |> print_endline;
+  print_newline ();
+  print_string ">>> ";
+  match read_line () with
+  | "allstate" -> loop ~debug_tactic:(Some AllState) t
+  | "alllemma" -> loop ~debug_tactic:(Some AllLemma) t
+  | "allconj" -> loop ~debug_tactic:(Some AllConj) t
+  | "alltactic" -> loop ~debug_tactic:(Some AllTactic) t
+  | "auto" ->
+    let t = Prover.{ t; id = 0; parent = -1 } in
+    let worklist =
+      Prover.WorkList.of_list
+        [ { t
+          ; tactic = Proof.SimplIn "goal"
+          ; next_t = t
+          ; rank = 0.
+          ; order = Prover.order_counter ()
+          }
+        ]
+    in
+    (match progress worklist Prover.ProofSet.empty Prover.LemmaSet.empty with
+     | _, Some proof ->
+       print_endline "Proof Success";
+       print_endline "Proof";
+       List.iter print_endline (List.map Proof.pp_tactic proof);
+       print_endline "Qed"
+     | _, None -> print_endline "Fail")
+  | s ->
+    let t =
+      try Proof.apply_tactic t (Proof.parse_tactic t s) with
+      | exn ->
+        print_endline (Printexc.to_string exn);
+        t
+    in
+    (* let t = apply_tactic t env (parse_tactic t s env) in *)
+    loop t
+
+and proof_top definition axiom program_a program_b =
   let definition = Parser.parse definition in
   let program_a = Parser.parse program_a in
   let program_b = Parser.parse program_b in
@@ -300,5 +337,5 @@ let proof_top definition axiom program_a program_b =
   let env = definition @ program_a @ program_b in
   let axiom = axiom |> axiom_to_prop env in
   let init_t = Proof.create_t env ~proof:(axiom, [], []) () in
-  Proof.proof_top init_t
+  loop init_t
 ;;
