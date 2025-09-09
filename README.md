@@ -1,3 +1,3 @@
-# DiLemma
+# tryCoq
 
-DiLemma is a tool for automating inductive equational proof via advanced generalization techniques.
+tryCoq provides interactive equational proof with ADT type and simple automatic prover
