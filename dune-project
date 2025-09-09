@@ -1,11 +1,11 @@
 (lang dune 3.17)
 
-(name dilemma)
+(name tryCoq)
 
 (generate_opam_files true)
 
 (source
- (github kupl/dilemma))
+ (github kupl/tryCoq))
 
 (authors "Mingyu Jo")
 
@@ -13,10 +13,10 @@
 
 (license LICENSE)
 
-(documentation https://github.com/kupl/dilemma)
+(documentation https://github.com/kupl/tryCoq)
 
 (package
- (name dilemma)
+ (name tryCoq)
  (synopsis "A short synopsis")
  (description "A longer description")
  (depends
