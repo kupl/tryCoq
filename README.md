@@ -93,7 +93,7 @@ forall (nat1:nat), add (nat1) (0) = nat1
 
 0 conjecture(s) more...
 
->>> induction nat
+>>> induction nat1
 ...
 ```
 
