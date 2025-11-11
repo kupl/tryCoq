@@ -114,7 +114,7 @@ forall (nat1:nat), add (nat1) (0) = nat1
                   | "assert" <prop>
                   | "simpl"
                   | "simpl in" <target_label> 
-                  | "rewrite" <rewrite_label> "in" <target_label> "at" <loc>
+                  | "rewrite" <direction> <rewrite_label> "in" <target_label> "at" <loc>
                   | "induction" <var>
                   | "case" <expr>
                   | "intro" <var>
@@ -122,6 +122,7 @@ forall (nat1:nat), add (nat1) (0) = nat1
                   | "reflexivity"
                   | "discriminate"
 
+<direction>     ::= "" | "<-"
 <target_label>  ::= <fact_label> | "goal"
 <rewrite_label> ::= <fact_label> | <lemma_label>
 <loc>           ::= "*" | "1" | "2" | ...
