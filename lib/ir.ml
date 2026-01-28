@@ -42,6 +42,12 @@ and pattern =
 
 and name = string [@@deriving sexp, eq, ord]
 
+let black s = Printf.sprintf "\027[30m%s\027[0m" s
+let gold s = Printf.sprintf "\027[33m%s\027[0m" s
+let blue s = Printf.sprintf "\027[38;2;0;0;255m%s\027[0m" s
+let navy s = Printf.sprintf "\027[38;2;0;0;128m%s\027[0m" s
+let haneul s = Printf.sprintf "\027[38;2;38;127;153m%s\027[0m" s
+let red s = Printf.sprintf "\027[38;2;172;21;21m%s\027[0m" s
 let counter = ref 0
 
 let get_global_cnt () =
@@ -213,23 +219,33 @@ and pp_expr expr =
        (match e1.typ, cases with
         | ( Talgebraic ("bool", [])
           , [ Case (Pat_Constr ("true", []), e2); Case (Pat_Constr ("false", []), e3) ] )
-          -> "if " ^ pp_expr e1 ^ " then " ^ pp_expr e2 ^ " else " ^ pp_expr e3
-        | _ ->
-          "match ("
+          ->
+          blue "if "
           ^ pp_expr e1
-          ^ ") with\n| "
-          ^ String.concat "\n| " (List.map pp_case cases))
+          ^ blue " then "
+          ^ pp_expr e2
+          ^ blue " else "
+          ^ pp_expr e3
+        | _ ->
+          blue "match"
+          ^ "("
+          ^ pp_expr e1
+          ^ ")"
+          ^ blue " with\n| "
+          ^ String.concat (blue "\n| ") (List.map pp_case cases))
      | _ ->
-       "match ("
-       ^ String.concat ", " (List.map pp_expr match_list)
-       ^ ") with\n| "
-       ^ String.concat "\n| " (List.map pp_case cases))
+       blue "match"
+       ^ "("
+       ^ String.concat (blue ", ") (List.map pp_expr match_list)
+       ^ ")"
+       ^ blue " with\n| "
+       ^ String.concat (blue "\n| ") (List.map pp_case cases))
   | LetIn (bindings, body) ->
-    "let "
+    blue "let "
     ^ String.concat
-        " and "
+        (blue " and ")
         (List.map (fun (name, body) -> name ^ " = " ^ pp_expr body) bindings)
-    ^ " in "
+    ^ blue " in "
     ^ pp_expr body
   | Call (name, args) ->
     (match name with
@@ -237,7 +253,7 @@ and pp_expr expr =
        "("
        ^ pp_expr (List.hd args)
        ^ " "
-       ^ name
+       ^ blue name
        ^ " "
        ^ pp_expr (List.hd (List.tl args))
        ^ ")"
@@ -246,13 +262,14 @@ and pp_expr expr =
      | "Pos" | "Zero" | "Neg" -> pp_int expr
      | "S" | "Z" -> pp_nat expr
      | _ ->
+       let name = if name = String.lowercase_ascii name then gold name else haneul name in
        (match args with
         | [] -> name
         | _ ->
           name
           ^ " "
           ^ String.concat " " (List.map (fun arg -> "(" ^ pp_expr arg ^ ")") args)))
-  | Var name -> name
+  | Var name -> navy name
 
 and pp_case case =
   match case with
@@ -262,12 +279,13 @@ and pp_pattern pattern =
   match pattern with
   | Pat_Constr (name, patterns) ->
     (match patterns with
-     | [] -> name
-     | _ -> name ^ " " ^ String.concat " " (List.map pp_pattern patterns))
-  | Pat_Var name -> name
+     | [] -> haneul name
+     | _ -> haneul name ^ " " ^ String.concat " " (List.map pp_pattern patterns))
+  | Pat_Var name -> navy name
   | Pat_Expr expr -> pp_expr expr
-  | Pat_Tuple patterns -> "(" ^ String.concat ", " (List.map pp_pattern patterns) ^ ")"
-  | Pat_any -> "_"
+  | Pat_Tuple patterns ->
+    "(" ^ String.concat (blue ", ") (List.map pp_pattern patterns) ^ ")"
+  | Pat_any -> blue "_"
 
 and pp_typ_decl typ_decl =
   List.map
@@ -285,17 +303,17 @@ and pp_typ typ =
   | Talgebraic (name, args) ->
     String.concat " " (List.map pp_typ args)
     ^ (if List.is_empty args then "" else " ")
-    ^ name
-  | Tany -> "any"
+    ^ haneul name
+  | Tany -> blue "any"
   | Tarrow l -> String.concat " -> " (List.map pp_typ l)
 
 and pp_list expr =
   match expr.desc with
-  | Call ("Nil", []) -> "Nil"
+  | Call ("Nil", []) -> blue "Nil"
   | Call ("Cons", [ head; tail ]) ->
     let head_str = pp_expr head in
     let tail_str = pp_expr tail in
-    head_str ^ "::" ^ tail_str
+    head_str ^ blue "::" ^ tail_str
   | _ -> failwith "pp_list: not a list expression"
 
 and pp_int expr =
@@ -1087,7 +1105,7 @@ let is_constructor name t =
   List.exists (fun constr -> constr = name) constr_list
 ;;
 
-let rename_decl decl =
+let rename_decl (decl : decl) =
   match decl with
   | NonRec (name, args, body) ->
     let new_args =

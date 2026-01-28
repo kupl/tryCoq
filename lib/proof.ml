@@ -260,26 +260,29 @@ let pp_expr = Ir.pp_expr
 let rec pp_prop prop =
   (* let pp_expr = fun a -> sexp_of_expr a |> Sexplib.Sexp.to_string in *)
   match prop with
-  | Eq (e1, e2) -> pp_expr e1 ^ " = " ^ pp_expr e2
-  | Le (e1, e2) -> pp_expr e1 ^ " <= " ^ pp_expr e2
-  | Lt (e1, e2) -> pp_expr e1 ^ " < " ^ pp_expr e2
-  | And (p1, p2) -> pp_prop p1 ^ " /\\ " ^ pp_prop p2
-  | Or (p1, p2) -> pp_prop p1 ^ " \\/ " ^ pp_prop p2
-  | Not p -> "not " ^ pp_prop p
+  | Eq (e1, e2) -> pp_expr e1 ^ Ir.blue " = " ^ pp_expr e2
+  | Le (e1, e2) -> pp_expr e1 ^ Ir.blue " <= " ^ pp_expr e2
+  | Lt (e1, e2) -> pp_expr e1 ^ Ir.blue " < " ^ pp_expr e2
+  | And (p1, p2) -> pp_prop p1 ^ Ir.blue " /\\ " ^ pp_prop p2
+  | Or (p1, p2) -> pp_prop p1 ^ Ir.blue " \\/ " ^ pp_prop p2
+  | Not p -> Ir.blue "not " ^ pp_prop p
   | Forall (var_list, p) ->
-    "forall "
-    ^ (List.map (fun (name, typ) -> "(" ^ name ^ ":" ^ pp_prop typ ^ ")") var_list
+    Ir.blue "forall "
+    ^ (List.map (fun (name, typ) -> "(" ^ Ir.navy name ^ ":" ^ pp_prop typ ^ ")") var_list
        |> String.concat " ")
     ^ ", "
     ^ pp_prop p
   | Imply (cond_list, p2) ->
-    (List.map (fun cond -> pp_prop cond) cond_list |> String.concat " -> ")
+    (List.map (fun cond -> pp_prop cond) cond_list |> String.concat (Ir.blue " -> "))
     ^ " -> "
     ^ pp_prop p2
   | Type typ -> Ir.pp_typ typ
 ;;
 
-let pp_fact (name, prop) = name ^ " : " ^ pp_prop prop
+let pp_fact (name, prop) =
+  let name = if name = String.lowercase_ascii name then Ir.navy name else Ir.black name in
+  name ^ " : " ^ pp_prop prop
+;;
 
 let pp_tactic tactic =
   match tactic with
